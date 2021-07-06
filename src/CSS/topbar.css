@@ -1,0 +1,44 @@
+.top-bar{
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 2px 1px -1px rgb(0 0 0 / 12%);
+}
+
+.top-bar-logo{
+  width: 150px;
+  margin-left: 50px;
+  cursor: pointer;
+}
+
+.icon-bar{
+  width: auto;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.icon-bar img{
+  width: 20px;
+  margin: 7px;
+}
+
+#search-bar{
+  padding: 0px;
+  cursor: pointer;
+}
+
+#profilePhoto{
+  margin: 0px 50px 0px 0px;
+  cursor: pointer;
+
+}
+
+#profilePhoto img{
+  width: 30px;
+  border-radius: 50%;
+}
