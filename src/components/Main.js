@@ -9,6 +9,7 @@ import GoalView from './GoalView';
 import { Switch, Route } from "react-router-dom";
 import Search from './Search';
 import Login from './Login';
+import Register from "./Register";
 
 const Main = () => {
 
@@ -17,11 +18,13 @@ const Main = () => {
     auth.onAuthStateChanged(User =>{
       if(!User){
         history.push(`/${client}/Login`)
+      } else {
+        history.push(`/${client}/Start`) 
       }
     })
 
     return (
-        <div id="main">
+        <div className="main">
             <Switch>
                 <Route path={`/${client}/AllActivity`}>
                     <AllActivity/>
@@ -43,6 +46,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Login`}>
                     <Login/>
+                </Route>
+                <Route path={`/${client}/Register`}>
+                    <Register/>
                 </Route>
             </Switch>
         </div>

@@ -5,18 +5,18 @@ const Auth = () => {
 
     const [docs, setDocs] = useState("")
     useEffect(() => {
+        const docArray = []
         const unsub = auth.onAuthStateChanged(User =>{
             if(User){
-                db.collection("Members")
+                db.collection("Users")
                 .doc(User.uid)
                 .get()
-                const docArray = []
                 .then(doc => {
                     docArray.push({...doc.data()})
                 })
                 setDocs(docArray)
             } else {
-            return
+                return
             }
         })
         return () => unsub();

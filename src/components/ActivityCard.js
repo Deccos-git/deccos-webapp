@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
+import LeftSideBar from './LeftSideBar'
 
 const ActivityCard = ({doc}) => {
 
@@ -29,7 +30,8 @@ const ActivityCard = ({doc}) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
-        <div>
+        <div class="main">
+            < LeftSideBar />
             <motion.div 
             className="activity-card card" 
             key={doc.ID}

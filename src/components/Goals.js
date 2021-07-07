@@ -8,8 +8,6 @@ const Goals = () => {
 
     const docs  = useFirestoreTimestamp("Goals")
 
-    console.log(docs)
-
     return (
         <div className="card-overview">
             <Link to={`/${client}/AddGoal`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
