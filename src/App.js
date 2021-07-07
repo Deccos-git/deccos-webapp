@@ -1,7 +1,7 @@
 import Topbar from './components/Topbar';
 import Main from './components/Main';
-import { BrowserRouter as Router } from "react-router-dom";
 import { motion } from "framer-motion"
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
 

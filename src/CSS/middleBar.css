@@ -1,5 +1,6 @@
 #middle-bar{
-    width: 100%;
+    width: 60%;
+    min-height: 100vh;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -14,13 +15,40 @@
 .card{
     height: auto;
     min-height: 300px;
-    width: 70%;
+    width: 90%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
     background-color: #FFF;
     display: flex;
     flex-direction: column;
+    padding: 20px;
+  }
+
+  .article{
+    height: auto;
+    min-height: 300px;
+    width: 90%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    margin: 30px 10px 30px 10px;
+    border-radius: 5px;
+    background-color: #FFF;
+    padding: 20px;
+  }
+
+  .article-inner-div{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message-card{
+    height: auto;
+    width: 90%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    margin: 30px 10px 30px 10px;
+    border-radius: 5px;
+    background-color: #FFF;
     padding: 20px;
   }
 
@@ -39,4 +67,67 @@
 
   #add-goal-form{
       margin: 30px;
+  }
+
+  .goal-card{
+      align-items: center;
+  }
+
+  .type-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+  }
+
+  .type-container img{
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+  }
+
+  .goal-card-button{
+      margin-top: 100%;
+  }
+
+  .activity-card{
+      align-items: center;
+  }
+
+  #search-bar{
+      width: 90%;
+      border-radius: 15px;
+      padding: 10px;
+  }
+
+  #search-container{
+      width: 100%;
+  }
+
+  #button-add-goal{
+      display: flex;
+      justify-content: center;
+  }
+
+  .messagebar-container{
+      height: auto;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      border-radius: 5px;
+      padding: 20px;
+      width: 47%;
+      position: fixed;
+      bottom: 0px;
+  }
+
+  .messagebar-container img{
+      width: 20px;
+      height: 20px;
+      margin: 10px;
+      cursor: pointer;
+  }
+
+  .messagebar-container input{
+      width: 90%;
   }

@@ -1,6 +1,9 @@
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
+import worldIcon from '../images/icons/world-icon.png'
+import houseIcon from '../images/icons/house-icon.png'
+import uuid from 'react-uuid'
 
 const GoalCard = ({doc}) => {
 
@@ -9,16 +12,27 @@ const GoalCard = ({doc}) => {
         visible: { opacity: 1 },
       }
 
+    let icon, type
+
+    doc.Type === "SDG" ? icon = worldIcon : icon = houseIcon
+
+    doc.Type === "internal" ? type = "Intern" : type = "Sociaal maatschappelijk"
+
     return (
         <motion.div 
         className="goal-card card" 
-        key={doc.docid}
+        key={uuid()}
         initial="hidden"
         animate="visible"
         variants={variants}>
-            <h2>{doc.Body}</h2>
-            <p>{doc.Type}</p>
-            <Link to={`/${client}/Goals/${doc.docid}`}><button>Bekijk</button></Link>
+            <h2>{doc.Title}</h2>
+            <p>{doc.Body}</p>
+            <div className="type-container">
+                <img src={icon} alt="" />
+                <p>{type}</p>
+            </div>
+            
+            <Link to={`/${client}/Goal/${doc.ID}`}><button className="goal-card-button" >Bekijk</button></Link>
         </motion.div>
     )
 }

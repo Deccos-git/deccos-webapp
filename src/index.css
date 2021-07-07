@@ -7,7 +7,7 @@ body {
 
 h1{
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 35px;
+  font-size: 30px;
   color: #d11237;
   text-align: center;
   margin: 30px 20px;
@@ -16,13 +16,13 @@ h1{
 h2{
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   color: #2F2C41;
 }
 
 h3{
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   color: #2F2C41;
   font-weight: bold;
 }
@@ -66,8 +66,7 @@ button{
   color: #d11237;
   font-family: 'Raleway', sans-serif;
   cursor: pointer;
-  width: 80px;
-  align-self: center;
+  width: auto;
 }
 
 input{
@@ -75,7 +74,7 @@ input{
   border-radius: 3px;
   border: 1px solid lightgray;
   font-family: 'Raleway', sans-serif;
-  color: lightgray;
+  color: gray;
   width: 94%;
 }
 
@@ -89,8 +88,17 @@ textarea{
   border-radius: 3px;
   border: 1px solid lightgray;
   font-family: 'Raleway', sans-serif;
-  color: lightgray;
+  color: gray;
   width: 94%;
+}
+
+textarea ::placeholder{
+  color: lightgray;
+}
+
+::placeholder {
+  color: lightgray;
+  opacity: 1; /* Firefox */
 }
 
 .input-radio{

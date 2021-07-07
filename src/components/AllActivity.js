@@ -1,9 +1,9 @@
 import ActivityCard from "./ActivityCard"
-import useFirestore from "../firebase/useFirestore"
+import {useFirestoreTimestamp} from "../firebase/useFirestore"
 
 const AllActivity = () => {
 
-    const docs  = useFirestore("AllActivity")
+    const docs  = useFirestoreTimestamp("AllActivity")
 
     return (
         <div className="card-overview">

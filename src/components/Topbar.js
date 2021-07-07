@@ -2,7 +2,7 @@ import Iconbar from './Iconbar';
 import ProfilePhoto from './ProfilePhoto';
 import '../CSS/topbar.css';
 import { Link } from "react-router-dom";
-import useFirestore from "../firebase/useFirestore"
+import {useFirestore} from "../firebase/useFirestore"
 import { client } from '../hooks/Client';
 
 const Topbar = () => {
@@ -10,10 +10,9 @@ const Topbar = () => {
 
     let logo = ""
 
-    docs && docs.forEach(doc => {
+    docs && docs.map(doc => {
         logo = doc.Logo
     })
-    
 
     return (
         <header className="top-bar">

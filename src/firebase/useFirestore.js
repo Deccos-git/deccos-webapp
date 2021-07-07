@@ -1,8 +1,6 @@
-import { db } from "./firebase.js"
+import { db } from "./config.js"
 import { client } from '../hooks/Client';
 import { useState, useEffect } from 'react';
-
-console.log(client)
 
 const useFirestore = (collection) => {
 
@@ -12,11 +10,11 @@ const useFirestore = (collection) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .onSnapshot(querySnapshot => {
-            let bodyArray = []
+            let docArray = []
             querySnapshot.forEach(doc => {
-                bodyArray.push({...doc.data(), docid: doc.id})
+                docArray.push({...doc.data(), docid: doc.id})
             })
-            setDocs(bodyArray)
+            setDocs(docArray)
         })
         
         return () => unsub();
@@ -26,4 +24,50 @@ const useFirestore = (collection) => {
     return docs
 };
 
-export default useFirestore
+const useFirestoreID = (collection, id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("ID", "==", id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection])  
+
+    return docs
+};
+
+const useFirestoreTimestamp = (collection) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .orderBy("Timestamp", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection])  
+
+    return docs
+};
+
+export { useFirestore, useFirestoreID, useFirestoreTimestamp}
