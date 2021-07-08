@@ -1,6 +1,7 @@
 import { db } from "./config.js"
 import { client } from '../hooks/Client';
 import { useState, useEffect } from 'react';
+import { pathID } from "../hooks/Client"
 
 const useFirestore = (collection) => {
 
@@ -24,14 +25,14 @@ const useFirestore = (collection) => {
     return docs
 };
 
-const useFirestoreID = (collection, id) => {
+const useFirestoreID = (collection) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
-        .where("ID", "==", id)
+        .where("ID", "==", pathID)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -70,4 +71,22 @@ const useFirestoreTimestamp = (collection) => {
     return docs
 };
 
-export { useFirestore, useFirestoreID, useFirestoreTimestamp}
+const useFirestoreUser = (userID) => {
+
+    const [docs, setDocs] = useState("")
+    const docArray = []
+    useEffect(() => {
+        db.collection("Users")
+        .doc(userID)
+        .get()
+        .then(doc => {
+            docArray.push({...doc.data()})
+        })
+        setDocs(docArray)
+
+    }, [userID])  
+
+    return docs
+};
+
+export { useFirestore, useFirestoreID, useFirestoreTimestamp, useFirestoreUser}

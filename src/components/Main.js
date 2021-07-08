@@ -10,6 +10,8 @@ import { Switch, Route } from "react-router-dom";
 import Search from './Search';
 import Login from './Login';
 import Register from "./Register";
+import Profile from "./Profile";
+import "../CSS/main.css";
 
 const Main = () => {
 
@@ -49,6 +51,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Register`}>
                     <Register/>
+                </Route>
+                <Route path={`/${client}/Profile`}>
+                    <Profile/>
                 </Route>
             </Switch>
         </div>

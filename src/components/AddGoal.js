@@ -4,6 +4,8 @@ import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
+import LeftSideBar from "./LeftSideBar"
+import RightSideBar from "./RightSideBar"
 
 const AddGoal = () => {
 
@@ -59,54 +61,58 @@ const AddGoal = () => {
     }
 
     return (
-        <motion.div className="card"
-        initial="hidden"
-        animate="visible"
-        variants={variants}>
-            <div className="card-header">
-                <h2>Voeg een doel toe</h2>
-                <p>Voeg een nieuw doel toe om samen aan te werken</p>
-            </div>
-            <form id="add-goal-form">
-                <div className="divider">
-                    <h4>Geef het doel een titel</h4>
-                    <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
-                </div >
-                <div className="divider">
-                    <h4>Omschrijf het doel</h4>
-                    <textarea 
-                    name="body" 
-                    id="body" 
-                    cols="30" 
-                    rows="10" 
-                    placeholder="Schrijf hier de omschrijving"
-                    onChange={bodyHandler}>
-                    </textarea>
+        <div className="main">
+            <LeftSideBar />
+            <motion.div className="card"
+            initial="hidden"
+            animate="visible"
+            variants={variants}>
+                <div className="card-header">
+                    <h2>Voeg een doel toe</h2>
+                    <p>Voeg een nieuw doel toe om samen aan te werken</p>
                 </div>
-                <div>
-                    <h4>Is het een intern of een sociaal maatschappelijk doel?</h4>
-                    <input 
-                    type="radio" 
-                    className="input-radio" 
-                    id="SDG" 
-                    value="SDG" 
-                    name="goal-type"
-                    onChange={typeHandler}/>
-                    <label htmlFor="SDG">Sociaal maatschappelijk</label>
-                    <input 
-                    type="radio" 
-                    className="input-radio" 
-                    id="internal" 
-                    value="internal" 
-                    name="goal-type"
-                    onChange={typeHandler}/>
-                    <label htmlFor="internal">Intern</label>
+                <form id="add-goal-form">
+                    <div className="divider">
+                        <h4>Geef het doel een titel</h4>
+                        <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
+                    </div >
+                    <div className="divider">
+                        <h4>Omschrijf het doel</h4>
+                        <textarea 
+                        name="body" 
+                        id="body" 
+                        cols="30" 
+                        rows="10" 
+                        placeholder="Schrijf hier de omschrijving"
+                        onChange={bodyHandler}>
+                        </textarea>
+                    </div>
+                    <div>
+                        <h4>Is het een intern of een sociaal maatschappelijk doel?</h4>
+                        <input 
+                        type="radio" 
+                        className="input-radio" 
+                        id="SDG" 
+                        value="SDG" 
+                        name="goal-type"
+                        onChange={typeHandler}/>
+                        <label htmlFor="SDG">Sociaal maatschappelijk</label>
+                        <input 
+                        type="radio" 
+                        className="input-radio" 
+                        id="internal" 
+                        value="internal" 
+                        name="goal-type"
+                        onChange={typeHandler}/>
+                        <label htmlFor="internal">Intern</label>
+                    </div>
+                </form>
+                <div id="button-add-goal">
+                    <Link to={`/${client}/Goals`}><button onClick={saveGoal}>Opslaan</button></Link>
                 </div>
-            </form>
-            <div id="button-add-goal">
-                <Link to={`/${client}/Goals`}><button onClick={saveGoal}>Opslaan</button></Link>
-            </div>
-        </motion.div>
+            </motion.div>
+            <RightSideBar />
+        </div>
     )
 }
 

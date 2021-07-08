@@ -1,7 +1,6 @@
 import { motion } from "framer-motion"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
-import LeftSideBar from './LeftSideBar'
 
 const ActivityCard = ({doc}) => {
 
@@ -13,25 +12,30 @@ const ActivityCard = ({doc}) => {
     let description, title, timestamp, link, buttonText, headerImage
     
     if(doc.Type === "NewGoal"){
-        description = "Nieuw doel toegevoegd:"
+        description = "heeft een nieuw doel toegevoegd:"
         title = doc.Title
         timestamp = doc.Timestamp
         link = `/${client}/Goal/${doc.ID}`
         buttonText = "Bekijk doel"
 
     } else if (doc.Type === "NewMessage"){
-        description = `Nieuw bericht toegevoegd in ${doc.Channel}:` 
+        description = `heeft een nieuw bericht toegevoegd in ${doc.Channel}:` 
         title = doc.Title
         timestamp = doc.Timestamp
         link = `/${client}/${doc.Channel}/${doc.ID}`
         buttonText = "Bekijk bericht"
+
+    } else if (doc.Type === "NewMember"){
+        description = `is lid geworden van de community:` 
+        title = `Welkom ${doc.Title}!` 
+        timestamp = doc.Timestamp
+        link = `/${client}/${doc.Channel}/${doc.ID}`
+        buttonText = "Bekijk profiel"
     }
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
-        <div class="main">
-            < LeftSideBar />
             <motion.div 
             className="activity-card card" 
             key={doc.ID}
@@ -50,8 +54,8 @@ const ActivityCard = ({doc}) => {
                     
                 </>
             </motion.div>
-        </div>
     )
 }
+
 
 export default ActivityCard
