@@ -1,31 +1,18 @@
-import { useFirestoreUser } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./RightSideBar"
-import { auth } from "../firebase/config.js"
-import { useState, useEffect } from 'react';
+import Auth from "../firebase/Auth"
 
 const Profile = () => {
 
-    const [user, setUser] = useState("")
-
-    useEffect(() => {
-        auth.onAuthStateChanged(User =>{
-            setUser(User)
-        })
-    }, [])
-
-    const docs = useFirestoreUser(user.uid)
-
-    docs && docs.map(doc => {
-        const username = doc.UserName 
-        console.log(username)
-    })
-        
+    const doc = Auth()
 
     return (
         <div className="main">
             <LeftSideBar />
-                
+                <div className="profile">
+                    <h2>{doc.UserName}</h2>
+                </div>
+
             <RightSideBar />
         </div>
     )

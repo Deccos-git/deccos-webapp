@@ -16,7 +16,7 @@ const Topbar = () => {
 
     return (
         <header className="top-bar">
-            <Link to={`/${client}/AllActivity`}><img src={logo} className="top-bar-logo" alt="logo" /></Link>
+            <Link to={`/${client}/Start`}><img src={logo} className="top-bar-logo" alt="logo" /></Link>
             <Iconbar />
             <ProfilePhoto />
         </header>

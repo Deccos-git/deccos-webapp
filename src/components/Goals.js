@@ -12,15 +12,15 @@ const Goals = () => {
 
     return (
         <div className="main">
-            <LeftSideBar />
-            <div className="card-overview">
-                <Link to={`/${client}/AddGoal`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
-                {docs && docs.map(doc => (
-                    <GoalCard doc={doc} key={doc.ID} />  
-                ))
-                }
-            </div>
-            <RightSideBar />
+        <LeftSideBar />
+        <div className="card-overview">
+            <Link to={`/${client}/AddGoal`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
+            {docs && docs.map(doc => (
+                  <GoalCard doc={doc} key={doc.ID} />  
+               ))
+               }
+        </div>
+        <RightSideBar />
         </div>
     )
 }

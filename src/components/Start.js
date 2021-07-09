@@ -2,10 +2,14 @@ import {useFirestore} from "../firebase/useFirestore"
 import { motion } from "framer-motion"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./RightSideBar"
+import Auth from "../firebase/Auth"
 
 const Start = () => {
 
     const docs  = useFirestore("CompagnyMeta")
+    const doc = Auth()
+
+    const username = doc.ForName
 
     const variants = {
         hidden: { opacity: 0 },
@@ -21,7 +25,7 @@ const Start = () => {
             variants={variants}>
                 {docs && docs.map(doc => (
                     <div className="article-inner-div" key={doc.ID}>
-                        <h2>Welkom bij {doc.CommunityName}</h2>
+                        <h2>Welkom bij {doc.CommunityName} {username}</h2>
                         <img src={doc.WelcomeHeader} alt="community logo" />  
                         <p>{doc.WelcomeText}</p>
                     </div>

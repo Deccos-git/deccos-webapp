@@ -1,29 +1,31 @@
 import { auth, db } from "./config";
 import { useState, useEffect } from 'react';
 
-const Auth = (collection) => {
+const Auth = () => {
 
     const [docs, setDocs] = useState("")
-    useEffect(() => {
-        const docArray = []
-        const unsub = auth.onAuthStateChanged(User =>{
+
+    const getUserID = async () => {
+
+        await  auth.onAuthStateChanged(User =>{
             if(User){
-                db.collection(collection)
+                db.collection("Users")
                 .doc(User.uid)
                 .get()
                 .then(doc => {
-                    docArray.push({...doc.data()})
-                    const username = doc.data().UserName
-                    console.log(`Auth: ${username}`)
+                    setDocs(doc.data())
                 })
-                setDocs(docArray)
-            } else {
-                return
             }
         })
-        return () => unsub();
-    }, [collection])
-    return docs
+    }   
+
+    useEffect(() => {
+        getUserID()
+    }, [])
+
+    return docs 
 }
+
+ 
 
 export default Auth

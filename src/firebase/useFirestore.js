@@ -29,6 +29,7 @@ const useFirestoreID = (collection) => {
 
     const [docs, setDocs] = useState("")
 
+
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
