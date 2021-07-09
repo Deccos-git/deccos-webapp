@@ -98,6 +98,11 @@
 
   .activity-card{
       align-items: center;
+      padding: 20px 0px 20px 0px;
+  }
+
+  .allActivity-banner{
+      width: 100%;
   }
 
   #search-bar{
@@ -151,4 +156,73 @@
 
   .activity-card-banner{
       width: 100%;
+  }
+
+  .allActivity-user-photo{
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-right: 10px;
+  }
+
+  .description-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+  }
+
+  .username{
+      margin-right: 5px;
+      cursor: pointer;
+      font-weight: bold;
+  }
+
+  .user-meta-goal-card{
+      display: flex;
+  }
+
+  .user-goal-card{
+      margin-left: 5px;
+      cursor: pointer;
+      color: #d11237;
+  }
+
+  .user-goal-card:hover{
+      font-weight: bold;
+  }
+
+  .auth-message-container{
+      display: flex;
+  }
+
+  .auth-message{
+    cursor: pointer;
+    margin-right: 5px;
+    color: #d11237;
+  }
+
+  .goal-detail-container{
+      padding-bottom: 90px;
+  }
+
+  .all-members-member-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  .all-members-member-container img{
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+  }
+
+  .card-container{
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }

@@ -1,9 +1,11 @@
 import '../CSS/rightSideBar.css';
+import AllMembers from './AllMembers'
 
 const RightSideBar = () => {
+
     return (
         <div id="right-sidebar">
-            <h3>Leden</h3>
+            <AllMembers />
             
         </div>
     )

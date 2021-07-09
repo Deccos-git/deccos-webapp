@@ -4,8 +4,11 @@ import { motion } from "framer-motion"
 import worldIcon from '../images/icons/world-icon.png'
 import houseIcon from '../images/icons/house-icon.png'
 import uuid from 'react-uuid'
+import RouterContext from '../context/RouterContext'
+import { useContext } from 'react';
 
 const GoalCard = ({doc}) => {
+    const { routerID, setRouterID } = useContext(RouterContext);
 
     const variants = {
         hidden: { opacity: 0 },
@@ -18,7 +21,14 @@ const GoalCard = ({doc}) => {
 
     doc.Type === "internal" ? type = "Intern" : type = "Sociaal maatschappelijk"
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    const updateRouterID = (e) => {
+        setRouterID(doc.ID)
+    }
+
     return (
+       
         <motion.div 
         className="goal-card card" 
         key={uuid()}
@@ -31,8 +41,12 @@ const GoalCard = ({doc}) => {
                 <img src={icon} alt="" />
                 <p>{type}</p>
             </div>
-            
-            <Link to={`/${client}/Goal/${doc.ID}`}><button className="goal-card-button" >Bekijk</button></Link>
+            <div className="user-meta-goal-card">
+                <p>Toegevoegd door</p>
+                <p className="user-goal-card">{doc.User}</p>
+            </div>
+            <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+            <Link to={`/${client}/GoalDetail`}><button className="goal-card-button"onClick={updateRouterID} >Bekijk</button></Link>
         </motion.div>
     )
 }

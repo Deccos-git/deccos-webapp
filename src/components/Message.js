@@ -8,7 +8,10 @@ const Message = ({doc}) => {
 
     return (
         <div className="message-card" >
-
+            <div className="auth-message-container">
+                <p className="auth-message">{doc.User}</p>
+                <p>heeft geschreven:</p>
+            </div>
             <p>{doc.Message}</p>
             <input type="text" placeholder="Schrijf hier je reactie" />
             < LikeBar />

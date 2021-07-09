@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { auth, db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import uuid from 'react-uuid';
+import firebase from 'firebase'
+
 
 const RegisterUser = () => {
 
@@ -86,6 +88,13 @@ const RegisterUser = () => {
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id
+            }) 
+        })
+        .then(() => {
+            db.collection("Compagny")
+            .doc()
+            .set({
+                Members: firebase.firestore.FieldValue.arrayUnion(`${forname} ${surname}`)
             }) 
         })
     }

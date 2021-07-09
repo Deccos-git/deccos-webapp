@@ -6,8 +6,14 @@ import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./RightSideBar"
+import Auth from '../firebase/Auth.js';
+import { useFirestore } from '../firebase/useFirestore.js';
 
 const AddGoal = () => {
+
+    const auth = Auth()
+    const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -34,7 +40,11 @@ const AddGoal = () => {
         console.log(type)
     }
 
-    const id = uuid()
+    let banner = ""
+
+    compagny && compagny.forEach(comp => {
+        banner = comp.ActivityBanner.NewGoal
+    })
 
     const saveGoal = () => {
         db.collection("Goals")
@@ -45,7 +55,9 @@ const AddGoal = () => {
             Type: type,
             Compagny: client,
             Timestamp: timestamp,
-            ID: id
+            ID: id,
+            User: auth.UserName,
+            UserPhoto: auth.Photo
         })
         .then(() => {
             db.collection("AllActivity")
@@ -55,7 +67,13 @@ const AddGoal = () => {
                 Type: "NewGoal",
                 Compagny: client,
                 Timestamp: timestamp,
-                ID: id
+                ID: id,
+                Description: "heeft een nieuw doel toegevoegd:",
+                ButtonText: "Bekijk doel",
+                User: auth.UserName,
+                UserPhoto: auth.Photo,
+                Banner: banner,
+                Link: `/${client}/GoalDetail`
             }) 
         })
     }

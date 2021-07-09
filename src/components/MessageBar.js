@@ -2,12 +2,19 @@ import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import { db, timestamp } from "../firebase/config.js"
 import { useState } from 'react';
-import { pathID, client, type } from "../hooks/Client"
+import { client } from "../hooks/Client"
 import uuid from 'react-uuid';
+import Auth from '../firebase/Auth.js';
+import RouterContext from '../context/RouterContext'
+import { useContext } from 'react';
+import { useFirestore } from "../firebase/useFirestore"
 
 const MessageBar = () => {
+    const { routerID, setRouterID } = useContext(RouterContext);
 
+    const auth = Auth()
     const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
 
     const [Message, setMessage] = useState("")
 
@@ -17,6 +24,12 @@ const MessageBar = () => {
         setMessage(input)
     }
 
+    let banner = ""
+
+    compagny && compagny.forEach(comp => {
+        banner = comp.ActivityBanner.NewMessage
+    })
+
     const submitMessage = () => {
 
         db.collection("Messages")
@@ -25,10 +38,11 @@ const MessageBar = () => {
             Type: "Message",
             Message: Message,
             Timestamp: timestamp,
-            ID: pathID,
+            ID: routerID,
             MessageID: id,
             Compagny: client,
-            Channel: type
+            User: auth.UserName,
+            UserPhoto: auth.Photo,
         })
         .then(() => {
             db.collection("AllActivity")
@@ -39,7 +53,12 @@ const MessageBar = () => {
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Channel: type
+                Tread: [],
+                User: auth.UserName,
+                UserPhoto: auth.Photo,
+                Banner: banner,
+                Description: "heeft een nieuw bericht geplaatst:",
+                ButtonText: "Bekijk bericht",
             }) 
         })
     }
