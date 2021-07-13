@@ -2,7 +2,7 @@ import { client } from '../hooks/Client';
 import plusIcon from '../images/icons/plus-icon.png'
 import { Link } from "react-router-dom";
 import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
+import RightSideBar from "./rightSideBar/RightSideBar"
 
 const KnowledgeCentre = () => {
     return (

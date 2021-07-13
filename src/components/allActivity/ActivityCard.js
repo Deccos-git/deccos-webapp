@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
-import RouterContext from '../context/RouterContext'
+import RouterContext from '../../context/RouterContext'
 import { useContext } from 'react';
-import { client } from '../hooks/Client';
+import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 
 

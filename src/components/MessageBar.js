@@ -43,6 +43,7 @@ const MessageBar = () => {
             Compagny: client,
             User: auth.UserName,
             UserPhoto: auth.Photo,
+            Channel: "Goals"
         })
         .then(() => {
             db.collection("AllActivity")

@@ -11,8 +11,7 @@ const Auth = () => {
             if(User){
                 db.collection("Users")
                 .doc(User.uid)
-                .get()
-                .then(doc => {
+                .onSnapshot(doc => {
                     setDocs(doc.data())
                 })
             }
@@ -24,6 +23,7 @@ const Auth = () => {
     }, [])
 
     return docs 
+
 }
 
  

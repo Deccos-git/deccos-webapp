@@ -1,5 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
+import RightSideBar from "./rightSideBar/RightSideBar"
 import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"

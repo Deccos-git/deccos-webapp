@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { motion } from "framer-motion"
-import { db, timestamp } from "../firebase/config.js"
-import { client } from '../hooks/Client';
+import { db, timestamp } from "../../firebase/config.js"
+import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
-import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
-import Auth from '../firebase/Auth.js';
-import { useFirestore } from '../firebase/useFirestore.js';
+import LeftSideBar from "../LeftSideBar"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import Auth from '../../firebase/Auth.js';
+import { useFirestore } from '../../firebase/useFirestore.js';
 
 const AddGoal = () => {
 

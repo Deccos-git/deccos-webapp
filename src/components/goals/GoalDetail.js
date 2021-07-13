@@ -1,13 +1,13 @@
-import RouterContext from '../context/RouterContext'
+import RouterContext from '../../context/RouterContext'
 import { useContext } from 'react';
-import { useFirestoreID } from "../firebase/useFirestore"
+import { useFirestoreID } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
-import worldIcon from '../images/icons/world-icon.png'
-import houseIcon from '../images/icons/house-icon.png'
-import Message from "./Message"
-import MessageBar from "./MessageBar"
-import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
+import worldIcon from '../../images/icons/world-icon.png'
+import houseIcon from '../../images/icons/house-icon.png'
+import Message from "../Message"
+import MessageBar from "../MessageBar"
+import LeftSideBar from "../LeftSideBar"
+import RightSideBar from "../rightSideBar/RightSideBar"
 
 const GoalDetail = () => {
 

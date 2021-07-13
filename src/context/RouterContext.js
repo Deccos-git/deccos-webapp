@@ -1,6 +1,6 @@
-import React from "react";
+import { createContext } from "react";
 
-const RouterContext = React.createContext({
+const RouterContext = createContext({
     route: "",
     setRoute: () => {}
   });

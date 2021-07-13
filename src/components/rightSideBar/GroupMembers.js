@@ -1,6 +1,6 @@
 import { useFirestore } from "../firebase/useFirestore"
 
-const AllMembers = () => {
+const GroupMembers = () => {
 
     const docs = useFirestore("CompagnyMeta")
 
@@ -10,7 +10,7 @@ const AllMembers = () => {
                 <div>
                     <h3>Leden van {doc.CommunityName}</h3>
                     {doc.Members.map(member => (
-                        <div className="all-members-member-container">
+                        <div className="all-members-member-container" key={member.ID}>
                             <img src={member.Photo} alt="" />
                             <p>{member.UserName}</p>
                         </div>
@@ -21,4 +21,4 @@ const AllMembers = () => {
     )
 }
 
-export default AllMembers
+export default GroupMembers

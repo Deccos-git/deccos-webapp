@@ -1,10 +1,10 @@
-import { client } from '../hooks/Client';
+import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
-import worldIcon from '../images/icons/world-icon.png'
-import houseIcon from '../images/icons/house-icon.png'
+import worldIcon from '../../images/icons/world-icon.png'
+import houseIcon from '../../images/icons/house-icon.png'
 import uuid from 'react-uuid'
-import RouterContext from '../context/RouterContext'
+import RouterContext from '../../context/RouterContext'
 import { useContext } from 'react';
 
 const GoalCard = ({doc}) => {

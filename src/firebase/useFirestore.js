@@ -1,6 +1,6 @@
 import { db } from "./config.js"
-import { useState, useEffect, createContext } from 'react';
-import { client, pathID } from '../hooks/Client';
+import { useState, useEffect} from 'react';
+import { client } from '../hooks/Client';
 
 const useFirestore = (collection) => {
 

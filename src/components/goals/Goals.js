@@ -1,10 +1,10 @@
 import GoalCard from "./GoalCard"
-import {useFirestoreTimestamp} from "../firebase/useFirestore"
-import plusIcon from '../images/icons/plus-icon.png'
+import {useFirestoreTimestamp} from "../../firebase/useFirestore"
+import plusIcon from '../../images/icons/plus-icon.png'
 import { Link } from "react-router-dom";
-import { client } from '../hooks/Client';
-import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
+import { client } from '../../hooks/Client';
+import LeftSideBar from "../LeftSideBar"
+import RightSideBar from "../rightSideBar/RightSideBar";
 
 const Goals = () => {
 

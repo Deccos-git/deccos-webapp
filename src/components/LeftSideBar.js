@@ -1,17 +1,17 @@
 import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
-
 import plusIcon from '../images/icons/plus-icon.png'
 
 const LeftSideBar = () => {
+
     return (
         <div className="left-side-bar">
             <div className="channel-div">
                 <h3>Welkom</h3>
                 <div className="channel-inner-div">
-                    <Link to={`/${client}/Start`}>Start hier</Link>
-                    <Link to={`/${client}/Introductions`}>Stel je voor</Link>
+                    <Link to={`/${client}/Start`} >Start hier</Link>
+                    <Link to={`/${client}/Introductions`} >Stel je voor</Link>
                 </div>
             </div>
             <div className="channel-div">
@@ -34,7 +34,7 @@ const LeftSideBar = () => {
             <div className="channel-div">
                 <h3>Groepen</h3>
                 <div className="channel-inner-div">
-                    <Link to={`/${client}/Bestuur`}>Bestuur</Link>
+                    <Link to={`/${client}/Group`}>Bestuur</Link>
                 </div>
                 <img className="plus-icon-sidebar" src={plusIcon} alt="" />
             </div>

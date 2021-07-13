@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { auth } from '../firebase/config';
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const history = useHistory();
 
     const emailHandler = (e) => {
         const email = e.target.value
@@ -18,24 +21,33 @@ const Login = () => {
         setPassword(password)
     }
 
-    const loginHandler = () => {
+    const loginHandler = (e) => {
+        e.preventDefault()
+
         auth.signInWithEmailAndPassword(email, password)
+        .catch(err => {
+            if(err){
+                alert(err)
+            } else {
+                history.push(`/${client}/AllActivity`)
+            }  
+        })
     }
 
     return (
         <div className="main">
             <div className="login-container">
             <h2>Login</h2>
-                <form>
+                <form id="login-form">
                     <p>Email</p>
                     <input onChange={emailHandler} type="text" placeholder="Schrijf hier je emailadres" />
                     <p>Wachtwoord</p>
-                    <input onChange={passwordHandler} type="text" placeholder="Schrijf hier je wachtwoord" />
-                    <button onClick={loginHandler}>Login</button>
+                    <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
+                    <div className="button-container">
+                        <button onClick={loginHandler}>Login</button>
+                    </div>
                 </form>
-                <div className="button-container">
-                    <Link to={`/${client}/Register`}><h3>Nog geen account? Meld je <u>hier</u> aan</h3></Link>
-                </div>
+                <Link to={`/${client}/Register`}><h3>Nog geen account? Meld je <u>hier</u> aan</h3></Link>
             </div>
         </div>
     )

@@ -1,9 +1,9 @@
-import Iconbar from './Iconbar';
-import ProfilePhoto from './ProfilePhoto';
-import '../CSS/topbar.css';
+import Iconbar from '../topbar/Iconbar';
+import ProfilePhoto from '../topbar/ProfilePhoto';
+import '../../CSS/topbar.css';
 import { Link } from "react-router-dom";
-import {useFirestore} from "../firebase/useFirestore"
-import { client } from '../hooks/Client';
+import {useFirestore} from "../../firebase/useFirestore"
+import { client } from '../../hooks/Client';
 
 const Topbar = () => {
     const docs  = useFirestore("CompagnyMeta")
@@ -16,7 +16,7 @@ const Topbar = () => {
 
     return (
         <header className="top-bar">
-            <Link to={`/${client}/Start`}><img src={logo} className="top-bar-logo" alt="logo" /></Link>
+            <Link to={`/${client}/AllActivity`}><img src={logo} className="top-bar-logo" alt="logo" /></Link>
             <Iconbar />
             <ProfilePhoto />
         </header>

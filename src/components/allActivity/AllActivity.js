@@ -1,9 +1,8 @@
   
 import ActivityCard from "./ActivityCard"
-import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
-import { useFirestoreTimestamp } from "../firebase/useFirestore";
-import { useContext } from "react";
+import LeftSideBar from "../LeftSideBar"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import { useFirestoreTimestamp } from "../../firebase/useFirestore";
 
 const AllActivity = () => {
 

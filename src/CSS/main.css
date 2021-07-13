@@ -40,6 +40,7 @@
     width: 55%;
     background-color: white;
     margin-top: 20px;
+    padding: 20px;
   }
 
   .article-inner-div{
@@ -84,6 +85,57 @@
       justify-content: center;
       align-items: center;
       margin: 20px;
+  }
+
+  .save-bar{
+      bottom: 0;
+      position: sticky;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+  }
+
+  .sub-title{
+      text-align: center;
+  }
+
+  #login-form{
+      width: 300px;
+  }
+
+  .spinner-container{
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+  }
+
+  .spinner-container img{
+      height: auto;
+      width: 300px;
+  }
+
+  .save-bar button{
+      border-radius: 3px;
+      background-color: green;
+      color: white;
+      border-color: green;
+  }
+
+  #log-out-button{
+    border-radius: 3px;
+    background-color: darkred;
+    color: white;
+    border-color: darkred;
+    margin: 5px;
+  }
+
+  #delete-account-button{
+    border-radius: 3px;
+    background-color: red;
+    color: white;
+    border-color: red;
+    margin: 5px;
   }
 
   .type-container img{
@@ -225,4 +277,43 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+  }
+
+  .group-container{
+      width: 55%;
+      margin-top: 20px;
+      background-color: white;
+  }
+
+  .group-header{
+      height: 150px;
+      background-color: white;
+      border-bottom: 1px solid rgba(0,0,0,.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .chat-screen{
+      background-color: #a7bdbd;
+      height: 80vh;
+  }
+
+  .back-to-community-container{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+  }
+
+  .back-to-community-container img{
+      width: 20px;
+      height: auto;
+      margin-right: 5px;
+  }
+
+  .introductions-card img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   }

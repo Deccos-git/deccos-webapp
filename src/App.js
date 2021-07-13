@@ -1,4 +1,4 @@
-import Topbar from './components/Topbar';
+import Topbar from './components/topbar/Topbar';
 import Main from './components/Main';
 import { motion } from "framer-motion"
 import { BrowserRouter as Router } from "react-router-dom";

@@ -1,4 +1,4 @@
-import '../CSS/rightSideBar.css';
+import '../../CSS/rightSideBar.css';
 import AllMembers from './AllMembers'
 
 const RightSideBar = () => {

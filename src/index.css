@@ -34,12 +34,28 @@ h4{
   font-weight: bold;
 }
 
+h5{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 14px;
+  color: #959595;
+  font-weight: bold;
+}
+
 p{
   font-family: 'Raleway', sans-serif;
-  color: gray;
+  color: #959595;
   font-size: 14px;
   font-weight: 100;
   letter-spacing: 0.5px;
+}
+
+a{
+  font-family: 'Raleway', sans-serif;
+  color: #959595;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: 0.5px;
+  text-decoration: none;
 }
 
 li{
@@ -119,6 +135,10 @@ textarea ::placeholder{
   align-items: center;
 }
 
+.card-header h2{
+  margin-bottom: 0px;
+}
+
 .login-container{
   display: flex;
   flex-direction: column;
@@ -130,4 +150,8 @@ textarea ::placeholder{
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+
+.active{
+  color: #d11237;
 }

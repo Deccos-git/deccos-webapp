@@ -1,7 +1,7 @@
-import searchIcon from '../images/icons/Search-icon.png'
-import {useFirestore} from "../firebase/useFirestore"
-import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./RightSideBar"
+import searchIcon from '../../images/icons/Search-icon.png'
+import {useFirestore} from "../../firebase/useFirestore"
+import LeftSideBar from "../LeftSideBar"
+import RightSideBar from "../rightSideBar/RightSideBar"
 
 const Search = () => {
 
