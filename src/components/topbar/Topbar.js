@@ -9,14 +9,16 @@ const Topbar = () => {
     const docs  = useFirestore("CompagnyMeta")
 
     let logo = ""
+    let website = ""
 
     docs && docs.map(doc => {
         logo = doc.Logo
+        website = doc.Website
     })
 
     return (
         <header className="top-bar">
-            <Link to={`/${client}/AllActivity`}><img src={logo} className="top-bar-logo" alt="logo" /></Link>
+            <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
             <Iconbar />
             <ProfilePhoto />
         </header>

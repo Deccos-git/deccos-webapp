@@ -2,15 +2,24 @@ import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import { db, timestamp } from "../firebase/config.js"
 import { useState } from 'react';
-import { client } from "../hooks/Client"
+import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import Auth from '../firebase/Auth.js';
-import RouterContext from '../context/RouterContext'
-import { useContext } from 'react';
 import { useFirestore } from "../firebase/useFirestore"
 
 const MessageBar = () => {
-    const { routerID, setRouterID } = useContext(RouterContext);
+
+    const routes = useFirestore("Route")
+
+    let routeID = ""
+    let docID = ""
+
+    routes && routes.forEach(route => {
+
+        routeID = route.Route
+        docID = route.docid
+
+    })
 
     const auth = Auth()
     const id = uuid()
@@ -38,29 +47,21 @@ const MessageBar = () => {
             Type: "Message",
             Message: Message,
             Timestamp: timestamp,
-            ID: routerID,
-            MessageID: id,
+            ParentID: routeID,
+            ID: id,
             Compagny: client,
             User: auth.UserName,
             UserPhoto: auth.Photo,
-            Channel: "Goals"
+            Channel: type,
+            Thread: []
         })
         .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: Message,
-                Type: "NewMessage",
-                Compagny: client,
-                Timestamp: timestamp,
-                ID: id,
-                Tread: [],
-                User: auth.UserName,
-                UserPhoto: auth.Photo,
-                Banner: banner,
-                Description: "heeft een nieuw bericht geplaatst:",
-                ButtonText: "Bekijk bericht",
-            }) 
+            db.collection("Route")
+            .doc(docID)
+            .update({
+                LastActivity: "NewMessage",
+                Auth: auth.ID
+            })
         })
     }
 

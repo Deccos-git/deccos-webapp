@@ -1,14 +1,16 @@
 import { client } from '../../hooks/Client';
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
 import uuid from 'react-uuid'
-import RouterContext from '../../context/RouterContext'
-import { useContext } from 'react';
+import { useFirestore } from '../../firebase/useFirestore';
+import { db } from '../../firebase/config';
 
 const GoalCard = ({doc}) => {
-    const { routerID, setRouterID } = useContext(RouterContext);
+
+    const history = useHistory();
+    const routes = useFirestore("Route")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -23,22 +25,32 @@ const GoalCard = ({doc}) => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    const updateRouterID = (e) => {
-        setRouterID(doc.ID)
+    const updateRoute = () => {
+
+        routes && routes.forEach(route => {
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: doc.ID
+            })
+        })
+
+        history.push(`/${client}/GoalDetail`)
     }
+
 
     return (
        
         <motion.div 
-        className="goal-card card" 
+        className="goal-list list" 
         key={uuid()}
         initial="hidden"
         animate="visible"
         variants={variants}>
+            <img src={icon} alt="" />
             <h2>{doc.Title}</h2>
-            <p>{doc.Body}</p>
+            <h3>{doc.Body}</h3>
             <div className="type-container">
-                <img src={icon} alt="" />
                 <p>{type}</p>
             </div>
             <div className="user-meta-goal-card">
@@ -46,7 +58,7 @@ const GoalCard = ({doc}) => {
                 <p className="user-goal-card">{doc.User}</p>
             </div>
             <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-            <Link to={`/${client}/GoalDetail`}><button className="goal-card-button"onClick={updateRouterID} >Bekijk</button></Link>
+            <button className="goal-card-button" onClick={updateRoute} >Bekijk</button>
         </motion.div>
     )
 }

@@ -15,14 +15,14 @@
 .card{
     height: auto;
     min-height: 300px;
-    width: 90%;
+    width: 200px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
     background-color: #FFF;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    align-items: center;
   }
 
   .article{
@@ -33,7 +33,22 @@
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
     background-color: #FFF;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .list{
+    height: auto;
+    min-height: 300px;
+    width: 90%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    margin: 30px 10px 30px 10px;
+    border-radius: 5px;
+    background-color: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .profile{
@@ -41,7 +56,18 @@
     background-color: white;
     margin-top: 20px;
     padding: 20px;
+    border-radius: 3px;
   }
+
+  .card img{
+      width: 100%;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+  }
+
+  .article img{
+    width: 100%;
+}
 
   .article-inner-div{
     padding: 30px;
@@ -51,7 +77,7 @@
 
   .message-card{
     height: auto;
-    width: 55%;
+    width: 84%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
@@ -76,8 +102,9 @@
       margin: 30px;
   }
 
-  .goal-card{
+  .goal-list{
       align-items: center;
+      padding: 20px;
   }
 
   .type-container{
@@ -144,11 +171,7 @@
       margin-right: 10px;
   }
 
-  .goal-card-button{
-      margin-top: 100%;
-  }
-
-  .activity-card{
+  .activity-list{
       align-items: center;
       padding: 20px 0px 20px 0px;
   }
@@ -182,10 +205,23 @@
       align-items: center;
       border-radius: 5px;
       padding: 20px;
-      width: 47%;
+      width: 54%;
       position: fixed;
       bottom: 0px;
+      background-color: white;
   }
+
+  .reaction-bar-container{
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .reaction-bar-container img{
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    cursor: pointer;
+}
 
   .messagebar-container img{
       width: 20px;
@@ -198,6 +234,15 @@
       width: 78%;
   }
 
+  .reaction-card{
+    height: auto;
+    width: 84%;
+    margin: 30px 10px 30px 10px;
+    border-radius: 5px;
+    background-color: #FFF;
+    padding: 20px;
+  }
+
   .profile-photo img{
     width: 40px;
     height: 40px;
@@ -206,12 +251,61 @@
     margin-right: 50px;
   }
 
+  .timestamp-public-profile{
+      font-size: 12px;
+      text-align: center;
+  }
+
+  #members-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 10px;
+      width: 70%;
+      cursor: pointer;
+  }
+
+  #members-total-count-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  #members-total-count-container h4{
+      padding: 10px;
+      color: gray;
+      border: 1px solid gray;
+      border-radius: 50%;
+      margin-left: 10px;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  #members-container img {
+      height: 80px;
+      margin-right: 20px;
+      border-radius: 50%;
+  }
+
   .activity-card-banner{
       width: 100%;
   }
 
+  .public-profile-photo{
+      border-radius: 50%;
+  }
+
+  .public-profile-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
   .allActivity-user-photo{
-      width: 35px;
+      width: 35px !important ;
       height: 35px;
       border-radius: 50%;
       cursor: pointer;
@@ -222,6 +316,10 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+  }
+
+  #adjust-photo-profile{
+      border-radius: 50%;
   }
 
   .username{
@@ -246,7 +344,21 @@
 
   .auth-message-container{
       display: flex;
+      align-items: center;
   }
+
+  .auth-message-container img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.message-card-timestamp{
+    margin: 0px 0px 0px auto;
+    font-size: 12px;
+}
 
   .auth-message{
     cursor: pointer;
@@ -283,6 +395,27 @@
       width: 55%;
       margin-top: 20px;
       background-color: white;
+      border-radius: 3px;
+  }
+
+  .chat-header{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 100px;
+      border-bottom: 5px solid #a7bdbd26;
+  }
+
+  .user-message{
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 5px;
+    border-radius: 15px;
+    font-size: 16px;
+    margin: 5px 6px;
+    max-width: 50%;
+    background-color: white;
+    box-shadow: 0 5px 9px 0 rgb(0 0 0 / 20%), 0 7px 21px 0 rgb(0 0 0 / 19%);
   }
 
   .group-header{
@@ -312,8 +445,59 @@
       margin-right: 5px;
   }
 
-  .introductions-card img{
+  .introductions-list{
+      min-height: 100px;
+  }
+
+  .introductions-list img{
     width: 60px;
     height: 60px;
     border-radius: 50%;
+  }
+
+  .activity-card-body{
+      font-size: 16px;
+      margin-top: 40px;
+  }
+
+  .user-container-activity-card{
+      display: flex;
+      align-items: center;
+  }
+
+  .article-body-container{
+      padding: 20px;
+      width: 80%;
+      border-top: 1px solid lightgray
+  }
+
+  .article-container{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+  }
+
+  .article-card-user-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 4;
+    cursor: pointer;
+    margin-top: -38px;
+  }
+
+  .article-card-user-container img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: white;
+  }
+
+  .list-inner-container{
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }

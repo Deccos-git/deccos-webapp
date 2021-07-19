@@ -6,18 +6,26 @@ import { db, timestamp } from "../firebase/config.js"
 import uuid from 'react-uuid';
 import IntroductionsCard from './IntroductionsCard'
 import { client } from "../hooks/Client";
+import { useFirestore } from '../firebase/useFirestore'
 
 const Introductions = () => {
     const [body, setBody] = useState("")
 
     const auth = Auth()
     const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
 
     const textBody = (e) => {
         const body = e.target.value
 
         setBody(body)
     }
+
+    let banner = ""
+
+    compagny && compagny.forEach(comp => {
+        banner = comp.ActivityBanner.NewIntroduction
+    })
 
     const saveIntroduction = () => {
 
@@ -32,6 +40,23 @@ const Introductions = () => {
             ID: id,
             Compagny: client
         })
+        .then(() => {
+            db.collection("AllActivity")
+            .doc()
+            .set({
+                Title: `Goed bezig ${auth.ForName}!`,
+                Type: "NewIntroduction",
+                Compagny: client,
+                ButtonText: "Bekijk",
+                Timestamp: timestamp,
+                ID: id,
+                Banner: banner,
+                Description: 'heeft zich voorgesteld aan de community',
+                Link: `/${client}/Introductions`,
+                User: `${auth.ForName} ${auth.SurName}`,
+                UserPhoto: auth.Photo,
+            }) 
+        })
 
     }
 
@@ -39,7 +64,7 @@ const Introductions = () => {
         <div className="main">
             <LeftSideBar />
             <div className="card-overview">
-                <div className="card">
+                <div className="list">
                     <h2>Hoi {auth.ForName},</h2>
                     <h3>Stel jezelf voor aan de community</h3>
                     <textarea name="" id="" cols="30" rows="10" placeholder="Schrijf iets over jezelf" onChange={textBody}></textarea>

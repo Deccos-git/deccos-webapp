@@ -6,26 +6,23 @@ import { db, auth, bucket } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Settings = () => {
 
-    const [photo, setPhoto] = useState("")
+    const [logo, setLogo] = useState("")
+    const [communityName, setCommunityName] = useState("")
 
     const auth = Auth()
     const docs = useFirestore("CompagnyMeta")
+    const history = useHistory();
 
-    const userPhoto = auth.Photo
+    const LogoHandler = (e) => {
 
-    // setPhoto(userPhoto)
+        const logo = e.target.files[0]
 
-    console.log(photo)
-
-    const changePhoto = (e) => {
-
-        const userphoto = e.target.files[0]
-
-        const storageRef = bucket.ref("/ProfilePhotos/" + userphoto.name);
-        const uploadTask = storageRef.put(userphoto)
+        const storageRef = bucket.ref("/ProfilePhotos/" + logo.name);
+        const uploadTask = storageRef.put(logo)
 
         uploadTask.then(() => {
           
@@ -45,9 +42,35 @@ const Settings = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
-            setPhoto(downloadURL)
+            setLogo(downloadURL)
 
                 })
+            })
+        })
+    }
+
+    const communityNameHandler = (e) => {
+
+        const communityName = e.target.value
+
+        setCommunityName(communityName)
+
+    }
+
+    const saveSettings = (e) => {
+
+        e.preventDefault()
+
+        docs && docs.forEach(doc => {
+            db.collection("CompagnyMeta")
+            .doc(doc.docid)
+            .update({
+                Logo: logo,
+                CommunityName: communityName
+
+            })
+            .then(() => {
+                history.push(`/${client}/Settings`)
             })
         })
     }
@@ -55,24 +78,26 @@ const Settings = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-                <div className="profile">
-                    <div className="card-header">
-                        <h2>{auth.UserName}</h2>
-                        <p>Verander de instellingen van de community</p>
-                    </div>
-                    <div className="divider">
-                        <h4>Community naam aanpassen</h4>
-                        <input type="text" placeholder={auth.ForName} />
-                    </div >
-                    <div className="divider">
-                        <h4>Logo aanpassen</h4>
-                        <img src={photo} alt="" />
-                        <input type="file" onChange={changePhoto} />
-                    </div >
-                    <div className="save-bar">
-                        <button>Opslaan</button>
-                    </div>
+            {docs && docs.map(doc => (
+            <div className="profile">
+                <div className="card-header">
+                    <h2>{doc.CommunityName}</h2>
+                    <p>Verander de instellingen van de community</p>
                 </div>
+                <div className="divider">
+                    <h4>Community naam aanpassen</h4>
+                    <input type="text" value={doc.CommunityName} onChange={communityNameHandler} />
+                </div >
+                <div className="divider">
+                    <h4>Logo aanpassen</h4>
+                    <img src={doc.Logo} alt="" />
+                    <input type="file" onChange={LogoHandler} />
+                </div >
+                <div className="save-bar">
+                    <button onClick={saveSettings}>Opslaan</button>
+                </div>
+            </div>
+            ))}
             <RightSideBar />
         </div>
     )

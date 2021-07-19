@@ -83,10 +83,22 @@ const NewClient = () => {
                 NewEvent: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-events.png?alt=media&token=6a539d0e-0c5c-45e3-9899-bbdf1e53fe31',
                 NewGoal: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-goal.png?alt=media&token=2f349b5e-b2c9-4ca2-9588-9cdaa166e8070',
                 NewMember: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-group-register.png?alt=media&token=51023ce7-0460-4e6f-b8b4-019e74af1b35',
-                NewArticle: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-article.png?alt=media&token=d068573a-fb08-467c-99ab-c790294acd63'
+                NewArticle: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-article.png?alt=media&token=d068573a-fb08-467c-99ab-c790294acd63',
+                NewIntroduction: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-goal-cutout.png?alt=media&token=822bee4f-6652-4a22-bbec-115595234aac'
            }],
            WelcomeHeader: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/WelcomeDefeault.png?alt=media&token=8aff12da-ac91-482a-ad76-6aa6f55760f7',
-           WelcomeText: `Welkom bij ${communityName}`
+           WelcomeText: `Welkom bij ${communityName}`,
+           Categories: [
+               "-- Selecteer een categorie --"
+           ]
+        })
+        .then(() => {
+            db.collection("Route")
+            .doc()
+            .set({
+                Compagny: compagnyName,
+                Route: ""
+            })
         })
         .then(() => {
             history.push(`/${compagnyName}/Start`) 

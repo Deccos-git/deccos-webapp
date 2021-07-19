@@ -10,6 +10,9 @@ import Auth from '../firebase/Auth.js';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
+import firebase from 'firebase'
+import { bucket } from '../firebase/config';
+import spinnerRipple from '../images/spinner-ripple.svg'
 
 const AddArticle = () => {
 
@@ -20,8 +23,12 @@ const AddArticle = () => {
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
+    const [categorie, setCategorie] = useState("")
+    const [newCategorie, setNewCategorie] = useState("")
+    const [bannerPhoto, setBannerPhoto] = useState("")
+    const [loader, setLoader] = useState("")
 
-    console.log(title, body)
+    console.log(title, body, categorie)
 
     const variants = {
         hidden: { opacity: 0 },
@@ -39,15 +46,78 @@ const AddArticle = () => {
             }
     }
 
+    const categoryHandler = (e) => {
+        const option = e.target.options
+
+        const categorie = option[option.selectedIndex].innerHTML
+
+        setCategorie(categorie)
+    }
+
+    const newCategorieHandler = (e) => {
+        const newCategorie = e.target.value
+
+        setNewCategorie(newCategorie)
+    }
+
     let banner = ""
+    let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
         banner = comp.ActivityBanner.NewArticle
+        compagnyId = comp.docid
     })
+
+    const photoHandler = (e) => {
+        setLoader(spinnerRipple)
+
+        const photo = e.target.files[0]
+
+        const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
+        const uploadTask = storageRef.put(photo)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setBannerPhoto(downloadURL)
+            setLoader(downloadURL)
+
+                })
+            })
+        })
+    }
+
+    const saveNewcategorie = (e) => {
+
+        e.preventDefault()
+
+        compagnyId && 
+        db.collection("CompagnyMeta")
+        .doc(compagnyId)
+        .update({
+            Categories: firebase.firestore.FieldValue.arrayUnion(newCategorie)
+        })
+    }
     
 
-    const saveArticle = () => {
-        db.collection("KnowlegdeCentre")
+    const saveArticle = (e) => {
+
+        db.collection("KnowledgeCentre")
         .doc()
         .set({
             Title: title,
@@ -56,7 +126,10 @@ const AddArticle = () => {
             Timestamp: timestamp,
             ID: id,
             User: auth.UserName,
-            UserPhoto: auth.Photo
+            UserPhoto: auth.Photo,
+            UserID: auth.ID,
+            Categorie: categorie,
+            Banner: bannerPhoto
         })
         .then(() => {
             db.collection("AllActivity")
@@ -80,7 +153,7 @@ const AddArticle = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <motion.div className="card"
+            <motion.div className="article"
             initial="hidden"
             animate="visible"
             variants={variants}>
@@ -114,13 +187,25 @@ const AddArticle = () => {
                         }}
                         />
                     </div>
+                    <div className="divider">
+                        <h4>Voeg een categorie toe</h4>
+                        {compagny && compagny.map(comp => (
+                                <select name="" id="" onChange={categoryHandler} key={uuid()}>
+                                     {comp.Categories.map(cat => (
+                                        <option value="" key={uuid()}>{cat}</option>
+                                    ))}
+                                </select>
+                        ))}
+                        <p>Voeg een nieuwe categorie toe aan de categorielijst</p>
+                        <input type="text" placeholder="Schrijf hier je catgeorie" onChange={newCategorieHandler} />
+                        <p className="button-minimal" onClick={saveNewcategorie}>Voeg toe</p>
+                    </div>
                     <div>
-                        <h4>Voeg een bestaande categorie toe</h4>
-                        <select name="" id="">
-                            <option value="">Categorie 1</option>
-                        </select>
-                        <p>Of voeg een nieuwe categorie toe</p>
-                        <input type="text" placeholder="Schrijf hier je catgeorie" />
+                        <p>Voeg een bannerfoto toe</p>
+                        <input onChange={photoHandler} type="file" />
+                        <div className="spinner-container">
+                            <img src={loader} alt="" />
+                        </div> 
                     </div>
                 </form>
                 <div id="button-add-goal">

@@ -4,11 +4,8 @@ import Auth from "../firebase/Auth"
 import { db, bucket, auth } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
-import { useState } from "react";
 
 const Profile = () => {
-
-    const [newPhoto, setNewPhoto] = useState("")
 
     const docs = useFirestore("CompagnyMeta")
     const authO = Auth()
@@ -40,25 +37,23 @@ const Profile = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
-            setNewPhoto(downloadURL)
+            photo = downloadURL
 
+                })
+                .then(() => {
+                    auth.onAuthStateChanged(User =>{
+                        if(User){
+                            db.collection("Users")
+                            .doc(User.uid)
+                            .update({
+                                Photo: photo
+                            })
+                        }
+                    });
                 })
             })
         })
-        .then(() => {
-            auth.onAuthStateChanged(User =>{
-                if(User){
-                    db.collection("Users")
-                    .doc(User.uid)
-                    .update({
-                        Photo: newPhoto
-                    })
-                }
-            });
-        })
     }
-
-    console.log(newPhoto)
 
 
     const logOut = () => {
@@ -116,7 +111,7 @@ const Profile = () => {
                     </div >
                     <div className="divider">
                         <h4>Profielfoto aanpassen</h4>
-                        <img src={photo} alt="" />
+                        <img id="adjust-photo-profile" src={photo} alt="" />
                         <input type="file" onChange={changePhoto} />
                     </div >
                     <div className="save-bar">

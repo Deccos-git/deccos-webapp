@@ -8,9 +8,7 @@ import Login from './Login';
 import Register from "./Register";
 import Profile from "./Profile";
 import "../CSS/main.css";
-import { useState } from "react";
 import GoalDetail from "./goals/GoalDetail";
-import RouterContext from '../context/RouterContext'
 import KnowledgeCentre from "./KnowledgeCentre";
 import AddArticle from "./AddArticle";
 import AuthRedirect from '../hooks/AuthRedirect';
@@ -27,17 +25,34 @@ import PublicProfile from './PublicProfile';
 import Settings from './Settings';
 import Analytics from './Analytics'
 import Members from './Members';
+import ArticleDetail from './ArticleDetail';
+import MessageDetail from './MessageDetail';
+import ChatRoom from './ChatRoom';
+import { useFirestoreID } from '../firebase/useFirestore';
+import Auth from '../firebase/Auth';
 
 const Main = () => {
 
-    const [routerID, setRouterID] = useState("")
-    const value = { routerID, setRouterID };
+    const auth = Auth()
 
-    AuthRedirect()
+    console.log(auth)
+
+    // AuthRedirect()
+    let id = ""
+
+    if(auth.ID != undefined){
+        id = auth.ID
+    }
+
+    console.log(id)
+
+    const routes = useFirestoreID("Route", id)
+
+    console.log(routes)
 
     return (
-        <RouterContext.Provider value={value}>
         <div className="main">
+            {routes && routes.map(route => (
             <Switch>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>
@@ -67,7 +82,7 @@ const Main = () => {
                     <Profile/>
                 </Route>
                 <Route path={`/${client}/GoalDetail`}>
-                    <GoalDetail/>
+                    <GoalDetail route={route}/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowledgeCentre/>
@@ -100,7 +115,7 @@ const Main = () => {
                     <ChatGroups/>
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
-                    <PublicProfile/>
+                    <PublicProfile route={route}/>
                 </Route>
                 <Route path={`/${client}/Settings`}>
                     <Settings/>
@@ -111,9 +126,18 @@ const Main = () => {
                 <Route path={`/${client}/Members`}>
                     <Members/>
                 </Route>
+                <Route path={`/${client}/ArticleDetail`}>
+                    <ArticleDetail/>
+                </Route>
+                <Route path={`/${client}/MessageDetail`}>
+                    <MessageDetail/>
+                </Route>
+                <Route path={`/${client}/ChatRoom`}>
+                    <ChatRoom route={route}/>
+                </Route>
             </Switch>
+             ))}
         </div>
-        </RouterContext.Provider>
     )
 }
 

@@ -126,7 +126,8 @@ const RegisterUser = () => {
                 Email: email,
                 Photo: photo,
                 Channels: [],
-                ID: id
+                ID: id,
+                Description: ""
             })
         })
         .catch(err => {
@@ -140,7 +141,7 @@ const RegisterUser = () => {
             db.collection("AllActivity")
             .doc()
             .set({
-                Title: `Welom ${forname}!`,
+                Title: `Welkom ${forname}!`,
                 Type: "NewMember",
                 Compagny: client,
                 ButtonText: "Bekijk profiel",
@@ -159,6 +160,13 @@ const RegisterUser = () => {
             .update({
                 Members: firebase.firestore.FieldValue.arrayUnion(memberMap)
             }) 
+        })
+        .then(() => {
+            db.collection("Route")
+            .doc()
+            .set({
+                ID: id
+            })
         })
     }
 

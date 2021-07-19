@@ -1,10 +1,31 @@
 import { useFirestore } from "../../firebase/useFirestore"
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { db } from '../../firebase/config';
+
 
 const AllMembers = () => {
 
     const docs = useFirestore("CompagnyMeta")
+    const routes = useFirestore("Route")
+    const history = useHistory()
+
+    const updateRoute = (e) => {
+
+        const memberID = e.target.id
+
+        routes && routes.forEach(route => {
+            const routeRef= db.collection("Route")
+            .doc(route.docid)
+
+                routeRef.update({
+                    Route: memberID
+                })
+        })
+
+        history.push(`/${client}/PublicProfile`)
+    }
 
     return (
         <div className="all-members-container">
@@ -12,12 +33,10 @@ const AllMembers = () => {
                 <div key={doc.ID}>
                     <h3>Leden van {doc.CommunityName}</h3>
                     {doc.Members.map(member => (
-                        <Link to={`/${client}/PublicProfile`} key={member.ID}>
-                             <div className="all-members-member-container" >
-                                <img src={member.Photo} alt="" />
-                                <p>{member.UserName}</p>
+                             <div className="all-members-member-container" key={member.ID}>
+                                <img src={member.Photo} alt="" id={member.ID} onClick={updateRoute} />
+                                <p id={member.ID} onClick={updateRoute}>{member.UserName}</p>
                             </div>
-                        </Link>
                        
                     ))}     
                 </div>

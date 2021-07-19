@@ -18,7 +18,7 @@ function App() {
     variants={variants}>
       <Router>
         <Topbar />
-        <Main />
+        <Main/>
       </Router>
     </motion.div>
   );

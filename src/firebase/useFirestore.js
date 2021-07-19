@@ -89,4 +89,59 @@ const useFirestoreUser = (userID) => {
     return docs
 };
 
-export { useFirestore, useFirestoreID, useFirestoreTimestamp, useFirestoreUser}
+const useFirestoreMessages = (collection, id  ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id])  
+
+    return docs
+};
+
+const useFirestoreChats = (collection, room) => {
+
+    const [docs, setDocs] = useState("")
+
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("Room", "==", room)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
+export { 
+    useFirestore, 
+    useFirestoreID, 
+    useFirestoreTimestamp, 
+    useFirestoreUser, 
+    useFirestoreMessages,
+    useFirestoreChats
+}

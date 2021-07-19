@@ -8,10 +8,11 @@ const IntroductionsCard = () => {
 
     return (
         docs && docs.map(doc => (
-            <div className="card introductions-card" >
+            <div className="list introductions-list" key={doc.ID} >
                 <img src={doc.Photo} alt="" />
                 <h2>{doc.UserName}</h2>
                 <p>{doc.Body}</p>
+                <input type="text" placeholder="Schrijf hier je reactie" />
             </div>
         ))
     )
