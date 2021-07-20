@@ -19,6 +19,7 @@ const LeftSideBarPublicProfile = () => {
                 </div>
                 <h3>Mijn activiteit</h3>
                 <div className="channel-inner-div">
+                    <Link to={`/${client}/MyIntroduction`}>Mijn introductie</Link>
                     <Link to={`/${client}/MyMessages`}>Mijn berichten</Link>
                     <Link to={`/${client}/MyGroups`}>Mijn groepen</Link>
                 </div>

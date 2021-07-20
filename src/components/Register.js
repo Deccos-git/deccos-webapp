@@ -6,8 +6,7 @@ import firebase from 'firebase'
 import { useFirestore } from '../firebase/useFirestore.js';
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
-
-
+import { Link } from "react-router-dom";
 
 const RegisterUser = () => {
 
@@ -193,7 +192,7 @@ const RegisterUser = () => {
             <div className="button-container">
                 <button onClick={checkHandler}>Aanmelden</button>
             </div>
-            
+            <Link to={`/${client}/Login`} ><h3>Heb je al een account? <u>Log dan hier in</u></h3></Link>
         </div>
     )
 }

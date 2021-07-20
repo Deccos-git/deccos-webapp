@@ -25,12 +25,15 @@ const Start = () => {
             variants={variants}>
                 {docs && docs.map(doc => (
                     <div className="article-inner-div" key={doc.ID}>
-                        <h2>Welkom bij {doc.CommunityName} {username}</h2>
-                        <img src={doc.WelcomeHeader} alt="community logo" />  
-                        <p>{doc.WelcomeText}</p>
+                        <div>
+                            <h2>Welkom {username}</h2>
+                            <img src={doc.WelcomeHeader} alt="community logo" />  
+                        </div>
+                         <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
                     </div>
                     ))
                 }
+                  
             </motion.div>
             <RightSideBar />
         </div>

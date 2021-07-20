@@ -19,22 +19,14 @@ const PublicProfile = ({route}) => {
     let room = ""
     let userName = ""
 
-    const updateRoute = () => {
-        db.collection("Route")
-        .doc(route.docid)
-        .update({
-            Room: room
-        })
-    }
-
     users && users.forEach(user => {
         room = auth.UserName < user.UserName ? auth.UserName+'_'+user.UserName : user.UserName+'_'+auth.UserName
 
         userName = user.UserName
 
-        updateRoute()
-
     })
+
+    console.log(room === route.Room)
 
     const startChat = () => {
 

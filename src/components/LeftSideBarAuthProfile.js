@@ -19,9 +19,19 @@ const LeftSideBarAuthProfile = () => {
                 </div>
                 <h3>Community beheer</h3>
                 <div className="channel-inner-div">
-                    <Link to={`/${client}/Settings`}>Settings</Link>
+                    <Link to={`/${client}/Settings`}>Instellingen</Link>
                     <Link to={`/${client}/Analytics`}>Analytics</Link>
                     <Link to={`/${client}/Members`}>Leden</Link>
+                    <Link to={`/${client}/ChannelSettings`}>Kanalen</Link>
+                    <Link to={`/${client}/GroupSettings`}>Groepen</Link>
+                    <Link to={`/${client}/GoalSettings`}>Doelen</Link>
+                    <Link to={`/${client}/WelcomeSettings`}>Welkom</Link>
+                </div>
+
+                <h3>Mijn account</h3>
+                <div className="channel-inner-div">
+                    <Link to={`/${client}/Profile`}>Account instellingen</Link>
+                    <Link to={`/${client}/PublicProfile`}>Openbaar profiel</Link>
                 </div>
             </div>
         </div>

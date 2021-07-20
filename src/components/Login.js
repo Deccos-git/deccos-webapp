@@ -29,7 +29,7 @@ const Login = () => {
             if(err){
                 alert(err)
             } else {
-                history.push(`/${client}/AllActivity`)
+                window.location.reload()
             }  
         })
     }
@@ -40,7 +40,7 @@ const Login = () => {
             <h2>Login</h2>
                 <form id="login-form">
                     <p>Email</p>
-                    <input onChange={emailHandler} type="text" placeholder="Schrijf hier je emailadres" />
+                    <input onChange={emailHandler} type="email" placeholder="Schrijf hier je emailadres" />
                     <p>Wachtwoord</p>
                     <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
                     <div className="button-container">

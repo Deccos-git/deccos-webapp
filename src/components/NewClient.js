@@ -90,6 +90,32 @@ const NewClient = () => {
            WelcomeText: `Welkom bij ${communityName}`,
            Categories: [
                "-- Selecteer een categorie --"
+           ],
+           Channels: [
+               {
+                    Name: "Alle activiteit",
+                    Layout: "Post",
+                    ID: uuid(),
+                    Link: "AllActivity"
+               },
+               {
+                    Name: "Nieuws",
+                    Layout: "Post",
+                    ID: uuid(),
+                    Link: "News"
+               },
+               {
+                    Name: "Kenniscentrum",
+                    Layout: "Card",
+                    ID: uuid(),
+                    Link: "KnowledgeCentre"
+                },
+                {
+                    Name: "Events",
+                    Layout: "List",
+                    ID: uuid(),
+                    Link: "Events"
+                },
            ]
         })
         .then(() => {

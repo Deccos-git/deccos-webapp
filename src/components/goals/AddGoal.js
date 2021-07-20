@@ -81,7 +81,7 @@ const AddGoal = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <motion.div className="card"
+            <motion.div className="profile"
             initial="hidden"
             animate="visible"
             variants={variants}>

@@ -31,13 +31,13 @@ const ArticleDetail = () => {
                         <img src={doc.Banner} alt="" />
                         <div className="list-inner-container">
                             <div className="article-card-user-container">
-                                <img className="allActivity-user-photo" src={doc.UserPhoto} alt="" />
+                                <img src={doc.UserPhoto} alt="" />
                                 <p>{doc.User}</p>
                             </div>
                             <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <p>{doc.Categorie}</p>
                             <div className="article-body-container">
-                                <p>{doc.Body}</p>
+                                <div dangerouslySetInnerHTML={{ __html: doc.Body }}></div>
                             </div>
                         </div>
                     </div>

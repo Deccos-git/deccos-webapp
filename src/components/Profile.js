@@ -4,11 +4,14 @@ import Auth from "../firebase/Auth"
 import { db, bucket, auth } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
+import { useHistory } from "react-router";
+import { client } from '../hooks/Client';
 
 const Profile = () => {
 
     const docs = useFirestore("CompagnyMeta")
     const authO = Auth()
+    const history = useHistory()
 
     let photo = authO.Photo
 
@@ -59,7 +62,7 @@ const Profile = () => {
     const logOut = () => {
         auth.signOut()
         .then(() => {
-            window.location.reload()
+            history.push(`/${client}/Login`)
         }) 
     }
 
@@ -111,7 +114,9 @@ const Profile = () => {
                     </div >
                     <div className="divider">
                         <h4>Profielfoto aanpassen</h4>
-                        <img id="adjust-photo-profile" src={photo} alt="" />
+                        <div className="photo-container-profile">
+                            <img id="adjust-photo-profile" src={photo} alt="" />
+                        </div>
                         <input type="file" onChange={changePhoto} />
                     </div >
                     <div className="save-bar">

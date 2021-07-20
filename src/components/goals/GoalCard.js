@@ -47,18 +47,21 @@ const GoalCard = ({doc}) => {
         initial="hidden"
         animate="visible"
         variants={variants}>
-            <img src={icon} alt="" />
-            <h2>{doc.Title}</h2>
-            <h3>{doc.Body}</h3>
-            <div className="type-container">
-                <p>{type}</p>
+            <img className="goal-card-banner" src={doc.Banner} alt="" />
+            <div className="goalcard-body-div">
+                <h2>{doc.Title}</h2>
+                <h3>{doc.Body}</h3>
+                <div className="type-container">
+                    <img src={icon} alt="" />
+                    <p>{type}</p>
+                </div>
+                <div className="user-meta-goal-card">
+                    <p>Toegevoegd door</p>
+                    <p className="user-goal-card">{doc.User}</p>
+                </div>
+                <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                <button className="goal-card-button" onClick={updateRoute} >Bekijk</button>
             </div>
-            <div className="user-meta-goal-card">
-                <p>Toegevoegd door</p>
-                <p className="user-goal-card">{doc.User}</p>
-            </div>
-            <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-            <button className="goal-card-button" onClick={updateRoute} >Bekijk</button>
         </motion.div>
     )
 }

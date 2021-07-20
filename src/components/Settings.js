@@ -1,21 +1,23 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import Auth from "../firebase/Auth"
-import { client } from '../hooks/Client';
-import { db, auth, bucket } from "../firebase/config.js"
+import { db, bucket } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
 
 const Settings = () => {
 
     const [logo, setLogo] = useState("")
     const [communityName, setCommunityName] = useState("")
+    const [welcomeText, setWelcomeText] = useState("")
 
-    const auth = Auth()
     const docs = useFirestore("CompagnyMeta")
-    const history = useHistory();
+    const editorRef = useRef(null);
+
+    docs && docs.forEach(doc => {
+    })
 
     const LogoHandler = (e) => {
 
@@ -57,20 +59,18 @@ const Settings = () => {
 
     }
 
-    const saveSettings = (e) => {
+    const bodyHandler = (e) => {
+        if (editorRef.current) {
+            setWelcomeText(editorRef.current.getContent());
+            }
+    }
 
-        e.preventDefault()
-
+    const saveWelcomeText = () => {
         docs && docs.forEach(doc => {
             db.collection("CompagnyMeta")
             .doc(doc.docid)
             .update({
-                Logo: logo,
-                CommunityName: communityName
-
-            })
-            .then(() => {
-                history.push(`/${client}/Settings`)
+                WelcomeText: welcomeText
             })
         })
     }
@@ -93,9 +93,33 @@ const Settings = () => {
                     <img src={doc.Logo} alt="" />
                     <input type="file" onChange={LogoHandler} />
                 </div >
-                <div className="save-bar">
-                    <button onClick={saveSettings}>Opslaan</button>
-                </div>
+                <div className="divider">
+                    <h4>Welkomstext aanpassen</h4>
+                    {docs && docs.map(doc =>(
+                    <Editor onChange={bodyHandler}
+                        apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
+                        initialValue={doc.WelcomeText}
+                        onInit={(evt, editor) => editorRef.current = editor}
+                        init={{
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                        content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
+                        }}
+                        />
+                    ))}
+                    <div className="button-container">
+                        <button onClick={saveWelcomeText}>Opslaan</button>
+                    </div>
+                </div >
             </div>
             ))}
             <RightSideBar />

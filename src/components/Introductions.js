@@ -57,8 +57,9 @@ const Introductions = () => {
                 UserPhoto: auth.Photo,
             }) 
         })
-
     }
+
+    const placeholder = `Schijf iets over jezelf - Wat wil je aan de community bijdragen? - Wat wil je uit de community halen?`
 
     return (
         <div className="main">
@@ -67,7 +68,7 @@ const Introductions = () => {
                 <div className="list">
                     <h2>Hoi {auth.ForName},</h2>
                     <h3>Stel jezelf voor aan de community</h3>
-                    <textarea name="" id="" cols="30" rows="10" placeholder="Schrijf iets over jezelf" onChange={textBody}></textarea>
+                    <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>
                     <div className="button-container">
                         <button onClick={saveIntroduction}>Versturen</button>
                     </div>

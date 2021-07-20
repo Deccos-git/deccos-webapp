@@ -4,14 +4,12 @@ import Goals from './goals/Goals';
 import AddGoal from './goals/AddGoal';
 import { Switch, Route } from "react-router-dom";
 import Search from './topbar/Search';
-import Login from './Login';
 import Register from "./Register";
 import Profile from "./Profile";
 import "../CSS/main.css";
 import GoalDetail from "./goals/GoalDetail";
 import KnowledgeCentre from "./KnowledgeCentre";
 import AddArticle from "./AddArticle";
-import AuthRedirect from '../hooks/AuthRedirect';
 import { client } from '../hooks/Client';
 import NewClient from './NewClient';
 import Introductions from './Introductions';
@@ -30,30 +28,35 @@ import MessageDetail from './MessageDetail';
 import ChatRoom from './ChatRoom';
 import { useFirestoreID } from '../firebase/useFirestore';
 import Auth from '../firebase/Auth';
+import Login from './Login';
+import ChannelSettings from './ChannelSettings';
+import AddEvent from './AddEvent';
+
 
 const Main = () => {
 
     const auth = Auth()
 
-    console.log(auth)
-
-    // AuthRedirect()
     let id = ""
 
     if(auth.ID != undefined){
         id = auth.ID
-    }
-
-    console.log(id)
+    } 
 
     const routes = useFirestoreID("Route", id)
 
-    console.log(routes)
 
     return (
         <div className="main">
-            {routes && routes.map(route => (
             <Switch>
+                <Route path={`/${client}/Login`}>
+                    <Login/>
+                </Route>
+                <Route path={`/${client}/Register`}>
+                    <Register/>
+                </Route>
+                {routes && routes.map(route => (
+                <>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>
                 </Route>
@@ -71,12 +74,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Search`}>
                     <Search/>
-                </Route>
-                <Route path={`/${client}/Login`}>
-                    <Login/>
-                </Route>
-                <Route path={`/${client}/Register`}>
-                    <Register/>
                 </Route>
                 <Route path={`/${client}/Profile`}>
                     <Profile/>
@@ -135,8 +132,16 @@ const Main = () => {
                 <Route path={`/${client}/ChatRoom`}>
                     <ChatRoom route={route}/>
                 </Route>
+                <Route path={`/${client}/ChannelSettings`}>
+                    <ChannelSettings/>
+                </Route>
+                <Route path={`/${client}/AddEvent`}>
+                    <AddEvent/>
+                </Route>
+                </>
+                ))}
             </Switch>
-             ))}
+             
         </div>
     )
 }
