@@ -4,28 +4,14 @@ import { db, timestamp } from "../firebase/config.js"
 import { useState } from 'react';
 import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
-import Auth from '../firebase/Auth.js';
 import { useFirestore } from "../firebase/useFirestore"
 
-const MessageBar = () => {
-
-    const routes = useFirestore("Route")
-
-    let routeID = ""
-    let docID = ""
-
-    routes && routes.forEach(route => {
-
-        routeID = route.Route
-        docID = route.docid
-
-    })
-
-    const auth = Auth()
-    const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
+const MessageBar = ({route, auth}) => {
 
     const [Message, setMessage] = useState("")
+
+    const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -47,21 +33,13 @@ const MessageBar = () => {
             Type: "Message",
             Message: Message,
             Timestamp: timestamp,
-            ParentID: routeID,
+            ParentID: route.Route,
             ID: id,
             Compagny: client,
             User: auth.UserName,
             UserPhoto: auth.Photo,
             Channel: type,
             Thread: []
-        })
-        .then(() => {
-            db.collection("Route")
-            .doc(docID)
-            .update({
-                LastActivity: "NewMessage",
-                Auth: auth.ID
-            })
         })
     }
 

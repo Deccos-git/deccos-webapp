@@ -1,9 +1,13 @@
 import { auth, db } from "./config";
 import { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+import { client } from '../hooks/Client';
 
 const Auth = () => {
 
     const [docs, setDocs] = useState("")
+
+    const history = useHistory();
 
     const getUserID = async () => {
 
@@ -14,6 +18,8 @@ const Auth = () => {
                 .onSnapshot(doc => {
                     setDocs(doc.data())
                 })
+            } else {
+                history.push(`/${client}/Register`)
             }
         })
     }   

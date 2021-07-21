@@ -6,7 +6,12 @@ import Auth from "../../firebase/Auth"
 const ProfilePhoto = () => {
 
     const doc = Auth()
-    const photo = doc.Photo
+
+    let photo = ""
+
+    if(doc != undefined){
+        photo = doc.Photo
+    }
 
     return (
         <div className="profile-photo">

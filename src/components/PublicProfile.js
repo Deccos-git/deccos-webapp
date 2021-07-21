@@ -1,107 +1,96 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestore, useFirestoreID, useFirestoreChats } from "./../firebase/useFirestore";
+import { useFirestore, useFirestoreID, useFirestoreChatsGroups } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import Auth from "../firebase/Auth";
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
-const PublicProfile = ({route}) => {
+const PublicProfile = ({route, auth}) => {
 
-    const auth = Auth()
     const history = useHistory()
+    const id = uuid()
 
-    const users = useFirestoreID("Users", route.Route)
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
+    let members = ""
+    let roomID = ""
     let room = ""
-    let userName = ""
 
-    users && users.forEach(user => {
-        room = auth.UserName < user.UserName ? auth.UserName+'_'+user.UserName : user.UserName+'_'+auth.UserName
+    // Find doc of chatpartner
+    const profiles = useFirestoreID("Users", route.Profile)
 
-        userName = user.UserName
+    // Find chats of auth
+    const chats = useFirestoreChatsGroups("Chats", auth.ID )
 
+    // Find chats of auth and chatpartner
+    chats && chats.forEach(chat => {
+        members = chat.Members
+        roomID = chat.ID
     })
 
-    console.log(room === route.Room)
+    //Create roomname of auth and chatpartner
+    profiles && profiles.forEach(profile => {
+        room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
+    })
 
+    // Open chat if chat excists or create a new chat
     const startChat = () => {
-
-        if(room != route.Room){
-
-            db.collection("Chats")
-            .doc()
-            .set({
-                ID: route.Route,
-                Room: room,
-                Members: [
-                    userName,
-                    auth.UserName
-                ],
-                Timestamp: timestamp,
-                Compagny: client,
-                Messages: 0
-            })
-            .then(() => {
-                const docRef = db.collection("Route")
-                .doc(route.docid)
-
-                users && users.forEach(user => {
-                    docRef.update({
-                        Route: route.Route,
-                        User: user.UserName,
-                        Room: room,
-                        Members: [
-                            userName,
-                            auth.UserName
-                        ],
-
-                    })
-                    .then(() => {
-                        history.push(`/${client}/ChatRoom`)
-                    })
-                })
-            })
-        } else {
-            const docRef = db.collection("Route")
-            .doc(route.docid)
-
-            users && users.forEach(user => {
-                docRef.update({
-                    Route: route.Route,
-                    User: user.UserName,
-                    Room: room,
-                    Members: [
-                        userName,
-                        auth.UserName
-                    ],
-
-                })
-                .then(() => {
-                    history.push(`/${client}/ChatRoom`)
-                })
-            })
+        if(members.includes(route.Profile)){
+            updateRoute(roomID)
+        } else if (members === ""){
+            createChat()
         }
     }
+
+    const updateRoute = (ID) => {
+        db.collection("Route")
+        .doc(route.docid)
+        .update({
+            Chat: ID,
+            Route: ID
+        })
+        .then(() => {
+            history.push(`/${client}/ChatRoom`)
+        })
+    }
+
+    const createChat = () => {
+        db.collection("Chats")
+        .doc()
+        .set({
+            ID: id,
+            Room: room,
+            Members: [
+                route.Profile,
+                auth.ID
+            ],
+            Timestamp: timestamp,
+            Compagny: client,
+            Messages: 0
+        })
+        .then(() => {
+            updateRoute(id)
+        })
+    }
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
             <div className="main">
                 <LeftSideBarPublicProfile />
-                {users && users.map(user => (
+                {profiles && profiles.map(profile => (
                     <div className="profile public-profile-container">
                         <div className="divider ">
-                            <img className="public-profile-photo" src={user.Photo} alt="" />  
-                            <h2>{user.UserName}</h2>
-                            <p className="timestamp-public-profile">Lid sinds {user.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            <img className="public-profile-photo" src={profile.Photo} alt="" />  
+                            <h2>{profile.UserName}</h2>
+                            <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
                                 <button onClick={startChat}>Chatten</button>
                             </div>
                         </div>
                         <div className="divider" >
-                            <p>{user.Description}</p>
+                            <p>{profile.Description}</p>
                         </div>
                     </div>
                 ))}

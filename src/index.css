@@ -148,6 +148,7 @@ textarea ::placeholder{
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 40px;
 }
 
 .card-header h2{
@@ -158,7 +159,7 @@ textarea ::placeholder{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 40px;
 }
 
 .button-container{
@@ -169,4 +170,23 @@ textarea ::placeholder{
 
 .active{
   color: #d11237;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.card-container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.list-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

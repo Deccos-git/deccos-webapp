@@ -164,35 +164,46 @@ const RegisterUser = () => {
             db.collection("Route")
             .doc()
             .set({
-                ID: id
+                ID: id,
+                Compagny: client,
+                User: `${forname} ${surname}`,
+                Goal: "",
+                Article: "",
+                Profile: "",
+                Chat: "",
+                News: "",
+                Events: "",
+                Channel: "",
+                Group: ""
             })
         })
     }
 
     return (
-        <div className="login-container">
-            <h2>Register</h2>
-            <form>
-                <p>Voornaam*</p>
-                <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />
-                <p>Achternaam</p>
-                <input onChange={surnameHandler} type="text" placeholder="Schrijf hier je achternaam" />
-                <p>Emailadres*</p>
-                <input onChange={emailHandler} type="email" placeholder="Schrijf hier je achternaam" />
-                <p>Wachtwoord*</p>
-                <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
-                <p>Herhaal je wachtwoord*</p>
-                <input onChange={passwordRepeatHandler} type="password" placeholder="Herhaal hier je wachtwoord" />
-                <p>Profielfoto</p>
-                <input onChange={photoHandler} type="file" />
-                <div className="spinner-container">
-                    <img src={loader} alt="" />
+        <div className="main">
+            <div className="login-container">
+                <h2>Register</h2>
+                <form>
+                    <p>Voornaam*</p>
+                    <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />
+                    <p>Achternaam</p>
+                    <input onChange={surnameHandler} type="text" placeholder="Schrijf hier je achternaam" />
+                    <p>Emailadres*</p>
+                    <input onChange={emailHandler} type="email" placeholder="Schrijf hier je achternaam" />
+                    <p>Wachtwoord*</p>
+                    <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
+                    <p>Herhaal je wachtwoord*</p>
+                    <input onChange={passwordRepeatHandler} type="password" placeholder="Herhaal hier je wachtwoord" />
+                    <p>Profielfoto</p>
+                    <input onChange={photoHandler} type="file" />
+                    <div className="spinner-container">
+                        <img src={loader} alt="" />
+                    </div>
+                </form>
+                <div className="button-container">
+                    <button onClick={checkHandler}>Aanmelden</button>
                 </div>
-            </form>
-            <div className="button-container">
-                <button onClick={checkHandler}>Aanmelden</button>
             </div>
-            <Link to={`/${client}/Login`} ><h3>Heb je al een account? <u>Log dan hier in</u></h3></Link>
         </div>
     )
 }

@@ -2,7 +2,7 @@ import Topbar from './components/topbar/Topbar';
 import Main from './components/Main';
 import { motion } from "framer-motion"
 import { BrowserRouter as Router } from "react-router-dom";
-import Login from './components/Login';
+import LoginRegister from './components/LoginRegister';
 import { auth } from './firebase/config';
 import { useState } from 'react';
 
@@ -18,11 +18,13 @@ function App() {
       }
     })
 
+    console.log(online)
+
     const AuthRedirect = () => {
-      if(online === true){
+      if(online === false){
+        return <LoginRegister/>
+      } else if (online === true) {
         return <><Topbar/><Main/> </>
-      } else {
-        return <Login/>
       }
     }
 

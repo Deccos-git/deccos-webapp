@@ -13,6 +13,10 @@
     flex-direction: column;
 }
 
+.channel-inner-div p{
+   cursor: pointer;
+}
+
 .channel-inner-div a{
     margin-bottom: 5px;
 }

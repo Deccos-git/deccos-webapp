@@ -137,11 +137,36 @@ const useFirestoreChats = (collection, room) => {
     return docs
 };
 
+const useFirestoreChatsGroups = (collection, auth ) => {
+
+    const [docs, setDocs] = useState("")
+
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("Members", "array-contains", auth)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, auth])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
     useFirestoreTimestamp, 
     useFirestoreUser, 
     useFirestoreMessages,
-    useFirestoreChats
+    useFirestoreChats,
+    useFirestoreChatsGroups
 }

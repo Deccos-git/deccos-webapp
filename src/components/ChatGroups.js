@@ -1,10 +1,17 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreTimestamp } from "./../firebase/useFirestore";
+import { useFirestoreChatsGroups } from "./../firebase/useFirestore";
+import Auth from "../firebase/Auth";
 
 const ChatGroups = () => {
 
-    const docs = useFirestoreTimestamp("AllActivity")
+    const auth = Auth()
+
+    console.log(auth.UserName)
+
+    const chats = useFirestoreChatsGroups("Chats", auth.UserName)
+
+    console.log(chats)
 
     return (
             <div className="main">

@@ -59,6 +59,10 @@
     border-radius: 3px;
   }
 
+  .list img{
+      width: 100%;
+  }
+
   .card img{
       width: 100%;
       border-top-left-radius: 5px;
@@ -263,7 +267,7 @@
       align-items: center;
       border-radius: 5px;
       padding: 20px;
-      width: 54%;
+      width: 45%;
       position: fixed;
       bottom: 0px;
       background-color: white;
@@ -442,13 +446,6 @@
       margin-right: 10px;
   }
 
-  .card-container{
-      width: 55%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
   .group-container{
       width: 55%;
       margin-top: 20px;
@@ -464,13 +461,45 @@
       border-bottom: 5px solid #a7bdbd26;
   }
 
+  .chat-header img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+  }
+
+  .chat-header h2{
+      margin-left: 5px;
+  }
+
+  .chat-screen{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      background-color: white;
+      min-height: 80vh;
+  }
+
   .user-message{
+    align-self: flex-start;
     display: flex;
     flex-direction: column-reverse;
     padding: 5px;
     border-radius: 15px;
     font-size: 16px;
-    margin: 5px 6px;
+    margin: 15px 15px;
+    max-width: 50%;
+    background-color: white;
+    box-shadow: 0 5px 9px 0 rgb(0 0 0 / 20%), 0 7px 21px 0 rgb(0 0 0 / 19%);
+  }
+
+  .auth-message{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 5px;
+    border-radius: 15px;
+    font-size: 16px;
+    margin: 15px 15px;
     max-width: 50%;
     background-color: white;
     box-shadow: 0 5px 9px 0 rgb(0 0 0 / 20%), 0 7px 21px 0 rgb(0 0 0 / 19%);
@@ -484,11 +513,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-  }
-
-  .chat-screen{
-      background-color: #a7bdbd;
-      height: 80vh;
   }
 
   .back-to-community-container{

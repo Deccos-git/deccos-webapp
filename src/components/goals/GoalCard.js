@@ -31,6 +31,7 @@ const GoalCard = ({doc}) => {
             db.collection("Route")
             .doc(route.docid)
             .update({
+                Goal: doc.ID,
                 Route: doc.ID
             })
         })

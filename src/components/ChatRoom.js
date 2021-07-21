@@ -1,50 +1,61 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreChats, useFirestoreMessages } from "../firebase/useFirestore"
+import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
 import MessageBar from "./MessageBar"
 import Auth from "../firebase/Auth";
 
-const ChatRoom = ({route}) => {
+const ChatRoom = ({route, auth}) => {
 
-    console.log(route)
-
-    const auth = Auth()
-
-    const chats = useFirestoreChats("Chats", route.Room)
-
-    console.log(chats)
-
-    const messages = useFirestoreMessages("Messages", route.Route)
-
-    console.log(messages)
+    const chats = useFirestore("Chats", route.Chat)
+    const messages = useFirestoreMessages("Messages", route.Chat)
 
     let classname = ""
+    let userID = ""
 
-        messages && messages.forEach(message => {
-            console.log(message.User === auth.UserName)
-            if(message.User == auth.Username){
-                classname = "auth-message"
-            } else {
-                classname = "user-message"
+    // Define layout of message based on auth and chatpartner
+    messages && messages.forEach(message => {
+        console.log(message.User, auth.UserName)
+        if(message.User === auth.UserName){
+            classname = "auth-message"
+            console.log(true)
+        } else if (message.User != auth.UserName)  {
+            classname = "user-message"
+            console.log(false)
+        }
+    })
+
+    // Define name of chatpartner
+    chats && chats.forEach(chat => {
+        const members = chat.Members
+
+        members && members.forEach(member => {
+            if(auth.ID != member){
+                userID = member
             }
         })
-    
+    })
+
+    const users = useFirestoreID("Users", userID)
+
     return (
         <div className="main">
             <LeftSideBar />
             <div className="group-container">
-                <div classname="chat-header">
-                    <p>Chat met</p>
-                    {chats && chats.map(chat => (
-                        <h2 key={chat.ID}>{route.User}</h2>
-                    ))}
-                </div>
+                {users && users.map(user => (
+                    <div className="chat-header">
+                        <h2>Chat met</h2>
+                        <h2 key={user.ID}>{user.UserName}</h2> 
+                        <img src={user.Photo} alt="" /> 
+                    </div>
+                ))}
+                <div className="chat-screen">
                 {messages && messages.map(message => (
                     <div className={classname} key={message.ID}>
                         <p>{message.Message}</p>
                     </div>
                 ))}
-                <MessageBar />
+                <MessageBar route={route} auth={auth} />
+                </div>
             </div>
             <RightSideBar />
         </div>

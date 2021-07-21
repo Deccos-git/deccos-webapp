@@ -14,7 +14,7 @@ import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 
-const AddEvent = () => {
+const AddNews = () => {
 
     const auth = Auth()
     const id = uuid()
@@ -25,9 +25,6 @@ const AddEvent = () => {
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
-    const [capacity, setCapacity] = useState("")
-    const [price, setPrice] = useState("")
-    const [date, setDate] = useState("")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -45,29 +42,16 @@ const AddEvent = () => {
             }
     }
 
-    const dateHandler = (e) => {
-        const date = e.target.value
-        setDate(date)
-    }
-
-    const priceHandler = (e) => {
-        const price = e.target.value
-        setPrice(price)
-    }
-
-    const capacityHandler = (e) => {
-        const capacity = e.target.value
-        setCapacity(capacity)
-    }
-
 
     let banner = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewEvent
+        banner = comp.ActivityBanner.NewNews
     })
 
     const photoHandler = (e) => {
+        setLoader(spinnerRipple)
+
         const photo = e.target.files[0]
 
         const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
@@ -101,7 +85,7 @@ const AddEvent = () => {
     
     const saveEvent = (e) => {
 
-        db.collection("Events")
+        db.collection("News")
         .doc()
         .set({
             Title: title,
@@ -112,9 +96,6 @@ const AddEvent = () => {
             User: auth.UserName,
             UserPhoto: auth.Photo,
             UserID: auth.ID,
-            Price: price,
-            Capacity: capacity,
-            Date: date,
             Banner: bannerPhoto
         })
         .then(() => {
@@ -122,16 +103,16 @@ const AddEvent = () => {
             .doc()
             .set({
                 Title: title,
-                Type: "NewEvent",
+                Type: "NewNews",
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Description: "heeft een nieuw event toegevoegd:",
-                ButtonText: "Bekijk event",
+                Description: "heeft een nieuws item toegevoegd:",
+                ButtonText: "Bekijk nieuws",
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
                 Banner: banner,
-                Link: `/${client}/EventDetail`
+                Link: `/${client}/NewsDetail`
             }) 
         })
     }
@@ -144,16 +125,16 @@ const AddEvent = () => {
             animate="visible"
             variants={variants}>
                 <div className="card-header">
-                        <h2>Voeg een event toe</h2>
-                        <p>Voeg een nieuw event waar de leden van de community zich voor aan kunnen melden</p>
+                        <h2>Voeg een nieuws item toe</h2>
+                        <p>Voeg een nieuws item toe om de leden van de community op de hoogte te houden van de laatste ontwikkelingen</p>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h4>Geef het event een titel</h4>
+                        <h4>Geef het nieuws item een titel</h4>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <div className="divider">
-                        <h4>Geef het event een omschrijving</h4>
+                        <h4>Schrijf het nieuws item</h4>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -180,28 +161,9 @@ const AddEvent = () => {
                             <img src={loader} alt="" />
                         </div> 
                     </div>
-                    <div className="divider">
-                        <h4>Is het event online of heeft een fysieke locatie?</h4>
-                        <select name="" id="">
-                            <option value="online">Online</option>
-                            <option value="fysical-location">Fysieke locatie</option>
-                        </select>
-                    </div>
-                    <div className="divider">
-                        <h4>Wanneer vindt het event plaats?</h4>
-                        <input type="date" onChange={dateHandler} />
-                    </div>
-                    <div className="divider">
-                        <h4>Hoeveel kost het event?</h4>
-                        <input type="number" onChange={priceHandler} />
-                    </div>
-                    <div className="divider">
-                        <h4>Wat is het maximaal aantal deelnemers?</h4>
-                        <input type="number" onChange={capacityHandler}/>
-                    </div>
                 </form>
                 <div id="button-add-event">
-                    <Link to={`/${client}/Events`}><button onClick={saveEvent}>Opslaan</button></Link>
+                    <Link to={`/${client}/News`}><button onClick={saveEvent}>Opslaan</button></Link>
                 </div>
             </motion.div>
             <RightSideBar />
@@ -209,4 +171,4 @@ const AddEvent = () => {
     )
 }
 
-export default AddEvent
+export default AddNews

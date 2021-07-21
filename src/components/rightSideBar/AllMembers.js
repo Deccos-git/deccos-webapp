@@ -20,7 +20,7 @@ const AllMembers = () => {
             .doc(route.docid)
 
                 routeRef.update({
-                    Route: memberID
+                    Profile: memberID
                 })
         })
 

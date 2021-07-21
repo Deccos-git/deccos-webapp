@@ -21,21 +21,13 @@ const Message = ({message}) => {
 
     const routes = useFirestore("Route")
 
-    let routeID = ""
-
-    routes && routes.forEach(route => {
-
-        routeID = route.Route
-
-    })
-
     const updateRoute = () => {
 
         routes && routes.forEach(route => {
             db.collection("Route")
             .doc(route.docid)
             .update({
-                Route: message.ID
+                Message: message.ID
             })
         })
 

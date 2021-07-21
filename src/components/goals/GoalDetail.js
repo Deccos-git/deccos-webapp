@@ -9,8 +9,8 @@ import RightSideBar from "../rightSideBar/RightSideBar"
 
 const GoalDetail = ({route}) => {
 
-    const docs = useFirestoreID("Goals", route.Route)
-    const messages  = useFirestoreMessages("Messages", route.Route )
+    const docs = useFirestoreID("Goals", route.Goal)
+    const messages  = useFirestoreMessages("Messages", route.Goal )
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 

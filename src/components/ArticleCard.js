@@ -22,7 +22,7 @@ const ArticleCard = ({doc}) => {
             db.collection("Route")
             .doc(route.docid)
             .update({
-                Route: doc.ID
+                Article: doc.ID
             })
         })
     

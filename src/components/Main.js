@@ -17,7 +17,6 @@ import News from './News';
 import Events from './Events';
 import Group from './Group';
 import Notifications from './Notifications';
-import Chat from './Chat';
 import ChatGroups from './ChatGroups';
 import PublicProfile from './PublicProfile';
 import Settings from './Settings';
@@ -26,12 +25,13 @@ import Members from './Members';
 import ArticleDetail from './ArticleDetail';
 import MessageDetail from './MessageDetail';
 import ChatRoom from './ChatRoom';
-import { useFirestoreID } from '../firebase/useFirestore';
+import { useFirestoreID, useFirestore } from '../firebase/useFirestore';
 import Auth from '../firebase/Auth';
 import Login from './Login';
 import ChannelSettings from './ChannelSettings';
 import AddEvent from './AddEvent';
-
+import AddNews from './AddNews';
+import GroupSettings from './GroupSettings';
 
 const Main = () => {
 
@@ -41,10 +41,11 @@ const Main = () => {
 
     if(auth.ID != undefined){
         id = auth.ID
-    } 
+    }
 
+    const compagnies = useFirestore("CompagnyMeta")
     const routes = useFirestoreID("Route", id)
-
+    const groups = useFirestore("Groups")
 
     return (
         <div className="main">
@@ -56,6 +57,8 @@ const Main = () => {
                     <Register/>
                 </Route>
                 {routes && routes.map(route => (
+                <>
+                {compagnies && compagnies.map(compagny => (
                 <>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>
@@ -99,20 +102,21 @@ const Main = () => {
                 <Route path={`/${client}/Events`}>
                     <Events/>
                 </Route>
+                {groups && groups.map(group => (
+                <>
                 <Route path={`/${client}/Group`}>
-                    <Group/>
+                    <Group group={group} route={route} auth={auth}/>
                 </Route>
+                </>
+                ))}
                 <Route path={`/${client}/Notifications`}>
                     <Notifications/>
-                </Route>
-                <Route path={`/${client}/Chats`}>
-                    <Chat/>
                 </Route>
                 <Route path={`/${client}/ChatsGroups`}>
                     <ChatGroups/>
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
-                    <PublicProfile route={route}/>
+                    <PublicProfile route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/Settings`}>
                     <Settings/>
@@ -130,7 +134,7 @@ const Main = () => {
                     <MessageDetail/>
                 </Route>
                 <Route path={`/${client}/ChatRoom`}>
-                    <ChatRoom route={route}/>
+                    <ChatRoom route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/ChannelSettings`}>
                     <ChannelSettings/>
@@ -138,6 +142,14 @@ const Main = () => {
                 <Route path={`/${client}/AddEvent`}>
                     <AddEvent/>
                 </Route>
+                <Route path={`/${client}/AddNews`}>
+                    <AddNews/>
+                </Route>
+                <Route path={`/${client}/GroupSettings`}>
+                    <GroupSettings compagny={compagny} auth={auth}/>
+                </Route>
+                </>
+                ))}
                 </>
                 ))}
             </Switch>

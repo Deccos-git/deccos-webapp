@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
 import { useHistory } from "react-router-dom";
+import { useFirestore } from '../firebase/useFirestore';
 
 const Login = () => {
 
@@ -10,6 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     const history = useHistory();
+    const routes = useFirestore("Route")
 
     const emailHandler = (e) => {
         const email = e.target.value
@@ -26,11 +28,44 @@ const Login = () => {
 
         auth.signInWithEmailAndPassword(email, password)
         .catch(err => {
+            console.log(err)
             if(err){
                 alert(err)
             } else {
-                window.location.reload()
-            }  
+                return
+            }
+        })
+        .then(() => {
+            auth.onAuthStateChanged(User =>{
+                if(User){
+                    db.collection("Users")
+                    .doc(User.uid)
+                    .get()
+                    .then(doc => {
+                        const id = doc.data().ID
+
+                        updateRoute(id)
+
+                    })
+                    .then(() => {
+                        history.push(`/${client}/AllActivity`)
+                    })
+                }
+            })
+        })
+    }
+
+    let routeid = ""
+
+    routes && routes.forEach(route => {
+        routeid = route.docid
+    })
+
+    const updateRoute = (id) => {
+        db.collection("Route")
+        .doc(routeid)
+        .update({
+            ID: id
         })
     }
 
@@ -47,7 +82,6 @@ const Login = () => {
                         <button onClick={loginHandler}>Login</button>
                     </div>
                 </form>
-                <Link to={`/${client}/Register`}><h3>Nog geen account? Meld je <u>hier</u> aan</h3></Link>
             </div>
         </div>
     )

@@ -6,19 +6,15 @@ const ArticleDetail = () => {
 
     const routes = useFirestore("Route")
 
-    let routeID = ""
+    let routeArticle = ""
 
     routes && routes.forEach(route => {
 
-        routeID = route.Route
+        routeArticle = route.Article
 
     })
 
-    console.log(routeID)
-
-    const docs = useFirestoreID("KnowledgeCentre", routeID)
-
-    console.log(docs)
+    const docs = useFirestoreID("KnowledgeCentre", routeArticle)
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 

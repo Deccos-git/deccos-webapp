@@ -16,7 +16,7 @@ const MessageDetail = () => {
 
     routes && routes.forEach(route => {
 
-        routeID = route.Route
+        routeID = route.Message
 
     })
 

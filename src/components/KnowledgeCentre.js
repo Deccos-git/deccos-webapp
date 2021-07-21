@@ -13,9 +13,9 @@ const KnowledgeCentre = () => {
     return (
         <div className="main">
              <LeftSideBar />
-             <div className="card-container">
+             <div className="main-container">
                 <Link to={`/${client}/AddArticle`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
-                <div className="article-container">
+                <div className="card-container">
                     {docs && docs.map(doc => (
                         <ArticleCard doc={doc} />
                     ))}

@@ -1,19 +1,42 @@
 import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
-import plusIcon from '../images/icons/plus-icon.png'
-import settingsIcon from '../images/icons/settings-icon.png'
 import { useFirestore } from '../firebase/useFirestore';
+import { db } from '../firebase/config';
 
 const LeftSideBar = () => {
 
     const compagnies = useFirestore("CompagnyMeta")
+    const groups = useFirestore("Groups")
+    const routes = useFirestore("Route")
 
-    compagnies && compagnies.forEach(compagny => {
-        compagny.Channels.forEach(channel => {
-            console.log(channel.Link)
+    const updateChannelRoute = (e) => {
+
+        const id = e.target.name
+
+        routes && routes.forEach(route => {
+            const docRef = db.collection("Route")
+            .doc(route.docid)
+            docRef.update({
+                Channel: id,
+                Route: id
+            })
         })
-    })
+    }
+
+    const updateGroupRoute = (e) => {
+
+        const id = e.target.name
+
+        routes && routes.forEach(route => {
+            const docRef = db.collection("Route")
+            .doc(route.docid)
+            docRef.update({
+                Group: id,
+                Route: id
+            })
+        })
+    }
 
     return (
         <div className="left-side-bar">
@@ -39,7 +62,7 @@ const LeftSideBar = () => {
                 {compagnies && compagnies.map(compagny => (
                     <div className="channel-inner-div">
                         {compagny.Channels && compagny.Channels.map(channel =>(
-                        <Link to={`/${client}/${channel.Link}`} key={channel.ID}>{channel.Name}</Link>
+                        <Link to={`/${client}/${channel.Link}`} key={channel.ID} name={channel.ID} onClick={updateChannelRoute}>{channel.Name}</Link>
                         ))}
                     </div>
                 ))}
@@ -50,9 +73,11 @@ const LeftSideBar = () => {
                         <h3>Groepen</h3>
                     </Link>
                 </div>
-                <div className="channel-inner-div">
-                    <Link to={`/${client}/Group`}>Bestuur</Link>
-                </div>
+                {groups && groups.map(group => (
+                    <div className="channel-inner-div">
+                        <Link to={`/${client}/Group`} key={group.ID} name={group.ID} onClick={updateGroupRoute}>{group.Room}</Link>
+                    </div>
+                 ))}
             </div>
         </div>
     )
