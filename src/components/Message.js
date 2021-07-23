@@ -39,8 +39,7 @@ const Message = ({message}) => {
     return (
         <div className="message-card" >
             <div className="auth-message-container">
-                <p className="auth-message">{message.User}</p>
-                <p>heeft geschreven:</p>
+                <p className="auth-name">{message.User}</p>
                 <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
             <p>{message.Message}</p>

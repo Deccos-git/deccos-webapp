@@ -112,6 +112,7 @@
 
   #introductions-textarea{
     width: 70%;
+    margin-bottom: 20px;
   }
 
   .photo-container-profile{
@@ -168,6 +169,58 @@
       border-color: green;
   }
 
+  .auth-name{
+      margin-right: 5px;
+      color: #2F2C41;
+      cursor: pointer;
+  }
+
+  .goal-user-meta-container{
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+  }
+
+  .goal-user-container{
+      display: flex;
+  }
+
+  .goal-progress-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #a7bdbd26;
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .goal-user-container img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+  }
+
+  .chats-overview-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 90%;
+      cursor: pointer;
+  }
+
+  .chat-overview-username{
+      margin-right: 10px;
+      color: #2F2C41;
+  }
+
+  .chats-overview-container img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+  }
+
   #log-out-button{
     border-radius: 3px;
     background-color: red;
@@ -194,8 +247,12 @@
 
   .channel-container{
       display: flex;
-      align-items: center;
       margin: 10px;
+      padding: 10px;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      align-items: center;
+      justify-content: space-between;
   }
 
   .update-button-channel{
@@ -207,11 +264,20 @@
       height: 50%;
   }
 
+  .new-group-container{
+      margin-bottom: 20px;
+  }
+
+  .new-channel-container{
+      margin-bottom: 20px;
+  }
+
   .channel-container img{
-      width: 30px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
       margin-left: 10px;
       cursor: pointer;
+      justify-self: flex-end;
   }
 
   .layout-container{
@@ -455,10 +521,14 @@
 
   .chat-header{
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      padding-bottom: 100px;
+      padding: 20px;
       border-bottom: 5px solid #a7bdbd26;
+  }
+
+  .header-title-container{
+      display: flex;
   }
 
   .chat-header img{
@@ -482,7 +552,7 @@
   .user-message{
     align-self: flex-start;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: 5px;
     border-radius: 15px;
     font-size: 16px;
@@ -503,6 +573,40 @@
     max-width: 50%;
     background-color: white;
     box-shadow: 0 5px 9px 0 rgb(0 0 0 / 20%), 0 7px 21px 0 rgb(0 0 0 / 19%);
+  }
+
+  .sender-meta-container{
+      display: flex;
+      align-items: center;
+  }
+
+  .sender-photo{
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 5px;
+      cursor: pointer;
+  }
+
+  .sender-name{
+      align-self: flex-end;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 10px;
+      color: #2F2C41;
+      cursor: pointer;
+  }
+
+  .sender-timestamp{
+      align-self: flex-start;
+      font-size: 12px;
+  }
+
+  .notifications-icon-message{
+      width: 15px;
+      align-self: left;
+      cursor: pointer;
+      margin-left: 2px;
   }
 
   .group-header{

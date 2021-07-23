@@ -78,8 +78,7 @@ const MessageDetail = () => {
                     <div className="message-card">
                         <div className="auth-message-container">
                             <img src={message.UserPhoto} alt="" />
-                            <p className="auth-message">{message.User}</p>
-                            <p>heeft geschreven:</p>
+                            <p className="auth-name">{message.User}</p>
                             <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
                     <p>{message.Message}</p>
@@ -92,17 +91,20 @@ const MessageDetail = () => {
                     <p>----- Reacties -----</p>
                 </div>
                 {reactions && reactions.map(reaction => (
-                    <div className="reaction-card">
-                        <div className="auth-message-container">
-                            <img src={reaction.UserPhoto} alt="" />
-                            <p className="auth-message">{reaction.User}</p>
-                            <p>heeft geschreven:</p>
-                            <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    <div className="reaction-area">
+                        <div className="reaction-inner-container">
+                            <div className="auth-message-container">
+                                <img src={reaction.UserPhoto} alt="" />
+                                <p className="auth-name">{reaction.User}</p>
+                                <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            </div>
+                            <p>{reaction.Message}</p>
+                            < ReactionBar message={reaction} />
+                            < LikeBar />
+                            <div className="button-container">
+                                <button onClick={updateRoute}>{numberOfReactions}</button>
+                            </div>
                         </div>
-                        <p>{reaction.Message}</p>
-                        < ReactionBar message={reaction} />
-                        < LikeBar />
-                        <button onClick={updateRoute}>{numberOfReactions}</button>
                     </div>
                 ))}
             </div>

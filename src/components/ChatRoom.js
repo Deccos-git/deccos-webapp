@@ -2,7 +2,7 @@ import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
 import MessageBar from "./MessageBar"
-import Auth from "../firebase/Auth";
+import emailIcon from '../images/icons/email-icon.png'
 
 const ChatRoom = ({route, auth}) => {
 
@@ -37,20 +37,32 @@ const ChatRoom = ({route, auth}) => {
 
     const users = useFirestoreID("Users", userID)
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
     return (
         <div className="main">
             <LeftSideBar />
             <div className="group-container">
                 {users && users.map(user => (
                     <div className="chat-header">
-                        <h2>Chat met</h2>
-                        <h2 key={user.ID}>{user.UserName}</h2> 
-                        <img src={user.Photo} alt="" /> 
+                        <div>
+                            <img src={user.Photo} alt="" /> 
+                        </div>
+                        <div className="header-title-container">
+                            <h2>Chat met</h2>
+                            <h2 key={user.ID}>{user.UserName}</h2> 
+                        </div>
                     </div>
                 ))}
                 <div className="chat-screen">
                 {messages && messages.map(message => (
                     <div className={classname} key={message.ID}>
+                        <div className="sender-meta-container">
+                            <img className="sender-photo" src={message.UserPhoto} alt="" />
+                            <p className="sender-name">{message.User}</p>
+                            <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        </div>
+                        <img className="notifications-icon-message" src={emailIcon} alt="" />
                         <p>{message.Message}</p>
                     </div>
                 ))}

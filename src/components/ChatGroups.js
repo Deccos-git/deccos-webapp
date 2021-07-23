@@ -1,23 +1,42 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreChatsGroups } from "./../firebase/useFirestore";
-import Auth from "../firebase/Auth";
+import { useFirestoreChatsGroups, useFirestoreID } from "./../firebase/useFirestore";
 
-const ChatGroups = () => {
+const ChatGroups = ({auth}) => {
 
-    const auth = Auth()
+    const chats = useFirestoreChatsGroups("Chats", auth.ID)
 
-    console.log(auth.UserName)
+    let chatPartnerID = ""
 
-    const chats = useFirestoreChatsGroups("Chats", auth.UserName)
+    chats && chats.forEach(chat => {
+        const members = chat.Members
+        members.forEach(member => {
+            if(auth.ID != member){
+                chatPartnerID = member
+            }
+        })
+    })
 
-    console.log(chats)
+    const chatPartners = useFirestoreID("Users", chatPartnerID)
+
+    console.log(chatPartners)
 
     return (
             <div className="main">
                 <LeftSideBar />
-                <div className="card-overview">
-                    <h2>Chats en groepen</h2>
+                <div className="list">
+                    <h2>Chats</h2>
+                    {chatPartners && chatPartners.map(chatPartner => (
+                        <div className="chats-overview-container">
+                            <img src={chatPartner.Photo} alt="" />
+                            <p className="chat-overview-username">{chatPartner.UserName}</p>
+                            {chats && chats.map(chat => (
+                                <p>{chat.Messages} berichten</p>
+                            ))}
+                        </div>
+
+                    ))}
+                    <h2>Groepen</h2>
                 </div>
                 <RightSideBar />
             </div>

@@ -4,14 +4,13 @@ import deleteIcon from '../images/icons/delete-icon.png'
 import { useState } from "react";
 import uuid from 'react-uuid';
 import { db } from "../firebase/config";
-import checkIcon from '../images/icons/check-icon.png'
+import settingsIcon from '../images/icons/settings-icon.png'
 import { useFirestore, useFirestoreID } from "../firebase/useFirestore";
 import firebase from "firebase";
 
 const ChannelSettings = () => {
     const [channelTitle, setChannelTitle] = useState("")
     const [channelLayout, setChannelLayout] = useState("")
-    const [updateTitle, setUpdateTitle] = useState("")
 
     const compagnies = useFirestore("CompagnyMeta")
     const id = uuid()
@@ -49,45 +48,6 @@ const ChannelSettings = () => {
         })
     }
 
-    let updateButtonChannel = "update-button-channel"
-
-    const updateChannelName = (e) => {
-
-        updateButtonChannel = ""
-
-        console.log(updateButtonChannel)
-
-        console.log(e.target)
-
-        const oldName = e.target.id
-        setUpdateTitle(e.target.value)
-
-    }
-
-    const updateChannel = () => {
-        compagnies && compagnies.forEach(compagny => {
-            compagny.Channels.forEach(channel => {
-                if("oldName" === channel.Name){
-
-                    console.log(channel.index)
-
-                    const newChannel = {
-                        Name: "newName",
-                        Link: channel.Link,
-                        ID: channel.ID,
-                        Layout: channel.Layout
-                    }
-
-                    // db.collection("CompagnyMeta")
-                    // .doc(compagny.docid)
-                    // .update({
-                    //     Channels: firebase.firestore.FieldValue.arrayUnion(newChannel)
-                    // })
-                }
-            })
-        })
-    }
-
     const deleteChannel = (e) => {
         const deleteID = e.target.id
 
@@ -104,6 +64,10 @@ const ChannelSettings = () => {
         })
     }
 
+    const channelSettings = (e) => {
+        const channelID = e.target.name
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -112,41 +76,30 @@ const ChannelSettings = () => {
                     <h2>Kanaal instellingen</h2>
                     <p>Pas de instellingen van je kanalen aan</p>
                 </div>
-                <div className="divider">
-                    <h3>Kanaal toevoegen</h3>
-                    <div >
-                        <p>Geef je kanaal een naam</p>
-                        <input type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newChannelTitleHandler}/>
-                        <p>Kies een layout</p>
-                        <div className="layout-container">
-                            <div className="layout-inner-container" id="Card" onClick={layoutHandler}>
-                                <p>Kaart</p>
-                            </div>
-                            <div className="layout-inner-container" id="List" onClick={layoutHandler}>
-                                <p>Lijst</p>
-                            </div>
-                            <div className="layout-inner-container" id="Post" onClick={layoutHandler}>
-                                <p>Post</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button onClick={saveNewChannel}>Toevoegen</button>
-                </div>
                 {compagnies && compagnies.map(compagny => (
                 <div className="divider">
                     <h3>Community kanalen</h3>
                     {compagny.Channels && compagny.Channels.map(channel =>(
                     <div className="channel-container">
-                        <input type="text" id={channel.Name} placeholder={channel.Name} onChange={updateChannelName} />
-                        <img src={deleteIcon} id={channel.ID} onClick={deleteChannel} />
-                        <img className={updateButtonChannel} src={checkIcon} id={channel.ID} onClick={updateChannel} />
+                        <h3>{channel.Name}</h3>
+                        <div className="icon-container">
+                            <img src={deleteIcon} id={channel.ID} onClick={deleteChannel} />
+                            <img src={settingsIcon} name={channel.ID} onClick={channelSettings} />
+                        </div>
                     </div>
                     ))}
                 </div>
                 ))}
-                {/* <div className="save-bar">
-                    <button>Opslaan</button>
-                </div> */}
+                <div className="divider">
+                    <h3>Kanaal toevoegen</h3>
+                    <div className="new-channel-container" >
+                        <p>Geef je kanaal een naam</p>
+                        <input type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newChannelTitleHandler}/>
+                    </div>
+                    <div className="button-container">
+                        <button onClick={saveNewChannel}>Toevoegen</button>
+                    </div>
+                </div>
             </div>
             <RightSideBar/>
         </div>

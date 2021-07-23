@@ -32,6 +32,7 @@ import ChannelSettings from './ChannelSettings';
 import AddEvent from './AddEvent';
 import AddNews from './AddNews';
 import GroupSettings from './GroupSettings';
+import GroupLanding from './GroupLanding';
 
 const Main = () => {
 
@@ -113,7 +114,7 @@ const Main = () => {
                     <Notifications/>
                 </Route>
                 <Route path={`/${client}/ChatsGroups`}>
-                    <ChatGroups/>
+                    <ChatGroups auth={auth}/>
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
                     <PublicProfile route={route} auth={auth}/>
@@ -147,6 +148,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/GroupSettings`}>
                     <GroupSettings compagny={compagny} auth={auth}/>
+                </Route>
+                <Route path={`/${client}/GroupLanding`}>
+                    <GroupLanding compagny={compagny} auth={auth}/>
                 </Route>
                 </>
                 ))}

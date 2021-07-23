@@ -2,6 +2,7 @@ import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MessageBar from "./MessageBar"
 import { useFirestoreMessages } from "../firebase/useFirestore"
+import emailIcon from '../images/icons/email-icon.png'
 
 const Group = ({group, route, auth}) => {
 
@@ -21,6 +22,8 @@ const Group = ({group, route, auth}) => {
         }
     })
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -31,6 +34,12 @@ const Group = ({group, route, auth}) => {
                 <div className="chat-screen">
                     {messages && messages.map(message => (
                         <div className={classname} key={message.ID}>
+                            <div className="sender-meta-container">
+                                <img className="sender-photo" src={message.UserPhoto} alt="" />
+                                <p className="sender-name">{message.User}</p>
+                                <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            </div>
+                            <img className="notifications-icon-message" src={emailIcon} alt="" />
                             <p>{message.Message}</p>
                         </div>
                     ))}

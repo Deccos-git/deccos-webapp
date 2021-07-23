@@ -39,6 +39,8 @@ const Events = () => {
                                 </div>
                                 <h2>{even.Title}</h2>
                                 <p>{even.Date}</p>
+                            </div>
+                            <div className="button-container">
                                 <button onClick={detailRouter}>Bekijk</button>
                             </div>
                         </div>

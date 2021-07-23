@@ -75,7 +75,7 @@ const LeftSideBar = () => {
                 </div>
                 {groups && groups.map(group => (
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/Group`} key={group.ID} name={group.ID} onClick={updateGroupRoute}>{group.Room}</Link>
+                        <Link to={`/${client}/GroupLanding`} key={group.ID} name={group.ID} onClick={updateGroupRoute}>{group.Room}</Link>
                     </div>
                  ))}
             </div>

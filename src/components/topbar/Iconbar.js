@@ -1,6 +1,3 @@
-import analyticsIcon from '../../images/icons/analytics-icon.png'
-import groupIcon from '../../images/icons/group-icon.png'
-import settingsIcon from '../../images/icons/settings-icon.png'
 import notificationsIcon from '../../images/icons/notifications-icon.png'
 import chatIcon from '../../images/icons/chat-icon.png'
 import searchIcon from '../../images/icons/Search-icon.png'
