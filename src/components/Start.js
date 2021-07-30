@@ -16,6 +16,15 @@ const Start = () => {
         visible: { opacity: 1 },
       }
 
+    // const rules = () => {
+    //     const compagnyRules = docs && docs.forEach(doc => {
+    //         doc.Rules.map(rule => (
+    //              <p>{rule}</p>
+    //         ))
+    //     })
+    //     return compagnyRules
+    // }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -30,7 +39,16 @@ const Start = () => {
                             <img src={doc.WelcomeHeader} alt="community logo" />  
                         </div>
                          <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
+                         <div>
+                             <h3>Onze community regels</h3>
+                             <ul>
+                                {doc.Rules.map(rule => (
+                                    <li dangerouslySetInnerHTML={{ __html: rule }}></li>
+                                ))}
+                             </ul>
+                        </div>
                     </div>
+
                     ))
                 }
                   

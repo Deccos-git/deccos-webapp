@@ -4,20 +4,10 @@ import { db, bucket } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useState } from "react";
-import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
 
-const Settings = () => {
+const Settings = ({compagny}) => {
 
-    const [logo, setLogo] = useState("")
     const [communityName, setCommunityName] = useState("")
-    const [welcomeText, setWelcomeText] = useState("")
-
-    const docs = useFirestore("CompagnyMeta")
-    const editorRef = useRef(null);
-
-    docs && docs.forEach(doc => {
-    })
 
     const LogoHandler = (e) => {
 
@@ -44,10 +34,18 @@ const Settings = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
-            setLogo(downloadURL)
+            saveLogo(downloadURL)
 
                 })
             })
+        })
+    }
+
+    const saveLogo = (banner) => {
+        db.collection("CompagnyMeta")
+        .doc(compagny.docid)
+        .update({
+            Logo: banner
         })
     }
 
@@ -59,69 +57,36 @@ const Settings = () => {
 
     }
 
-    const bodyHandler = (e) => {
-        if (editorRef.current) {
-            setWelcomeText(editorRef.current.getContent());
-            }
-    }
-
-    const saveWelcomeText = () => {
-        docs && docs.forEach(doc => {
-            db.collection("CompagnyMeta")
-            .doc(doc.docid)
-            .update({
-                WelcomeText: welcomeText
-            })
+    const saveName = () => {
+        db.collection("CompagnyMeta")
+        .doc(compagny.docid)
+        .update({
+            CommunityName: communityName
         })
     }
+
 
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            {docs && docs.map(doc => (
             <div className="profile">
                 <div className="card-header">
-                    <h2>{doc.CommunityName}</h2>
+                    <h2>{compagny.CommunityName}</h2>
                     <p>Verander de instellingen van de community</p>
                 </div>
                 <div className="divider">
                     <h4>Community naam aanpassen</h4>
-                    <input type="text" value={doc.CommunityName} onChange={communityNameHandler} />
+                    <input className="input-classic" type="text" placeholder={compagny.CommunityName} onChange={communityNameHandler} />
+                    <div className="button-container button-container-top">
+                        <button className="button-simple" onClick={saveName}>Opslaan</button>
+                    </div>
                 </div >
                 <div className="divider">
                     <h4>Logo aanpassen</h4>
-                    <img src={doc.Logo} alt="" />
-                    <input type="file" onChange={LogoHandler} />
-                </div >
-                <div className="divider">
-                    <h4>Welkomstext aanpassen</h4>
-                    {docs && docs.map(doc =>(
-                    <Editor onChange={bodyHandler}
-                        apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
-                        initialValue={doc.WelcomeText}
-                        onInit={(evt, editor) => editorRef.current = editor}
-                        init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'advlist autolink lists link image charmap print preview anchor',
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste code help'
-                        ],
-                        toolbar: 'undo redo | formatselect | ' +
-                        'bold italic backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                        content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
-                        }}
-                        />
-                    ))}
-                    <div className="button-container">
-                        <button onClick={saveWelcomeText}>Opslaan</button>
-                    </div>
+                    <img src={compagny.Logo} alt="" />
+                    <input className="input-classic" type="file" onChange={LogoHandler} />
                 </div >
             </div>
-            ))}
             <RightSideBar />
         </div>
     )

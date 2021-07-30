@@ -1,19 +1,29 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import Auth from "../firebase/Auth"
 import { db, bucket, auth } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useHistory } from "react-router";
 import { client } from '../hooks/Client';
+import { Editor } from '@tinymce/tinymce-react';
+import { useRef } from 'react';
+import { useState } from 'react'
 
-const Profile = () => {
+const Profile = ({authO}) => {
+
+    const [body, setBody] = useState("")
+    const [forName, setForName] = useState(auth.ForName)
+    const [surName, setSurName] = useState(auth.SurName)
 
     const docs = useFirestore("CompagnyMeta")
-    const authO = Auth()
     const history = useHistory()
+    const editorRef = useRef(null);
 
-    let photo = authO.Photo
+    const bodyHandler = (e) => {
+        if (editorRef.current) {
+            setBody(editorRef.current.getContent());
+            }
+    }
 
     const changePhoto = (e) => {
 
@@ -40,24 +50,24 @@ const Profile = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
-            photo = downloadURL
+            savePhoto(downloadURL)
 
-                })
-                .then(() => {
-                    auth.onAuthStateChanged(User =>{
-                        if(User){
-                            db.collection("Users")
-                            .doc(User.uid)
-                            .update({
-                                Photo: photo
-                            })
-                        }
-                    });
                 })
             })
         })
     }
 
+    const savePhoto = (photo) => {
+        auth.onAuthStateChanged(User =>{
+            if(User){
+                db.collection("Users")
+                .doc(User.uid)
+                .update({
+                    Photo: photo
+                })
+            }
+        })
+    }
 
     const logOut = () => {
         auth.signOut()
@@ -92,11 +102,42 @@ const Profile = () => {
         }) 
     }
 
+    const forNameHandler = (e) => {
+        const forName = e.target.value
+
+        setForName(forName)
+    }
+
+    const surNameHandler = (e) => {
+        const surName = e.target.value
+
+        setSurName(surName)
+    }
+
+    const saveUserName = () => {
+        db.collection("Users")
+        .doc(auth.Docid)
+        .update({
+            ForName: forName,
+            SurName: surName,
+            UserName: `${forName} ${surName}`
+        })
+    }
+
+    const saveAboutMe = () => {
+        db.collection("Users")
+        .doc(auth.Docid)
+        .update({
+            About: body
+        })
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
                 <div className="profile">
                     <div className="card-header">
+                        <img id="profile-header-photo" src={authO.Photo} alt="" />
                         <h2>{authO.UserName}</h2>
                         <p>Verander de instellingen van je profiel</p>
                     </div>
@@ -108,19 +149,44 @@ const Profile = () => {
                     <div className="divider">
                         <h4>Schermnaam aanpassen</h4>
                         <h5>Voornaam</h5>
-                        <input type="text" placeholder={authO.ForName} />
+                        <input className="input-classic" type="text" placeholder={authO.ForName} onChange={forNameHandler}/>
                         <h5>Achternaam</h5>
-                        <input type="text" placeholder={authO.SurName} />
+                        <input className="input-classic" type="text" placeholder={authO.SurName} onChange={surNameHandler}/>
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveUserName}>Opslaan</button>
+                        </div>
                     </div >
                     <div className="divider">
                         <h4>Profielfoto aanpassen</h4>
                         <div className="photo-container-profile">
-                            <img id="adjust-photo-profile" src={photo} alt="" />
+                            <img id="adjust-photo-profile" src={authO.Photo} alt="" />
                         </div>
-                        <input type="file" onChange={changePhoto} />
+                        <input className="input-classic" type="file" onChange={changePhoto} />
                     </div >
-                    <div className="save-bar">
-                        <button>Opslaan</button>
+                    <div className="divider">
+                        <h4>Over mij</h4>
+                        <Editor onChange={bodyHandler}
+                        apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
+                        initialValue={authO.About}
+                        onInit={(evt, editor) => editorRef.current = editor}
+                        init={{
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                        content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
+                        }}
+                        />
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveAboutMe}>Opslaan</button>
+                        </div>
                     </div>
                 </div>
             <RightSideBar />

@@ -4,7 +4,7 @@ import AllMembers from './AllMembers'
 const RightSideBar = () => {
 
     return (
-        <div id="right-sidebar">
+        <div className="right-sidebar">
             <AllMembers />
             
         </div>

@@ -15,17 +15,34 @@ const GroupSettings = ({compagny, auth}) => {
    
     const id = uuid()
 
+    const newGroupTitleHandler = (e) => {
+        const groupTitle = e.target.value
+
+        setGroupTitle(groupTitle)
+    }
+
+    const newMember = {
+        ID: auth.ID,
+        Photo: auth.Photo,
+        UserName: auth.UserName
+    }
+
     const saveNewGroup = () => {
         db.collection("Groups")
         .doc()
         .set({
             ID: id,
             Room: groupTitle,
-            Members: [
+            MemberList: [
                 auth.ID
             ],
+            Members: [
+                newMember
+            ],
             Timestamp: timestamp,
-            Compagny: client
+            Compagny: client,
+            Messages: 0,
+            Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
         })
     }
 
@@ -69,10 +86,10 @@ const GroupSettings = ({compagny, auth}) => {
                     <h3>Groep toevoegen</h3>
                     <div className="new-group-container">
                         <p>Geef je groep een naam</p>
-                        <input type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newGroupTitleHandler}/>
+                        <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newGroupTitleHandler}/>
                     </div>
                     <div className="button-container">
-                        <button onClick={saveNewGroup}>Toevoegen</button>
+                        <button className="button-simple" onClick={saveNewGroup}>Toevoegen</button>
                     </div>
                 </div>
             </div>

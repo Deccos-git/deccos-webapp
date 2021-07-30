@@ -43,7 +43,7 @@ const GoalCard = ({doc}) => {
     return (
        
         <motion.div 
-        className="goal-list list" 
+        className="goal-list card" 
         key={uuid()}
         initial="hidden"
         animate="visible"

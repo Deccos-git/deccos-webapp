@@ -66,11 +66,10 @@ const Introductions = () => {
             <LeftSideBar />
             <div className="card-overview">
                 <div className="list">
-                    <h2>Hoi {auth.ForName},</h2>
-                    <h3>Stel jezelf voor aan de community</h3>
+                    <h3>Hoi {auth.ForName}, stel jezelf voor aan de community</h3>
                     <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>
                     <div className="button-container">
-                        <button onClick={saveIntroduction}>Versturen</button>
+                        <button className="button-simple" onClick={saveIntroduction}>Versturen</button>
                     </div>
                 </div>
                 <IntroductionsCard />

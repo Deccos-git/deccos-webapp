@@ -113,6 +113,30 @@ const useFirestoreMessages = (collection, id  ) => {
     return docs
 };
 
+const useFirestoreNewMessages = (collection, id  ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("UserID", "==", id)
+        .where("Channel", "==", "Chat")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id])  
+
+    return docs
+};
+
 const useFirestoreChats = (collection, room) => {
 
     const [docs, setDocs] = useState("")
@@ -145,7 +169,7 @@ const useFirestoreChatsGroups = (collection, auth ) => {
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
-        .where("Members", "array-contains", auth)
+        .where("MemberList", "array-contains", auth)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -161,12 +185,38 @@ const useFirestoreChatsGroups = (collection, auth ) => {
     return docs
 };
 
+const useFirestoreNotifications = (collection, id  ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("UserID", "==", id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
     useFirestoreTimestamp, 
     useFirestoreUser, 
     useFirestoreMessages,
+    useFirestoreNewMessages,
     useFirestoreChats,
-    useFirestoreChatsGroups
+    useFirestoreChatsGroups,
+    useFirestoreNotifications
 }

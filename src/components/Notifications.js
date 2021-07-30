@@ -1,10 +1,8 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreTimestamp } from "./../firebase/useFirestore";
+import { useFirestoreNotifications } from "./../firebase/useFirestore";
 
-const Notifications = () => {
-
-    const docs = useFirestoreTimestamp("AllActivity")
+const Notifications = ({auth}) => {
 
     return (
             <div className="main">

@@ -1,7 +1,7 @@
 import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
-import { useFirestore } from '../firebase/useFirestore';
+import { useFirestore, useFirestoreMessages } from '../firebase/useFirestore';
 import { db } from '../firebase/config';
 
 const LeftSideBar = () => {
@@ -9,6 +9,7 @@ const LeftSideBar = () => {
     const compagnies = useFirestore("CompagnyMeta")
     const groups = useFirestore("Groups")
     const routes = useFirestore("Route")
+    const goals = useFirestore("Goals")
 
     const updateChannelRoute = (e) => {
 
@@ -19,7 +20,8 @@ const LeftSideBar = () => {
             .doc(route.docid)
             docRef.update({
                 Channel: id,
-                Route: id
+                Route: id,
+                Channel: "Channel" 
             })
         })
     }
@@ -33,7 +35,8 @@ const LeftSideBar = () => {
             .doc(route.docid)
             docRef.update({
                 Group: id,
-                Route: id
+                Route: id,
+                Channel: "Chat"
             })
         })
     }
@@ -48,7 +51,11 @@ const LeftSideBar = () => {
                 </div>
             </div>
             <div className="channel-div">
-                <h3>Impact</h3>
+                <div className="nav-title-container">
+                    <Link to={`/${client}/GoalSettings`}>
+                        <h3>Impact</h3>
+                    </Link>
+                </div>
                 <div className="channel-inner-div">
                     <Link to={`/${client}/Goals`}>Doelen</Link>
                 </div>

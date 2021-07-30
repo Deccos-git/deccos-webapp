@@ -7,6 +7,7 @@ import Auth from "../firebase/Auth";
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const PublicProfile = ({route, auth}) => {
 
@@ -29,6 +30,8 @@ const PublicProfile = ({route, auth}) => {
         roomID = chat.ID
     })
 
+    console.log(members)
+
     //Create roomname of auth and chatpartner
     profiles && profiles.forEach(profile => {
         room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
@@ -38,6 +41,8 @@ const PublicProfile = ({route, auth}) => {
     const startChat = () => {
         if(members.includes(route.Profile)){
             updateRoute(roomID)
+        } else if (!members.includes(route.Profile)){
+            createChat()
         } else if (members === ""){
             createChat()
         }
@@ -48,7 +53,8 @@ const PublicProfile = ({route, auth}) => {
         .doc(route.docid)
         .update({
             Chat: ID,
-            Route: ID
+            Route: ID,
+            Channel: "Chat"
         })
         .then(() => {
             history.push(`/${client}/ChatRoom`)
@@ -62,6 +68,10 @@ const PublicProfile = ({route, auth}) => {
             ID: id,
             Room: room,
             Members: [
+                route.Profile,
+                auth.ID
+            ],
+            MemberList: [
                 route.Profile,
                 auth.ID
             ],
@@ -84,13 +94,17 @@ const PublicProfile = ({route, auth}) => {
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h2>{profile.UserName}</h2>
+                            <Link to={`/${client}/MyContributions`}>
+                                <p className="contributions-amount-profile">{profile.Likes} bijdragen aan doelen</p>
+                            </Link>
                             <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
                                 <button onClick={startChat}>Chatten</button>
                             </div>
                         </div>
                         <div className="divider" >
-                            <p>{profile.Description}</p>
+                            <h4>Over mij</h4>
+                            <p dangerouslySetInnerHTML={{__html:profile.About}}></p>
                         </div>
                     </div>
                 ))}

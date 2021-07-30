@@ -1,7 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
-import MessageBar from "./MessageBar"
+import MessageBarGroup from "./MessageBarGroup"
 import emailIcon from '../images/icons/email-icon.png'
 
 const ChatRoom = ({route, auth}) => {
@@ -66,7 +66,7 @@ const ChatRoom = ({route, auth}) => {
                         <p>{message.Message}</p>
                     </div>
                 ))}
-                <MessageBar route={route} auth={auth} />
+                <MessageBarGroup route={route} auth={auth} />
                 </div>
             </div>
             <RightSideBar />

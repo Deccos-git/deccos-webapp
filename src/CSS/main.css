@@ -28,7 +28,6 @@
   .article{
     height: auto;
     min-height: 300px;
-    width: 55%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
@@ -69,14 +68,25 @@
       border-top-right-radius: 5px;
   }
 
+#profile-header-photo{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
   .article img{
     width: 100%;
+    margin: 0px 0px;
 }
 
   .article-inner-div{
     padding: 30px;
     display: flex;
     flex-direction: column;
+  }
+
+  .article h2{
+      text-align: left;
   }
 
   .message-card{
@@ -203,10 +213,28 @@
 
   .chats-overview-container{
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       width: 90%;
       cursor: pointer;
+  }
+
+  .group-landing-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .group-landing-container img{
+      width: 100%;
+  }
+
+
+  .chatpartner-meta-container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
   }
 
   .chat-overview-username{
@@ -326,6 +354,20 @@
       justify-content: center;
   }
 
+  .massage-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: 80px;
+  }
+
+  .massage-container img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 20px;
+  }
+
   .messagebar-container{
       height: auto;
       display: flex;
@@ -333,10 +375,8 @@
       align-items: center;
       border-radius: 5px;
       padding: 20px;
-      width: 45%;
-      position: fixed;
+      width: 70%;
       bottom: 0px;
-      background-color: white;
   }
 
   .reaction-bar-container{
@@ -440,6 +480,11 @@
       margin-right: 10px;
   }
 
+  .new-messages{
+      color: #d11237;
+      margin-left: 10px;
+  }
+
   .description-container{
       display: flex;
       justify-content: flex-start;
@@ -472,20 +517,59 @@
 
   .auth-message-container{
       display: flex;
-      align-items: center;
+  }
+
+  .massage{
+    color: #2F2C41;
+  }
+
+  .message-container{
+      width: 100%;
+  }
+
+  .like-container img{
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
   }
 
   .auth-message-container img{
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 50px;
     cursor: pointer;
 }
 
 .message-card-timestamp{
     margin: 0px 0px 0px auto;
     font-size: 12px;
+}
+
+.messagebar-group-container{
+    display: flex;
+    align-items: center;
+    bottom: 0px;
+    top: auto;
+    position: fixed;
+    width: 50%;
+    margin-bottom: 5px;
+
+}
+
+#welcome-banner{
+    width: 100%;
+}
+
+.messagebar-group-container img{
+    width: 20px;
+    height: 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.messagebar-group-container textarea{
+    min-height: 75%;
 }
 
   .auth-message{
@@ -565,7 +649,7 @@
   .auth-message{
     align-self: flex-end;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: 5px;
     border-radius: 15px;
     font-size: 16px;
@@ -649,6 +733,50 @@
   .activity-card-body{
       font-size: 16px;
       margin-top: 40px;
+  }
+
+  #plus-icon-goal-settings{
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+  }
+
+  .icon-container{
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  #input-introduction-card{
+      margin-bottom: 20px;
+  }
+
+  .rule-input-container{
+      display: flex;
+  }
+
+  .rule-input-container p{
+      margin-right: 10px;
+  }
+
+  .like-goal-container{
+      display: flex;
+      margin: 10px;
+  }
+
+  .contributions-amount-profile{
+      text-align: center;
+      cursor: pointer;
+  }
+
+  .activity-card-button{
+      color: green;
+  }
+
+  .like-goal-container select{
+      margin: 5px;
+      border-radius: 3px;
+      border-color: lightgrey;
+      max-width: 30%;
   }
 
   .user-container-activity-card{

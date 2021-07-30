@@ -8,7 +8,7 @@ import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 
-const MessageDetail = () => {
+const MessageDetail = ({route, auth}) => {
 
     const routes = useFirestore("Route")
 
@@ -83,7 +83,8 @@ const MessageDetail = () => {
                         </div>
                     <p>{message.Message}</p>
                     < ReactionBar message={message} />
-                    < LikeBar />
+                    <p>Aantal bijdragen: {message.Likes}</p>
+                    < LikeBar auth={auth} message={message} />
                     </div>
                 ))}
 

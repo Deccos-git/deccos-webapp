@@ -29,8 +29,6 @@ const ActivityCard = ({doc}) => {
                 Route: doc.ID
             })
         })
-
-        history.push(`/${client}/ArticleDetail`)
     }
 
     return (
@@ -42,6 +40,7 @@ const ActivityCard = ({doc}) => {
             variants={variants}
             >
                 <>
+                <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     <div className="description-container">
                         <Link to={`/${client}/PublicProfile`} >
                             <div className="user-container-activity-card">
@@ -52,11 +51,12 @@ const ActivityCard = ({doc}) => {
                         <h2>{doc.Description}</h2>
                     </div>
                     <img className="allActivity-banner" src={doc.Banner} alt="" />
-                    <p className="activity-card-body">{doc.Title}</p>
-                    <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                    <Link to={doc.Link} >
-                        <button className="activity-card-button" onClick={updateRoute}>{doc.ButtonText}</button>
-                    </Link> 
+                    <div className="list-inner-container">
+                        <p className="activity-card-body">{doc.Title}</p>
+                        <Link to={doc.Link}>
+                            <p className="activity-card-button" onClick={updateRoute}>{doc.ButtonText}</p>
+                        </Link> 
+                    </div>
                 </>
             </motion.div>
     )

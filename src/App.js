@@ -3,7 +3,7 @@ import Main from './components/Main';
 import { motion } from "framer-motion"
 import { BrowserRouter as Router } from "react-router-dom";
 import LoginRegister from './components/LoginRegister';
-import { auth } from './firebase/config';
+import { auth, db } from './firebase/config';
 import { useState } from 'react';
 
 function App() {
@@ -18,8 +18,6 @@ function App() {
       }
     })
 
-    console.log(online)
-
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
@@ -27,6 +25,28 @@ function App() {
         return <><Topbar/><Main/> </>
       }
     }
+
+    const updateUserOnlineInStatus = (status) => {
+      auth.onAuthStateChanged(User =>{
+        if(User){
+          db.collection("Users")
+          .doc(User.uid)
+          .update({
+            Online: status
+          })
+        }
+      })
+    }
+  
+    const checkOnlineStatus = () => {
+        if(navigator.onLine){
+          updateUserOnlineInStatus(true)
+        } else if (!navigator.onLine) {
+          updateUserOnlineInStatus(false)
+        }
+    }
+
+    checkOnlineStatus()
 
   const variants = {
     hidden: { opacity: 0 },

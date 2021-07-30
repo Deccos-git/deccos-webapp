@@ -1,8 +1,5 @@
 import GoalCard from "./GoalCard"
 import {useFirestoreTimestamp} from "../../firebase/useFirestore"
-import plusIcon from '../../images/icons/plus-icon.png'
-import { Link } from "react-router-dom";
-import { client } from '../../hooks/Client';
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar";
 
@@ -14,11 +11,12 @@ const Goals = () => {
         <div className="main">
         <LeftSideBar />
         <div className="main-container">
-            <Link to={`/${client}/AddGoal`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
-            {docs && docs.map(doc => (
-                  <GoalCard doc={doc} key={doc.ID} />  
-               ))
-               }
+            <div className="card-container">
+                {docs && docs.map(doc => (
+                    <GoalCard doc={doc} key={doc.ID} />  
+                ))
+                }
+            </div>
         </div>
         <RightSideBar />
         </div>

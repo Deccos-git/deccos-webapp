@@ -2,6 +2,7 @@ import { useFirestoreID, useFirestore, useFirestoreMessages} from "../../firebas
 import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
+import heartIcon from '../../images/icons/heart-icon.png'
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
@@ -11,7 +12,7 @@ import { client } from "../../hooks/Client"
 import LikeBar from "../LikeBar"
 import ReactionBar from "../ReactionBar"
 
-const GoalDetail = ({route}) => {
+const GoalDetail = ({route, auth}) => {
 
     const docs = useFirestoreID("Goals", route.Goal)
     const messages  = useFirestoreMessages("Messages", route.Goal )
@@ -33,7 +34,7 @@ const GoalDetail = ({route}) => {
 
     messages && messages.forEach(message => {
         if(message.Thread.length === 0){
-            numberOfReactions = `Bekijk bericht`
+            numberOfReactions = ``
         } else if (message.Thread.length === 1){
             numberOfReactions = `Bekijk ${message.Thread.length} reactie`
         } else {
@@ -53,6 +54,12 @@ const GoalDetail = ({route}) => {
         history.push(`/${client}/MessageDetail`)
     }
 
+    const LikeHandler = () => {
+        messages && messages.forEach(message => {
+            return < LikeBar auth={auth} message={message} />
+        })
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -60,50 +67,52 @@ const GoalDetail = ({route}) => {
             {docs && docs.map(doc => (
                 <motion.div className="list">
                     <img src={doc.Banner} alt="" />
-                    <h2>{doc.Title}</h2>
-                    <p>{doc.Body}</p>
-                    <div className="type-container">
-                        <img src={icon} alt="" />
-                        <p>{doc.Type}</p>
-                    </div>
-                    <div className="goal-progress-container">
-                        <p>Aantal bijdragen: 12</p>
-                        <div className="button-container">
-                            <button>Bekijk bijdragen</button>
+                    <div className="list-inner-container">
+                        <h2>{doc.Title}</h2>
+                        <p>{doc.Body}</p>
+                        <div className="type-container">
+                            <img src={icon} alt="" />
+                            <p>{doc.Type}</p>
                         </div>
-                    </div>
-                    <div className="goal-user-meta-container">
-                        <div className="goal-user-container">
-                            <img src={doc.UserPhoto} alt="" />
-                            <p>{doc.User}</p>
+                        <div className="goal-progress-container">
+                            <p>Aantal bijdragen: {doc.Likes}</p>
+                            <div className="button-container">
+                                <button className="button-simple">Bekijk bijdragen</button>
+                            </div>
                         </div>
-                        <p className="goal-user-meta-timestamp">{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                 </motion.div>
                 ))
             }
 
             <p> --- Reacties ---</p>
+            <MessageBar route={route} auth={auth}/>
             <div className="reaction-area">
-                {messages && messages.map(message => (
-                    <div className="reaction-area">
-                        <div className="reaction-inner-container">
-                            <div className="auth-message-container">
-                                <img src={message.UserPhoto} alt="" />
+                {messages && messages.map(message => ( 
+                    <div className="reaction-inner-container">
+                        <div className="auth-message-container">
+                            <img src={message.UserPhoto} alt="" />
+                        </div>
+                        <div>
+                            <div className="user-meta-container">
                                 <p className="auth-name">{message.User}</p>
                                 <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
-                            <p>{message.Message}</p>
-                            < ReactionBar message={message} />
-                            < LikeBar />
-                            <div className="button-container">
-                                <button onClick={updateRoute}>{numberOfReactions}</button>
+                            <div className="message-container">
+                                <p className="massage">{message.Message}</p>
                             </div>
+                            <div className="like-container">
+                                {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
+                                < LikeBar auth={auth} message={message} />
+                            </div>
+                            {/* <div className="button-container">
+                                <button onClick={updateRoute}>{numberOfReactions}</button>
+                            </div> */}
+                            < ReactionBar message={message} />
                         </div>
                     </div>
                 ))}
             </div>
-            <MessageBar />
             </div>
             <RightSideBar />
         </div>

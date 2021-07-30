@@ -126,7 +126,10 @@ const RegisterUser = () => {
                 Photo: photo,
                 Channels: [],
                 ID: id,
-                Description: ""
+                Description: "",
+                Likes: 0,
+                About: "",
+                Docid: cred.user.uid
             })
         })
         .catch(err => {

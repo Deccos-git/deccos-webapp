@@ -33,6 +33,9 @@ import AddEvent from './AddEvent';
 import AddNews from './AddNews';
 import GroupSettings from './GroupSettings';
 import GroupLanding from './GroupLanding';
+import Channel from './Channel';
+import GoalSettings from './goals/GoalSettings';
+import WelcomeSettings from './WelcomeSettings';
 
 const Main = () => {
 
@@ -80,10 +83,10 @@ const Main = () => {
                     <Search/>
                 </Route>
                 <Route path={`/${client}/Profile`}>
-                    <Profile/>
+                    <Profile authO={auth}/>
                 </Route>
                 <Route path={`/${client}/GoalDetail`}>
-                    <GoalDetail route={route}/>
+                    <GoalDetail route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowledgeCentre/>
@@ -111,16 +114,16 @@ const Main = () => {
                 </>
                 ))}
                 <Route path={`/${client}/Notifications`}>
-                    <Notifications/>
+                    <Notifications auth={auth}/>
                 </Route>
                 <Route path={`/${client}/ChatsGroups`}>
-                    <ChatGroups auth={auth}/>
+                    <ChatGroups auth={auth} route={route} />
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
                     <PublicProfile route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/Settings`}>
-                    <Settings/>
+                    <Settings compagny={compagny}/>
                 </Route>
                 <Route path={`/${client}/Analytics`}>
                     <Analytics/>
@@ -129,10 +132,10 @@ const Main = () => {
                     <Members/>
                 </Route>
                 <Route path={`/${client}/ArticleDetail`}>
-                    <ArticleDetail/>
+                    <ArticleDetail route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/MessageDetail`}>
-                    <MessageDetail/>
+                    <MessageDetail route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/ChatRoom`}>
                     <ChatRoom route={route} auth={auth}/>
@@ -149,8 +152,17 @@ const Main = () => {
                 <Route path={`/${client}/GroupSettings`}>
                     <GroupSettings compagny={compagny} auth={auth}/>
                 </Route>
+                <Route path={`/${client}/WelcomeSettings`}>
+                    <WelcomeSettings compagny={compagny} auth={auth}/>
+                </Route>
                 <Route path={`/${client}/GroupLanding`}>
-                    <GroupLanding compagny={compagny} auth={auth}/>
+                    <GroupLanding route={route} auth={auth}/>
+                </Route>
+                <Route path={`/${client}/Channel`}>
+                    <Channel route={route} auth={auth}/>
+                </Route>
+                <Route path={`/${client}/GoalSettings`}>
+                    <GoalSettings />
                 </Route>
                 </>
                 ))}

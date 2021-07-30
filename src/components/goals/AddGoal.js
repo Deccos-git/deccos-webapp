@@ -8,6 +8,9 @@ import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import Auth from '../../firebase/Auth.js';
 import { useFirestore } from '../../firebase/useFirestore.js';
+import spinnerRipple from '../../images/spinner-ripple.svg'
+import firebase from 'firebase'
+import { bucket } from '../../firebase/config';
 
 const AddGoal = () => {
 
@@ -18,6 +21,8 @@ const AddGoal = () => {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [type, setType] = useState("")
+    const [banner, setBanner] = useState("")
+    const [loader, setLoader] = useState("")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -40,10 +45,46 @@ const AddGoal = () => {
         console.log(type)
     }
 
-    let banner = ""
+    const bannerHandler = (e) => {
+        setLoader(spinnerRipple)
+
+        const photo = e.target.files[0]
+
+        const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
+        const uploadTask = storageRef.put(photo)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setBanner(downloadURL)
+            setLoader(downloadURL)
+
+                })
+            })
+        })
+    }
+
+    let activityBanner = ""
+    let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewGoal
+        activityBanner = comp.ActivityBanner.NewArticle
+        compagnyId = comp.docid
     })
 
     const saveGoal = () => {
@@ -57,7 +98,9 @@ const AddGoal = () => {
             Timestamp: timestamp,
             ID: id,
             User: auth.UserName,
-            UserPhoto: auth.Photo
+            UserPhoto: auth.Photo,
+            UserID: auth.ID,
+            Banner: banner
         })
         .then(() => {
             db.collection("AllActivity")
@@ -72,7 +115,7 @@ const AddGoal = () => {
                 ButtonText: "Bekijk doel",
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
-                Banner: banner,
+                Banner: activityBanner,
                 Link: `/${client}/GoalDetail`
             }) 
         })
@@ -92,11 +135,11 @@ const AddGoal = () => {
                 <form id="add-goal-form">
                     <div className="divider">
                         <h4>Geef het doel een titel</h4>
-                        <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
+                        <input className="input-classic" type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <div className="divider">
                         <h4>Omschrijf het doel</h4>
-                        <textarea 
+                        <textarea className="textarea-classic"
                         name="body" 
                         id="body" 
                         cols="30" 
@@ -104,6 +147,13 @@ const AddGoal = () => {
                         placeholder="Schrijf hier de omschrijving"
                         onChange={bodyHandler}>
                         </textarea>
+                    </div>
+                    <div className="divider">
+                        <p>Voeg een bannerfoto toe</p>
+                        <input className="input-classic" onChange={bannerHandler} type="file" />
+                        <div className="spinner-container">
+                            <img src={loader} alt="" />
+                        </div> 
                     </div>
                     <div>
                         <h4>Is het een intern of een sociaal maatschappelijk doel?</h4>

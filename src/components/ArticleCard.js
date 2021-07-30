@@ -15,14 +15,13 @@ const ArticleCard = ({doc}) => {
       }
 
     const detailRouter = () => {
-
-        console.log(doc.ID)
     
         routes && routes.forEach(route => {
             db.collection("Route")
             .doc(route.docid)
             .update({
-                Article: doc.ID
+                Article: doc.ID,
+                Route: doc.ID
             })
         })
     

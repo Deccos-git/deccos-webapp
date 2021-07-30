@@ -200,7 +200,7 @@ const AddEvent = () => {
                         <input type="number" onChange={capacityHandler}/>
                     </div>
                 </form>
-                <div id="button-add-event">
+                <div className="button-container" id="button-add-event">
                     <Link to={`/${client}/Events`}><button onClick={saveEvent}>Opslaan</button></Link>
                 </div>
             </motion.div>

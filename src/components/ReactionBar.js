@@ -35,7 +35,9 @@ const ReactionBar = ({message}) => {
             User: auth.UserName,
             UserPhoto: auth.Photo,
             ID: id,
-            Thread: []
+            Thread: [],
+            Read: [auth.ID],
+            UserID: auth.ID
         })
         .then(() => {
             db.collection("Messages")

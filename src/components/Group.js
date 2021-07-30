@@ -1,6 +1,6 @@
 import LeftSideBar from "./LeftSideBar"
-import RightSideBar from "./rightSideBar/RightSideBar"
-import MessageBar from "./MessageBar"
+import RightSideBarGroup from "./rightSideBar/RightSideBarGroup"
+import MessageBarGroup from "./MessageBarGroup"
 import { useFirestoreMessages } from "../firebase/useFirestore"
 import emailIcon from '../images/icons/email-icon.png'
 
@@ -43,10 +43,10 @@ const Group = ({group, route, auth}) => {
                             <p>{message.Message}</p>
                         </div>
                     ))}
-                    <MessageBar route={route} auth={auth} />
+                    <MessageBarGroup route={route} auth={auth} />
                 </div>
             </div>
-            <RightSideBar />
+            <RightSideBarGroup group={group} route={route} /> 
         </div>
     )
 }

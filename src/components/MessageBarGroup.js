@@ -6,8 +6,9 @@ import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase';
+import MessageBar from './MessageBar';
 
-const MessageBar = ({route, auth}) => {
+const MessageBarGroup = ({route, auth}) => {
 
     const [Message, setMessage] = useState("")
 
@@ -50,18 +51,14 @@ const MessageBar = ({route, auth}) => {
                 db.collection("Chats")
                 .doc(chat.docid)
                 .update({
-                    NewMessages: "newMessages"
+                    Messages: firebase.firestore.FieldValue.increment(1)
                 })
             })
         })
     }
 
     return (
-        <div className="massage-container">
-            <div>
-                <img src={auth.Photo} alt="" />
-            </div>
-            <div className="messagebar-container">
+            <div className="messagebar-group-container">
                 <img src={plusIcon} alt="" />
                 <textarea 
                 type="text" 
@@ -72,8 +69,7 @@ const MessageBar = ({route, auth}) => {
                 /> 
                 <img src={sendIcon} alt="" onClick={submitMessage} /> 
             </div>
-        </div>
     )
 }
 
-export default MessageBar
+export default MessageBarGroup

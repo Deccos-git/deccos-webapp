@@ -94,10 +94,10 @@ const ChannelSettings = () => {
                     <h3>Kanaal toevoegen</h3>
                     <div className="new-channel-container" >
                         <p>Geef je kanaal een naam</p>
-                        <input type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newChannelTitleHandler}/>
+                        <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newChannelTitleHandler}/>
                     </div>
                     <div className="button-container">
-                        <button onClick={saveNewChannel}>Toevoegen</button>
+                        <button className="button-simple" onClick={saveNewChannel}>Toevoegen</button>
                     </div>
                 </div>
             </div>

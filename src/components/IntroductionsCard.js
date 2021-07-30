@@ -12,9 +12,9 @@ const IntroductionsCard = () => {
                 <img src={doc.Photo} alt="" />
                 <h2>{doc.UserName}</h2>
                 <p>{doc.Body}</p>
-                <input type="text" placeholder="Schrijf hier je reactie" />
+                <input id="input-introduction-card" type="text" placeholder="Schrijf hier je reactie" />
                 <div className="button-container">
-                    <button>Bekijk introductie</button>
+                    <button className="button-simple" >Bekijk introductie</button>
                 </div>
             </div>
         ))
