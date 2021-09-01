@@ -131,7 +131,7 @@ const AddEvent = () => {
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
                 Banner: banner,
-                Link: `/${client}/EventDetail`
+                Link: `ChannelDetail`
             }) 
         })
     }

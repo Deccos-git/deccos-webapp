@@ -13,9 +13,6 @@ const IntroductionsCard = () => {
                 <h2>{doc.UserName}</h2>
                 <p>{doc.Body}</p>
                 <input id="input-introduction-card" type="text" placeholder="Schrijf hier je reactie" />
-                <div className="button-container">
-                    <button className="button-simple" >Bekijk introductie</button>
-                </div>
             </div>
         ))
     )

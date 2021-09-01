@@ -1,7 +1,7 @@
 import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
-import { useFirestore, useFirestoreMessages } from '../firebase/useFirestore';
+import { useFirestore } from '../firebase/useFirestore';
 import { db } from '../firebase/config';
 
 const LeftSideBar = () => {
@@ -9,19 +9,20 @@ const LeftSideBar = () => {
     const compagnies = useFirestore("CompagnyMeta")
     const groups = useFirestore("Groups")
     const routes = useFirestore("Route")
-    const goals = useFirestore("Goals")
+    const channels = useFirestore("Channels")
 
     const updateChannelRoute = (e) => {
 
-        const id = e.target.name
+        const id = e.target.dataset.id
+        const name = e.target.dataset.name
 
         routes && routes.forEach(route => {
+
             const docRef = db.collection("Route")
             .doc(route.docid)
             docRef.update({
-                Channel: id,
+                Channel: name,
                 Route: id,
-                Channel: "Channel" 
             })
         })
     }
@@ -48,6 +49,7 @@ const LeftSideBar = () => {
                 <div className="channel-inner-div">
                     <Link to={`/${client}/Start`} >Start hier</Link>
                     <Link to={`/${client}/Introductions`} >Stel je voor</Link>
+                    <Link to={`/${client}/AllActivity`} >Alle activiteit</Link>
                 </div>
             </div>
             <div className="channel-div">
@@ -66,11 +68,9 @@ const LeftSideBar = () => {
                         <h3>Kanalen</h3>
                     </Link>
                 </div>
-                {compagnies && compagnies.map(compagny => (
+                {channels && channels.map(channel => (
                     <div className="channel-inner-div">
-                        {compagny.Channels && compagny.Channels.map(channel =>(
-                        <Link to={`/${client}/${channel.Link}`} key={channel.ID} name={channel.ID} onClick={updateChannelRoute}>{channel.Name}</Link>
-                        ))}
+                        <Link to={`/${client}/${channel.Link}`} key={channel.ID} data-name={channel.Name} data-id={channel.ID} onClick={updateChannelRoute}>{channel.Name}</Link>
                     </div>
                 ))}
             </div>

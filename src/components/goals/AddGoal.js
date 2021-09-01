@@ -116,7 +116,7 @@ const AddGoal = () => {
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
                 Banner: activityBanner,
-                Link: `/${client}/GoalDetail`
+                Link: `GoalDetail`
             }) 
         })
     }

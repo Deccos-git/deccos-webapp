@@ -145,7 +145,7 @@ const AddArticle = () => {
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
                 Banner: banner,
-                Link: `/${client}/ArticleDetail`
+                Link: `ChannelDetail`
             }) 
         })
     }

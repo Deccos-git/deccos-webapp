@@ -8,7 +8,6 @@ import Register from "./Register";
 import Profile from "./Profile";
 import "../CSS/main.css";
 import GoalDetail from "./goals/GoalDetail";
-import KnowledgeCentre from "./KnowledgeCentre";
 import AddArticle from "./AddArticle";
 import { client } from '../hooks/Client';
 import NewClient from './NewClient';
@@ -34,8 +33,12 @@ import AddNews from './AddNews';
 import GroupSettings from './GroupSettings';
 import GroupLanding from './GroupLanding';
 import Channel from './Channel';
+import ChannelDetail from './ChannelDetail';
 import GoalSettings from './goals/GoalSettings';
 import WelcomeSettings from './WelcomeSettings';
+import KnowLedgeCentre from './KnowledgeCentre'
+import AddChannelItem from './AddChannelItem'
+import ChannelSettingsDetail from './ChannelSettingsDetail';
 
 const Main = () => {
 
@@ -46,6 +49,8 @@ const Main = () => {
     if(auth.ID != undefined){
         id = auth.ID
     }
+
+    console.log(id)
 
     const compagnies = useFirestore("CompagnyMeta")
     const routes = useFirestoreID("Route", id)
@@ -76,6 +81,12 @@ const Main = () => {
                 <Route path={`/${client}/Goals`}>
                     <Goals/>
                 </Route>
+                <Route path={`/${client}/KnowledgeCentre`}>
+                    <KnowLedgeCentre/>
+                </Route>
+                <Route path={`/${client}/AddChannelItem`}>
+                    <AddChannelItem route={route}/>
+                </Route>
                 <Route path={`/${client}/AddGoal`}>
                     <AddGoal/>
                 </Route>
@@ -88,8 +99,8 @@ const Main = () => {
                 <Route path={`/${client}/GoalDetail`}>
                     <GoalDetail route={route} auth={auth}/>
                 </Route>
-                <Route path={`/${client}/KnowledgeCentre`}>
-                    <KnowledgeCentre/>
+                <Route path={`/${client}/ChannelDetail`}>
+                    <ChannelDetail route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/AddArticle`}>
                     <AddArticle/>
@@ -141,7 +152,10 @@ const Main = () => {
                     <ChatRoom route={route} auth={auth}/>
                 </Route>
                 <Route path={`/${client}/ChannelSettings`}>
-                    <ChannelSettings/>
+                    <ChannelSettings route={route}/>
+                </Route>
+                <Route path={`/${client}/ChannelSettingsDetail`}>
+                    <ChannelSettingsDetail route={route}/>
                 </Route>
                 <Route path={`/${client}/AddEvent`}>
                     <AddEvent/>

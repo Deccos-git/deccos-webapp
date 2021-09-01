@@ -52,7 +52,7 @@ const Introductions = () => {
                 ID: id,
                 Banner: banner,
                 Description: 'heeft zich voorgesteld aan de community',
-                Link: `/${client}/Introductions`,
+                Link: `/Introductions`,
                 User: `${auth.ForName} ${auth.SurName}`,
                 UserPhoto: auth.Photo,
             }) 
@@ -65,7 +65,7 @@ const Introductions = () => {
         <div className="main">
             <LeftSideBar />
             <div className="card-overview">
-                <div className="list">
+                <div id="introduction-input-container">
                     <h3>Hoi {auth.ForName}, stel jezelf voor aan de community</h3>
                     <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>
                     <div className="button-container">

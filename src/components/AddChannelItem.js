@@ -14,7 +14,7 @@ import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 
-const AddNews = () => {
+const AddChannelItem = ({route}) => {
 
     const auth = Auth()
     const id = uuid()
@@ -42,16 +42,13 @@ const AddNews = () => {
             }
     }
 
-
     let banner = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewNews
+        banner = comp.ActivityBanner.NewEvent
     })
 
     const photoHandler = (e) => {
-        setLoader(spinnerRipple)
-
         const photo = e.target.files[0]
 
         const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
@@ -83,9 +80,9 @@ const AddNews = () => {
         })
     }
     
-    const saveEvent = (e) => {
+    const saveItem = (e) => {
 
-        db.collection("News")
+        db.collection("ChannelItems")
         .doc()
         .set({
             Title: title,
@@ -93,6 +90,7 @@ const AddNews = () => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
+            ChannelID: route.Route,
             User: auth.UserName,
             UserPhoto: auth.Photo,
             UserID: auth.ID,
@@ -103,11 +101,11 @@ const AddNews = () => {
             .doc()
             .set({
                 Title: title,
-                Type: "NewNews",
+                Type: `New${route.Channel}`,
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Description: "heeft een nieuws item toegevoegd:",
+                Description: `heeft een nieuw ${route.Channel} toegevoegd:`,
                 ButtonText: "Bekijk bericht",
                 User: auth.UserName,
                 UserPhoto: auth.Photo,
@@ -125,16 +123,15 @@ const AddNews = () => {
             animate="visible"
             variants={variants}>
                 <div className="card-header">
-                        <h2>Voeg een nieuws item toe</h2>
-                        <p>Voeg een nieuws item toe om de leden van de community op de hoogte te houden van de laatste ontwikkelingen</p>
+                        <h2>Voeg een item toe</h2>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h4>Geef het nieuws item een titel</h4>
+                        <h4>Geef het item een titel</h4>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <div className="divider">
-                        <h4>Schrijf het nieuws item</h4>
+                        <h4>Geef het item een omschrijving</h4>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -162,8 +159,8 @@ const AddNews = () => {
                         </div> 
                     </div>
                 </form>
-                <div id="button-add-event">
-                    <Link to={`/${client}/News`}><button onClick={saveEvent}>Opslaan</button></Link>
+                <div className="button-container" id="button-add-event">
+                    <Link to={`/${client}/Events`}><button onClick={saveItem}>Opslaan</button></Link>
                 </div>
             </motion.div>
             <RightSideBar />
@@ -171,4 +168,4 @@ const AddNews = () => {
     )
 }
 
-export default AddNews
+export default AddChannelItem

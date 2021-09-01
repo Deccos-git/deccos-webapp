@@ -22,13 +22,20 @@ const ActivityCard = ({doc}) => {
 
         e.preventDefault()
 
+        const link = e.target.dataset.link
+        const id = e.target.dataset.id
+
+        console.log(e.target)
+
         routes && routes.forEach(route => {
             db.collection("Route")
             .doc(route.docid)
             .update({
-                Route: doc.ID
+                Route: id
             })
         })
+
+        history.push(`/${client}/${link}`)
     }
 
     return (
@@ -53,9 +60,7 @@ const ActivityCard = ({doc}) => {
                     <img className="allActivity-banner" src={doc.Banner} alt="" />
                     <div className="list-inner-container">
                         <p className="activity-card-body">{doc.Title}</p>
-                        <Link to={doc.Link}>
-                            <p className="activity-card-button" onClick={updateRoute}>{doc.ButtonText}</p>
-                        </Link> 
+                        <p className="activity-card-button" data-link={doc.Link} data-id={doc.ID} onClick={updateRoute}>{doc.ButtonText}</p>
                     </div>
                 </>
             </motion.div>

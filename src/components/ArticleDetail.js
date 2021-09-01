@@ -14,10 +14,6 @@ const ArticleDetail = ({route, auth}) => {
     const messages  = useFirestoreMessages("Messages", route.Article )
     const history = useHistory()
 
-    console.log(route.Article)
-
-    console.log(messages)
-
     let routeArticle = ""
 
     routes && routes.forEach(route => {

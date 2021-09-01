@@ -1,25 +1,20 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import deleteIcon from '../images/icons/delete-icon.png'
 import { useState } from "react";
 import uuid from 'react-uuid';
 import { db } from "../firebase/config";
 import settingsIcon from '../images/icons/settings-icon.png'
 import { useFirestore, useFirestoreID } from "../firebase/useFirestore";
-import firebase from "firebase";
+import { client } from '../hooks/Client';
+import { useHistory } from "react-router-dom"
 
-const ChannelSettings = () => {
+const ChannelSettings = ({route}) => {
     const [channelTitle, setChannelTitle] = useState("")
     const [channelLayout, setChannelLayout] = useState("")
 
-    const compagnies = useFirestore("CompagnyMeta")
-    const id = uuid()
-
-    let docid = ""
-
-    compagnies && compagnies.forEach(compagny => {
-        docid = compagny.docid
-    })
+    const channels = useFirestore("Channels")
+    const uid = uuid()
+    const history = useHistory()
 
     const newChannelTitleHandler = (e) => {
         const channelTitle = e.target.value
@@ -27,46 +22,43 @@ const ChannelSettings = () => {
         setChannelTitle(channelTitle)
     }
 
-    const layoutHandler = (e) => {
-        const channelLayout = e.target.id
-        
-        setChannelLayout(channelLayout)
-    }
+    const saveNewChannel = (e) => {
 
-    const newChannel = {
-        Name: channelTitle,
-        Layout: channelLayout,
-        ID: id,
-        Link: "Channel"
-    }
-
-    const saveNewChannel = () => {
-        db.collection("CompagnyMeta")
-        .doc(docid)
-        .update({
-            Channels: firebase.firestore.FieldValue.arrayUnion(newChannel)
+        db.collection("Channels")
+        .doc()
+        .set({
+            Name: channelTitle,
+            Layout: channelLayout,
+            ID: uid,
+            Link: "Channel",
+            Compagny: client
         })
-    }
-
-    const deleteChannel = (e) => {
-        const deleteID = e.target.id
-
-        compagnies && compagnies.forEach(compagny => {
-            compagny.Channels.forEach(channel => {
-                if(deleteID === channel.ID){
-                    db.collection("CompagnyMeta")
-                    .doc(compagny.docid)
-                    .update({
-                        Channels: firebase.firestore.FieldValue.arrayRemove(channel)
-                    })
-                }
+        .then(() => {
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: uid
             })
         })
+
+        history.push(`/${client}/ChannelSettingsDetail`)
     }
 
     const channelSettings = (e) => {
-        const channelID = e.target.name
+
+        const ID = e.target.dataset.id
+
+        db.collection("Route")
+        .doc(route.docid)
+        .update({
+            Route: ID
+        })
+
+        history.push(`/${client}/ChannelSettingsDetail`)
+
     }
+
+
 
     return (
         <div className="main">
@@ -76,20 +68,17 @@ const ChannelSettings = () => {
                     <h2>Kanaal instellingen</h2>
                     <p>Pas de instellingen van je kanalen aan</p>
                 </div>
-                {compagnies && compagnies.map(compagny => (
                 <div className="divider">
                     <h3>Community kanalen</h3>
-                    {compagny.Channels && compagny.Channels.map(channel =>(
-                    <div className="channel-container">
+                    {channels && channels.map(channel =>(
+                    <div className="channel-container" data-id={channel.ID}>
                         <h3>{channel.Name}</h3>
                         <div className="icon-container">
-                            <img src={deleteIcon} id={channel.ID} onClick={deleteChannel} />
-                            <img src={settingsIcon} name={channel.ID} onClick={channelSettings} />
+                            <img src={settingsIcon} data-id={channel.ID} onClick={channelSettings} />
                         </div>
                     </div>
                     ))}
                 </div>
-                ))}
                 <div className="divider">
                     <h3>Kanaal toevoegen</h3>
                     <div className="new-channel-container" >

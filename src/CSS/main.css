@@ -28,6 +28,7 @@
   .article{
     height: auto;
     min-height: 300px;
+    min-width: 100%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 10px 30px 10px;
     border-radius: 5px;
@@ -35,6 +36,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .delete-channel{
+      height: 30px;
+      width: 30px;
+      cursor: pointer;
   }
 
   .list{
@@ -758,6 +765,13 @@
       margin-right: 10px;
   }
 
+  #introduction-input-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+  }
+
   .like-goal-container{
       display: flex;
       margin: 10px;
@@ -768,8 +782,13 @@
       cursor: pointer;
   }
 
+  #button-add-event{
+      margin-bottom: 30px;
+  }
+
   .activity-card-button{
       color: green;
+      cursor: pointer;
   }
 
   .like-goal-container select{

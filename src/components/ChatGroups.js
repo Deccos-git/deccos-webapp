@@ -18,25 +18,32 @@ const ChatGroups = ({auth, route}) => {
 
     const partnerMeta = (id) => {
 
-        let userMeta = []
+        let partnerMeta = {}
 
         db.collection("Users")
         .where("ID", "==", id)
         .onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-                userMeta.push({
-                    UserName: doc.data().UserName,
-                    UserPhoto: doc.data().Photo,
-                    UserID: doc.data().ID
-                })
+
+                const userName = doc.data().UserName
+                const userPhoto = doc.data().Photo
+                const userID = doc.data().ID
+
+                 partnerMeta = {
+                    UserName: userName,
+                    userPhoto: userPhoto,
+                    UserID: userID
+                }
+
             })
         })
-
-        return userMeta
+        return partnerMeta
+        
     }
 
-    const messages = (id) => {
-        const messagesArray = []
+    const newMessages = (id) => {
+
+        const newMessagesArray = []
 
         db.collection("Messages")
         .where("Compagny", "==", client)
@@ -46,55 +53,63 @@ const ChatGroups = ({auth, route}) => {
 
                 const read = doc.data().Read
 
+                console.log(read)
+
+                totalMessages(read)
+
                 if(!read.includes(auth.ID)){
-                    messagesArray.push(read)
+                    newMessagesArray.push(read)
                 }    
             })
         })
 
-        console.log(messagesArray)
-        
-        return messagesArray
+        return newMessagesArray
+    }
+
+    const totalMessages = (read) => {
+
+        const totalMessagesArray = [read]
+
+        console.log(totalMessagesArray)
+
+        return totalMessagesArray.length
+
     }
 
     const chatMeta = () => {
-        let partners = ""
+        let partner = ""
 
         chats && chats.forEach(chat => {
+            console.log(chat.ID)
             const members = chat.Members
             members.forEach(member => {
                 if(auth.ID != member){
-                    partners = partnerMeta(member)
+                    partner = partnerMeta(member)
                 }
             })
             
-            const newMessages = messages(chat.ID).length
             chatsArray.push({
-                newMessages,
-                partners,
-                messages: chat.Messages
-
+                partner,
+                newMessages: newMessages(chat.ID).length,
+                totalMessages
             })
         })
     }
 
     chatMeta()
 
-    console.log(chatsArray)
-
-
-    chatsArray.forEach(chats => {
-        console.log(typeof(chats.partners))
-        console.log(chats.partners)
+    chatsArray && chatsArray.forEach(chat => {
+        console.log(chat)
     })
+
 
     const DisplayChats = () => {
         
          return chatsArray && chatsArray.map(chats => (
-            <div className="chatpartner-meta-container" key={chats.partners.UserID}>
+            <div className="chatpartner-meta-container" key={chats.UserID}>
                 <div name={""} onClick={updateRoute}>
-                    <img src={chats.partners.UserPhoto} alt="" />
-                    <p className="chat-overview-username">{chats.partners.UserName}</p>
+                    <img src={chats.UserPhoto} alt="" />
+                    <p className="chat-overview-username">{chats.UserName}</p>
                 </div>
                 <p>{chats.messages} berichten</p>
                 <p className="new-messages">{chats.newMessages} nieuw</p>

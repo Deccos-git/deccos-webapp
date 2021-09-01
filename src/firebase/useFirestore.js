@@ -209,6 +209,30 @@ const useFirestoreNotifications = (collection, id  ) => {
     return docs
 };
 
+const useFirestoreChannelItems = (collection, id  ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("ChannelID", "==", id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
@@ -218,5 +242,6 @@ export {
     useFirestoreNewMessages,
     useFirestoreChats,
     useFirestoreChatsGroups,
-    useFirestoreNotifications
+    useFirestoreNotifications,
+    useFirestoreChannelItems
 }

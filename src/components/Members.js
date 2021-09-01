@@ -1,11 +1,33 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore } from "./../firebase/useFirestore";
+import { useHistory } from "react-router-dom";
+import { db } from '../firebase/config';
+import { client } from '../hooks/Client';
 
 const Members = () => {
 
     const docs = useFirestore("Users")
     const compagnies = useFirestore("CompagnyMeta")
+    const routes = useFirestore("Route")
+    const history = useHistory()
+
+    
+    const updateRoute = (e) => {
+
+        const memberID = e.target.id
+
+        routes && routes.forEach(route => {
+            const routeRef= db.collection("Route")
+            .doc(route.docid)
+
+                routeRef.update({
+                    Profile: memberID
+                })
+        })
+
+        history.push(`/${client}/PublicProfile`)
+    }
 
     return (
             <div className="main">
@@ -17,9 +39,9 @@ const Members = () => {
                         <p>Bekijk alle {compagny.Members.length} leden van de community</p>
                     </div>
                     {docs && docs.map(doc => (
-                        <div id="members-container" key={doc.ID}>
-                            <img src={doc.Photo} alt="" />
-                            <h3>{doc.UserName}</h3>
+                        <div id="members-container" key={doc.ID} onClick={updateRoute}>
+                            <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
+                            <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
                         </div>
                     ))}
                 </div>
