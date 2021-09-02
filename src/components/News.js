@@ -4,23 +4,25 @@ import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import plusIcon from '../images/icons/plus-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
+import { db } from "../firebase/config"
+import { useHistory } from "react-router-dom"
 
-const News = () => {
+const News = ({route}) => {
 
     const news = useFirestore("News")
+    const history = useHistory()
 
-    const detailRouter = () => {
+    const detailRouter = (e) => {
 
+        const id = e.target.dataset.id 
+
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: id
+            })
     
-        // routes && routes.forEach(route => {
-        //     db.collection("Route")
-        //     .doc(route.docid)
-        //     .update({
-        //         Route: doc.ID
-        //     })
-        // })
-    
-        // history.push(`/${client}/ArticleDetail`)
+        history.push(`/${client}/NewsDetail`)
     }
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -41,7 +43,7 @@ const News = () => {
                                 </div>
                                 <h2>{item.Title}</h2>
                                 <p>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                                <button onClick={detailRouter}>Bekijk</button>
+                                <button onClick={detailRouter} data-id={item.ID}>Bekijk</button>
                             </div>
                         </div>
                     ))}

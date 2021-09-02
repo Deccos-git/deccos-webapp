@@ -5,7 +5,9 @@ import { useState } from 'react';
 import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
+import { useLocation } from "react-router-dom"
 import firebase from 'firebase';
+
 
 const MessageBar = ({route, auth}) => {
 
@@ -14,6 +16,7 @@ const MessageBar = ({route, auth}) => {
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const chats = useFirestore("Chats", route.Chat)
+    const location = useLocation()
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -36,6 +39,7 @@ const MessageBar = ({route, auth}) => {
             Message: Message,
             Timestamp: timestamp,
             ParentID: route.Route,
+            PrevPath: location.pathname,
             ID: id,
             Compagny: client,
             User: auth.UserName,

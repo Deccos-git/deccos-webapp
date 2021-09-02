@@ -1,26 +1,19 @@
-import { useFirestore, useFirestoreMessages } from "../firebase/useFirestore"
+import { useFirestoreMessages } from "../firebase/useFirestore"
 import { useFirestoreID } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import ReactionBar from "./ReactionBar"
 import LikeBar from "./LikeBar"
 import { db } from "../firebase/config"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import { client } from "../hooks/Client"
+import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 
 const MessageDetail = ({route, auth}) => {
 
-    const routes = useFirestore("Route")
-
-    let routeID = ""
-
-    routes && routes.forEach(route => {
-
-        routeID = route.Message
-
-    })
-
-    const messages = useFirestoreID("Messages", routeID)
+    const messages = useFirestoreID("Messages", route.Route)
+    const history = useHistory()
+    const location = useLocation()
 
     let parentID = ""
 
@@ -36,8 +29,6 @@ const MessageDetail = ({route, auth}) => {
 
     reactions && reactions.forEach(reaction => {
 
-        console.log(reaction.Thread.length)
-
         if(reaction.Thread.length === 0){
             numberOfReactions = `Bekijk reactie`
         } else if (reaction.Thread.length === 1){
@@ -48,20 +39,14 @@ const MessageDetail = ({route, auth}) => {
 
     })
 
-    console.log(numberOfReactions)
-
-    const history = useHistory()
-
     const updateRoute = () => {
 
-        routes && routes.forEach(route => {
-            const routeRef = db.collection("Route")
-            .doc(route.docid)
+        const routeRef = db.collection("Route")
+        .doc(route.docid)
 
-            reactions && reactions.forEach(reaction => {
-                routeRef.update({
-                    Route: reaction.ID
-                })
+        reactions && reactions.forEach(reaction => {
+            routeRef.update({
+                Route: reaction.ID,
             })
         })
 
@@ -70,10 +55,42 @@ const MessageDetail = ({route, auth}) => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+    const previousMessage = () => {
+
+        messages && messages.forEach(message => {
+
+            console.log(message.ID)
+
+            db.collection("Messages")
+            .where("ID", "==", message.ID)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+
+                    const parentID = doc.data().ParentID
+                    const prevPath = doc.data().PrevPath
+
+                    db.collection("Route")
+                    .doc(route.docid)
+                    .update({
+                        Route: parentID
+                        })
+            
+                    history.push(`${prevPath}`)
+
+                })
+            })
+        })
+    }
+
     return (
         <div className="main">
              <LeftSideBar />
              <div className="card-overview">
+                 <div className="previous-message-container" onClick={previousMessage}>
+                    <img src={ArrowLeftIcon} alt="" />
+                    <p>Vorige bericht</p>
+                 </div>
                 {messages && messages.map(message => (
                     <div className="message-card">
                         <div className="auth-message-container">
@@ -81,7 +98,7 @@ const MessageDetail = ({route, auth}) => {
                             <p className="auth-name">{message.User}</p>
                             <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
-                    <p>{message.Message}</p>
+                    <p className="massage">{message.Message}</p>
                     < ReactionBar message={message} />
                     <p>Aantal bijdragen: {message.Likes}</p>
                     < LikeBar auth={auth} message={message} />
@@ -91,23 +108,32 @@ const MessageDetail = ({route, auth}) => {
                 <div>
                     <p>----- Reacties -----</p>
                 </div>
-                {reactions && reactions.map(reaction => (
-                    <div className="reaction-area">
-                        <div className="reaction-inner-container">
-                            <div className="auth-message-container">
-                                <img src={reaction.UserPhoto} alt="" />
+                <div className="reaction-area">
+                {reactions && reactions.map(reaction => ( 
+                    <div className="reaction-inner-container">
+                        <div className="auth-message-container">
+                            <img src={reaction.UserPhoto} alt="" />
+                        </div>
+                        <div>
+                            <div className="user-meta-container">
                                 <p className="auth-name">{reaction.User}</p>
                                 <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
-                            <p>{reaction.Message}</p>
-                            < ReactionBar message={reaction} />
-                            < LikeBar />
+                            <div className="message-container">
+                                <p className="massage">{reaction.Message}</p>
+                            </div>
+                            <div className="like-container">
+                                {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
+                                < LikeBar auth={auth} message={reaction} />
+                            </div>
                             <div className="button-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>
                             </div>
+                            < ReactionBar message={reaction} />
                         </div>
                     </div>
                 ))}
+            </div>
             </div>
              <RightSideBar />
         </div>

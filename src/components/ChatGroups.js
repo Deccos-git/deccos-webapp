@@ -16,11 +16,11 @@ const ChatGroups = ({auth, route}) => {
    // Find chats of auth
    const chats = useFirestoreChatsGroups("Chats", auth.ID)
 
-    const partnerMeta = (id) => {
+    const partnerMeta = async (id) => {
 
-        let partnerMeta = {}
+        const partnerMeta = []
 
-        db.collection("Users")
+        await db.collection("Users")
         .where("ID", "==", id)
         .onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -29,11 +29,11 @@ const ChatGroups = ({auth, route}) => {
                 const userPhoto = doc.data().Photo
                 const userID = doc.data().ID
 
-                 partnerMeta = {
-                    UserName: userName,
-                    userPhoto: userPhoto,
-                    UserID: userID
-                }
+                 partnerMeta.push(
+                    userName,
+                    userPhoto,
+                    userID
+                 )
 
             })
         })
@@ -76,42 +76,46 @@ const ChatGroups = ({auth, route}) => {
 
     }
 
-    const chatMeta = () => {
-        let partner = ""
+    const chatMeta = async () => {
 
         chats && chats.forEach(chat => {
-            console.log(chat.ID)
             const members = chat.Members
-            members.forEach(member => {
-                if(auth.ID != member){
-                    partner = partnerMeta(member)
+            members.forEach(async (member) => {
+
+                if(member != auth.ID){
+
+                   const partner = await partnerMeta(member)
+
+                    chatsArray.push({
+                        partner,
+                        newMessages: newMessages(chat.ID).length,
+                        totalMessages: totalMessages()
+                    })
                 }
-            })
-            
-            chatsArray.push({
-                partner,
-                newMessages: newMessages(chat.ID).length,
-                totalMessages
             })
         })
     }
 
     chatMeta()
 
-    chatsArray && chatsArray.forEach(chat => {
+    console.log(chatsArray)
+
+    chatsArray.forEach(chat => {
         console.log(chat)
     })
+
+   
 
 
     const DisplayChats = () => {
         
          return chatsArray && chatsArray.map(chats => (
-            <div className="chatpartner-meta-container" key={chats.UserID}>
+            <div className="chatpartner-meta-container divider" key={chats.UserID}>
                 <div name={""} onClick={updateRoute}>
                     <img src={chats.UserPhoto} alt="" />
-                    <p className="chat-overview-username">{chats.UserName}</p>
+                    <p className="chat-overview-username">{chats.partner[0]}</p>
                 </div>
-                <p>{chats.messages} berichten</p>
+                <p>{chats.totalMessages} berichten</p>
                 <p className="new-messages">{chats.newMessages} nieuw</p>
             </div>
          ))
@@ -142,7 +146,7 @@ const ChatGroups = ({auth, route}) => {
                         </div>
                     <h2>Groepen</h2>
                     {groups && groups.map(group => (
-                    <div className="chats-overview-container">
+                    <div className="chats-overview-container divider">
                         <div className="chatpartner-meta-container" name={group.ID} onClick={updateRoute}>
                             <img src={groupIcon} alt="" />
                             <p className="chat-overview-username">{group.Room}</p>

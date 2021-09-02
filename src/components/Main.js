@@ -39,6 +39,8 @@ import WelcomeSettings from './WelcomeSettings';
 import KnowLedgeCentre from './KnowledgeCentre'
 import AddChannelItem from './AddChannelItem'
 import ChannelSettingsDetail from './ChannelSettingsDetail';
+import EventDetail from './EventDetail';
+import NewsDetail from './NewsDetail';
 
 const Main = () => {
 
@@ -49,8 +51,6 @@ const Main = () => {
     if(auth.ID != undefined){
         id = auth.ID
     }
-
-    console.log(id)
 
     const compagnies = useFirestore("CompagnyMeta")
     const routes = useFirestoreID("Route", id)
@@ -112,10 +112,16 @@ const Main = () => {
                     <Introductions/>
                 </Route>
                 <Route path={`/${client}/News`}>
-                    <News/>
+                    <News route={route}/>
                 </Route>
                 <Route path={`/${client}/Events`}>
-                    <Events/>
+                    <Events route={route}/>
+                </Route>
+                <Route path={`/${client}/EventDetail`}>
+                    <EventDetail route={route} auth={auth}/>
+                </Route>
+                <Route path={`/${client}/NewsDetail`}>
+                    <NewsDetail route={route} auth={auth}/>
                 </Route>
                 {groups && groups.map(group => (
                 <>

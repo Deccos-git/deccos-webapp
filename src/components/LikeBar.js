@@ -22,7 +22,13 @@ const LikeBar = ({auth, message}) => {
 
     const goals = useFirestoreID("Goals", goalID)
 
-    const userID = message.UserID
+    let userID = ""
+
+    if(message != undefined){
+
+    userID = message.UserID
+
+    }
 
     const users = useFirestoreID("Users", userID)
 
@@ -36,7 +42,8 @@ const LikeBar = ({auth, message}) => {
                 Timestamp: timestamp,
                 Sender: auth.ID,
                 Reciever: goal.UserID,
-                MessageID: message.ID
+                MessageID: message.ID,
+                Read: false
             })
             .then(() => {
                     db.collection("Goals")

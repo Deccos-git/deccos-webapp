@@ -4,23 +4,25 @@ import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import plusIcon from '../images/icons/plus-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
+import { db } from "../firebase/config"
+import { useHistory } from "react-router-dom"
 
-const Events = () => {
+const Events = ({route}) => {
 
     const events = useFirestore("Events")
+    const history = useHistory()
 
-    const detailRouter = () => {
+    const detailRouter = (e) => {
 
+        const id = e.target.dataset.id 
+
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: id
+            })
     
-        // routes && routes.forEach(route => {
-        //     db.collection("Route")
-        //     .doc(route.docid)
-        //     .update({
-        //         Route: doc.ID
-        //     })
-        // })
-    
-        // history.push(`/${client}/ArticleDetail`)
+        history.push(`/${client}/EventDetail`)
     }
 
     return (
@@ -41,7 +43,7 @@ const Events = () => {
                                 <p>{even.Date}</p>
                             </div>
                             <div className="button-container">
-                                <button onClick={detailRouter}>Bekijk</button>
+                                <button onClick={detailRouter} data-id={even.ID}>Bekijk</button>
                             </div>
                         </div>
                     ))}

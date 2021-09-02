@@ -15,6 +15,8 @@ const ChannelDetail = ({route, auth}) => {
     const messages  = useFirestoreMessages("Messages", route.Route)
     const history = useHistory()
 
+    console.log(items)
+
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let numberOfReactions = ""

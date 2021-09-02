@@ -1,30 +1,18 @@
+import { useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreID, useFirestore, useFirestoreMessages } from "../firebase/useFirestore"
 import LikeBar from "./LikeBar"
 import ReactionBar from "./ReactionBar"
-import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import MessageBar from "./MessageBar"
+import { db } from "../firebase/config"
 
-const ArticleDetail = ({route, auth}) => {
+const EventDetail = ({route, auth}) => {
 
-    const routes = useFirestore("Route")
-    const messages  = useFirestoreMessages("Messages", route.Article )
+    const events = useFirestoreID("Events", route.Route)
+    const messages  = useFirestoreMessages("Messages", route.Route )
     const history = useHistory()
-
-    let routeArticle = ""
-
-    routes && routes.forEach(route => {
-
-        routeArticle = route.Article
-
-    })
-
-    const docs = useFirestoreID("KnowledgeCentre", routeArticle)
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let numberOfReactions = ""
 
@@ -37,6 +25,8 @@ const ArticleDetail = ({route, auth}) => {
             numberOfReactions = `Bekijk ${message.Thread.length} reacties`
         }
     })
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     const updateRoute = () => {
 
@@ -54,7 +44,7 @@ const ArticleDetail = ({route, auth}) => {
         <div className="main">
             <LeftSideBar />
             <div className="article-container">
-                {docs && docs.map(doc => (
+                {events && events.map(doc => (
                     <div className="article">
                         <h1>{doc.Title}</h1>
                         <img src={doc.Banner} alt="" />
@@ -64,8 +54,18 @@ const ArticleDetail = ({route, auth}) => {
                                 <p>{doc.User}</p>
                             </div>
                             <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                            <div className="article-body-container">
+                            <div className="article-body-container divider">
                                 <div dangerouslySetInnerHTML={{ __html: doc.Body }}></div>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>Datum: {doc.Date}</li>
+                                    <li>Prijs: {doc.Price}</li>
+                                    <li>Max. deelnemers: {doc.Capacity}</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <button>Aanmelden</button>
                             </div>
                         </div>
                     </div>
@@ -99,9 +99,10 @@ const ArticleDetail = ({route, auth}) => {
                 ))}
                 </div>
             </div>
+                
             <RightSideBar />
         </div>
     )
 }
 
-export default ArticleDetail
+export default EventDetail

@@ -7,7 +7,7 @@ import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import { db } from "../../firebase/config"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import { client } from "../../hooks/Client"
 import LikeBar from "../LikeBar"
 import ReactionBar from "../ReactionBar"
@@ -17,6 +17,7 @@ const GoalDetail = ({route, auth}) => {
     const docs = useFirestoreID("Goals", route.Goal)
     const messages  = useFirestoreMessages("Messages", route.Goal )
     const history = useHistory()
+    const location = useLocation()
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -48,7 +49,7 @@ const GoalDetail = ({route, auth}) => {
             db.collection("Route")
             .doc(route.docid)
             .update({
-                Message: message.ID
+                Route: message.ID,
             })
         })
         history.push(`/${client}/MessageDetail`)
@@ -105,9 +106,9 @@ const GoalDetail = ({route, auth}) => {
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
                                 < LikeBar auth={auth} message={message} />
                             </div>
-                            {/* <div className="button-container">
+                            <div className="button-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>
-                            </div> */}
+                            </div>
                             < ReactionBar message={message} />
                         </div>
                     </div>

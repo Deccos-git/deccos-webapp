@@ -6,6 +6,7 @@ import { type, client } from "../hooks/Client"
 import Auth from "../firebase/Auth"
 import uuid from 'react-uuid';
 import firebase from "firebase"
+import { useLocation } from "react-router-dom"
 
 const ReactionBar = ({message}) => {
 
@@ -13,6 +14,7 @@ const ReactionBar = ({message}) => {
     
     const auth= Auth()
     const id = uuid()
+    const location = useLocation()
     
     const reactionHandler = (e) => {
 
@@ -32,6 +34,7 @@ const ReactionBar = ({message}) => {
             Message: reaction,
             Compagny: client,
             Timestamp: timestamp,
+            PrevPath: location.pathname,
             User: auth.UserName,
             UserPhoto: auth.Photo,
             ID: id,
@@ -48,11 +51,21 @@ const ReactionBar = ({message}) => {
         })
     }
 
+    const addItems = () => {
+
+    }
+
     return (
-        <div className="reaction-bar-container">
-            <img src={plusIcon} alt="" />
-            <input type="text" placeholder="Schrijf hier je reactie" onChange={reactionHandler} />
-            <img src={sendIcon} alt="" onClick={submitReaction} />
+        <div>
+            <div className="reaction-bar-container">
+                <img src={plusIcon} alt="" onClick={addItems} />
+                <input type="text" placeholder="Schrijf hier je reactie" onChange={reactionHandler} />
+                <img src={sendIcon} alt="" onClick={submitReaction} />
+            </div>
+            <div>
+                <input type="file" />
+
+            </div>
         </div>
     )
 }
