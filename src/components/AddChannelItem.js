@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
 import Auth from '../firebase/Auth.js';
 import { useFirestore } from '../firebase/useFirestore.js';
@@ -20,6 +20,7 @@ const AddChannelItem = ({route}) => {
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const editorRef = useRef(null);
+    const history = useHistory()
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -113,6 +114,16 @@ const AddChannelItem = ({route}) => {
                 Link: `ChannelDetail`
             }) 
         })
+        .then(() => {
+        
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: route.Route
+            })
+    
+            history.push(`/${client}/Channel`)
+        })
     }
 
     return (
@@ -160,7 +171,7 @@ const AddChannelItem = ({route}) => {
                     </div>
                 </form>
                 <div className="button-container" id="button-add-event">
-                    <Link to={`/${client}/Events`}><button onClick={saveItem}>Opslaan</button></Link>
+                    <button onClick={saveItem}>Opslaan</button>
                 </div>
             </motion.div>
             <RightSideBar />

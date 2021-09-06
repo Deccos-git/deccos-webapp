@@ -41,6 +41,8 @@ import AddChannelItem from './AddChannelItem'
 import ChannelSettingsDetail from './ChannelSettingsDetail';
 import EventDetail from './EventDetail';
 import NewsDetail from './NewsDetail';
+import Contributions from './Contributions';
+import Measures from './Measures'
 
 const Main = () => {
 
@@ -117,6 +119,9 @@ const Main = () => {
                 <Route path={`/${client}/Events`}>
                     <Events route={route}/>
                 </Route>
+                <Route path={`/${client}/Measures`}>
+                    <Measures route={route}/>
+                </Route>
                 <Route path={`/${client}/EventDetail`}>
                     <EventDetail route={route} auth={auth}/>
                 </Route>
@@ -131,7 +136,7 @@ const Main = () => {
                 </>
                 ))}
                 <Route path={`/${client}/Notifications`}>
-                    <Notifications auth={auth}/>
+                    <Notifications auth={auth} route={route}/>
                 </Route>
                 <Route path={`/${client}/ChatsGroups`}>
                     <ChatGroups auth={auth} route={route} />
@@ -147,6 +152,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Members`}>
                     <Members/>
+                </Route>
+                <Route path={`/${client}/Contributions`}>
+                    <Contributions route={route}/>
                 </Route>
                 <Route path={`/${client}/ArticleDetail`}>
                     <ArticleDetail route={route} auth={auth}/>

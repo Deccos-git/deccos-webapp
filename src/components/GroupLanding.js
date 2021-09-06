@@ -34,7 +34,8 @@ const GroupLanding = ({route, auth}) => {
             db.collection("Groups")
             .doc(group.docid)
             .update({
-                Members: firebase.firestore.FieldValue.arrayUnion(newMember)
+                Members: firebase.firestore.FieldValue.arrayUnion(newMember),
+                MemberList: firebase.firestore.FieldValue.arrayUnion(auth.ID)
             })
             .then(() => {
                 updateRoute(group.ID)

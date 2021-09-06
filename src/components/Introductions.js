@@ -52,7 +52,7 @@ const Introductions = () => {
                 ID: id,
                 Banner: banner,
                 Description: 'heeft zich voorgesteld aan de community',
-                Link: `/Introductions`,
+                Link: `Introductions`,
                 User: `${auth.ForName} ${auth.SurName}`,
                 UserPhoto: auth.Photo,
             }) 

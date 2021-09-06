@@ -60,6 +60,7 @@ const LeftSideBar = () => {
                 </div>
                 <div className="channel-inner-div">
                     <Link to={`/${client}/Goals`}>Doelen</Link>
+                    <Link to={`/${client}/Measures`}>Meting</Link>
                 </div>
             </div>
             <div className="channel-div">

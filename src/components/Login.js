@@ -78,7 +78,7 @@ const Login = () => {
                     <input onChange={emailHandler} type="email" placeholder="Schrijf hier je emailadres" />
                     <p>Wachtwoord</p>
                     <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
-                    <div className="button-container">
+                    <div className="button-container button-login">
                         <button onClick={loginHandler}>Login</button>
                     </div>
                 </form>

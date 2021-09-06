@@ -13,13 +13,14 @@ const PublicProfile = ({route, auth}) => {
 
     const history = useHistory()
     const id = uuid()
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let members = ""
     let roomID = ""
     let room = ""
 
     // Find doc of chatpartner
-    const profiles = useFirestoreID("Users", route.Profile)
+    const profiles = useFirestoreID("Users", route.Route)
 
     // Find chats of auth
     const chats = useFirestoreChatsGroups("Chats", auth.ID )
@@ -30,8 +31,6 @@ const PublicProfile = ({route, auth}) => {
         roomID = chat.ID
     })
 
-    console.log(members)
-
     //Create roomname of auth and chatpartner
     profiles && profiles.forEach(profile => {
         room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
@@ -39,7 +38,7 @@ const PublicProfile = ({route, auth}) => {
 
     // Open chat if chat excists or create a new chat
     const startChat = () => {
-        if(members.includes(route.Profile)){
+        if(members.includes(route.Route)){
             updateRoute(roomID)
         } else if (!members.includes(route.Profile)){
             createChat()
@@ -84,7 +83,19 @@ const PublicProfile = ({route, auth}) => {
         })
     }
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const showContributions = (e) => {
+
+        const id = e.target.dataset.id
+        
+        db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: id
+            })
+
+        history.push(`/${client}/Contributions`)
+
+    }
 
     return (
             <div className="main">
@@ -94,9 +105,7 @@ const PublicProfile = ({route, auth}) => {
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h2>{profile.UserName}</h2>
-                            <Link to={`/${client}/MyContributions`}>
-                                <p className="contributions-amount-profile">{profile.Likes} bijdragen aan doelen</p>
-                            </Link>
+                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{profile.Likes} bijdragen aan doelen</p>
                             <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
                                 <button onClick={startChat}>Chatten</button>

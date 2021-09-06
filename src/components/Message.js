@@ -8,6 +8,7 @@ import ReactionBar from "./ReactionBar"
 const Message = ({message}) => {
 
     const history = useHistory()
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let numberOfReactions = ""
 
@@ -34,7 +35,19 @@ const Message = ({message}) => {
         history.push(`/${client}/MessageDetail`)
     }
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const showContributions = (e) => {
+
+        const id = e.target.dataset.id
+        
+        db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: id
+            })
+
+        history.push(`/${client}/Contributions`)
+
+    }
 
     return (
         <div className="message-card" >
@@ -43,6 +56,7 @@ const Message = ({message}) => {
                 <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
             <p>{message.Message}</p>
+            <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {message.Contributions.length}</p>
             < ReactionBar message={message} />
             < LikeBar />
             <button onClick={updateRoute}>{numberOfReactions}</button>

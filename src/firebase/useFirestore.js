@@ -97,7 +97,7 @@ const useFirestoreMessages = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("ParentID", "==", id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -192,7 +192,7 @@ const useFirestoreNotifications = (collection, id  ) => {
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
-        .where("UserID", "==", id)
+        .where("RecieverID", "==", id)
         .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -233,6 +233,30 @@ const useFirestoreChannelItems = (collection, id  ) => {
     return docs
 };
 
+const useFirestoreContributions = (collection, type, id ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where(type, "==", id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id, type])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
@@ -243,5 +267,6 @@ export {
     useFirestoreChats,
     useFirestoreChatsGroups,
     useFirestoreNotifications,
-    useFirestoreChannelItems
+    useFirestoreChannelItems,
+    useFirestoreContributions
 }

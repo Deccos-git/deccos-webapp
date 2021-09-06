@@ -32,6 +32,7 @@ const GroupSettings = ({compagny, auth}) => {
         .doc()
         .set({
             ID: id,
+            Admin: auth.ID,
             Room: groupTitle,
             MemberList: [
                 auth.ID

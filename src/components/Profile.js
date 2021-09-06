@@ -142,9 +142,8 @@ const Profile = ({authO}) => {
                         <p>Verander de instellingen van je profiel</p>
                     </div>
                     <div className="divider account-status">
-                        <h4>Uitloggen/verwijderen</h4>
+                        <h4>Uitloggen</h4>
                         <button id="log-out-button" onClick={logOut}>Uitloggen</button>
-                        <button id="delete-account-button" onClick={deleteAccount}>Verwijderen</button>
                     </div >
                     <div className="divider">
                         <h4>Schermnaam aanpassen</h4>
@@ -188,6 +187,10 @@ const Profile = ({authO}) => {
                             <button className="button-simple" onClick={saveAboutMe}>Opslaan</button>
                         </div>
                     </div>
+                    <div className="divider account-status">
+                        <h4>Account verwijderen</h4>
+                        <button id="delete-account-button" onClick={deleteAccount}>Verwijderen</button>
+                    </div >
                 </div>
             <RightSideBar />
         </div>

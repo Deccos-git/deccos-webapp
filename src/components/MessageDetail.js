@@ -83,6 +83,20 @@ const MessageDetail = ({route, auth}) => {
         })
     }
 
+    const showContributions = (e) => {
+
+        const id = e.target.dataset.id
+        
+        db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: id
+            })
+
+        history.push(`/${client}/Contributions`)
+
+    }
+
     return (
         <div className="main">
              <LeftSideBar />
@@ -100,7 +114,7 @@ const MessageDetail = ({route, auth}) => {
                         </div>
                     <p className="massage">{message.Message}</p>
                     < ReactionBar message={message} />
-                    <p>Aantal bijdragen: {message.Likes}</p>
+                    <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {message.Contributions}</p>
                     < LikeBar auth={auth} message={message} />
                     </div>
                 ))}
@@ -123,6 +137,7 @@ const MessageDetail = ({route, auth}) => {
                                 <p className="massage">{reaction.Message}</p>
                             </div>
                             <div className="like-container">
+                                <p>Aantal bijdragen: {reaction.Contributions}</p>
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
                                 < LikeBar auth={auth} message={reaction} />
                             </div>

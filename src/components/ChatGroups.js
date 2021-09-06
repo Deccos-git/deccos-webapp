@@ -41,6 +41,8 @@ const ChatGroups = ({auth, route}) => {
         
     }
 
+    // Find all messages
+
     const newMessages = (id) => {
 
         const newMessagesArray = []
@@ -66,6 +68,7 @@ const ChatGroups = ({auth, route}) => {
         return newMessagesArray
     }
 
+    // Find new messages
     const totalMessages = (read) => {
 
         const totalMessagesArray = [read]
@@ -75,6 +78,8 @@ const ChatGroups = ({auth, route}) => {
         return totalMessagesArray.length
 
     }
+
+    //Combine all info
 
     const chatMeta = async () => {
 
@@ -91,6 +96,9 @@ const ChatGroups = ({auth, route}) => {
                         newMessages: newMessages(chat.ID).length,
                         totalMessages: totalMessages()
                     })
+
+                    DisplayChats()
+                    test()
                 }
             })
         })
@@ -98,18 +106,15 @@ const ChatGroups = ({auth, route}) => {
 
     chatMeta()
 
-    console.log(chatsArray)
-
-    chatsArray.forEach(chat => {
-        console.log(chat)
-    })
-
-   
-
+    const test = () => {
+        chatsArray.forEach(chat => {
+            console.log(chat)
+        })
+    }
 
     const DisplayChats = () => {
         
-         return chatsArray && chatsArray.map(chats => (
+         return chatsArray && chatsArray.map( chats => (
             <div className="chatpartner-meta-container divider" key={chats.UserID}>
                 <div name={""} onClick={updateRoute}>
                     <img src={chats.UserPhoto} alt="" />

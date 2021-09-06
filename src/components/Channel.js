@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useFirestoreChannelItems, useFirestoreID } from "../firebase/useFirestore";
 import { db } from "../firebase/config.js"
 import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Channel = ({route}) => {
 
@@ -28,15 +29,23 @@ const Channel = ({route}) => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+    const variants = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      }
+
     return (
-            <div className="main">
-                <LeftSideBar />
-                <div className="main-container">
+        <div className="main">
+            <LeftSideBar />
+            <div className="main-container">
+                <div className="card-container">
                 {channels && channels.map(channel => (
                     <>
-                        <Link to={`/${client}/AddChannelItem`}><img className="plus-icon" data-id={channel.ID} src={plusIcon} alt="" onClick={updateRoute} /></Link>
-                        <div className={channel.Layout}>
-                            {items && items.map(item => (
+                    <Link to={`/${client}/AddChannelItem`}><img className="plus-icon" data-id={channel.ID} src={plusIcon} alt="" onClick={updateRoute} /></Link>
+                        {items && items.map(item => (
+                            <motion.div  initial="hidden"
+                            animate="visible"
+                            variants={variants} className="card">
                                 <div key={item.ID}>
                                     <img src={item.Banner} alt="" />
                                     <div className="list-inner-container">
@@ -51,13 +60,14 @@ const Channel = ({route}) => {
                                         <button onClick={updateRoute} data-id={item.ID}>Bekijk</button>
                                     </div>
                                 </div>
-                            )) }
-                        </div>
+                            </motion.div>
+                        )) }
                     </>
                 ))}
                 </div>
-                <RightSideBar />
             </div>
+            <RightSideBar />
+        </div>
     )
 }
 

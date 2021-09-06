@@ -34,8 +34,8 @@ const Start = () => {
             variants={variants}>
                 {docs && docs.map(doc => (
                     <div className="article-inner-div" key={doc.ID}>
-                        <div>
-                            <h2>Welkom {username}</h2>
+                        <div className="start-banner">
+                            <h2>Hallo {username}</h2>
                             <img src={doc.WelcomeHeader} alt="community logo" />  
                         </div>
                          <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>

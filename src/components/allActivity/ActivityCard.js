@@ -25,8 +25,6 @@ const ActivityCard = ({doc}) => {
         const link = e.target.dataset.link
         const id = e.target.dataset.id
 
-        console.log(e.target)
-
         routes && routes.forEach(route => {
             db.collection("Route")
             .doc(route.docid)

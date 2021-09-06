@@ -35,7 +35,7 @@ const GoalDetail = ({route, auth}) => {
 
     messages && messages.forEach(message => {
         if(message.Thread.length === 0){
-            numberOfReactions = ``
+            numberOfReactions = `Bekijk bericht`
         } else if (message.Thread.length === 1){
             numberOfReactions = `Bekijk ${message.Thread.length} reactie`
         } else {
@@ -55,10 +55,18 @@ const GoalDetail = ({route, auth}) => {
         history.push(`/${client}/MessageDetail`)
     }
 
-    const LikeHandler = () => {
-        messages && messages.forEach(message => {
-            return < LikeBar auth={auth} message={message} />
+    const showContributionsGoal = () => {
+
+        docs && docs.forEach(doc => {
+            db.collection("Route")
+            .doc(route.docid)
+            .update({
+                Route: doc.ID
+            })
         })
+
+        history.push(`/${client}/Contributions`)
+
     }
 
     return (
@@ -76,9 +84,9 @@ const GoalDetail = ({route, auth}) => {
                             <p>{doc.Type}</p>
                         </div>
                         <div className="goal-progress-container">
-                            <p>Aantal bijdragen: {doc.Likes}</p>
+                            <p>Aantal bijdragen: {doc.Contributions}</p>
                             <div className="button-container">
-                                <button className="button-simple">Bekijk bijdragen</button>
+                                <button className="button-simple" onClick={showContributionsGoal}>Bekijk bijdragen</button>
                             </div>
                         </div>
                     </div>
@@ -103,10 +111,10 @@ const GoalDetail = ({route, auth}) => {
                                 <p className="massage">{message.Message}</p>
                             </div>
                             <div className="like-container">
-                                {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
+                                <p>Aantal bijdragen: {message.Contributions}</p>
                                 < LikeBar auth={auth} message={message} />
                             </div>
-                            <div className="button-container">
+                            <div className="button-container button-goal-message-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>
                             </div>
                             < ReactionBar message={message} />
