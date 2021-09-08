@@ -22,7 +22,7 @@ function App() {
       if(online === false){
         return <LoginRegister/>
       } else if (online === true) {
-        return <><Topbar/><Main/> </>
+        return <><Topbar /><Main/></>
       }
     }
 

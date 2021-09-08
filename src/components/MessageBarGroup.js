@@ -14,7 +14,7 @@ const MessageBarGroup = ({route, auth}) => {
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
-    const chats = useFirestore("Chats", route.Chat)
+    const chats = useFirestore("Chats", route.ID)
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -41,7 +41,6 @@ const MessageBarGroup = ({route, auth}) => {
             Compagny: client,
             User: auth.UserName,
             UserPhoto: auth.Photo,
-            Channel: type,
             Thread: [],
             Read: [auth.ID],
             UserID: auth.ID

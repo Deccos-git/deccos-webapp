@@ -3,6 +3,7 @@ import Register from "./Register"
 import { useState } from "react"
 import { useFirestore } from "../firebase/useFirestore"
 
+
 const LoginRegister = () => {
 
     const [form, setForm] = useState("Login")
@@ -25,12 +26,23 @@ const LoginRegister = () => {
         }
     }
 
+    let logo = ""
+    let website = ""
+
+    compagnies && compagnies.map(doc => {
+        logo = doc.Logo
+        website = doc.Website
+    })
+
     return (
+        <div>
+        <header className="top-bar">
+            <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
+        </header>
         <div className="main">
              <div className="left-side-bar">
                 {compagnies && compagnies.map(compagny => (
                     <div className="channel-div">
-                        <h3>{compagny.CommunityName}</h3>
                         <div className="channel-inner-div">
                             <p onClick={loginHandler}>Login</p>
                             <p onClick={registerHandler}>Register</p>
@@ -39,6 +51,7 @@ const LoginRegister = () => {
                     ))}
             </div>
             <FormToggle />
+        </div>
         </div>
     )
 }

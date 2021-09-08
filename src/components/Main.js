@@ -42,7 +42,7 @@ import ChannelSettingsDetail from './ChannelSettingsDetail';
 import EventDetail from './EventDetail';
 import NewsDetail from './NewsDetail';
 import Contributions from './Contributions';
-import Measures from './Measures'
+import Measures from './Measures';
 
 const Main = () => {
 

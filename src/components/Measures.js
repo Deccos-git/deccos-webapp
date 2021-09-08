@@ -13,15 +13,23 @@ const Measures = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="card-overview">
-                <div className="block">
-                    <h2>Aantal bijdragen {contributions.length}</h2>
+            <div className="main-container">
+                <div className="card-container">
+                    <div className="block">
+                        <h2>Aantal doelen </h2>
+                        <div>
+                            <p>{goals.length}</p>
+                        </div>
+                    </div>
+                    <div className="block">
+                        <h2>Aantal bijdragen</h2>
+                        <div>
+                            <p>{contributions.length}</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="block">
-                    <h2>Aantal doelen {goals.length}</h2>
-                </div>
-
             </div>
+         
             <RightSideBar />
         </div>
     )

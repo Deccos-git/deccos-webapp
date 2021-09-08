@@ -8,7 +8,6 @@ import { useFirestore } from "../firebase/useFirestore"
 import { useLocation } from "react-router-dom"
 import firebase from 'firebase';
 
-
 const MessageBar = ({route, auth}) => {
 
     const [Message, setMessage] = useState("")
@@ -44,10 +43,10 @@ const MessageBar = ({route, auth}) => {
             Compagny: client,
             User: auth.UserName,
             UserPhoto: auth.Photo,
-            Channel: type,
             Thread: [],
             Read: [auth.ID],
-            UserID: auth.ID
+            UserID: auth.ID,
+            Contributions: []
         })
         .then(() => {
             chats && chats.forEach(chat => {

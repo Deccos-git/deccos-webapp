@@ -1,59 +1,51 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestore, useFirestoreID, useFirestoreChatsGroups } from "./../firebase/useFirestore";
+import { useFirestoreID, useFirestoreChats } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
-import Auth from "../firebase/Auth";
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState} from 'react';
 
 const PublicProfile = ({route, auth}) => {
 
     const history = useHistory()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    let members = ""
-    let roomID = ""
-    let room = ""
-
-    // Find doc of chatpartner
     const profiles = useFirestoreID("Users", route.Route)
 
-    // Find chats of auth
-    const chats = useFirestoreChatsGroups("Chats", auth.ID )
+    let members = ""
+    let chatID = ""
+    let room = ""
 
-    // Find chats of auth and chatpartner
-    chats && chats.forEach(chat => {
-        members = chat.Members
-        roomID = chat.ID
-    })
+    function createRoomName(){
 
-    //Create roomname of auth and chatpartner
-    profiles && profiles.forEach(profile => {
-        room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
-    })
+        profiles && profiles.forEach(profile => {
+            room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
+        })
+    } createRoomName()
 
-    // Open chat if chat excists or create a new chat
-    const startChat = () => {
-        if(members.includes(route.Route)){
-            updateRoute(roomID)
-        } else if (!members.includes(route.Profile)){
+    //Find chatroom
+    const chats = useFirestoreChats(room)
+
+    console.log(chats)
+
+    function startChat(){
+
+        if(chats.length === 0){
             createChat()
-        } else if (members === ""){
-            createChat()
+        } else if (chats.length != 0){
+            chats.forEach(chat => {
+                updateRoute(chat.ID)
+            })
         }
-    }
+    } 
 
     const updateRoute = (ID) => {
         db.collection("Route")
         .doc(route.docid)
         .update({
-            Chat: ID,
-            Route: ID,
-            Channel: "Chat"
+            Route: ID
         })
         .then(() => {
             history.push(`/${client}/ChatRoom`)
@@ -67,11 +59,11 @@ const PublicProfile = ({route, auth}) => {
             ID: id,
             Room: room,
             Members: [
-                route.Profile,
+                route.Route,
                 auth.ID
             ],
             MemberList: [
-                route.Profile,
+                route.Route,
                 auth.ID
             ],
             Timestamp: timestamp,
@@ -101,7 +93,7 @@ const PublicProfile = ({route, auth}) => {
             <div className="main">
                 <LeftSideBarPublicProfile />
                 {profiles && profiles.map(profile => (
-                    <div className="profile public-profile-container">
+                    <div className="profile public-profile-container" key={profile.ID}>
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h2>{profile.UserName}</h2>
@@ -117,7 +109,6 @@ const PublicProfile = ({route, auth}) => {
                         </div>
                     </div>
                 ))}
-              
                 <RightSideBar />
             </div>
     )

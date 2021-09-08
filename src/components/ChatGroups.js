@@ -41,7 +41,7 @@ const ChatGroups = ({auth, route}) => {
         
     }
 
-    // Find all messages
+    // Find new messages
 
     const newMessages = (id) => {
 
@@ -68,7 +68,7 @@ const ChatGroups = ({auth, route}) => {
         return newMessagesArray
     }
 
-    // Find new messages
+    // Find all messages
     const totalMessages = (read) => {
 
         const totalMessagesArray = [read]
@@ -99,18 +99,19 @@ const ChatGroups = ({auth, route}) => {
 
                     DisplayChats()
                     test()
+                    
                 }
             })
         })
     }
-
-    chatMeta()
 
     const test = () => {
         chatsArray.forEach(chat => {
             console.log(chat)
         })
     }
+
+    chatMeta()
 
     const DisplayChats = () => {
         

@@ -23,6 +23,7 @@ const AddGoal = () => {
     const [type, setType] = useState("")
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
+    const [toggleGoal, setToggleGoal] = useState("none")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -121,6 +122,14 @@ const AddGoal = () => {
         })
     }
 
+    const internalGoal = () => {
+        setToggleGoal("none")
+    }
+
+    const SDGGoal = () => {
+        setToggleGoal("block")
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -163,7 +172,9 @@ const AddGoal = () => {
                         id="SDG" 
                         value="SDG" 
                         name="goal-type"
-                        onChange={typeHandler}/>
+                        onChange={typeHandler}
+                        onChange={SDGGoal}
+                        />
                         <label htmlFor="SDG">Sociaal maatschappelijk</label>
                         <input 
                         type="radio" 
@@ -171,8 +182,16 @@ const AddGoal = () => {
                         id="internal" 
                         value="internal" 
                         name="goal-type"
-                        onChange={typeHandler}/>
+                        onChange={typeHandler}
+                        onChange={internalGoal}/>
                         <label htmlFor="internal">Intern</label>
+                    </div>
+                    <div className="divider " style={{display: toggleGoal}}>
+                        <h2>Selecteer een SDG</h2>
+                        <div>
+                            <p>Geen honger</p>
+                        </div>
+
                     </div>
                 </form>
                 <div id="button-add-goal">

@@ -23,7 +23,33 @@ const MessageDetail = ({route, auth}) => {
         
     })
 
+    let numberOfContributions = ""
+    let numberOfContributionsReaction = ""
+
+    messages && messages.forEach(message => {
+
+        console.log(message.Contributions.length)
+
+        if(message.Contributions != undefined){
+            if(message.Contributions.length === 0){
+                numberOfContributions = 0
+            } else {
+                numberOfContributions = message.Contributions.length
+            }
+        }
+    })
+
     const reactions = useFirestoreMessages("Messages", parentID )
+
+    reactions && reactions.forEach(reaction => {
+        if(reaction.Contributions != undefined){
+            if(reaction.Contributions.length === 0){
+                numberOfContributionsReaction = 0
+            } else {
+                numberOfContributionsReaction = reaction.Contributions.length
+            }
+        }
+    })
 
     let numberOfReactions = ""
 
@@ -94,7 +120,6 @@ const MessageDetail = ({route, auth}) => {
             })
 
         history.push(`/${client}/Contributions`)
-
     }
 
     return (
@@ -114,7 +139,7 @@ const MessageDetail = ({route, auth}) => {
                         </div>
                     <p className="massage">{message.Message}</p>
                     < ReactionBar message={message} />
-                    <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {message.Contributions}</p>
+                    <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {numberOfContributions}</p>
                     < LikeBar auth={auth} message={message} />
                     </div>
                 ))}
@@ -137,7 +162,7 @@ const MessageDetail = ({route, auth}) => {
                                 <p className="massage">{reaction.Message}</p>
                             </div>
                             <div className="like-container">
-                                <p>Aantal bijdragen: {reaction.Contributions}</p>
+                                <p>Aantal bijdragen: {numberOfContributionsReaction}</p>
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
                                 < LikeBar auth={auth} message={reaction} />
                             </div>

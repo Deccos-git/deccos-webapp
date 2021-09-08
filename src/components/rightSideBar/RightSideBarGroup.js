@@ -7,12 +7,11 @@ const RightSideBarGroup = ({group, route}) => {
     const history = useHistory()
 
     const updateRoute = (e) => {
-        const userID = e.target.name
+        const userID = e.target.dataset.id
 
         const docRef = db.collection("Route")
         .doc(route.docid)
         docRef.update({
-            Profile: userID,
             Route: userID
         })
         .then(() => {
@@ -26,8 +25,8 @@ const RightSideBarGroup = ({group, route}) => {
                 <h3>Leden van {group.Room}</h3>
                 {group.Members.map(member => (
                         <div className="all-members-member-container" key={member.ID}>
-                            <img src={member.Photo} alt="" name={member.ID} onClick={updateRoute} />
-                            <p name={member.ID} onClick={updateRoute}>{member.UserName}</p>
+                            <img src={member.Photo} alt="" data-id={member.ID} onClick={updateRoute} />
+                            <p name={member.ID} data-id={member.ID} onClick={updateRoute}>{member.UserName}</p>
                         </div>
                     ))}   
             </div>

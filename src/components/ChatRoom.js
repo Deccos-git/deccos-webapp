@@ -6,8 +6,8 @@ import emailIcon from '../images/icons/email-icon.png'
 
 const ChatRoom = ({route, auth}) => {
 
-    const chats = useFirestore("Chats", route.Chat)
-    const messages = useFirestoreMessages("Messages", route.Chat)
+    const chats = useFirestore("Chats", route.Route)
+    const messages = useFirestoreMessages("Messages", route.Route)
 
     let classname = ""
     let userID = ""

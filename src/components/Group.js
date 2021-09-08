@@ -6,7 +6,7 @@ import emailIcon from '../images/icons/email-icon.png'
 
 const Group = ({group, route, auth}) => {
 
-    const messages = useFirestoreMessages("Messages", route.Group)
+    const messages = useFirestoreMessages("Messages", route.Route)
 
     let classname = ""
 
@@ -17,7 +17,6 @@ const Group = ({group, route, auth}) => {
             classname = "auth-message"
             console.log(true)
         } else if (message.User != auth.UserName)  {
-            classname = "user-message"
             console.log(false)
         }
     })

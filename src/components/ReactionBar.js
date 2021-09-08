@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { db, timestamp} from "../firebase/config"
+import { db, timestamp, bucket} from "../firebase/config"
 import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import { type, client } from "../hooks/Client"
@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom"
 const ReactionBar = ({message}) => {
 
     const [reaction, setReaction] = useState("")
+    const [fileDisplay, setFileDisplay] = useState("none")
     
     const auth= Auth()
     const id = uuid()
@@ -30,7 +31,6 @@ const ReactionBar = ({message}) => {
         .set({
             Type: "Reaction",
             ParentID: message.ID,
-            Channel: type,
             Message: reaction,
             Compagny: client,
             Timestamp: timestamp,
@@ -40,7 +40,8 @@ const ReactionBar = ({message}) => {
             ID: id,
             Thread: [],
             Read: [auth.ID],
-            UserID: auth.ID
+            UserID: auth.ID,
+            Contributions: []
         })
         .then(() => {
             db.collection("Messages")
@@ -49,22 +50,63 @@ const ReactionBar = ({message}) => {
                 Thread: firebase.firestore.FieldValue.arrayUnion(id)
             })
         })
+        .then(() => {
+            setReaction("")
+        })
     }
 
-    const addItems = () => {
+    const toggleFile = () => {
+
+        if(fileDisplay === "none"){
+            setFileDisplay("block")
+        } else {
+            setFileDisplay("none")
+        }
 
     }
+
+    const insertFile = (e) => {
+        const file = e.target.files[0]
+
+        const storageRef = bucket.ref(`/${client}_${auth.ID}/` + file.name);
+        const uploadTask = storageRef.put(file)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setReaction(downloadURL)
+
+                })
+            })
+        })
+    }
+
+    console.log(reaction)
 
     return (
         <div>
             <div className="reaction-bar-container">
-                <img src={plusIcon} alt="" onClick={addItems} />
-                <input type="text" placeholder="Schrijf hier je reactie" onChange={reactionHandler} />
+                <img src={plusIcon} alt="" onClick={toggleFile} />
+                <input type="text" placeholder="Schrijf hier je reactie" value={reaction} onChange={reactionHandler} />
                 <img src={sendIcon} alt="" onClick={submitReaction} />
             </div>
             <div>
-                <input type="file" />
-
+                <input onChange={insertFile} type="file" style={{display: fileDisplay}} />
             </div>
         </div>
     )

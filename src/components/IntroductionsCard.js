@@ -4,7 +4,7 @@ const IntroductionsCard = () => {
 
     const docs = useFirestoreTimestamp("Introductions")
 
-    console.log(docs)
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     return (
         docs && docs.map(doc => (
@@ -13,6 +13,7 @@ const IntroductionsCard = () => {
                 <h2>{doc.UserName}</h2>
                 <p>{doc.Body}</p>
                 <input id="input-introduction-card" type="text" placeholder="Schrijf hier je reactie" />
+                <p className="introductioncard-timestamp">{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
         ))
     )

@@ -32,6 +32,17 @@ const GoalDetail = ({route, auth}) => {
     })
 
     let numberOfReactions = ""
+    let numberOfContributions = ""
+
+    messages && messages.forEach(message => {
+        if(message.Contributions != undefined){
+            if(message.Contributions.length === 0){
+                numberOfContributions = 0
+            } else {
+                numberOfContributions = message.Contributions.length
+            }
+        }
+    })
 
     messages && messages.forEach(message => {
         if(message.Thread.length === 0){
@@ -84,7 +95,7 @@ const GoalDetail = ({route, auth}) => {
                             <p>{doc.Type}</p>
                         </div>
                         <div className="goal-progress-container">
-                            <p>Aantal bijdragen: {doc.Contributions}</p>
+                            <p>Aantal bijdragen: {numberOfContributions}</p>
                             <div className="button-container">
                                 <button className="button-simple" onClick={showContributionsGoal}>Bekijk bijdragen</button>
                             </div>

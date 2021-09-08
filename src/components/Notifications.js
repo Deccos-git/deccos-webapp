@@ -53,6 +53,9 @@ const Notifications = ({auth, route}) => {
 
     }
 
+   
+    
+
     return (
             <div className="main">
                 <LeftSideBar />

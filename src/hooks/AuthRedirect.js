@@ -21,8 +21,6 @@ const AuthRedirect = () => {
 
       const authID = auth && auth.ID
 
-      console.log(authID)
-
       if(authID === undefined || !memberIDArray.includes(authID)){
         history.push(`/${client}/Login`)
       } else {

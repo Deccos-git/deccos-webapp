@@ -113,7 +113,7 @@ const useFirestoreMessages = (collection, id  ) => {
     return docs
 };
 
-const useFirestoreNewMessages = (collection, id  ) => {
+const useFirestoreNewMessages = (collection, id) => {
 
     const [docs, setDocs] = useState("")
 
@@ -121,7 +121,6 @@ const useFirestoreNewMessages = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("UserID", "==", id)
-        .where("Channel", "==", "Chat")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -137,13 +136,13 @@ const useFirestoreNewMessages = (collection, id  ) => {
     return docs
 };
 
-const useFirestoreChats = (collection, room) => {
+const useFirestoreChats = (room) => {
 
     const [docs, setDocs] = useState("")
 
 
     useEffect(() => {
-        const unsub = db.collection(collection)
+        const unsub = db.collection("Chats")
         .where("Compagny", "==", client)
         .where("Room", "==", room)
         .onSnapshot(querySnapshot => {
@@ -193,7 +192,7 @@ const useFirestoreNotifications = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("RecieverID", "==", id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -205,6 +204,30 @@ const useFirestoreNotifications = (collection, id  ) => {
         return () => unsub();
 
     }, [collection, id])  
+
+    return docs
+};
+
+const useFirestoreNewNotifications = (collection, auth, status) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("RecieverID", "==", auth)
+        .where("Read", "==", status)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, status])  
 
     return docs
 };
@@ -268,5 +291,6 @@ export {
     useFirestoreChatsGroups,
     useFirestoreNotifications,
     useFirestoreChannelItems,
-    useFirestoreContributions
+    useFirestoreContributions,
+    useFirestoreNewNotifications
 }
