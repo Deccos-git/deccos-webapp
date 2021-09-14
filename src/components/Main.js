@@ -24,8 +24,6 @@ import Members from './Members';
 import ArticleDetail from './ArticleDetail';
 import MessageDetail from './MessageDetail';
 import ChatRoom from './ChatRoom';
-import { useFirestoreID, useFirestore } from '../firebase/useFirestore';
-import Auth from '../firebase/Auth';
 import Login from './Login';
 import ChannelSettings from './ChannelSettings';
 import AddEvent from './AddEvent';
@@ -43,20 +41,9 @@ import EventDetail from './EventDetail';
 import NewsDetail from './NewsDetail';
 import Contributions from './Contributions';
 import Measures from './Measures';
+import LeftSideBarFullScreen from './LeftSideBarFullScreen'
 
 const Main = () => {
-
-    const auth = Auth()
-
-    let id = ""
-
-    if(auth.ID != undefined){
-        id = auth.ID
-    }
-
-    const compagnies = useFirestore("CompagnyMeta")
-    const routes = useFirestoreID("Route", id)
-    const groups = useFirestore("Groups")
 
     return (
         <div className="main">
@@ -67,10 +54,6 @@ const Main = () => {
                 <Route path={`/${client}/Register`}>
                     <Register/>
                 </Route>
-                {routes && routes.map(route => (
-                <>
-                {compagnies && compagnies.map(compagny => (
-                <>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>
                 </Route>
@@ -86,8 +69,11 @@ const Main = () => {
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>
                 </Route>
+                <Route path={`/${client}/LeftSideBarFullScreen`}>
+                    <LeftSideBarFullScreen/>
+                </Route>
                 <Route path={`/${client}/AddChannelItem`}>
-                    <AddChannelItem route={route}/>
+                    <AddChannelItem/>
                 </Route>
                 <Route path={`/${client}/AddGoal`}>
                     <AddGoal/>
@@ -96,13 +82,13 @@ const Main = () => {
                     <Search/>
                 </Route>
                 <Route path={`/${client}/Profile`}>
-                    <Profile authO={auth}/>
+                    <Profile/>
                 </Route>
                 <Route path={`/${client}/GoalDetail`}>
-                    <GoalDetail route={route} auth={auth}/>
+                    <GoalDetail/>
                 </Route>
                 <Route path={`/${client}/ChannelDetail`}>
-                    <ChannelDetail route={route} auth={auth}/>
+                    <ChannelDetail/>
                 </Route>
                 <Route path={`/${client}/AddArticle`}>
                     <AddArticle/>
@@ -114,38 +100,34 @@ const Main = () => {
                     <Introductions/>
                 </Route>
                 <Route path={`/${client}/News`}>
-                    <News route={route}/>
+                    <News/>
                 </Route>
                 <Route path={`/${client}/Events`}>
-                    <Events route={route}/>
+                    <Events/>
                 </Route>
                 <Route path={`/${client}/Measures`}>
-                    <Measures route={route}/>
+                    <Measures/>
                 </Route>
                 <Route path={`/${client}/EventDetail`}>
-                    <EventDetail route={route} auth={auth}/>
+                    <EventDetail/>
                 </Route>
                 <Route path={`/${client}/NewsDetail`}>
-                    <NewsDetail route={route} auth={auth}/>
+                    <NewsDetail/>
                 </Route>
-                {groups && groups.map(group => (
-                <>
                 <Route path={`/${client}/Group`}>
-                    <Group group={group} route={route} auth={auth}/>
+                    <Group/>
                 </Route>
-                </>
-                ))}
                 <Route path={`/${client}/Notifications`}>
-                    <Notifications auth={auth} route={route}/>
+                    <Notifications/>
                 </Route>
                 <Route path={`/${client}/ChatsGroups`}>
-                    <ChatGroups auth={auth} route={route} />
+                    <ChatGroups/>
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
-                    <PublicProfile route={route} auth={auth}/>
+                    <PublicProfile/>
                 </Route>
                 <Route path={`/${client}/Settings`}>
-                    <Settings compagny={compagny}/>
+                    <Settings/>
                 </Route>
                 <Route path={`/${client}/Analytics`}>
                     <Analytics/>
@@ -154,22 +136,22 @@ const Main = () => {
                     <Members/>
                 </Route>
                 <Route path={`/${client}/Contributions`}>
-                    <Contributions route={route}/>
+                    <Contributions/>
                 </Route>
                 <Route path={`/${client}/ArticleDetail`}>
-                    <ArticleDetail route={route} auth={auth}/>
+                    <ArticleDetail/>
                 </Route>
                 <Route path={`/${client}/MessageDetail`}>
-                    <MessageDetail route={route} auth={auth}/>
+                    <MessageDetail/>
                 </Route>
                 <Route path={`/${client}/ChatRoom`}>
-                    <ChatRoom route={route} auth={auth}/>
+                    <ChatRoom/>
                 </Route>
                 <Route path={`/${client}/ChannelSettings`}>
-                    <ChannelSettings route={route}/>
+                    <ChannelSettings/>
                 </Route>
                 <Route path={`/${client}/ChannelSettingsDetail`}>
-                    <ChannelSettingsDetail route={route}/>
+                    <ChannelSettingsDetail/>
                 </Route>
                 <Route path={`/${client}/AddEvent`}>
                     <AddEvent/>
@@ -178,26 +160,21 @@ const Main = () => {
                     <AddNews/>
                 </Route>
                 <Route path={`/${client}/GroupSettings`}>
-                    <GroupSettings compagny={compagny} auth={auth}/>
+                    <GroupSettings/>
                 </Route>
                 <Route path={`/${client}/WelcomeSettings`}>
-                    <WelcomeSettings compagny={compagny} auth={auth}/>
+                    <WelcomeSettings/>
                 </Route>
                 <Route path={`/${client}/GroupLanding`}>
-                    <GroupLanding route={route} auth={auth}/>
+                    <GroupLanding/>
                 </Route>
                 <Route path={`/${client}/Channel`}>
-                    <Channel route={route} auth={auth}/>
+                    <Channel/>
                 </Route>
                 <Route path={`/${client}/GoalSettings`}>
                     <GoalSettings />
                 </Route>
-                </>
-                ))}
-                </>
-                ))}
             </Switch>
-             
         </div>
     )
 }

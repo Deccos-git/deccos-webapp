@@ -4,6 +4,7 @@ import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 
 const LeftSideBarPublicProfile = () => {
+
     return (
         <div className="left-side-bar">
             <div className="channel-div">

@@ -6,10 +6,13 @@ import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
 import { useLocation } from "react-router-dom"
-import firebase from 'firebase';
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
+import { Auth } from '../StateManagment/Auth';
 
-const MessageBar = ({route, auth}) => {
-
+const MessageBar = () => {
+    const [route, setRoute] = useContext(Route)
+    const [authO, setAuthO] = useContext(Auth)
     const [Message, setMessage] = useState("")
 
     const id = uuid()
@@ -41,11 +44,11 @@ const MessageBar = ({route, auth}) => {
             PrevPath: location.pathname,
             ID: id,
             Compagny: client,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
             Thread: [],
-            Read: [auth.ID],
-            UserID: auth.ID,
+            Read: [authO.ID],
+            UserID: authO.ID,
             Contributions: []
         })
         .then(() => {
@@ -62,7 +65,7 @@ const MessageBar = ({route, auth}) => {
     return (
         <div className="massage-container">
             <div>
-                <img src={auth.Photo} alt="" />
+                <img src={authO.Photo} alt="" />
             </div>
             <div className="messagebar-container">
                 <img src={plusIcon} alt="" />

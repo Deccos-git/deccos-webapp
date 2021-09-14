@@ -6,16 +6,18 @@ import heartIcon from '../../images/icons/heart-icon.png'
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
-import { db } from "../../firebase/config"
 import { useHistory, useLocation } from "react-router-dom"
 import { client } from "../../hooks/Client"
 import LikeBar from "../LikeBar"
 import ReactionBar from "../ReactionBar"
+import { useContext } from 'react';
+import { Route } from '../../StateManagment/Route';
 
-const GoalDetail = ({route, auth}) => {
+const GoalDetail = ({auth}) => {
+    const [route, setRoute] = useContext(Route)
 
-    const docs = useFirestoreID("Goals", route.Goal)
-    const messages  = useFirestoreMessages("Messages", route.Goal )
+    const docs = useFirestoreID("Goals", route)
+    const messages  = useFirestoreMessages("Messages", route)
     const history = useHistory()
     const location = useLocation()
 
@@ -57,11 +59,7 @@ const GoalDetail = ({route, auth}) => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: message.ID,
-            })
+           setRoute(message.ID)
         })
         history.push(`/${client}/MessageDetail`)
     }
@@ -69,11 +67,7 @@ const GoalDetail = ({route, auth}) => {
     const showContributionsGoal = () => {
 
         docs && docs.forEach(doc => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: doc.ID
-            })
+            setRoute(doc.ID)
         })
 
         history.push(`/${client}/Contributions`)

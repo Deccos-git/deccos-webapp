@@ -5,140 +5,135 @@ import { useHistory } from "react-router-dom";
 import { db } from '../firebase/config';
 import { client } from '../hooks/Client';
 import groupIcon from '../images/icons/group-icon.png'
+import { useEffect, useState, useContext } from "react";
+import { Route } from '../StateManagment/Route';
+import { Auth } from '../StateManagment/Auth';
 
-const ChatGroups = ({auth, route}) => {
+const ChatGroups = () => {
+    const [route, setRoute] = useContext(Route)
+    const [authO] = useContext(Auth)
+    const [chats, setChats] = useState("")
+    const [partners, setPartners] = useState("")
+    const [allMessages, setAllMessages] = useState("")
+    const [newMessages, setNewMessages] = useState("")
 
-    const groups = useFirestoreChatsGroups("Groups", auth.ID)
+    const groups = useFirestoreChatsGroups("Groups", authO.ID)
     const history = useHistory()
 
-   const chatsArray = []
-
    // Find chats of auth
-   const chats = useFirestoreChatsGroups("Chats", auth.ID)
+   useEffect(() => {
 
-    const partnerMeta = async (id) => {
-
-        const partnerMeta = []
-
-        await db.collection("Users")
-        .where("ID", "==", id)
-        .onSnapshot(querySnapshot => {
-            querySnapshot.forEach(doc => {
-
-                const userName = doc.data().UserName
-                const userPhoto = doc.data().Photo
-                const userID = doc.data().ID
-
-                 partnerMeta.push(
-                    userName,
-                    userPhoto,
-                    userID
-                 )
-
-            })
-        })
-        return partnerMeta
-        
-    }
-
-    // Find new messages
-
-    const newMessages = (id) => {
-
-        const newMessagesArray = []
-
-        db.collection("Messages")
+        db.collection("Chats")
         .where("Compagny", "==", client)
-        .where("ParentID", "==", id)
+        .where("MemberList", "array-contains", authO.ID)
         .onSnapshot(querySnapshot => {
-            querySnapshot.forEach(doc => {
-
-                const read = doc.data().Read
-
-                console.log(read)
-
-                totalMessages(read)
-
-                if(!read.includes(auth.ID)){
-                    newMessagesArray.push(read)
-                }    
+            let docArray = []
+            querySnapshot.forEach( doc => {
+                docArray.push({...doc.data(), docid: doc.id})
             })
+            setChats(docArray)
         })
+    }, [])  
 
-        return newMessagesArray
-    }
 
-    // Find all messages
-    const totalMessages = (read) => {
+   let userName = ""
+   let userPhoto = ""
 
-        const totalMessagesArray = [read]
+   useEffect(() => {
 
-        console.log(totalMessagesArray)
+    chats && chats.forEach(chat => {
+        const members = chat.Members
+        members.forEach((member) => {
 
-        return totalMessagesArray.length
+            if(member != authO.ID){
 
-    }
+                db.collection("Users")
+                .where("ID", "==", member)
+                .onSnapshot(querySnapshot => {
+                    querySnapshot.forEach((doc) => {
+        
+                        const userName = doc.data().UserName
+                        const userPhoto = doc.data().Photo
+                        const userID = doc.data().ID
 
-    //Combine all info
-
-    const chatMeta = async () => {
-
-        chats && chats.forEach(chat => {
-            const members = chat.Members
-            members.forEach(async (member) => {
-
-                if(member != auth.ID){
-
-                   const partner = await partnerMeta(member)
-
-                    chatsArray.push({
-                        partner,
-                        newMessages: newMessages(chat.ID).length,
-                        totalMessages: totalMessages()
+                        const partnerMeta = {
+                            name:userName,
+                            photo:userPhoto,
+                            id:userID
+                        }
+        
+                        setPartners(partnerMeta)
+        
                     })
-
-                    DisplayChats()
-                    test()
-                    
+                })
                 }
             })
         })
-    }
 
-    const test = () => {
-        chatsArray.forEach(chat => {
-            console.log(chat)
+   },[])
+
+   useEffect(() => {
+
+    chats && chats.forEach(chat => {
+
+    db.collection("Messages")
+    .where("Compagny", "==", client)
+    .where("ParentID", "==", chat.ID)
+    .onSnapshot(querySnapshot => {
+        querySnapshot.forEach((doc) => {
+
+            const read = doc.data().Read
+
+            const totalMessagesArray = [read]
+
+            setAllMessages({
+                AllMessages: totalMessagesArray.length
+            })
+
+            if(!read.includes(authO.ID)){
+
+                setNewMessages({
+                    NewMessages: read.length
+                })
+            } 
         })
-    }
+    })
+})
+   }, [])
 
-    chatMeta()
+   console.log(partners)
+   console.log(allMessages)
+   console.log(newMessages)
+
+   const chatsArray=[partners, allMessages, newMessages]
+
+   console.log(chatsArray)
+
+
+
+
+    
+
+
 
     const DisplayChats = () => {
-        
-         return chatsArray && chatsArray.map( chats => (
-            <div className="chatpartner-meta-container divider" key={chats.UserID}>
-                <div name={""} onClick={updateRoute}>
-                    <img src={chats.UserPhoto} alt="" />
-                    <p className="chat-overview-username">{chats.partner[0]}</p>
+           return <div className="chatpartner-meta-container divider" >
+                <div className="chatpartner-container" onClick={updateRoute}>
+                    <img src={partners.photo} alt="" />
+                    <p className="chat-overview-username">{partners.name}</p>
                 </div>
-                <p>{chats.totalMessages} berichten</p>
-                <p className="new-messages">{chats.newMessages} nieuw</p>
+                <p>{allMessages.AllMessages} berichten</p>
+                <p className="new-messages">{newMessages.NewMessages} nieuw</p>
             </div>
-         ))
     }
 
     const updateRoute = (e) => {
         chats && chats.forEach(chat => {
-            const docRef = db.collection("Route")
-            .doc(route.docid)
-            docRef.update({
-                Chat: chat.ID,
-                Route: chat.ID,
-                Channel: "Chats"
-            })
-            .then(() => {
-                history.push(`/${client}/ChatRoom`)
-            })
+           
+            setRoute(chat.ID)
+         
+            history.push(`/${client}/ChatRoom`)
+            
         })
     }
 
@@ -152,8 +147,8 @@ const ChatGroups = ({auth, route}) => {
                         </div>
                     <h2>Groepen</h2>
                     {groups && groups.map(group => (
-                    <div className="chats-overview-container divider">
-                        <div className="chatpartner-meta-container" name={group.ID} onClick={updateRoute}>
+                    <div className="chats-overview-container divider" key={group.ID}>
+                        <div className="chatpartner-meta-container" data-id={group.ID} name={group.ID} onClick={updateRoute}>
                             <img src={groupIcon} alt="" />
                             <p className="chat-overview-username">{group.Room}</p>
                             <p>{group.Messages} berichten</p>

@@ -4,13 +4,13 @@ import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
 import uuid from 'react-uuid'
-import { useFirestore } from '../../firebase/useFirestore';
-import { db } from '../../firebase/config';
+import { useContext } from 'react';
+import { Route } from '../../StateManagment/Route';
 
 const GoalCard = ({doc}) => {
+    const [route, setRoute] = useContext(Route)
 
     const history = useHistory();
-    const routes = useFirestore("Route")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -27,14 +27,7 @@ const GoalCard = ({doc}) => {
 
     const updateRoute = () => {
 
-        routes && routes.forEach(route => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Goal: doc.ID,
-                Route: doc.ID
-            })
-        })
+       setRoute(doc.ID)
 
         history.push(`/${client}/GoalDetail`)
     }

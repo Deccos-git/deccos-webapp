@@ -3,8 +3,12 @@ import { useHistory } from "react-router-dom";
 import { db } from '../firebase/config';
 import { useFirestore } from '../firebase/useFirestore';
 import { motion } from "framer-motion"
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
 
 const ArticleCard = ({doc}) => {
+
+    const [route, setRoute] = useContext(Route)
 
     const history = useHistory();
     const routes = useFirestore("Route")
@@ -16,14 +20,7 @@ const ArticleCard = ({doc}) => {
 
     const detailRouter = () => {
     
-        routes && routes.forEach(route => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Article: doc.ID,
-                Route: doc.ID
-            })
-        })
+        setRoute(doc.ID)
     
         history.push(`/${client}/ArticleDetail`)
     }

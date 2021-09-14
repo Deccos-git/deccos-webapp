@@ -5,14 +5,22 @@ import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState} from 'react';
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
+import { Auth } from '../StateManagment/Auth';
 
-const PublicProfile = ({route, auth}) => {
+const PublicProfile = () => {
+    const [route, setRoute] = useContext(Route)
+    const [authO] = useContext(Auth)
+
+    console.log(route)
 
     const history = useHistory()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const profiles = useFirestoreID("Users", route.Route)
+    const profiles = useFirestoreID("Users", route)
+
+    console.log(profiles)
 
     let members = ""
     let chatID = ""
@@ -21,7 +29,7 @@ const PublicProfile = ({route, auth}) => {
     function createRoomName(){
 
         profiles && profiles.forEach(profile => {
-            room = auth.ID < profile.ID ? auth.ID+'_'+profile.ID : profile.ID+'_'+auth.ID
+            room = authO.ID < profile.ID ? authO.ID+'_'+profile.ID : profile.ID+'_'+authO.ID
         })
     } createRoomName()
 
@@ -42,11 +50,7 @@ const PublicProfile = ({route, auth}) => {
     } 
 
     const updateRoute = (ID) => {
-        db.collection("Route")
-        .doc(route.docid)
-        .update({
-            Route: ID
-        })
+       setRoute(ID)
         .then(() => {
             history.push(`/${client}/ChatRoom`)
         })
@@ -59,12 +63,12 @@ const PublicProfile = ({route, auth}) => {
             ID: id,
             Room: room,
             Members: [
-                route.Route,
-                auth.ID
+                route,
+                authO.ID
             ],
             MemberList: [
-                route.Route,
-                auth.ID
+                route,
+                authO.ID
             ],
             Timestamp: timestamp,
             Compagny: client,
@@ -79,11 +83,7 @@ const PublicProfile = ({route, auth}) => {
 
         const id = e.target.dataset.id
         
-        db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: id
-            })
+        setRoute(id)
 
         history.push(`/${client}/Contributions`)
 

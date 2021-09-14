@@ -2,8 +2,10 @@ import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
+import menuIcon from '../images/icons/menu-icon.png'
 
 const LeftSideBarAuthProfile = () => {
+
     return (
         <div className="left-side-bar">
             <div className="channel-div">

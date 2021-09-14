@@ -7,22 +7,23 @@ import { useFirestoreChannelItems, useFirestoreID } from "../firebase/useFiresto
 import { db } from "../firebase/config.js"
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
 
-const Channel = ({route}) => {
+const Channel = () => {
+    const [route, setRoute] = useContext(Route)
 
-    const channels = useFirestoreID("Channels", route.Route)
-    const items = useFirestoreChannelItems("ChannelItems", route.Route)
+    console.log(route)
+
+    const channels = useFirestoreID("Channels", route)
+    const items = useFirestoreChannelItems("ChannelItems", route)
     const history = useHistory()
 
     const updateRoute = (e) => {
 
         const channelID = e.target.dataset.id
 
-        db.collection("Route")
-        .doc(route.docid)
-        .update({
-            Route: channelID
-        })
+        setRoute(channelID)
 
         history.push(`/${client}/ChannelDetail`)
     }
@@ -40,7 +41,7 @@ const Channel = ({route}) => {
             <div className="main-container">
                 <div className="card-container">
                 {channels && channels.map(channel => (
-                    <>
+                    <div key={channel.ID}>
                     <Link to={`/${client}/AddChannelItem`}><img className="plus-icon" data-id={channel.ID} src={plusIcon} alt="" onClick={updateRoute} /></Link>
                         {items && items.map(item => (
                             <motion.div  initial="hidden"
@@ -62,7 +63,7 @@ const Channel = ({route}) => {
                                 </div>
                             </motion.div>
                         )) }
-                    </>
+                    </div>
                 ))}
                 </div>
             </div>

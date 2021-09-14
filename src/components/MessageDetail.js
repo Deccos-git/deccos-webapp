@@ -8,10 +8,15 @@ import { db } from "../firebase/config"
 import { useHistory, useLocation } from "react-router-dom"
 import { client } from "../hooks/Client"
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
+import { Auth } from '../StateManagment/Auth';
 
-const MessageDetail = ({route, auth}) => {
+const MessageDetail = ({auth}) => {
+    const [route, setRoute] = useContext(Route)
+    const [authO] = useContext(Auth)
 
-    const messages = useFirestoreID("Messages", route.Route)
+    const messages = useFirestoreID("Messages", route)
     const history = useHistory()
     const location = useLocation()
 
@@ -96,11 +101,7 @@ const MessageDetail = ({route, auth}) => {
                     const parentID = doc.data().ParentID
                     const prevPath = doc.data().PrevPath
 
-                    db.collection("Route")
-                    .doc(route.docid)
-                    .update({
-                        Route: parentID
-                        })
+                    setRoute(parentID)
             
                     history.push(`${prevPath}`)
 
@@ -113,11 +114,7 @@ const MessageDetail = ({route, auth}) => {
 
         const id = e.target.dataset.id
         
-        db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: id
-            })
+        setRoute(id)
 
         history.push(`/${client}/Contributions`)
     }
@@ -140,7 +137,7 @@ const MessageDetail = ({route, auth}) => {
                     <p className="massage">{message.Message}</p>
                     < ReactionBar message={message} />
                     <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {numberOfContributions}</p>
-                    < LikeBar auth={auth} message={message} />
+                    < LikeBar auth={authO} message={message} />
                     </div>
                 ))}
 
@@ -164,7 +161,7 @@ const MessageDetail = ({route, auth}) => {
                             <div className="like-container">
                                 <p>Aantal bijdragen: {numberOfContributionsReaction}</p>
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
-                                < LikeBar auth={auth} message={reaction} />
+                                < LikeBar auth={authO} message={reaction} />
                             </div>
                             <div className="button-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>

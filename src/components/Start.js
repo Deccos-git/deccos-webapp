@@ -43,7 +43,7 @@ const Start = () => {
                              <h3>Onze community regels</h3>
                              <ul>
                                 {doc.Rules.map(rule => (
-                                    <li dangerouslySetInnerHTML={{ __html: rule }}></li>
+                                    <li dangerouslySetInnerHTML={{ __html: rule }} key={rule.ID}></li>
                                 ))}
                              </ul>
                         </div>

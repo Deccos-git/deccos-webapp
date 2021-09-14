@@ -7,15 +7,18 @@ import MessageBar from "./MessageBar"
 import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
+import { Auth } from '../StateManagment/Auth';
 
 
-const ChannelDetail = ({route, auth}) => {
+const ChannelDetail = () => {
+    const [route, setRoute] = useContext(Route)
+    const [authO] = useContext(Auth)
 
-    const items = useFirestoreID("ChannelItems", route.Route)
-    const messages  = useFirestoreMessages("Messages", route.Route)
+    const items = useFirestoreID("ChannelItems", route)
+    const messages  = useFirestoreMessages("Messages", route)
     const history = useHistory()
-
-    console.log(items)
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -34,11 +37,7 @@ const ChannelDetail = ({route, auth}) => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Message: message.ID
-            })
+            setRoute(message.ID)
         })
         history.push(`/${client}/MessageDetail`)
     }
@@ -49,7 +48,7 @@ const ChannelDetail = ({route, auth}) => {
                 <LeftSideBar />
                 <div className="main-container">
                     {items && items.map(item => (
-                        <div className="article">
+                        <div className="article" key={item.ID}>
                         <h1>{item.Title}</h1>
                         <img src={item.Banner} alt="" />
                         <div className="list-inner-container">
@@ -65,10 +64,10 @@ const ChannelDetail = ({route, auth}) => {
                     </div>
                     )) }
                     <h2>Berichten</h2>
-                    <MessageBar route={route} auth={auth}/>
+                    <MessageBar route={route} auth={authO}/>
                     <div className="reaction-area">
                         {messages && messages.map(message => ( 
-                            <div className="reaction-inner-container">
+                            <div className="reaction-inner-container" key={message.ID}>
                                 <div className="auth-message-container">
                                     <img src={message.UserPhoto} alt="" />
                                     <p className="auth-name">{message.User}</p>
@@ -76,7 +75,7 @@ const ChannelDetail = ({route, auth}) => {
                                 </div>
                                 <p>{message.Message}</p>
                                 < ReactionBar message={message} />
-                                < LikeBar auth={auth} message={message} />
+                                < LikeBar auth={authO} message={message} />
                                 <div className="button-container">
                                     <button onClick={updateRoute}>{numberOfReactions}</button>
                                 </div>

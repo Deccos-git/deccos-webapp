@@ -28,7 +28,6 @@ const useFirestoreID = (collection, id) => {
 
     const [docs, setDocs] = useState("")
 
-
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
@@ -74,6 +73,7 @@ const useFirestoreTimestamp = (collection) => {
 const useFirestoreUser = (userID) => {
 
     const [docs, setDocs] = useState("")
+    
     const docArray = []
     useEffect(() => {
         db.collection("Users")

@@ -1,10 +1,13 @@
 import Topbar from './components/topbar/Topbar';
+import BottomBar from './components/BottomBar';
 import Main from './components/Main';
 import { motion } from "framer-motion"
 import { BrowserRouter as Router } from "react-router-dom";
 import LoginRegister from './components/LoginRegister';
 import { auth, db } from './firebase/config';
 import { useState } from 'react';
+import { RouteProvider } from './StateManagment/Route';
+import {AuthProvider} from './StateManagment/Auth';
 
 function App() {
 
@@ -22,7 +25,18 @@ function App() {
       if(online === false){
         return <LoginRegister/>
       } else if (online === true) {
-        return <><Topbar /><Main/></>
+        
+        return ( 
+        <AuthProvider>
+        <RouteProvider>
+          <>
+          <Topbar />
+          <Main/>
+          <BottomBar/>
+          </>
+        </RouteProvider>
+        </AuthProvider>
+        )
       }
     }
 

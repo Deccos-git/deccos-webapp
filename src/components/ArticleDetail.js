@@ -7,22 +7,16 @@ import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import MessageBar from "./MessageBar"
+import { useContext } from 'react';
+import { Route } from '../StateManagment/Route';
 
-const ArticleDetail = ({route, auth}) => {
+const ArticleDetail = ({auth}) => {
+    const [route, setRoute] = useContext(Route)
 
-    const routes = useFirestore("Route")
-    const messages  = useFirestoreMessages("Messages", route.Article )
+    const messages  = useFirestoreMessages("Messages", route )
     const history = useHistory()
 
-    let routeArticle = ""
-
-    routes && routes.forEach(route => {
-
-        routeArticle = route.Article
-
-    })
-
-    const docs = useFirestoreID("KnowledgeCentre", routeArticle)
+    const docs = useFirestoreID("KnowledgeCentre", route)
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -41,11 +35,7 @@ const ArticleDetail = ({route, auth}) => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: message.ID
-            })
+            setRoute(message.ID)
         })
         history.push(`/${client}/MessageDetail`)
     }

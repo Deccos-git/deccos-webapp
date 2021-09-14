@@ -6,14 +6,15 @@ import firebase from 'firebase'
 import { useHistory } from "react-router";
 import { client } from '../hooks/Client';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
-import { useState } from 'react'
+import { useRef, useState, useContext } from 'react';
+import { Auth } from '../StateManagment/Auth';
 
-const Profile = ({authO}) => {
+const Profile = () => {
 
+    const [authO, setAuthO] = useContext(Auth)
     const [body, setBody] = useState("")
-    const [forName, setForName] = useState(auth.ForName)
-    const [surName, setSurName] = useState(auth.SurName)
+    const [forName, setForName] = useState(authO.ForName)
+    const [surName, setSurName] = useState(authO.SurName)
 
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
