@@ -7,6 +7,7 @@ import LoginRegister from './components/LoginRegister';
 import { auth, db } from './firebase/config';
 import { useState } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
+import { MenuProvider } from './StateManagment/MobileMenu';
 
 function App() {
 
@@ -27,11 +28,13 @@ function App() {
         
         return ( 
         <AuthProvider>
+        <MenuProvider>
           <>
           <Topbar />
           <Main/>
           <BottomBar/>
           </>
+        </MenuProvider>
         </AuthProvider>
         )
       }

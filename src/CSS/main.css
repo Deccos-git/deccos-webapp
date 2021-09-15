@@ -1057,6 +1057,10 @@
         width: 100%;
         background-color: white;
     }
+
+    .notification-card {
+        width: 80%;
+    }
 }
 
   

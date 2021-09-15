@@ -3,13 +3,12 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreNotifications } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
-import { useContext } from 'react';
-import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
 const Notifications = () => {
-    const [authO] = useContext(Auth)
+    const route = Location()[3]
 
-    const notifications = useFirestoreNotifications("Notifications", authO.ID)
+    const notifications = useFirestoreNotifications("Notifications", route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
 

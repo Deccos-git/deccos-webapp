@@ -35,31 +35,26 @@ const Channel = () => {
             <LeftSideBar />
             <div className="main-container">
                 <div className="card-container">
-                {channels && channels.map(channel => (
-                    <div key={channel.ID}>
-                    <Link to={`/${client}/AddChannelItem`}><img className="plus-icon" data-id={channel.ID} src={plusIcon} alt="" onClick={updateRoute} /></Link>
-                        {items && items.map(item => (
-                            <motion.div  initial="hidden"
-                            animate="visible"
-                            variants={variants} className="card">
-                                <div key={item.ID}>
-                                    <img src={item.Banner} alt="" />
-                                    <div className="list-inner-container">
-                                        <div className="article-card-user-container">
-                                            <img src={item.UserPhoto} alt="" />
-                                            <p>{item.User}</p>
-                                        </div>
-                                        <h2>{item.Title}</h2>
-                                        <p>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    {items && items.map(item => (
+                        <motion.div  initial="hidden"
+                        animate="visible"
+                        variants={variants} className="card">
+                            <div key={item.ID}>
+                                <img src={item.Banner} alt="" />
+                                <div className="list-inner-container">
+                                    <div className="article-card-user-container">
+                                        <img src={item.UserPhoto} alt="" />
+                                        <p>{item.User}</p>
                                     </div>
-                                    <div className="button-container">
-                                        <button onClick={updateRoute} data-id={item.ID}>Bekijk</button>
-                                    </div>
+                                    <h2>{item.Title}</h2>
+                                    <p>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                                 </div>
-                            </motion.div>
-                        )) }
-                    </div>
-                ))}
+                                <div className="button-container">
+                                    <button onClick={updateRoute} data-id={item.ID}>Bekijk</button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )) }
                 </div>
             </div>
             <RightSideBar />

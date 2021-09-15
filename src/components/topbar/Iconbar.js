@@ -65,9 +65,12 @@ const Iconbar = () => {
             .update({
                 Read: true
             })
+            .then(() => {
+                history.push(`/${client}/Notifications/${notification.RecieverID}`) 
+            })
         })
 
-        history.push(`/${client}/Notifications`) 
+       
     }
 
     const showMessages = () => {

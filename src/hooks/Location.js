@@ -7,8 +7,6 @@ const Location = () => {
 
     const locationArray = location.pathname.split("/")
 
-    console.log(locationArray)
-
     return locationArray
 
 }

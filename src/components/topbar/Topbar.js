@@ -5,8 +5,11 @@ import {useFirestore} from "../../firebase/useFirestore"
 import menuIcon from '../../images/icons/menu-icon.png'
 import { useHistory } from "react-router-dom";
 import { client } from '../../hooks/Client';
+import { useContext } from 'react';
+import { MobileMenu } from '../../StateManagment/MobileMenu';
 
 const Topbar = () => {
+    const [menu, setMenu] = useContext(MobileMenu)
     const docs  = useFirestore("CompagnyMeta")
     const history = useHistory();
 
@@ -20,9 +23,13 @@ const Topbar = () => {
     })
 
     const showLeftSideBar = () => {
-
-        history.push(`/${client}/LeftSideBarFullScreen`)
-
+        if(menu === false){
+            setMenu(true)
+            history.push(`/${client}/LeftSideBarFullScreen`)    
+        } else if (menu === true){
+            setMenu(false)
+            history.goBack()
+        }
     }
 
     return (

@@ -7,13 +7,16 @@ import { db } from "../firebase/config";
 import { useFirestoreID } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
+import Location from "../hooks/Location"
 
-const ChannelSettingsDetail = ({route}) => {
+const ChannelSettingsDetail = () => {
     const [channelSingleName, setChannelSingleName] = useState("")
     const [channelName, setChannelName] = useState("")
     const [channelLayout, setChannelLayout] = useState("")
 
-    const channels = useFirestoreID("Channels", route.Route)
+    const route = Location()[3]
+
+    const channels = useFirestoreID("Channels", route)
     const uid = uuid()
     const history = useHistory()
 

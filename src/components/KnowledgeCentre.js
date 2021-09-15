@@ -17,7 +17,7 @@ const KnowledgeCentre = () => {
                 <Link to={`/${client}/AddArticle`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
                 <div className="card-container">
                     {docs && docs.map(doc => (
-                        <ArticleCard doc={doc} />
+                        <ArticleCard doc={doc} key={doc.ID} />
                     ))}
                 </div>
             </div>
