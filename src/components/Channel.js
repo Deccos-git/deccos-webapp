@@ -16,6 +16,8 @@ const Channel = () => {
     const items = useFirestoreChannelItems("ChannelItems", route)
     const history = useHistory()
 
+    console.log(channels)
+
     const updateRoute = (e) => {
 
         const channelID = e.target.dataset.id
@@ -34,11 +36,12 @@ const Channel = () => {
         <div className="main">
             <LeftSideBar />
             <div className="main-container">
+                {channels && channels.map(channel => (
                 <div className="card-container">
                     {items && items.map(item => (
                         <motion.div  initial="hidden"
                         animate="visible"
-                        variants={variants} className="card">
+                        variants={variants} className={channel.Layout}>
                             <div key={item.ID}>
                                 <img src={item.Banner} alt="" />
                                 <div className="list-inner-container">
@@ -56,6 +59,7 @@ const Channel = () => {
                         </motion.div>
                     )) }
                 </div>
+                ))}
             </div>
             <RightSideBar />
         </div>

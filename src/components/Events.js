@@ -1,8 +1,6 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
-import { Link } from "react-router-dom";
-import plusIcon from '../images/icons/plus-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 
@@ -22,7 +20,6 @@ const Events = () => {
         <div className="main">
             <LeftSideBar />
             <div className="main-container">
-                <Link to={`/${client}/AddEvent`}><img className="plus-icon" src={plusIcon} alt="" /></Link>
                 <div className="card-container">
                     {events && events.map(even => (
                         <div className="card">

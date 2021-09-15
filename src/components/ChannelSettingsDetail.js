@@ -8,23 +8,19 @@ import { useFirestoreID } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
 import Location from "../hooks/Location"
+import ListLayout from '../images/Design/list-mockup.png'
+import CardLayout from '../images/Design/card-mockup.png'
 
 const ChannelSettingsDetail = () => {
-    const [channelSingleName, setChannelSingleName] = useState("")
     const [channelName, setChannelName] = useState("")
     const [channelLayout, setChannelLayout] = useState("")
 
     const route = Location()[3]
 
     const channels = useFirestoreID("Channels", route)
-    const uid = uuid()
     const history = useHistory()
 
-    const nameSingleHandler = (e) => {
-        const singleName = e.target.value
-
-        setChannelSingleName(singleName)
-    }
+    console.log(channels)
 
     const nameHandler = (e) => {
         const name = e.target.value
@@ -45,27 +41,6 @@ const ChannelSettingsDetail = () => {
         })
     }
 
-    const saveSingleName = () => {
-
-        channels && channels.forEach(channel => {
-
-            db.collection("Channels")
-            .doc(channel.docid)
-            .update({
-                SingleName: channelSingleName
-            })
-
-        })
-    }
-
-
-
-    const layoutHandler = (e) => {
-        const channelLayout = e.target.id
-        
-        setChannelLayout(channelLayout)
-    }
-
     const deleteChannel = (e) => {
         const ID = e.target.dataset.id
 
@@ -84,6 +59,26 @@ const ChannelSettingsDetail = () => {
         history.push(`/${client}/ChannelSettings`)
     }
 
+    const selectListLayout = () => {
+        setChannelLayout("list")
+    }
+
+    const selectCardLayout = () => {
+        setChannelLayout("card")
+    }
+
+    const saveLayout = () => {
+        channels && channels.forEach(channel => {
+
+            db.collection("Channels")
+            .doc(channel.docid)
+            .update({
+                Layout: channelLayout,
+            })
+
+        })
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -95,19 +90,26 @@ const ChannelSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h3>Naam</h3>
-                        <h5>Naam meervoud</h5>
                         <input className="input-classic" type="text" placeholder={channel.Name} onChange={nameHandler}/>
-                        <div className="button-container">
-                            <button className="button-simple" onClick={saveSingleName}>Opslaan</button>
-                        </div>
-                        <h5>Naam enkelvoud</h5>
-                        <input className="input-classic" type="text" placeholder={channel.SingleName} onChange={nameSingleHandler}/>
                         <div className="button-container">
                             <button className="button-simple" onClick={saveName}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
                         <h3>Layout</h3>
+                        <div className="layout-container">
+                            <div className="layout-inner-div" onClick={selectListLayout}>
+                                <h5>Lijst</h5>
+                                <img src={ListLayout} alt="" />
+                            </div>
+                            <div className="layout-inner-div" onClick={selectCardLayout}>
+                                <h5>Kaart</h5>
+                                <img src={CardLayout} alt="" />
+                            </div>
+                        </div>
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveLayout}>Opslaan</button>
+                        </div>
                     </div>
                     <div className="divider">
                         <h3>Kanaal verwijderen</h3>

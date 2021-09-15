@@ -1,42 +1,18 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import { useState } from "react";
 import uuid from 'react-uuid';
 import { db } from "../firebase/config";
 import settingsIcon from '../images/icons/settings-icon.png'
-import { useFirestore, useFirestoreID } from "../firebase/useFirestore";
+import { useFirestore } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
+import plusIcon from '../images/icons/plus-icon.png'
 
-const ChannelSettings = ({route}) => {
-    const [channelTitle, setChannelTitle] = useState("")
-    const [channelLayout, setChannelLayout] = useState("")
+const ChannelSettings = () => {
 
     const channels = useFirestore("Channels")
     const uid = uuid()
     const history = useHistory()
-
-    const newChannelTitleHandler = (e) => {
-        const channelTitle = e.target.value
-
-        setChannelTitle(channelTitle)
-    }
-
-    const saveNewChannel = (e) => {
-
-        db.collection("Channels")
-        .doc()
-        .set({
-            Name: channelTitle,
-            Layout: channelLayout,
-            ID: uid,
-            Link: "Channel",
-            Compagny: client
-        })
-        .then(() => {
-            history.push(`/${client}/ChannelSettingsDetail/${uid}`)
-        })
-    }
 
     const channelSettings = (e) => {
 
@@ -46,7 +22,17 @@ const ChannelSettings = ({route}) => {
 
     }
 
+    const newChannel = (e) => {
 
+        db.collection("Channels")
+        .doc()
+        .set({
+            ID: uid,
+            Compagny: client,
+        }).then(() => {
+            history.push(`/${client}/ChannelSettingsDetail/${uid}`)
+        })
+    }
 
     return (
         <div className="main">
@@ -69,12 +55,8 @@ const ChannelSettings = ({route}) => {
                 </div>
                 <div className="divider">
                     <h3>Kanaal toevoegen</h3>
-                    <div className="new-channel-container" >
-                        <p>Geef je kanaal een naam</p>
-                        <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newChannelTitleHandler}/>
-                    </div>
                     <div className="button-container">
-                        <button className="button-simple" onClick={saveNewChannel}>Toevoegen</button>
+                        <img className="add-channel-icon" src={plusIcon} onClick={newChannel}/>
                     </div>
                 </div>
             </div>
