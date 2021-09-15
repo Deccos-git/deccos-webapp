@@ -1,14 +1,11 @@
 import { motion } from "framer-motion"
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
-import { useFirestore } from '../../firebase/useFirestore';
-import { db } from '../../firebase/config';
 import { useHistory } from "react-router-dom";
 
 
 const ActivityCard = ({doc}) => {
 
-    const routes = useFirestore("Route")
     const history = useHistory();
 
     const variants = {
@@ -25,15 +22,7 @@ const ActivityCard = ({doc}) => {
         const link = e.target.dataset.link
         const id = e.target.dataset.id
 
-        routes && routes.forEach(route => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: id
-            })
-        })
-
-        history.push(`/${client}/${link}`)
+        history.push(`/${client}/${link}/${id}`)
     }
 
     return (

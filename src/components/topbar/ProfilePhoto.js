@@ -1,21 +1,15 @@
 import { Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
-import Auth from "../../firebase/Auth"
+import { useContext } from 'react';
+import { Auth } from '../../StateManagment/Auth';
 
 
 const ProfilePhoto = () => {
-
-    const doc = Auth()
-
-    let photo = ""
-
-    if(doc != undefined){
-        photo = doc.Photo
-    }
+    const [authO] = useContext(Auth)
 
     return (
         <div className="profile-photo">
-            <Link to={`/${client}/Profile`}><img src={photo} alt="" /></Link>
+            <Link to={`/${client}/Profile`}><img src={authO.Photo} alt="" /></Link>
         </div>
     )
 }

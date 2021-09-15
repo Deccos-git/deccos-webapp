@@ -7,17 +7,17 @@ import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
 import { useLocation } from "react-router-dom"
 import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
 const MessageBar = () => {
-    const [route, setRoute] = useContext(Route)
     const [authO, setAuthO] = useContext(Auth)
     const [Message, setMessage] = useState("")
 
+    const route = Location()[3]
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
-    const chats = useFirestore("Chats", route.Chat)
+    const chats = useFirestore("Chats", route)
     const location = useLocation()
 
     const MessageInput = (e) => {

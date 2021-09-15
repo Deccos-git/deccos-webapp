@@ -6,20 +6,20 @@ import firebase from "firebase"
 import { useHistory } from "react-router"
 import { client } from '../hooks/Client';
 import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
 const GroupLanding = () => {
-    const [route, setRoute] = useContext(Route)
     const [authO] = useContext(Auth)
 
+    const route = Location()[3]
     const groups = useFirestoreID("Groups", route)
     const history = useHistory()
 
     const redirectMemberToGroup = () => {
         groups && groups.forEach(group => {
                 if(group.MemberList.includes(authO.ID)){
-                    history.push(`/${client}/Group`)
+                    history.push(`/${client}/Group/${group.ID}`)
                 } else {
                     return
                 }
@@ -43,17 +43,9 @@ const GroupLanding = () => {
                 MemberList: firebase.firestore.FieldValue.arrayUnion(authO.ID)
             })
             .then(() => {
-                updateRoute(group.ID)
-            })
-            .then(() => {
-                history.push(`/${client}/Group`)
+                history.push(`/${client}/Group/${group.ID}`)
             })
         })
-    }
-
-    const updateRoute = (groupID) => {
-
-       setRoute(groupID)
     }
 
     return (

@@ -4,11 +4,8 @@ import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
 import uuid from 'react-uuid'
-import { useContext } from 'react';
-import { Route } from '../../StateManagment/Route';
 
 const GoalCard = ({doc}) => {
-    const [route, setRoute] = useContext(Route)
 
     const history = useHistory();
 
@@ -27,9 +24,7 @@ const GoalCard = ({doc}) => {
 
     const updateRoute = () => {
 
-       setRoute(doc.ID)
-
-        history.push(`/${client}/GoalDetail`)
+        history.push(`/${client}/GoalDetail/${doc.ID}`)
     }
 
 

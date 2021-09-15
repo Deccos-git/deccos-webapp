@@ -1,17 +1,17 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import Auth from "../firebase/Auth"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { db, timestamp } from "../firebase/config.js"
 import uuid from 'react-uuid';
 import IntroductionsCard from './IntroductionsCard'
 import { client } from "../hooks/Client";
 import { useFirestore } from '../firebase/useFirestore'
+import { Auth } from '../StateManagment/Auth';
 
 const Introductions = () => {
     const [body, setBody] = useState("")
+    const [authO] = useContext(Auth)
 
-    const auth = Auth()
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
 
@@ -33,9 +33,9 @@ const Introductions = () => {
         .doc()
         .set({
             Body: body,
-            UserName: auth.UserName,
-            Photo: auth.Photo,
-            ForName: auth.ForName,
+            UserName: authO.UserName,
+            Photo: authO.Photo,
+            ForName: authO.ForName,
             Timestamp: timestamp,
             ID: id,
             Compagny: client
@@ -44,7 +44,7 @@ const Introductions = () => {
             db.collection("AllActivity")
             .doc()
             .set({
-                Title: `Goed bezig ${auth.ForName}!`,
+                Title: `Goed bezig ${authO.ForName}!`,
                 Type: "NewIntroduction",
                 Compagny: client,
                 ButtonText: "Bekijk",
@@ -53,8 +53,8 @@ const Introductions = () => {
                 Banner: banner,
                 Description: 'heeft zich voorgesteld aan de community',
                 Link: `Introductions`,
-                User: `${auth.ForName} ${auth.SurName}`,
-                UserPhoto: auth.Photo,
+                User: `${authO.ForName} ${authO.SurName}`,
+                UserPhoto: authO.Photo,
             }) 
         })
     }
@@ -66,7 +66,7 @@ const Introductions = () => {
             <LeftSideBar />
             <div className="card-overview">
                 <div id="introduction-input-container">
-                    <h3>Hoi {auth.ForName}, stel jezelf voor aan de community</h3>
+                    <h3>Hoi {authO.ForName}, stel jezelf voor aan de community</h3>
                     <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>
                     <div className="button-container">
                         <button className="button-simple" onClick={saveIntroduction}>Versturen</button>

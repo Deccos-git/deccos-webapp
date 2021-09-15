@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import LoginRegister from './components/LoginRegister';
 import { auth, db } from './firebase/config';
 import { useState } from 'react';
-import { RouteProvider } from './StateManagment/Route';
 import {AuthProvider} from './StateManagment/Auth';
 
 function App() {
@@ -28,13 +27,11 @@ function App() {
         
         return ( 
         <AuthProvider>
-        <RouteProvider>
           <>
           <Topbar />
           <Main/>
           <BottomBar/>
           </>
-        </RouteProvider>
         </AuthProvider>
         )
       }

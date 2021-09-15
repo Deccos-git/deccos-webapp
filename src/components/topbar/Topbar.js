@@ -1,17 +1,13 @@
 import Iconbar from '../topbar/Iconbar';
 import ProfilePhoto from '../topbar/ProfilePhoto';
 import '../../CSS/topbar.css';
-import {useFirestore, useFirestoreID} from "../../firebase/useFirestore"
-import Auth from '../../firebase/Auth';
+import {useFirestore} from "../../firebase/useFirestore"
 import menuIcon from '../../images/icons/menu-icon.png'
 import { useHistory } from "react-router-dom";
 import { client } from '../../hooks/Client';
-import { useContext } from 'react';
 
 const Topbar = () => {
-
     const docs  = useFirestore("CompagnyMeta")
-    const auth = Auth()
     const history = useHistory();
 
     let logo = ""
@@ -36,7 +32,7 @@ const Topbar = () => {
             </div>
             <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
             <div className="iconbar-external-container">
-                <Iconbar auth={auth} />
+                <Iconbar/>
             </div>
             <ProfilePhoto />
         </header>

@@ -7,9 +7,6 @@ const Measures = () => {
     const contributions = useFirestore("Contributions")
     const goals = useFirestore("Goals")
 
-    console.log()
-    console.log(goals.length)
-
     return (
         <div className="main">
             <LeftSideBar />

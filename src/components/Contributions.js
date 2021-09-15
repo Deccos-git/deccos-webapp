@@ -1,12 +1,18 @@
 import { useFirestoreContributions } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
+import Location from "../hooks/Location"
+import { Auth } from '../StateManagment/Auth';
+import { useContext } from "react";
 
-const Contributions = ({route}) => {
+const Contributions = () => {
+    const [authO] = useContext(Auth)
 
-    const contributionsGoal = useFirestoreContributions("Contributions", "GoalID", route.Route)
-    const contributionsMessage = useFirestoreContributions("Contributions", "MessageID", route.Route)
-    const contributionsReciever = useFirestoreContributions("Contributions", "RecieverID", route.Route)
+    const route = Location()[3]
+
+    const contributionsGoal = useFirestoreContributions("Contributions", "GoalID", route)
+    const contributionsMessage = useFirestoreContributions("Contributions", "MessageID", route)
+    const contributionsReciever = useFirestoreContributions("Contributions", "RecieverID", route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 

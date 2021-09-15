@@ -6,21 +6,17 @@ import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
 const PublicProfile = () => {
-    const [route, setRoute] = useContext(Route)
     const [authO] = useContext(Auth)
 
-    console.log(route)
-
     const history = useHistory()
+    const route = Location()[3]
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const profiles = useFirestoreID("Users", route)
-
-    console.log(profiles)
 
     let members = ""
     let chatID = ""
@@ -36,7 +32,6 @@ const PublicProfile = () => {
     //Find chatroom
     const chats = useFirestoreChats(room)
 
-    console.log(chats)
 
     function startChat(){
 
@@ -44,16 +39,13 @@ const PublicProfile = () => {
             createChat()
         } else if (chats.length != 0){
             chats.forEach(chat => {
-                updateRoute(chat.ID)
+                // updateRoute(chat.ID)
             })
         }
     } 
 
     const updateRoute = (ID) => {
-       setRoute(ID)
-        .then(() => {
-            history.push(`/${client}/ChatRoom`)
-        })
+        history.push(`/${client}/ChatRoom/${ID}`)
     }
 
     const createChat = () => {
@@ -83,9 +75,7 @@ const PublicProfile = () => {
 
         const id = e.target.dataset.id
         
-        setRoute(id)
-
-        history.push(`/${client}/Contributions`)
+        history.push(`/${client}/Contributions/${id}`)
 
     }
 

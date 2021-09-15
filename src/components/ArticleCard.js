@@ -1,17 +1,9 @@
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom";
-import { db } from '../firebase/config';
-import { useFirestore } from '../firebase/useFirestore';
 import { motion } from "framer-motion"
-import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 
 const ArticleCard = ({doc}) => {
-
-    const [route, setRoute] = useContext(Route)
-
     const history = useHistory();
-    const routes = useFirestore("Route")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -20,9 +12,7 @@ const ArticleCard = ({doc}) => {
 
     const detailRouter = () => {
     
-        setRoute(doc.ID)
-    
-        history.push(`/${client}/ArticleDetail`)
+        history.push(`/${client}/ArticleDetail/${doc.ID}`)
     }
 
     return (

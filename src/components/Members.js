@@ -2,14 +2,12 @@ import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
-import { db } from '../firebase/config';
 import { client } from '../hooks/Client';
 
 const Members = () => {
 
     const docs = useFirestore("Users")
     const compagnies = useFirestore("CompagnyMeta")
-    const routes = useFirestore("Route")
     const history = useHistory()
 
     
@@ -17,16 +15,7 @@ const Members = () => {
 
         const memberID = e.target.id
 
-        routes && routes.forEach(route => {
-            const routeRef= db.collection("Route")
-            .doc(route.docid)
-
-                routeRef.update({
-                    Profile: memberID
-                })
-        })
-
-        history.push(`/${client}/PublicProfile`)
+        history.push(`/${client}/PublicProfile/${memberID}`)
     }
 
     return (

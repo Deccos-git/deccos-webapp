@@ -6,8 +6,9 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useRef } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
+import { useFirestore } from "../firebase/useFirestore";
 
-const WelcomeSettings = ({compagny, auth}) => {
+const WelcomeSettings = () => {
     const [welcomeText, setWelcomeText] = useState("")
     const [ruleOne, setRuleOne] = useState("")
     const [ruleTwo, setRuleTwo] = useState("")
@@ -15,8 +16,9 @@ const WelcomeSettings = ({compagny, auth}) => {
     const [ruleFour, setRuleFour] = useState("")
 
     const editorRef = useRef(null);
-   
 
+    const compagny = useFirestore("CompagnyMeta")
+   
     const bodyHandler = (e) => {
         if (editorRef.current) {
             setWelcomeText(editorRef.current.getContent());

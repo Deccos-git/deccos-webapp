@@ -2,13 +2,8 @@ import { useFirestore } from "../../firebase/useFirestore"
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { db } from '../../firebase/config';
-import { useContext } from 'react';
-import { Route } from '../../StateManagment/Route';
-
 
 const AllMembers = () => {
-    const [route, setRoute] = useContext(Route)
 
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
@@ -17,9 +12,7 @@ const AllMembers = () => {
 
         const memberID = e.target.id
 
-        setRoute(memberID)
-
-        history.push(`/${client}/PublicProfile`)
+        history.push(`/${client}/PublicProfile/${memberID}`)
     }
 
     return (

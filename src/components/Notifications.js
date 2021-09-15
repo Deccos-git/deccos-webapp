@@ -1,13 +1,15 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreNotifications } from "./../firebase/useFirestore";
-import { db } from "../firebase/config";
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
+import { useContext } from 'react';
+import { Auth } from '../StateManagment/Auth';
 
-const Notifications = ({auth, route}) => {
+const Notifications = () => {
+    const [authO] = useContext(Auth)
 
-    const notifications = useFirestoreNotifications("Notifications", auth.ID)
+    const notifications = useFirestoreNotifications("Notifications", authO.ID)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
 
@@ -15,13 +17,7 @@ const Notifications = ({auth, route}) => {
 
         const senderID = e.target.dataset.senderid
 
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: senderID
-            })
-
-        history.push(`/${client}/PublicProfile`)
+        history.push(`/${client}/PublicProfile/${senderID}`)
 
     }
 
@@ -29,13 +25,7 @@ const Notifications = ({auth, route}) => {
 
         const messageID = e.target.dataset.messageid
 
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: messageID
-            })
-
-        history.push(`/${client}/MessageDetail`)
+        history.push(`/${client}/MessageDetail/${messageID}`)
 
     }
 
@@ -43,18 +33,9 @@ const Notifications = ({auth, route}) => {
 
         const goalID = e.target.dataset.goalid
 
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: goalID
-            })
-
-        history.push(`/${client}/GoalDetail`)
+        history.push(`/${client}/GoalDetail/${goalID}`)
 
     }
-
-   
-    
 
     return (
             <div className="main">

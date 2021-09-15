@@ -5,20 +5,19 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import ReactionBar from "./ReactionBar"
 import LikeBar from "./LikeBar"
 import { db } from "../firebase/config"
-import { useHistory, useLocation } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
 const MessageDetail = ({auth}) => {
-    const [route, setRoute] = useContext(Route)
     const [authO] = useContext(Auth)
 
+    const route = Location()[3]
     const messages = useFirestoreID("Messages", route)
     const history = useHistory()
-    const location = useLocation()
 
     let parentID = ""
 
@@ -72,61 +71,25 @@ const MessageDetail = ({auth}) => {
 
     const updateRoute = () => {
 
-        const routeRef = db.collection("Route")
-        .doc(route.docid)
-
         reactions && reactions.forEach(reaction => {
-            routeRef.update({
-                Route: reaction.ID,
-            })
+            history.push(`/${client}/MessageDetail/${reaction.ID}`)
         })
-
-        history.push(`/${client}/MessageDetail`)
     }
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    const previousMessage = () => {
-
-        messages && messages.forEach(message => {
-
-            console.log(message.ID)
-
-            db.collection("Messages")
-            .where("ID", "==", message.ID)
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach(doc => {
-
-                    const parentID = doc.data().ParentID
-                    const prevPath = doc.data().PrevPath
-
-                    setRoute(parentID)
-            
-                    history.push(`${prevPath}`)
-
-                })
-            })
-        })
-    }
 
     const showContributions = (e) => {
 
         const id = e.target.dataset.id
-        
-        setRoute(id)
 
-        history.push(`/${client}/Contributions`)
+        history.push(`/${client}/Contributions/${id}`)
     }
 
     return (
         <div className="main">
              <LeftSideBar />
              <div className="card-overview">
-                 <div className="previous-message-container" onClick={previousMessage}>
-                    <img src={ArrowLeftIcon} alt="" />
-                    <p>Vorige bericht</p>
-                 </div>
                 {messages && messages.map(message => (
                     <div className="message-card">
                         <div className="auth-message-container">
@@ -137,7 +100,7 @@ const MessageDetail = ({auth}) => {
                     <p className="massage">{message.Message}</p>
                     < ReactionBar message={message} />
                     <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {numberOfContributions}</p>
-                    < LikeBar auth={authO} message={message} />
+                    < LikeBar message={message} />
                     </div>
                 ))}
 
@@ -161,7 +124,7 @@ const MessageDetail = ({auth}) => {
                             <div className="like-container">
                                 <p>Aantal bijdragen: {numberOfContributionsReaction}</p>
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
-                                < LikeBar auth={authO} message={reaction} />
+                                < LikeBar message={reaction} />
                             </div>
                             <div className="button-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>

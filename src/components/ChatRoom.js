@@ -4,25 +4,30 @@ import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/
 import MessageBarGroup from "./MessageBarGroup"
 import emailIcon from '../images/icons/email-icon.png'
 import { db } from "../firebase/config"
-import { useEffect } from "react"
+import { useEffect, useContext } from "react"
+import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
-const ChatRoom = ({route, auth}) => {
+const ChatRoom = () => {
 
-    const chats = useFirestore("Chats", route.Route)
-    const messages = useFirestoreMessages("Messages", route.Route)
+    const [authO] = useContext(Auth)
+    const route = Location()[3]
+
+    const chats = useFirestore("Chats", route)
+    const messages = useFirestoreMessages("Messages", route)
     let userID = ""
 
     // Define layout of message based on auth and chatpartner
 // useEffect(() => {
 //     messages && messages.forEach(message => {
-//         console.log(message.User, auth.UserName)
-//         if(message.User === auth.UserName){
+//         console.log(message.User, authO.UserName)
+//         if(message.User === authO.UserName){
 //             db.collection("Messages")
 //             .doc(message.docid)
 //             .update({
 //                 ClassName: "auth-message"
 //             })
-//         } else if (message.User != auth.UserName)  {
+//         } else if (message.User != authO.UserName)  {
 //             db.collection("Messages")
 //             .doc(message.docid)
 //             .update({
@@ -37,7 +42,7 @@ const ChatRoom = ({route, auth}) => {
         const members = chat.Members
 
         members && members.forEach(member => {
-            if(auth.ID != member){
+            if(authO.ID != member){
                 userID = member
             }
         })
@@ -74,7 +79,7 @@ const ChatRoom = ({route, auth}) => {
                         <p>{message.Message}</p>
                     </div>
                 ))}
-                <MessageBarGroup route={route} auth={auth} />
+                <MessageBarGroup route={route} auth={authO} />
                 </div>
             </div>
             <RightSideBar />

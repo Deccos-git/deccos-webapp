@@ -6,20 +6,22 @@ import heartIcon from '../../images/icons/heart-icon.png'
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
-import { useHistory, useLocation } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
 import LikeBar from "../LikeBar"
 import ReactionBar from "../ReactionBar"
 import { useContext } from 'react';
-import { Route } from '../../StateManagment/Route';
+import { Auth } from '../../StateManagment/Auth';
+import Location from "../../hooks/Location"
 
-const GoalDetail = ({auth}) => {
-    const [route, setRoute] = useContext(Route)
+const GoalDetail = () => {
+    const [auth] = useContext(Auth)
+
+    const route = Location()[3]
 
     const docs = useFirestoreID("Goals", route)
     const messages  = useFirestoreMessages("Messages", route)
     const history = useHistory()
-    const location = useLocation()
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -59,19 +61,15 @@ const GoalDetail = ({auth}) => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-           setRoute(message.ID)
+            history.push(`/${client}/MessageDetail/${message.ID}`)
         })
-        history.push(`/${client}/MessageDetail`)
     }
 
     const showContributionsGoal = () => {
 
         docs && docs.forEach(doc => {
-            setRoute(doc.ID)
+            history.push(`/${client}/Contributions/${doc.ID}`)
         })
-
-        history.push(`/${client}/Contributions`)
-
     }
 
     return (

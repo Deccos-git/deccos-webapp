@@ -6,15 +6,16 @@ import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import LeftSideBar from "../LeftSideBar"
 import RightSideBar from "../rightSideBar/RightSideBar"
-import Auth from '../../firebase/Auth.js';
 import { useFirestore } from '../../firebase/useFirestore.js';
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
+import { useContext } from 'react';
+import { Auth } from '../../StateManagment/Auth';
 
 const AddGoal = () => {
+    const [authO] = useContext(Auth)
 
-    const auth = Auth()
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
 
@@ -98,9 +99,9 @@ const AddGoal = () => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
-            UserID: auth.ID,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            UserID: authO.ID,
             Banner: banner
         })
         .then(() => {
@@ -114,8 +115,8 @@ const AddGoal = () => {
                 ID: id,
                 Description: "heeft een nieuw doel toegevoegd:",
                 ButtonText: "Bekijk doel",
-                User: auth.UserName,
-                UserPhoto: auth.Photo,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
                 Banner: activityBanner,
                 Link: `GoalDetail`
             }) 

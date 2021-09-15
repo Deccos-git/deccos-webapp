@@ -6,17 +6,17 @@ import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
-import Auth from '../firebase/Auth.js';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
+import { Auth } from '../StateManagment/Auth';
 
 const AddEvent = () => {
+    const [authO] = useContext(Auth)
 
-    const auth = Auth()
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const editorRef = useRef(null);
@@ -109,9 +109,9 @@ const AddEvent = () => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
-            UserID: auth.ID,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            UserID: authO.ID,
             Price: price,
             Capacity: capacity,
             Date: date,
@@ -128,10 +128,10 @@ const AddEvent = () => {
                 ID: id,
                 Description: "heeft een nieuw event toegevoegd:",
                 ButtonText: "Bekijk event",
-                User: auth.UserName,
-                UserPhoto: auth.Photo,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
                 Banner: banner,
-                Link: `ChannelDetail`
+                Link: `Events`
             }) 
         })
     }

@@ -4,10 +4,9 @@ import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import plusIcon from '../images/icons/plus-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
-import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 
-const Events = ({route}) => {
+const Events = () => {
 
     const events = useFirestore("Events")
     const history = useHistory()
@@ -15,14 +14,8 @@ const Events = ({route}) => {
     const detailRouter = (e) => {
 
         const id = e.target.dataset.id 
-
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: id
-            })
     
-        history.push(`/${client}/EventDetail`)
+        history.push(`/${client}/EventDetail/${id}`)
     }
 
     return (

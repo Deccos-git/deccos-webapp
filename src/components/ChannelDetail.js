@@ -4,17 +4,16 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import LikeBar from "./LikeBar"
 import ReactionBar from "./ReactionBar"
 import MessageBar from "./MessageBar"
-import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
-
+import Location from "../hooks/Location"
 
 const ChannelDetail = () => {
-    const [route, setRoute] = useContext(Route)
     const [authO] = useContext(Auth)
+
+    const route = Location()[3]
 
     const items = useFirestoreID("ChannelItems", route)
     const messages  = useFirestoreMessages("Messages", route)
@@ -37,9 +36,8 @@ const ChannelDetail = () => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-            setRoute(message.ID)
+            history.push(`/${client}/MessageDetail/${message.ID}`)
         })
-        history.push(`/${client}/MessageDetail`)
     }
 
 

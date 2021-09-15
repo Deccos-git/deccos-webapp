@@ -2,18 +2,19 @@ import { useState } from "react"
 import { db, timestamp, bucket} from "../firebase/config"
 import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
-import { type, client } from "../hooks/Client"
-import Auth from "../firebase/Auth"
+import { client } from "../hooks/Client"
+import { useContext } from "react"
 import uuid from 'react-uuid';
 import firebase from "firebase"
 import { useLocation } from "react-router-dom"
+import { Auth } from '../StateManagment/Auth';
 
 const ReactionBar = ({message}) => {
+    const [authO] = useContext(Auth)
 
     const [reaction, setReaction] = useState("")
     const [fileDisplay, setFileDisplay] = useState("none")
     
-    const auth= Auth()
     const id = uuid()
     const location = useLocation()
     
@@ -35,12 +36,12 @@ const ReactionBar = ({message}) => {
             Compagny: client,
             Timestamp: timestamp,
             PrevPath: location.pathname,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
             ID: id,
             Thread: [],
-            Read: [auth.ID],
-            UserID: auth.ID,
+            Read: [authO.ID],
+            UserID: authO.ID,
             Contributions: []
         })
         .then(() => {
@@ -68,7 +69,7 @@ const ReactionBar = ({message}) => {
     const insertFile = (e) => {
         const file = e.target.files[0]
 
-        const storageRef = bucket.ref(`/${client}_${auth.ID}/` + file.name);
+        const storageRef = bucket.ref(`/${client}_${authO.ID}/` + file.name);
         const uploadTask = storageRef.put(file)
 
         uploadTask.then(() => {
@@ -95,8 +96,6 @@ const ReactionBar = ({message}) => {
             })
         })
     }
-
-    console.log(reaction)
 
     return (
         <div>

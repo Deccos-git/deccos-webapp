@@ -1,11 +1,13 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import { db, bucket } from "../firebase/config.js"
-import {useFirestore } from "../firebase/useFirestore"
+import {useFirestore, useFirestoreID } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useState } from "react";
 
-const Settings = ({compagny}) => {
+const Settings = () => {
+
+    const compagny = useFirestore("CompagnyMeta")
 
     const [communityName, setCommunityName] = useState("")
 

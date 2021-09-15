@@ -4,14 +4,15 @@ import MessageBarGroup from "./MessageBarGroup"
 import { useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
 import emailIcon from '../images/icons/email-icon.png'
 import { useContext, useState, useEffect } from 'react';
-import { Route } from '../StateManagment/Route';
 import { Auth } from '../StateManagment/Auth';
 import { db } from "../firebase/config"
 import { client } from "../hooks/Client"
+import Location from "../hooks/Location"
 
 const Group = () => {
-    const [route, setRoute] = useContext(Route)
     const [authO] = useContext(Auth)
+
+    const route = Location()[3]
     
     const groups = useFirestoreID("Groups", route)
     const messages = useFirestoreMessages("Messages", route)

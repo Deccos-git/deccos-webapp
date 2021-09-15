@@ -1,22 +1,18 @@
 import { useHistory } from "react-router-dom";
-import { db } from '../../firebase/config';
 import { client } from '../../hooks/Client';
-import { useContext } from 'react';
-import { Route } from '../../StateManagment/Route';
 import { useFirestoreID } from "../../firebase/useFirestore";
+import Location from "../../hooks/Location"
 
 const RightSideBarGroup = () => {
-    const [route, setRoute] = useContext(Route)
 
     const history = useHistory()
+    const route = Location()[3]
     const groups = useFirestoreID("Groups", route)
 
     const updateRoute = (e) => {
         const userID = e.target.dataset.id
 
-        setRoute(userID)
-
-        history.push(`/${client}/PublicProfile`)
+        history.push(`/${client}/PublicProfile/${userID}`)
    
     }
 

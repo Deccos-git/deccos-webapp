@@ -6,7 +6,6 @@ import firebase from 'firebase'
 import { useFirestore } from '../firebase/useFirestore.js';
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
-import { Link } from "react-router-dom";
 
 const RegisterUser = () => {
 
@@ -162,23 +161,6 @@ const RegisterUser = () => {
             .update({
                 Members: firebase.firestore.FieldValue.arrayUnion(memberMap)
             }) 
-        })
-        .then(() => {
-            db.collection("Route")
-            .doc()
-            .set({
-                ID: id,
-                Compagny: client,
-                User: `${forname} ${surname}`,
-                Goal: "",
-                Article: "",
-                Profile: "",
-                Chat: "",
-                News: "",
-                Events: "",
-                Channel: "",
-                Group: ""
-            })
         })
     }
 

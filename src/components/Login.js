@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { auth, db } from '../firebase/config';
 import { useHistory } from "react-router-dom";

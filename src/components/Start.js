@@ -2,14 +2,15 @@ import {useFirestore} from "../firebase/useFirestore"
 import { motion } from "framer-motion"
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import Auth from "../firebase/Auth"
+import { useContext } from "react"
+import { Auth } from '../StateManagment/Auth';
 
 const Start = () => {
+    const [authO] = useContext(Auth)
 
     const docs  = useFirestore("CompagnyMeta")
-    const auth = Auth()
 
-    const username = auth.ForName
+    const username = authO.ForName
 
     const variants = {
         hidden: { opacity: 0 },

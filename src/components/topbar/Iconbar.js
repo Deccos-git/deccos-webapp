@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 import { useFirestoreNotifications, useFirestoreNewMessages } from '../../firebase/useFirestore';
 import { db } from '../../firebase/config';
 import { useHistory } from "react-router-dom";
+import { useContext } from 'react';
+import { Auth } from '../../StateManagment/Auth';
 
-const Iconbar = ({auth}) => {
-
+const Iconbar = () => {
+    const [authO] = useContext(Auth)
     let ID = ""
 
-    if(typeof(auth) != "string" || auth.ID != undefined){
-        ID = auth.ID
+    if(typeof(authO) != "string" || authO.ID != undefined){
+        ID = authO.ID
     }
 
     const newMessages = useFirestoreNewMessages("Messages", ID)

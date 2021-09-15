@@ -6,17 +6,19 @@ import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
-import Auth from '../firebase/Auth.js';
+import { Auth } from '../StateManagment/Auth';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
+import Location from "../hooks/Location"
 
-const AddChannelItem = ({route}) => {
+const AddChannelItem = () => {
+    const [authO] = useContext(Auth)
+    const route = Location()[3]
 
-    const auth = Auth()
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const editorRef = useRef(null);
@@ -81,7 +83,7 @@ const AddChannelItem = ({route}) => {
         })
     }
     
-    const saveItem = (e) => {
+    const saveItem = () => {
 
         db.collection("ChannelItems")
         .doc()
@@ -91,10 +93,10 @@ const AddChannelItem = ({route}) => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
-            ChannelID: route.Route,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
-            UserID: auth.ID,
+            ChannelID: route,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            UserID: authO.ID,
             Banner: bannerPhoto
         })
         .then(() => {
@@ -108,21 +110,15 @@ const AddChannelItem = ({route}) => {
                 ID: id,
                 Description: `heeft een nieuw ${route.Channel} toegevoegd:`,
                 ButtonText: "Bekijk bericht",
-                User: auth.UserName,
-                UserPhoto: auth.Photo,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
                 Banner: banner,
                 Link: `ChannelDetail`
             }) 
         })
         .then(() => {
-        
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: route.Route
-            })
     
-            history.push(`/${client}/Channel`)
+            history.push(`/${client}/Channel${route}`)
         })
     }
 

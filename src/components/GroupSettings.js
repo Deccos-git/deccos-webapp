@@ -1,15 +1,17 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import deleteIcon from '../images/icons/delete-icon.png'
-import { useState } from "react";
+import { useState, useContext } from "react";
 import uuid from 'react-uuid';
 import { db, timestamp } from "../firebase/config";
 import settingsIcon from '../images/icons/settings-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
+import { Auth } from '../StateManagment/Auth';
 
-const GroupSettings = ({compagny, auth}) => {
+const GroupSettings = () => {
     const [groupTitle, setGroupTitle] = useState("")
+    const [authO] = useContext(Auth)
 
     const groups = useFirestore("Groups")
    
@@ -22,9 +24,9 @@ const GroupSettings = ({compagny, auth}) => {
     }
 
     const newMember = {
-        ID: auth.ID,
-        Photo: auth.Photo,
-        UserName: auth.UserName
+        ID: authO.ID,
+        Photo: authO.Photo,
+        UserName: authO.UserName
     }
 
     const saveNewGroup = () => {
@@ -32,10 +34,10 @@ const GroupSettings = ({compagny, auth}) => {
         .doc()
         .set({
             ID: id,
-            Admin: auth.ID,
+            Admin: authO.ID,
             Room: groupTitle,
             MemberList: [
-                auth.ID
+                authO.ID
             ],
             Members: [
                 newMember

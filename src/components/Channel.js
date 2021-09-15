@@ -7,14 +7,11 @@ import { useFirestoreChannelItems, useFirestoreID } from "../firebase/useFiresto
 import { db } from "../firebase/config.js"
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useContext } from 'react';
-import { Route } from '../StateManagment/Route';
+import Location from "../hooks/Location"
 
 const Channel = () => {
-    const [route, setRoute] = useContext(Route)
-
-    console.log(route)
-
+    
+    const route = Location()[3]
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
     const history = useHistory()
@@ -23,9 +20,7 @@ const Channel = () => {
 
         const channelID = e.target.dataset.id
 
-        setRoute(channelID)
-
-        history.push(`/${client}/ChannelDetail`)
+        history.push(`/${client}/ChannelDetail/${channelID}`)
     }
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

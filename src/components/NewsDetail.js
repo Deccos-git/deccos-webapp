@@ -7,11 +7,17 @@ import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import MessageBar from "./MessageBar"
 import { db } from "../firebase/config"
+import { useContext } from 'react';
+import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
-const NewsDetail = ({route, auth}) => {
+const NewsDetail = () => {
+    const [authO] = useContext(Auth)
 
-    const news = useFirestoreID("News", route.Route)
-    const messages  = useFirestoreMessages("Messages", route.Route )
+    const route = Location()[3]
+
+    const news = useFirestoreID("News", route)
+    const messages  = useFirestoreMessages("Messages", route)
     const history = useHistory()
 
     let numberOfReactions = ""
@@ -31,13 +37,9 @@ const NewsDetail = ({route, auth}) => {
     const updateRoute = () => {
 
         messages && messages.forEach(message => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: message.ID
-            })
+            history.push(`/${client}/MessageDetail/${message.ID}`)
         })
-        history.push(`/${client}/MessageDetail`)
+        
     }
 
     return (
@@ -61,7 +63,7 @@ const NewsDetail = ({route, auth}) => {
                     </div>
                 ))}
                 <h2>Berichten</h2>
-                <MessageBar route={route} auth={auth}/>
+                <MessageBar route={route} auth={authO}/>
                 <div className="reaction-area">
                 {messages && messages.map(message => ( 
                     <div className="reaction-inner-container">
@@ -78,7 +80,7 @@ const NewsDetail = ({route, auth}) => {
                             </div>
                             <div className="like-container">
                                 {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
-                                < LikeBar auth={auth} message={message} />
+                                < LikeBar message={message} />
                             </div>
                             <div className="button-container">
                                 <button onClick={updateRoute}>{numberOfReactions}</button>

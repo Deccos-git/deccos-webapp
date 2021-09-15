@@ -1,12 +1,13 @@
 import { useFirestore, useFirestoreID } from "../firebase/useFirestore"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { db, timestamp } from "../firebase/config"
 import firebase from "firebase"
 import { client } from "../hooks/Client"
 import uuid from 'react-uuid';
+import { Auth } from '../StateManagment/Auth';
 
-const LikeBar = ({auth, message}) => {
-
+const LikeBar = ({message}) => {
+    const [authO] = useContext(Auth)
     const [goalID, setGoalID] = useState("")
 
     const allGoals = useFirestore("Goals")
@@ -46,9 +47,9 @@ const LikeBar = ({auth, message}) => {
                 GoalTitle: goal.Title,
                 Timestamp: timestamp,
                 GoalName: goal.Title,
-                SenderID: auth.ID,
-                SenderName: auth.UserName,
-                SenderPhoto: auth.Photo,
+                SenderID: authO.ID,
+                SenderName: authO.UserName,
+                SenderPhoto: authO.Photo,
                 RecieverID: goal.UserID,
                 RecieverName: goal.User,
                 RecieverPhoto: goal.UserPhoto,
@@ -65,9 +66,9 @@ const LikeBar = ({auth, message}) => {
                     GoalID: goal.ID,
                     GoalName: goal.Title,
                     Timestamp: timestamp,
-                    SenderID: auth.ID,
-                    SenderName: auth.UserName,
-                    SenderPhoto: auth.Photo,
+                    SenderID: authO.ID,
+                    SenderName: authO.UserName,
+                    SenderPhoto: authO.Photo,
                     RecieverID: goal.UserID,
                     MessageID: message.ID,
                     MessageBody: message.Message,

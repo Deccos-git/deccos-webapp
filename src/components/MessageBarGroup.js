@@ -6,15 +6,19 @@ import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase';
-import MessageBar from './MessageBar';
+import { useContext } from 'react';
+import { Auth } from '../StateManagment/Auth';
+import Location from "../hooks/Location"
 
-const MessageBarGroup = ({route, auth}) => {
+const MessageBarGroup = () => {
+    const [authO] = useContext(Auth)
 
+    const route = Location()[3]
     const [Message, setMessage] = useState("")
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
-    const chats = useFirestore("Chats", route.ID)
+    const chats = useFirestore("Chats", route)
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -39,11 +43,11 @@ const MessageBarGroup = ({route, auth}) => {
             ParentID: route.Route,
             ID: id,
             Compagny: client,
-            User: auth.UserName,
-            UserPhoto: auth.Photo,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
             Thread: [],
-            Read: [auth.ID],
-            UserID: auth.ID
+            Read: [authO.ID],
+            UserID: authO.ID
         })
         .then(() => {
             chats && chats.forEach(chat => {

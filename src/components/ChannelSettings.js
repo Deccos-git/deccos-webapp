@@ -34,27 +34,15 @@ const ChannelSettings = ({route}) => {
             Compagny: client
         })
         .then(() => {
-            db.collection("Route")
-            .doc(route.docid)
-            .update({
-                Route: uid
-            })
+            history.push(`/${client}/ChannelSettingsDetail/${uid}`)
         })
-
-        history.push(`/${client}/ChannelSettingsDetail`)
     }
 
     const channelSettings = (e) => {
 
         const ID = e.target.dataset.id
-
-        db.collection("Route")
-        .doc(route.docid)
-        .update({
-            Route: ID
-        })
-
-        history.push(`/${client}/ChannelSettingsDetail`)
+        
+        history.push(`/${client}/ChannelSettingsDetail/${ID}`)
 
     }
 

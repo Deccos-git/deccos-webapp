@@ -6,7 +6,6 @@ const RightSideBar = () => {
     return (
         <div className="right-sidebar">
             <AllMembers />
-            
         </div>
     )
 }

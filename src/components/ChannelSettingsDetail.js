@@ -4,7 +4,7 @@ import deleteIcon from '../images/icons/delete-icon.png'
 import { useState } from "react";
 import uuid from 'react-uuid';
 import { db } from "../firebase/config";
-import { useFirestore, useFirestoreID } from "../firebase/useFirestore";
+import { useFirestoreID } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
 
