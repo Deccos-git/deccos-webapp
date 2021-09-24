@@ -25,6 +25,7 @@ const AddGoal = () => {
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
     const [toggleGoal, setToggleGoal] = useState("none")
+    const [SDG, setSDG] = useState("")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -39,12 +40,6 @@ const AddGoal = () => {
     const bodyHandler = (e) => {
         const body = e.target.value
         setBody(body)
-    }
-
-    const typeHandler = (e) => {
-        const type = e.target.value
-        setType(type)
-        console.log(type)
     }
 
     const bannerHandler = (e) => {
@@ -85,7 +80,7 @@ const AddGoal = () => {
     let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
-        activityBanner = comp.ActivityBanner.NewArticle
+        activityBanner = comp.ActivityBanner[0].NewArticle
         compagnyId = comp.docid
     })
 
@@ -102,7 +97,8 @@ const AddGoal = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: banner
+            Banner: banner,
+            SDG: SDG
         })
         .then(() => {
             db.collection("AllActivity")
@@ -123,12 +119,28 @@ const AddGoal = () => {
         })
     }
 
-    const internalGoal = () => {
+    const internalGoal = (e) => {
         setToggleGoal("none")
+        const type = e.target.value
+        setType(type)
     }
 
-    const SDGGoal = () => {
+    const SDGGoal = (e) => {
         setToggleGoal("block")
+        const type = e.target.value
+        setType(type)
+    }
+
+    const selectSDG = (e) => {
+
+        const SDG = e.target.options[e.target.selectedIndex].value
+
+        setSDG(SDG)
+
+    }
+
+    const SDGInformation = () => {
+
     }
 
     return (
@@ -173,7 +185,6 @@ const AddGoal = () => {
                         id="SDG" 
                         value="SDG" 
                         name="goal-type"
-                        onChange={typeHandler}
                         onChange={SDGGoal}
                         />
                         <label htmlFor="SDG">Sociaal maatschappelijk</label>
@@ -183,14 +194,33 @@ const AddGoal = () => {
                         id="internal" 
                         value="internal" 
                         name="goal-type"
-                        onChange={typeHandler}
                         onChange={internalGoal}/>
                         <label htmlFor="internal">Intern</label>
                     </div>
                     <div className="divider " style={{display: toggleGoal}}>
                         <h2>Selecteer een SDG</h2>
                         <div>
-                            <p>Geen honger</p>
+                            <select className="SDG-select"name="" id="" onChange={selectSDG}>
+                                <option value="">--- Selecteer een SDG ---</option>
+                                <option value="Geen armoede">Geen armoede</option>
+                                <option value="Geen honger">Geen honger</option>
+                                <option value="Goede gezondheid en welzijn">Goede gezondheid en welzijn</option>
+                                <option value="Kwaliteitsonderwijs">Kwaliteitsonderwijs</option>
+                                <option value="Gendergelijkheid">Gendergelijkheid</option>
+                                <option value="Schoon water en sanitair">Schoon water en sanitair</option>
+                                <option value="Betaalbare en duurzame energie">Betaalbare en duurzame energie</option>
+                                <option value="Waardig werk en economische groei">Waardig werk en economische groei</option>
+                                <option value="Industrie, innovatie en infrastructuur">Industrie, innovatie en infrastructuur</option>
+                                <option value="Ongelijkheid verminderen">Ongelijkheid verminderen</option>
+                                <option value="Duurzame steden en gemeenschappen">Duurzame steden en gemeenschappen</option>
+                                <option value="Verantwoorde consumptie en productie">Verantwoorde consumptie en productie</option>
+                                <option value="Klimaatactie">Klimaatactie</option>
+                                <option value="Leven in het water">Leven in het water</option>
+                                <option value="Leven op het land">Leven op het land</option>
+                                <option value="Vrede, justitie en sterker publieke diensten">Vrede, justitie en sterker publieke diensten</option>
+                                <option value="Partnerschap om doelstellingen te bereiken">Partnerschap om doelstellingen te bereiken</option>
+                            </select>
+                            <p className="more-sdg" onClick={SDGInformation}><u>Meer over de SDG's</u></p>
                         </div>
 
                     </div>

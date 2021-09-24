@@ -42,6 +42,10 @@ import NewsDetail from './NewsDetail';
 import Contributions from './Contributions';
 import Measures from './Measures';
 import LeftSideBarFullScreen from './LeftSideBarFullScreen'
+import MyIntroduction from './MyIntroduction';
+import MyMessages from './MyMessages';
+import MyGroups from './MyGroups';
+import MyContributions from './MyContributions';
 
 const Main = () => {
 
@@ -92,6 +96,18 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddArticle`}>
                     <AddArticle/>
+                </Route>
+                <Route path={`/${client}/MyIntroduction`}>
+                    <MyIntroduction/>
+                </Route>
+                <Route path={`/${client}/MyMessages`}>
+                    <MyMessages/>
+                </Route>
+                <Route path={`/${client}/MyGroups`}>
+                    <MyGroups/>
+                </Route>
+                <Route path={`/${client}/MyContributions`}>
+                    <MyContributions/>
                 </Route>
                 <Route path={`/${client}/NewClient`}>
                     <NewClient/>

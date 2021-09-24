@@ -86,10 +86,35 @@ const MessageDetail = ({auth}) => {
         history.push(`/${client}/Contributions/${id}`)
     }
 
+    const previousMessage = () => {
+
+        messages && messages.forEach(message => {
+
+            console.log(message.ID)
+
+            db.collection("Messages")
+            .where("ID", "==", message.ID)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+
+                    const prevPath = doc.data().PrevPath
+            
+                    history.push(`${prevPath}`)
+
+                })
+            })
+        })
+    }
+
     return (
         <div className="main">
              <LeftSideBar />
              <div className="card-overview">
+                <div className="previous-message-container" onClick={previousMessage}>
+                    <img src={ArrowLeftIcon} alt="" />
+                    <p>Vorige bericht</p>
+                 </div>
                 {messages && messages.map(message => (
                     <div className="message-card">
                         <div className="auth-message-container">

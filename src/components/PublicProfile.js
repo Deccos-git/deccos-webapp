@@ -1,6 +1,6 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreID, useFirestoreChats } from "./../firebase/useFirestore";
+import { useFirestoreUser, useFirestoreChats, useFirestoreIntroductions } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
@@ -16,7 +16,8 @@ const PublicProfile = () => {
     const route = Location()[3]
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const profiles = useFirestoreID("Users", route)
+    const profiles = useFirestoreUser(route)
+    const introductions = useFirestoreIntroductions("Introductions", route)
 
     let members = ""
     let chatID = ""
@@ -29,24 +30,27 @@ const PublicProfile = () => {
         })
     } createRoomName()
 
+    console.log(room)
+
     //Find chatroom
+
     const chats = useFirestoreChats(room)
+
+    console.log(chats)
+
+    
 
 
     function startChat(){
 
         if(chats.length === 0){
             createChat()
-        } else if (chats.length != 0){
+        } else if (chats.length === 1){
             chats.forEach(chat => {
-                // updateRoute(chat.ID)
+                history.push(`/${client}/ChatRoom/${chat.ID}`)
             })
         }
     } 
-
-    const updateRoute = (ID) => {
-        history.push(`/${client}/ChatRoom/${ID}`)
-    }
 
     const createChat = () => {
         db.collection("Chats")
@@ -67,7 +71,7 @@ const PublicProfile = () => {
             Messages: 0
         })
         .then(() => {
-            updateRoute(id)
+            history.push(`/${client}/ChatRoom/${id}`)
         })
     }
 
@@ -78,6 +82,8 @@ const PublicProfile = () => {
         history.push(`/${client}/Contributions/${id}`)
 
     }
+
+
 
     return (
             <div className="main">
@@ -93,9 +99,10 @@ const PublicProfile = () => {
                                 <button onClick={startChat}>Chatten</button>
                             </div>
                         </div>
-                        <div className="divider" >
-                            <h4>Over mij</h4>
-                            <p dangerouslySetInnerHTML={{__html:profile.About}}></p>
+                        <div>
+                            {introductions && introductions.map(introduction => (
+                            <p>{introduction.Body}</p>
+                            ))}
                         </div>
                     </div>
                 ))}

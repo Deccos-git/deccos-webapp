@@ -54,7 +54,7 @@ const LeftSideBarAuthProfile = () => {
                 <h3>Mijn account</h3>
                 <div className="channel-inner-div">
                     <Link to={`/${client}/Profile`}>Account instellingen</Link>
-                    <Link to={`/${client}/PublicProfile`}>Openbaar profiel</Link>
+                    <Link to={`/${client}/PublicProfile/${authO.ID}`}>Openbaar profiel</Link>
                 </div>
             </div>
         </div>

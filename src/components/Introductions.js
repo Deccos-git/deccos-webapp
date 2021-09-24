@@ -24,7 +24,8 @@ const Introductions = () => {
     let banner = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewIntroduction
+
+        banner = comp.ActivityBanner[0].NewIntroduction
     })
 
     const saveIntroduction = () => {
@@ -38,7 +39,8 @@ const Introductions = () => {
             ForName: authO.ForName,
             Timestamp: timestamp,
             ID: id,
-            Compagny: client
+            Compagny: client,
+            AuthID: authO.ID
         })
         .then(() => {
             db.collection("AllActivity")

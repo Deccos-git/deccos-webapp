@@ -42,7 +42,8 @@ const ReactionBar = ({message}) => {
             Thread: [],
             Read: [authO.ID],
             UserID: authO.ID,
-            Contributions: []
+            Contributions: [],
+            Public: true
         })
         .then(() => {
             db.collection("Messages")

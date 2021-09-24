@@ -12,7 +12,9 @@ const LeftSideBar = () => {
         <div className="left-sidebar-container">
             <div className="left-side-bar">
                 <div className="channel-div">
-                    <h3>Welkom</h3>
+                    <Link to={`/${client}/WelcomeSettings`}>
+                        <h3>Welkom</h3>
+                    </Link>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Start`} >Start hier</Link>
                         <Link to={`/${client}/Introductions`} >Stel je voor</Link>

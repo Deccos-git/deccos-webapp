@@ -74,7 +74,7 @@ const Iconbar = () => {
     }
 
     const showMessages = () => {
-        history.push(`/${client}/ChatsGroups`) 
+        history.push(`/${client}/ChatsGroups/${authO.ID}`) 
     }
 
     return (

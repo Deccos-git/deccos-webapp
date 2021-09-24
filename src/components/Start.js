@@ -17,15 +17,6 @@ const Start = () => {
         visible: { opacity: 1 },
       }
 
-    // const rules = () => {
-    //     const compagnyRules = docs && docs.forEach(doc => {
-    //         doc.Rules.map(rule => (
-    //              <p>{rule}</p>
-    //         ))
-    //     })
-    //     return compagnyRules
-    // }
-
     return (
         <div className="main">
             <LeftSideBar />

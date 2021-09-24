@@ -26,6 +26,8 @@ const MessageBarGroup = () => {
         setMessage(input)
     }
 
+    console.log(route)
+
     let banner = ""
 
     compagny && compagny.forEach(comp => {
@@ -40,7 +42,7 @@ const MessageBarGroup = () => {
             Type: "Message",
             Message: Message,
             Timestamp: timestamp,
-            ParentID: route.Route,
+            ParentID: route,
             ID: id,
             Compagny: client,
             User: authO.UserName,

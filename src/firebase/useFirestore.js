@@ -77,10 +77,14 @@ const useFirestoreUser = (userID) => {
     const docArray = []
     useEffect(() => {
         db.collection("Users")
-        .doc(userID)
-        .get()
-        .then(doc => {
-            docArray.push({...doc.data()})
+        .where("Compagny", "==", client)
+        .where("ID", "==", userID)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
         })
         setDocs(docArray)
 
@@ -136,15 +140,38 @@ const useFirestoreNewMessages = (collection, id) => {
     return docs
 };
 
-const useFirestoreChats = (room) => {
+const useFirestoreMyMessages = (collection, id) => {
 
     const [docs, setDocs] = useState("")
 
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("UserID", "==", id)
+        .where("Public", "==", true)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id])  
+
+    return docs
+};
+
+const useFirestoreChats = (id) => {
+
+    const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection("Chats")
         .where("Compagny", "==", client)
-        .where("Room", "==", room)
+        .where("Room", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -164,7 +191,6 @@ const useFirestoreChatsGroups = (collection, auth ) => {
 
     const [docs, setDocs] = useState("")
 
-
     useEffect(() => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
@@ -183,6 +209,7 @@ const useFirestoreChatsGroups = (collection, auth ) => {
 
     return docs
 };
+
 
 const useFirestoreNotifications = (collection, id  ) => {
 
@@ -280,6 +307,30 @@ const useFirestoreContributions = (collection, type, id ) => {
     return docs
 };
 
+const useFirestoreIntroductions = (collection, id ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where("Compagny", "==", client)
+        .where("AuthID", "==", id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection, id ])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
@@ -292,5 +343,7 @@ export {
     useFirestoreNotifications,
     useFirestoreChannelItems,
     useFirestoreContributions,
-    useFirestoreNewNotifications
+    useFirestoreNewNotifications,
+    useFirestoreIntroductions,
+    useFirestoreMyMessages
 }

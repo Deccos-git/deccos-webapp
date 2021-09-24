@@ -109,8 +109,9 @@ const LikeBar = ({message}) => {
                 <div className="like-goal-container">
                     <p>Je bent een bijdrage aan:</p>
                     <select onChange={goalHandler}>
+                    <option>Selecteer een doel</option>
                     {allGoals && allGoals.map(goal =>(
-                        <option value={goal.ID}>{goal.Title}</option>
+                        <option key={goal.ID} value={goal.ID}>{goal.Title}</option>
                      ))}    
                        </select>
                     <button className="button-simple" onClick={sendGoalLike}>Verstuur</button>

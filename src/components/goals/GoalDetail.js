@@ -77,7 +77,7 @@ const GoalDetail = () => {
             <LeftSideBar />
             <div className="card-overview goal-detail-container">
             {docs && docs.map(doc => (
-                <motion.div className="list">
+                <motion.div className="list" key={doc.id}>
                     <img src={doc.Banner} alt="" />
                     <div className="list-inner-container">
                         <h2>{doc.Title}</h2>
@@ -89,7 +89,7 @@ const GoalDetail = () => {
                         <div className="goal-progress-container">
                             <p>Aantal bijdragen: {numberOfContributions}</p>
                             <div className="button-container">
-                                <button className="button-simple" onClick={showContributionsGoal}>Bekijk bijdragen</button>
+                                <button className="button-simple" onClick={showContributionsGoal}>Bekijk</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ const GoalDetail = () => {
             <MessageBar route={route} auth={auth}/>
             <div className="reaction-area">
                 {messages && messages.map(message => ( 
-                    <div className="reaction-inner-container">
+                    <div className="reaction-inner-container" key={message.ID}>
                         <div className="auth-message-container">
                             <img src={message.UserPhoto} alt="" />
                         </div>

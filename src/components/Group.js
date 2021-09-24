@@ -17,28 +17,23 @@ const Group = () => {
     const groups = useFirestoreID("Groups", route)
     const messages = useFirestoreMessages("Messages", route)
 
-    let classname = ""
+    let message = ""
 
-    // Define layout of message based on auth and chatpartner
+    messages && messages.forEach(mssg => { 
 
-    // useEffect(() => {
-    //     messages && messages.forEach(message => {
-    //         console.log(message.User, authO.UserName)
-    //         if(message.User === authO.UserName){
-    //             db.collection("Messages")
-    //             .doc(message.docid)
-    //             .update({
-    //                 ClassName: "auth-message"
-    //             })
-    //         } else if (message.User != authO.UserName)  {
-    //             db.collection("Messages")
-    //             .doc(message.docid)
-    //             .update({
-    //                 ClassName: "user-message"
-    //             })
-    //         }
-    //     })
-    // }, [messages])
+        message = mssg
+
+    })
+
+    const messageClass = (message) => {
+        if(message.User === authO.UserName){
+            return "auth-message"
+        } else if (message.User != authO.UserName)  {
+            return "user-message"
+        }
+    }
+    
+
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -53,15 +48,15 @@ const Group = () => {
                     </div>
                     <div className="chat-screen">
                         {messages && messages.map(message => (
-                            <div className={message.ClassName} key={message.ID}>
-                                <div className="sender-meta-container">
-                                    <img className="sender-photo" src={message.UserPhoto} alt="" />
-                                    <p className="sender-name">{message.User}</p>
-                                    <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                                </div>
-                                <img className="notifications-icon-message" src={emailIcon} alt="" />
-                                <p>{message.Message}</p>
+                        <div className={messageClass(message)} key={message.ID}>
+                            <div className="sender-meta-container">
+                                <img className="sender-photo" src={message.UserPhoto} alt="" />
+                                <p className="sender-name">{message.User}</p>
+                                <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
+                            <img className="notifications-icon-message" src={emailIcon} alt="" />
+                            <p>{message.Message}</p>
+                        </div>
                         ))}
                         <MessageBarGroup route={route} auth={authO} />
                     </div>

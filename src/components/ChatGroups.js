@@ -10,114 +10,66 @@ import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 
 const ChatGroups = () => {
-    const [authO] = useContext(Auth)
     const route = Location()[3]
-    const [chats, setChats] = useState("")
-    const [partners, setPartners] = useState("")
-    const [allMessages, setAllMessages] = useState("")
-    const [newMessages, setNewMessages] = useState("")
 
-    const groups = useFirestoreChatsGroups("Groups", authO.ID)
+    const groups = useFirestoreChatsGroups("Groups", route)
     const history = useHistory()
+    const chats = useFirestoreChatsGroups("Chats", route)
+    
+   let partners = ""
+   let allMessages = ""
+   let newMessages = ""
 
-   // Find chats of auth
-   useEffect(() => {
+   const partnerName = async (member) => {
 
-        db.collection("Chats")
-        .where("Compagny", "==", client)
-        .where("MemberList", "array-contains", authO.ID)
-        .onSnapshot(querySnapshot => {
-            let docArray = []
-            querySnapshot.forEach( doc => {
-                docArray.push({...doc.data(), docid: doc.id})
-            })
-            setChats(docArray)
-        })
-    }, [])  
+    let userName = ""
 
+    if(member != route){
 
-   let userName = ""
-   let userPhoto = ""
-
-   const array = []
-
-   useEffect(() => {
-
-    chats && chats.forEach(chat => {
-        const members = chat.Members
-        members.forEach((member) => {
-
-            const partners = findChatPartner(member)
-            const messages = newAndTotalMessages(chat.ID)
-
-            array.push(partners, messages)
-
-            })
-        })
-
-   },[])
-
-   console.log(array)
-   
-
-
-   const findChatPartner = (member) => {
-
-    const partnerArray = []
-
-    if(member != authO.ID){
-
-        db.collection("Users")
+        await db.collection("Users")
         .where("ID", "==", member)
-        .onSnapshot(querySnapshot => {
-            querySnapshot.forEach((doc) => {
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
 
-                const userName = doc.data().UserName
-                const userPhoto = doc.data().Photo
-                const userID = doc.data().ID
+                userName = doc.data().UserName
 
-                const partner = {
-                    name: userName,
-                    photo: userPhoto,
-                    id: userID
-                } 
-
-                partnerArray.push(partner)
             })
         })
     }
 
-    return partnerArray
+    return userName
 }
 
+   const newAndTotalMessages = async (chatID) => {
 
-   const newAndTotalMessages = (chatID) => {
+    let messageArray = []
 
-    const messageArray = []
-
-        db.collection("Messages")
+        await db.collection("Messages")
         .where("Compagny", "==", client)
         .where("ParentID", "==", chatID)
-        .onSnapshot(querySnapshot => {
+        .get()
+        .then(querySnapshot => {
             querySnapshot.forEach((doc) => {
 
                 const read = doc.data().Read
 
-                const totalMessagesArray = [read]
+                console.log(querySnapshot)
 
                 const allMessages = {
-                    AllMessages: totalMessagesArray.length
+                    AllMessages: querySnapshot.length
                 }
 
-                messageArray.push(allMessages)
-
-                if(!read.includes(authO.ID)){
+                if(!read.includes(route)){
 
                     const newMessages = {
                         NewMessages: read.length
                     }
 
-                    messageArray.push(newMessages)
+                    messageArray = [
+                        allMessages,
+                        newMessages
+                    ]
                 } 
             })
         })
@@ -125,8 +77,44 @@ const ChatGroups = () => {
         return messageArray
    }
 
+   const chatsOverview = () => {
+
+    const summary = {
+        chatsOverview = [
+
+        ]
+    }
+
+    chats && chats.forEach(async (chat) => {
+
+        const messages = await newAndTotalMessages(chat.ID)
+
+        const members = chat.Members
+        members.forEach(async (member) => {
+
+            const userName = await partnerName(member)
+
+            const chatOverview = [
+                {
+                    Messages: null,
+                    NewMessages: null,
+                    Photo: null,
+                    UserName: userName,
+                    ID: null
+                }
+            ]
+
+            summary.chatOveriew = chats
+
+            })
+        })
+
+        return summary
+    } 
+
     const DisplayChats = () => {
-           return <div className="chatpartner-meta-container divider" >
+        return chatsOverview.chatOverview && chatsOverview.chatOverview.map(chat => (
+            <div className="chatpartner-meta-container divider" >
                 <div className="chatpartner-container" onClick={updateRoute}>
                     <img src={partners.photo} alt="" />
                     <p className="chat-overview-username">{partners.name}</p>
@@ -134,6 +122,7 @@ const ChatGroups = () => {
                 <p>{allMessages.AllMessages} berichten</p>
                 <p className="new-messages">{newMessages.NewMessages} nieuw</p>
             </div>
+            ))
     }
 
     const updateRoute = (e) => {

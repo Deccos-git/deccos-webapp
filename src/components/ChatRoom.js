@@ -13,29 +13,17 @@ const ChatRoom = () => {
     const [authO] = useContext(Auth)
     const route = Location()[3]
 
-    const chats = useFirestore("Chats", route)
+    const chats = useFirestoreID("Chats", route)
     const messages = useFirestoreMessages("Messages", route)
     let userID = ""
 
-    // Define layout of message based on auth and chatpartner
-// useEffect(() => {
-//     messages && messages.forEach(message => {
-//         console.log(message.User, authO.UserName)
-//         if(message.User === authO.UserName){
-//             db.collection("Messages")
-//             .doc(message.docid)
-//             .update({
-//                 ClassName: "auth-message"
-//             })
-//         } else if (message.User != authO.UserName)  {
-//             db.collection("Messages")
-//             .doc(message.docid)
-//             .update({
-//                 ClassName: "user-message"
-//             })
-//         }
-//     })
-// }, [messages])
+    const messageClass = (message) => {
+        if(message.User === authO.UserName){
+            return "auth-message"
+        } else if (message.User != authO.UserName)  {
+            return "user-message"
+        }
+    }
 
     // Define name of chatpartner
     chats && chats.forEach(chat => {
@@ -69,7 +57,7 @@ const ChatRoom = () => {
                 ))}
                 <div className="chat-screen">
                 {messages && messages.map(message => (
-                    <div className={message.ClassName} key={message.ID}>
+                    <div className={messageClass(message)} key={message.ID}>
                         <div className="sender-meta-container">
                             <img className="sender-photo" src={message.UserPhoto} alt="" />
                             <p className="sender-name">{message.User}</p>

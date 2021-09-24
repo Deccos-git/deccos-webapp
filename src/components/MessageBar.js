@@ -40,7 +40,7 @@ const MessageBar = () => {
             Type: "Message",
             Message: Message,
             Timestamp: timestamp,
-            ParentID: route.Route,
+            ParentID: route,
             PrevPath: location.pathname,
             ID: id,
             Compagny: client,
@@ -49,7 +49,8 @@ const MessageBar = () => {
             Thread: [],
             Read: [authO.ID],
             UserID: authO.ID,
-            Contributions: []
+            Contributions: [],
+            Public: true
         })
         .then(() => {
             chats && chats.forEach(chat => {

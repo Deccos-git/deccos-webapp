@@ -84,6 +84,7 @@
   .article img{
     width: 100%;
     margin: 0px 0px;
+    border-radius: 5px;
 }
 
   .article-inner-div{
@@ -128,7 +129,7 @@
   }
 
   #introductions-textarea{
-    width: 70%;
+    width: 100%;
     margin-bottom: 20px;
   }
 
@@ -209,6 +210,8 @@
       background-color: #a7bdbd26;
       width: 100%;
       margin-bottom: 20px;
+      padding: 5px;
+      border-radius: 5px;
   }
 
   .goal-user-container img{
@@ -1004,10 +1007,28 @@
     width: 100%;
 }
 
+.SDG-select{
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border-color: lightgray;
+    color: gray;
+    font-size: 14px;
+}
+
+.more-sdg{
+    cursor: pointer;
+    font-size: 12px;
+}
+
 .add-channel-icon{
     cursor: pointer;
     width: 40px;
     height: 40px;
+}
+
+.my-message{
+    cursor: pointer;
 }
 
 .layout-container{
