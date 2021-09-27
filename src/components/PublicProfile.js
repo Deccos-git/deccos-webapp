@@ -19,8 +19,6 @@ const PublicProfile = () => {
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
 
-    let members = ""
-    let chatID = ""
     let room = ""
 
     function createRoomName(){
@@ -32,25 +30,49 @@ const PublicProfile = () => {
 
     console.log(room)
 
-    //Find chatroom
+    const findChat = async() => {
 
-    const chats = useFirestoreChats(room)
+        let chats = ""
 
-    console.log(chats)
+        await db.collection("Chats")
+            .where("Compagny", "==", client)
+            .where("Room", "==", room)
+            .get()
+            .then(querySnapshot => {
 
-    
+                chats = querySnapshot.docs.length
 
-
-    function startChat(){
-
-        if(chats.length === 0){
-            createChat()
-        } else if (chats.length === 1){
-            chats.forEach(chat => {
-                history.push(`/${client}/ChatRoom/${chat.ID}`)
             })
+
+        return chats
+    }
+    
+    const startChat = async () => {
+
+        if(await findChat() === 0){
+            createChat()
+            console.log("create chat")
+        } else if (await findChat() === 1){
+            console.log("link chat")
+            linkToChat()
         }
-    } 
+    }
+
+    const linkToChat = () => {
+        db.collection("Chats")
+            .where("Compagny", "==", client)
+            .where("Room", "==", room)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+
+                    const id = doc.data().ID
+
+                    history.push(`/${client}/ChatRoom/${id}`)
+
+                })
+            })
+    }
 
     const createChat = () => {
         db.collection("Chats")

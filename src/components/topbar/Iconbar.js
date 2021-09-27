@@ -58,19 +58,21 @@ const Iconbar = () => {
 
     const showNotifications = () => {
 
-        newNotifications && newNotifications.forEach(notification => {
+        if(newNotifications.length != 0){
+            newNotifications.forEach(notification => {
 
-            db.collection("Notifications")
-            .doc(notification.docid)
-            .update({
-                Read: true
+                db.collection("Notifications")
+                .doc(notification.docid)
+                .update({
+                    Read: true
+                })
+                .then(() => {
+                    history.push(`/${client}/Notifications/${notification.RecieverID}`) 
+                })
             })
-            .then(() => {
-                history.push(`/${client}/Notifications/${notification.RecieverID}`) 
-            })
-        })
-
-       
+        } else if (newNotifications.length === 0) {
+            history.push(`/${client}/Notifications/${authO.ID}`) 
+        }  
     }
 
     const showMessages = () => {

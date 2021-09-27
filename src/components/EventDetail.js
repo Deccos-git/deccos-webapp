@@ -7,11 +7,15 @@ import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import MessageBar from "./MessageBar"
 import { db } from "../firebase/config"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import HouseIcon from "../images/icons/house-icon.png"
+import InformationIcon from "../images/icons/information-icon.png"
 
 const EventDetail = () => {
+    const [psysicalDisplay, setPsysicalDisplay] = useState("")
+    const [onlineDisplay, setOnlineDisplay] = useState("")
 
     const [authO] = useContext(Auth)
     const route = Location()[3]
@@ -41,6 +45,31 @@ const EventDetail = () => {
         })
     }
 
+    const locationDisplay = () => {
+
+        db.collection("Events")
+        .where("ID", "==", route)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const location = doc.data().Location
+
+                console.log(location)
+
+                if(location === "online"){
+                    setOnlineDisplay("block")
+                    setPsysicalDisplay("none")
+                } else if(location === "physical-location"){
+                    setOnlineDisplay("none")
+                    setPsysicalDisplay("block")
+                }
+            })
+        })
+
+    }
+
+    locationDisplay()
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -48,7 +77,7 @@ const EventDetail = () => {
                 {events && events.map(doc => (
                     <div className="article">
                         <h1>{doc.Title}</h1>
-                        <img src={doc.Banner} alt="" />
+                        <img className="article-detail-banner" src={doc.Banner} alt="" />
                         <div className="list-inner-container">
                             <div className="article-card-user-container">
                                 <img src={doc.UserPhoto} alt="" />
@@ -58,15 +87,35 @@ const EventDetail = () => {
                             <div className="article-body-container divider">
                                 <div dangerouslySetInnerHTML={{ __html: doc.Body }}></div>
                             </div>
-                            <div>
-                                <ul>
+                            <div className="divider location-container" style={{Display: locationDisplay}}>
+                                <div>
+                                    <img src={HouseIcon} alt="" />
+                                </div>
+                                <div style={{display: psysicalDisplay}}>
+                                    <ul>
+                                        <li>{doc.LocationName}</li>
+                                        <li>{doc.LocationAdres}</li>
+                                        <li>{doc.LocationCity}</li>
+                                    </ul>
+                                </div>
+                                <div style={{display: onlineDisplay}}>
+                                    <ul>
+                                        <li>Online</li>
+                                    </ul>
+                                </div> 
+                            </div>
+                            <div className="location-container">
+                                <div>
+                                    <img src={InformationIcon} alt="" />
+                                </div>
+                                <ul className="event-meta-container">
                                     <li>Datum: {doc.Date}</li>
                                     <li>Prijs: {doc.Price}</li>
                                     <li>Max. deelnemers: {doc.Capacity}</li>
                                 </ul>
                             </div>
                             <div>
-                                <button>Aanmelden</button>
+                                <button className="event-detail-button">Aanmelden</button>
                             </div>
                         </div>
                     </div>

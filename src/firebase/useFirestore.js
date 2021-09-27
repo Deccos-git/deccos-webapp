@@ -267,7 +267,7 @@ const useFirestoreChannelItems = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("ChannelID", "==", id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -331,6 +331,29 @@ const useFirestoreIntroductions = (collection, id ) => {
     return docs
 };
 
+const useFirestoreNotApproved = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Users")
+        .where("Compagny", "==", client)
+        .where("Approved", "==", false)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
 export { 
     useFirestore, 
     useFirestoreID, 
@@ -345,5 +368,6 @@ export {
     useFirestoreContributions,
     useFirestoreNewNotifications,
     useFirestoreIntroductions,
-    useFirestoreMyMessages
+    useFirestoreMyMessages,
+    useFirestoreNotApproved
 }

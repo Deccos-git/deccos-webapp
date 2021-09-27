@@ -34,14 +34,71 @@ const ChatGroups = () => {
 
                 userName = doc.data().UserName
 
+                })
             })
-        })
-    }
+        }
 
     return userName
-}
+    }
 
-   const newAndTotalMessages = async (chatID) => {
+    const partnerPhoto = async (member) => {
+
+        let photo = ""
+    
+        if(member != route){
+    
+            await db.collection("Users")
+            .where("ID", "==", member)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+    
+                    photo = doc.data().Photo
+    
+                    })
+                })
+            }
+    
+        return photo
+        }
+
+        const partnerID = async (member) => {
+
+            let id = ""
+        
+            if(member != route){
+        
+                await db.collection("Users")
+                .where("ID", "==", member)
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+        
+                        id = doc.data().ID
+        
+                        })
+                    })
+                }
+        
+            return id
+            }
+
+   const totalMessages = async (chatID) => {
+
+    let totalMessages = ""
+
+        await db.collection("Messages")
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", chatID)
+        .get()
+        .then(querySnapshot => {
+          totalMessages = querySnapshot.docs.length
+        })
+
+        return totalMessages
+   }
+
+   const newestMessages = async (chatID) => {
 
     let messageArray = []
 
@@ -54,76 +111,70 @@ const ChatGroups = () => {
 
                 const read = doc.data().Read
 
-                console.log(querySnapshot)
-
-                const allMessages = {
-                    AllMessages: querySnapshot.length
-                }
-
                 if(!read.includes(route)){
 
-                    const newMessages = {
-                        NewMessages: read.length
+                        newMessages = read.length
                     }
-
-                    messageArray = [
-                        allMessages,
-                        newMessages
-                    ]
-                } 
+                })
             })
-        })
 
-        return messageArray
+        return messageArray.length
    }
+
+
 
    const chatsOverview = () => {
 
-    const summary = {
-        chatsOverview = [
-
-        ]
-    }
+    let summary = {}
 
     chats && chats.forEach(async (chat) => {
 
-        const messages = await newAndTotalMessages(chat.ID)
+        const chats = [{}]
+
+        const allMessages = await totalMessages(chat.ID)
+        const newMessages = await newestMessages(chat.ID)
+
+        console.log(chats)
 
         const members = chat.Members
         members.forEach(async (member) => {
 
             const userName = await partnerName(member)
+            const photo = await partnerPhoto(member)
+            const id = await partnerID(member)
 
-            const chatOverview = [
+            chats.push(
                 {
-                    Messages: null,
-                    NewMessages: null,
-                    Photo: null,
-                    UserName: userName,
-                    ID: null
+                userName: userName,
+                photo: photo,
+                id: id,
+                messages: allMessages,
+                newMessages: newMessages
                 }
-            ]
+            )
 
-            summary.chatOveriew = chats
+            summary.chats = chats
 
             })
         })
 
         return summary
-    } 
-
-    const DisplayChats = () => {
-        return chatsOverview.chatOverview && chatsOverview.chatOverview.map(chat => (
-            <div className="chatpartner-meta-container divider" >
-                <div className="chatpartner-container" onClick={updateRoute}>
-                    <img src={partners.photo} alt="" />
-                    <p className="chat-overview-username">{partners.name}</p>
-                </div>
-                <p>{allMessages.AllMessages} berichten</p>
-                <p className="new-messages">{newMessages.NewMessages} nieuw</p>
-            </div>
-            ))
     }
+    
+    console.log(chatsOverview())
+
+    // const DisplayChats = () => {
+    //     return chatsOverview().chats && chatsOverview().chats.map(chat => (
+    //         <div className="chatpartner-meta-container divider" >
+    //             <div className="chatpartner-container" onClick={updateRoute}>
+    //                 <img src={chat.photo} alt="" />
+    //                 <p className="chat-overview-username">{chat.userName}</p>
+    //             </div>
+    //             <p>{chat.messages} berichten</p>
+    //             <p className="new-messages">{chat.newMessages} nieuw</p>
+    //         </div>
+    //         ))
+    // }
 
     const updateRoute = (e) => {
         chats && chats.forEach(chat => {
@@ -139,7 +190,7 @@ const ChatGroups = () => {
                 <div className="list">
                     <h2>Chats</h2>
                         <div className="chats-overview-container">
-                            <DisplayChats />
+                            {/* <DisplayChats /> */}
                         </div>
                     <h2>Groepen</h2>
                     {groups && groups.map(group => (

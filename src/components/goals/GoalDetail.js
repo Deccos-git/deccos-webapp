@@ -77,7 +77,7 @@ const GoalDetail = () => {
             <LeftSideBar />
             <div className="card-overview goal-detail-container">
             {docs && docs.map(doc => (
-                <motion.div className="list" key={doc.id}>
+                <motion.div className="article" key={doc.id}>
                     <img src={doc.Banner} alt="" />
                     <div className="list-inner-container">
                         <h2>{doc.Title}</h2>

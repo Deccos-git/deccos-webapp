@@ -8,7 +8,7 @@ const IntroductionsCard = () => {
 
     return (
         docs && docs.map(doc => (
-            <div className="list introductions-list" key={doc.ID} >
+            <div className="introduction-card" key={doc.ID} >
                 <img src={doc.Photo} alt="" />
                 <h2>{doc.UserName}</h2>
                 <p>{doc.Body}</p>

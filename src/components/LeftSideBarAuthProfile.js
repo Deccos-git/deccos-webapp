@@ -4,9 +4,12 @@ import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
+import { useState } from 'react';
+import { db } from '../firebase/config';
 
 const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)
+    const [showNotification, setShowNotification] = useState("")
 
     const Superadmin = () => {
         if(authO.SuperAdmin){
@@ -21,6 +24,22 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
+    const toggleNotofication = () => {
+        db.collection("Users")
+        .where("Compagny", "==", client)
+        .where("Approved", "==", false)
+        .get()
+        .then(querySnapshot => {
+            if(querySnapshot.docs.length > 0){
+                setShowNotification("block")
+            } else if (querySnapshot.docs.length === 0){
+                setShowNotification("none")
+            }
+        })
+    }
+
+    toggleNotofication()
+
     const Admin = () => {
         if(authO.Admin){
             return <div>
@@ -29,6 +48,11 @@ const LeftSideBarAuthProfile = () => {
                             <Link to={`/${client}/Settings`}>Instellingen</Link>
                             <Link to={`/${client}/Analytics`}>Analytics</Link>
                             <Link to={`/${client}/Members`}>Leden</Link>
+                            <Link to={`/${client}/UserRoles`}>Gebruikersrollen</Link>
+                            <div className="notification-sidebar-container">
+                                <Link to={`/${client}/Registrations`}>Aanmeldingen</Link>
+                                <p style={{display: showNotification}} className="notification-counter-small"></p>
+                            </div>
                             <Link to={`/${client}/ChannelSettings`}>Kanalen</Link>
                             <Link to={`/${client}/GroupSettings`}>Groepen</Link>
                             <Link to={`/${client}/GoalSettings`}>Doelen</Link>

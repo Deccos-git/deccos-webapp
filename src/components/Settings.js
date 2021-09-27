@@ -67,27 +67,30 @@ const Settings = () => {
         })
     }
 
-
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
             <div className="profile">
+                {compagny && compagny.map(comp => (
+                <>
                 <div className="card-header">
-                    <h2>{compagny.CommunityName}</h2>
+                    <h2>{comp.CommunityName}</h2>
                     <p>Verander de instellingen van de community</p>
                 </div>
                 <div className="divider">
                     <h4>Community naam aanpassen</h4>
-                    <input className="input-classic" type="text" placeholder={compagny.CommunityName} onChange={communityNameHandler} />
+                    <input className="input-classic" type="text" placeholder={comp.CommunityName} onChange={communityNameHandler} />
                     <div className="button-container button-container-top">
                         <button className="button-simple" onClick={saveName}>Opslaan</button>
                     </div>
                 </div >
                 <div className="divider">
                     <h4>Logo aanpassen</h4>
-                    <img src={compagny.Logo} alt="" />
+                    <img src={comp.Logo} alt="" />
                     <input className="input-classic" type="file" onChange={LogoHandler} />
                 </div >
+                </>
+                ))}
             </div>
             <RightSideBar />
         </div>

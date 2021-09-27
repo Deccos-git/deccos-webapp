@@ -3,6 +3,7 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
+import { db } from "../firebase/config";
 
 const Members = () => {
 
@@ -18,6 +19,17 @@ const Members = () => {
         history.push(`/${client}/PublicProfile/${memberID}`)
     }
 
+    const deleteUser = (e) => {
+
+        const id = e.target.dataset.id
+
+        db.collection("Users")
+        .doc(id)
+        .update({
+            Deleted: true
+        })
+    }
+
     return (
             <div className="main">
                 <LeftSideBarAuthProfile />
@@ -31,6 +43,7 @@ const Members = () => {
                         <div id="members-container" key={doc.ID} onClick={updateRoute}>
                             <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
                             <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
+                            <p className="userrole-users-delete-button" data-id={doc.ID} onClick={deleteUser}>Verwijderen</p>
                         </div>
                     ))}
                 </div>

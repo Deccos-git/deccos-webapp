@@ -41,7 +41,7 @@ const Notifications = () => {
                 <LeftSideBar />
                 <div className="card-overview">
                     {notifications && notifications.map(notification => (
-                        <div className="list notification-card" key={notification.ID}>
+                        <div className="notification-card" key={notification.ID}>
                             <div className="user-meta-container">
                                 <img className="user-photo" src={notification.SenderPhoto} alt="" data-senderid={notification.SenderID} onClick={senderLink} />
                                 <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.SenderName} heeft aangegeven dat jouw bericht</p>

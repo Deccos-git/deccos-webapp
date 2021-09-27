@@ -4,18 +4,23 @@ import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/
 import MessageBarGroup from "./MessageBarGroup"
 import emailIcon from '../images/icons/email-icon.png'
 import { db } from "../firebase/config"
-import { useEffect, useContext } from "react"
+import { useEffect, useContext, useState} from "react"
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 
 const ChatRoom = () => {
+    const [showSendMail, setShowSendMail] = useState("none")
 
     const [authO] = useContext(Auth)
     const route = Location()[3]
 
     const chats = useFirestoreID("Chats", route)
     const messages = useFirestoreMessages("Messages", route)
+    const compagny = useFirestore("CompagnyMeta")
+
     let userID = ""
+    let userName = ""
+    let email = ""
 
     const messageClass = (message) => {
         if(message.User === authO.UserName){
@@ -35,6 +40,27 @@ const ChatRoom = () => {
             }
         })
     })
+
+    const chatPartners = useFirestoreID("Users", userID)
+
+    chatPartners && chatPartners.forEach(partner => {
+        userName = partner.UserName
+        email = partner.Email
+    })
+
+    const sendAsMail = (e) => {
+        const message = e.target.dataset.message
+        console.log(userID, userName, email, message)
+ 
+    }
+
+    const emailOptions = () => {
+        if(showSendMail === "none"){
+            setShowSendMail("flex")
+        } else if(showSendMail === "flex"){
+            setShowSendMail("none")
+        }
+    }
 
     const users = useFirestoreID("Users", userID)
 
@@ -63,7 +89,12 @@ const ChatRoom = () => {
                             <p className="sender-name">{message.User}</p>
                             <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
-                        <img className="notifications-icon-message" src={emailIcon} alt="" />
+                        <div className="send-as-mail-container">
+                            <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
+                            <div style={{display: showSendMail}}>
+                                <button onClick={sendAsMail}>Verstuur bericht als email</button>
+                            </div>
+                        </div>
                         <p>{message.Message}</p>
                     </div>
                 ))}

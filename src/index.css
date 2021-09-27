@@ -29,7 +29,7 @@ h3{
 
 h4{
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   color: #2F2C41;
   font-weight: bold;
 }
@@ -190,6 +190,9 @@ textarea ::placeholder{
   border-bottom: 1px solid lightgray;
   padding-bottom: 30px;
   margin-bottom: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header{

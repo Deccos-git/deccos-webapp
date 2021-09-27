@@ -11,11 +11,14 @@ import Location from "../hooks/Location"
 
 const Group = () => {
     const [authO] = useContext(Auth)
+    const [showSendMail, setShowSendMail] = useState("none")
+    const [selectedEmailUser, setSelectedEmailUser] = useState("")
 
     const route = Location()[3]
     
     const groups = useFirestoreID("Groups", route)
     const messages = useFirestoreMessages("Messages", route)
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let message = ""
 
@@ -33,9 +36,28 @@ const Group = () => {
         }
     }
     
+    const emailOptions = () => {
+            if(showSendMail === "none"){
+                setShowSendMail("flex")
+            } else if(showSendMail === "flex"){
+                setShowSendMail("none")
+            }
+    }
 
+    const sendAsMail = (e) => {
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        console.log(selectedEmailUser)
+
+    }
+
+    const emailMemberHandler = (e) => {
+        const member = e.target.value
+
+        setSelectedEmailUser(member)
+
+        console.log(member)
+
+    }
 
     return (
         <div className="main">
@@ -54,7 +76,18 @@ const Group = () => {
                                 <p className="sender-name">{message.User}</p>
                                 <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
-                            <img className="notifications-icon-message" src={emailIcon} alt="" />
+                            <div className="send-as-mail-container">
+                                <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
+                                <div style={{display: showSendMail}}>
+                                    <button onClick={sendAsMail}>Verstuur bericht als email</button>
+                                    <select name="" id="" onChange={emailMemberHandler}>
+                                        <option value="everybody">Iedereen</option>
+                                        {group.Members.map(member => (
+                                            <option value={member.UserName}>{member.UserName}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
                             <p>{message.Message}</p>
                         </div>
                         ))}

@@ -45,7 +45,7 @@ const ArticleDetail = () => {
                 {docs && docs.map(doc => (
                     <div className="article">
                         <h1>{doc.Title}</h1>
-                        <img src={doc.Banner} alt="" />
+                        <img className="article-detail-banner" src={doc.Banner} alt="" />
                         <div className="list-inner-container">
                             <div className="article-card-user-container">
                                 <img src={doc.UserPhoto} alt="" />

@@ -46,6 +46,8 @@ import MyIntroduction from './MyIntroduction';
 import MyMessages from './MyMessages';
 import MyGroups from './MyGroups';
 import MyContributions from './MyContributions';
+import UserRoles from './UserRoles';
+import Registrations from './Registrations';
 
 const Main = () => {
 
@@ -111,6 +113,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/NewClient`}>
                     <NewClient/>
+                </Route>
+                <Route path={`/${client}/UserRoles`}>
+                    <UserRoles/>
+                </Route>
+                <Route path={`/${client}/Registrations`}>
+                    <Registrations/>
                 </Route>
                 <Route path={`/${client}/Introductions`}>
                     <Introductions/>

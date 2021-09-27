@@ -28,6 +28,11 @@ const AddEvent = () => {
     const [capacity, setCapacity] = useState("")
     const [price, setPrice] = useState("")
     const [date, setDate] = useState("")
+    const [locationType, setLocationType] = useState("")
+    const [locationName, setLocationName] = useState("")
+    const [street, setStreet] = useState("")
+    const [city, setCity] = useState("")
+    const [physicalLocationDisplay, setPhysicalLocationDisplay] = useState("none")
 
     const variants = {
         hidden: { opacity: 0 },
@@ -43,6 +48,35 @@ const AddEvent = () => {
         if (editorRef.current) {
             setBody(editorRef.current.getContent());
             }
+    }
+
+    const locationTypeSelect = (e) => {
+
+        const type = e.target.value
+
+        setLocationType(type)
+
+        if(type === "online"){
+            setPhysicalLocationDisplay("none")
+        } else if (type === "physical-location"){
+            setPhysicalLocationDisplay("block")
+        }
+
+    }
+
+    const locationNameHandler = (e) => {
+        const locationName = e.target.value
+        setLocationName(locationName)
+    }
+
+    const locationStreetHandler = (e) => {
+        const street = e.target.value
+        setStreet(street)
+    }
+
+    const cityHandler = (e) => {
+        const city = e.target.value
+        setCity(city)
     }
 
     const dateHandler = (e) => {
@@ -115,7 +149,11 @@ const AddEvent = () => {
             Price: price,
             Capacity: capacity,
             Date: date,
-            Banner: bannerPhoto
+            Banner: bannerPhoto,
+            Location: locationType,
+            LocationName: locationName,
+            LocationAdres: street,
+            LocationCity: city
         })
         .then(() => {
             db.collection("AllActivity")
@@ -182,10 +220,19 @@ const AddEvent = () => {
                     </div>
                     <div className="divider">
                         <h4>Is het event online of heeft een fysieke locatie?</h4>
-                        <select name="" id="">
+                        <select name="" id="" onChange={locationTypeSelect}>
+                            <option value="">--- Selecteer ---</option>
                             <option value="online">Online</option>
-                            <option value="fysical-location">Fysieke locatie</option>
+                            <option value="physical-location">Fysieke locatie</option>
                         </select>
+                        <div style={{display: physicalLocationDisplay}}>
+                            <h5>Naam locatie</h5>
+                            <input type="text" placeholder="Schrijf hier de naam van de locatie" onChange={locationNameHandler} />
+                            <h5>Locatie straat en huisnummer</h5>
+                            <input type="text" placeholder="Schrijf hier de straat en het huisnummer van de locatie" onChange={locationStreetHandler} />
+                            <h5>Locatie stad of dorp</h5>
+                            <input type="text" placeholder="Schrijf hier in welke stad of dorp het evenement plaats vindt" onChange={cityHandler} />
+                        </div>
                     </div>
                     <div className="divider">
                         <h4>Wanneer vindt het event plaats?</h4>

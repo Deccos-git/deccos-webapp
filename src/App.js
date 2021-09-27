@@ -8,16 +8,36 @@ import { auth, db } from './firebase/config';
 import { useState } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
+import NotApproved from './components/NotApproved';
 
 function App() {
 
   const [online, setOnline] = useState(false)
+  const [approved, setApproved] = useState("")
 
     auth.onAuthStateChanged(User =>{
       if(User != null){
         setOnline(true)
       } else if (User === null) {
         setOnline(false)
+      }
+    })
+
+    auth.onAuthStateChanged(User => {
+      if(User){
+        db.collection("Users")
+        .doc(User.uid)
+        .get()
+        .then(doc => {
+            const approved = doc.data().Approved
+
+            if(approved === false){
+              setApproved(false)
+              
+            } else if (approved === true){
+              setApproved(true)
+            }
+        })
       }
     })
 

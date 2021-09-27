@@ -20,14 +20,13 @@ const ActivityCard = ({doc}) => {
         e.preventDefault()
 
         const link = e.target.dataset.link
-        const id = e.target.dataset.id
 
-        history.push(`/${client}/${link}/${id}`)
+        history.push(`${link}`)
     }
 
     return (
             <motion.div 
-            className="activity-list list" 
+            className="activity-list activity-card" 
             // key={act.ID}
             initial="hidden"
             animate="visible"

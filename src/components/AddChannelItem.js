@@ -118,7 +118,7 @@ const AddChannelItem = () => {
         })
         .then(() => {
     
-            history.push(`/${client}/Channel${route}`)
+            history.push(`/${client}/Channel/${route}`)
         })
     }
 

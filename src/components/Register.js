@@ -125,7 +125,9 @@ const RegisterUser = () => {
                 Photo: photo,
                 Channels: [],
                 ID: id,
-                Description: "",
+                Approved: false,
+                Author: false,
+                Admin: false,
                 Likes: 0,
                 About: "",
                 Docid: cred.user.uid
@@ -137,30 +139,6 @@ const RegisterUser = () => {
                 return
             }
             
-        })
-        .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: `Welkom ${forname}!`,
-                Type: "NewMember",
-                Compagny: client,
-                ButtonText: "Bekijk profiel",
-                Timestamp: timestamp,
-                ID: id,
-                Banner: banner,
-                Description: 'is lid geworden van de community',
-                Link: `/${client}/PublicProfile`,
-                User: `${forname} ${surname}`,
-                UserPhoto: photo,
-            }) 
-        })
-        .then(() => {
-            db.collection("CompagnyMeta")
-            .doc(docid)
-            .update({
-                Members: firebase.firestore.FieldValue.arrayUnion(memberMap)
-            }) 
         })
     }
 

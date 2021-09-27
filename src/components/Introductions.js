@@ -25,7 +25,7 @@ const Introductions = () => {
 
     compagny && compagny.forEach(comp => {
 
-        banner = comp.ActivityBanner[0].NewIntroduction
+        banner = comp.ActivityBanner.NewIntroduction
     })
 
     const saveIntroduction = () => {

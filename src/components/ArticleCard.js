@@ -21,7 +21,7 @@ const ArticleCard = ({doc}) => {
             initial="hidden"
             animate="visible"
             variants={variants}>
-                <img src={doc.Banner} alt="" />
+                <img className="list-card-banner" src={doc.Banner} alt="" />
                 <div className="list-inner-container">
                     <div className="article-card-user-container">
                         <img src={doc.UserPhoto} alt="" />
