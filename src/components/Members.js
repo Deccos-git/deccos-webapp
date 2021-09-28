@@ -3,9 +3,11 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
-import { db } from "../firebase/config";
+import { db, auth } from "../firebase/config";
+import { useState } from "react";
 
 const Members = () => {
+    const [showDeleteButton, setShowDeleteButton] = useState("none")
 
     const docs = useFirestore("Users")
     const compagnies = useFirestore("CompagnyMeta")
@@ -18,6 +20,26 @@ const Members = () => {
 
         history.push(`/${client}/PublicProfile/${memberID}`)
     }
+
+    const showDeleteButtonForAdmin = () => {
+        auth.onAuthStateChanged(User =>{
+            if(User){
+                db.collection("Users")
+                .doc(User.uid)
+                .onSnapshot(doc => {
+
+                    const admin = doc.data().Admin
+                    if(admin === true){
+                        setShowDeleteButton("block")
+                    } else if (admin === false){
+                        setShowDeleteButton("none")
+                    }
+                })
+            }
+        })
+    }
+
+    showDeleteButtonForAdmin()
 
     const deleteUser = (e) => {
 
@@ -43,7 +65,7 @@ const Members = () => {
                         <div id="members-container" key={doc.ID} onClick={updateRoute}>
                             <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
                             <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
-                            <p className="userrole-users-delete-button" data-id={doc.ID} onClick={deleteUser}>Verwijderen</p>
+                            <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.ID} onClick={deleteUser}>Verwijderen</p>
                         </div>
                     ))}
                 </div>

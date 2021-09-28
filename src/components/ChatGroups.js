@@ -34,6 +34,8 @@ const ChatGroups = () => {
 
                 userName = doc.data().UserName
 
+                console.log(userName)
+
                 })
             })
         }
@@ -114,6 +116,8 @@ const ChatGroups = () => {
                 if(!read.includes(route)){
 
                         newMessages = read.length
+
+                        console.log(newMessages)
                     }
                 })
             })
@@ -125,16 +129,14 @@ const ChatGroups = () => {
 
    const chatsOverview = () => {
 
-    let summary = {}
+    const summary = {}
 
     chats && chats.forEach(async (chat) => {
 
-        const chats = [{}]
+        const chatsArray = []
 
         const allMessages = await totalMessages(chat.ID)
         const newMessages = await newestMessages(chat.ID)
-
-        console.log(chats)
 
         const members = chat.Members
         members.forEach(async (member) => {
@@ -143,7 +145,17 @@ const ChatGroups = () => {
             const photo = await partnerPhoto(member)
             const id = await partnerID(member)
 
-            chats.push(
+            // console.log(
+            //     {
+            //         userName: userName,
+            //         photo: photo,
+            //         id: id,
+            //         messages: allMessages,
+            //         newMessages: newMessages
+            //         }
+            // )
+
+            chatsArray.push(
                 {
                 userName: userName,
                 photo: photo,
@@ -153,10 +165,10 @@ const ChatGroups = () => {
                 }
             )
 
-            summary.chats = chats
-
-            })
+            console.log(chatsArray)
         })
+    })
+
 
         return summary
     }
@@ -164,8 +176,9 @@ const ChatGroups = () => {
     console.log(chatsOverview())
 
     // const DisplayChats = () => {
-    //     return chatsOverview().chats && chatsOverview().chats.map(chat => (
-    //         <div className="chatpartner-meta-container divider" >
+    //     return chatsOverview() && chatsOverview().forEach(chats => {
+    //         {chats.map(chat => (
+    //             <div className="chatpartner-meta-container divider" >
     //             <div className="chatpartner-container" onClick={updateRoute}>
     //                 <img src={chat.photo} alt="" />
     //                 <p className="chat-overview-username">{chat.userName}</p>
@@ -173,7 +186,8 @@ const ChatGroups = () => {
     //             <p>{chat.messages} berichten</p>
     //             <p className="new-messages">{chat.newMessages} nieuw</p>
     //         </div>
-    //         ))
+    //         ))}
+    //     })
     // }
 
     const updateRoute = (e) => {
@@ -187,7 +201,7 @@ const ChatGroups = () => {
     return (
             <div className="main">
                 <LeftSideBar />
-                <div className="list">
+                <div className="article">
                     <h2>Chats</h2>
                         <div className="chats-overview-container">
                             {/* <DisplayChats /> */}

@@ -36,17 +36,6 @@ const GoalDetail = () => {
     })
 
     let numberOfReactions = ""
-    let numberOfContributions = ""
-
-    messages && messages.forEach(message => {
-        if(message.Contributions != undefined){
-            if(message.Contributions.length === 0){
-                numberOfContributions = 0
-            } else {
-                numberOfContributions = message.Contributions.length
-            }
-        }
-    })
 
     messages && messages.forEach(message => {
         if(message.Thread.length === 0){
@@ -87,7 +76,10 @@ const GoalDetail = () => {
                             <p>{doc.Type}</p>
                         </div>
                         <div className="goal-progress-container">
-                            <p>Aantal bijdragen: {numberOfContributions}</p>
+                            <p>Aantal bijdragen:</p>
+                            {docs && docs.map(doc => (
+                                <p>{doc.Contributions.length}</p>
+                            ))}
                             <div className="button-container">
                                 <button className="button-simple" onClick={showContributionsGoal}>Bekijk</button>
                             </div>
@@ -114,7 +106,7 @@ const GoalDetail = () => {
                                 <p className="massage">{message.Message}</p>
                             </div>
                             <div className="like-container">
-                                <p>Aantal bijdragen: {message.Contributions}</p>
+                                <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>
                                 < LikeBar auth={auth} message={message} />
                             </div>
                             <div className="button-container button-goal-message-container">

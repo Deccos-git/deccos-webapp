@@ -115,7 +115,7 @@ const PublicProfile = () => {
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h2>{profile.UserName}</h2>
-                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{profile.Likes} bijdragen aan doelen</p>
+                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{profile.Contributions.length} bijdragen aan doelen</p>
                             <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
                                 <button onClick={startChat}>Chatten</button>

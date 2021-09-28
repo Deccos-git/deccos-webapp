@@ -79,7 +79,7 @@ const NewsDetail = () => {
                                 <p className="massage">{message.Message}</p>
                             </div>
                             <div className="like-container">
-                                {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
+                            <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>
                                 < LikeBar message={message} />
                             </div>
                             <div className="button-container">

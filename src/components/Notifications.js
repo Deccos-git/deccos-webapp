@@ -44,10 +44,10 @@ const Notifications = () => {
                         <div className="notification-card" key={notification.ID}>
                             <div className="user-meta-container">
                                 <img className="user-photo" src={notification.SenderPhoto} alt="" data-senderid={notification.SenderID} onClick={senderLink} />
-                                <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.SenderName} heeft aangegeven dat jouw bericht</p>
+                                <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.Header}</p>
                             </div>
                             <h2 className="notification-message" onClick={messageLink} data-messageid={notification.MessageID}>{notification.MessageBody}</h2>
-                            <p>een bijdrage is aan het doel</p>
+                            <p>{notification.SubHeader}</p>
                             <h2 className="notification-goal" onClick={goalLink} data-goalid={notification.GoalID}>{notification.GoalName}</h2>
                             <p className="notification-timestamp">{notification.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>

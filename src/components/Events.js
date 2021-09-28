@@ -1,7 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
-import { useFirestore } from "../firebase/useFirestore";
+import { useFirestoreTimestamp } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState, useContext } from 'react';
@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const Events = () => {
     const [authO] = useContext(Auth)
 
-    const events = useFirestore("Events")
+    const events = useFirestoreTimestamp("Events")
     const history = useHistory()
     const [displayAddNew, setDisplayAddNew] = useState("none")
 

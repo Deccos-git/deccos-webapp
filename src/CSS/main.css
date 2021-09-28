@@ -48,7 +48,7 @@
     height: 200px;
     width: 90%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-    margin: 30px 30px 30px 0px;
+    margin: 30px 30px 30px 30px;
     border-radius: 5px;
     background-color: #FFF;
     display: flex;
@@ -738,7 +738,7 @@
       padding: 20px;
     width: 90%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-    margin: 30px 30px 30px 0px;
+    margin: 30px 30px 30px 30px;
     border-radius: 5px;
     background-color: #FFF;
     text-align: center;
@@ -915,6 +915,10 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
 
+  .like-counter{
+      margin-left: 10px;
+  }
+
   .auth-message{
     align-self: flex-end;
     display: flex;
@@ -965,7 +969,7 @@
   .group-header{
       height: 150px;
       background-color: white;
-      border-bottom: 1px solid rgba(0,0,0,.2);
+      border-bottom: 5px solid #a7bdbd60;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1248,6 +1252,7 @@
     .group-container{
         width: 100%;
         border-radius: 0px;
+        margin: 10px;
     }
 
     .profile{
@@ -1264,6 +1269,35 @@
     .notification-card {
         width: 80%;
     }
+
+    .channel-inner-div a{
+        font-size: 18px;
+    }
+
+    .channel-div h3{
+        font-size: 20px;
+    }
+
+    .card{
+        width: 90%;
+    }
+
+    .reaction-inner-container{
+        flex-direction: column;
+    }
+
+    .auth-message-container {
+        justify-content: center;
+    }
+
+    .message-card-timestamp {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .article-body-container {
+        width: 90%;
+    }
+
 }
 
   

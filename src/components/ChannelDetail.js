@@ -62,23 +62,32 @@ const ChannelDetail = () => {
                     </div>
                     )) }
                     <h2>Berichten</h2>
-                    <MessageBar route={route} auth={authO}/>
+                    <MessageBar/>
                     <div className="reaction-area">
-                        {messages && messages.map(message => ( 
-                            <div className="reaction-inner-container" key={message.ID}>
-                                <div className="auth-message-container">
-                                    <img src={message.UserPhoto} alt="" />
+                    {messages && messages.map(message => ( 
+                        <div className="reaction-inner-container">
+                            <div className="auth-message-container">
+                                <img src={message.UserPhoto} alt="" />
+                            </div>
+                            <div>
+                                <div className="user-meta-container">
                                     <p className="auth-name">{message.User}</p>
                                     <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                                 </div>
-                                <p>{message.Message}</p>
-                                < ReactionBar message={message} />
-                                < LikeBar auth={authO} message={message} />
+                                <div className="message-container">
+                                    <p className="massage">{message.Message}</p>
+                                </div>
+                                <div className="like-container">
+                                    <p className="like-counter">Aantal bijdragen: {message.Contributions.length}</p>
+                                    < LikeBar message={message} />
+                                </div>
                                 <div className="button-container">
                                     <button onClick={updateRoute}>{numberOfReactions}</button>
                                 </div>
+                                < ReactionBar message={message} />
                             </div>
-                        ))}
+                        </div>
+                    ))}
                     </div>
                 </div>
                 <RightSideBar />

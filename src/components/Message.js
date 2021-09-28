@@ -12,6 +12,8 @@ const Message = ({message}) => {
 
     let numberOfReactions = ""
 
+    console.log(message.Contributions)
+
     if(message.Thread.length === 0){
         numberOfReactions = `Bekijk bericht`
     } else if (message.Thread.length === 1){

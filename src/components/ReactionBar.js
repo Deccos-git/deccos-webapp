@@ -38,7 +38,7 @@ const ReactionBar = ({message}) => {
             PrevPath: location.pathname,
             User: authO.UserName,
             UserPhoto: authO.Photo,
-            ID: id,
+            ID: uuid(),
             Thread: [],
             Read: [authO.ID],
             UserID: authO.ID,
@@ -54,6 +54,27 @@ const ReactionBar = ({message}) => {
         })
         .then(() => {
             setReaction("")
+        })
+        .then(() => {
+            db.collection("Notifications")
+            .doc()
+            .set({
+                MessageID: message.ID,
+                ParentID: message.ID,
+                MessageBody: message.Message,
+                Reaction: reaction,
+                Timestamp: timestamp,
+                SenderID: authO.ID,
+                SenderName: authO.UserName,
+                SenderPhoto: authO.Photo,
+                RecieverID: message.UserID,
+                Header:`${authO.UserName} heeft gereageerd op jouw bericht`,
+                SubHeader:``,
+                Read: false,
+                ID: uuid(),
+                Compagny: client,
+                Type: "Reaction"
+            })
         })
     }
 

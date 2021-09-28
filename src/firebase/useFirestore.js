@@ -219,7 +219,7 @@ const useFirestoreNotifications = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("RecieverID", "==", id)
-        .orderBy("Timestamp", "desc")
+        .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -291,7 +291,7 @@ const useFirestoreContributions = (collection, type, id ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where(type, "==", id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
