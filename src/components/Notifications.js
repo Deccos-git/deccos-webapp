@@ -1,9 +1,11 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreNotifications } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import Location from "../hooks/Location"
+import MenuStatus from "../hooks/MenuStatus";
 
 const Notifications = () => {
     const route = Location()[3]
@@ -11,6 +13,7 @@ const Notifications = () => {
     const notifications = useFirestoreNotifications("Notifications", route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
+    const menuState = MenuStatus()
 
     const senderLink = (e) => {
 
@@ -39,7 +42,8 @@ const Notifications = () => {
     return (
             <div className="main">
                 <LeftSideBar />
-                <div className="card-overview">
+                <LeftSideBarFullScreen/>
+                <div className="card-overview" style={{display: menuState}}>
                     {notifications && notifications.map(notification => (
                         <div className="notification-card" key={notification.ID}>
                             <div className="user-meta-container">

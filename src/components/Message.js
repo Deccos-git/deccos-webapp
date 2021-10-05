@@ -57,7 +57,7 @@ const Message = ({message}) => {
                 <p className="auth-name">{message.User}</p>
                 <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
-            <p>{message.Message}</p>
+            <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
             <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {message.Contributions.length}</p>
             < ReactionBar message={message} />
             < LikeBar />

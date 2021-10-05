@@ -1,18 +1,20 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestore } from "./../firebase/useFirestore";
+import { useFirestoreUsers, useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { db, auth } from "../firebase/config";
 import { useState } from "react";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Members = () => {
     const [showDeleteButton, setShowDeleteButton] = useState("none")
 
-    const docs = useFirestore("Users")
+    const docs = useFirestoreUsers(false)
     const compagnies = useFirestore("CompagnyMeta")
     const history = useHistory()
-
+    const menuState = MenuStatus()
     
     const updateRoute = (e) => {
 
@@ -55,17 +57,18 @@ const Members = () => {
     return (
             <div className="main">
                 <LeftSideBarAuthProfile />
+                <LeftSideBarAuthProfileFullScreen/>
                 {compagnies && compagnies.map(compagny => (
-                <div className="profile">
+                <div className="profile" key={compagny.ID} style={{display: menuState}}>
                     <div className="card-header">
                         <h2>Leden van de community</h2>
                         <p>Bekijk alle {compagny.Members.length} leden van de community</p>
                     </div>
                     {docs && docs.map(doc => (
-                        <div id="members-container" key={doc.ID} onClick={updateRoute}>
+                        <div id="members-container" key={doc.ID}>
                             <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
                             <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
-                            <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.ID} onClick={deleteUser}>Verwijderen</p>
+                            <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser}>Verwijderen</p>
                         </div>
                     ))}
                 </div>

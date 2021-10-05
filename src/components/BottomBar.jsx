@@ -4,7 +4,7 @@ import '../CSS/topbar.css';
 const BottomBar = () => {
 
     return (
-        <header className="top-bar bottom-bar">
+        <header className="bottom-bar">
             <Iconbar/>
         </header>
     )

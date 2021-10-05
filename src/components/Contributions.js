@@ -1,14 +1,13 @@
 import { useFirestoreContributions } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
-import { Auth } from '../StateManagment/Auth';
-import { useContext } from "react";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Contributions = () => {
-    const [authO] = useContext(Auth)
-
     const route = Location()[3]
+    const menuState = MenuStatus()
 
     const contributionsGoal = useFirestoreContributions("Contributions", "GoalID", route)
     const contributionsMessage = useFirestoreContributions("Contributions", "MessageID", route)
@@ -23,7 +22,8 @@ const Contributions = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="card-overview">
+            <LeftSideBarFullScreen/>
+            <div className="card-overview" style={{display: menuState}}>
             {contributionsGoal && contributionsGoal.map(goal => (
                 <div className="notification-card">
                     <div className="user-meta-container">

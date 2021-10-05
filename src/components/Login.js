@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { client } from '../hooks/Client';
 import { auth, db } from '../firebase/config';
 import { useHistory } from "react-router-dom";
-import { useFirestore } from '../firebase/useFirestore';
 
 const Login = () => {
 
@@ -10,7 +9,6 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     const history = useHistory();
-    const routes = useFirestore("Route")
 
     const emailHandler = (e) => {
         const email = e.target.value
@@ -35,36 +33,7 @@ const Login = () => {
             }
         })
         .then(() => {
-            auth.onAuthStateChanged(User =>{
-                if(User){
-                    db.collection("Users")
-                    .doc(User.uid)
-                    .get()
-                    .then(doc => {
-                        const id = doc.data().ID
-
-                        updateRoute(id)
-
-                    })
-                    .then(() => {
-                        history.push(`/${client}/AllActivity`)
-                    })
-                }
-            })
-        })
-    }
-
-    let routeid = ""
-
-    routes && routes.forEach(route => {
-        routeid = route.docid
-    })
-
-    const updateRoute = (id) => {
-        db.collection("Route")
-        .doc(routeid)
-        .update({
-            ID: id
+            history.push(`/${client}/AllActivity`)
         })
     }
 

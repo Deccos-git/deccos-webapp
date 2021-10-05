@@ -1,4 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
 import { useFirestoreTimestamp } from "../firebase/useFirestore";
@@ -9,6 +10,7 @@ import { auth, db } from '../firebase/config';
 import { Auth } from '../StateManagment/Auth';
 import articleIcon from '../images/icons/article-icon.png'
 import { Link } from "react-router-dom";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Events = () => {
     const [authO] = useContext(Auth)
@@ -16,6 +18,8 @@ const Events = () => {
     const events = useFirestoreTimestamp("Events")
     const history = useHistory()
     const [displayAddNew, setDisplayAddNew] = useState("none")
+
+    const menuState = MenuStatus()
 
     const variants = {
         hidden: { opacity: 0 },
@@ -51,10 +55,17 @@ const Events = () => {
 
     showAddNew()
 
+    const profileLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="main-container">
+            <LeftSideBarFullScreen/>
+            <div className="main-container" style={{display: menuState}}>
                 <div className="card-container">
                     <motion.div 
                     className="card"
@@ -62,7 +73,7 @@ const Events = () => {
                     initial="hidden"
                     animate="visible"
                     variants={variants}>
-                        <img className="list-card-banner" src={articleIcon} alt="" />
+                        <img className="card-banner" src={articleIcon} alt="" />
                         <div className="list-inner-container">
                             <div className="article-card-user-container">
                                 <img src={authO.Photo} alt="" />
@@ -74,11 +85,11 @@ const Events = () => {
                     </motion.div>
                     {events && events.map(even => (
                         <div className="card">
-                            <img className="list-card-banner" src={even.Banner} alt="" />
+                            <img className="card-banner" src={even.Banner} alt="" />
                             <div className="list-inner-container">
                                 <div className="article-card-user-container">
-                                    <img src={even.UserPhoto} alt="" />
-                                    <p>{even.User}</p>
+                                    <img src={even.UserPhoto} alt="" data-id={even.UserID} onClick={profileLink} />
+                                    <p data-id={even.UserID} onClick={profileLink}>{even.User}</p>
                                 </div>
                                 <h2>{even.Title}</h2>
                                 <p>{even.Date}</p>

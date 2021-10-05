@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { useFirestore } from '../firebase/useFirestore';
 
-const LeftSideBar = () => {
 
+const LeftSideBar = () => {
     const groups = useFirestore("Groups")
     const channels = useFirestore("Channels")
 

@@ -1,14 +1,18 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
 import { useState } from "react";
+import MenuStatus from "../hooks/MenuStatus";
 
 const UserRoles = () => {
     const [adminID, setAdminID] = useState("")
     const [authorID, setAuthorID] = useState("")
 
     const users = useFirestore("Users")
+
+    const menuState = MenuStatus()
 
     const admins = () => {
 
@@ -107,7 +111,8 @@ const UserRoles = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            <div className="profile">
+            <LeftSideBarAuthProfileFullScreen/>
+            <div className="profile" style={{display: menuState}}>
                 <div className="divider card-header">
                     <h2>Gebruikersrollen</h2>
                     <p>Pas de gebruikersrollen van je community aan</p>

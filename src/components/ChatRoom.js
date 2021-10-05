@@ -1,4 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
 import MessageBarGroup from "./MessageBarGroup"
@@ -7,20 +8,28 @@ import { db } from "../firebase/config"
 import { useEffect, useContext, useState} from "react"
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import { client } from "../hooks/Client";
+import MenuStatus from "../hooks/MenuStatus";
+import { useHistory } from "react-router-dom"
 
 const ChatRoom = () => {
     const [showSendMail, setShowSendMail] = useState("none")
 
     const [authO] = useContext(Auth)
     const route = Location()[3]
+    const menuState = MenuStatus()
 
     const chats = useFirestoreID("Chats", route)
     const messages = useFirestoreMessages("Messages", route)
     const compagny = useFirestore("CompagnyMeta")
 
+    const history = useHistory()
+    const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
+
     let userID = ""
     let userName = ""
     let email = ""
+    let room = ""
 
     const messageClass = (message) => {
         if(message.User === authO.UserName){
@@ -33,6 +42,8 @@ const ChatRoom = () => {
     // Define name of chatpartner
     chats && chats.forEach(chat => {
         const members = chat.Members
+
+        room = chat.ID
 
         members && members.forEach(member => {
             if(authO.ID != member){
@@ -48,10 +59,36 @@ const ChatRoom = () => {
         email = partner.Email
     })
 
+    let communityName = ""
+    let logo = ""
+
+    compagny && compagny.forEach(comp => {
+        communityName = comp.CommunityName
+        logo = comp.Logo
+    })
+
     const sendAsMail = (e) => {
-        const message = e.target.dataset.message
-        console.log(userID, userName, email, message)
- 
+        e.target.innerHTML = "Verstuurd"
+
+        db.collection("Email").doc().set({
+            to: [email],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `${userName} heeft je een bericht gestuurd in jullie chat.`,
+            html: `Hallo ${authO.UserName}, </br></br>
+
+                ${userName} heeft je een bericht gestuurd in jullie chat.</br></br>
+
+                Bekijk het bericht <a href="https://www.deccos.co/${client}/ChatRoom/${room}"><u>hier</u></a>.<br><br>
+                
+                Vriendelijke groet, </br></br>
+                ${communityName} </br></br>
+                <img src="${logo}" width="100px">`,
+            Gebruikersnaam: `${userName}`,
+            Emailadres: email,
+            Type: "Chat"
+              }     
+          }); 
     }
 
     const emailOptions = () => {
@@ -64,20 +101,25 @@ const ChatRoom = () => {
 
     const users = useFirestoreID("Users", userID)
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const profileLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
 
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="group-container">
+            <LeftSideBarFullScreen/>
+            <div className="group-container" style={{display: menuState}}>
                 {users && users.map(user => (
                     <div className="chat-header">
                         <div>
-                            <img src={user.Photo} alt="" /> 
+                            <img className="user-image" src={user.Photo} alt="" data-id={user.ID} onClick={profileLink} /> 
                         </div>
                         <div className="header-title-container">
                             <h2>Chat met</h2>
-                            <h2 key={user.ID}>{user.UserName}</h2> 
+                            <h2 className="user-image" key={user.ID} data-id={user.ID} onClick={profileLink}>{user.UserName}</h2> 
                         </div>
                     </div>
                 ))}
@@ -85,8 +127,8 @@ const ChatRoom = () => {
                 {messages && messages.map(message => (
                     <div className={messageClass(message)} key={message.ID}>
                         <div className="sender-meta-container">
-                            <img className="sender-photo" src={message.UserPhoto} alt="" />
-                            <p className="sender-name">{message.User}</p>
+                            <img className="sender-photo" src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                            <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                             <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
                         <div className="send-as-mail-container">
@@ -95,7 +137,7 @@ const ChatRoom = () => {
                                 <button onClick={sendAsMail}>Verstuur bericht als email</button>
                             </div>
                         </div>
-                        <p>{message.Message}</p>
+                        <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
                     </div>
                 ))}
                 <MessageBarGroup route={route} auth={authO} />

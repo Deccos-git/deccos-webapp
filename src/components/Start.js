@@ -1,14 +1,17 @@
 import {useFirestore} from "../firebase/useFirestore"
 import { motion } from "framer-motion"
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useContext } from "react"
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 const Start = () => {
     const [authO] = useContext(Auth)
 
     const docs  = useFirestore("CompagnyMeta")
+    const menuState = MenuStatus()
 
     const username = authO.ForName
 
@@ -20,10 +23,12 @@ const Start = () => {
     return (
         <div className="main">
             <LeftSideBar />
+            <LeftSideBarFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"
-            variants={variants}>
+            variants={variants}
+            style={{display: menuState}}>
                 {docs && docs.map(doc => (
                     <div className="article-inner-div" key={doc.ID}>
                         <div className="start-banner">

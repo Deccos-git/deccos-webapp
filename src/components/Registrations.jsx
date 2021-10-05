@@ -1,16 +1,20 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useFirestoreNotApproved } from "../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import { useFirestore } from "../firebase/useFirestore";
 import firebase from "firebase";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Registrations = () => {
 
     const notApprovedUsers = useFirestoreNotApproved()
 
     const compagny = useFirestore("CompagnyMeta")
+
+    const menuState = MenuStatus()
 
     let banner = ""
     let docid = ""
@@ -52,6 +56,7 @@ const Registrations = () => {
                 Description: 'is lid geworden van de community',
                 Link: `/${client}/PublicProfile/${userID}`,
                 User: `${forname} ${surname}`,
+                UserID: userID,
                 UserPhoto: photo,
             }) 
         })
@@ -68,7 +73,8 @@ const Registrations = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            <div className="profile">
+            <LeftSideBarAuthProfileFullScreen/>
+            <div className="profile" style={{display: menuState}}>
                 <div className="card-header">
                     <h2>Aanmeldingen</h2>
                     <p>Beheer de aanmeldingen van je community</p>

@@ -1,4 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useState } from 'react'
 import { motion } from "framer-motion"
@@ -14,6 +15,7 @@ import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 import Location from "../hooks/Location"
+import MenuStatus from "../hooks/MenuStatus";
 
 const AddChannelItem = () => {
     const [authO] = useContext(Auth)
@@ -23,6 +25,7 @@ const AddChannelItem = () => {
     const compagny = useFirestore("CompagnyMeta")
     const editorRef = useRef(null);
     const history = useHistory()
+    const menuState = MenuStatus()
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -112,6 +115,7 @@ const AddChannelItem = () => {
                 ButtonText: "Bekijk bericht",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
+                UserID: authO.ID,
                 Banner: banner,
                 Link: `ChannelDetail`
             }) 
@@ -125,10 +129,12 @@ const AddChannelItem = () => {
     return (
         <div className="main">
             <LeftSideBar />
+            <LeftSideBarFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"
-            variants={variants}>
+            variants={variants}
+            style={{display: menuState}}>
                 <div className="card-header">
                         <h2>Voeg een item toe</h2>
                 </div>

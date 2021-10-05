@@ -1,4 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useState } from 'react'
 import { motion } from "framer-motion"
@@ -13,6 +14,7 @@ import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 const AddEvent = () => {
     const [authO] = useContext(Auth)
@@ -20,6 +22,7 @@ const AddEvent = () => {
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const editorRef = useRef(null);
+    const menuState = MenuStatus()
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -168,6 +171,7 @@ const AddEvent = () => {
                 ButtonText: "Bekijk event",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
+                UserID: authO.ID,
                 Banner: banner,
                 Link: `Events`
             }) 
@@ -177,10 +181,12 @@ const AddEvent = () => {
     return (
         <div className="main">
             <LeftSideBar />
+            <LeftSideBarFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"
-            variants={variants}>
+            variants={variants}
+            style={{display: menuState}}>
                 <div className="card-header">
                         <h2>Voeg een event toe</h2>
                         <p>Voeg een nieuw event waar de leden van de community zich voor aan kunnen melden</p>

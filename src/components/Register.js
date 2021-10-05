@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import { useFirestore } from '../firebase/useFirestore.js';
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
+import { useHistory } from "react-router-dom"
 
 const RegisterUser = () => {
 
@@ -18,6 +19,8 @@ const RegisterUser = () => {
     const [loader, setLoader] = useState("")
 
     const id = uuid()
+    const history = useHistory()
+    
     const compagny = useFirestore("CompagnyMeta")
 
     const fornameHandler = (e) => {
@@ -102,10 +105,14 @@ const RegisterUser = () => {
 
     let banner = ""
     let docid = ""
+    let communityName = ""
+    let logo = ""
 
     compagny && compagny.forEach(comp => {
         banner = comp.ActivityBanner.NewMember
         docid = comp.docid
+        communityName = comp.CommunityName
+        logo = comp.Logo
     })
 
     const registerHandler = () => {
@@ -128,10 +135,40 @@ const RegisterUser = () => {
                 Approved: false,
                 Author: false,
                 Admin: false,
+                Deleted: false,
                 Likes: 0,
                 About: "",
                 Docid: cred.user.uid
             })
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [email],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je account wordt geverifieerd door een beheerder `,
+                html: `Hallo ${forname} ${surname}, </br></br>
+                    Om ervoor te zorgen dat onze community een prettige omgeving blijft
+                    worden alle aanmeldingen geverifieerd door een beheerder. <br><br>
+
+                    Zodra onze beheerder je account heeft bekeken en goedgekeurd ontvang je een mail.<br><br>
+
+                    Vanaf dan kun je inloggen met je email en wachtwoord<br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${logo}" width="100px">`,
+                Gebruikersnaam: `${forname} ${surname}`,
+                Emailadres: email,
+                Type: "Verification mail"
+                  }     
+              });
+        })
+        .then(() => {
+            auth.signOut()
+            .then(() => {
+                history.push(`/${client}/NotApproved`)
+            }) 
         })
         .catch(err => {
             if(err){
@@ -145,7 +182,7 @@ const RegisterUser = () => {
     return (
         <div className="main">
             <div className="login-container">
-                <h2>Register</h2>
+                <h2>Account maken</h2>
                 <form>
                     <p>Voornaam*</p>
                     <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />

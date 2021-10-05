@@ -1,5 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useState } from 'react';
 import { auth, db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
@@ -7,6 +8,7 @@ import { bucket } from '../firebase/config';
 import firebase from 'firebase'
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { useHistory } from "react-router-dom";
+import MenuStatus from "../hooks/MenuStatus";
 
 const NewClient = () => {
     const [compagnyName, setCompagnyName] = useState("")
@@ -16,6 +18,7 @@ const NewClient = () => {
 
     const history = useHistory();
     const id = uuid()
+    const menuState = MenuStatus()
 
     const compagnyNameHandler = (e) => {
 
@@ -143,7 +146,8 @@ const NewClient = () => {
     return (
         <div className="main">
         <LeftSideBarAuthProfile />
-        <div className="profile">
+        <LeftSideBarAuthProfileFullScreen/>
+        <div className="profile" style={{display: menuState}}>
             <div className="card-header">
                 <h2>Nieuwe klant</h2>
                 <p>Maak een nieuwe klant aan</p>

@@ -1,5 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import uuid from 'react-uuid';
 import { db } from "../firebase/config";
 import settingsIcon from '../images/icons/settings-icon.png'
@@ -7,12 +8,15 @@ import { useFirestore } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
 import plusIcon from '../images/icons/plus-icon.png'
+import MenuStatus from "../hooks/MenuStatus";
 
 const ChannelSettings = () => {
 
     const channels = useFirestore("Channels")
+
     const uid = uuid()
     const history = useHistory()
+    const menuState = MenuStatus()
 
     const channelSettings = (e) => {
 
@@ -37,7 +41,8 @@ const ChannelSettings = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            <div className='profile'>
+            <LeftSideBarAuthProfileFullScreen/>
+            <div className='profile' style={{display: menuState}}>
                 <div className="divider card-header">
                     <h2>Kanaal instellingen</h2>
                     <p>Pas de instellingen van je kanalen aan</p>

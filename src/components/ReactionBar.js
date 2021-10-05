@@ -38,6 +38,7 @@ const ReactionBar = ({message}) => {
             PrevPath: location.pathname,
             User: authO.UserName,
             UserPhoto: authO.Photo,
+            Email: authO.Email,
             ID: uuid(),
             Thread: [],
             Read: [authO.ID],
@@ -67,6 +68,7 @@ const ReactionBar = ({message}) => {
                 SenderID: authO.ID,
                 SenderName: authO.UserName,
                 SenderPhoto: authO.Photo,
+                Email: authO.Email,
                 RecieverID: message.UserID,
                 Header:`${authO.UserName} heeft gereageerd op jouw bericht`,
                 SubHeader:``,
@@ -91,6 +93,10 @@ const ReactionBar = ({message}) => {
     const insertFile = (e) => {
         const file = e.target.files[0]
 
+        const fileType = file.type.split("/")
+
+        console.log(fileType)
+
         const storageRef = bucket.ref(`/${client}_${authO.ID}/` + file.name);
         const uploadTask = storageRef.put(file)
 
@@ -110,9 +116,36 @@ const ReactionBar = ({message}) => {
                 alert(err)
             }, () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('File available at', downloadURL);
+                console.log('File available at', downloadURL);
 
-            setReaction(downloadURL)
+            if(fileType[0] === "image"){
+                setReaction(
+                    `
+                    <img style="width:80%" src="${downloadURL}">
+                    `
+                    )
+            } else if(fileType[0] === "video"){
+                setReaction(
+                    `
+                <video width="90%" height="90%" controls autoplay muted>
+                    <source src="${downloadURL}">
+                </video>
+                `
+                )
+            } else if(fileType[0] === "application"){
+                setReaction(
+                `
+                <embed src="${downloadURL}" width="90% height="90%"></embed>
+                `
+                )
+            } else {
+                setReaction(downloadURL)
+            }
+
+{/* <embed src="http://example.com/the.pdf" width="500" height="375" 
+ type="application/pdf"></embed> */}
+
+            
 
                 })
             })

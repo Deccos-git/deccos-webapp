@@ -3,7 +3,7 @@ import Start from './Start';
 import Goals from './goals/Goals';
 import AddGoal from './goals/AddGoal';
 import { Switch, Route } from "react-router-dom";
-import Search from './topbar/Search';
+import Search from './Search';
 import Register from "./Register";
 import Profile from "./Profile";
 import "../CSS/main.css";
@@ -48,8 +48,33 @@ import MyGroups from './MyGroups';
 import MyContributions from './MyContributions';
 import UserRoles from './UserRoles';
 import Registrations from './Registrations';
+import GoalSettingsDetail from './goals/GoalSettingsDetail';
+import GroupSettingsDetail from './GroupSettingsDetail';
+
+import { auth, db } from '../firebase/config';
+import { useHistory } from "react-router-dom";
 
 const Main = () => {
+
+    const history = useHistory()
+
+    // auth.onAuthStateChanged(User => {
+    //     if(User){
+    //       db.collection("Users")
+    //       .doc(User.uid)
+    //       .get()
+    //       .then(doc => {
+    //           const approved = doc.data().Approved
+  
+    //           if(approved === false){
+    //             history.push(`/${client}/NotApproved`)
+                
+    //           } else if (approved === true){
+    //             return
+    //           }
+    //       })
+    //     }
+    //   })
 
     return (
         <div className="main">
@@ -186,6 +211,9 @@ const Main = () => {
                 <Route path={`/${client}/GroupSettings`}>
                     <GroupSettings/>
                 </Route>
+                <Route path={`/${client}/GroupSettingsDetail`}>
+                    <GroupSettingsDetail/>
+                </Route>
                 <Route path={`/${client}/WelcomeSettings`}>
                     <WelcomeSettings/>
                 </Route>
@@ -197,6 +225,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/GoalSettings`}>
                     <GoalSettings />
+                </Route>
+                <Route path={`/${client}/GoalSettingsDetail`}>
+                    <GoalSettingsDetail />
                 </Route>
             </Switch>
         </div>

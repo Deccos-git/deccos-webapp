@@ -31,7 +31,8 @@ const GroupLanding = () => {
     const newMember = {
         ID: authO.ID,
         UserName: authO.UserName,
-        Photo: authO.Photo
+        Photo: authO.Photo,
+        Email: authO.Email
     }
 
     const subscribeToGroup = () => {

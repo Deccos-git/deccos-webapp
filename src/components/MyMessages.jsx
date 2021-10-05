@@ -1,14 +1,17 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
+import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { useFirestoreMyMessages } from "../firebase/useFirestore";
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
+import MenuStatus from "../hooks/MenuStatus";
 
 const MyMessages = () => {
 
     const route = Location()[3]
     const history = useHistory()
+    const menuState = MenuStatus()
 
     const messages = useFirestoreMyMessages("Messages", route)
 
@@ -23,7 +26,8 @@ const MyMessages = () => {
     return (
         <div className="main">
              <LeftSideBarPublicProfile />
-             <div className="card-overview">
+             <LeftSideBarPublicProfileFullScreen/>
+             <div className="card-overview" style={{display: menuState}}>
                 {messages && messages.map(message => (
                     <div className="list introductions-list my-message" data-id={message.ID} key={message.ID} onClick={messageDetail}>
                         <p>{message.Message}</p>

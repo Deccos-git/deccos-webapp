@@ -1,6 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import deleteIcon from '../images/icons/delete-icon.png'
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useState, useContext } from "react";
 import uuid from 'react-uuid';
 import { db, timestamp } from "../firebase/config";
@@ -8,12 +8,15 @@ import settingsIcon from '../images/icons/settings-icon.png'
 import { useFirestore } from "../firebase/useFirestore";
 import { client } from '../hooks/Client';
 import { Auth } from '../StateManagment/Auth';
+import { useHistory } from "react-router-dom";
+import MenuStatus from "../hooks/MenuStatus";
 
 const GroupSettings = () => {
     const [groupTitle, setGroupTitle] = useState("")
     const [authO] = useContext(Auth)
 
     const groups = useFirestore("Groups")
+    const history = useHistory();
    
     const id = uuid()
 
@@ -22,6 +25,8 @@ const GroupSettings = () => {
 
         setGroupTitle(groupTitle)
     }
+
+    const menuState = MenuStatus()
 
     const newMember = {
         ID: authO.ID,
@@ -49,26 +54,17 @@ const GroupSettings = () => {
         })
     }
 
-    const deleteGroup = (e) => {
-        const deleteID = e.target.name
-
-        groups && groups.forEach(group => {
-            if(deleteID === group.ID){
-                db.collection("Groups")
-                .doc(group.docid)
-                .delete()
-            }
-        })
-    }
-
     const channelSettings = (e) => {
-        const channelID = e.target.name
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/GroupSettingsDetail/${id}`)
     }
 
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            <div className='profile'>
+            <LeftSideBarAuthProfileFullScreen/>
+            <div className='profile' style={{display: menuState}}>
                 <div className="divider card-header">
                     <h2>Groep instellingen</h2>
                     <p>Pas de instellingen van je groepen aan</p>
@@ -79,8 +75,7 @@ const GroupSettings = () => {
                     <div className="channel-container" key={group.ID}>
                         <h3>{group.Room}</h3>
                         <div className="icon-container">
-                            <img src={deleteIcon} name={group.ID} onClick={deleteGroup} />
-                            <img src={settingsIcon} name={group.ID} onClick={channelSettings} />
+                            <img src={settingsIcon} data-id={group.ID} onClick={channelSettings} />
                         </div>
                     </div>
                 </div>

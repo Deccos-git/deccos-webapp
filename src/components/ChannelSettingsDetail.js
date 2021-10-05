@@ -1,5 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import deleteIcon from '../images/icons/delete-icon.png'
 import { useState } from "react";
 import uuid from 'react-uuid';
@@ -10,17 +11,18 @@ import { useHistory } from "react-router-dom"
 import Location from "../hooks/Location"
 import ListLayout from '../images/Design/list-mockup.png'
 import CardLayout from '../images/Design/card-mockup.png'
+import MenuStatus from "../hooks/MenuStatus";
 
 const ChannelSettingsDetail = () => {
     const [channelName, setChannelName] = useState("")
     const [channelLayout, setChannelLayout] = useState("")
+    const [channelBannerLayout, setChannelBannerLayout] = useState("")
 
     const route = Location()[3]
+    const menuState = MenuStatus()
 
     const channels = useFirestoreID("Channels", route)
     const history = useHistory()
-
-    console.log(channels)
 
     const nameHandler = (e) => {
         const name = e.target.value
@@ -61,10 +63,12 @@ const ChannelSettingsDetail = () => {
 
     const selectListLayout = () => {
         setChannelLayout("list")
+        setChannelBannerLayout("list-banner")
     }
 
     const selectCardLayout = () => {
         setChannelLayout("card")
+        setChannelBannerLayout("card-banner")
     }
 
     const saveLayout = () => {
@@ -74,6 +78,7 @@ const ChannelSettingsDetail = () => {
             .doc(channel.docid)
             .update({
                 Layout: channelLayout,
+                BannerLayout: channelBannerLayout
             })
 
         })
@@ -82,8 +87,9 @@ const ChannelSettingsDetail = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             {channels && channels.map(channel => (
-                <div className='profile'>
+                <div className='profile' style={{display: menuState}}>
                     <div className="divider card-header">
                         <h2>{channel.Name} instellingen</h2>
                         <p>Pas de instellingen van het kanaal {channel.Name} aan</p>

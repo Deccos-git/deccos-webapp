@@ -5,6 +5,7 @@ import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import LeftSideBar from "../LeftSideBar"
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import { useFirestore } from '../../firebase/useFirestore.js';
 import spinnerRipple from '../../images/spinner-ripple.svg'
@@ -12,11 +13,14 @@ import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
+import MenuStatus from "../../hooks/MenuStatus";
 
 const AddGoal = () => {
     const [authO] = useContext(Auth)
 
     const id = uuid()
+    const menuState = MenuStatus()
+    
     const compagny = useFirestore("CompagnyMeta")
 
     const [title, setTitle] = useState("")
@@ -80,7 +84,7 @@ const AddGoal = () => {
     let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
-        activityBanner = comp.ActivityBanner[0].NewArticle
+        activityBanner = comp.ActivityBanner.NewArticle
         compagnyId = comp.docid
     })
 
@@ -98,7 +102,8 @@ const AddGoal = () => {
             UserPhoto: authO.Photo,
             UserID: authO.ID,
             Banner: banner,
-            SDG: SDG
+            SDG: SDG,
+            Contributions: []
         })
         .then(() => {
             db.collection("AllActivity")
@@ -113,8 +118,9 @@ const AddGoal = () => {
                 ButtonText: "Bekijk doel",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
+                UserID: authO.ID,
                 Banner: activityBanner,
-                Link: `GoalDetail`
+                Link: `GoalDetail/${id}`
             }) 
         })
     }
@@ -146,10 +152,12 @@ const AddGoal = () => {
     return (
         <div className="main">
             <LeftSideBar />
+            <LeftSideBarFullScreen/>
             <motion.div className="profile"
             initial="hidden"
             animate="visible"
-            variants={variants}>
+            variants={variants}
+            style={{display: menuState}}>
                 <div className="card-header">
                     <h2>Voeg een doel toe</h2>
                     <p>Voeg een nieuw doel toe om samen aan te werken</p>

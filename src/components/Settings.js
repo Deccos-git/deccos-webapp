@@ -1,15 +1,19 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { db, bucket } from "../firebase/config.js"
 import {useFirestore, useFirestoreID } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useState } from "react";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Settings = () => {
 
     const compagny = useFirestore("CompagnyMeta")
 
     const [communityName, setCommunityName] = useState("")
+
+    const menuState = MenuStatus()
 
     const LogoHandler = (e) => {
 
@@ -70,7 +74,8 @@ const Settings = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-            <div className="profile">
+            <LeftSideBarAuthProfileFullScreen/>
+            <div className="profile" style={{display: menuState}}>
                 {compagny && compagny.map(comp => (
                 <>
                 <div className="card-header">

@@ -1,26 +1,28 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreChatsGroups } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { db } from '../firebase/config';
 import { client } from '../hooks/Client';
 import groupIcon from '../images/icons/group-icon.png'
-import { useEffect, useState, useContext } from "react";
-import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import MenuStatus from "../hooks/MenuStatus";
+import { useState, useEffect } from "react";
 
 const ChatGroups = () => {
+    const [chatSummary, setChatSummary] = useState("")
     const route = Location()[3]
 
     const groups = useFirestoreChatsGroups("Groups", route)
     const history = useHistory()
     const chats = useFirestoreChatsGroups("Chats", route)
-    
-   let partners = ""
-   let allMessages = ""
-   let newMessages = ""
 
-   const partnerName = async (member) => {
+    console.log(chats)
+
+    const menuState = MenuStatus()
+
+    const partnerName = async (member) => {
 
     let userName = ""
 
@@ -33,8 +35,6 @@ const ChatGroups = () => {
             querySnapshot.forEach(doc => {
 
                 userName = doc.data().UserName
-
-                console.log(userName)
 
                 })
             })
@@ -115,9 +115,7 @@ const ChatGroups = () => {
 
                 if(!read.includes(route)){
 
-                        newMessages = read.length
-
-                        console.log(newMessages)
+                        messageArray.push(read)
                     }
                 })
             })
@@ -125,71 +123,58 @@ const ChatGroups = () => {
         return messageArray.length
    }
 
+   const chatsOverview = async () => {
 
+    const summary = {
+        chats:[]
+    }
 
-   const chatsOverview = () => {
-
-    const summary = {}
-
-    chats && chats.forEach(async (chat) => {
-
+    for(const chat of chats){
         const chatsArray = []
 
         const allMessages = await totalMessages(chat.ID)
         const newMessages = await newestMessages(chat.ID)
 
-        const members = chat.Members
-        members.forEach(async (member) => {
+        for(const member of chat.Members){
+            if(member != route){
 
-            const userName = await partnerName(member)
-            const photo = await partnerPhoto(member)
-            const id = await partnerID(member)
+                const userName = await partnerName(member)
+                const photo = await partnerPhoto(member)
+                const id = await partnerID(member)
 
-            // console.log(
-            //     {
-            //         userName: userName,
-            //         photo: photo,
-            //         id: id,
-            //         messages: allMessages,
-            //         newMessages: newMessages
-            //         }
-            // )
-
-            chatsArray.push(
-                {
-                userName: userName,
-                photo: photo,
-                id: id,
-                messages: allMessages,
-                newMessages: newMessages
+                const chat = {
+                    userName: userName,
+                    photo: photo,
+                    id: id,
+                    messages: allMessages,
+                    newMessages: newMessages
                 }
-            )
 
-            console.log(chatsArray)
-        })
-    })
+                chatsArray.push(
+                    chat
+                )
+            }
+        }
 
-
+        summary.chats.push(chatsArray)
+    }
         return summary
     }
-    
-    console.log(chatsOverview())
 
-    // const DisplayChats = () => {
-    //     return chatsOverview() && chatsOverview().forEach(chats => {
-    //         {chats.map(chat => (
-    //             <div className="chatpartner-meta-container divider" >
-    //             <div className="chatpartner-container" onClick={updateRoute}>
-    //                 <img src={chat.photo} alt="" />
-    //                 <p className="chat-overview-username">{chat.userName}</p>
-    //             </div>
-    //             <p>{chat.messages} berichten</p>
-    //             <p className="new-messages">{chat.newMessages} nieuw</p>
-    //         </div>
-    //         ))}
-    //     })
-    // }
 
+    useEffect(() => {
+        chatsOverview().then((summary) => {
+            setChatSummary(summary)
+        })
+        
+    }, [chats])
+
+    chatSummary.chats.forEach(chat => {
+        chat.forEach(ch => {
+            console.log(ch)
+        })
+    })
+ 
     const updateRoute = (e) => {
         chats && chats.forEach(chat => {
          
@@ -201,10 +186,22 @@ const ChatGroups = () => {
     return (
             <div className="main">
                 <LeftSideBar />
-                <div className="article">
+                <LeftSideBarFullScreen/>
+                <div className="article" style={{display: menuState}}>
                     <h2>Chats</h2>
                         <div className="chats-overview-container">
-                            {/* <DisplayChats /> */}
+                            {chatSummary.chats.forEach(chat => {
+                                {chat.map(ch => (
+                                <div className="chatpartner-meta-container divider" key={ch.id}>
+                                    <div className="chatpartner-container" onClick={updateRoute}>
+                                        <img src={ch.photo} alt="" />
+                                        <p className="chat-overview-username">{ch.userName}</p>
+                                    </div>
+                                    <p>{ch.allMessages} berichten</p>
+                                    <p className="new-messages">{ch.newMessages} nieuw</p>
+                                </div>
+                                ))}
+                            })}
                         </div>
                     <h2>Groepen</h2>
                     {groups && groups.map(group => (

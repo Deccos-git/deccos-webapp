@@ -1,5 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useState } from "react";
 import { db } from "../firebase/config";
 import { Editor } from '@tinymce/tinymce-react';
@@ -8,8 +9,10 @@ import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import { useFirestore } from "../firebase/useFirestore";
 import { client } from "../hooks/Client";
+import MenuStatus from "../hooks/MenuStatus";
 
 const WelcomeSettings = () => {
+    const menuState = MenuStatus()
 
     useEffect(() => {
         db.collection("CompagnyMeta")
@@ -151,8 +154,9 @@ const WelcomeSettings = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             {compagnies && compagnies.map(compagny => (
-            <div className='profile' key={compagny.ID}>
+            <div className='profile' key={compagny.ID} style={{display: menuState}}>
                 <div className="divider card-header">
                     <h2>Welkom instellingen</h2>
                     <p>Pas de instellingen van de welkomspagina van je community</p>

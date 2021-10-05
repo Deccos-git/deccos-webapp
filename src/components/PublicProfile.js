@@ -1,6 +1,7 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
+import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreUser, useFirestoreChats, useFirestoreIntroductions } from "./../firebase/useFirestore";
+import { useFirestoreUser, useFirestoreIntroductions } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
@@ -8,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import MenuStatus from "../hooks/MenuStatus";
 
 const PublicProfile = () => {
     const [authO] = useContext(Auth)
@@ -16,6 +18,8 @@ const PublicProfile = () => {
     const route = Location()[3]
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const menuState = MenuStatus()
+
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
 
@@ -110,8 +114,9 @@ const PublicProfile = () => {
     return (
             <div className="main">
                 <LeftSideBarPublicProfile />
+                <LeftSideBarPublicProfileFullScreen/>
                 {profiles && profiles.map(profile => (
-                    <div className="profile public-profile-container" key={profile.ID}>
+                    <div className="profile public-profile-container" key={profile.ID} style={{display: menuState}}>
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h2>{profile.UserName}</h2>

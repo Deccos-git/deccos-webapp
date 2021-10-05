@@ -8,10 +8,16 @@ import { db } from '../../firebase/config';
 import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
+import { MobileMenu } from '../../StateManagment/MobileMenu';
 
 const Iconbar = () => {
+    const [menu, setMenu] = useContext(MobileMenu)
     const [authO] = useContext(Auth)
     let ID = ""
+
+    const changeMenuStatus = () => {
+        setMenu("none")
+    }
 
     if(typeof(authO) != "string" || authO.ID != undefined){
         ID = authO.ID
@@ -68,15 +74,18 @@ const Iconbar = () => {
                 })
                 .then(() => {
                     history.push(`/${client}/Notifications/${notification.RecieverID}`) 
+                    setMenu("none")
                 })
             })
         } else if (newNotifications.length === 0) {
             history.push(`/${client}/Notifications/${authO.ID}`) 
+            setMenu("none")
         }  
     }
 
     const showMessages = () => {
         history.push(`/${client}/ChatsGroups/${authO.ID}`) 
+        setMenu("none")
     }
 
     return (
@@ -89,7 +98,7 @@ const Iconbar = () => {
                 <p id={messageStatus} className="notification-counter" onClick={showMessages}>{newMessageArray.length}</p>
                 <img src={chatIcon} alt="" onClick={showMessages} />
             </div>
-            <Link to={`/${client}/Search`}><img id="search-icon" src={searchIcon} alt="" /></Link>
+            <Link to={`/${client}/Search`} onClick={changeMenuStatus}><img id="search-icon" src={searchIcon} alt="" /></Link>
         </div>
     )
 }

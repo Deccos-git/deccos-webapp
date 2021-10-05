@@ -1,11 +1,13 @@
-import searchIcon from '../../images/icons/Search-icon.png'
-import {useFirestore} from "../../firebase/useFirestore"
-import LeftSideBar from "../LeftSideBar"
-import RightSideBar from "../rightSideBar/RightSideBar"
+import {useFirestore} from "../firebase/useFirestore"
+import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
+import RightSideBar from "./rightSideBar/RightSideBar"
+import MenuStatus from "../hooks/MenuStatus";
 
 const Search = () => {
 
     const docs  = useFirestore("CompagnyMeta")
+    const menuState = MenuStatus()
 
     let title
 
@@ -16,7 +18,8 @@ const Search = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <div id="search-container">
+            <LeftSideBarFullScreen/>
+            <div id="search-container" style={{display: menuState}}>
                 <h2>{title}</h2>
                 <input id="search-bar" type="text" placeholder="Schrijf hier je zoekopdracht" />
                 

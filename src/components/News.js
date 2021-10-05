@@ -1,14 +1,16 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import { useFirestore } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
-import articleIcon from '../images/icons/article-icon.png'
+import newsIcon from '../images/icons/news-icon.png'
 import { useState, useContext } from 'react';
 import { auth, db } from '../firebase/config';
 import { motion } from "framer-motion"
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 const News = () => {
     const [displayAddNew, setDisplayAddNew] = useState("none")
@@ -16,6 +18,9 @@ const News = () => {
 
     const news = useFirestore("News")
     const history = useHistory()
+    const menuState = MenuStatus()
+    
+    const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
 
     const detailRouter = (e) => {
 
@@ -29,7 +34,11 @@ const News = () => {
         visible: { opacity: 1 },
       }
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const profileLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
 
     const showAddNew = () => {
 
@@ -56,7 +65,8 @@ const News = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="main-container">
+            <LeftSideBarFullScreen/>
+            <div className="main-container" style={{display: menuState}}>
                 <div className="list-container">
                     <motion.div 
                     className="list"
@@ -64,7 +74,7 @@ const News = () => {
                     initial="hidden"
                     animate="visible"
                     variants={variants}>
-                        <img className="list-card-banner" src={articleIcon} alt="" />
+                        <img className="list-card-banner" src={newsIcon} alt="" />
                         <div className="article-card-user-container">
                             <img src={authO.Photo} alt="" />
                             <p>{authO.UserName}</p>
@@ -78,8 +88,8 @@ const News = () => {
                         <div className="list">
                             <img className="list-card-banner" src={item.Banner} alt="" />
                             <div className="article-card-user-container">
-                                <img src={item.UserPhoto} alt="" />
-                                <p>{item.User}</p>
+                                <img src={item.UserPhoto} alt="" data-id={item.UserID} onClick={profileLink} />
+                                <p data-id={item.UserID} onClick={profileLink}>{item.User}</p>
                                 <p className="list-card-timestamp">{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
                             <div className="list-inner-container">

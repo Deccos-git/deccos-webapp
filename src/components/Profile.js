@@ -1,5 +1,6 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { db, bucket, auth } from "../firebase/config.js"
 import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
@@ -8,6 +9,7 @@ import { client } from '../hooks/Client';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef, useState, useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 const Profile = () => {
 
@@ -19,6 +21,7 @@ const Profile = () => {
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
     const editorRef = useRef(null);
+    const menuState = MenuStatus()
 
     const bodyHandler = (e) => {
         if (editorRef.current) {
@@ -136,7 +139,8 @@ const Profile = () => {
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
-                <div className="profile">
+            <LeftSideBarAuthProfileFullScreen/>
+                <div className="profile" style={{display: menuState}}>
                     <div className="card-header">
                         <img id="profile-header-photo" src={authO.Photo} alt="" />
                         <h2>{authO.UserName}</h2>

@@ -11,6 +11,7 @@ const LikeBar = ({message}) => {
     const [goalID, setGoalID] = useState("")
 
     const allGoals = useFirestore("Goals")
+    const compagny = useFirestore("CompagnyMeta")
     const id = uuid()
 
     const goalHandler = (e) => {
@@ -36,7 +37,9 @@ const LikeBar = ({message}) => {
 
     const users = useFirestoreID("Users", userID)
 
-    const sendGoalLike = () => {
+    const sendGoalLike = (e) => {
+
+        e.target.innerHTML = "Verstuurd"
 
         goals && goals.forEach(goal => {
 
@@ -103,7 +106,42 @@ const LikeBar = ({message}) => {
                     })
                 })
             })
+            .then (() => {
+                sendAsMail()
+            })
         })
+    }
+
+    let communityName = ""
+    let logo = ""
+    let email = ""
+
+    compagny && compagny.forEach(comp => {
+        communityName = comp.CommunityName
+        logo = comp.Logo
+    })
+
+    const sendAsMail = () => {
+
+        db.collection("Email").doc().set({
+            to: [message.Email],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Je hebt een nieuwe bijdrage ontvangen in ${communityName}.`,
+            html: `Hallo ${message.User}, </br></br>
+
+                Je hebt een nieuwe bijdrage ontvangen in ${communityName}.</br></br>
+
+                Bekijk de bijdrage <a href="https://www.deccos.co/${client}/Contributions/${userID}"><u>hier</u></a>.<br><br>
+                
+                Vriendelijke groet, </br></br>
+                ${communityName} </br></br>
+                <img src="${logo}" width="100px">`,
+            Gebruikersnaam: `${message.User}`,
+            Emailadres: message.Email,
+            Type: "Chat"
+              }     
+          }); 
     }
 
     return (

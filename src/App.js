@@ -8,12 +8,12 @@ import { auth, db } from './firebase/config';
 import { useState } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
-import NotApproved from './components/NotApproved';
+import NotApproved from './components/NotApproved'
 
 function App() {
 
   const [online, setOnline] = useState(false)
-  const [approved, setApproved] = useState("")
+  const [approved, setApproved] = useState(true)
 
     auth.onAuthStateChanged(User =>{
       if(User != null){
@@ -41,10 +41,13 @@ function App() {
       }
     })
 
+    console.log(approved)
+
+
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
-      } else if (online === true) {
+      } else if (online === true && approved === true) {
         
         return ( 
         <AuthProvider>
@@ -57,6 +60,8 @@ function App() {
         </MenuProvider>
         </AuthProvider>
         )
+      } else if (online === true && approved === false){
+        return <NotApproved/>
       }
     }
 

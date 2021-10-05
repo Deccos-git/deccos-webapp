@@ -1,15 +1,20 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreTimestamp } from "./../firebase/useFirestore";
+import MenuStatus from "../hooks/MenuStatus";
 
 const Analytics = () => {
 
     const docs = useFirestoreTimestamp("AllActivity")
 
+    const menuState = MenuStatus()
+
     return (
             <div className="main">
                 <LeftSideBarAuthProfile />
-                <div className="card-overview">
+                <LeftSideBarAuthProfileFullScreen/>
+                <div className="card-overview" style={{display: menuState}}>
                     <h2>Analytics</h2>
                     <p>Analyseer de inzichten van je community</p>
                 </div>

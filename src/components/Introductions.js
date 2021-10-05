@@ -1,4 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useState, useContext } from "react"
 import { db, timestamp } from "../firebase/config.js"
@@ -7,6 +8,7 @@ import IntroductionsCard from './IntroductionsCard'
 import { client } from "../hooks/Client";
 import { useFirestore } from '../firebase/useFirestore'
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 const Introductions = () => {
     const [body, setBody] = useState("")
@@ -14,6 +16,7 @@ const Introductions = () => {
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
+    const menuState = MenuStatus()
 
     const textBody = (e) => {
         const body = e.target.value
@@ -57,6 +60,7 @@ const Introductions = () => {
                 Link: `Introductions`,
                 User: `${authO.ForName} ${authO.SurName}`,
                 UserPhoto: authO.Photo,
+                UserID: authO.ID,
             }) 
         })
     }
@@ -66,7 +70,8 @@ const Introductions = () => {
     return (
         <div className="main">
             <LeftSideBar />
-            <div className="card-overview">
+            <LeftSideBarFullScreen/>
+            <div className="card-overview" style={{display: menuState}}>
                 <div id="introduction-input-container">
                     <h3>Hoi {authO.ForName}, stel jezelf voor aan de community</h3>
                     <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>

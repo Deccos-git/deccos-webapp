@@ -33,9 +33,9 @@ const ActivityCard = ({doc}) => {
             variants={variants}
             >
                 <>
-                <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                <p className="activity-card-timestamp">{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     <div className="description-container">
-                        <Link to={`/${client}/PublicProfile`} >
+                        <Link to={`/${client}/PublicProfile/${doc.UserID}`} >
                             <div className="user-container-activity-card">
                                 <img className="allActivity-user-photo" src={doc.UserPhoto} alt="" />
                                 <h2 className="username">{doc.User}</h2>

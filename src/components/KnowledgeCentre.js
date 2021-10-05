@@ -2,6 +2,7 @@ import { client } from '../hooks/Client';
 import articleIcon from '../images/icons/article-icon.png'
 import { Link } from "react-router-dom";
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import ArticleCard from './ArticleCard';
 import { useFirestore } from '../firebase/useFirestore.js';
@@ -9,12 +10,15 @@ import { motion } from "framer-motion"
 import { useState, useContext } from 'react';
 import { auth, db } from '../firebase/config';
 import { Auth } from '../StateManagment/Auth';
+import MenuStatus from "../hooks/MenuStatus";
 
 
 const KnowledgeCentre = () => {
     const [authO] = useContext(Auth)
     const docs = useFirestore("KnowledgeCentre")
     const [displayAddNew, setDisplayAddNew] = useState("none")
+
+    const menuState = MenuStatus()
 
     const variants = {
         hidden: { opacity: 0 },
@@ -46,7 +50,8 @@ const KnowledgeCentre = () => {
     return (
         <div className="main">
              <LeftSideBar />
-             <div className="main-container">
+             <LeftSideBarFullScreen/>
+             <div className="main-container" style={{display: menuState}}>
                 <div className="card-container">
                     <motion.div 
                     className="card"
@@ -54,7 +59,7 @@ const KnowledgeCentre = () => {
                     initial="hidden"
                     animate="visible"
                     variants={variants}>
-                        <img className="list-card-banner" src={articleIcon} alt="" />
+                        <img className="card-banner" src={articleIcon} alt="" />
                         <div className="list-inner-container">
                             <div className="article-card-user-container">
                                 <img src={authO.Photo} alt="" />

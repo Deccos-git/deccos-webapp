@@ -70,7 +70,7 @@ const useFirestoreTimestamp = (collection) => {
     return docs
 };
 
-const useFirestoreUser = (userID) => {
+const useFirestoreUser = (userID, state) => {
 
     const [docs, setDocs] = useState("")
     
@@ -88,7 +88,30 @@ const useFirestoreUser = (userID) => {
         })
         setDocs(docArray)
 
-    }, [userID])  
+    }, [userID, state])  
+
+    return docs
+};
+
+const useFirestoreUsers = (state) => {
+
+    const [docs, setDocs] = useState("")
+    
+    const docArray = []
+    useEffect(() => {
+        db.collection("Users")
+        .where("Compagny", "==", client)
+        .where("Deleted", "==", state)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        setDocs(docArray)
+
+    }, [state])  
 
     return docs
 };
@@ -219,7 +242,7 @@ const useFirestoreNotifications = (collection, id  ) => {
         const unsub = db.collection(collection)
         .where("Compagny", "==", client)
         .where("RecieverID", "==", id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -359,6 +382,7 @@ export {
     useFirestoreID, 
     useFirestoreTimestamp, 
     useFirestoreUser, 
+    useFirestoreUsers, 
     useFirestoreMessages,
     useFirestoreNewMessages,
     useFirestoreChats,

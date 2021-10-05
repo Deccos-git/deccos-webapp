@@ -45,7 +45,7 @@ const LoginRegister = () => {
                     <div className="channel-div">
                         <div className="channel-inner-div">
                             <p onClick={loginHandler}>Login</p>
-                            <p onClick={registerHandler}>Register</p>
+                            <p onClick={registerHandler}>Account maken</p>
                         </div>
                      </div>
                     ))}

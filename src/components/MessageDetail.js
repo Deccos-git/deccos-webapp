@@ -1,6 +1,7 @@
 import { useFirestoreMessages } from "../firebase/useFirestore"
 import { useFirestoreID } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import ReactionBar from "./ReactionBar"
 import LikeBar from "./LikeBar"
@@ -11,6 +12,7 @@ import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import MenuStatus from "../hooks/MenuStatus";
 
 const MessageDetail = ({auth}) => {
     const [authO] = useContext(Auth)
@@ -18,6 +20,7 @@ const MessageDetail = ({auth}) => {
     const route = Location()[3]
     const messages = useFirestoreID("Messages", route)
     const history = useHistory()
+    const menuState = MenuStatus()
 
     let parentID = ""
 
@@ -107,10 +110,17 @@ const MessageDetail = ({auth}) => {
         })
     }
 
+    const profileLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
+
     return (
         <div className="main">
              <LeftSideBar />
-             <div className="card-overview">
+             <LeftSideBarFullScreen/>
+             <div className="card-overview" style={{display: menuState}}>
                 <div className="previous-message-container" onClick={previousMessage}>
                     <img src={ArrowLeftIcon} alt="" />
                     <p>Vorige bericht</p>
@@ -118,11 +128,11 @@ const MessageDetail = ({auth}) => {
                 {messages && messages.map(message => (
                     <div className="message-card">
                         <div className="auth-message-container">
-                            <img src={message.UserPhoto} alt="" />
-                            <p className="auth-name">{message.User}</p>
+                            <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink} />
+                            <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                             <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
-                    <p className="massage">{message.Message}</p>
+                        <div className="massage" dangerouslySetInnerHTML={{__html:message.Message}}></div>
                     < ReactionBar message={message} />
                     <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {numberOfContributions}</p>
                     < LikeBar message={message} />
@@ -136,15 +146,15 @@ const MessageDetail = ({auth}) => {
                 {reactions && reactions.map(reaction => ( 
                     <div className="reaction-inner-container">
                         <div className="auth-message-container">
-                            <img src={reaction.UserPhoto} alt="" />
+                            <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
                         </div>
                         <div>
                             <div className="user-meta-container">
-                                <p className="auth-name">{reaction.User}</p>
+                                <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
                                 <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
                             <div className="message-container">
-                                <p className="massage">{reaction.Message}</p>
+                            <div className="massage" dangerouslySetInnerHTML={{__html:reaction.Message}}></div>
                             </div>
                             <div className="like-container">
                                 <p>Aantal bijdragen: {numberOfContributionsReaction}</p>

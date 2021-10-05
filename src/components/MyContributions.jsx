@@ -1,11 +1,14 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
+import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { useFirestoreContributions } from "../firebase/useFirestore";
+import MenuStatus from "../hooks/MenuStatus";
 
 const MyContributions = () => {
 
     const route = Location()[3]
+    const menuState = MenuStatus()
 
     const contributions = useFirestoreContributions("Contributions", "RecieverID", route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -14,7 +17,8 @@ const MyContributions = () => {
     return (
         <div className="main">
         <LeftSideBarPublicProfile />
-        <div className="card-overview">
+        <LeftSideBarPublicProfileFullScreen/>
+        <div className="card-overview" style={{display: menuState}}>
            {contributions && contributions.map(contribution => (
                <div className="list introductions-list my-message" key={contribution.ID}>
                    <p>Bijdrage geleverd aan doel:</p>
