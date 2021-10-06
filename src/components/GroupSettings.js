@@ -16,9 +16,16 @@ const GroupSettings = () => {
     const [authO] = useContext(Auth)
 
     const groups = useFirestore("Groups")
+    const compagny = useFirestore("CompagnyMeta")
     const history = useHistory();
    
     const id = uuid()
+
+    let activityBanner = ""
+
+    compagny && compagny.forEach(comp => {
+        activityBanner = comp.ActivityBanner.NewGroup
+    })
 
     const newGroupTitleHandler = (e) => {
         const groupTitle = e.target.value
@@ -51,6 +58,34 @@ const GroupSettings = () => {
             Compagny: client,
             Messages: 0,
             Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
+        })
+        .then(() => {
+            db.collection("AllActivity")
+            .doc()
+            .set({
+                Title: groupTitle,
+                Type: "NewGroup",
+                Compagny: client,
+                Timestamp: timestamp,
+                ID: id,
+                Description: "heeft een nieuwe groep aangemaakt:",
+                ButtonText: "Bekijk groep",
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Banner: activityBanner,
+                Link: `Group/${id}`
+            }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: groupTitle,
+                Compagny: client,
+                Type: 'Groep',
+                Link: `Group/${id}`
+            })
         })
     }
 

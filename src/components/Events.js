@@ -6,11 +6,12 @@ import { useFirestoreTimestamp } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState, useContext } from 'react';
-import { auth, db } from '../firebase/config';
+import { auth, db, timestamp } from '../firebase/config';
 import { Auth } from '../StateManagment/Auth';
 import articleIcon from '../images/icons/article-icon.png'
 import { Link } from "react-router-dom";
 import MenuStatus from "../hooks/MenuStatus";
+import firebase from 'firebase';
 
 const Events = () => {
     const [authO] = useContext(Auth)
@@ -29,8 +30,17 @@ const Events = () => {
     const detailRouter = (e) => {
 
         const id = e.target.dataset.id 
-    
-        history.push(`/${client}/EventDetail/${id}`)
+        const docid = e.target.dataset.docid
+
+        db.collection("Events")
+        .doc(docid)
+        .update({
+            Clicks: firebase.firestore.FieldValue.arrayUnion(timestamp)
+        })
+        .then(() => {
+            history.push(`/${client}/EventDetail/${id}`)
+        })
+
     }
 
     const showAddNew = () => {
@@ -95,7 +105,7 @@ const Events = () => {
                                 <p>{even.Date}</p>
                             </div>
                             <div className="button-container">
-                                <button onClick={detailRouter} data-id={even.ID}>Bekijk</button>
+                                <button onClick={detailRouter} data-docid={even.docid} data-id={even.ID}>Bekijk</button>
                             </div>
                         </div>
                     ))}

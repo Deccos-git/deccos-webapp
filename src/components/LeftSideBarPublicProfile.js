@@ -29,6 +29,7 @@ const LeftSideBarPublicProfile = () => {
                         <Link to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</Link>
                         <Link to={`/${client}/MyGroups/${authO.ID}`}>Mijn groepen</Link>
                         <Link to={`/${client}/MyContributions/${authO.ID}`}>Mijn bijdragen</Link>
+                        <Link to={`/${client}/AboutMe/${authO.ID}`}>Over mij</Link>
                     </div>
                 </div>
             </div>

@@ -70,6 +70,16 @@ const MessageBar = () => {
                 })
             })
         })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: message,
+                Compagny: client,
+                Type: 'Reactie',
+                Link: `MessageDetail/${id}`
+            })
+        })
 
         setMessage("")
     }

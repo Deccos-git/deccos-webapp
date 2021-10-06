@@ -270,9 +270,98 @@
       display: flex;
   }
 
+  .ais-SearchBox{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+  }
+
+  .hit-container{
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 10px;
+  }
+
+  .hit-container h2{
+      text-align: left;
+  }
+
+  .right-panel{
+      width: 100%;
+      margin-top: 50px;
+  }
+
+  .ais-SearchBox-form{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ais-SearchBox-submit{
+      display: none;
+  }
+
+  .ais-SearchBox-reset{
+      display: none;
+  }
+
+  .registration-field-input{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid lightgray;
+      padding: 5px;
+      height: 40px;
+  }
+
+  .registration-field-input img{
+      height: 15px;
+      width: 15px;
+      cursor: pointer;
+  }
+
+  .add-registration-field-container{
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 10px;
+      padding: 5px;
+  }
+
+  .add-registration-field-container img{
+      border: 1px solid lightgray;
+      margin-left: auto;
+      margin-right: 0px;
+  }
+
+  .add-registration-field-container:hover{
+      background-color: #a7bdbd26;
+  }
+
+  .drag-icon{
+      margin-left: 0px !important;
+      margin-right: 20px !important;
+      border: none !important;
+      height: 20px;
+      width: 20px;
+  }
+  
+  .ais-Hits-list{
+    list-style-type: none;
+    padding-left: 0px;
+    }
+
   .send-as-mail-container{
       display: flex;
       align-items: center;
+      border-top: 1px solid lightgray;
+      margin-top: 10px;
+  }
+
+  .chat-screen a{
+      text-decoration: underline;
   }
 
   .send-as-mail-container button{
@@ -476,9 +565,18 @@
       align-items: center;
   }
 
+  .introduction-reaction-button{
+      margin-top: 20px;
+  }
+
   #button-add-goal{
       display: flex;
       justify-content: center;
+      margin-bottom: 30px;
+  }
+
+  .introduction-card p{
+      text-align: center;
   }
 
   .massage-container{
@@ -1344,6 +1442,7 @@
 
     .notification-card h2{
         text-align: left;
+        word-break: break-word;
     }
 
     .channel-inner-div a{

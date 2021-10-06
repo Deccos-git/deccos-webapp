@@ -9,6 +9,8 @@ import { useState } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
 import NotApproved from './components/NotApproved'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend }  from 'react-dnd-html5-backend'
 
 function App() {
 
@@ -41,9 +43,6 @@ function App() {
       }
     })
 
-    console.log(approved)
-
-
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
@@ -52,11 +51,13 @@ function App() {
         return ( 
         <AuthProvider>
         <MenuProvider>
+        <DndProvider backend={HTML5Backend}>
           <>
           <Topbar />
           <Main/>
           <BottomBar/>
           </>
+        </DndProvider>
         </MenuProvider>
         </AuthProvider>
         )

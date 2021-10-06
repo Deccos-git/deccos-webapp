@@ -9,14 +9,10 @@ import { db } from "../firebase/config"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
-import { useContext } from 'react';
-import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
 
-const MessageDetail = ({auth}) => {
-    const [authO] = useContext(Auth)
-
+const MessageDetail = () => {
     const route = Location()[3]
     const messages = useFirestoreID("Messages", route)
     const history = useHistory()
@@ -34,8 +30,6 @@ const MessageDetail = ({auth}) => {
     let numberOfContributionsReaction = ""
 
     messages && messages.forEach(message => {
-
-        console.log(message.Contributions.length)
 
         if(message.Contributions != undefined){
             if(message.Contributions.length === 0){

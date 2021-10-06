@@ -20,7 +20,7 @@ const Registrations = () => {
     let docid = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewMember
+        banner = comp.ActivityBanner.newMember
         docid = comp.docid
     })
 
@@ -67,6 +67,16 @@ const Registrations = () => {
                 Members: firebase.firestore.FieldValue.arrayUnion(memberMap)
             }) 
         })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: `${forname} ${surname}`,
+                Type: 'Gebruiker',
+                Compagny: client,
+                Link: `PublicProfile/${userID}`
+            })
+        })
 
     }
 
@@ -76,8 +86,8 @@ const Registrations = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h2>Aanmeldingen</h2>
-                    <p>Beheer de aanmeldingen van je community</p>
+                    <h2>Aanmelden</h2>
+                    <p>Beheer de instellingen van het aanmeldproces</p>
                 </div>
                 <div className="divider">
                     <h3>Nieuwe aanmeldingen</h3>
@@ -97,8 +107,7 @@ const Registrations = () => {
                             </p>
                         </div>
                     ))}
-                </div>
-                
+                </div>    
             </div>
             <RightSideBar/>
         </div>

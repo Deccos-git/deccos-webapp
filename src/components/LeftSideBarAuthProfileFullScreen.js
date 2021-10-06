@@ -51,8 +51,9 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3>Community beheer</h3>
                         <div className="channel-inner-div">
-                            <Link to={`/${client}/Settings`} onClick={changeMenuStatus}>Instellingen</Link>
+                            <Link to={`/${client}/Settings`} onClick={changeMenuStatus}>Bedrijfsinstellingen</Link>
                             <Link to={`/${client}/Analytics`} onClick={changeMenuStatus}>Analytics</Link>
+                            <Link to={`/${client}/ProfileSettings`} onClick={changeMenuStatus}>Profielen</Link>
                             <Link to={`/${client}/Members`} onClick={changeMenuStatus}>Leden</Link>
                             <Link to={`/${client}/UserRoles`} onClick={changeMenuStatus}>Gebruikersrollen</Link>
                             <div className="notification-sidebar-container">

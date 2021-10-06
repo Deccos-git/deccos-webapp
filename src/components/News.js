@@ -7,10 +7,11 @@ import { useFirestore } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import newsIcon from '../images/icons/news-icon.png'
 import { useState, useContext } from 'react';
-import { auth, db } from '../firebase/config';
+import { auth, db, timestamp } from '../firebase/config';
 import { motion } from "framer-motion"
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
+import firebase from 'firebase';
 
 const News = () => {
     const [displayAddNew, setDisplayAddNew] = useState("none")
@@ -25,8 +26,17 @@ const News = () => {
     const detailRouter = (e) => {
 
         const id = e.target.dataset.id 
-    
-        history.push(`/${client}/NewsDetail/${id}`)
+        const docid = e.target.dataset.docid
+
+        db.collection("News")
+        .doc(docid)
+        .update({
+            Clicks: firebase.firestore.FieldValue.arrayUnion(timestamp)
+        })
+        .then(() => {
+            history.push(`/${client}/NewsDetail/${id}`)
+        })
+
     }
 
     const variants = {
@@ -94,7 +104,7 @@ const News = () => {
                             </div>
                             <div className="list-inner-container">
                                 <h2>{item.Title}</h2>
-                                <button onClick={detailRouter} data-id={item.ID}>Bekijk</button>
+                                <button onClick={detailRouter} data-docid={item.docid} data-id={item.ID}>Bekijk</button>
                             </div>
                         </div>
                     ))}

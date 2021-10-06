@@ -12,9 +12,7 @@ const LeftSideBar = () => {
         <div className="left-sidebar-container">
             <div className="left-side-bar">
                 <div className="channel-div">
-                    <Link to={`/${client}/WelcomeSettings`}>
-                        <h3>Welkom</h3>
-                    </Link>
+                    <h3>Welkom</h3>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Start`} >Start hier</Link>
                         <Link to={`/${client}/Introductions`} >Stel je voor</Link>
@@ -23,9 +21,7 @@ const LeftSideBar = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/GoalSettings`}>
-                            <h3>Impact</h3>
-                        </Link>
+                        <h3>Impact</h3>
                     </div>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Goals`}>Doelen</Link>
@@ -33,9 +29,7 @@ const LeftSideBar = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/ChannelSettings`}>
-                            <h3>Kanalen</h3>
-                        </Link>
+                        <h3>Kanalen</h3>
                     </div>
                     {channels && channels.map(channel => (
                         <div className="channel-inner-div" key={channel.ID}>
@@ -45,9 +39,7 @@ const LeftSideBar = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/GroupSettings`}>
-                            <h3>Groepen</h3>
-                        </Link>
+                        <h3>Groepen</h3>
                     </div>
                     {groups && groups.map(group => (
                         <div className="channel-inner-div" key={group.ID}>

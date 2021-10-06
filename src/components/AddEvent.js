@@ -173,8 +173,18 @@ const AddEvent = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: banner,
-                Link: `Events`
+                Link: `EventDetail/${id}`
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'Event',
+                Link: `EventDetail/${id}`
+            })
         })
     }
 

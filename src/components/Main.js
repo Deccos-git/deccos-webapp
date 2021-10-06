@@ -50,31 +50,10 @@ import UserRoles from './UserRoles';
 import Registrations from './Registrations';
 import GoalSettingsDetail from './goals/GoalSettingsDetail';
 import GroupSettingsDetail from './GroupSettingsDetail';
-
-import { auth, db } from '../firebase/config';
-import { useHistory } from "react-router-dom";
+import ProfileSettings from './ProfileSettings';
+import AboutMe from './AboutMe';
 
 const Main = () => {
-
-    const history = useHistory()
-
-    // auth.onAuthStateChanged(User => {
-    //     if(User){
-    //       db.collection("Users")
-    //       .doc(User.uid)
-    //       .get()
-    //       .then(doc => {
-    //           const approved = doc.data().Approved
-  
-    //           if(approved === false){
-    //             history.push(`/${client}/NotApproved`)
-                
-    //           } else if (approved === true){
-    //             return
-    //           }
-    //       })
-    //     }
-    //   })
 
     return (
         <div className="main">
@@ -85,6 +64,9 @@ const Main = () => {
                 <Route path={`/${client}/Register`}>
                     <Register/>
                 </Route>
+                <Route path={`/${client}/ProfileSettings`}>
+                    <ProfileSettings/>
+                </Route>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>
                 </Route>
@@ -93,6 +75,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Start`}>
                     <Start/>
+                </Route>
+                <Route path={`/${client}/AboutMe`}>
+                    <AboutMe/>
                 </Route>
                 <Route path={`/${client}/Goals`}>
                     <Goals/>

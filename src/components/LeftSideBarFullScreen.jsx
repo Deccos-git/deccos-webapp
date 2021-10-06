@@ -31,9 +31,7 @@ const LeftSideBarFullScreen = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>
-                            <h3>Impact</h3>
-                        </Link>
+                        <h3>Impact</h3>
                     </div>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Goals`} onClick={changeMenuStatus}>Doelen</Link>
@@ -41,9 +39,7 @@ const LeftSideBarFullScreen = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus}>
-                            <h3>Kanalen</h3>
-                        </Link>
+                        <h3>Kanalen</h3>
                     </div>
                     {channels && channels.map(channel => (
                         <div className="channel-inner-div"  key={channel.ID}>
@@ -53,9 +49,7 @@ const LeftSideBarFullScreen = () => {
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">
-                        <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus}>
-                            <h3>Groepen</h3>
-                        </Link>
+                        <h3>Groepen</h3>
                     </div>
                     {groups && groups.map(group => (
                         <div className="channel-inner-div" key={group.ID}>

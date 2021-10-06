@@ -116,8 +116,18 @@ const AddNews = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: banner,
-                Link: `ChannelDetail`
+                Link: `NewsDetail/${id}`
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'Nieuws item',
+                Link: `NewsDetail/${id}`
+            })
         })
     }
 

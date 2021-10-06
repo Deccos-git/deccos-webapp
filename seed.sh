@@ -1,0 +1,8 @@
+LOCATION=europe-west1\
+  PROJECT_ID=deccos-app\
+  ALGOLIA_APP_ID=BTFVOCIBOO\
+  ALGOLIA_API_KEY=0c4d27ccdc1555f3f7ae9e436b2763da\
+  ALGOLIA_INDEX_NAME=Deccos\
+  COLLECTION_PATH=Search\
+  GOOGLE_APPLICATION_CREDENTIALS=./sa.json\
+  npx firestore-algolia-search

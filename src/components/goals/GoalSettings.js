@@ -32,8 +32,8 @@ const GoalSettings = () => {
         <LeftSideBarAuthProfileFullScreen/>
         <div className="profile" style={{display: menuState}}>
             <div className="divider card-header">
-                <h2>Doel instellingen</h2>
-                <p>Pas de instellingen van je doelen aan</p>
+                <h2>Impact instellingen</h2>
+                <p>Pas de impact instellingen aan</p>
             </div>
             <div className="divider">
                 <h3>Community doelen</h3>

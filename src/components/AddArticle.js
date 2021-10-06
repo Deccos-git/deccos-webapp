@@ -31,8 +31,6 @@ const AddArticle = () => {
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
 
-    console.log(title, body, categorie)
-
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
@@ -67,7 +65,7 @@ const AddArticle = () => {
     let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewArticle
+        banner = comp.ActivityBanner.NewGroup
         compagnyId = comp.docid
     })
 
@@ -149,8 +147,18 @@ const AddArticle = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: banner,
-                Link: `ChannelDetail`
+                Link: `ArticleDetail/${id}`
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'Artikel',
+                Link: `ArticleDetail/${id}`
+            })
         })
     }
 

@@ -9,6 +9,7 @@ import { client } from "../hooks/Client";
 import { useFirestore } from '../firebase/useFirestore'
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
+import { useLocation } from "react-router-dom"
 
 const Introductions = () => {
     const [body, setBody] = useState("")
@@ -17,6 +18,7 @@ const Introductions = () => {
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const menuState = MenuStatus()
+    const location = useLocation()
 
     const textBody = (e) => {
         const body = e.target.value
@@ -27,8 +29,7 @@ const Introductions = () => {
     let banner = ""
 
     compagny && compagny.forEach(comp => {
-
-        banner = comp.ActivityBanner.NewIntroduction
+        banner = comp.ActivityBanner.NewGroup
     })
 
     const saveIntroduction = () => {
@@ -43,7 +44,9 @@ const Introductions = () => {
             Timestamp: timestamp,
             ID: id,
             Compagny: client,
-            AuthID: authO.ID
+            AuthID: authO.ID,
+            UserID: authO.ID,
+            Message: body
         })
         .then(() => {
             db.collection("AllActivity")
@@ -62,6 +65,36 @@ const Introductions = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: body,
+                Compagny: client,
+                Type: 'Introductie',
+                Link: `Introductions`
+            })
+        })
+        .then(() => {
+            db.collection("Messages")
+            .doc()
+            .set({
+                Type: "Introduction",
+                Message: body,
+                Timestamp: timestamp,
+                PrevPath: location.pathname,
+                ID: id,
+                Compagny: client,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                Email: authO.Email,
+                Thread: [],
+                Read: [authO.ID],
+                UserID: authO.ID,
+                Contributions: [],
+                Public: true
+            })
         })
     }
 

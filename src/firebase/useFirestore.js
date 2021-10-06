@@ -377,6 +377,55 @@ const useFirestoreNotApproved = () => {
     return docs
 };
 
+const useFirestoreProfileFields = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("ProfileFields")
+        .where("Compagny", "==", client)
+        .where("Template", "==", true)
+        .orderBy("Position", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
+const useFirestoreProfileFieldsUser = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("ProfileFields")
+        .where("Compagny", "==", client)
+        .where("Template", "==", false)
+        .orderBy("Position", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
+
 export { 
     useFirestore, 
     useFirestoreID, 
@@ -393,5 +442,7 @@ export {
     useFirestoreNewNotifications,
     useFirestoreIntroductions,
     useFirestoreMyMessages,
-    useFirestoreNotApproved
+    useFirestoreNotApproved,
+    useFirestoreProfileFields,
+    useFirestoreProfileFieldsUser
 }

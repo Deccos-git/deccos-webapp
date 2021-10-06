@@ -12,15 +12,16 @@ import { useState, useEffect } from "react";
 
 const ChatGroups = () => {
     const [chatSummary, setChatSummary] = useState("")
+    const [groupSummary, setGroupSummary] = useState("")
     const route = Location()[3]
 
     const groups = useFirestoreChatsGroups("Groups", route)
     const history = useHistory()
     const chats = useFirestoreChatsGroups("Chats", route)
 
-    console.log(chats)
-
     const menuState = MenuStatus()
+
+    // Chats Overview
 
     const partnerName = async (member) => {
 
@@ -102,7 +103,7 @@ const ChatGroups = () => {
 
    const newestMessages = async (chatID) => {
 
-    let messageArray = []
+    const messageArray = []
 
         await db.collection("Messages")
         .where("Compagny", "==", client)
@@ -142,16 +143,17 @@ const ChatGroups = () => {
                 const photo = await partnerPhoto(member)
                 const id = await partnerID(member)
 
-                const chat = {
+                const chatObject = {
                     userName: userName,
                     photo: photo,
                     id: id,
                     messages: allMessages,
-                    newMessages: newMessages
+                    newMessages: newMessages,
+                    chatID: chat.ID
                 }
 
                 chatsArray.push(
-                    chat
+                    chatObject
                 )
             }
         }
@@ -169,19 +171,116 @@ const ChatGroups = () => {
         
     }, [chats])
 
-    chatSummary.chats.forEach(chat => {
-        chat.forEach(ch => {
-            console.log(ch)
-        })
-    })
- 
-    const updateRoute = (e) => {
-        chats && chats.forEach(chat => {
-         
-            history.push(`/${client}/ChatRoom/${chat.ID}`)
-            
-        })
+    const ChatsAuth = () => {
+         return (
+             chatSummary && chatSummary.chats.map(chat => (
+                chat.map(ch => ((
+                <div className="chatpartner-meta-container divider" key={ch.id}>
+                    <div className="chatpartner-container">
+                        <img src={ch.photo} alt=""data-id={ch.chatID} onClick={updateRouteChat} />
+                        <p className="chat-overview-username" data-id={ch.chatID} onClick={updateRouteChat}>{ch.userName}</p>
+                    </div>
+                    <p>{ch.messages} berichten</p>
+                    <p className="new-messages">{ch.newMessages} nieuw</p>
+                </div>
+                )))
+             ))
+         )
     }
+ 
+    const updateRouteChat = (e) => {
+
+        const id = e.target.dataset.id
+         
+        history.push(`/${client}/ChatRoom/${id}`)
+            
+    }
+
+    // Groups overview
+
+    const newGroupMessages = async (groupID) => {
+        const messageArray = []
+
+        await db.collection("Messages")
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", groupID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach((doc) => {
+
+                const read = doc.data().Read
+
+                if(!read.includes(route)){
+
+                        messageArray.push(read)
+                    }
+                })
+            })
+
+        return messageArray.length
+    }
+
+    const groupsOverview = async () => {
+
+        const summary = {
+            groups:[]
+        }
+    
+        for(const group of groups){
+            const groupsArray = []
+    
+            const newMessages = await newGroupMessages(group.ID)
+
+            const groupObject = {
+                room: group.Room,
+                messages: group.Messages,
+                newMessages: newMessages,
+                ID: group.ID
+            }
+
+            groupsArray.push(
+                groupObject
+            )
+
+            summary.groups.push(groupsArray)
+        }
+
+        return summary
+    }
+
+    useEffect(() => {
+        groupsOverview().then((summary) => {
+            setGroupSummary(summary)
+        })
+        
+    }, [groups])
+
+    const GroupsAuth = () => {
+        return (
+            groupSummary && groupSummary.groups.map(group => (
+                group.map(gr => (
+                    <div className="chats-overview-container divider" key={gr.ID}>
+                    <div className="chatpartner-meta-container" data-id={gr.ID} name={gr.ID}>
+                        <img src={groupIcon} alt="" data-id={gr.ID} onClick={updateRouteGroup} />
+                        <p className="chat-overview-username" data-id={gr.ID} onClick={updateRouteGroup}>{gr.room}</p>
+                        <p>{gr.messages} berichten</p>
+                        <p className="new-messages"> {gr.newMessages} nieuw</p>
+                    </div>
+                </div>
+                ))
+            ))
+        )
+    }
+
+    const updateRouteGroup = (e) => {
+
+        const id = e.target.dataset.id
+         
+        history.push(`/${client}/Group/${id}`)
+            
+    }
+
+    
 
     return (
             <div className="main">
@@ -190,30 +289,10 @@ const ChatGroups = () => {
                 <div className="article" style={{display: menuState}}>
                     <h2>Chats</h2>
                         <div className="chats-overview-container">
-                            {chatSummary.chats.forEach(chat => {
-                                {chat.map(ch => (
-                                <div className="chatpartner-meta-container divider" key={ch.id}>
-                                    <div className="chatpartner-container" onClick={updateRoute}>
-                                        <img src={ch.photo} alt="" />
-                                        <p className="chat-overview-username">{ch.userName}</p>
-                                    </div>
-                                    <p>{ch.allMessages} berichten</p>
-                                    <p className="new-messages">{ch.newMessages} nieuw</p>
-                                </div>
-                                ))}
-                            })}
+                            <ChatsAuth/>
                         </div>
                     <h2>Groepen</h2>
-                    {groups && groups.map(group => (
-                    <div className="chats-overview-container divider" key={group.ID}>
-                        <div className="chatpartner-meta-container" data-id={group.ID} name={group.ID} onClick={updateRoute}>
-                            <img src={groupIcon} alt="" />
-                            <p className="chat-overview-username">{group.Room}</p>
-                            <p>{group.Messages} berichten</p>
-                            <p className="new-messages"> 0 nieuw</p>
-                        </div>
-                    </div>
-                    ))}
+                        <GroupsAuth/>
                 </div>
                 <RightSideBar />
             </div>

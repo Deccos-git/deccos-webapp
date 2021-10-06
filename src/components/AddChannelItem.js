@@ -117,8 +117,18 @@ const AddChannelItem = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: banner,
-                Link: `ChannelDetail`
+                Link: `ChannelDetail/${id}`
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'KanaalItem',
+                Link: `ChannelDetail/${id}`
+            })
         })
         .then(() => {
     

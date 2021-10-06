@@ -84,7 +84,7 @@ const AddGoal = () => {
     let compagnyId = ""
 
     compagny && compagny.forEach(comp => {
-        activityBanner = comp.ActivityBanner.NewArticle
+        activityBanner = comp.ActivityBanner.NewGoal
         compagnyId = comp.docid
     })
 
@@ -122,6 +122,16 @@ const AddGoal = () => {
                 Banner: activityBanner,
                 Link: `GoalDetail/${id}`
             }) 
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'Doel',
+                Link: `GoalDetail/${id}`
+            })
         })
     }
 

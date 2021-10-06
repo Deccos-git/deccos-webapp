@@ -5,7 +5,7 @@ import { db, timestamp, bucket } from "../firebase/config.js"
 import { useState } from 'react';
 import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
-import { useFirestore } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase';
 import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
@@ -14,6 +14,7 @@ import Location from "../hooks/Location"
 const MessageBarGroup = () => {
     const [authO] = useContext(Auth)
     const [Message, setMessage] = useState("")
+    const [checkedMessage, setCheckedMessage] = useState("")
     const [fileDisplay, setFileDisplay] = useState("none")
     const [progressBar, setProgressBar] = useState("")
 
@@ -21,7 +22,7 @@ const MessageBarGroup = () => {
     
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
-    const chats = useFirestore("Chats", route)
+    const groups = useFirestoreID("Groups", route)
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -34,15 +35,35 @@ const MessageBarGroup = () => {
     compagny && compagny.forEach(comp => {
         banner = comp.ActivityBanner.NewMessage
     })
+    
+   const linkInText = () => {
+    
+    const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+    const links = Message.match(urlRegex)
+
+    if(links != null){
+
+        const newText = Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+
+        setCheckedMessage(newText)
+
+    } else {
+        setCheckedMessage(Message)
+    }
+
+   }
 
     const submitMessage = () => {
 
+        linkInText()
+
         setTimeout(() => {
+            console.log(checkedMessage)
             db.collection("Messages")
             .doc()
             .set({
                 Type: "Message",
-                Message: Message,
+                Message: checkedMessage,
                 Timestamp: timestamp,
                 ParentID: route,
                 ID: id,
@@ -55,9 +76,9 @@ const MessageBarGroup = () => {
                 UserID: authO.ID
             })
             .then(() => {
-                chats && chats.forEach(chat => {
-                    db.collection("Chats")
-                    .doc(chat.docid)
+                groups && groups.forEach(group => {
+                    db.collection("Groups")
+                    .doc(group.docid)
                     .update({
                         Messages: firebase.firestore.FieldValue.increment(1)
                     })
@@ -66,8 +87,7 @@ const MessageBarGroup = () => {
             .then(() => {
                 setMessage("")
             })
-        },1000)
-
+        }, 1000)
     }
 
     const toggleFile = () => {

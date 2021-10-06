@@ -26,29 +26,6 @@ const Group = () => {
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
     const history = useHistory()
 
-    let message = ""
-    let messageHTML = ""
-
-    messages && messages.forEach(mssg => { 
-      
-            message = mssg
-
-            const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-            const links = mssg.Message.match(urlRegex)
-        
-            if(links != null){
-        
-                const newText = mssg.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
-    
-                messageHTML = newText
-        
-            } else {
-
-                messageHTML = mssg.Message
-            }
-
-    })
-
     const messageClass = (message) => {
         if(message.User === authO.UserName){
             return "auth-message"
@@ -133,7 +110,7 @@ const Group = () => {
             <div className="group-outer-container" key={group.ID} style={{display: menuState}}>
                 <div className="group-container">
                     <div className="group-header">
-                        <h2>{group.Room}</h2>
+                        <h1>{group.Room}</h1>
                     </div>
                     <div className="chat-screen">
                         {messages && messages.map(message => (
@@ -143,6 +120,7 @@ const Group = () => {
                                 <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                                 <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
+                            <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
                             <div className="send-as-mail-container">
                                 <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
                                 <div style={{display: showSendMail}}>
@@ -156,7 +134,6 @@ const Group = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div dangerouslySetInnerHTML={{__html:messageHTML}}></div>
                         </div>
                         ))}
                         <MessageBarGroup route={route} auth={authO} />

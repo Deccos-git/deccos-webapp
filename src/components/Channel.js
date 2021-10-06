@@ -49,17 +49,17 @@ const Channel = () => {
     const updateRoute = (e) => {
 
         const channelID = e.target.dataset.id
+        const docid = e.target.dataset.docid
 
-        items && items.forEach(item => {
-            db.collection("ChannelItems")
-            .doc(item.docid)
-            .update({
-                Clicks: firebase.firestore.FieldValue.arrayUnion(timestamp)
-            })
-            .then(() => {
-                history.push(`/${client}/ChannelDetail/${channelID}`)
-            })
+        db.collection("ChannelItems")
+        .doc(docid)
+        .update({
+            Clicks: firebase.firestore.FieldValue.arrayUnion(timestamp)
         })
+        .then(() => {
+            history.push(`/${client}/ChannelDetail/${channelID}`)
+        })
+
     }
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -121,7 +121,7 @@ const Channel = () => {
                                     <p>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                                 </div>
                                 <div className="button-container">
-                                    <button onClick={updateRoute} data-id={item.ID}>Bekijk</button>
+                                    <button onClick={updateRoute} data-docid={item.docid} data-id={item.ID}>Bekijk</button>
                                 </div>
                             </div>
                         </motion.div>
