@@ -286,13 +286,18 @@ const ChatGroups = () => {
             <div className="main">
                 <LeftSideBar />
                 <LeftSideBarFullScreen/>
-                <div className="article" style={{display: menuState}}>
-                    <h2>Chats</h2>
-                        <div className="chats-overview-container">
-                            <ChatsAuth/>
-                        </div>
-                    <h2>Groepen</h2>
-                        <GroupsAuth/>
+                <div className="card-overview" style={{display: menuState}}>
+                    <div className="page-header">
+                        <h1>Chats en groepen</h1>
+                    </div>
+                    <div className="article" >
+                        <h2>Chats</h2>
+                            <div className="chats-overview-container">
+                                <ChatsAuth/>
+                            </div>
+                        <h2>Groepen</h2>
+                            <GroupsAuth/>
+                    </div>
                 </div>
                 <RightSideBar />
             </div>

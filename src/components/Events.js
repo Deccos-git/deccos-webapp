@@ -76,6 +76,10 @@ const Events = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Events</h1>
+                    <button className="button-simple">Lid worden</button>
+                </div>
                 <div className="card-container">
                     <motion.div 
                     className="card"

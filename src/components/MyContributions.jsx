@@ -19,6 +19,9 @@ const MyContributions = () => {
         <LeftSideBarPublicProfile />
         <LeftSideBarPublicProfileFullScreen/>
         <div className="card-overview" style={{display: menuState}}>
+            <div className="page-header">
+                <h1>Mijn bijdragen</h1>
+            </div>
            {contributions && contributions.map(contribution => (
                <div className="list introductions-list my-message" key={contribution.ID}>
                    <p>Bijdrage geleverd aan doel:</p>

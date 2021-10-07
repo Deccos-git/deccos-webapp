@@ -44,6 +44,9 @@ const Notifications = () => {
                 <LeftSideBar />
                 <LeftSideBarFullScreen/>
                 <div className="card-overview" style={{display: menuState}}>
+                    <div className="page-header">
+                        <h1>Notificaties</h1>
+                    </div>
                     {notifications && notifications.map(notification => (
                         <div className="notification-card" key={notification.ID}>
                             <div className="user-meta-container">

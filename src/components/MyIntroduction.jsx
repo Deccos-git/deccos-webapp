@@ -16,11 +16,16 @@ const MyIntroduction = () => {
         <div className="main">
              <LeftSideBarPublicProfile />
              <LeftSideBarPublicProfileFullScreen/>
-            {introductions && introductions.map(introduction => (
-                <div className="list introductions-list" style={{display: menuState}}>
-                    <p>{introduction.Body}</p>
+             <div className="card-overview">
+                <div className="page-header">
+                    <h1>Mijn introductie</h1>
                 </div>
-            ))}
+                {introductions && introductions.map(introduction => (
+                    <div className="list introductions-list" style={{display: menuState}}>
+                        <p>{introduction.Body}</p>
+                    </div>
+                ))}
+             </div>
              <RightSideBar />
         </div>
     )

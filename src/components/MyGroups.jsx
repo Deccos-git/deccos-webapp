@@ -28,6 +28,9 @@ const MyGroups = () => {
             <LeftSideBarPublicProfile />
             <LeftSideBarPublicProfileFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
+            <div className="page-header">
+                <h1>Mijn groepen</h1>
+            </div>
             {groups && groups.map(group => (
                 <div className="list introductions-list my-message" data-id={group.ID} onClick={groupDetail}>
                     <h2>{group.Room}</h2>

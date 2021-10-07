@@ -34,7 +34,6 @@ const LeftSideBarPublicProfileFullScreen = () => {
                         <Link to={`/${client}/MyMessages/${authO.ID}`} onClick={changeMenuStatus}>Mijn berichten</Link>
                         <Link to={`/${client}/MyGroups/${authO.ID}`} onClick={changeMenuStatus}>Mijn groepen</Link>
                         <Link to={`/${client}/MyContributions/${authO.ID}`} onClick={changeMenuStatus}>Mijn bijdragen</Link>
-                        <Link to={`/${client}/AboutMe/${authO.ID}`} onClick={changeMenuStatus}>Over mij</Link>
                     </div>
                 </div>
             </div>

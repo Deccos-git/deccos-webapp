@@ -24,6 +24,12 @@ const Channel = () => {
 
     const menuState = MenuStatus()
 
+    let channelTitle = null
+
+    channels && channels.forEach(channel => {
+        channelTitle = channel.Name
+    })
+
     const showAddNew = () => {
 
         auth.onAuthStateChanged(User =>{
@@ -87,6 +93,10 @@ const Channel = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>{channelTitle}</h1>
+                    <button className="button-simple">Lid worden</button>
+                </div>
                 {channels && channels.map(channel => (
                 <div className="card-container">
                     <motion.div 

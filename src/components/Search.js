@@ -49,7 +49,11 @@ const Search = () => {
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
-            <div id="search-container" style={{display: menuState}}>
+            <div className="card-overview">
+                <div className="page-header">
+                        <h1>Zoek</h1>
+                </div>
+                <div id="search-container" style={{display: menuState}}>
                 <InstantSearch indexName="Deccos" searchClient={searchClient}>
                     <div className="right-panel">
                         <SearchBox translations={{
@@ -58,6 +62,7 @@ const Search = () => {
                         <Hits hitComponent={Hit} />
                     </div>
                 </InstantSearch>
+            </div>
             </div>
             <RightSideBar />
         </div>

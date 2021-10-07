@@ -77,6 +77,10 @@ const News = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Nieuws</h1>
+                    <button className="button-simple">Lid worden</button>
+                </div>
                 <div className="list-container">
                     <motion.div 
                     className="list"

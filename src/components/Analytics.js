@@ -15,7 +15,7 @@ const Analytics = () => {
                 <LeftSideBarAuthProfile />
                 <LeftSideBarAuthProfileFullScreen/>
                 <div className="card-overview" style={{display: menuState}}>
-                    <h2>Analytics</h2>
+                    <h1>Analytics</h1>
                     <p>Analyseer de inzichten van je community</p>
                 </div>
                 <RightSideBar />

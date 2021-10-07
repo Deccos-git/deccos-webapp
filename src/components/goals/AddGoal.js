@@ -235,7 +235,7 @@ const AddGoal = () => {
                                 <option value="Klimaatactie">Klimaatactie</option>
                                 <option value="Leven in het water">Leven in het water</option>
                                 <option value="Leven op het land">Leven op het land</option>
-                                <option value="Vrede, justitie en sterker publieke diensten">Vrede, justitie en sterker publieke diensten</option>
+                                <option value="Vrede, justitie en sterker publieke diensten">Vrede, justitie en sterke publieke diensten</option>
                                 <option value="Partnerschap om doelstellingen te bereiken">Partnerschap om doelstellingen te bereiken</option>
                             </select>
                             <p className="more-sdg" onClick={SDGInformation}><u>Meer over de SDG's</u></p>

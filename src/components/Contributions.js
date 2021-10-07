@@ -25,7 +25,7 @@ const Contributions = () => {
             <LeftSideBarFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
             {contributionsGoal && contributionsGoal.map(goal => (
-                <div className="notification-card">
+                <div className="notification-card" key={goal.ID}>
                     <div className="user-meta-container">
                         <img className="user-photo" src={goal.RecieverPhoto} alt="" data-recieverid={goal.RecieverID} onClick={recieverLink} />
                         <h2>{goal.RecieverName}</h2>
@@ -39,7 +39,7 @@ const Contributions = () => {
                 </div>
             ))}
             {contributionsMessage && contributionsMessage.map(message => (
-                <div className="notification-card">
+                <div className="notification-card" key={message.ID}>
                     <div className="user-meta-container">
                         <img className="user-photo" src={message.RecieverPhoto} alt="" data-recieverid={message.RecieverID} onClick={recieverLink} />
                         <h2>{message.RecieverName}</h2>
@@ -53,7 +53,7 @@ const Contributions = () => {
                 </div>
             ))} 
              {contributionsReciever && contributionsReciever.map(reciever => (
-                <div className="notification-card">
+                <div className="notification-card" key={reciever.ID}>
                     <div className="user-meta-container">
                         <img className="user-photo" src={reciever.RecieverPhoto} alt="" data-recieverid={reciever.RecieverID} onClick={recieverLink} />
                         <h2>{reciever.RecieverName}</h2>

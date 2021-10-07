@@ -1,7 +1,7 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
 import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreUser, useFirestoreIntroductions } from "./../firebase/useFirestore";
+import { useFirestoreUser, useFirestoreIntroductions, useFirestoreAboutMe } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
@@ -22,6 +22,7 @@ const PublicProfile = () => {
 
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
+    const aboutMe = useFirestoreAboutMe(route)
 
     let room = ""
 
@@ -31,8 +32,6 @@ const PublicProfile = () => {
             room = authO.ID < profile.ID ? authO.ID+'_'+profile.ID : profile.ID+'_'+authO.ID
         })
     } createRoomName()
-
-    console.log(room)
 
     const findChat = async() => {
 
@@ -119,7 +118,7 @@ const PublicProfile = () => {
                     <div className="profile public-profile-container" key={profile.ID} style={{display: menuState}}>
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
-                            <h2>{profile.UserName}</h2>
+                            <h1>{profile.UserName}</h1>
                             <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{profile.Contributions.length} bijdragen aan doelen</p>
                             <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
@@ -127,9 +126,21 @@ const PublicProfile = () => {
                             </div>
                         </div>
                         <div>
-                            {introductions && introductions.map(introduction => (
-                            <p>{introduction.Body}</p>
-                            ))}
+                            <h2>Over mij</h2>
+                            <div className="about-me-inner-container">
+                                {introductions && introductions.map(introduction => (
+                                    <div className="about-me-section">
+                                        <h3>Introductie</h3>
+                                        <p>{introduction.Body}</p>
+                                    </div>
+                                ))}
+                                {aboutMe && aboutMe.map(about => (
+                                    <div className="about-me-section">
+                                        <h3>{about.Title}</h3>
+                                        <p>{about.Value}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ))}

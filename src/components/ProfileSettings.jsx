@@ -3,6 +3,7 @@ import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus"
 import plusIcon from '../images/icons/plus-icon.png'
+import deleteIcon from '../images/icons/delete-icon.png'
 import RegistrationField from '../images/Design/RegistrationFields/textfield.png'
 import RegistrationArea from '../images/Design/RegistrationFields/textarea.png'
 import RegistrationRadio from '../images/Design/RegistrationFields/radio.png'
@@ -43,8 +44,27 @@ const ProfileSettings = () => {
     const menuState = MenuStatus()
     const id = uuid()
 
-    const deleteField = () => {
+    const deleteField = (e) => {
 
+        const id = e.target.dataset.id
+        const title = e.target.dataset.title
+
+        db.collection("ProfileFields")
+        .doc(id)
+        .delete()
+        .then(() => {
+            db.collection("AboutMe")
+            .where("Title", "==", title)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+
+                    db.collection("AboutMe")
+                    .doc(doc.id)
+                    .delete()
+                })
+            })
+        })
     }
 
     const addField = (e) => {
@@ -62,7 +82,7 @@ const ProfileSettings = () => {
             Title: title,
             Position: position,
             Template: true,
-            Button: `<button>Opslaan</button>`
+            Button: `<button className="button-simple button-about-me" >Opslaan</button>`
         })
     }
 
@@ -76,7 +96,7 @@ const ProfileSettings = () => {
         const html = 
         `<div>
             <h3>${title}</h3>
-            <input type="text" placeholder="Hier staat de gebruikers text" />
+            <input type="text"/>
         </div>`
 
         return html
@@ -88,15 +108,20 @@ const ProfileSettings = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h2>Profiel instellingen</h2>
+                    <h1>Profiel instellingen</h1>
                     <p>Beheer de instellingen van de gebruikersprofielen</p>
                 </div>
                 <div className="divider">
-                    <h3>Profielvelden</h3>
+                    <h2>Profielvelden</h2>
                     {profileFields && profileFields.map(field => (
-                        <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                        <div>
+                            <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                            <img onClick={deleteField} data-title={field.Title} data-id={field.docid} className="profile-settings-delete-icon" src={deleteIcon} alt="" />
+                        </div>
                     ))}
-                    <h4>Veld toevoegen</h4>
+                </div>
+                <div className="divider">
+                    <h2>Veld toevoegen</h2>
                     <div className="add-registration-field-container" >
                         <img className="drag-icon" src={plusIcon} data-html={textFieldHTML()} data-type={"TextField"}  onClick={addField} />
                         <p>Textveld</p>

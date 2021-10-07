@@ -47,8 +47,14 @@ const Results = () => {
             .then(querySnapshot => {
               
                 querySnapshot.forEach(doc => {
-                    totalArray.push(doc.data())
+                    const contributions = doc.data().Contributions
+                    const month = doc.data().Month
+
+                    totalArray.push({sum: contributions,
+                                    month: month})
                 })
+
+               console.log(totalArray)
 
                 setTotal(totalArray)
             })
@@ -83,10 +89,10 @@ const Results = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
+            <div className="page-header">
+                    <h1>Resultaten</h1>
+                </div>
                 <div className="profile profile-results">
-                    <div className="divider">
-                        <h1>Resultaten</h1>
-                    </div>
                     <div className="divider">
                         <h2>Doelen</h2>
                         {goalData && goalData.map(goal => (
@@ -127,7 +133,36 @@ const Results = () => {
                     </div>
                     <div className="divider">
                         <h2>SDG bijdragen</h2>
-
+                        {sdg && sdg.map(sd => (
+                            <div key={sd.ID}>
+                                <h3>{sd.SDG}</h3>
+                                <div>
+                                    <Line data={{
+                                         labels: [sd.Month],
+                                         datasets: [
+                                           {
+                                             label: 'Aantal bijdragen',
+                                             data: [sd.Contributions],
+                                             fill: false,
+                                             backgroundColor: 'green',
+                                             borderColor: 'green',
+                                           },
+                                         ],
+                                    }} 
+                                    options={{
+                                        scales: {
+                                          yAxes: [
+                                            {
+                                              ticks: {
+                                                beginAtZero: true,
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      }} />
+                                </div>
+                            </div>
+                        ))}           
                     </div>
                 </div>  
             </div>

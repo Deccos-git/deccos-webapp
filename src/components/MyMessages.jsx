@@ -28,6 +28,9 @@ const MyMessages = () => {
              <LeftSideBarPublicProfile />
              <LeftSideBarPublicProfileFullScreen/>
              <div className="card-overview" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Mijn berichten</h1>
+                </div>
                 {messages && messages.map(message => (
                     <div className="list introductions-list my-message" data-id={message.ID} key={message.ID} onClick={messageDetail}>
                         <p>{message.Message}</p>
