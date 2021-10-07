@@ -24,31 +24,36 @@ const Start = () => {
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
-            <motion.div className="article"
+            <motion.div
             initial="hidden"
             animate="visible"
             variants={variants}
-            style={{display: menuState}}>
-                {docs && docs.map(doc => (
-                    <div className="article-inner-div" key={doc.ID}>
-                        <div className="start-banner">
-                            <h2>Hallo {username}</h2>
-                            <img src={doc.WelcomeHeader} alt="community logo" />  
-                        </div>
-                         <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
-                         <div>
-                             <h3>Onze community regels</h3>
-                             <ul>
-                                {doc.Rules.map(rule => (
-                                    <li dangerouslySetInnerHTML={{ __html: rule }} key={rule.ID}></li>
-                                ))}
-                             </ul>
-                        </div>
+            >
+                <div className="card-overview" style={{display: menuState}}>
+                    <div className="page-header">
+                        <h1>Start hier</h1>
                     </div>
-
-                    ))
-                }
-                  
+                    <div className="article">
+                    {docs && docs.map(doc => (
+                        <div className="article-inner-div" key={doc.ID}>
+                            <div className="start-banner">
+                                <h2>Hallo {username}</h2>
+                                <img src={doc.WelcomeHeader} alt="community logo" />  
+                            </div>
+                            <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
+                            <div>
+                                <h3>Onze community regels</h3>
+                                <ul>
+                                    {doc.Rules.map(rule => (
+                                        <li dangerouslySetInnerHTML={{ __html: rule }} key={rule.ID}></li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        ))
+                    }
+                </div>   
+               </div>
             </motion.div>
             <RightSideBar />
         </div>

@@ -240,9 +240,9 @@ const useFirestoreNotifications = (collection, id  ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
+        .orderBy("Timestamp", "desc")
         .where("Compagny", "==", client)
         .where("RecieverID", "==", id)
-        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -425,6 +425,30 @@ const useFirestoreProfileFieldsUser = () => {
     return docs
 };
 
+const useFirestoreContributionGraph = (month, goal) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("ContributionGraph")
+        .where("Month", "==", month)
+        .where("GoalID", "==", goal)
+        .orderBy("LastActive", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [month, goal])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -444,5 +468,6 @@ export {
     useFirestoreMyMessages,
     useFirestoreNotApproved,
     useFirestoreProfileFields,
-    useFirestoreProfileFieldsUser
+    useFirestoreProfileFieldsUser,
+    useFirestoreContributionGraph
 }

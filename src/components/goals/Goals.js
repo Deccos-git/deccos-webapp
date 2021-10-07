@@ -14,6 +14,9 @@ const Goals = () => {
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
+            <div className="page-header">
+                <h1>Doelen</h1>
+            </div>
             <div className="card-container">
                 {docs && docs.map(doc => (
                     <GoalCard doc={doc} key={doc.ID} />  

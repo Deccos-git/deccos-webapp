@@ -1,5 +1,5 @@
 import '../CSS/leftSideBar.css';
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { useFirestore } from '../firebase/useFirestore';
 
@@ -14,9 +14,9 @@ const LeftSideBar = () => {
                 <div className="channel-div">
                     <h3>Welkom</h3>
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/Start`} >Start hier</Link>
-                        <Link to={`/${client}/Introductions`} >Stel je voor</Link>
-                        <Link to={`/${client}/AllActivity`} >Alle activiteit</Link>
+                        <NavLink activeClassName='active' to={`/${client}/Start`} >Start hier</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/Introductions`} >Stel je voor</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/AllActivity`} >Alle activiteit</NavLink>
                     </div>
                 </div>
                 <div className="channel-div">
@@ -24,7 +24,10 @@ const LeftSideBar = () => {
                         <h3>Impact</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/Goals`}>Doelen</Link>
+                        <NavLink activeClassName='active' to={`/${client}/Goals`}>Doelen</NavLink>
+                    </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/Results`}>Resultaten</NavLink>
                     </div>
                 </div>
                 <div className="channel-div">
@@ -33,7 +36,7 @@ const LeftSideBar = () => {
                     </div>
                     {channels && channels.map(channel => (
                         <div className="channel-inner-div" key={channel.ID}>
-                            <Link to={`/${client}/${channel.Link}/${channel.ID}`}>{channel.Name}</Link>
+                            <NavLink activeClassName='active' to={`/${client}/${channel.Link}/${channel.ID}`}>{channel.Name}</NavLink>
                         </div>
                     ))}
                 </div>
@@ -43,7 +46,7 @@ const LeftSideBar = () => {
                     </div>
                     {groups && groups.map(group => (
                         <div className="channel-inner-div" key={group.ID}>
-                            <Link to={`/${client}/GroupLanding/${group.ID}`}>{group.Room}</Link>
+                            <NavLink activeClassName='active' to={`/${client}/GroupLanding/${group.ID}`}>{group.Room}</NavLink>
                         </div>
                     ))}
                 </div>

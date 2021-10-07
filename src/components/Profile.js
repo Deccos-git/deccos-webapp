@@ -142,6 +142,7 @@ const Profile = () => {
             <LeftSideBarAuthProfileFullScreen/>
                 <div className="profile" style={{display: menuState}}>
                     <div className="card-header">
+                        <h1>Account instellingen</h1>
                         <img id="profile-header-photo" src={authO.Photo} alt="" />
                         <h2>{authO.UserName}</h2>
                         <p>Verander de instellingen van je profiel</p>

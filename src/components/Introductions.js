@@ -29,7 +29,7 @@ const Introductions = () => {
     let banner = ""
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewGroup
+        banner = comp.ActivityBanner.NewIntroduction
     })
 
     const saveIntroduction = () => {
@@ -105,6 +105,9 @@ const Introductions = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Stel je voor</h1>
+                </div>
                 <div id="introduction-input-container">
                     <h3>Hoi {authO.ForName}, stel jezelf voor aan de community</h3>
                     <textarea name="" id="introductions-textarea" cols="30" rows="10" placeholder={placeholder} onChange={textBody}></textarea>

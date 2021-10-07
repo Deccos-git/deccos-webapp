@@ -5,6 +5,7 @@ import firebase from "firebase"
 import { client } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { Auth } from '../StateManagment/Auth';
+import { useFirestoreContributionGraph } from "../firebase/useFirestore"
 
 const LikeBar = ({message}) => {
     const [authO] = useContext(Auth)
@@ -13,6 +14,37 @@ const LikeBar = ({message}) => {
     const allGoals = useFirestore("Goals")
     const compagny = useFirestore("CompagnyMeta")
     const id = uuid()
+
+    const currentMonth = new Date().getMonth()
+    const currentYear = new Date().getFullYear()
+
+    const getMonthYear = () => {
+        if(currentMonth === 0){
+            return `Januari ${currentYear}` 
+        } else if (currentMonth === 1){
+            return `Februari ${currentYear}` 
+        } else if (currentMonth === 2){
+            return `Maart ${currentYear}` 
+        } else if (currentMonth === 3){
+            return `April ${currentYear}` 
+        } else if (currentMonth === 4){
+            return `Mei ${currentYear}` 
+        } else if (currentMonth === 5){
+            return `Juni ${currentYear}` 
+        } else if (currentMonth === 6){
+            return `Juli ${currentYear}` 
+        } else if (currentMonth === 7){
+            return `Augustus ${currentYear}` 
+        } else if (currentMonth === 8){
+            return `September ${currentYear}` 
+        } else if (currentMonth === 9){
+            return `Oktober ${currentYear}` 
+        } else if (currentMonth === 10){
+            return `November ${currentYear}` 
+        } else if (currentMonth === 11){
+            return `December ${currentYear}` 
+        }
+    }
 
     const goalHandler = (e) => {
 
@@ -94,22 +126,58 @@ const LikeBar = ({message}) => {
                 db.collection("Messages")
                 .doc(message.docid)
                 .update({
-                    Contributions: firebase.firestore.FieldValue.arrayUnion(id)
+                        Contributions: firebase.firestore.FieldValue.arrayUnion(id)
+                    })
                 })
-            })
             .then(() => {
                 users && users.forEach(user => {
                     db.collection("Users")
                     .doc(user.docid)
                     .update({
-                        Contributions: firebase.firestore.FieldValue.arrayUnion(id)
+                            Contributions: firebase.firestore.FieldValue.arrayUnion(id)
+                        })
                     })
                 })
+                .then(() => {
+                    console.log(getMonthYear(), goal.ID)
+                    db.collection("ContributionGraph")
+                    .where("Compagny", "==", client)
+                    .where("Month", "==", getMonthYear())
+                    .where("GoalID", "==", goal.ID)
+                    .get()
+                    .then(querySnapshot => {
+                        if(querySnapshot.empty === false){
+                            querySnapshot.forEach(doc => {
+
+                                console.log("bestaat")
+
+                                db.collection("ContributionGraph")
+                                .doc(doc.id)
+                                .update({
+                                    Contributions: firebase.firestore.FieldValue.increment(1)
+                                })
+                            })
+                        } else if (querySnapshot.empty === true){
+                            console.log("bestaat niet")
+                            db.collection("ContributionGraph")
+                            .doc()
+                            .set({
+                                Month: getMonthYear(),
+                                Contributions: 1,
+                                Compagny: client,
+                                GoalID: goal.ID,
+                                GoalTitle: goal.Title,
+                                LastActive: timestamp,
+                                SDG: goal.SDG,
+                                ID: uuid()
+                            })
+                        } 
+                    })
+                })
+                .then (() => {
+                    sendAsMail()
+                })
             })
-            .then (() => {
-                sendAsMail()
-            })
-        })
     }
 
     let communityName = ""

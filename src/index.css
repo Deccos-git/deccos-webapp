@@ -280,3 +280,10 @@ textarea ::placeholder{
   display: flex;
   border: 1px solid lightgray;
 }
+
+.active{
+  background-color: lightgray;
+  padding: 3px 3px 3px 0px;
+  border-radius: 3px;
+  color: #2F2C41;
+}

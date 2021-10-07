@@ -52,6 +52,7 @@ import GoalSettingsDetail from './goals/GoalSettingsDetail';
 import GroupSettingsDetail from './GroupSettingsDetail';
 import ProfileSettings from './ProfileSettings';
 import AboutMe from './AboutMe';
+import Results from './Results';
 
 const Main = () => {
 
@@ -75,6 +76,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Start`}>
                     <Start/>
+                </Route>
+                <Route path={`/${client}/Results`}>
+                    <Results/>
                 </Route>
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>

@@ -16,6 +16,9 @@ const AllActivity = () => {
                 <LeftSideBar />
                 <LeftSideBarFullScreen/>
                 <div className="card-overview" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Alle activiteit</h1>
+                </div>
                 {docs && docs.map(doc => (
                     <ActivityCard doc={doc} key={doc.ID}/> 
                 ))} 

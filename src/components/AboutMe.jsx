@@ -23,12 +23,20 @@ const AboutMe = () => {
 
         users && users.forEach(user => {
             const aboutMe = user.AboutMe
+
+            console.log(aboutMe)
     
             aboutMe.forEach((about, index) => {
                 if(about.Title === title){
+
+                    // const index = aboutMe.indexOf(about)
+
+                    console.log(index)
                     
     
-                    console.log(index)
+                    const newAboutMe = aboutMe.filter(about => about[index])
+
+                    console.log(newAboutMe)
                 }
             })
         })
