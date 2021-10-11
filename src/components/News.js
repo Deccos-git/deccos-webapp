@@ -83,12 +83,12 @@ const News = () => {
                 </div>
                 <div className="list-container">
                     <motion.div 
-                    className="list"
+                    className="card"
                     style={{display: displayAddNew}}
                     initial="hidden"
                     animate="visible"
                     variants={variants}>
-                        <img className="list-card-banner" src={newsIcon} alt="" />
+                        <img className="card-banner" src={newsIcon} alt="" />
                         <div className="article-card-user-container">
                             <img src={authO.Photo} alt="" />
                             <p>{authO.UserName}</p>

@@ -12,6 +12,7 @@ const Settings = () => {
     const compagny = useFirestore("CompagnyMeta")
 
     const [communityName, setCommunityName] = useState("")
+    const [website, setWebsite] = useState("")
 
     const menuState = MenuStatus()
 
@@ -48,10 +49,12 @@ const Settings = () => {
     }
 
     const saveLogo = (banner) => {
-        db.collection("CompagnyMeta")
-        .doc(compagny.docid)
-        .update({
-            Logo: banner
+        compagny && compagny.forEach(comp => {
+            db.collection("CompagnyMeta")
+            .doc(comp.docid)
+            .update({
+                Logo: banner
+            })
         })
     }
 
@@ -63,11 +66,32 @@ const Settings = () => {
 
     }
 
-    const saveName = () => {
+    const saveName = (e) => {
+
+        const docid = e.target.dataset.id
         db.collection("CompagnyMeta")
-        .doc(compagny.docid)
+        .doc(docid)
         .update({
             CommunityName: communityName
+        })
+    }
+
+    const websiteHandler = (e) => {
+
+        const website = e.target.value
+
+        setWebsite(website)
+
+    }
+
+    const saveWebsite = (e) => {
+
+        const docid = e.target.dataset.id
+        
+        db.collection("CompagnyMeta")
+        .doc(docid)
+        .update({
+            Website: website
         })
     }
 
@@ -75,26 +99,33 @@ const Settings = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile" style={{display: menuState}}>
+            <div className="profile profile-auth-profile" style={{display: menuState}}>
                 {compagny && compagny.map(comp => (
-                <>
-                <div className="card-header">
-                    <h1>Bedrijfsinstellingen</h1>
-                    <p>Verander de instellingen van {comp.CommunityName}</p>
-                </div>
-                <div className="divider">
-                    <h4>Community naam aanpassen</h4>
-                    <input className="input-classic" type="text" placeholder={comp.CommunityName} onChange={communityNameHandler} />
-                    <div className="button-container button-container-top">
-                        <button className="button-simple" onClick={saveName}>Opslaan</button>
+                <div className="settings-inner-container">
+                    <div className="card-header">
+                        <h1>Bedrijfsinstellingen</h1>
+                        <p>Verander de instellingen van {comp.CommunityName}</p>
                     </div>
-                </div >
-                <div className="divider">
-                    <h4>Logo aanpassen</h4>
-                    <img src={comp.Logo} alt="" />
-                    <input className="input-classic" type="file" onChange={LogoHandler} />
-                </div >
-                </>
+                    <div className="divider">
+                        <h4>Community naam aanpassen</h4>
+                        <input className="input-classic" type="text" placeholder={comp.CommunityName} onChange={communityNameHandler} />
+                        <div className="button-container button-container-top">
+                            <button className="button-simple" data-id={comp.docid} onClick={saveName}>Opslaan</button>
+                        </div>
+                    </div >
+                    <div className="divider">
+                        <h4>Logo aanpassen</h4>
+                        <img src={comp.Logo} alt="" />
+                        <input className="input-classic" type="file" onChange={LogoHandler} />
+                    </div >
+                    <div className="divider">
+                        <h4>Website aanpassen</h4>
+                        <input className="input-classic" type="text" placeholder={comp.Website} onChange={websiteHandler} />
+                        <div className="button-container button-container-top">
+                            <button className="button-simple" data-id={comp.docid} onClick={saveWebsite}>Opslaan</button>
+                        </div>
+                    </div >
+                </div>
                 ))}
             </div>
             <RightSideBar />

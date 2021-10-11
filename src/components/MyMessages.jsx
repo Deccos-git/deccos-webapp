@@ -13,6 +13,8 @@ const MyMessages = () => {
     const history = useHistory()
     const menuState = MenuStatus()
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
     const messages = useFirestoreMyMessages("Messages", route)
 
     const messageDetail = (e) => {
@@ -32,8 +34,11 @@ const MyMessages = () => {
                     <h1>Mijn berichten</h1>
                 </div>
                 {messages && messages.map(message => (
-                    <div className="list introductions-list my-message" data-id={message.ID} key={message.ID} onClick={messageDetail}>
-                        <p>{message.Message}</p>
+                    <div className="list introductions-list my-message" key={message.ID}>
+                        <div className="introduction-list-inner-container">
+                            <h4 className="my-message-message-container" data-id={message.ID} onClick={messageDetail}>{message.Message}</h4>
+                            <p>{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        </div>
                     </div>
                 ))}
             </div>

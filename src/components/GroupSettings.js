@@ -99,30 +99,32 @@ const GroupSettings = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className='profile' style={{display: menuState}}>
-                <div className="divider card-header">
-                    <h2>Groep instellingen</h2>
-                    <p>Pas de instellingen van je groepen aan</p>
-                </div>
-                {groups && groups.map(group => (
-                <div className="divider">
-                    <h3>Community groepen</h3>
-                    <div className="channel-container" key={group.ID}>
-                        <h3>{group.Room}</h3>
-                        <div className="icon-container">
-                            <img src={settingsIcon} data-id={group.ID} onClick={channelSettings} />
+            <div className='profile profile-auth-profile' style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <div className="divider card-header">
+                        <h1>Groepen</h1>
+                        <p>Pas de instellingen van je groepen aan</p>
+                    </div>
+                    {groups && groups.map(group => (
+                    <div className="divider">
+                        <h3>Community groepen</h3>
+                        <div className="channel-container" key={group.ID}>
+                            <h3>{group.Room}</h3>
+                            <div className="icon-container">
+                                <img src={settingsIcon} data-id={group.ID} onClick={channelSettings} />
+                            </div>
                         </div>
                     </div>
-                </div>
-                ))}
-                <div className="divider">
-                    <h3>Groep toevoegen</h3>
-                    <div className="new-group-container">
-                        <p>Geef je groep een naam</p>
-                        <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newGroupTitleHandler}/>
-                    </div>
-                    <div className="button-container">
-                        <button className="button-simple" onClick={saveNewGroup}>Toevoegen</button>
+                    ))}
+                    <div className="divider">
+                        <h3>Groep toevoegen</h3>
+                        <div className="new-group-container">
+                            <p>Geef je groep een naam</p>
+                            <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newGroupTitleHandler}/>
+                        </div>
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveNewGroup}>Toevoegen</button>
+                        </div>
                     </div>
                 </div>
             </div>

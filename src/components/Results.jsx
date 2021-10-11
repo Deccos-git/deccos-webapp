@@ -2,10 +2,12 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
+import worldIcon from '../images/icons/world-icon.png'
 import { Line } from 'react-chartjs-2'
 import { useFirestoreTimestamp, useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
+import { client } from "../hooks/Client";
 
 const Results = () => {
     const [goalData, setGoalData] = useState("")
@@ -24,6 +26,7 @@ const Results = () => {
         goals && goals.forEach( async goal => {
             await db.collection("ContributionGraph")
             .where("GoalID", "==", goal.ID )
+            .where("Compagny", "==", client)
             .orderBy("LastActive", "desc")
             .get()
             .then(querySnapshot => {
@@ -42,6 +45,7 @@ const Results = () => {
 
         const totalArray = []
             db.collection("ContributionGraph")
+            .where("Compagny", "==", client)
             .orderBy("LastActive", "desc")
             .get()
             .then(querySnapshot => {
@@ -66,9 +70,11 @@ const Results = () => {
 
         const sdgArray = []
         
-        goals && goals.forEach( async goal => {
+        compagny && compagny.forEach( async comp => {
+          // comp.SDGs.forEach(sdg => {
             db.collection("ContributionGraph")
-            .where("SDG", "==", goal.SDG)
+            .where("Compagny", "==", client)
+            .where("SDG", "==", sdg)
             .orderBy("LastActive", "desc")
             .get()
             .then(querySnapshot => {
@@ -79,8 +85,9 @@ const Results = () => {
 
                 setSdg(sdgArray)
             })
-        })
-    }, [goals])
+          })
+        // })
+    }, [compagny])
 
     console.log(sdg)
 
@@ -94,10 +101,14 @@ const Results = () => {
                 </div>
                 <div className="profile profile-results">
                     <div className="divider">
-                        <h2>Doelen</h2>
+                      <div className="results-container">
+                      <h2>Doelen</h2>
                         {goalData && goalData.map(goal => (
                             <div key={goal.ID}>
+                              <div className="goal-title-container">
+                                <img src={worldIcon} alt="" />
                                 <h3>{goal.GoalTitle}</h3>
+                              </div>
                                 <p>{goal.SDG}</p>
                                 <div>
                                     <Line data={{
@@ -126,12 +137,44 @@ const Results = () => {
                                 </div>
                             </div>
                         ))}
+                      </div>
                     </div>
                     <div className="divider">
+                      <div className="results-container">
                         <h2>Totale bijdragen</h2>
-
+                        {total && total.map(tot => (
+                            <div key={tot.ID}>
+                                <div>
+                                    <Line data={{
+                                         labels: [tot.Month],
+                                         datasets: [
+                                           {
+                                             label: 'Aantal bijdragen',
+                                             data: [tot.Contributions],
+                                             fill: false,
+                                             backgroundColor: 'green',
+                                             borderColor: 'green',
+                                           },
+                                         ],
+                                    }} 
+                                    options={{
+                                        scales: {
+                                          yAxes: [
+                                            {
+                                              ticks: {
+                                                beginAtZero: true,
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      }} />
+                                </div>
+                            </div>
+                        ))}
+                        </div>
                     </div>
                     <div className="divider">
+                      <div className="results-container">
                         <h2>SDG bijdragen</h2>
                         {sdg && sdg.map(sd => (
                             <div key={sd.ID}>
@@ -162,7 +205,8 @@ const Results = () => {
                                       }} />
                                 </div>
                             </div>
-                        ))}           
+                        ))} 
+                        </div>          
                     </div>
                 </div>  
             </div>

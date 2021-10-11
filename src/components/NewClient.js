@@ -13,6 +13,7 @@ import MenuStatus from "../hooks/MenuStatus";
 const NewClient = () => {
     const [compagnyName, setCompagnyName] = useState("")
     const [communityName, setCommunityName] = useState("")
+    const [website, setWebsite] = useState("")
     const [logo, setLogo] = useState("")
     const [loader, setLoader] = useState("")
 
@@ -30,6 +31,12 @@ const NewClient = () => {
     const communityNameHandler = (e) => {
         const name = e.target.value 
         setCommunityName(name)
+
+    }
+
+    const websiteHandler = (e) => {
+        const website = e.target.value 
+        setWebsite(website)
 
     }
 
@@ -81,6 +88,7 @@ const NewClient = () => {
            Logo: logo,
            Members: [],
            ID: id,
+           Website: website,
            Rules: [],
            Timestamp: timestamp,
            ActivityBanner: [{
@@ -130,15 +138,7 @@ const NewClient = () => {
             })
         })
         .then(() => {
-            db.collection("Route")
-            .doc()
-            .set({
-                Compagny: compagnyName,
-                Route: ""
-            })
-        })
-        .then(() => {
-            history.push(`/${compagnyName}/Start`) 
+            history.push(`/${compagnyName}`) 
         })
 
     }
@@ -147,31 +147,37 @@ const NewClient = () => {
         <div className="main">
         <LeftSideBarAuthProfile />
         <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile" style={{display: menuState}}>
-            <div className="card-header">
-                <h2>Nieuwe klant</h2>
-                <p>Maak een nieuwe klant aan</p>
-            </div>
-            <form >
-                <div className="divider">
-                    <p>Bedrijfsnaam</p>
-                    <input onChange={compagnyNameHandler} type="text" placeholder="Schrijf hier de bedrijfsnaam" />
+        <div className="profile profile-auth-profile" style={{display: menuState}}>
+            <div className="settings-inner-container">
+                <div className="card-header">
+                    <h2>Nieuwe klant</h2>
+                    <p>Maak een nieuwe klant aan</p>
                 </div>
-                <div className="divider">
-                    <p>Community naam</p>
-                    <input onChange={communityNameHandler} type="text" placeholder="Schrijf hier de communitynaam" />
-                </div>
-                <div className="divider">
-                    <p>Logo</p>
-                    <input type="file" onChange={logoHandler} />
-                    <div className="spinner-container">
-                        <img src={loader} alt="" />
+                <form >
+                    <div className="divider">
+                        <p>Bedrijfsnaam</p>
+                        <input onChange={compagnyNameHandler} type="text" placeholder="Schrijf hier de bedrijfsnaam" />
                     </div>
-                </div>
-                <div className="button-container">
-                    <button onClick={saveNewClient}>Opslaan</button>
-                </div>
-            </form>
+                    <div className="divider">
+                        <p>Community naam</p>
+                        <input onChange={communityNameHandler} type="text" placeholder="Schrijf hier de communitynaam" />
+                    </div>
+                    <div className="divider">
+                        <p>Website</p>
+                        <input onChange={websiteHandler} type="text" placeholder="Schrijf hier de communitynaam" />
+                    </div>
+                    <div className="divider">
+                        <p>Logo</p>
+                        <input type="file" onChange={logoHandler} />
+                        <div className="spinner-container">
+                            <img src={loader} alt="" />
+                        </div>
+                    </div>
+                    <div className="button-container">
+                        <button onClick={saveNewClient}>Opslaan</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <RightSideBar />
     </div>

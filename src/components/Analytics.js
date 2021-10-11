@@ -14,9 +14,22 @@ const Analytics = () => {
             <div className="main">
                 <LeftSideBarAuthProfile />
                 <LeftSideBarAuthProfileFullScreen/>
-                <div className="card-overview" style={{display: menuState}}>
-                    <h1>Analytics</h1>
-                    <p>Analyseer de inzichten van je community</p>
+                <div className="profile profile-auth-profile" style={{display: menuState}}>
+                    <div className="settings-inner-container">
+                        <div className="divider card-header">
+                            <h1>Analytics</h1>
+                            <p>Analyseer de ontwikkeling van je community</p>
+                        </div>
+                        <div className='divider'>
+                            <h2>Leden</h2>
+                        </div>
+                        <div className='divider'>
+                            <h2>Interactie</h2>
+                        </div>
+                        <div className='divider'>
+                            <h2>Bijdragen aan doelen</h2>
+                        </div>
+                    </div>  
                 </div>
                 <RightSideBar />
             </div>

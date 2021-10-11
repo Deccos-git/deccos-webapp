@@ -24,9 +24,11 @@ const MyContributions = () => {
             </div>
            {contributions && contributions.map(contribution => (
                <div className="list introductions-list my-message" key={contribution.ID}>
-                   <p>Bijdrage geleverd aan doel:</p>
-                   <h3>{contribution.GoalName}</h3>
-                   <p>{contribution.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                   <div className="introduction-list-inner-container">
+                    <p>Bijdrage geleverd aan doel:</p>
+                    <h3>{contribution.GoalName}</h3>
+                    <p>{contribution.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                   </div>
                </div>
            ))}
        </div>

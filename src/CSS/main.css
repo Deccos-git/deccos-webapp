@@ -12,6 +12,17 @@
     text-align: center;
 }
 
+.goal-title-container{
+    display: flex;
+    align-items: center;
+}
+
+.goal-title-container img{
+    height: 25px;
+    width: 25px;
+    margin-right: 10px;
+}
+
 .page-header{
     width: 80%;
     background-color: white;
@@ -77,6 +88,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80%;
   }
 
   .delete-channel{
@@ -98,13 +110,15 @@
   }
 
   .profile{
-    width: 55%;
     background-color: white;
     margin-top: 20px;
-    padding: 20px;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
+  }
+
+  .results-container{
+      padding: 20px;
   }
 
   .list img{
@@ -564,6 +578,7 @@
       border-radius: 5px;
       margin: 30px;
       text-align: center;
+      width: 80%;
   }
 
   .contribution-card-ul{
@@ -579,7 +594,7 @@
     margin: 30px;
     padding: 10px;
     text-align: center;
-    width: 90%;
+    width: 80%;
   }
 
   .introduction-card img{
@@ -600,7 +615,7 @@
   }
 
   #search-container{
-      width: 100%;
+      width: 80%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -739,6 +754,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 80%;
+  }
+
+  .button-verification{
+      margin: 20px;
+  }
+
+  .settings-inner-container{
+      padding: 20px;
+  }
+
+  .radio-input-container{
+      display: flex;
+  }
+
+  .radio-input-container input{
+      width: auto;
+      box-shadow: none;
+  }
+
+  .profile-auth-profile{
+      width: 80%;
+  }
+
+  .profile-inner-container{
+      padding: 20px;
   }
 
   .allActivity-user-photo{
@@ -919,13 +960,16 @@
   }
 
   .notification-card{
-      padding: 20px;
-    width: 90%;
+    width: 80%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin: 30px 30px 30px 30px;
     border-radius: 5px;
     background-color: #FFF;
     text-align: center;
+  }
+
+  .notification-card-inner-container{
+      padding: 20px;
   }
 
   .notification-card p{
@@ -1183,9 +1227,18 @@
       margin-right: 5px;
   }
 
+  .my-message-message-container{
+      cursor: pointer;
+  }
+
   .introductions-list{
       min-height: 100px;
-      padding: 20px;
+      flex-direction: column;
+      width: 80%;
+  }
+
+  .introduction-list-inner-container{
+      padding: 15px;
   }
 
   .introductions-list input{

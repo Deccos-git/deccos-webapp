@@ -156,61 +156,63 @@ const WelcomeSettings = () => {
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             {compagnies && compagnies.map(compagny => (
-            <div className='profile' key={compagny.ID} style={{display: menuState}}>
-                <div className="divider card-header">
-                    <h2>Welkom instellingen</h2>
-                    <p>Pas de instellingen van de welkomspagina van je community</p>
-                </div>
-                <div className="divider">
-                    <h4>Welkomsbanner aanpassen</h4>
-                    <img id="welcome-banner" src={compagny.WelcomeHeader} alt="" />
-                    <input className="input-classic" onChange={photoHandler} type="file" />
-                </div>
-                <div className="divider">
-                    <h4>Welkomstext aanpassen</h4>
-                    <Editor onChange={bodyHandler}
-                        apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
-                        initialValue={compagny.WelcomeText}
-                        onInit={(evt, editor) => editorRef.current = editor}
-                        init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'advlist autolink lists link image charmap print preview anchor',
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste code help'
-                        ],
-                        toolbar: 'undo redo | formatselect | ' +
-                        'bold italic backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                        content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
-                        }}
-                        />
-                    <div className="button-container button-container-top">
-                        <button className="button-simple" onClick={saveWelcomeText}>Opslaan</button>
+            <div className='profile profile-auth-profile' key={compagny.ID} style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <div className="divider card-header">
+                        <h1>Welkom</h1>
+                        <p>Pas de instellingen van de welkomspagina van {compagny.CommunityName}</p>
                     </div>
-                </div >
-                <div className="divider">
-                    <h4>Community regels aanpassen</h4>
-                    <div className="rule-input-container">
-                        <p>1.</p>
-                        <input type="text" placeholder={ruleOne} onChange={ruleOneHandler}/>
+                    <div className="divider">
+                        <h4>Welkomsbanner aanpassen</h4>
+                        <img id="welcome-banner" src={compagny.WelcomeHeader} alt="" />
+                        <input className="input-classic" onChange={photoHandler} type="file" />
                     </div>
-                    <div className="rule-input-container">
-                        <p>2.</p>
-                        <input type="text" placeholder={ruleTwo} onChange={ruleTwoHandler}/>
-                    </div>
-                    <div className="rule-input-container">
-                        <p>3.</p>
-                        <input type="text" placeholder={ruleThree} onChange={ruleThreeHandler}/>
-                    </div>
-                    <div className="rule-input-container">
-                        <p>4.</p>
-                        <input type="text" placeholder={ruleFour} onChange={ruleFourHandler}/>
-                    </div>
-                    <div className="button-container button-container-top">
-                        <button className="button-simple" onClick={saveRules}>Opslaan</button>
+                    <div className="divider">
+                        <h4>Welkomstext aanpassen</h4>
+                        <Editor onChange={bodyHandler}
+                            apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
+                            initialValue={compagny.WelcomeText}
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            init={{
+                            height: 500,
+                            menubar: false,
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help'
+                            ],
+                            toolbar: 'undo redo | formatselect | ' +
+                            'bold italic backcolor | alignleft aligncenter ' +
+                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                            'removeformat | help',
+                            content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
+                            }}
+                            />
+                        <div className="button-container button-container-top">
+                            <button className="button-simple" onClick={saveWelcomeText}>Opslaan</button>
+                        </div>
+                    </div >
+                    <div className="divider">
+                        <h4>Community regels aanpassen</h4>
+                        <div className="rule-input-container">
+                            <p>1.</p>
+                            <input type="text" placeholder={ruleOne} onChange={ruleOneHandler}/>
+                        </div>
+                        <div className="rule-input-container">
+                            <p>2.</p>
+                            <input type="text" placeholder={ruleTwo} onChange={ruleTwoHandler}/>
+                        </div>
+                        <div className="rule-input-container">
+                            <p>3.</p>
+                            <input type="text" placeholder={ruleThree} onChange={ruleThreeHandler}/>
+                        </div>
+                        <div className="rule-input-container">
+                            <p>4.</p>
+                            <input type="text" placeholder={ruleFour} onChange={ruleFourHandler}/>
+                        </div>
+                        <div className="button-container button-container-top">
+                            <button className="button-simple" onClick={saveRules}>Opslaan</button>
+                        </div>
                     </div>
                 </div>
             </div>

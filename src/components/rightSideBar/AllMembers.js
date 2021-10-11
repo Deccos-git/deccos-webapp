@@ -5,8 +5,15 @@ import { useHistory } from "react-router-dom";
 
 const AllMembers = () => {
 
-    const docs = useFirestore("CompagnyMeta")
+    const users = useFirestore("Users")
+    const compagny = useFirestore("CompagnyMeta")
     const history = useHistory()
+
+    let communityName = null
+
+    compagny && compagny.forEach(comp => {
+        communityName = comp.CommunityName
+    })
 
     const updateRoute = (e) => {
 
@@ -17,16 +24,13 @@ const AllMembers = () => {
 
     return (
         <div className="all-members-container">
-            {docs && docs.map(doc => (
-                <div key={doc.ID}>
-                    <h3>Leden van {doc.CommunityName}</h3>
-                    {doc.Members.map(member => (
-                             <div className="all-members-member-container" key={member.ID}>
-                                <img src={member.Photo} alt="" id={member.ID} onClick={updateRoute} />
-                                <p id={member.ID} onClick={updateRoute}>{member.UserName}</p>
-                            </div>
-                       
-                    ))}     
+            <h3>Leden van {communityName}</h3>
+            {users && users.map(user => (
+                <div key={user.ID}>
+                    <div className="all-members-member-container">
+                        <img src={user.Photo} alt="" id={user.ID} onClick={updateRoute} />
+                        <p id={user.ID} onClick={updateRoute}>{user.UserName}</p>
+                    </div>   
                 </div>
             ))} 
             <div>

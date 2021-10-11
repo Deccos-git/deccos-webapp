@@ -53,6 +53,7 @@ import GroupSettingsDetail from './GroupSettingsDetail';
 import ProfileSettings from './ProfileSettings';
 import AboutMe from './AboutMe';
 import Results from './Results';
+import NotApproved from './NotApproved';
 
 const Main = () => {
 
@@ -67,6 +68,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ProfileSettings`}>
                     <ProfileSettings/>
+                </Route>
+                <Route path={`/${client}/NotApproved`}>
+                    <NotApproved/>
                 </Route>
                 <Route exact path={`/${client}/`}>
                     <AllActivity/>

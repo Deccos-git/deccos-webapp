@@ -43,26 +43,28 @@ const ChannelSettings = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className='profile' style={{display: menuState}}>
-                <div className="divider card-header">
-                    <h2>Kanaal instellingen</h2>
-                    <p>Pas de instellingen van je kanalen aan</p>
-                </div>
-                <div className="divider">
-                    <h3>Community kanalen</h3>
-                    {channels && channels.map(channel =>(
-                    <div className="channel-container" data-id={channel.ID}>
-                        <h3>{channel.Name}</h3>
-                        <div className="icon-container">
-                            <img src={settingsIcon} data-id={channel.ID} onClick={channelSettings} />
-                        </div>
+            <div className='profile profile-auth-profile' style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <div className="divider card-header">
+                        <h1>Kanalen</h1>
+                        <p>Pas de instellingen van je kanalen aan</p>
                     </div>
-                    ))}
-                </div>
-                <div className="divider">
-                    <h3>Kanaal toevoegen</h3>
-                    <div className="button-container">
-                        <img className="add-channel-icon" src={plusIcon} onClick={newChannel}/>
+                    <div className="divider">
+                        <h3>Community kanalen</h3>
+                        {channels && channels.map(channel =>(
+                        <div className="channel-container" data-id={channel.ID}>
+                            <h3>{channel.Name}</h3>
+                            <div className="icon-container">
+                                <img src={settingsIcon} data-id={channel.ID} onClick={channelSettings} />
+                            </div>
+                        </div>
+                        ))}
+                    </div>
+                    <div className="divider">
+                        <h3>Kanaal toevoegen</h3>
+                        <div className="button-container">
+                            <img className="add-channel-icon" src={plusIcon} onClick={newChannel}/>
+                        </div>
                     </div>
                 </div>
             </div>

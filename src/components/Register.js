@@ -136,7 +136,6 @@ const RegisterUser = () => {
                 Author: false,
                 Admin: false,
                 Deleted: false,
-                Likes: 0,
                 About: "",
                 Docid: cred.user.uid,
                 Contributions: []

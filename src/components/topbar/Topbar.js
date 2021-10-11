@@ -35,7 +35,7 @@ const Topbar = () => {
             <div className="left-side-bar-toggle">
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>
-            <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
+            <a href={`${website}`} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
             <div className="iconbar-external-container">
                 <Iconbar/>
             </div>

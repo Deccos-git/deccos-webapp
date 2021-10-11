@@ -107,6 +107,24 @@ const ChatRoom = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const linkInText = (message) => {
+    
+        const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+        const links = message.Message.match(urlRegex)
+    
+        if(links != null){
+    
+            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+    
+            return newText
+    
+        } else {
+    
+            return message.Message
+        }
+    
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -137,7 +155,7 @@ const ChatRoom = () => {
                                 <button onClick={sendAsMail}>Verstuur bericht als email</button>
                             </div>
                         </div>
-                        <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
+                        <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                     </div>
                 ))}
                 <MessageBarGroup route={route} auth={authO} />

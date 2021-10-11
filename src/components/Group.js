@@ -102,6 +102,24 @@ const Group = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const linkInText = (message) => {
+    
+        const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+        const links = message.Message.match(urlRegex)
+    
+        if(links != null){
+    
+            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+    
+            return newText
+    
+        } else {
+    
+            return message.Message
+        }
+    
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -120,7 +138,7 @@ const Group = () => {
                                 <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                                 <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
-                            <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
+                            <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                             <div className="send-as-mail-container">
                                 <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
                                 <div style={{display: showSendMail}}>

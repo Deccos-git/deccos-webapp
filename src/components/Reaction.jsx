@@ -30,6 +30,24 @@ const Reaction = ({message}) => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const linkInText = (message) => {
+    
+        const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+        const links = message.Message.match(urlRegex)
+    
+        if(links != null){
+    
+            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+    
+            return newText
+    
+        } else {
+    
+            return message.Message
+        }
+    
+    }
+
     return (
         <div className="reaction-inner-container" key={message.ID}>
             <div className="auth-message-container">
@@ -41,7 +59,7 @@ const Reaction = ({message}) => {
                     <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                 </div>
                 <div className="message-container">
-                    <div className="massage" dangerouslySetInnerHTML={{__html:message.Message}}></div>
+                    <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                 </div>
                 <div className="like-container">
                     <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>

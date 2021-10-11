@@ -58,25 +58,27 @@ const AboutMe = () => {
         <div className="main">
              <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-             <div className="profile" style={{display: menuState}}>
-                 <h1>Over mij</h1>
-                 <div className="divider about-me-user-text">
-                    <h2>Mijn antwoorden</h2>
-                    {aboutMe && aboutMe.map(about => (
-                        <div key={about.ID}>
-                            <h3>{about.Title}</h3>
-                            <p>{about.Value}</p>
-                        </div>
-                    ))}
-                 </div>
-                 <div className="divider">
-                     <h2>Antwoorden aanpassen</h2>
-                    {profileFields && profileFields.map(field => (
-                        <div key={field.ID}>
-                            <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
-                            <div data-title={field.Title} dangerouslySetInnerHTML={{ __html: field.Button }} onClick={saveField}></div>
-                        </div>
-                    ))}
+             <div className="profile profile-auth-profile" style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <h1>Over mij</h1>
+                    <div className="divider about-me-user-text">
+                        <h2>Mijn antwoorden</h2>
+                        {aboutMe && aboutMe.map(about => (
+                            <div key={about.ID}>
+                                <h3>{about.Title}</h3>
+                                <p>{about.Value}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="divider">
+                        <h2>Antwoorden aanpassen</h2>
+                        {profileFields && profileFields.map(field => (
+                            <div key={field.ID}>
+                                <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                                <div data-title={field.Title} dangerouslySetInnerHTML={{ __html: field.Button }} onClick={saveField}></div>
+                            </div>
+                        ))}
+                    </div>
                  </div>
              </div>
              <RightSideBar />

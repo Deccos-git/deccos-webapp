@@ -52,7 +52,7 @@ const LeftSideBarAuthProfile = () => {
                             <Link to={`/${client}/Members`}>Leden</Link>
                             <Link to={`/${client}/UserRoles`}>Gebruikersrollen</Link>
                             <div className="notification-sidebar-container">
-                                <Link to={`/${client}/Registrations`}>Aanmeldingen</Link>
+                                <Link to={`/${client}/Registrations`}>Aanmelden</Link>
                                 <p style={{display: showNotification}} className="notification-counter-small"></p>
                             </div>
                             <Link to={`/${client}/ChannelSettings`}>Kanalen</Link>

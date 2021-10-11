@@ -59,10 +59,10 @@ const Members = () => {
                 <LeftSideBarAuthProfile />
                 <LeftSideBarAuthProfileFullScreen/>
                 {compagnies && compagnies.map(compagny => (
-                <div className="profile" key={compagny.ID} style={{display: menuState}}>
+                <div className="profile profile-auth-profile" key={compagny.ID} style={{display: menuState}}>
                     <div className="card-header">
-                        <h2>Leden van de community</h2>
-                        <p>Bekijk alle {compagny.Members.length} leden van de community</p>
+                        <h1>Leden</h1>
+                        <p>Bekijk alle {compagny.Members.length} leden van {compagny.CommunityName}</p>
                     </div>
                     {docs && docs.map(doc => (
                         <div id="members-container" key={doc.ID}>

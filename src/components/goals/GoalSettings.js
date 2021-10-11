@@ -30,25 +30,27 @@ const GoalSettings = () => {
         <div className="main">
         <LeftSideBarAuthProfile />
         <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile" style={{display: menuState}}>
-            <div className="divider card-header">
-                <h2>Impact instellingen</h2>
-                <p>Pas de impact instellingen aan</p>
-            </div>
-            <div className="divider">
-                <h3>Community doelen</h3>
-                {goals && goals.map(goal => (
-                    <div className="channel-container">
-                        <p>{goal.Title}</p>
-                        <div className="icon-container">
-                            <img src={settingsIcon} data-id={goal.ID} onClick={goalSettings} />
+        <div className="profile profile-auth-profile" style={{display: menuState}}>
+            <div className="settings-inner-container">
+                <div className="divider card-header">
+                    <h1>Doelen</h1>
+                    <p>Pas de impact instellingen aan</p>
+                </div>
+                <div className="divider">
+                    <h3>Community doelen</h3>
+                    {goals && goals.map(goal => (
+                        <div className="channel-container">
+                            <p>{goal.Title}</p>
+                            <div className="icon-container">
+                                <img src={settingsIcon} data-id={goal.ID} onClick={goalSettings} />
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-            <div className="divider">
-                <h3>Maak een nieuw doel</h3>
-                <Link to={`/${client}/AddGoal`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
+                    ))}
+                </div>
+                <div className="divider">
+                    <h3>Maak een nieuw doel</h3>
+                    <Link to={`/${client}/AddGoal`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
+                </div>
             </div>
         </div>
         <RightSideBar />

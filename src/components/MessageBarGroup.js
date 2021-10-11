@@ -14,7 +14,6 @@ import Location from "../hooks/Location"
 const MessageBarGroup = () => {
     const [authO] = useContext(Auth)
     const [Message, setMessage] = useState("")
-    const [checkedMessage, setCheckedMessage] = useState("")
     const [fileDisplay, setFileDisplay] = useState("none")
     const [progressBar, setProgressBar] = useState("")
 
@@ -36,34 +35,15 @@ const MessageBarGroup = () => {
         banner = comp.ActivityBanner.NewMessage
     })
     
-   const linkInText = () => {
-    
-    const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-    const links = Message.match(urlRegex)
-
-    if(links != null){
-
-        const newText = Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
-
-        setCheckedMessage(newText)
-
-    } else {
-        setCheckedMessage(Message)
-    }
-
-   }
-
     const submitMessage = () => {
 
-        linkInText()
-
         setTimeout(() => {
-            console.log(checkedMessage)
+
             db.collection("Messages")
             .doc()
             .set({
                 Type: "Message",
-                Message: checkedMessage,
+                Message: Message,
                 Timestamp: timestamp,
                 ParentID: route,
                 ID: id,

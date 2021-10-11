@@ -50,9 +50,6 @@ const Search = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="card-overview">
-                <div className="page-header">
-                        <h1>Zoek</h1>
-                </div>
                 <div id="search-container" style={{display: menuState}}>
                 <InstantSearch indexName="Deccos" searchClient={searchClient}>
                     <div className="right-panel">

@@ -32,10 +32,12 @@ const MyGroups = () => {
                 <h1>Mijn groepen</h1>
             </div>
             {groups && groups.map(group => (
-                <div className="list introductions-list my-message" data-id={group.ID} onClick={groupDetail}>
-                    <h2>{group.Room}</h2>
-                    <p>Aantal leden: {group.Members.length}</p>
-                    <p>Aantal berichten: {group.Messages}</p>
+                <div className="list introductions-list my-message">
+                    <div className="introduction-list-inner-container">
+                        <h2 data-id={group.ID} onClick={groupDetail}>{group.Room}</h2>
+                        <p>Aantal leden: {group.Members.length}</p>
+                        <p>Aantal berichten: {group.Messages}</p>
+                    </div>
                 </div>
             ))}
             </div>

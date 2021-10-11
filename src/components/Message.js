@@ -51,13 +51,31 @@ const Message = ({message}) => {
 
     }
 
+    const linkInText = (message) => {
+    
+        const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+        const links = message.Message.match(urlRegex)
+    
+        if(links != null){
+    
+            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+    
+            return newText
+    
+        } else {
+    
+            return message.Message
+        }
+    
+    }
+
     return (
         <div className="message-card" >
             <div className="auth-message-container">
                 <p className="auth-name">{message.User}</p>
                 <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
-            <div dangerouslySetInnerHTML={{__html:message.Message}}></div>
+            <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
             <p onClick={showContributions} data-id={message.ID}>Aantal bijdragen: {message.Contributions.length}</p>
             < ReactionBar message={message} />
             < LikeBar />

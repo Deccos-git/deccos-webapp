@@ -84,30 +84,47 @@ const Registrations = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile" style={{display: menuState}}>
-                <div className="card-header">
-                    <h2>Aanmelden</h2>
-                    <p>Beheer de instellingen van het aanmeldproces</p>
-                </div>
-                <div className="divider">
-                    <h3>Nieuwe aanmeldingen</h3>
-                    {notApprovedUsers && notApprovedUsers.map(user => (
-                         <div className="userrole-users-container" key={user.ID}>
-                            <img src={user.Photo} alt="" />
-                            <p>{user.UserName}</p>
-                            <p 
-                            className="userrole-users-approve-button" 
-                            data-id={user.Docid}
-                            data-userid={user.ID}
-                            data-forname={user.ForName} 
-                            data-surname={user.SurName}
-                            data-photo={user.Photo}
-                            onClick={approveAdmin}>
-                            Goedkeuren
-                            </p>
+            <div className="profile profile-auth-profile" style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <div className="card-header">
+                        <h1>Aanmelden</h1>
+                        <p>Beheer de instellingen van het aanmeldproces</p>
+                    </div>
+                    <div className="divider">
+                        <h3>Nieuwe aanmeldingen</h3>
+                        {notApprovedUsers && notApprovedUsers.map(user => (
+                            <div className="userrole-users-container" key={user.ID}>
+                                <img src={user.Photo} alt="" />
+                                <p>{user.UserName}</p>
+                                <p 
+                                className="userrole-users-approve-button" 
+                                data-id={user.Docid}
+                                data-userid={user.ID}
+                                data-forname={user.ForName} 
+                                data-surname={user.SurName}
+                                data-photo={user.Photo}
+                                onClick={approveAdmin}>
+                                Goedkeuren
+                                </p>
+                            </div>
+                        ))}
+                    </div> 
+                    <div className='divider'>
+                        <div className="verification-methode-container">
+                            <h3>Verificatie methode</h3>
+                            <p>Selecteer de verificatiemethode voor nieuwe leden</p>
+                            <div className="radio-input-container">
+                                <input type="radio" name="verification-methode" id="" />
+                                <label htmlFor="verifcation-methode">Verificatie via email</label>
+                            </div>
+                            <div className="radio-input-container">
+                                <input type="radio" name="verification-methode" id="" />
+                                <label htmlFor="verifcation-methode">Verificatie door admin</label>
+                            </div>
+                            <button className="button-simple button-verification">Opslaan</button>
                         </div>
-                    ))}
-                </div>    
+                    </div>
+                </div>   
             </div>
             <RightSideBar/>
         </div>

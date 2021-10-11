@@ -19,6 +19,16 @@ const Start = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+    
+    let communityTitle = null
+
+    docs && docs.forEach(doc => {
+        if(doc.Rules.length === 0){
+            return
+        } else if(doc.Rules.length > 0){
+            communityTitle = "Onze community regels"
+        }
+    })
 
     return (
         <div className="main">
@@ -42,7 +52,7 @@ const Start = () => {
                             </div>
                             <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
                             <div>
-                                <h3>Onze community regels</h3>
+                                <h3>{communityTitle}</h3>
                                 <ul>
                                     {doc.Rules.map(rule => (
                                         <li dangerouslySetInnerHTML={{ __html: rule }} key={rule.ID}></li>

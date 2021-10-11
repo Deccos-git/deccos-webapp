@@ -106,43 +106,45 @@ const ProfileSettings = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile" style={{display: menuState}}>
-                <div className="card-header">
-                    <h1>Profiel instellingen</h1>
-                    <p>Beheer de instellingen van de gebruikersprofielen</p>
-                </div>
-                <div className="divider">
-                    <h2>Profielvelden</h2>
-                    {profileFields && profileFields.map(field => (
-                        <div>
-                            <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
-                            <img onClick={deleteField} data-title={field.Title} data-id={field.docid} className="profile-settings-delete-icon" src={deleteIcon} alt="" />
+            <div className="profile profile-auth-profile" style={{display: menuState}}>
+                <div className="settings-inner-container">
+                    <div className="card-header">
+                        <h1>Profielen</h1>
+                        <p>Beheer de instellingen van de gebruikersprofielen</p>
+                    </div>
+                    <div className="divider">
+                        <h2>Profielvelden</h2>
+                        {profileFields && profileFields.map(field => (
+                            <div>
+                                <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                                <img onClick={deleteField} data-title={field.Title} data-id={field.docid} className="profile-settings-delete-icon" src={deleteIcon} alt="" />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="divider">
+                        <h2>Veld toevoegen</h2>
+                        <div className="add-registration-field-container" >
+                            <img className="drag-icon" src={plusIcon} data-html={textFieldHTML()} data-type={"TextField"}  onClick={addField} />
+                            <p>Textveld</p>
+                            <input onChange={titleHandler} type="text" placeholder="Geef je textveld een titel" />
+                            <img src={RegistrationField} alt="" />
                         </div>
-                    ))}
-                </div>
-                <div className="divider">
-                    <h2>Veld toevoegen</h2>
-                    <div className="add-registration-field-container" >
-                        <img className="drag-icon" src={plusIcon} data-html={textFieldHTML()} data-type={"TextField"}  onClick={addField} />
-                        <p>Textveld</p>
-                        <input onChange={titleHandler} type="text" placeholder="Geef je textveld een titel" />
-                        <img src={RegistrationField} alt="" />
-                    </div>
-                    <div className="add-registration-field-container" data-type={"TextArea"} >
-                        <img className="drag-icon" src={plusIcon} data-type={"TextArea"}  onClick={addField} />
-                        <p data-type={"textArea"}>Textvak</p>
-                        <textarea onChange={titleHandler} type="text" placeholder="Geef je textvak een titel" />
-                        <img data-type={"textArea"} src={RegistrationArea} alt="" />
-                    </div>
-                    <div className="add-registration-field-container" data-type={"Radio"} >
-                        <img className="drag-icon" src={plusIcon} alt="" />
-                        <p data-type={"radio"}>Meerkeuze knoppen</p>
-                        <img data-type={"radio"} src={RegistrationRadio} alt="" />
-                    </div>
-                    <div className="add-registration-field-container" data-type={"Dropdown"} >
-                        <img className="drag-icon" src={plusIcon} alt="" />
-                        <p data-type={"dropdown"} >Meerkeuze lijst</p>
-                        <img data-type={"dropdown"} src={RegistrationDropdown} alt="" />
+                        <div className="add-registration-field-container" data-type={"TextArea"} >
+                            <img className="drag-icon" src={plusIcon} data-type={"TextArea"}  onClick={addField} />
+                            <p data-type={"textArea"}>Textvak</p>
+                            <textarea onChange={titleHandler} type="text" placeholder="Geef je textvak een titel" />
+                            <img data-type={"textArea"} src={RegistrationArea} alt="" />
+                        </div>
+                        <div className="add-registration-field-container" data-type={"Radio"} >
+                            <img className="drag-icon" src={plusIcon} alt="" />
+                            <p data-type={"radio"}>Meerkeuze knoppen</p>
+                            <img data-type={"radio"} src={RegistrationRadio} alt="" />
+                        </div>
+                        <div className="add-registration-field-container" data-type={"Dropdown"} >
+                            <img className="drag-icon" src={plusIcon} alt="" />
+                            <p data-type={"dropdown"} >Meerkeuze lijst</p>
+                            <img data-type={"dropdown"} src={RegistrationDropdown} alt="" />
+                        </div>
                     </div>
                 </div>
             </div>

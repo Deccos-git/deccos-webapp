@@ -10,6 +10,8 @@ const MyIntroduction = () => {
     const route = Location()[3]
     const menuState = MenuStatus()
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
     const introductions = useFirestoreIntroductions("Introductions", route)
     
     return (
@@ -22,7 +24,10 @@ const MyIntroduction = () => {
                 </div>
                 {introductions && introductions.map(introduction => (
                     <div className="list introductions-list" style={{display: menuState}}>
-                        <p>{introduction.Body}</p>
+                        <div className="introduction-list-inner-container">
+                            <h4>{introduction.Body}</h4>
+                            <p>{introduction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        </div>
                     </div>
                 ))}
              </div>
