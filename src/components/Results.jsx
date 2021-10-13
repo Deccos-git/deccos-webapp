@@ -139,7 +139,7 @@ const Results = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="divider">
+                    {/* <div className="divider">
                       <div className="results-container">
                         <h2>Totale bijdragen</h2>
                         {total && total.map(tot => (
@@ -207,7 +207,7 @@ const Results = () => {
                             </div>
                         ))} 
                         </div>          
-                    </div>
+                    </div> */}
                 </div>  
             </div>
             <RightSideBar />

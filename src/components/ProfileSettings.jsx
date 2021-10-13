@@ -82,7 +82,7 @@ const ProfileSettings = () => {
             Title: title,
             Position: position,
             Template: true,
-            Button: `<button className="button-simple button-about-me" >Opslaan</button>`
+            Button: `<button class="button-simple button-about-me" >Opslaan</button>`
         })
     }
 

@@ -89,7 +89,7 @@ const ChannelSettingsDetail = () => {
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             {channels && channels.map(channel => (
-                <div className='profile' style={{display: menuState}}>
+                <div className='profile profile-auth-profile' style={{display: menuState}}>
                     <div className="divider card-header">
                         <h2>{channel.Name} instellingen</h2>
                         <p>Pas de instellingen van het kanaal {channel.Name} aan</p>

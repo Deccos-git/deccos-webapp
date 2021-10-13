@@ -18,8 +18,6 @@ const MyGroups = () => {
     const groupDetail = (e) => {
         const id = e.target.dataset.id
 
-        console.log(id)
-
         history.push(`/${client}/Group/${id}`)
     }
 

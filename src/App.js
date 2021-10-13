@@ -14,7 +14,6 @@ import { HTML5Backend }  from 'react-dnd-html5-backend'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
 
-
 function App() {
 
   const [online, setOnline] = useState(false)

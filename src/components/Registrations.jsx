@@ -7,8 +7,10 @@ import { client } from "../hooks/Client";
 import { useFirestore } from "../firebase/useFirestore";
 import firebase from "firebase";
 import MenuStatus from "../hooks/MenuStatus";
+import { useState } from "react";
 
 const Registrations = () => {
+    const [verificationMethode, setVerificationMethode] = useState("")
 
     const notApprovedUsers = useFirestoreNotApproved()
 
@@ -16,12 +18,21 @@ const Registrations = () => {
 
     const menuState = MenuStatus()
 
-    let banner = ""
-    let docid = ""
+    let banner = null
+    let docid = null
+    let verificationAdmin = null
+    let verificationEmail = null
 
     compagny && compagny.forEach(comp => {
         banner = comp.ActivityBanner.newMember
         docid = comp.docid
+        const verificationMethode = comp.VerificationMethode
+
+        if(verificationMethode === "Admin"){
+            verificationAdmin = "checked"
+        } else if(verificationMethode === "Email"){
+            verificationEmail = "checked"
+        }
     })
 
     const approveAdmin = (e) => {
@@ -77,7 +88,24 @@ const Registrations = () => {
                 Link: `PublicProfile/${userID}`
             })
         })
+    }
 
+    const verificationMethhodeHandler = (e) => {
+        const methode = e.target.id 
+
+        setVerificationMethode(methode)
+    }
+
+    const saveVerificationMethode = (e) => {
+
+        db.collection("CompagnyMeta")
+            .doc(docid)
+            .update({
+                VerificationMethode: verificationMethode
+            })
+            .then(() => {
+                e.target.innerText = "Opgeslagen"
+            })
     }
 
     return (
@@ -114,14 +142,14 @@ const Registrations = () => {
                             <h3>Verificatie methode</h3>
                             <p>Selecteer de verificatiemethode voor nieuwe leden</p>
                             <div className="radio-input-container">
-                                <input type="radio" name="verification-methode" id="" />
+                                <input type="radio" name="verification-methode" id="Email" checked={verificationEmail} onChange={verificationMethhodeHandler} />
                                 <label htmlFor="verifcation-methode">Verificatie via email</label>
                             </div>
                             <div className="radio-input-container">
-                                <input type="radio" name="verification-methode" id="" />
+                                <input type="radio" name="verification-methode" id="Admin" checked={verificationAdmin} onChange={verificationMethhodeHandler}/>
                                 <label htmlFor="verifcation-methode">Verificatie door admin</label>
                             </div>
-                            <button className="button-simple button-verification">Opslaan</button>
+                            <button className="button-simple button-verification" onClick={saveVerificationMethode}>Opslaan</button>
                         </div>
                     </div>
                 </div>   

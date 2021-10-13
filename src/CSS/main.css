@@ -761,6 +761,22 @@
       margin: 20px;
   }
 
+  .no-email-button-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top:  1px solid lightgray;
+      margin-top: 100px;
+      padding-bottom: 15px;
+      border-bottom:  1px solid lightgray;
+  }
+
+  .no-email-button-container p{
+    color: #2F2C41;
+  }
+
+
+
   .settings-inner-container{
       padding: 20px;
   }
@@ -804,6 +820,11 @@
 
   #adjust-photo-profile{
       border-radius: 50%;
+      width: 100%;
+  }
+
+  #still-no-mail-notice{
+      color: #959595;
   }
 
   .username{

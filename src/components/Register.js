@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { auth, db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import uuid from 'react-uuid';
@@ -17,6 +17,8 @@ const RegisterUser = () => {
     const [surname, setSurname] = useState("")
     const [photo, setPhoto] = useState("")
     const [loader, setLoader] = useState("")
+    const [communityNameDB, setCommunityNameDB] = useState("")
+    const [logoDB, setLogoDB] = useState("")
 
     const id = uuid()
     const history = useHistory()
@@ -89,6 +91,7 @@ const RegisterUser = () => {
 
     const checkHandler = (e) => {
         e.preventDefault()
+        e.target.innerText = "Aangemeld"
 
         if(password === passwordRepeat){
             registerHandler()
@@ -97,23 +100,12 @@ const RegisterUser = () => {
         }
     }
 
-    const memberMap = {
-        UserName: `${forname} ${surname}`,
-        Photo: photo,
-        ID: id
-    }
-
-    let banner = ""
-    let docid = ""
-    let communityName = ""
-    let logo = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewMember
-        docid = comp.docid
-        communityName = comp.CommunityName
-        logo = comp.Logo
-    })
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCommunityNameDB(comp.CommunityName)
+            setLogoDB(comp.Logo)
+        })
+    }, [compagny])
 
     const registerHandler = () => {
     
@@ -142,33 +134,16 @@ const RegisterUser = () => {
             })
         })
         .then(() => {
-            db.collection("Email").doc().set({
-                to: [email],
-                cc: "info@Deccos.nl",
-                message: {
-                subject: `Je account wordt geverifieerd door een beheerder `,
-                html: `Hallo ${forname} ${surname}, </br></br>
-                    Om ervoor te zorgen dat onze community een prettige omgeving blijft
-                    worden alle aanmeldingen geverifieerd door een beheerder. <br><br>
-
-                    Zodra onze beheerder je account heeft bekeken en goedgekeurd ontvang je een mail.<br><br>
-
-                    Vanaf dan kun je inloggen met je email en wachtwoord<br><br>
-                    
-                    Vriendelijke groet, </br></br>
-                    ${communityName} </br></br>
-                    <img src="${logo}" width="100px">`,
-                Gebruikersnaam: `${forname} ${surname}`,
-                Emailadres: email,
-                Type: "Verification mail"
-                  }     
-              });
+            compagny && compagny.forEach(comp => {
+                if(comp.VerificationMethode === "Admin"){
+                    verificationEmailAdmin(communityNameDB, email, forname, surname, logoDB)
+                } else if(comp.VerificationMethode === "Email"){
+                    verificationEmailEmail(communityNameDB, email, forname, surname, logoDB)
+                }
+            })
         })
         .then(() => {
-            auth.signOut()
-            .then(() => {
-                history.push(`/${client}/NotApproved`)
-            }) 
+            history.push(`/${client}/NotApproved`)
         })
         .catch(err => {
             if(err){
@@ -177,6 +152,51 @@ const RegisterUser = () => {
             }
             
         })
+    }
+
+    const verificationEmailAdmin = (email, forname, surname, communityName, logo) => {
+        db.collection("Email").doc().set({
+            to: [email],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Je account wordt geverifieerd door een beheerder `,
+            html: `Hallo ${forname} ${surname}, </br></br>
+                Om ervoor te zorgen dat onze community een prettige omgeving blijft
+                worden alle aanmeldingen geverifieerd door een beheerder. <br><br>
+
+                Zodra onze beheerder je account heeft bekeken en goedgekeurd ontvang je een mail.<br><br>
+
+                Vanaf dan kun je inloggen met je email en wachtwoord<br><br>
+                
+                Vriendelijke groet, </br></br>
+                ${communityName} </br></br>
+                <img src="${logo}" width="100px">`,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: email,
+            Type: "Verification mail"
+              }     
+          });
+    }
+
+    const verificationEmailEmail = (communityName, email, forname, surname, logo) => {
+        db.collection("Email").doc().set({
+            to: [email],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Verificeer je account `,
+            html: `Hallo ${forname} ${surname}, </br></br>
+                Je hebt je aangemeld voor ${communityName} <br><br>
+
+                Klik <a href="https://deccos.co/${client}/NotApproved/${id}">hier</a> om je account te verificeren.<br><br>
+                
+                Vriendelijke groet, </br></br>
+                ${communityName} </br></br>
+                <img src="${logo}" width="100px">`,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: email,
+            Type: "Verification mail"
+              }     
+          });
     }
 
     return (

@@ -31,6 +31,16 @@ const ChatRoom = () => {
     let email = ""
     let room = ""
 
+    const redirect = () => {
+        chats && chats.forEach(chat => {
+            if(!chat.Members.includes(authO.ID)){
+                history.push(`/${client}/`)
+            }
+        })
+    }
+
+    redirect()
+
     const messageClass = (message) => {
         if(message.User === authO.UserName){
             return "auth-message"

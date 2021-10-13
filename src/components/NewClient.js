@@ -88,6 +88,7 @@ const NewClient = () => {
            Logo: logo,
            Members: [],
            ID: id,
+           VerificationMethode: "Admin",
            Website: website,
            Rules: [],
            Timestamp: timestamp,
