@@ -81,7 +81,7 @@ const News = () => {
                     <h1>Nieuws</h1>
                     <button className="button-simple">Lid worden</button>
                 </div>
-                <div className="list-container">
+                <div className="card-container">
                     <motion.div 
                     className="card"
                     style={{display: displayAddNew}}
