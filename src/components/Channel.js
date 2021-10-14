@@ -119,7 +119,7 @@ const Channel = () => {
                         <motion.div  initial="hidden"
                         animate="visible"
                         variants={variants} 
-                        className={channel.Layout}>
+                        className="card">
                             <div key={item.ID}>
                                 <img className="card-banner" src={item.Banner} alt="" />
                                 <div className="list-inner-container">

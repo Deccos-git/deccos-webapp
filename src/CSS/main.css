@@ -622,7 +622,7 @@
   }
 
   .introduction-reaction-button{
-      margin-top: 20px;
+      margin: 20px;
   }
 
   #button-add-goal{
@@ -792,6 +792,7 @@
 
   .profile-auth-profile{
       width: 80%;
+      padding: 20px;
   }
 
   .profile-inner-container{
@@ -1569,7 +1570,7 @@
     }
 
     .card{
-        width: 90%;
+        width: 80%;
     }
 
     .reaction-inner-container{

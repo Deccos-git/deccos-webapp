@@ -99,7 +99,7 @@ const News = () => {
                         </div>
                     </motion.div>
                     {news && news.map(item => (
-                        <div className="list">
+                        <div className="card">
                             <img className="list-card-banner" src={item.Banner} alt="" />
                             <div className="article-card-user-container">
                                 <img src={item.UserPhoto} alt="" data-id={item.UserID} onClick={profileLink} />

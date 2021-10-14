@@ -1,16 +1,15 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
 import { Auth } from '../StateManagment/Auth';
-import { useFirestore } from '../firebase/useFirestore.js';
+import { useFirestore, useFirestoreID } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
@@ -19,6 +18,8 @@ import MenuStatus from "../hooks/MenuStatus";
 
 const AddChannelItem = () => {
     const [authO] = useContext(Auth)
+    const [channelName, setChannelName] = useState("")
+
     const route = Location()[3]
 
     const id = uuid()
@@ -26,6 +27,7 @@ const AddChannelItem = () => {
     const editorRef = useRef(null);
     const history = useHistory()
     const menuState = MenuStatus()
+    const channels = useFirestoreID("Channels", route)
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -36,6 +38,14 @@ const AddChannelItem = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelName(channel.Name)
+        })
+    }, [channels])
+
+    console.log(channelName)
 
     const titleHandler = (e) => {
         const title = e.target.value
@@ -107,11 +117,11 @@ const AddChannelItem = () => {
             .doc()
             .set({
                 Title: title,
-                Type: `New${route.Channel}`,
+                Type: `New Item`,
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Description: `heeft een nieuw ${route.Channel} toegevoegd:`,
+                Description: `heeft een nieuw item aan ${channelName} toegevoegd:`,
                 ButtonText: "Bekijk bericht",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
@@ -146,7 +156,7 @@ const AddChannelItem = () => {
             variants={variants}
             style={{display: menuState}}>
                 <div className="card-header">
-                        <h2>Voeg een item toe</h2>
+                        <h2>Voeg een item toe aan {channelName} </h2>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">

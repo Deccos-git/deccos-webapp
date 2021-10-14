@@ -101,7 +101,7 @@ const ChannelSettingsDetail = () => {
                             <button className="button-simple" onClick={saveName}>Opslaan</button>
                         </div>
                     </div>
-                    <div className="divider">
+                    {/* <div className="divider">
                         <h3>Layout</h3>
                         <div className="layout-container">
                             <div className="layout-inner-div" onClick={selectListLayout}>
@@ -116,7 +116,7 @@ const ChannelSettingsDetail = () => {
                         <div className="button-container">
                             <button className="button-simple" onClick={saveLayout}>Opslaan</button>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="divider">
                         <h3>Kanaal verwijderen</h3>
                         <img className="delete-channel" src={deleteIcon} data-id={channel.ID} onClick={deleteChannel} />
