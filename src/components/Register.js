@@ -127,6 +127,7 @@ const RegisterUser = () => {
                 Approved: false,
                 Author: false,
                 Admin: false,
+                SuperAdmin: false,
                 Deleted: false,
                 About: "",
                 Docid: cred.user.uid,

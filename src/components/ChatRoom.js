@@ -84,10 +84,10 @@ const ChatRoom = () => {
             to: [email],
             cc: "info@Deccos.nl",
             message: {
-            subject: `${userName} heeft je een bericht gestuurd in jullie chat.`,
-            html: `Hallo ${authO.UserName}, </br></br>
+            subject: `${authO.UserName} heeft je een bericht gestuurd in jullie chat.`,
+            html: `Hallo ${userName}, </br></br>
 
-                ${userName} heeft je een bericht gestuurd in jullie chat.</br></br>
+                ${authO.UserName} heeft je een bericht gestuurd in jullie chat.</br></br>
 
                 Bekijk het bericht <a href="https://www.deccos.co/${client}/ChatRoom/${room}"><u>hier</u></a>.<br><br>
                 
@@ -159,13 +159,13 @@ const ChatRoom = () => {
                             <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                             <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
+                        <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                         <div className="send-as-mail-container">
                             <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
                             <div style={{display: showSendMail}}>
                                 <button onClick={sendAsMail}>Verstuur bericht als email</button>
                             </div>
                         </div>
-                        <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                     </div>
                 ))}
                 <MessageBarGroup route={route} auth={authO} />

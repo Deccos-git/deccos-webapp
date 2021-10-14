@@ -108,7 +108,6 @@ const GoalSettingsDetail = () => {
 
             setBanner(downloadURL)
 
-            console.log(banner)
                 })
             })
         })
@@ -150,7 +149,7 @@ const GoalSettingsDetail = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile" style={{display: menuState}}>
+            <div className="profile profile-auth-goal" style={{display: menuState}}>
                 {goals && goals.map(goal => (
                 <div key={goal.ID}>
                     <div className="divider card-header">
@@ -174,7 +173,7 @@ const GoalSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h3>Omschrijving</h3>
-                        <input className="input-classic" type="text" placeholder={goal.Body} onChange={bodyHandler}/>
+                        <textarea className="input-classic" type="text" placeholder={goal.Body} onChange={bodyHandler}/>
                         <div className="button-container">
                             <button className="button-simple" onClick={saveBody}>Opslaan</button>
                         </div>

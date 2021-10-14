@@ -57,6 +57,7 @@ const GoalDetail = () => {
                         <div className="type-container">
                             <img src={icon} alt="" />
                             <p>{doc.Type}</p>
+                            <p className="sdg-type">{doc.SDG}</p>
                         </div>
                         <div className="goal-progress-container">
                             <p>Aantal bijdragen:</p>

@@ -56,7 +56,7 @@ const GroupSettingsDetail = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile" style={{display: menuState}}>
+            <div className="profile profile-auth-goal" style={{display: menuState}}>
                 {groups && groups.map(group => (
                 <div key={group.ID}>
                     <div className="divider card-header">
