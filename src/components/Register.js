@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import { useFirestore } from '../firebase/useFirestore.js';
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
+import dummyPhoto from '../images/Design/dummy-photo.jpeg'
 import { useHistory } from "react-router-dom"
 
 const RegisterUser = () => {
@@ -15,7 +16,7 @@ const RegisterUser = () => {
     const [passwordRepeat, setPasswordRepeat] = useState("")
     const [forname, setForname] = useState("")
     const [surname, setSurname] = useState("")
-    const [photo, setPhoto] = useState("")
+    const [photo, setPhoto] = useState(dummyPhoto)
     const [loader, setLoader] = useState("")
     const [communityNameDB, setCommunityNameDB] = useState("")
     const [logoDB, setLogoDB] = useState("")
@@ -221,7 +222,7 @@ const RegisterUser = () => {
                         <img src={loader} alt="" />
                     </div>
                 </form>
-                <div className="button-container">
+                <div className="button-container-register">
                     <button onClick={checkHandler}>Aanmelden</button>
                 </div>
             </div>

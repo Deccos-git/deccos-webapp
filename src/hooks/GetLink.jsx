@@ -1,19 +1,26 @@
 
 
-const getLink = (message) => {
+const GetLink = (message) => {
 
-        const text = message.innerText
-    
+        const exRegex = /(img)|(embed)|(video)/gm
         const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-        const links = text.match(urlRegex)
+        const links = message.Message.match(urlRegex)
+        const exemptions = message.Message.match(exRegex)
+
+        if(exemptions != null){
+            return message.Message
+        } else if(links != null){
     
-        if(links != null){
+            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
     
-        const newText = text.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
+            return newText
     
-        messageP.innerHTML = newText
+        } else {
     
-        };
+            return message.Message
+        }
     
 }
+
+export default GetLink
 

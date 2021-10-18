@@ -24,7 +24,7 @@ const Analytics = () => {
                             <h2>Leden</h2>
                         </div>
                         <div className='divider'>
-                            <h2>Interactie</h2>
+                            <h2>Berichten</h2>
                         </div>
                         <div className='divider'>
                             <h2>Bijdragen aan doelen</h2>

@@ -120,7 +120,7 @@ const MessageDetail = () => {
                     <p>Vorige bericht</p>
                  </div>
                 {messages && messages.map(message => (
-                    <div className="message-card">
+                    <div className="message-card" key={message.ID}>
                         <div className="auth-message-container">
                             <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink} />
                             <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
@@ -138,11 +138,11 @@ const MessageDetail = () => {
                 </div>
                 <div className="reaction-area">
                 {reactions && reactions.map(reaction => ( 
-                    <div className="reaction-inner-container">
+                    <div className="reaction-inner-container" key={reaction.ID}>
                         <div className="auth-message-container">
                             <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
                         </div>
-                        <div>
+                        <div className='message-inner-container'>
                             <div className="user-meta-container">
                                 <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
                                 <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>

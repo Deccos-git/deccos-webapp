@@ -22,6 +22,7 @@ const Login = () => {
 
     const loginHandler = (e) => {
         e.preventDefault()
+        e.target.innerText = 'Inloggen'
 
         auth.signInWithEmailAndPassword(email, password)
         .catch(err => {

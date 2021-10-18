@@ -1,10 +1,11 @@
 import { useFirestore } from "../firebase/useFirestore"
 import { useState, useEffect } from "react"
 import { auth } from "../firebase/config"
-import { db } from "../firebase/config"
+import { db, timestamp } from "../firebase/config"
 import { client } from "../hooks/Client"
 import Location from "../hooks/Location"
 import { useHistory } from "react-router-dom"
+import uuid from 'react-uuid';
 
 const NotApproved = () => {
     const [authO, setAuthO] = useState("")
@@ -19,6 +20,13 @@ const NotApproved = () => {
 
     const history = useHistory()
     const route = Location()[3]
+    const id = uuid()
+
+    let banner = null
+
+    compagnies && compagnies.forEach(comp => {
+        banner = comp.ActivityBanner.newMember
+    })
 
     useEffect(() => {
         auth.onAuthStateChanged(User =>{
@@ -54,7 +62,7 @@ const NotApproved = () => {
         } else if(verificationMethode === "Email"){
             return  <div>
                         <h2>Je account moet nog worden geverificeerd</h2>
-                        <p>Je hebt een email ontvangen waarmee je je account kunt verificeren.</p>
+                        <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
                         <div style={{display: showSendMailContainer}} className="no-email-button-container">
                             <p>Geen mail ontvangen?</p>
                             <button className="button-simple" onClick={noMailRecieved}>Klik hier</button>
@@ -102,12 +110,28 @@ const NotApproved = () => {
             .then(querySnapshot => {
                 querySnapshot.forEach(doc => {
 
-                    console.log(doc)
-
                     db.collection("Users")
                     .doc(doc.id)
                     .update({
                         Approved: true
+                    })
+                    .then(() => {
+                        db.collection("AllActivity")
+                        .doc()
+                        .set({
+                            Title: `Welkom ${authO.ForName}!`,
+                            Type: "NewMember",
+                            Compagny: client,
+                            ButtonText: "Bekijk profiel",
+                            Timestamp: timestamp,
+                            ID: id,
+                            Banner: banner,
+                            Description: 'is lid geworden van de community',
+                            Link: `/${client}/PublicProfile/${authO.ID}`,
+                            User: `${authO.ForName} ${authO.SurName}`,
+                            UserID: authO.ID,
+                            UserPhoto: authO.Photo,
+                        }) 
                     })
                     .then(() => {
                         history.push(`/${client}/`)

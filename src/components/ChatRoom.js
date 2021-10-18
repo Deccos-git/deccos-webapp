@@ -11,6 +11,7 @@ import Location from "../hooks/Location"
 import { client } from "../hooks/Client";
 import MenuStatus from "../hooks/MenuStatus";
 import { useHistory } from "react-router-dom"
+import GetLink from '../hooks/GetLink'
 
 const ChatRoom = () => {
     const [showSendMail, setShowSendMail] = useState("none")
@@ -117,31 +118,13 @@ const ChatRoom = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
-    const linkInText = (message) => {
-    
-        const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-        const links = message.Message.match(urlRegex)
-    
-        if(links != null){
-    
-            const newText = message.Message.replace(links[0], `<a href="${links}", target="_blank">${links}</a>`)
-    
-            return newText
-    
-        } else {
-    
-            return message.Message
-        }
-    
-    }
-
     return (
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="group-container" style={{display: menuState}}>
                 {users && users.map(user => (
-                    <div className="chat-header">
+                    <div className="chat-header" key={user.ID}>
                         <div>
                             <img className="user-image" src={user.Photo} alt="" data-id={user.ID} onClick={profileLink} /> 
                         </div>
@@ -159,7 +142,7 @@ const ChatRoom = () => {
                             <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                             <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
-                        <div dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                        <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
                         <div className="send-as-mail-container">
                             <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
                             <div style={{display: showSendMail}}>

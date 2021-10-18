@@ -13,8 +13,7 @@ import MenuStatus from "../hooks/MenuStatus";
 
 const Profile = () => {
 
-    const [authO, setAuthO] = useContext(Auth)
-    const [body, setBody] = useState("")
+    const [ authO ] = useContext(Auth)
     const [forName, setForName] = useState(authO.ForName)
     const [surName, setSurName] = useState(authO.SurName)
 
@@ -22,12 +21,6 @@ const Profile = () => {
     const history = useHistory()
     const editorRef = useRef(null);
     const menuState = MenuStatus()
-
-    const bodyHandler = (e) => {
-        if (editorRef.current) {
-            setBody(editorRef.current.getContent());
-            }
-    }
 
     const changePhoto = (e) => {
 
@@ -128,14 +121,6 @@ const Profile = () => {
         })
     }
 
-    const saveAboutMe = () => {
-        db.collection("Users")
-        .doc(auth.Docid)
-        .update({
-            About: body
-        })
-    }
-
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -169,31 +154,6 @@ const Profile = () => {
                             </div>
                             <input className="input-classic" type="file" onChange={changePhoto} />
                         </div >
-                        <div className="divider">
-                            <h4>Over mij</h4>
-                            <Editor onChange={bodyHandler}
-                            apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
-                            initialValue={authO.About}
-                            onInit={(evt, editor) => editorRef.current = editor}
-                            init={{
-                            height: 500,
-                            menubar: false,
-                            plugins: [
-                                'advlist autolink lists link image charmap print preview anchor',
-                                'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste code help'
-                            ],
-                            toolbar: 'undo redo | formatselect | ' +
-                            'bold italic backcolor | alignleft aligncenter ' +
-                            'alignright alignjustify | bullist numlist outdent indent | ' +
-                            'removeformat | help',
-                            content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
-                            }}
-                            />
-                            <div className="button-container">
-                                <button className="button-simple" onClick={saveAboutMe}>Opslaan</button>
-                            </div>
-                        </div>
                         <div className="divider account-status">
                             <h4>Account verwijderen</h4>
                             <button id="delete-account-button" onClick={deleteAccount}>Verwijderen</button>

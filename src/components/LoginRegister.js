@@ -41,14 +41,12 @@ const LoginRegister = () => {
         </header>
         <div className="main">
              <div className="left-side-bar">
-                {compagnies && compagnies.map(compagny => (
-                    <div className="channel-div">
-                        <div className="channel-inner-div">
-                            <p onClick={loginHandler}>Login</p>
-                            <p onClick={registerHandler}>Account maken</p>
-                        </div>
-                     </div>
-                    ))}
+                <div className="channel-div">
+                    <div className="channel-inner-div">
+                        <p onClick={loginHandler}>Login</p>
+                        <p onClick={registerHandler}>Account maken</p>
+                    </div>
+                </div>
             </div>
             <FormToggle />
         </div>

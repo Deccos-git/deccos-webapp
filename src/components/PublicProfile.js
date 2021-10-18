@@ -32,6 +32,7 @@ const PublicProfile = () => {
             room = authO.ID < profile.ID ? authO.ID+'_'+profile.ID : profile.ID+'_'+authO.ID
         })
     } createRoomName()
+   
 
     const findChat = async() => {
 
@@ -108,8 +109,6 @@ const PublicProfile = () => {
 
     }
 
-
-
     return (
             <div className="main">
                 <LeftSideBarPublicProfile />
@@ -129,15 +128,9 @@ const PublicProfile = () => {
                             <h2>Over mij</h2>
                             <div className="about-me-inner-container">
                                 {introductions && introductions.map(introduction => (
-                                    <div className="about-me-section">
+                                    <div className="about-me-section" key={introduction.ID}>
                                         <h3>Introductie</h3>
                                         <p>{introduction.Body}</p>
-                                    </div>
-                                ))}
-                                {aboutMe && aboutMe.map(about => (
-                                    <div className="about-me-section">
-                                        <h3>{about.Title}</h3>
-                                        <p>{about.Value}</p>
                                     </div>
                                 ))}
                             </div>

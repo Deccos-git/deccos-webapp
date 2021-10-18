@@ -50,7 +50,7 @@
 }
 
 .about-me-inner-container{
-    margin-top: 30px;
+    margin: 30px;
 }
 
 .about-me-section{
@@ -256,6 +256,10 @@
   .goalcard-body-div{
       padding: 20px;
       text-align: center;
+  }
+
+  .button-container-register{
+      margin: 20px;
   }
 
   .type-container{
@@ -748,7 +752,7 @@
       border-radius: 50%;
       width: 70%;
       align-self: center;
-      margin-bottom: 30px;
+      margin: 30px;
   }
 
   .public-profile-container{
@@ -827,11 +831,15 @@
 
   #adjust-photo-profile{
       border-radius: 50%;
-      width: 100%;
+      width: 50%;
   }
 
   #still-no-mail-notice{
       color: #959595;
+  }
+
+  .message-inner-container{
+      width: 80%;
   }
 
   .username{
