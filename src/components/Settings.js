@@ -113,7 +113,7 @@ const Settings = () => {
                             <button className="button-simple" data-id={comp.docid} onClick={saveName}>Opslaan</button>
                         </div>
                     </div >
-                    <div className="divider">
+                    <div className="divider logo-container">
                         <h4>Logo aanpassen</h4>
                         <img src={comp.Logo} alt="" />
                         <input className="input-classic" type="file" onChange={LogoHandler} />

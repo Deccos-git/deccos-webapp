@@ -3,12 +3,14 @@ import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom"
+import firebase from 'firebase';
 
 const MultipleAccounts = ({authO}) => {
 
+    console.log(authO)
+
     const compagnies = useFirestore("CompagnyMeta")
 
-    const id = uuid()
     const history = useHistory()
 
     let logo = ""
@@ -24,27 +26,11 @@ const MultipleAccounts = ({authO}) => {
     console.log(authO)
     console.log(compagnies)
 
-      const registerUser = () => {
-
+    const registerUser = () => {
         db.collection("Users")
-        .doc()
-        .set({
-            UserName: `${authO.ForName} ${authO.SurName}`,
-            ForName: authO.ForName,
-            SurName: authO.SurName,
-            Compagny: client,
-            Timestamp: timestamp,
-            Email: authO.Email,
-            Photo: authO.Photo,
-            Channels: [],
-            ID: id,
-            Approved: false,
-            Author: false,
-            Admin: false,
-            Deleted: false,
-            About: "",
-            Docid: "",
-            Contributions: []
+        .doc(authO.docid)
+        .update({
+            Compagny: firebase.firestore.FieldValue.arrayUnion(authO.ID)
         })
         .then(() => {
             history.push(`/${client}/NotApproved`)

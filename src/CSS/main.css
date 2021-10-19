@@ -74,6 +74,14 @@
     width: 100px;
 }
 
+.logo-container img{
+    width: 100%;
+}
+
+#start-image{
+    border-radius: 5px;
+}
+
 .profile-settings-delete-icon{
     width: 20px;
     height: 20px;

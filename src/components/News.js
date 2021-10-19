@@ -24,7 +24,7 @@ const News = () => {
     const news = useFirestore("News")
     const history = useHistory()
     const channels = useFirestoreChannelName('Nieuws')
-    const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
 
     const menuState = MenuStatus()
     
@@ -42,12 +42,12 @@ const News = () => {
     },[channels])
 
     useEffect(() => {
-        admins && admins.forEach(admin => {
-            if(admin.UserID === authO.ID){
+        authors && authors.forEach(author => {
+            if(author.UserID === authO.ID){
                 setDisplayAddNew("flex")
             }
         })
-    }, [admins])
+    }, [authors])
 
     const detailRouter = (e) => {
 

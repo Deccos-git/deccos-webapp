@@ -5,14 +5,18 @@ import { useFirestoreUsers, useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { db, auth } from "../firebase/config";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import MenuStatus from "../hooks/MenuStatus";
+import { Auth } from '../StateManagment/Auth';
 
 const Members = () => {
+    const [authO] = useContext(Auth)
     const [showDeleteButton, setShowDeleteButton] = useState("none")
 
     const docs = useFirestoreUsers(false)
     const compagnies = useFirestore("CompagnyMeta")
+    const admins = useFirestore('Admins')
+
     const history = useHistory()
     const menuState = MenuStatus()
     
@@ -23,25 +27,16 @@ const Members = () => {
         history.push(`/${client}/PublicProfile/${memberID}`)
     }
 
-    const showDeleteButtonForAdmin = () => {
-        auth.onAuthStateChanged(User =>{
-            if(User){
-                db.collection("Users")
-                .doc(User.uid)
-                .onSnapshot(doc => {
-
-                    const admin = doc.data().Admin
-                    if(admin === true){
-                        setShowDeleteButton("block")
-                    } else if (admin === false){
-                        setShowDeleteButton("none")
-                    }
-                })
-            }
-        })
-    }
-
-    showDeleteButtonForAdmin()
+    useEffect(() => {
+        const showDeleteButtonForAdmin = () => {
+            admins && admins.forEach(admin => {
+                if(admin.UserID === authO.ID){
+                    setShowDeleteButton("block")
+                }
+            })
+        }
+        showDeleteButtonForAdmin()
+    }, [admins])
 
     const deleteUser = (e) => {
 

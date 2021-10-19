@@ -81,7 +81,7 @@ const UserRoles = () => {
         e.target.innerText = 'Toegevoegd'
 
         db.collection("Authors")
-        .doc(authorID)
+        .doc()
         .set({
             Compagny: client,
             UserName: authorName,

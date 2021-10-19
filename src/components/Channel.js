@@ -26,7 +26,7 @@ const Channel = () => {
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
     const channelsName = useFirestoreChannelName(channelTitle)
-    const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
 
     const history = useHistory()
 
@@ -47,13 +47,13 @@ const Channel = () => {
         })
     },[channels])
 
-        useEffect(() => {
-            admins && admins.forEach(admin => {
-                if(admin.UserID === authO.ID){
-                    setDisplayAddNew("flex")
-                }
-            })
-        }, [admins])
+    useEffect(() => {
+        authors && authors.forEach(author => {
+            if(author.UserID === authO.ID){
+                setDisplayAddNew("flex")
+            }
+        })
+    }, [authors])
 
     const updateRoute = (e) => {
 

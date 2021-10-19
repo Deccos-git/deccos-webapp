@@ -148,6 +148,7 @@ const NewClient = () => {
                 Compagny: compagnyName,
                 ID: uuid(),
                 Timestamp: timestamp,
+                Goal: ''
             })
         })
         .then(() => {

@@ -48,7 +48,7 @@ const Start = () => {
                         <div className="article-inner-div" key={doc.ID}>
                             <div className="start-banner">
                                 <h2>Hallo {username}</h2>
-                                <img src={doc.WelcomeHeader} alt="community logo" />  
+                                <img id='start-image' src={doc.WelcomeHeader} alt="community logo" />  
                             </div>
                             <div dangerouslySetInnerHTML={{ __html: doc.WelcomeText }}></div>
                             <div>
