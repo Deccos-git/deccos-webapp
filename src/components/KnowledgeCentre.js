@@ -5,18 +5,24 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import ArticleCard from './ArticleCard';
-import { useFirestore } from '../firebase/useFirestore.js';
+import { useFirestore, useFirestoreChannelName } from '../firebase/useFirestore.js';
 import { motion } from "framer-motion"
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { auth, db } from '../firebase/config';
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
-
+import firebase from 'firebase';
 
 const KnowledgeCentre = () => {
     const [authO] = useContext(Auth)
-    const docs = useFirestore("KnowledgeCentre")
+    
     const [displayAddNew, setDisplayAddNew] = useState("none")
+    const [channelID, setChannelID] = useState('')
+    const [isMember, setIsMember] = useState('none')
+    const [memberStatus, setMemberStatus] = useState('Lid worden')
+
+    const docs = useFirestore("KnowledgeCentre")
+    const channels = useFirestoreChannelName('Kenniscentrum')
 
     const menuState = MenuStatus()
 
@@ -24,6 +30,17 @@ const KnowledgeCentre = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelID(channel.docid)
+
+            if(channel.Members.includes(authO.ID)){
+                setIsMember('flex')
+                setMemberStatus('Je bent lid')
+            }
+        })
+    },[channels])
     
     const showAddNew = () => {
 
@@ -47,6 +64,18 @@ const KnowledgeCentre = () => {
 
     showAddNew()
 
+    const becomeMember = (e) => {
+
+        e.target.innerText = 'Lid geworden'
+
+        db.collection('Channels')
+        .doc(channelID)
+        .update({
+            Members: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+        })
+
+    }
+
     return (
         <div className="main">
              <LeftSideBar />
@@ -54,9 +83,9 @@ const KnowledgeCentre = () => {
              <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Kenniscentrum</h1>
-                    <button className="button-simple">Lid worden</button>
+                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
-                <div className="card-container">
+                <div className="card-container" style={{display: isMember}}>
                     <motion.div 
                     className="card"
                     style={{display: displayAddNew}}

@@ -33,7 +33,8 @@ const ChannelSettings = () => {
         .set({
             ID: uid,
             Compagny: client,
-            Link: `Channel`
+            Link: `Channel`,
+            Members: []
         }).then(() => {
             history.push(`/${client}/ChannelSettingsDetail/${uid}`)
         })

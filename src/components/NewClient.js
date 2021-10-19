@@ -113,7 +113,8 @@ const NewClient = () => {
                 Name: "Nieuws",
                 Layout: "Post",
                 ID: uuid(),
-                Link: "News"
+                Link: "News",
+                Members: []
             })
         })
         .then(() => {
@@ -124,7 +125,8 @@ const NewClient = () => {
                 Name: "Kenniscentrum",
                 Layout: "Card",
                 ID: uuid(),
-                Link: "KnowledgeCentre"
+                Link: "KnowledgeCentre",
+                Members: []
             })
         })
         .then(() => {
@@ -135,7 +137,17 @@ const NewClient = () => {
                 Name: "Events",
                 Layout: "Post",
                 ID: uuid(),
-                Link: "Events"
+                Link: "Events",
+                Members: []
+            })
+        })
+        .then(() => {
+            db.collection("ImpactPaths")
+            .doc()
+            .set({
+                Compagny: compagnyName,
+                ID: uuid(),
+                Timestamp: timestamp,
             })
         })
         .then(() => {

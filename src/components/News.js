@@ -3,10 +3,10 @@ import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
-import { useFirestore } from "../firebase/useFirestore";
+import { useFirestore, useFirestoreChannelName } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import newsIcon from '../images/icons/news-icon.png'
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { auth, db, timestamp } from '../firebase/config';
 import { motion } from "framer-motion"
 import { Auth } from '../StateManagment/Auth';
@@ -14,14 +14,31 @@ import MenuStatus from "../hooks/MenuStatus";
 import firebase from 'firebase';
 
 const News = () => {
-    const [displayAddNew, setDisplayAddNew] = useState("none")
     const [authO] = useContext(Auth)
+
+    const [displayAddNew, setDisplayAddNew] = useState("none")
+    const [channelID, setChannelID] = useState('')
+    const [isMember, setIsMember] = useState('none')
+    const [memberStatus, setMemberStatus] = useState('Lid worden')
 
     const news = useFirestore("News")
     const history = useHistory()
+    const channels = useFirestoreChannelName('Nieuws')
+
     const menuState = MenuStatus()
     
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelID(channel.docid)
+
+            if(channel.Members.includes(authO.ID)){
+                setIsMember('flex')
+                setMemberStatus('Je bent lid')
+            }
+        })
+    },[channels])
 
     const detailRouter = (e) => {
 
@@ -72,6 +89,18 @@ const News = () => {
 
     showAddNew()
 
+    const becomeMember = (e) => {
+
+        e.target.innerText = 'Lid geworden'
+
+        db.collection('Channels')
+        .doc(channelID)
+        .update({
+            Members: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+        })
+
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -79,9 +108,9 @@ const News = () => {
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Nieuws</h1>
-                    <button className="button-simple">Lid worden</button>
+                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
-                <div className="card-container">
+                <div className="card-container" style={{display: isMember}}>
                     <motion.div 
                     className="card"
                     style={{display: displayAddNew}}
@@ -100,7 +129,7 @@ const News = () => {
                     </motion.div>
                     {news && news.map(item => (
                         <div className="card">
-                            <img className="list-card-banner" src={item.Banner} alt="" />
+                            <img className="card-banner" src={item.Banner} alt="" />
                             <div className="article-card-user-container">
                                 <img src={item.UserPhoto} alt="" data-id={item.UserID} onClick={profileLink} />
                                 <p data-id={item.UserID} onClick={profileLink}>{item.User}</p>

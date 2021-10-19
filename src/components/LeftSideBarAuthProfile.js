@@ -1,5 +1,5 @@
 import '../CSS/leftSideBar.css';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import { useContext } from 'react';
@@ -17,7 +17,7 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3>Super Admin</h3>
                         <div className="channel-inner-div">
-                            <Link to={`/${client}/NewClient`}>Nieuwe klant</Link>
+                            <NavLink to={`/${client}/NewClient`}>Nieuwe klant</NavLink>
                         </div>
                     </div>
         } else {
@@ -46,19 +46,20 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3>Community beheer</h3>
                         <div className="channel-inner-div">
-                            <Link to={`/${client}/Settings`}>Bedrijfsinstellingen</Link>
-                            <Link to={`/${client}/Analytics`}>Analytics</Link>
-                            <Link to={`/${client}/ProfileSettings`}>Profielen</Link>
-                            <Link to={`/${client}/Members`}>Leden</Link>
-                            <Link to={`/${client}/UserRoles`}>Gebruikersrollen</Link>
+                            <NavLink activeClassName='active' to={`/${client}/Settings`}>Bedrijfsinstellingen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/Analytics`}>Analytics</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ProfileSettings`}>Profielen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/Members`}>Leden</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
                             <div className="notification-sidebar-container">
-                                <Link to={`/${client}/Registrations`}>Aanmelden</Link>
+                                <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmelden</NavLink>
                                 <p style={{display: showNotification}} className="notification-counter-small"></p>
                             </div>
-                            <Link to={`/${client}/ChannelSettings`}>Kanalen</Link>
-                            <Link to={`/${client}/GroupSettings`}>Groepen</Link>
-                            <Link to={`/${client}/GoalSettings`}>Doelen</Link>
-                            <Link to={`/${client}/WelcomeSettings`}>Welkom</Link>
+                            <NavLink activeClassName='active' to={`/${client}/ChannelSettings`}>Kanalen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ImpactPathSettings`}>Impactpad</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`}>Welkom</NavLink>
                         </div>
                     </div>
         } else {
@@ -70,19 +71,19 @@ const LeftSideBarAuthProfile = () => {
         <div className="left-side-bar-container">
             <div className="left-side-bar">
                 <div className="channel-div">
-                    <Link to={`/${client}/AllActivity`}>
+                    <NavLink activeClassName='active' to={`/${client}/AllActivity`}>
                         <div className="back-to-community-container">
                             <img src={ArrowLeftIcon} alt="" />
                             <p>Community</p>
                         </div>
-                    </Link>
+                    </NavLink>
                 <Superadmin/>
                     <Admin/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/Profile`}>Account instellingen</Link>
-                        <Link to={`/${client}/AboutMe/${authO.ID}`}>Over mij</Link>
-                        <Link to={`/${client}/PublicProfile/${authO.ID}`}>Openbaar profiel</Link>
+                        <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/AboutMe/${authO.ID}`}>Over mij</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/PublicProfile/${authO.ID}`}>Openbaar profiel</NavLink>
                     </div>
                 </div>
             </div>

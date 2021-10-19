@@ -63,6 +63,7 @@ const LeftSideBarAuthProfile = () => {
                             <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus}>Kanalen</Link>
                             <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus}>Groepen</Link>
                             <Link to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
+                            <Link to={`/${client}/ImpactPathSettings`} onClick={changeMenuStatus}>Impactpad</Link>
                             <Link to={`/${client}/WelcomeSettings`} onClick={changeMenuStatus}>Welkom</Link>
                         </div>
                     </div>

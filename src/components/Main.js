@@ -54,6 +54,8 @@ import ProfileSettings from './ProfileSettings';
 import AboutMe from './AboutMe';
 import Results from './Results';
 import NotApproved from './NotApproved';
+import ImpactPath from './ImpactPath'
+import ImpactPathSettings from './ImpactPathSettings'
 
 const Main = () => {
 
@@ -83,6 +85,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Results`}>
                     <Results/>
+                </Route>
+                <Route path={`/${client}/ImpactPath`}>
+                    <ImpactPath/>
+                </Route>
+                <Route path={`/${client}/ImpactPathSettings`}>
+                    <ImpactPathSettings/>
                 </Route>
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>

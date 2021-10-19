@@ -431,6 +431,7 @@ const useFirestoreContributionGraph = (month, goal) => {
 
     useEffect(() => {
         const unsub = db.collection("ContributionGraph")
+        .where('Compagny', '==', client)
         .where("Month", "==", month)
         .where("GoalID", "==", goal)
         .orderBy("LastActive", "desc")
@@ -471,6 +472,52 @@ const useFirestoreAboutMe = (id) => {
     return docs
 };
 
+const useFirestoreActivities = (goal) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Activities")
+        .where("Goal", "==", goal)
+        .where('Compagny', '==', client)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [goal])  
+
+    return docs
+};
+
+const useFirestoreChannelName = (name) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Channels")
+        .where("Name", "==", name)
+        .where('Compagny', '==', client)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [name])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -492,5 +539,7 @@ export {
     useFirestoreProfileFields,
     useFirestoreProfileFieldsUser,
     useFirestoreContributionGraph,
-    useFirestoreAboutMe
+    useFirestoreAboutMe,
+    useFirestoreActivities,
+    useFirestoreChannelName
 }

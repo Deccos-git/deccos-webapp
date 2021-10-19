@@ -1,5 +1,5 @@
 import '../CSS/leftSideBar.css';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import { Auth } from '../StateManagment/Auth';
@@ -13,22 +13,22 @@ const LeftSideBarPublicProfile = () => {
         <div className="left-sidebar-container">
             <div className="left-side-bar">
                 <div className="channel-div">
-                    <Link to={`/${client}/AllActivity`}>
+                    <NavLink activeClassName='active' to={`/${client}/AllActivity`}>
                         <div className="back-to-community-container">
                             <img src={ArrowLeftIcon} alt="" />
                             <p>Community</p>
                         </div>
-                    </Link>
+                    </NavLink>
                     <h3>Mijn profiel</h3>
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/PublicProfile/${authO.ID}`}>Mijn profiel</Link>
+                        <NavLink activeClassName='active' to={`/${client}/PublicProfile/${authO.ID}`}>Mijn profiel</NavLink>
                     </div>
                     <h3>Mijn activiteit</h3>
                     <div className="channel-inner-div">
-                        <Link to={`/${client}/MyIntroduction/${authO.ID}`}>Mijn introductie</Link>
-                        <Link to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</Link>
-                        <Link to={`/${client}/MyGroups/${authO.ID}`}>Mijn groepen</Link>
-                        <Link to={`/${client}/MyContributions/${authO.ID}`}>Mijn bijdragen</Link>
+                        <NavLink activeClassName='active' to={`/${client}/MyIntroduction/${authO.ID}`}>Mijn introductie</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MyGroups/${authO.ID}`}>Mijn groepen</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MyContributions/${authO.ID}`}>Mijn bijdragen</NavLink>
                     </div>
                 </div>
             </div>

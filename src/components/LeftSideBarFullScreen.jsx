@@ -37,6 +37,9 @@ const LeftSideBarFullScreen = () => {
                         <Link to={`/${client}/Goals`} onClick={changeMenuStatus}>Doelen</Link>
                     </div>
                     <div className="channel-inner-div">
+                        <Link to={`/${client}/ImpactPath`} onClick={changeMenuStatus}>ImpactPath</Link>
+                    </div>
+                    <div className="channel-inner-div">
                         <Link to={`/${client}/Results`} onClick={changeMenuStatus}>Resultaten</Link>
                     </div>
                 </div>

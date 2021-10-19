@@ -27,6 +27,9 @@ const LeftSideBar = () => {
                         <NavLink activeClassName='active' to={`/${client}/Goals`}>Doelen</NavLink>
                     </div>
                     <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/ImpactPath`}>Impactpad</NavLink>
+                    </div>
+                    <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Results`}>Resultaten</NavLink>
                     </div>
                 </div>

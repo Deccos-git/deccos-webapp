@@ -4,8 +4,8 @@ import { db, timestamp } from "../../firebase/config.js"
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
-import LeftSideBar from "../LeftSideBar"
-import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "../rightSideBar/RightSideBar"
 import { useFirestore } from '../../firebase/useFirestore.js';
 import spinnerRipple from '../../images/spinner-ripple.svg'
@@ -161,9 +161,9 @@ const AddGoal = () => {
 
     return (
         <div className="main">
-            <LeftSideBar />
-            <LeftSideBarFullScreen/>
-            <motion.div className="profile"
+            <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
+            <motion.div className="profile profile-auth-profile"
             initial="hidden"
             animate="visible"
             variants={variants}
@@ -178,45 +178,43 @@ const AddGoal = () => {
                         <input className="input-classic" type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <div className="divider">
-                        <h4>Omschrijf het doel</h4>
+                        <h4>Welk (maatschappelijk) probleem gaat dit doel oplossen?</h4>
                         <textarea className="textarea-classic"
                         name="body" 
                         id="body" 
                         cols="30" 
                         rows="10" 
-                        placeholder="Schrijf hier de omschrijving"
+                        placeholder="Omschrijf hier het (maatschappelijk) probleem"
                         onChange={bodyHandler}>
                         </textarea>
                     </div>
-                    <div className="divider">
-                        <p>Voeg een bannerfoto toe</p>
-                        <input className="input-classic" onChange={bannerHandler} type="file" />
-                        <div className="spinner-container">
-                            <img src={loader} alt="" />
-                        </div> 
-                    </div>
-                    <div>
-                        <h4>Is het een intern of een sociaal maatschappelijk doel?</h4>
-                        <input 
-                        type="radio" 
-                        className="input-radio" 
-                        id="SDG" 
-                        value="SDG" 
-                        name="goal-type"
-                        onChange={SDGGoal}
-                        />
-                        <label htmlFor="SDG">Sociaal maatschappelijk</label>
-                        <input 
-                        type="radio" 
-                        className="input-radio" 
-                        id="internal" 
-                        value="internal" 
-                        name="goal-type"
-                        onChange={internalGoal}/>
-                        <label htmlFor="internal">Intern</label>
+                    <div className='divider'> 
+                        <h4>Is het een intern (alleen voor jullie organisatie) of een sociaal maatschappelijk doel?</h4>
+                        <div className='input-label-container'> 
+                            <input 
+                            type="radio" 
+                            className="input-radio" 
+                            id="SDG" 
+                            value="SDG" 
+                            name="goal-type"
+                            onChange={SDGGoal}
+                            />
+                            <label htmlFor="SDG">Sociaal maatschappelijk</label>
+                        </div>
+                        <div className='input-label-container'> 
+                            <input 
+                            type="radio" 
+                            className="input-radio" 
+                            id="internal" 
+                            value="internal" 
+                            name="goal-type"
+                            onChange={internalGoal}/>
+                            <label htmlFor="internal">Intern</label>
+                        </div>
                     </div>
                     <div className="divider " style={{display: toggleGoal}}>
                         <h2>Selecteer een SDG</h2>
+                        <p>Kies welke van de 17 Social Development Goals (SDG's) van Verenigde Naties (VN) past bij dit doel:</p>
                         <div>
                             <select className="SDG-select"name="" id="" onChange={selectSDG}>
                                 <option value="">--- Selecteer een SDG ---</option>
@@ -240,7 +238,13 @@ const AddGoal = () => {
                             </select>
                             <p className="more-sdg" onClick={SDGInformation}><u>Meer over de SDG's</u></p>
                         </div>
-
+                    </div>
+                    <div className="divider">
+                        <p>Voeg een bannerfoto toe</p>
+                        <input className="input-classic" onChange={bannerHandler} type="file" />
+                        <div className="spinner-container">
+                            <img src={loader} alt="" />
+                        </div> 
                     </div>
                 </form>
                 <div id="button-add-goal">

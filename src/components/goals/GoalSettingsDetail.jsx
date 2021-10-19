@@ -165,7 +165,7 @@ const GoalSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h3>Banner</h3>
-                        <img src={goal.Banner} alt="" />
+                        <img className='group-settings-banner' src={goal.Banner} alt="" />
                         <input type="file"  onChange={bannerHandler}/>
                         <div className="button-container">
                             <button className="button-simple" onClick={saveBanner}>Opslaan</button>

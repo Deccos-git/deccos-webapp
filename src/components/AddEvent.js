@@ -1,7 +1,6 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
@@ -9,7 +8,7 @@ import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
@@ -18,9 +17,11 @@ import MenuStatus from "../hooks/MenuStatus";
 
 const AddEvent = () => {
     const [authO] = useContext(Auth)
+    const [memberIDArray, setMemberIDArray] = useState('')
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
+    const channels = useFirestoreChannelName('Events')
     const editorRef = useRef(null);
     const menuState = MenuStatus()
 
@@ -41,6 +42,21 @@ const AddEvent = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+    
+    useEffect(() => {
+
+        const memberID = []
+
+        channels && channels.forEach(channel => {
+            channel.Members.forEach(member => {
+                memberID.push(member)
+            })
+        })
+
+        setMemberIDArray(memberID)
+    },[channels])
+
+    console.log(memberIDArray)
 
     const titleHandler = (e) => {
         const title = e.target.value
@@ -185,6 +201,29 @@ const AddEvent = () => {
                 Type: 'Event',
                 Link: `EventDetail/${id}`
             })
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: selectedEmailUser,
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `${authO.UserName} heeft een nieuw event geplaatst in het kanaal Events.`,
+                html: `Hallo , </br></br>
+    
+                    ${authO.UserName} heeft een nieuw event geplaatst in het kanaal Events.</br></br>
+
+                    Titel:${title}</br></br>
+    
+                    Bekijk het event <a href="https://www.deccos.co/${client}/EventDetail/${id}"><u>hier</u></a>.<br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${logo}" width="100px">`,
+                Gebruikersnaam: `${userName}`,
+                Emailadres: selectedEmailUser,
+                Type: "Group"
+                  }     
+              });
         })
     }
 

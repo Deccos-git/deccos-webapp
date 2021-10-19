@@ -109,7 +109,7 @@ const Results = () => {
                                 <img src={worldIcon} alt="" />
                                 <h3>{goal.GoalTitle}</h3>
                               </div>
-                                <p>{goal.SDG}</p>
+                                <p><b>SDG:</b> {goal.SDG}</p>
                                 <div>
                                     <Line data={{
                                          labels: [goal.Month],

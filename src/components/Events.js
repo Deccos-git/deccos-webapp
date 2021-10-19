@@ -2,10 +2,10 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
-import { useFirestoreTimestamp } from "../firebase/useFirestore";
+import { useFirestoreTimestamp, useFirestore, useFirestoreChannelName } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { motion } from "framer-motion"
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { auth, db, timestamp } from '../firebase/config';
 import { Auth } from '../StateManagment/Auth';
 import articleIcon from '../images/icons/article-icon.png'
@@ -16,16 +16,32 @@ import firebase from 'firebase';
 const Events = () => {
     const [authO] = useContext(Auth)
 
-    const events = useFirestoreTimestamp("Events")
-    const history = useHistory()
     const [displayAddNew, setDisplayAddNew] = useState("none")
+    const [channelID, setChannelID] = useState('')
+    const [isMember, setIsMember] = useState('none')
+    const [memberStatus, setMemberStatus] = useState('Lid worden')
+
+    const events = useFirestoreTimestamp("Events")
+    const channels = useFirestoreChannelName('Events')
 
     const menuState = MenuStatus()
+    const history = useHistory()
 
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+      useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelID(channel.docid)
+
+            if(channel.Members.includes(authO.ID)){
+                setIsMember('flex')
+                setMemberStatus('Je bent lid')
+            }
+        })
+    },[channels])
 
     const detailRouter = (e) => {
 
@@ -71,6 +87,18 @@ const Events = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const becomeMember = (e) => {
+
+        e.target.innerText = 'Lid geworden'
+
+        db.collection('Channels')
+        .doc(channelID)
+        .update({
+            Members: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+        })
+
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -78,9 +106,9 @@ const Events = () => {
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Events</h1>
-                    <button className="button-simple">Lid worden</button>
+                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
-                <div className="card-container">
+                <div className="card-container" style={{display: isMember}}>
                     <motion.div 
                     className="card"
                     style={{display: displayAddNew}}

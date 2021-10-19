@@ -18,6 +18,7 @@ const GroupSettings = () => {
     const groups = useFirestore("Groups")
     const compagny = useFirestore("CompagnyMeta")
     const history = useHistory();
+    const menuState = MenuStatus()
    
     const id = uuid()
 
@@ -32,8 +33,6 @@ const GroupSettings = () => {
 
         setGroupTitle(groupTitle)
     }
-
-    const menuState = MenuStatus()
 
     const newMember = {
         ID: authO.ID,
@@ -106,7 +105,7 @@ const GroupSettings = () => {
                         <p>Pas de instellingen van je groepen aan</p>
                     </div>
                     {groups && groups.map(group => (
-                    <div className="divider">
+                    <div className="divider" key={group.ID}>
                         <h3>Community groepen</h3>
                         <div className="channel-container" key={group.ID}>
                             <h3>{group.Room}</h3>

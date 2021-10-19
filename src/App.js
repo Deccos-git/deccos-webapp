@@ -19,6 +19,7 @@ function App() {
   const [online, setOnline] = useState(false)
   const [approved, setApproved] = useState(true)
   const [compagny, setCompagny] = useState("")
+  const [authO, setAuthO] = useState('')
 
   useEffect(() => {
     auth.onAuthStateChanged(User => {
@@ -33,6 +34,9 @@ function App() {
           querySnapshot.forEach(doc => {
             const approved = doc.data().Approved
             const compagny = doc.data().Compagny
+            const data = doc.data()
+
+            setAuthO(data)
 
             setCompagny(compagny)
 
@@ -71,7 +75,7 @@ function App() {
       } else if (online === true && approved === false && compagny === client){
         return <NotApproved/>
       } else if (online === true && compagny != client){
-        return <MultipleAccounts/>
+        return <MultipleAccounts authO={authO}/>
       }
     }
 
