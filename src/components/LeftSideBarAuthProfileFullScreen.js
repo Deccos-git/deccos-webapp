@@ -2,19 +2,37 @@ import '../CSS/leftSideBar.css';
 import { Link } from "react-router-dom";
 import { client } from '../hooks/Client';
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
-import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
-import { useState } from 'react';
+import { useState , useEffect, useContext} from 'react';
 import { db } from '../firebase/config';
 import { MobileMenu } from '../StateManagment/MobileMenu';
+import {useFirestore} from "../firebase/useFirestore"
 
 const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)
     const [showNotification, setShowNotification] = useState("")
     const [menu, setMenu] = useContext(MobileMenu)
+    const [admin, setAdmin] = useState(false)
+    const [superAdmin, setSuperAdmin] = useState(false)
+
+    const admins = useFirestore('Admins')
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setAdmin(true)
+            }
+        })
+    }, [admins])
+
+    useEffect(() => {
+            if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
+                setSuperAdmin(true)
+            }
+    }, [admins])
 
     const Superadmin = () => {
-        if(authO.SuperAdmin){
+        if(superAdmin){
             return <div>
                         <h3>Super Admin</h3>
                         <div className="channel-inner-div">
@@ -28,7 +46,7 @@ const LeftSideBarAuthProfile = () => {
 
     const toggleNotofication = () => {
         db.collection("Users")
-        .where("Compagny", "==", client)
+        .where("Compagny", "array-contains", client)
         .where("Approved", "==", false)
         .get()
         .then(querySnapshot => {
@@ -47,7 +65,7 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Admin = () => {
-        if(authO.Admin){
+        if(admin){
             return <div>
                         <h3>Community beheer</h3>
                         <div className="channel-inner-div">

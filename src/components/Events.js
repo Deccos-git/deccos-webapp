@@ -23,6 +23,7 @@ const Events = () => {
 
     const events = useFirestoreTimestamp("Events")
     const channels = useFirestoreChannelName('Events')
+    const admins = useFirestore('Admins')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -42,6 +43,14 @@ const Events = () => {
             }
         })
     },[channels])
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setDisplayAddNew("flex")
+            }
+        })
+    }, [admins])
 
     const detailRouter = (e) => {
 

@@ -27,7 +27,7 @@ function App() {
         setOnline(true)
 
         db.collection("Users")
-        .where("Compagny", "==", client)
+        .where("Compagny", "array-contains", client)
         .where("Email", "==", User.email)
         .get()
         .then(querySnapshot => {
@@ -57,7 +57,7 @@ function App() {
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
-      } else if (online === true && approved === true && compagny === client) {
+      } else if (online === true && approved === true && compagny.includes(client)) {
         
         return ( 
         <AuthProvider>
@@ -72,9 +72,9 @@ function App() {
         </MenuProvider>
         </AuthProvider>
         )
-      } else if (online === true && approved === false && compagny === client){
+      } else if (online === true && approved === false && compagny.includes(client)){
         return <NotApproved/>
-      } else if (online === true && compagny != client){
+      } else if (online === true && !compagny.includes(client)){
         return <MultipleAccounts authO={authO}/>
       }
     }

@@ -6,9 +6,9 @@ import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
-import { useFirestore } from '../firebase/useFirestore.js';
+import { useFirestore, useFirestoreChannelName, useFirestoreID} from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext, useState } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
@@ -18,10 +18,13 @@ import MenuStatus from "../hooks/MenuStatus";
 const AddEvent = () => {
     const [authO] = useContext(Auth)
     const [memberIDArray, setMemberIDArray] = useState('')
+    const [selectedEmailUser, setSelectedEmailUser] = useState('')
+    const [userName, setuserName] = useState('')
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const channels = useFirestoreChannelName('Events')
+
     const editorRef = useRef(null);
     const menuState = MenuStatus()
 
@@ -38,10 +41,32 @@ const AddEvent = () => {
     const [city, setCity] = useState("")
     const [physicalLocationDisplay, setPhysicalLocationDisplay] = useState("none")
 
+    useEffect(() => {
+        memberIDArray && memberIDArray.forEach(ID => {
+            db.collection('Users')
+            .where('ID', '==', ID)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    console.log(doc)
+                })
+            })
+        })
+        
+    }, [channels])
+
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    let communityName = ""
+    let logo = ""
+
+    compagny && compagny.forEach(comp => {
+        communityName = comp.CommunityName
+        logo = comp.Logo
+    })
     
     useEffect(() => {
 
@@ -55,8 +80,6 @@ const AddEvent = () => {
 
         setMemberIDArray(memberID)
     },[channels])
-
-    console.log(memberIDArray)
 
     const titleHandler = (e) => {
         const title = e.target.value

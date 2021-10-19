@@ -23,6 +23,7 @@ const KnowledgeCentre = () => {
 
     const docs = useFirestore("KnowledgeCentre")
     const channels = useFirestoreChannelName('Kenniscentrum')
+    const admins = useFirestore('Admins')
 
     const menuState = MenuStatus()
 
@@ -41,28 +42,14 @@ const KnowledgeCentre = () => {
             }
         })
     },[channels])
-    
-    const showAddNew = () => {
 
-        auth.onAuthStateChanged(User =>{
-            if(User){
-                db.collection("Users")
-                .doc(User.uid)
-                .get()
-                .then(doc => {
-                    const author = doc.data().Author
-
-                    if(author === true){
-                        setDisplayAddNew("flex")
-                    } else if (author === false){
-                        setDisplayAddNew("none")
-                    }
-                })
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setDisplayAddNew("flex")
             }
         })
-    }
-
-    showAddNew()
+    }, [admins])
 
     const becomeMember = (e) => {
 

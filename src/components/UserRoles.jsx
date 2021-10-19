@@ -1,111 +1,93 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import { useFirestore } from "../firebase/useFirestore";
+import { useFirestoreUsers, useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
 import { useState } from "react";
 import MenuStatus from "../hooks/MenuStatus";
+import { client } from '../hooks/Client';
 
 const UserRoles = () => {
-    const [adminID, setAdminID] = useState("")
-    const [authorID, setAuthorID] = useState("")
+    const [user, setUser] = useState('')
 
-    const users = useFirestore("Users")
+    const [adminID, setAdminID] = useState("")
+    const [adminName, setAdminName] = useState("")
+    const [adminPhoto, setAdminPhoto] = useState("")
+    const [authorID, setAuthorID] = useState("")
+    const [authorName, setAuthorName] = useState("")
+    const [authorPhoto, setAuthorPhoto] = useState("")
+
+
+    const users = useFirestoreUsers(false)
+    const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
 
     const menuState = MenuStatus()
-
-    const admins = () => {
-
-        const adminArray = []
-
-        users && users.forEach(user => {
-            if(user.Admin === true){
-                const userMeta ={
-                    UserName: user.UserName,
-                    Photo: user.Photo,
-                    ID: user.Docid
-                }
-
-                adminArray.push(userMeta)
-            } 
-        })
-
-        return adminArray
-
-    } 
-    
-    const authors = () => {
-
-        const authorArray = []
-
-        users && users.forEach(user => {
-            if(user.Author === true){
-                const userMeta ={
-                    UserName: user.UserName,
-                    Photo: user.Photo,
-                    ID: user.Docid
-                }
-
-                authorArray.push(userMeta)
-            } 
-        })
-
-        return authorArray
-
-    }  
 
     const deleteAdmin = (e) => {
 
         const id = e.target.dataset.id
 
-        db.collection("Users")
+        db.collection("Admins")
         .doc(id)
-        .update({
-            Admin: false
-        })
+        .delete()
     }
 
     const adminHandler = (e) => {
-        const id = e.target.value
+        const id = e.target.options[e.target.selectedIndex].dataset.id
+        const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        const username = e.target.options[e.target.selectedIndex].dataset.name
 
         setAdminID(id)
+        setAdminName(username)
+        setAdminPhoto(photo)
     }
 
-    const addAdmin = () => {
+    const addAdmin = (e) => {
 
-        db.collection("Users")
-        .doc(adminID)
-        .update({
-            Admin: true
+        e.target.innerText = 'Toegevoegd'
+
+        db.collection("Admins")
+        .doc()
+        .set({
+            Compagny: client,
+            UserName: adminName,
+            Photo: adminPhoto,
+            UserID: adminID
         })
-
     }
 
     const deleteAuthor = (e) => {
 
         const id = e.target.dataset.id
 
-        db.collection("Users")
+        db.collection("Authors")
         .doc(id)
-        .update({
-            Author: false
-        })
+        .delete()
     }
 
     const authorHandler = (e) => {
-        const id = e.target.value
+        const id = e.target.options[e.target.selectedIndex].dataset.id
+        const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        const username = e.target.options[e.target.selectedIndex].dataset.name
 
         setAuthorID(id)
+        setAuthorName(username)
+        setAuthorPhoto(photo)
     }
 
-    const addAuthor = () => {
+    const addAuthor = (e) => {
 
-        db.collection("Users")
+        e.target.innerText = 'Toegevoegd'
+
+        db.collection("Authors")
         .doc(authorID)
-        .update({
-            Author: true
+        .set({
+            Compagny: client,
+            UserName: authorName,
+            Photo: authorPhoto,
+            UserID: authorID
         })
-
     }
 
     return (
@@ -131,18 +113,18 @@ const UserRoles = () => {
                             <li>De welkomsboodschap aanpassen</li>
                         </ul>
                         <h4>Leden met rol admin</h4>
-                        {admins().map(admin => (
+                        {admins && admins.map(admin => (
                             <div className="userrole-users-container" key={admin.ID}>
                                 <img src={admin.Photo} alt="" />
                                 <p>{admin.UserName}</p>
-                                <p className="userrole-users-delete-button" data-id={admin.ID} onClick={deleteAdmin}>Verwijderen</p>
+                                <p className="userrole-users-delete-button" data-id={admin.docid} onClick={deleteAdmin}>Verwijderen</p>
                             </div>
                         ))}
                         <h4>Admin toevoegen</h4>
                         <select className="userrole-select" name="" id="" onChange={adminHandler}>
                             <option value="">--- Selecteer ---</option>
                             {users && users.map(user => (
-                                <option value={user.Docid} key={user.ID}>{user.UserName}</option>
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                         <div className="button-userrole-container">
@@ -156,18 +138,18 @@ const UserRoles = () => {
                         <li>Toevoegen van artikelen, events, neuwsberichten en andere kanaalitems</li>
                         </ul>
                         <h4>Leden met rol auteur</h4>
-                        {authors().map(author => (
+                        {authors && authors.map(author => (
                             <div className="userrole-users-container" key={author.ID}>
                                 <img src={author.Photo} alt="" />
                                 <p>{author.UserName}</p>
-                                <p className="userrole-users-delete-button" data-id={author.ID} onClick={deleteAuthor}>Verwijderen</p>
+                                <p className="userrole-users-delete-button" data-id={author.docid} onClick={deleteAuthor}>Verwijderen</p>
                             </div>
                         ))}
                         <h4>Auteur toevoegen</h4>
                         <select className="userrole-select" name="" id="" onChange={authorHandler}>
                             <option value="">--- Selecteer ---</option>
                             {users && users.map(user => (
-                                <option value={user.Docid} key={user.ID}>{user.UserName}</option>
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                         <div className="button-userrole-container">

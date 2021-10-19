@@ -12,14 +12,13 @@ export const AuthProvider = (props) => {
         await  auth.onAuthStateChanged(User =>{
             if(User){
                 const unsub = db.collection("Users")
-                .where("Compagny", "==", client)
+                .where("Compagny", "array-contains", client)
                 .where("Email", "==", User.email)
                 .onSnapshot(querySnapshot => {
                     querySnapshot.forEach (doc => {
                     setAuthO(doc.data())
                 })
             })
-
                 return () => unsub();
                 
             } else {

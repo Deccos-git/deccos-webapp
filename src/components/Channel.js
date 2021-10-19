@@ -3,7 +3,7 @@ import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
 import articleIcon from '../images/icons/article-icon.png'
-import { useFirestoreChannelItems, useFirestoreID, useFirestoreChannelName } from "../firebase/useFirestore";
+import { useFirestoreChannelItems, useFirestoreID, useFirestoreChannelName, useFirestore } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
 import Location from "../hooks/Location"
@@ -26,6 +26,7 @@ const Channel = () => {
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
     const channelsName = useFirestoreChannelName(channelTitle)
+    const admins = useFirestore('Admins')
 
     const history = useHistory()
 
@@ -46,27 +47,13 @@ const Channel = () => {
         })
     },[channels])
 
-    const showAddNew = () => {
-
-        auth.onAuthStateChanged(User =>{
-            if(User){
-                db.collection("Users")
-                .doc(User.uid)
-                .get()
-                .then(doc => {
-                    const author = doc.data().Author
-
-                    if(author === true){
-                        setDisplayAddNew("flex")
-                    } else if (author === false){
-                        setDisplayAddNew("none")
-                    }
-                })
-            }
-        })
-    }
-
-    showAddNew()
+        useEffect(() => {
+            admins && admins.forEach(admin => {
+                if(admin.UserID === authO.ID){
+                    setDisplayAddNew("flex")
+                }
+            })
+        }, [admins])
 
     const updateRoute = (e) => {
 

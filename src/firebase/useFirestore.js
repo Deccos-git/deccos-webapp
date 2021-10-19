@@ -70,14 +70,14 @@ const useFirestoreTimestamp = (collection) => {
     return docs
 };
 
-const useFirestoreUser = (userID, state) => {
+const useFirestoreUser = (userID) => {
 
     const [docs, setDocs] = useState("")
     
     const docArray = []
     useEffect(() => {
         db.collection("Users")
-        .where("Compagny", "==", client)
+        .where("Compagny", "array-contains", client)
         .where("ID", "==", userID)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -88,7 +88,7 @@ const useFirestoreUser = (userID, state) => {
         })
         setDocs(docArray)
 
-    }, [userID, state])  
+    }, [userID])  
 
     return docs
 };
@@ -100,7 +100,7 @@ const useFirestoreUsers = (state) => {
     const docArray = []
     useEffect(() => {
         db.collection("Users")
-        .where("Compagny", "==", client)
+        .where("Compagny", "array-contains", client)
         .where("Deleted", "==", state)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -456,6 +456,7 @@ const useFirestoreAboutMe = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("AboutMe")
+        .where('Compagny', '==', client)
         .where("UserID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []

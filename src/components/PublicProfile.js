@@ -6,13 +6,14 @@ import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
 
 const PublicProfile = () => {
     const [authO] = useContext(Auth)
+    const [numberOfContributions, setNumberOfContributions] = useState('')
 
     const history = useHistory()
     const route = Location()[3]
@@ -22,7 +23,6 @@ const PublicProfile = () => {
 
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
-    const aboutMe = useFirestoreAboutMe(route)
 
     let room = ""
 
@@ -32,7 +32,24 @@ const PublicProfile = () => {
             room = authO.ID < profile.ID ? authO.ID+'_'+profile.ID : profile.ID+'_'+authO.ID
         })
     } createRoomName()
-   
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+            const contributions = () => {
+                db.collection('Contributions')
+                .where('Compagny', '==', client)
+                .where('RecieverID', '==', authO.ID)
+                .get()
+                .then(querySnapshot => {
+                    console.log(querySnapshot)
+                    setNumberOfContributions(querySnapshot.docs.length)
+                })
+            }
+            contributions()
+        }
+    }, [profiles])
+    
+   console.log(numberOfContributions)
 
     const findChat = async() => {
 
@@ -118,7 +135,7 @@ const PublicProfile = () => {
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
-                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{profile.Contributions.length} bijdragen aan doelen</p>
+                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{numberOfContributions} bijdragen aan doelen</p>
                             <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="button-container">
                                 <button onClick={startChat}>Chatten</button>
