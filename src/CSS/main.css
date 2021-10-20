@@ -291,6 +291,7 @@
 
   #add-goal-form{
       margin: 30px;
+      width: 90%;
   }
 
   .goal-list{
@@ -954,7 +955,7 @@
     bottom: 0px;
     top: auto;
     position: fixed;
-    width: 65%;
+    width: 55%;
     margin-bottom: 5px;
     background-color: white;
 }
@@ -1028,10 +1029,11 @@
   .group-container{
       width: 100%;
       margin-top: 20px;
-      background-color: white;
       border-radius: 5px;
       flex-direction: column;
-      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      display: flex;
+      align-items: center;
+
   }
 
   .left-side-bar-full-screen{
@@ -1202,14 +1204,6 @@
       margin-right: 10px;
   }
 
-  .chat-header{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      border-bottom: 5px solid #a7bdbd60;
-  }
-
   .header-title-container{
       display: flex;
   }
@@ -1224,13 +1218,57 @@
       margin-left: 5px;
   }
 
+  .chat-container{
+      width: 90%;
+      flex-direction: column;
+      align-items: center;
+  }
+
   .chat-screen{
       display: flex;
       flex-direction: column;
-      padding: 10px;
+      padding: 20px;
       background-color: white;
       min-height: 80vh;
+      width: 80%;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
+
+  .group-navigation-container{
+      display: flex;
+      align-self: flex-start;
+      margin-left: -20px;
+  }
+
+  .group-navigation-container p{
+      padding: 5px;
+      cursor: pointer;
+      padding: 5px;
+    border-radius: 3px;
+    color: #2F2C41;
+    font-weight: bold;
+    margin-bottom: -20px;
+  }
+
+  .active-tab{
+    box-shadow: inset 0 1px 2px #d3d3d3;
+  }
+
+  .not-active-tab{
+    box-shadow: 0 1px 2px #d3d3d3;
+  }
+
+  .chat-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    width: 80%;
+    background-color: white;
+    margin: 20px;
+    border-radius: 5px;
+}
 
   .user-message{
     align-self: flex-start;
@@ -1645,10 +1683,6 @@
 
     .channel-div h3{
         font-size: 20px;
-    }
-
-    .card{
-        width: 80%;
     }
 
     .reaction-inner-container{

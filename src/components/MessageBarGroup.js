@@ -28,12 +28,6 @@ const MessageBarGroup = () => {
 
         setMessage(input)
     }
-
-    let banner = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewMessage
-    })
     
     const submitMessage = () => {
 

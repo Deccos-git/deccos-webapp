@@ -1,7 +1,7 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import uuid from 'react-uuid';
 import { db, timestamp } from "../firebase/config";
 import settingsIcon from '../images/icons/settings-icon.png'
@@ -12,21 +12,25 @@ import { useHistory } from "react-router-dom";
 import MenuStatus from "../hooks/MenuStatus";
 
 const GroupSettings = () => {
-    const [groupTitle, setGroupTitle] = useState("")
     const [authO] = useContext(Auth)
 
+    const [groupTitle, setGroupTitle] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+
     const groups = useFirestore("Groups")
-    const compagny = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
+    
     const history = useHistory();
     const menuState = MenuStatus()
    
     const id = uuid()
 
-    let activityBanner = ""
-
-    compagny && compagny.forEach(comp => {
-        activityBanner = comp.ActivityBanner.NewGroup
-    })
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewGroup
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     const newGroupTitleHandler = (e) => {
         const groupTitle = e.target.value
@@ -59,6 +63,16 @@ const GroupSettings = () => {
             Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
         })
         .then(() => {
+            db.collection('GroupChannels')
+            .doc()
+            .set({
+                Name: groupTitle,
+                Timestamp: timestamp,
+                ID: id,
+                Compagny: client,
+            })
+        })
+        .then(() => {
             db.collection("AllActivity")
             .doc()
             .set({
@@ -67,12 +81,12 @@ const GroupSettings = () => {
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Description: "heeft een nieuwe groep aangemaakt:",
+                Description: "heeft een nieuwe groep toegevoegd:",
                 ButtonText: "Bekijk groep",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: activityBanner,
+                Banner: headerPhoto,
                 Link: `Group/${id}`
             }) 
         })
@@ -104,17 +118,17 @@ const GroupSettings = () => {
                         <h1>Groepen</h1>
                         <p>Pas de instellingen van je groepen aan</p>
                     </div>
-                    {groups && groups.map(group => (
-                    <div className="divider" key={group.ID}>
-                        <h3>Community groepen</h3>
+                    <h3>Groepen</h3>
+                    <div className="divider">
+                        {groups && groups.map(group => (
                         <div className="channel-container" key={group.ID}>
                             <h3>{group.Room}</h3>
                             <div className="icon-container">
                                 <img src={settingsIcon} data-id={group.ID} onClick={channelSettings} />
                             </div>
                         </div>
+                        ))}
                     </div>
-                    ))}
                     <div className="divider">
                         <h3>Groep toevoegen</h3>
                         <div className="new-group-container">

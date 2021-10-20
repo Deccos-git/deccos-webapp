@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
@@ -19,17 +19,34 @@ import MenuStatus from "../hooks/MenuStatus";
 const AddArticle = () => {
     const [authO] = useContext(Auth)
 
-    const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
-    const editorRef = useRef(null);
-    const menuState = MenuStatus()
-
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [categorie, setCategorie] = useState("")
     const [newCategorie, setNewCategorie] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+    const [compagnyId, setCompagnyID] = useState('')
+
+    const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
+
+    const editorRef = useRef(null);
+    const menuState = MenuStatus()
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewArticle
+            setHeaderPhoto(header)
+        })
+    }, [banners])
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCompagnyID(comp.docid)
+        })
+    }, [compagny])
 
     const variants = {
         hidden: { opacity: 0 },
@@ -60,14 +77,6 @@ const AddArticle = () => {
 
         setNewCategorie(newCategorie)
     }
-
-    let banner = ""
-    let compagnyId = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewGroup
-        compagnyId = comp.docid
-    })
 
     const photoHandler = (e) => {
         setLoader(spinnerRipple)
@@ -146,7 +155,7 @@ const AddArticle = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: banner,
+                Banner: headerPhoto,
                 Link: `ArticleDetail/${id}`
             }) 
         })

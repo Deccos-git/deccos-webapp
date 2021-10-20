@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
 import { useFirestore } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
@@ -19,20 +19,30 @@ import MenuStatus from "../hooks/MenuStatus";
 const AddNews = () => {
     const [authO] = useContext(Auth)
 
-    const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
-    const editorRef = useRef(null);
-    const menuState = MenuStatus()
-
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+
+    const banners = useFirestore('Banners')
+
+    const editorRef = useRef(null);
+    const menuState = MenuStatus()
+    const id = uuid()
 
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewNews
+            console.log(header)
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     const titleHandler = (e) => {
         const title = e.target.value
@@ -44,13 +54,6 @@ const AddNews = () => {
             setBody(editorRef.current.getContent());
             }
     }
-
-
-    let banner = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewNews
-    })
 
     const photoHandler = (e) => {
         setLoader(spinnerRipple)
@@ -115,7 +118,7 @@ const AddNews = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: banner,
+                Banner: headerPhoto,
                 Link: `NewsDetail/${id}`
             }) 
         })

@@ -19,25 +19,36 @@ import MenuStatus from "../hooks/MenuStatus";
 const AddChannelItem = () => {
     const [authO] = useContext(Auth)
     const [channelName, setChannelName] = useState("")
-
-    const route = Location()[3]
-
-    const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
-    const editorRef = useRef(null);
-    const history = useHistory()
-    const menuState = MenuStatus()
-    const channels = useFirestoreID("Channels", route)
-
+    const [headerPhoto, setHeaderPhoto] = useState('')
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
 
+    const route = Location()[3]
+
+    const channels = useFirestoreID("Channels", route)
+    const compagny = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
+
+    const id = uuid()
+    const editorRef = useRef(null);
+    const history = useHistory()
+    const menuState = MenuStatus()
+   
+
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewChannelItem
+            console.log(header)
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     useEffect(() => {
         channels && channels.forEach(channel => {
@@ -55,12 +66,6 @@ const AddChannelItem = () => {
             setBody(editorRef.current.getContent());
             }
     }
-
-    let banner = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewEvent
-    })
 
     const photoHandler = (e) => {
         const photo = e.target.files[0]
@@ -124,7 +129,7 @@ const AddChannelItem = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: banner,
+                Banner: headerPhoto,
                 Link: `ChannelDetail/${id}`
             }) 
         })

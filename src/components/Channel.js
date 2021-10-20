@@ -15,11 +15,9 @@ import firebase from 'firebase';
 
 const Channel = () => {
     const [authO] = useContext(Auth)
-    const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
     const [memberStatus, setMemberStatus] = useState('Lid worden')
-
-    let channelTitle = null
+    const [channelTitle, setChannelTitle] = useState('')
 
     const route = Location()[3]
     const channels = useFirestoreID("Channels", route)
@@ -27,23 +25,27 @@ const Channel = () => {
     const channelsName = useFirestoreChannelName(channelTitle)
 
     const history = useHistory()
-
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const variants = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      }
     const menuState = MenuStatus()
 
-    channels && channels.forEach(channel => {
-        channelTitle = channel.Name
-    })
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelTitle(channel.Name)
+        })
+    }, [channels])
 
     useEffect(() => {
         channelsName && channelsName.forEach(channel => {
-            setChannelID(channel.docid)
-
             if(channel.Members.includes(authO.ID)){
                 setIsMember('flex')
                 setMemberStatus('Je bent lid')
             }
         })
-    },[channels])
+    },[channelsName])
 
     const updateRoute = (e) => {
 
@@ -61,14 +63,6 @@ const Channel = () => {
 
     }
 
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    const variants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }
-
-
     const profileLink = (e) => {
         const id = e.target.dataset.id
 
@@ -78,6 +72,8 @@ const Channel = () => {
     const becomeMember = (e) => {
 
         e.target.innerText = 'Lid geworden'
+
+        const channelID = e.target.dataset.id
 
         db.collection('Channels')
         .doc(channelID)
@@ -92,11 +88,12 @@ const Channel = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
+            {channels && channels.map(channel => (
+                <>
                 <div className="page-header">
                     <h1>{channelTitle}</h1>
-                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
+                    <button className="button-simple" data-id={channel.docid} onClick={becomeMember}>{memberStatus}</button>
                 </div>
-                {channels && channels.map(channel => (
                 <div className="card-container" style={{display: isMember}}>
                     {items && items.map(item => (
                         <motion.div  initial="hidden"
@@ -120,7 +117,8 @@ const Channel = () => {
                         </motion.div>
                     )) }
                 </div>
-                ))}
+            </>
+            ))}
             </div>
             <RightSideBar />
         </div>

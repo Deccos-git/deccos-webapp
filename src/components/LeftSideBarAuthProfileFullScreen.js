@@ -13,9 +13,13 @@ const LeftSideBarAuthProfile = () => {
     const [showNotification, setShowNotification] = useState("")
     const [menu, setMenu] = useContext(MobileMenu)
     const [admin, setAdmin] = useState(false)
+    const [author, setAuthor] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
 
     const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
+    const channels = useFirestore("Channels")
+    const groupChannels = useFirestore("GroupChannels")
 
     useEffect(() => {
         admins && admins.forEach(admin => {
@@ -24,6 +28,14 @@ const LeftSideBarAuthProfile = () => {
             }
         })
     }, [admins])
+
+    useEffect(() => {
+        authors && authors.forEach(author => {
+            if(author.UserID === authO.ID){
+                setAuthor(true)
+            }
+        })
+    }, [authors])
 
     useEffect(() => {
             if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
@@ -90,6 +102,35 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
+    const channelList = (channel) => {
+        if(channel.Link === 'Channel'){
+            return  <div className="channel-inner-div" key={channel.ID}>
+                        <Link activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name}</Link>
+                    </div>
+        }
+    }
+
+    const Author = () => {
+        if(author){
+            return <div>
+                        <h3>Toevoegen</h3>
+                        <div className="channel-inner-div">
+                            <Link activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</Link>
+                            <Link activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</Link>
+                            <Link activeClassName='active' to={`/${client}/AddEvent`}>Nieuw Event</Link>
+                            {channels && channels.map(channel => (
+                                channelList(channel)
+                            ))}
+                            {groupChannels && groupChannels.map(groupChannel => (
+                                <Link activeClassName='active' to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</Link>
+                            ))}
+                        </div>
+                    </div>
+        } else {
+            return null
+        }
+    }
+
     return (
         <div className="left-sidebar-container-mobile" style={{display: menu}}>
             <div className="left-side-bar-full-screen">
@@ -102,6 +143,7 @@ const LeftSideBarAuthProfile = () => {
                     </Link>
                 <Superadmin/>
                     <Admin/>
+                    <Author/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>

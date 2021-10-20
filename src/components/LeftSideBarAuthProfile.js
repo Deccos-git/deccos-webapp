@@ -7,6 +7,7 @@ import { Auth } from '../StateManagment/Auth';
 import { useState } from 'react';
 import { db } from '../firebase/config';
 import {useFirestore} from "../firebase/useFirestore"
+import GroupChannel from './GroupChannel';
 
 const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)
@@ -18,6 +19,7 @@ const LeftSideBarAuthProfile = () => {
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
     const channels = useFirestore("Channels")
+    const groupChannels = useFirestore("GroupChannels")
 
     useEffect(() => {
         admins && admins.forEach(admin => {
@@ -100,7 +102,7 @@ const LeftSideBarAuthProfile = () => {
     const channelList = (channel) => {
         if(channel.Link === 'Channel'){
             return  <div className="channel-inner-div" key={channel.ID}>
-                        <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name} item</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name}</NavLink>
                     </div>
         }
     }
@@ -110,11 +112,14 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3>Toevoegen</h3>
                         <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw artikel</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw nieuws item</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/AddEvent`}>Nieuw event</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/AddEvent`}>Nieuw Event</NavLink>
                             {channels && channels.map(channel => (
                                 channelList(channel)
+                            ))}
+                            {groupChannels && groupChannels.map(groupChannel => (
+                                <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
                             ))}
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestore, useFirestoreID, useFirestoreMessages } from "../firebase/useFirestore"
+import { useFirestore, useFirestoreID, useFirestoreMessages, useFirestoreUser } from "../firebase/useFirestore"
 import MessageBarGroup from "./MessageBarGroup"
 import emailIcon from '../images/icons/email-icon.png'
 import { db } from "../firebase/config"
@@ -63,7 +63,7 @@ const ChatRoom = () => {
         })
     })
 
-    const chatPartners = useFirestoreID("Users", userID)
+    const chatPartners = useFirestoreUser(userID)
 
     chatPartners && chatPartners.forEach(partner => {
         userName = partner.UserName
@@ -110,20 +110,42 @@ const ChatRoom = () => {
         }
     }
 
-    const users = useFirestoreID("Users", userID)
-
     const profileLink = (e) => {
         const id = e.target.dataset.id
 
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const ChatScreen = () => {
+        return(
+            <div className="chat-screen">
+            {messages && messages.map(message => (
+                <div className={messageClass(message)} key={message.ID}>
+                    <div className="sender-meta-container">
+                        <img className="sender-photo" src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                        <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                        <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    </div>
+                    <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
+                    <div className="send-as-mail-container">
+                        <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
+                        <div style={{display: showSendMail}}>
+                            <button onClick={sendAsMail}>Verstuur bericht als email</button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+            <MessageBarGroup route={route} auth={authO} />
+            </div>
+        )
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
-            <div className="group-container" style={{display: menuState}}>
-                {users && users.map(user => (
+            <div className="chat-container" style={{display: menuState}}>
+                {chatPartners && chatPartners.map(user => (
                     <div className="chat-header" key={user.ID}>
                         <div>
                             <img className="user-image" src={user.Photo} alt="" data-id={user.ID} onClick={profileLink} /> 
@@ -134,25 +156,7 @@ const ChatRoom = () => {
                         </div>
                     </div>
                 ))}
-                <div className="chat-screen">
-                {messages && messages.map(message => (
-                    <div className={messageClass(message)} key={message.ID}>
-                        <div className="sender-meta-container">
-                            <img className="sender-photo" src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
-                            <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                            <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                        </div>
-                        <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
-                        <div className="send-as-mail-container">
-                            <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
-                            <div style={{display: showSendMail}}>
-                                <button onClick={sendAsMail}>Verstuur bericht als email</button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-                <MessageBarGroup route={route} auth={authO} />
-                </div>
+               <ChatScreen/>
             </div>
             <RightSideBar />
         </div>

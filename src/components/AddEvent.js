@@ -20,14 +20,6 @@ const AddEvent = () => {
     const [memberIDArray, setMemberIDArray] = useState('')
     const [selectedEmailUser, setSelectedEmailUser] = useState('')
     const [userName, setuserName] = useState('')
-
-    const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
-    const channels = useFirestoreChannelName('Events')
-
-    const editorRef = useRef(null);
-    const menuState = MenuStatus()
-
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
@@ -40,6 +32,24 @@ const AddEvent = () => {
     const [street, setStreet] = useState("")
     const [city, setCity] = useState("")
     const [physicalLocationDisplay, setPhysicalLocationDisplay] = useState("none")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+
+    const id = uuid()
+    const compagny = useFirestore("CompagnyMeta")
+    const channels = useFirestoreChannelName('Events')
+    const banners = useFirestore('Banners')
+
+    console.log(banners)
+
+    const editorRef = useRef(null);
+    const menuState = MenuStatus()
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewEvent
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     useEffect(() => {
         memberIDArray && memberIDArray.forEach(ID => {
@@ -136,13 +146,6 @@ const AddEvent = () => {
         setCapacity(capacity)
     }
 
-
-    let banner = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewEvent
-    })
-
     const photoHandler = (e) => {
         const photo = e.target.files[0]
 
@@ -211,7 +214,7 @@ const AddEvent = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: banner,
+                Banner: headerPhoto,
                 Link: `EventDetail/${id}`
             }) 
         })

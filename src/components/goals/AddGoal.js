@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../../firebase/config.js"
 import { client } from '../../hooks/Client';
@@ -11,17 +10,12 @@ import { useFirestore } from '../../firebase/useFirestore.js';
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 
 const AddGoal = () => {
     const [authO] = useContext(Auth)
-
-    const id = uuid()
-    const menuState = MenuStatus()
-    
-    const compagny = useFirestore("CompagnyMeta")
 
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
@@ -30,6 +24,27 @@ const AddGoal = () => {
     const [loader, setLoader] = useState("")
     const [toggleGoal, setToggleGoal] = useState("none")
     const [SDG, setSDG] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+    const [compagnyId, setCompagnyID] = useState('')
+
+    const id = uuid()
+    const menuState = MenuStatus()
+    
+    const compagny = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewGoal
+            setHeaderPhoto(header)
+        })
+    }, [banners])
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCompagnyID(comp.docid)
+        })
+    }, [compagny])
 
     const variants = {
         hidden: { opacity: 0 },
@@ -80,14 +95,6 @@ const AddGoal = () => {
         })
     }
 
-    let activityBanner = ""
-    let compagnyId = ""
-
-    compagny && compagny.forEach(comp => {
-        activityBanner = comp.ActivityBanner.NewGoal
-        compagnyId = comp.docid
-    })
-
     const saveGoal = () => {
         db.collection("Goals")
         .doc()
@@ -119,7 +126,7 @@ const AddGoal = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Banner: activityBanner,
+                Banner: headerPhoto,
                 Link: `GoalDetail/${id}`
             }) 
         })
@@ -240,7 +247,7 @@ const AddGoal = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <p>Voeg een bannerfoto toe</p>
+                        <h4>Voeg een bannerfoto toe</h4>
                         <input className="input-classic" onChange={bannerHandler} type="file" />
                         <div className="spinner-container">
                             <img src={loader} alt="" />

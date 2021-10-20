@@ -12,11 +12,16 @@ import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
 import { useHistory } from "react-router-dom"
 import GetLink from '../hooks/GetLink'
+import GroupChannel from './GroupChannel'
 
 const Group = () => {
     const [authO] = useContext(Auth)
     const [showSendMail, setShowSendMail] = useState("none")
     const [selectedEmailUser, setSelectedEmailUser] = useState("")
+    const [chatDisplay, setChatDisplay] = useState('flex')
+    const [channelDisplay, setChannelDisplay] = useState('none')
+    const [tabChat, setTabChat] = useState('active-tab')
+    const [channelChat, setChannelTab] = useState('not-active-tab')
 
     const menuState = MenuStatus()
     const route = Location()[3]
@@ -103,6 +108,53 @@ const Group = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const showChat = () => {
+        setChatDisplay('flex')
+        setChannelDisplay('none')
+        setTabChat('active-tab')
+        setChannelTab('not-active-tab')
+    }
+
+    const showChannel = () => {
+        setChatDisplay('none')
+        setChannelDisplay('flex')
+        setTabChat('not-active-tab')
+        setChannelTab('active-tab')
+    }
+
+    const ChatScreen = () => {
+        return(
+            groups && groups.map(group => (
+            <div className="chat-screen" style={{display: chatDisplay}}>
+            {messages && messages.map(message => (
+            <div className={messageClass(message)} key={message.ID}>
+                <div className="sender-meta-container">
+                    <img className="sender-photo" src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink} />
+                    <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                    <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                </div>
+                <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
+                <div className="send-as-mail-container">
+                    <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
+                    <div style={{display: showSendMail}}>
+                        <button data-id={group.ID} data-username={message.User} data-room={group.Room} onClick={sendAsMail}>Verstuur bericht als email</button>
+                        <select name="" id="" onChange={emailMemberHandler}>
+                            <option value="">-- Selecteer --</option>
+                            <option value="everybody">Iedereen</option>
+                            {group.Members.map(member => (
+                                <option value={member.Email}>{member.UserName}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            ))}
+            <MessageBarGroup route={route} auth={authO} />
+        </div>
+            ))
+        )
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -110,34 +162,16 @@ const Group = () => {
             {groups && groups.map(group => (
             <div className="group-outer-container" key={group.ID} style={{display: menuState}}>
                 <div className="group-container">
-                    <div className="group-header">
+                    <div className="chat-header">
                         <h1>{group.Room}</h1>
-                    </div>
-                    <div className="chat-screen">
-                        {messages && messages.map(message => (
-                        <div className={messageClass(message)} key={message.ID}>
-                            <div className="sender-meta-container">
-                                <img className="sender-photo" src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink} />
-                                <p className="sender-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                                <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                            </div>
-                            <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
-                            <div className="send-as-mail-container">
-                                <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
-                                <div style={{display: showSendMail}}>
-                                    <button data-id={group.ID} data-username={message.User} data-room={group.Room} onClick={sendAsMail}>Verstuur bericht als email</button>
-                                    <select name="" id="" onChange={emailMemberHandler}>
-                                        <option value="">-- Selecteer --</option>
-                                        <option value="everybody">Iedereen</option>
-                                        {group.Members.map(member => (
-                                            <option value={member.Email}>{member.UserName}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
+                        <div className='group-navigation-container'>
+                            <p className={tabChat} onClick={showChat}>Chat</p>
+                            <p className={channelChat} onClick={showChannel}>Kanaal</p>
                         </div>
-                        ))}
-                        <MessageBarGroup route={route} auth={authO} />
+                    </div>
+                    <ChatScreen />
+                    <div style={{display: channelDisplay}}>
+                        <GroupChannel />
                     </div>
                 </div>
                 <RightSideBarGroup group={group} route={route} /> 

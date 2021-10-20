@@ -12,6 +12,8 @@ import { Auth } from '../StateManagment/Auth';
 const Members = () => {
     const [authO] = useContext(Auth)
     const [showDeleteButton, setShowDeleteButton] = useState("none")
+    const [memberCount, setMemberCount] = useState('')
+    const [communityName, setCommunityName] = useState('')
 
     const docs = useFirestoreUsers(false)
     const compagnies = useFirestore("CompagnyMeta")
@@ -26,6 +28,21 @@ const Members = () => {
 
         history.push(`/${client}/PublicProfile/${memberID}`)
     }
+
+    useEffect(() => {
+        compagnies && compagnies.forEach(compagny => {
+            setCommunityName(compagny.CommunityName)
+        })
+ 
+    }, [compagnies])
+
+    useEffect(() => {
+        const docArray = []
+        docs && docs.forEach(doc => {
+            docArray.push(doc)
+        })
+        setMemberCount(docArray.length)
+    }, [docs])
 
     useEffect(() => {
         const showDeleteButtonForAdmin = () => {
@@ -53,21 +70,19 @@ const Members = () => {
             <div className="main">
                 <LeftSideBarAuthProfile />
                 <LeftSideBarAuthProfileFullScreen/>
-                {compagnies && compagnies.map(compagny => (
-                <div className="profile profile-auth-profile" key={compagny.ID} style={{display: menuState}}>
+                <div className="profile profile-auth-profile" style={{display: menuState}}>
                     <div className="card-header">
                         <h1>Leden</h1>
-                        <p>Bekijk alle {compagny.Members.length} leden van {compagny.CommunityName}</p>
+                        <p>Bekijk alle {memberCount} leden van {communityName}</p>
                     </div>
                     {docs && docs.map(doc => (
-                        <div id="members-container" key={doc.ID}>
-                            <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
-                            <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
-                            <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser}>Verwijderen</p>
-                        </div>
-                    ))}
+                    <div id="members-container" key={doc.ID}>
+                        <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
+                        <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
+                        <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser}>Verwijderen</p>
+                    </div>
+                      ))}
                 </div>
-                  ))}
                 <RightSideBar />
             </div>
     )

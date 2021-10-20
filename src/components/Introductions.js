@@ -1,7 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { db, timestamp } from "../firebase/config.js"
 import uuid from 'react-uuid';
 import IntroductionsCard from './IntroductionsCard'
@@ -12,25 +12,29 @@ import MenuStatus from "../hooks/MenuStatus";
 import { useLocation } from "react-router-dom"
 
 const Introductions = () => {
-    const [body, setBody] = useState("")
     const [authO] = useContext(Auth)
 
+    const [body, setBody] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
+
+    const banners = useFirestore('Banners')
+
     const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
     const menuState = MenuStatus()
     const location = useLocation()
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewIntroduction
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     const textBody = (e) => {
         const body = e.target.value
 
         setBody(body)
     }
-
-    let banner = ""
-
-    compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.NewIntroduction
-    })
 
     const saveIntroduction = () => {
 
@@ -58,7 +62,7 @@ const Introductions = () => {
                 ButtonText: "Bekijk",
                 Timestamp: timestamp,
                 ID: id,
-                Banner: banner,
+                Banner: headerPhoto,
                 Description: 'heeft zich voorgesteld aan de community',
                 Link: `Introductions`,
                 User: `${authO.ForName} ${authO.SurName}`,

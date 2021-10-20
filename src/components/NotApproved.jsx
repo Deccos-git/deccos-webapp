@@ -15,18 +15,22 @@ const NotApproved = () => {
     const [logo, setLogo] = useState("")
     const [website, setWebsite] = useState("")
     const [verificationMethode, setVerificationMethode] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
 
     const compagnies = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
 
     const history = useHistory()
     const route = Location()[3]
     const id = uuid()
 
-    let banner = null
-
-    compagnies && compagnies.forEach(comp => {
-        banner = comp.ActivityBanner.newMember
-    })
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewMember
+            console.log(header)
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     useEffect(() => {
         auth.onAuthStateChanged(User =>{
@@ -125,7 +129,7 @@ const NotApproved = () => {
                             ButtonText: "Bekijk profiel",
                             Timestamp: timestamp,
                             ID: id,
-                            Banner: banner,
+                            Banner: headerPhoto,
                             Description: 'is lid geworden van de community',
                             Link: `/${client}/PublicProfile/${authO.ID}`,
                             User: `${authO.ForName} ${authO.SurName}`,
@@ -144,8 +148,6 @@ const NotApproved = () => {
         }
     }
     verifyEmail()
-
-    console.log(authO)
 
 
     return (
