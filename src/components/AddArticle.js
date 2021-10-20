@@ -1,5 +1,5 @@
-import LeftSideBar from "./LeftSideBar"
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useState } from 'react'
 import { motion } from "framer-motion"
@@ -164,8 +164,8 @@ const AddArticle = () => {
 
     return (
         <div className="main">
-            <LeftSideBar />
-            <LeftSideBarFullScreen/>
+             <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"

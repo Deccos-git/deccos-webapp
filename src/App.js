@@ -40,10 +40,10 @@ function App() {
 
             setCompagny(compagny)
 
-            if(approved === false && compagny === client){
+            if(approved === false && compagny.includes(client)){
               setApproved(false)
               
-            } else if (approved === true && compagny === client){
+            } else if (approved === true && compagny.includes(client)){
               setApproved(true)
             } 
           })

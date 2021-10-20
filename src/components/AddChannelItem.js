@@ -1,5 +1,5 @@
-import LeftSideBar from "./LeftSideBar"
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"
@@ -44,8 +44,6 @@ const AddChannelItem = () => {
             setChannelName(channel.Name)
         })
     }, [channels])
-
-    console.log(channelName)
 
     const titleHandler = (e) => {
         const title = e.target.value
@@ -148,8 +146,8 @@ const AddChannelItem = () => {
 
     return (
         <div className="main">
-            <LeftSideBar />
-            <LeftSideBarFullScreen/>
+            <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"

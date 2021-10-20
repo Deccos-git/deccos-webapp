@@ -16,7 +16,6 @@ import firebase from 'firebase';
 const News = () => {
     const [authO] = useContext(Auth)
 
-    const [displayAddNew, setDisplayAddNew] = useState("none")
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
     const [memberStatus, setMemberStatus] = useState('Lid worden')
@@ -24,7 +23,6 @@ const News = () => {
     const news = useFirestore("News")
     const history = useHistory()
     const channels = useFirestoreChannelName('Nieuws')
-    const authors = useFirestore('Authors')
 
     const menuState = MenuStatus()
     
@@ -40,14 +38,6 @@ const News = () => {
             }
         })
     },[channels])
-
-    useEffect(() => {
-        authors && authors.forEach(author => {
-            if(author.UserID === authO.ID){
-                setDisplayAddNew("flex")
-            }
-        })
-    }, [authors])
 
     const detailRouter = (e) => {
 
@@ -76,28 +66,6 @@ const News = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
-    const showAddNew = () => {
-
-        auth.onAuthStateChanged(User =>{
-            if(User){
-                db.collection("Users")
-                .doc(User.uid)
-                .get()
-                .then(doc => {
-                    const author = doc.data().Author
-
-                    if(author === true){
-                        setDisplayAddNew("flex")
-                    } else if (author === false){
-                        setDisplayAddNew("none")
-                    }
-                })
-            }
-        })
-    }
-
-    showAddNew()
-
     const becomeMember = (e) => {
 
         e.target.innerText = 'Lid geworden'
@@ -120,22 +88,6 @@ const News = () => {
                     <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
-                    <motion.div 
-                    className="card"
-                    style={{display: displayAddNew}}
-                    initial="hidden"
-                    animate="visible"
-                    variants={variants}>
-                        <img className="card-banner" src={newsIcon} alt="" />
-                        <div className="article-card-user-container">
-                            <img src={authO.Photo} alt="" />
-                            <p>{authO.UserName}</p>
-                        </div>
-                        <div className="list-inner-container">
-                            <h2>Voeg een item toe</h2>
-                            <Link to={`/${client}/AddNews`}><button>Voeg toe</button></Link>
-                        </div>
-                    </motion.div>
                     {news && news.map(item => (
                         <div className="card">
                             <img className="card-banner" src={item.Banner} alt="" />

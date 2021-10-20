@@ -15,15 +15,13 @@ import firebase from 'firebase';
 
 const KnowledgeCentre = () => {
     const [authO] = useContext(Auth)
-    
-    const [displayAddNew, setDisplayAddNew] = useState("none")
+
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
     const [memberStatus, setMemberStatus] = useState('Lid worden')
 
     const docs = useFirestore("KnowledgeCentre")
     const channels = useFirestoreChannelName('Kenniscentrum')
-    const authors = useFirestore('Authors')
 
     const menuState = MenuStatus()
 
@@ -42,16 +40,6 @@ const KnowledgeCentre = () => {
             }
         })
     },[channels])
-
-    console.log(displayAddNew)
-
-    useEffect(() => {
-        authors && authors.forEach(author => {
-            if(author.UserID === authO.ID){
-                setDisplayAddNew("flex")
-            }
-        })
-    }, [authors])
 
     const becomeMember = (e) => {
 
@@ -75,22 +63,6 @@ const KnowledgeCentre = () => {
                     <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
-                    <motion.div 
-                    className="card"
-                    style={{display: displayAddNew}}
-                    initial="hidden"
-                    animate="visible"
-                    variants={variants}>
-                        <img className="card-banner" src={articleIcon} alt="" />
-                        <div className="list-inner-container">
-                            <div className="article-card-user-container">
-                                <img src={authO.Photo} alt="" />
-                                <p>{authO.UserName}</p>
-                            </div>
-                            <h2>Voeg een artikel toe</h2>
-                            <Link to={`/${client}/AddArticle`}><button>Voeg toe</button></Link>
-                        </div>
-                    </motion.div>
                     {docs && docs.map(doc => (
                         <ArticleCard doc={doc} key={doc.ID} />
                     ))}

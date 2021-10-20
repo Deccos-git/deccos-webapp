@@ -32,7 +32,7 @@ const NotApproved = () => {
         auth.onAuthStateChanged(User =>{
             if(User){
                 db.collection("Users")
-                .where("Compagny", "==", client)
+                .where("Compagny", "array-contains", client)
                 .where("Email", "==", User.email)
                 .onSnapshot(querySnapshot => {
                     querySnapshot.forEach (doc => {
@@ -41,7 +41,7 @@ const NotApproved = () => {
             })
             }
         })
-    }, [auth])
+    }, [compagnies])
 
     useEffect(() => {
         compagnies && compagnies.forEach(comp => {
@@ -145,7 +145,7 @@ const NotApproved = () => {
     }
     verifyEmail()
 
-
+    console.log(authO)
 
 
     return (
@@ -155,10 +155,10 @@ const NotApproved = () => {
             </header>
             <div className="main">
                 <div className="approval-message-container">
-                    <img src={logo} alt="" />
+                    <img src={authO.Photo} alt=""/>
+                    <h2>Hoi {authO.UserName},</h2>
                     <h1>Welkom bij {communityName}</h1>
                     {verificationNotice()}
-
                     <a href={`${website}`}>Terug naar de website</a>
                 </div>
             </div>

@@ -7,8 +7,6 @@ import firebase from 'firebase';
 
 const MultipleAccounts = ({authO}) => {
 
-    console.log(authO)
-
     const compagnies = useFirestore("CompagnyMeta")
 
     const history = useHistory()
@@ -22,9 +20,6 @@ const MultipleAccounts = ({authO}) => {
         website = doc.Website
         communityName = doc.CommunityName
     })
-
-    console.log(authO)
-    console.log(compagnies)
 
     const registerUser = () => {
         db.collection("Users")

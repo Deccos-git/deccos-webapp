@@ -1,5 +1,5 @@
-import LeftSideBar from "./LeftSideBar"
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { motion } from "framer-motion"
 import { db, timestamp } from "../firebase/config.js"
@@ -252,8 +252,8 @@ const AddEvent = () => {
 
     return (
         <div className="main">
-            <LeftSideBar />
-            <LeftSideBarFullScreen/>
+             <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             <motion.div className="article"
             initial="hidden"
             animate="visible"

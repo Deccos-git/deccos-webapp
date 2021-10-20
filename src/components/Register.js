@@ -119,20 +119,15 @@ const RegisterUser = () => {
                 UserName: `${forname} ${surname}`,
                 ForName: forname,
                 SurName: surname,
-                Compagny: client,
+                Compagny: firebase.firestore.FieldValue.arrayUnion(client),
                 Timestamp: timestamp,
                 Email: email,
                 Photo: photo,
                 Channels: [],
                 ID: id,
                 Approved: false,
-                Author: false,
-                Admin: false,
-                SuperAdmin: false,
                 Deleted: false,
-                About: "",
                 Docid: cred.user.uid,
-                Contributions: []
             })
         })
         .then(() => {

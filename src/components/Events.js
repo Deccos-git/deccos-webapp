@@ -16,14 +16,12 @@ import firebase from 'firebase';
 const Events = () => {
     const [authO] = useContext(Auth)
 
-    const [displayAddNew, setDisplayAddNew] = useState("none")
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
     const [memberStatus, setMemberStatus] = useState('Lid worden')
 
     const events = useFirestoreTimestamp("Events")
     const channels = useFirestoreChannelName('Events')
-    const authors = useFirestore('Authors')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -44,14 +42,6 @@ const Events = () => {
         })
     },[channels])
 
-    useEffect(() => {
-        authors && authors.forEach(author => {
-            if(author.UserID === authO.ID){
-                setDisplayAddNew("flex")
-            }
-        })
-    }, [authors])
-
     const detailRouter = (e) => {
 
         const id = e.target.dataset.id 
@@ -67,28 +57,6 @@ const Events = () => {
         })
 
     }
-
-    const showAddNew = () => {
-
-        auth.onAuthStateChanged(User =>{
-            if(User){
-                db.collection("Users")
-                .doc(User.uid)
-                .get()
-                .then(doc => {
-                    const author = doc.data().Author
-
-                    if(author === true){
-                        setDisplayAddNew("flex")
-                    } else if (author === false){
-                        setDisplayAddNew("none")
-                    }
-                })
-            }
-        })
-    }
-
-    showAddNew()
 
     const profileLink = (e) => {
         const id = e.target.dataset.id
@@ -118,22 +86,6 @@ const Events = () => {
                     <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
-                    <motion.div 
-                    className="card"
-                    style={{display: displayAddNew}}
-                    initial="hidden"
-                    animate="visible"
-                    variants={variants}>
-                        <img className="card-banner" src={articleIcon} alt="" />
-                        <div className="list-inner-container">
-                            <div className="article-card-user-container">
-                                <img src={authO.Photo} alt="" />
-                                <p>{authO.UserName}</p>
-                            </div>
-                            <h2>Voeg een event toe</h2>
-                            <Link to={`/${client}/AddEvent`}><button>Voeg toe</button></Link>
-                        </div>
-                    </motion.div>
                     {events && events.map(even => (
                         <div className="card">
                             <img className="card-banner" src={even.Banner} alt="" />

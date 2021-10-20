@@ -14,7 +14,6 @@ import MenuStatus from "../hooks/MenuStatus";
 import firebase from 'firebase';
 
 const Channel = () => {
-    const [displayAddNew, setDisplayAddNew] = useState("none")
     const [authO] = useContext(Auth)
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
@@ -26,7 +25,6 @@ const Channel = () => {
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
     const channelsName = useFirestoreChannelName(channelTitle)
-    const authors = useFirestore('Authors')
 
     const history = useHistory()
 
@@ -46,14 +44,6 @@ const Channel = () => {
             }
         })
     },[channels])
-
-    useEffect(() => {
-        authors && authors.forEach(author => {
-            if(author.UserID === authO.ID){
-                setDisplayAddNew("flex")
-            }
-        })
-    }, [authors])
 
     const updateRoute = (e) => {
 
@@ -78,12 +68,6 @@ const Channel = () => {
         visible: { opacity: 1 },
       }
 
-    const addItem = (e) => {
-        const id = e.target.dataset.id
-
-        history.push(`/${client}/AddChannelItem/${id}`)
-
-    }
 
     const profileLink = (e) => {
         const id = e.target.dataset.id
@@ -114,22 +98,6 @@ const Channel = () => {
                 </div>
                 {channels && channels.map(channel => (
                 <div className="card-container" style={{display: isMember}}>
-                    <motion.div 
-                    className="card"
-                    style={{display: displayAddNew}}
-                    initial="hidden"
-                    animate="visible"
-                    variants={variants}>
-                        <img className="card-banner" src={articleIcon} alt="" />
-                        <div className="list-inner-container">
-                            <div className="article-card-user-container">
-                                <img src={authO.Photo} alt="" />
-                                <p>{authO.UserName}</p>
-                            </div>
-                            <h2>Voeg een item toe</h2>
-                            <button onClick={addItem} data-id={channel.ID}>Voeg toe</button>
-                        </div>
-                    </motion.div>
                     {items && items.map(item => (
                         <motion.div  initial="hidden"
                         animate="visible"
