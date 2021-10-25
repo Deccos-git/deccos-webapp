@@ -3,7 +3,7 @@ import { auth, db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import uuid from 'react-uuid';
 import firebase from 'firebase'
-import { useFirestore } from '../firebase/useFirestore.js';
+import { useFirestore, useFirestoreAdmins } from '../firebase/useFirestore.js';
 import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
@@ -20,11 +20,19 @@ const RegisterUser = () => {
     const [loader, setLoader] = useState("")
     const [communityNameDB, setCommunityNameDB] = useState("")
     const [logoDB, setLogoDB] = useState("")
+    const [adminEmail, setAdminEmail] = useState('')
 
     const id = uuid()
     const history = useHistory()
     
     const compagny = useFirestore("CompagnyMeta")
+    const admins = useFirestoreAdmins('Admins')
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            setAdminEmail(admin.Email)
+        })
+    }, [admins])
 
     const fornameHandler = (e) => {
         const forname = e.target.value
@@ -134,8 +142,10 @@ const RegisterUser = () => {
             compagny && compagny.forEach(comp => {
                 if(comp.VerificationMethode === "Admin"){
                     verificationEmailAdmin(communityNameDB, email, forname, surname, logoDB)
+                    emailToAdminAdmin(forname, surname, communityNameDB)
                 } else if(comp.VerificationMethode === "Email"){
                     verificationEmailEmail(communityNameDB, email, forname, surname, logoDB)
+                    emailToAdminEmail(forname, surname, communityNameDB)
                 }
             })
         })
@@ -149,6 +159,29 @@ const RegisterUser = () => {
             }
             
         })
+    }
+
+    const emailToAdminAdmin = (forname, surname, communityName) => {
+        db.collection("Email").doc().set({
+            to: [adminEmail],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Iemand heeft zich aangemald voor ${communityName}`,
+            html: `
+                Iemand heeft zich aangemeld voor jullie community. <br><br>
+
+                Naam: ${forname} ${surname}. <br><br>
+
+                Dit lidmaatschap moet door een beheerder worden geverificeerd.<br><br>
+
+                <a href='https://deccos.co/${client}/Registrations'>Klik hier</a> om de alle openstaande aanvragen te beheren.<br><br>
+                
+                `,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: adminEmail,
+            Type: "Verification mail email"
+              }     
+          });
     }
 
     const verificationEmailAdmin = (email, forname, surname, communityName, logo) => {
@@ -192,6 +225,27 @@ const RegisterUser = () => {
             Gebruikersnaam: `${forname} ${surname}`,
             Emailadres: email,
             Type: "Verification mail"
+              }     
+          });
+    }
+
+    const emailToAdminEmail = (forname, surname, communityName) => {
+        db.collection("Email").doc().set({
+            to: [adminEmail],
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Iemand heeft zich aangemald voor ${communityName}`,
+            html: `
+                Iemand heeft zich aangemeld voor jullie community. <br><br>
+
+                Naam: ${forname} ${surname}. <br><br>
+
+                <a href='https://deccos.co/${client}/Members'>Klik hier</a> om de alle leden te beheren.<br><br>
+                
+                `,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: adminEmail,
+            Type: "Verification mail admin"
               }     
           });
     }

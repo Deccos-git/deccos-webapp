@@ -3,26 +3,35 @@ import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useFirestoreUsers, useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { client } from '../hooks/Client';
 
 const UserRoles = () => {
-    const [user, setUser] = useState('')
-
     const [adminID, setAdminID] = useState("")
     const [adminName, setAdminName] = useState("")
     const [adminPhoto, setAdminPhoto] = useState("")
+    const [adminEmail, setAdminEmail] = useState("")
     const [authorID, setAuthorID] = useState("")
     const [authorName, setAuthorName] = useState("")
     const [authorPhoto, setAuthorPhoto] = useState("")
-
+    const [authorEmail, setAuthorEmail] = useState("")
+    const [communityName, setCommunityName] = useState('')
+    const [communityLogo, setCommunityLogo] = useState('')
 
     const users = useFirestoreUsers(false)
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
+    const compagny = useFirestore("CompagnyMeta")
 
     const menuState = MenuStatus()
+
+    useEffect(() => {
+       compagny && compagny.forEach(comp => {
+        setCommunityName(comp.CommunityName)
+        setCommunityLogo(comp.Logo)
+       })
+    }, [compagny])
 
     const deleteAdmin = (e) => {
 
@@ -37,10 +46,12 @@ const UserRoles = () => {
         const id = e.target.options[e.target.selectedIndex].dataset.id
         const photo = e.target.options[e.target.selectedIndex].dataset.photo
         const username = e.target.options[e.target.selectedIndex].dataset.name
+        const email = e.target.options[e.target.selectedIndex].dataset.email
 
         setAdminID(id)
         setAdminName(username)
         setAdminPhoto(photo)
+        setAdminEmail(email)
     }
 
     const addAdmin = (e) => {
@@ -53,7 +64,38 @@ const UserRoles = () => {
             Compagny: client,
             UserName: adminName,
             Photo: adminPhoto,
-            UserID: adminID
+            UserID: adminID,
+            Email: adminEmail
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [authorEmail],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je bent als beheerder toegevoegd op ${communityName}`,
+                html: `Hallo ${authorName}, </br></br>
+                    Je bent door een beheerder van ${communityName} toegevoegd als beheerder.<br><br>
+    
+                    Dat betekent dat je vanaf nu:<br><br>
+    
+                    <ul>
+                        <li>Algemene instellingen van de community kunt aanpassen</li>
+                        <li>Analytics (statistieken) van de community kunt inzien</li>
+                        <li>Leden kunt verwijderen</li>
+                        <li>Gebruikersrollen kan wijzigen</li>
+                        <li>Nieuwe aanmeldingen voor de community kan goedkeuren</li>
+                        <li>Instellingen voor kanalen, groepen en doelen aanpassen</li>
+                        <li>De welkomsboodschap aanpassen</li>
+                    </ul><br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${communityLogo}" width="100px">`,
+                Gebruikersnaam: `${authorName}`,
+                Emailadres: authorEmail,
+                Type: "Verification mail"
+                  }     
+              });
         })
     }
 
@@ -70,10 +112,12 @@ const UserRoles = () => {
         const id = e.target.options[e.target.selectedIndex].dataset.id
         const photo = e.target.options[e.target.selectedIndex].dataset.photo
         const username = e.target.options[e.target.selectedIndex].dataset.name
+        const email = e.target.options[e.target.selectedIndex].dataset.email
 
         setAuthorID(id)
         setAuthorName(username)
         setAuthorPhoto(photo)
+        setAuthorEmail(email)
     }
 
     const addAuthor = (e) => {
@@ -86,7 +130,33 @@ const UserRoles = () => {
             Compagny: client,
             UserName: authorName,
             Photo: authorPhoto,
-            UserID: authorID
+            UserID: authorID,
+            Email: authorEmail
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [authorEmail],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je bent als auteur toegevoegd op ${communityName}`,
+                html: `Hallo ${authorName}, </br></br>
+                    Je bent door een beheerder van ${communityName} toegevoegd als auteur.<br><br>
+    
+                    Dat betekent dat je vanaf nu:<br><br>
+    
+                    <ul>
+                        <li>Artikelen, events, neuwsberichten en andere kanaalitems kunt toevoegen</li>
+                        <li>Artikelen, events, neuwsberichten en andere kanaalitems kunt aanpassen</li>
+                    </ul><br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${communityLogo}" width="100px">`,
+                Gebruikersnaam: `${authorName}`,
+                Emailadres: authorEmail,
+                Type: "Verification mail"
+                  }     
+              });
         })
     }
 
@@ -124,7 +194,7 @@ const UserRoles = () => {
                         <select className="userrole-select" name="" id="" onChange={adminHandler}>
                             <option value="">--- Selecteer ---</option>
                             {users && users.map(user => (
-                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} key={user.ID}>{user.UserName}</option>
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                         <div className="button-userrole-container">
@@ -149,7 +219,7 @@ const UserRoles = () => {
                         <select className="userrole-select" name="" id="" onChange={authorHandler}>
                             <option value="">--- Selecteer ---</option>
                             {users && users.map(user => (
-                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} key={user.ID}>{user.UserName}</option>
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                         <div className="button-userrole-container">

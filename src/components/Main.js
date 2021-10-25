@@ -56,6 +56,8 @@ import Results from './Results';
 import NotApproved from './NotApproved';
 import ImpactPath from './ImpactPath'
 import ImpactPathSettings from './ImpactPathSettings'
+import MyChannels from './MyChannels'
+import Subscriptions from './Subscriptions'
 
 const Main = () => {
 
@@ -95,6 +97,9 @@ const Main = () => {
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>
                 </Route>
+                <Route path={`/${client}/Subscriptions`}>
+                    <Subscriptions/>
+                </Route>
                 <Route path={`/${client}/Goals`}>
                     <Goals/>
                 </Route>
@@ -133,6 +138,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MyGroups`}>
                     <MyGroups/>
+                </Route>
+                <Route path={`/${client}/MyChannels`}>
+                    <MyChannels/>
                 </Route>
                 <Route path={`/${client}/MyContributions`}>
                     <MyContributions/>

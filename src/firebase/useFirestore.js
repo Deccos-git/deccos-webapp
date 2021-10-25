@@ -519,6 +519,28 @@ const useFirestoreChannelName = (name) => {
     return docs
 };
 
+const useFirestoreAdmins = (collection) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where('Compagny', '==', client)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -542,5 +564,6 @@ export {
     useFirestoreContributionGraph,
     useFirestoreAboutMe,
     useFirestoreActivities,
-    useFirestoreChannelName
+    useFirestoreChannelName,
+    useFirestoreAdmins
 }

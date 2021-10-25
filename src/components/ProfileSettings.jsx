@@ -12,19 +12,14 @@ import { useFirestore, useFirestoreProfileFields } from "../firebase/useFirestor
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
-import { useDrag} from 'react-dnd'
 import { useState, useEffect } from "react";
 
 const ProfileSettings = () => {
     const [title, setTitle] = useState("")
     const [position, setPosition] = useState(0)
+    const [type, setType] = useState('test')
 
-    const [{isDragging}, drag] = useDrag(() => ({
-        type: "div",
-        collect: (monitor) => ({
-            isDragging: !!monitor.isDragging()
-        })
-    }))
+    console.log('test')
 
     const profileFields = useFirestoreProfileFields()
 
@@ -68,7 +63,6 @@ const ProfileSettings = () => {
     }
 
     const addField = (e) => {
-        const type = e.target.dataset.type
         const html = e.target.dataset.html
 
         db.collection("ProfileFields")
@@ -102,6 +96,16 @@ const ProfileSettings = () => {
         return html
     }
 
+    const textAreaHTML = () => {
+        const html = 
+        `<div>
+            <h3>${title}</h3>
+            <textarea type="text"/>
+        </div>`
+
+        return html
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -123,28 +127,37 @@ const ProfileSettings = () => {
                     </div>
                     <div className="divider">
                         <h2>Veld toevoegen</h2>
-                        <div className="add-registration-field-container" >
-                            <img className="drag-icon" src={plusIcon} data-html={textFieldHTML()} data-type={"TextField"}  onClick={addField} />
-                            <p>Textveld</p>
-                            <input onChange={titleHandler} type="text" placeholder="Geef je textveld een titel" />
-                            <img src={RegistrationField} alt="" />
-                        </div>
-                        <div className="add-registration-field-container" data-type={"TextArea"} >
-                            <img className="drag-icon" src={plusIcon} data-type={"TextArea"}  onClick={addField} />
-                            <p data-type={"textArea"}>Textvak</p>
-                            <textarea onChange={titleHandler} type="text" placeholder="Geef je textvak een titel" />
-                            <img data-type={"textArea"} src={RegistrationArea} alt="" />
-                        </div>
-                        <div className="add-registration-field-container" data-type={"Radio"} >
+                        <h3>Geef het profielveld een titel</h3>
+                        <input onChange={titleHandler} type="text" placeholder="Geef je profielveld een titel" />
+                        <h3>Kies een veldsoort</h3>
+                        <form>
+                            <div className='select-profiel-field-container'>
+                                <input type="radio" id='input' name='add-profile-field' onChange={() => setType('input')}/>
+                                <label htmlFor="input">
+                                    <div className="add-registration-field-container">
+                                        <p>Textveld</p>
+                                        <img src={RegistrationField} alt="" />
+                                    </div>
+                                </label>
+                            </div>
+                            <div className='select-profiel-field-container'>
+                                <input type="radio" id='textarea' name='add-profile-field' />
+                                <label htmlFor="textarea">
+                                    <div className="add-registration-field-container" onChange={() => setType('textarea')}>
+                                        <p data-type={"textArea"}>Textvak</p>
+                                        <img data-type={"textArea"} src={RegistrationArea} alt="" />
+                                    </div>
+                                </label>
+                            </div>
+                        </form>
+                        
+                        
+                        {/* <div className="add-registration-field-container" data-type={"Radio"} >
                             <img className="drag-icon" src={plusIcon} alt="" />
                             <p data-type={"radio"}>Meerkeuze knoppen</p>
                             <img data-type={"radio"} src={RegistrationRadio} alt="" />
-                        </div>
-                        <div className="add-registration-field-container" data-type={"Dropdown"} >
-                            <img className="drag-icon" src={plusIcon} alt="" />
-                            <p data-type={"dropdown"} >Meerkeuze lijst</p>
-                            <img data-type={"dropdown"} src={RegistrationDropdown} alt="" />
-                        </div>
+                        </div> */}
+                       <button className='button-simple' onClick={addField}>Toevoegen</button>
                     </div>
                 </div>
             </div>

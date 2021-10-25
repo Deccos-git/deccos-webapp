@@ -7,12 +7,12 @@ import emailIcon from '../images/icons/email-icon.png'
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import { db } from "../firebase/config"
-import { client } from "../hooks/Client"
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
 import { useHistory } from "react-router-dom"
 import GetLink from '../hooks/GetLink'
 import GroupChannel from './GroupChannel'
+import { client } from '../hooks/Client';
 
 const Group = () => {
     const [authO] = useContext(Auth)

@@ -7,16 +7,24 @@ import { client } from "../hooks/Client";
 import { useFirestore } from "../firebase/useFirestore";
 import firebase from "firebase";
 import MenuStatus from "../hooks/MenuStatus";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Registrations = () => {
     const [verificationMethode, setVerificationMethode] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
 
     const notApprovedUsers = useFirestoreNotApproved()
-
     const compagny = useFirestore("CompagnyMeta")
+    const banners = useFirestore('Banners')
 
     const menuState = MenuStatus()
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewMember
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     let banner = null
     let docid = null
@@ -24,7 +32,6 @@ const Registrations = () => {
     let verificationEmail = null
 
     compagny && compagny.forEach(comp => {
-        banner = comp.ActivityBanner.newMember
         docid = comp.docid
         const verificationMethode = comp.VerificationMethode
 
@@ -63,7 +70,7 @@ const Registrations = () => {
                 ButtonText: "Bekijk profiel",
                 Timestamp: timestamp,
                 ID: id,
-                Banner: banner,
+                Banner: headerPhoto,
                 Description: 'is lid geworden van de community',
                 Link: `/${client}/PublicProfile/${userID}`,
                 User: `${forname} ${surname}`,

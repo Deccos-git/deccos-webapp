@@ -437,23 +437,27 @@
       cursor: pointer;
   }
 
+  .subscription-container p{
+      color: red;
+      margin-left: auto;
+      margin-right: 10px;
+      cursor: pointer;
+      font-size: 12px;
+  }
+
   .add-registration-field-container{
       display: flex;
       justify-content: left;
       align-items: center;
-      cursor: pointer;
-      margin-bottom: 10px;
-      padding: 5px;
+      background-color: #a7bdbd26;
+      margin: 0px 0px 10px 10px;
+      padding: 5px 25px 5px 5px;
   }
 
   .add-registration-field-container img{
       border: 1px solid lightgray;
       margin-left: auto;
       margin-right: 0px;
-  }
-
-  .add-registration-field-container:hover{
-      background-color: #a7bdbd26;
   }
 
   .drag-icon{
@@ -1155,6 +1159,25 @@
       margin-top: 20px;
   }
 
+  .select-profiel-field-container{
+      display: flex;
+      align-items: center;
+  }
+
+  .select-profiel-field-container input{
+      width: 15px;
+      box-shadow: none;
+  }
+
+  .select-profiel-field-container label{
+      display: flex;
+      align-items: center;
+  }
+
+  .add-registration-field-container p{
+      margin: 20px;
+  }
+
   #notification-false{
       display: none;
   }
@@ -1255,7 +1278,7 @@
   }
 
   .not-active-tab{
-    box-shadow: 0 1px 2px #d3d3d3;
+    border-top: 1px solid lightgray;
   }
 
   .chat-header{

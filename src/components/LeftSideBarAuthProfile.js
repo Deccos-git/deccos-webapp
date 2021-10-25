@@ -119,7 +119,7 @@ const LeftSideBarAuthProfile = () => {
                                 channelList(channel)
                             ))}
                             {groupChannels && groupChannels.map(groupChannel => (
-                                <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
+                                <NavLink activeClassName='active' key={groupChannels.ID} to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
                             ))}
                         </div>
                     </div>
@@ -145,6 +145,7 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/AboutMe/${authO.ID}`}>Over mij</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/Subscriptions/${authO.ID}`}>Abonnementen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/PublicProfile/${authO.ID}`}>Openbaar profiel</NavLink>
                     </div>
                 </div>

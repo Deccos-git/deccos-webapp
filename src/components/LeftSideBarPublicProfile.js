@@ -28,6 +28,7 @@ const LeftSideBarPublicProfile = () => {
                         <NavLink activeClassName='active' to={`/${client}/MyIntroduction/${authO.ID}`}>Mijn introductie</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyGroups/${authO.ID}`}>Mijn groepen</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MyChannels/${authO.ID}`}>Mijn kanalen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyContributions/${authO.ID}`}>Mijn bijdragen</NavLink>
                     </div>
                 </div>
