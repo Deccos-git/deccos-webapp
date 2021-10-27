@@ -6,7 +6,7 @@ import { Auth } from '../StateManagment/Auth';
 import { useState , useEffect, useContext} from 'react';
 import { db } from '../firebase/config';
 import { MobileMenu } from '../StateManagment/MobileMenu';
-import {useFirestore} from "../firebase/useFirestore"
+import { useFirestore, useFirestoreSubscriptionsNotApproved } from "../firebase/useFirestore"
 
 const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)
@@ -15,6 +15,8 @@ const LeftSideBarAuthProfile = () => {
     const [admin, setAdmin] = useState(false)
     const [author, setAuthor] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
+    const [notificationsUsers, setNotificationsUsers] = useState(0)
+    const [notificationsGroups, setNotificationsGroups] = useState(0)
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
@@ -56,21 +58,62 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-    const toggleNotofication = () => {
-        db.collection("Users")
+    const notificationsTotal = notificationsUsers + notificationsGroups
+
+    useEffect(() => {
+        const toggleNotofication = () => {
+            if(notificationsTotal > 0){
+                console.log('block')
+                setShowNotification("block")
+            } else if (notificationsTotal === 0){
+                setShowNotification("none")
+            }
+        }
+        toggleNotofication()
+    }, [])
+
+
+    const numberOfNotificationsUsers = async () => {
+
+        let notifications = null
+
+        await db.collection("Users")
         .where("Compagny", "array-contains", client)
         .where("Approved", "==", false)
         .get()
         .then(querySnapshot => {
-            if(querySnapshot.docs.length > 0){
-                setShowNotification("block")
-            } else if (querySnapshot.docs.length === 0){
-                setShowNotification("none")
-            }
+            notifications = querySnapshot.docs.length
         })
+
+        return notifications
     }
 
-    toggleNotofication()
+    useEffect(() => {
+        numberOfNotificationsUsers().then((number) => {
+            setNotificationsUsers(number)
+        })
+    }, [])
+
+    const numberOfNotificationsGroups = async () => {
+
+        let notifications = null
+
+        await db.collection("Subscriptions")
+        .where("Compagny", "==", client)
+        .where("Approved", "==", false)
+        .get()
+        .then(querySnapshot => {
+            notifications = querySnapshot.docs.length
+        })
+
+        return notifications
+    }
+
+    useEffect(() => {
+        numberOfNotificationsGroups().then((number) => {
+            setNotificationsGroups(number)
+        })
+    }, [])
 
     const changeMenuStatus = () => {
         setMenu("none")
@@ -88,7 +131,7 @@ const LeftSideBarAuthProfile = () => {
                             <Link to={`/${client}/UserRoles`} onClick={changeMenuStatus}>Gebruikersrollen</Link>
                             <div className="notification-sidebar-container">
                                 <Link to={`/${client}/Registrations`} onClick={changeMenuStatus}>Aanmelden</Link>
-                                <p style={{display: showNotification}} className="notification-counter-small"></p>
+                                <p style={{display: showNotification}} className="notification-counter-small">{notificationsTotal}</p>
                             </div>
                             <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus}>Kanalen</Link>
                             <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus}>Groepen</Link>

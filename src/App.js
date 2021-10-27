@@ -54,8 +54,6 @@ function App() {
     })
   }, [])
 
-  console.log(online, approved, compagny.includes(client))
-
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>

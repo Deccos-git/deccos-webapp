@@ -29,9 +29,11 @@ const RegisterUser = () => {
     const admins = useFirestoreAdmins('Admins')
 
     useEffect(() => {
+        const adminArray = []
         admins && admins.forEach(admin => {
-            setAdminEmail(admin.Email)
+            adminArray.push(admin.Email)
         })
+        setAdminEmail(adminArray)
     }, [admins])
 
     const fornameHandler = (e) => {
@@ -163,7 +165,7 @@ const RegisterUser = () => {
 
     const emailToAdminAdmin = (forname, surname, communityName) => {
         db.collection("Email").doc().set({
-            to: [adminEmail],
+            to: adminEmail,
             cc: "info@Deccos.nl",
             message: {
             subject: `Iemand heeft zich aangemald voor ${communityName}`,

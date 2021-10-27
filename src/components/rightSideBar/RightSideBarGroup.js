@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { client } from '../../hooks/Client';
-import { useFirestoreID } from "../../firebase/useFirestore";
+import { useFirestoreID, useFirestoreSubscriptionsChannelGroup } from "../../firebase/useFirestore";
 import Location from "../../hooks/Location"
 
 const RightSideBarGroup = () => {
@@ -8,9 +8,13 @@ const RightSideBarGroup = () => {
     const history = useHistory()
     const route = Location()[3]
     const groups = useFirestoreID("Groups", route)
+    const members = useFirestoreSubscriptionsChannelGroup(route)
+
+    console.log(route)
+    console.log(members)
 
     const updateRoute = (e) => {
-        const userID = e.target.dataset.id
+        const userID = e.target.dataset.userid
 
         history.push(`/${client}/PublicProfile/${userID}`)
    
@@ -21,12 +25,12 @@ const RightSideBarGroup = () => {
             {groups && groups.map(group => (
                 <div>
                 <h3>Leden van {group.Room}</h3>
-                {/* {group.Members.map(member => (
+                {members && members.map(member => (
                         <div className="all-members-member-container" key={member.ID}>
-                            <img src={member.Photo} alt="" data-id={member.ID} onClick={updateRoute} />
-                            <p name={member.ID} data-id={member.ID} onClick={updateRoute}>{member.UserName}</p>
+                            <img src={member.UserPhoto} alt="" data-userid={member.UserID} onClick={updateRoute} />
+                            <p data-userid={member.UserID} onClick={updateRoute}>{member.UserName}</p>
                         </div>
-                    ))}    */}
+                    ))}   
                 </div>
             ))}
     </div>

@@ -23,6 +23,7 @@ const PublicProfile = () => {
 
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
+    const aboutMes = useFirestoreAboutMe(route)
 
     let room = ""
 
@@ -41,15 +42,13 @@ const PublicProfile = () => {
                 .where('RecieverID', '==', authO.ID)
                 .get()
                 .then(querySnapshot => {
-                    console.log(querySnapshot)
                     setNumberOfContributions(querySnapshot.docs.length)
                 })
             }
             contributions()
         }
     }, [profiles])
-    
-   console.log(numberOfContributions)
+
 
     const findChat = async() => {
 
@@ -148,6 +147,12 @@ const PublicProfile = () => {
                                     <div className="about-me-section" key={introduction.ID}>
                                         <h3>Introductie</h3>
                                         <p>{introduction.Body}</p>
+                                        {aboutMes && aboutMes.map(aboutMe => (
+                                            <div key={aboutMe.ID}>
+                                                <h3>{aboutMe.Title}</h3>
+                                                <p>{aboutMe.Value}</p>
+                                            </div>
+                                        ))}
                                     </div>
                                 ))}
                             </div>

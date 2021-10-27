@@ -8,7 +8,7 @@ import RegistrationField from '../images/Design/RegistrationFields/textfield.png
 import RegistrationArea from '../images/Design/RegistrationFields/textarea.png'
 import RegistrationRadio from '../images/Design/RegistrationFields/radio.png'
 import RegistrationDropdown from '../images/Design/RegistrationFields/dropdown.png'
-import { useFirestore, useFirestoreProfileFields } from "../firebase/useFirestore";
+import { useFirestoreAboutMe, useFirestoreProfileFields } from "../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
@@ -17,9 +17,9 @@ import { useState, useEffect } from "react";
 const ProfileSettings = () => {
     const [title, setTitle] = useState("")
     const [position, setPosition] = useState(0)
-    const [type, setType] = useState('test')
-
-    console.log('test')
+    const [type, setType] = useState('')
+    const [html, setHTML] = useState('')
+    const [classType, setClassType] = useState('')
 
     const profileFields = useFirestoreProfileFields()
 
@@ -63,7 +63,6 @@ const ProfileSettings = () => {
     }
 
     const addField = (e) => {
-        const html = e.target.dataset.html
 
         db.collection("ProfileFields")
         .doc()
@@ -73,6 +72,7 @@ const ProfileSettings = () => {
             Compagny: client,
             HTML: html,
             Type: type,
+            Class: classType,
             Title: title,
             Position: position,
             Template: true,
@@ -100,10 +100,20 @@ const ProfileSettings = () => {
         const html = 
         `<div>
             <h3>${title}</h3>
-            <textarea type="text"/>
+            <textarea type="text"></textarea>
         </div>`
 
         return html
+    }
+
+    const typeHandler = (e) => {
+        const type = e.target.dataset.type
+        const html = e.target.dataset.html
+        const classType = e.target.dataset.classtype
+
+        setType(type)
+        setHTML(html)
+        setClassType(classType)
     }
 
     return (
@@ -119,8 +129,11 @@ const ProfileSettings = () => {
                     <div className="divider">
                         <h2>Profielvelden</h2>
                         {profileFields && profileFields.map(field => (
-                            <div>
-                                <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                            <div className={field.Class}>
+                                <div>
+                                    <h3>{field.Title}</h3>
+                                    <p>{field.Type}</p>
+                                </div>
                                 <img onClick={deleteField} data-title={field.Title} data-id={field.docid} className="profile-settings-delete-icon" src={deleteIcon} alt="" />
                             </div>
                         ))}
@@ -132,7 +145,7 @@ const ProfileSettings = () => {
                         <h3>Kies een veldsoort</h3>
                         <form>
                             <div className='select-profiel-field-container'>
-                                <input type="radio" id='input' name='add-profile-field' onChange={() => setType('input')}/>
+                                <input type="radio" id='input' name='add-profile-field' data-classtype='field-input-container' data-html={textFieldHTML()} data-type={'Tekstveld'} onChange={typeHandler}/>
                                 <label htmlFor="input">
                                     <div className="add-registration-field-container">
                                         <p>Textveld</p>
@@ -141,9 +154,9 @@ const ProfileSettings = () => {
                                 </label>
                             </div>
                             <div className='select-profiel-field-container'>
-                                <input type="radio" id='textarea' name='add-profile-field' />
+                                <input type="radio" id='textarea' name='add-profile-field' data-classtype='field-textarea-container' data-html={textAreaHTML()} data-type={'Tekstvak'} onChange={typeHandler} />
                                 <label htmlFor="textarea">
-                                    <div className="add-registration-field-container" onChange={() => setType('textarea')}>
+                                    <div className="add-registration-field-container">
                                         <p data-type={"textArea"}>Textvak</p>
                                         <img data-type={"textArea"} src={RegistrationArea} alt="" />
                                     </div>

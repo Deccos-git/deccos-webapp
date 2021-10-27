@@ -15,6 +15,8 @@ const LeftSideBarAuthProfile = () => {
     const [admin, setAdmin] = useState(false)
     const [author, setAuthor] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
+    const [notificationsUsers, setNotificationsUsers] = useState(0)
+    const [notificationsGroups, setNotificationsGroups] = useState(0)
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
@@ -57,21 +59,60 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-    const toggleNotofication = () => {
-        db.collection("Users")
+    let notificationsTotal = notificationsUsers + notificationsGroups
+
+    useEffect(() => {
+        const toggleNotofication = () => {
+            if(notificationsTotal > 0){
+                setShowNotification("flex")
+            } else if (notificationsTotal === 0){
+                setShowNotification("none")
+            }
+        }
+        toggleNotofication()
+    }, [])
+
+    const numberOfNotificationsUsers = async () => {
+
+        let notifications = null
+
+        await db.collection("Users")
+        .where("Compagny", "array-contains", client)
+        .where("Approved", "==", false)
+        .get()
+        .then(querySnapshot => {
+            notifications = querySnapshot.docs.length
+        })
+
+        return notifications
+    }
+
+    useEffect(() => {
+        numberOfNotificationsUsers().then((number) => {
+            setNotificationsUsers(number)
+        })
+    }, [])
+
+    const numberOfNotificationsGroups = async () => {
+
+        let notifications = null
+
+        await db.collection("Subscriptions")
         .where("Compagny", "==", client)
         .where("Approved", "==", false)
         .get()
         .then(querySnapshot => {
-            if(querySnapshot.docs.length > 0){
-                setShowNotification("block")
-            } else if (querySnapshot.docs.length === 0){
-                setShowNotification("none")
-            }
+            notifications = querySnapshot.docs.length
         })
+
+        return notifications
     }
 
-    toggleNotofication()
+    useEffect(() => {
+        numberOfNotificationsGroups().then((number) => {
+            setNotificationsGroups(number)
+        })
+    }, [])
 
     const Admin = () => {
         if(admin){
@@ -85,7 +126,7 @@ const LeftSideBarAuthProfile = () => {
                             <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
                             <div className="notification-sidebar-container">
                                 <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmelden</NavLink>
-                                <p style={{display: showNotification}} className="notification-counter-small"></p>
+                                <p style={{display: showNotification}} className="notification-counter-small">{notificationsTotal}</p>
                             </div>
                             <NavLink activeClassName='active' to={`/${client}/ChannelSettings`}>Kanalen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>

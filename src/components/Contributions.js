@@ -31,7 +31,7 @@ const Contributions = () => {
                         <h2>{goal.RecieverName}</h2>
                     </div>
                     <p>heeft bijdragen aan</p>
-                    <h2>{goal.GoalTitle}</h2>
+                    <h3>{goal.GoalTitle}</h3>
                     <ul className="contribution-card-ul">
                         <li>Gegeven door: {goal.SenderName}</li>
                         <li>{goal.Timestamp.toDate().toLocaleDateString("nl-NL", options)} </li>
@@ -45,7 +45,7 @@ const Contributions = () => {
                         <h2>{message.RecieverName}</h2>
                     </div>
                     <p>heeft bijdragen aan</p>
-                    <h2>{message.GoalTitle}</h2>
+                    <h3>{message.GoalTitle}</h3>
                     <ul className="contribution-card-ul">
                         <li>Gegeven door: {message.SenderName}</li>
                         <li>{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)} </li>
@@ -59,7 +59,7 @@ const Contributions = () => {
                         <h2>{reciever.RecieverName}</h2>
                     </div>
                     <p>heeft bijdragen aan</p>
-                    <h2>{reciever.GoalTitle}</h2>
+                    <h3>{reciever.GoalTitle}</h3>
                     <ul className="contribution-card-ul">
                         <li>Gegeven door: {reciever.SenderName}</li>
                         <li>{reciever.Timestamp.toDate().toLocaleDateString("nl-NL", options)} </li>

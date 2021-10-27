@@ -1,6 +1,6 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreID, useFirestoreSubscriptions, useFirestoreSubscriptionsChannelGroup } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestoreSubscriptions, useFirestoreSubscriptionsChannelGroup, useFirestoreAdmins } from "../firebase/useFirestore"
 import { db, timestamp } from "../firebase/config"
 import firebase from "firebase"
 import { useHistory } from "react-router"
@@ -18,16 +18,26 @@ const GroupLanding = () => {
     const [showNotice, setShowNotice] = useState('none')
     const [memberCount, setMemberCount] = useState('')
     const [creationDate, setCreationDate] = useState('')
+    const [adminEmail, setAdminEmail] = useState('')
 
     const route = Location()[3]
 
     const groups = useFirestoreID("Groups", route)
     const subscriptions = useFirestoreSubscriptions(authO.ID)
     const members = useFirestoreSubscriptionsChannelGroup(route)
+    const admins = useFirestoreAdmins('Admins')
 
     const history = useHistory()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    useEffect(() => {
+        const adminArray = []
+        admins && admins.forEach(admin => {
+            adminArray.push(admin.Email)
+        })
+        setAdminEmail(adminArray)
+    }, [admins])
 
     useEffect(() => {
         groups && groups.forEach(group => {
@@ -51,9 +61,7 @@ const GroupLanding = () => {
     },[subscriptions])
 
     useEffect(() => {
-        members && members.forEach(member => {
-            setMemberCount(members.length)
-        })
+        setMemberCount(members.length)
         
     }, [members])
 
@@ -63,6 +71,8 @@ const GroupLanding = () => {
         .set({
             UserName: authO.UserName,
             UserID: authO.ID,
+            UserPhoto: authO.Photo,
+            UserEmail: authO.Email,
             SubID: groupID,
             SubName: groupName,
             Timestamp: timestamp,
@@ -70,6 +80,29 @@ const GroupLanding = () => {
             Approved: false,
             ID: id,
             Type: 'Group'
+        })
+        .then(() => {
+            console.log(adminEmail, groupName, authO.UserName, client)
+            db.collection("Email").doc().set({
+                to: adminEmail,
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Iemand heeft zich aangemald voor de groep ${groupName}`,
+                html: `
+                    Iemand heeft zich aangemeld voor jullie community. <br><br>
+    
+                    Naam: ${authO.UserName}. <br><br>
+    
+                    Dit lidmaatschap moet door een beheerder worden geverificeerd.<br><br>
+    
+                    <a href='https://deccos.co/${client}/Registrations'>Klik hier</a> om de alle openstaande aanvragen te beheren.<br><br>
+                    
+                    `,
+                Gebruikersnaam: `${authO.UserName}`,
+                Emailadres: adminEmail,
+                Type: "Verification group"
+                  }     
+              });
         })
     }
 
