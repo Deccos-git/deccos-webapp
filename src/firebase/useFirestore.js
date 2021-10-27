@@ -233,6 +233,30 @@ const useFirestoreChatsGroups = (collection, auth ) => {
     return docs
 };
 
+const useFirestoreGroupsAuth = ( auth ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Subscriptions')
+        .where("Compagny", "==", client)
+        .where('Type', '==', 'Group')
+        .where("UserID", "==", auth)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [auth])  
+
+    return docs
+};
+
 
 const useFirestoreNotifications = (collection, id  ) => {
 
@@ -621,6 +645,7 @@ export {
     useFirestoreNewMessages,
     useFirestoreChats,
     useFirestoreChatsGroups,
+    useFirestoreGroupsAuth,
     useFirestoreNotifications,
     useFirestoreChannelItems,
     useFirestoreContributions,

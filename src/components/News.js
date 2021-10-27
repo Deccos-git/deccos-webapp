@@ -84,6 +84,7 @@ const News = () => {
         .set({
             UserName: authO.UserName,
             UserID: authO.ID,
+            UserEmail: authO.Email,
             SubID: channelID,
             SubName: 'Nieuws',
             Timestamp: timestamp,

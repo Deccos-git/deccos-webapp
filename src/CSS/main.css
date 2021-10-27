@@ -512,11 +512,15 @@
     padding-left: 0px;
     }
 
-  .send-as-mail-container{
-      display: flex;
-      align-items: center;
-      border-top: 1px solid lightgray;
-      margin-top: 10px;
+  .message-options-inner-container{
+      display: none;
+      justify-content: space-between;
+      background-color: #a7bdbd26;
+  }
+
+  .message-options-container{
+    border-top: 1px solid lightgray;
+    margin-top: 10px;
   }
 
   .chat-screen a{

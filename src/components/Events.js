@@ -84,6 +84,7 @@ const Events = () => {
         .set({
             UserName: authO.UserName,
             UserID: authO.ID,
+            UserEmail: authO.Email,
             SubID: channelID,
             SubName: 'Events',
             Timestamp: timestamp,

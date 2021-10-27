@@ -10,9 +10,6 @@ const RightSideBarGroup = () => {
     const groups = useFirestoreID("Groups", route)
     const members = useFirestoreSubscriptionsChannelGroup(route)
 
-    console.log(route)
-    console.log(members)
-
     const updateRoute = (e) => {
         const userID = e.target.dataset.userid
 

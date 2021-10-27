@@ -58,6 +58,7 @@ const KnowledgeCentre = () => {
         .set({
             UserName: authO.UserName,
             UserID: authO.ID,
+            UserEmail: authO.Email,
             SubID: channelID,
             SubName: 'Kenniscentrum',
             Timestamp: timestamp,

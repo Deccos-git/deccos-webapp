@@ -1,7 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreChatsGroups } from "./../firebase/useFirestore";
+import { useFirestoreChatsGroups, useFirestoreGroupsAuth } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { db } from '../firebase/config';
 import { client } from '../hooks/Client';
@@ -15,7 +15,7 @@ const ChatGroups = () => {
     const [groupSummary, setGroupSummary] = useState("")
     const route = Location()[3]
 
-    const groups = useFirestoreChatsGroups("Groups", route)
+    const groups = useFirestoreGroupsAuth(route)
     const history = useHistory()
     const chats = useFirestoreChatsGroups("Chats", route)
 
@@ -220,6 +220,24 @@ const ChatGroups = () => {
         return messageArray.length
     }
 
+    const totalGroupMessages = async (groupID) => {
+
+        let totalMessages = ""
+
+        console.log(groupID)
+    
+            await db.collection("Messages")
+            .where("Compagny", "==", client)
+            .where("ParentID", "==", groupID)
+            .get()
+            .then(querySnapshot => {
+                console.log(querySnapshot.docs.length)
+              totalMessages = querySnapshot.docs.length
+            })
+    
+            return totalMessages
+       }
+
     const groupsOverview = async () => {
 
         const summary = {
@@ -229,13 +247,15 @@ const ChatGroups = () => {
         for(const group of groups){
             const groupsArray = []
     
-            const newMessages = await newGroupMessages(group.ID)
+            const newMessages = await newGroupMessages(group.SubID)
+            const totalMessages = await totalGroupMessages(group.SubID)
+
 
             const groupObject = {
-                room: group.Room,
-                messages: group.Messages,
+                room: group.SubName,
+                messages: totalMessages,
                 newMessages: newMessages,
-                ID: group.ID
+                ID: group.SubID
             }
 
             groupsArray.push(
@@ -261,8 +281,10 @@ const ChatGroups = () => {
                 group.map(gr => (
                     <div className="chats-overview-container divider" key={gr.ID}>
                     <div className="chatpartner-meta-container" data-id={gr.ID} name={gr.ID}>
-                        <img src={groupIcon} alt="" data-id={gr.ID} onClick={updateRouteGroup} />
-                        <p className="chat-overview-username" data-id={gr.ID} onClick={updateRouteGroup}>{gr.room}</p>
+                        <div className="chatpartner-container">
+                            <img src={groupIcon} alt="" data-id={gr.ID} onClick={updateRouteGroup} />
+                            <p className="chat-overview-username" data-id={gr.ID} onClick={updateRouteGroup}>{gr.room}</p>
+                        </div>
                         <p>{gr.messages} berichten</p>
                         <p className="new-messages"> {gr.newMessages} nieuw</p>
                     </div>

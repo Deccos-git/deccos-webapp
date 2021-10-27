@@ -2,7 +2,7 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBarGroup from "./rightSideBar/RightSideBarGroup"
 import MessageBarGroup from "./MessageBarGroup"
-import { useFirestoreID, useFirestoreMessages, useFirestore } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreSubscriptionsChannelGroup } from "../firebase/useFirestore"
 import emailIcon from '../images/icons/email-icon.png'
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom"
 import GetLink from '../hooks/GetLink'
 import GroupChannel from './GroupChannel'
 import { client } from '../hooks/Client';
+import deleteIcon from '../images/icons/delete-icon.png'
+import settingsIcon from '../images/icons/settings-icon.png'
 
 const Group = () => {
     const [authO] = useContext(Auth)
@@ -22,6 +24,7 @@ const Group = () => {
     const [channelDisplay, setChannelDisplay] = useState('none')
     const [tabChat, setTabChat] = useState('active-tab')
     const [channelChat, setChannelTab] = useState('not-active-tab')
+    const [showOptions, setShowOptions] = useState('none')
 
     const menuState = MenuStatus()
     const route = Location()[3]
@@ -29,6 +32,7 @@ const Group = () => {
     const groups = useFirestoreID("Groups", route)
     const messages = useFirestoreMessages("Messages", route)
     const compagny = useFirestore("CompagnyMeta")
+    const members = useFirestoreSubscriptionsChannelGroup(route)
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
     const history = useHistory()
 
@@ -90,10 +94,9 @@ const Group = () => {
         const memberMailArray = []
 
         if(member === "everybody"){
-            groups && groups.forEach(group => {
-                // group.Members.forEach(member => {
-                //     memberMailArray.push(member.Email)
-                // })
+            members && members.forEach(member => {
+
+                memberMailArray.push(member.UserEmail)
             })
         } else {
             memberMailArray.push(member)
@@ -122,6 +125,22 @@ const Group = () => {
         setChannelTab('active-tab')
     }
 
+    const deleteMessage = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Messages')
+        .doc(id)
+        .delete()
+    }
+
+    const toggleOptions = () => {
+        if(showOptions === "none"){
+            setShowOptions("flex")
+        } else if(showOptions === "flex"){
+            setShowOptions("none")
+        }
+    }
+
     const ChatScreen = () => {
         return(
             groups && groups.map(group => (
@@ -134,17 +153,25 @@ const Group = () => {
                     <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                 </div>
                 <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
-                <div className="send-as-mail-container">
-                    <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
-                    <div style={{display: showSendMail}}>
-                        <button data-id={group.ID} data-username={message.User} data-room={group.Room} onClick={sendAsMail}>Verstuur bericht als email</button>
-                        <select name="" id="" onChange={emailMemberHandler}>
-                            <option value="">-- Selecteer --</option>
-                            <option value="everybody">Iedereen</option>
-                            {/* {group.Members.map(member => (
-                                <option value={member.Email}>{member.UserName}</option>
-                            ))} */}
-                        </select>
+                <div className='message-options-container'>
+                    <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                    <div className='message-options-inner-container' style={{display: showOptions}}>
+                        <div className="send-as-mail-container">
+                            <img className="notifications-icon-message" src={emailIcon} alt="" onClick={emailOptions}/>
+                            <div style={{display: showSendMail}}>
+                                <button data-id={group.ID} data-username={message.User} data-room={group.Room} onClick={sendAsMail}>Verstuur bericht als email</button>
+                                <select name="" id="" onChange={emailMemberHandler}>
+                                    <option value="">-- Selecteer --</option>
+                                    <option value="everybody">Iedereen</option>
+                                    {members && members.map(member => (
+                                        <option value={member.UserEmail}>{member.UserName}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className='delete-message-container'>
+                            <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -85,6 +85,7 @@ const Channel = () => {
             UserName: authO.UserName,
             UserID: authO.ID,
             SubID: channelID,
+            UserEmail: authO.Email,
             SubName: name,
             Timestamp: timestamp,
             Compagny: client,
