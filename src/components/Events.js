@@ -2,7 +2,7 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
-import { useFirestoreTimestamp, useFirestore, useFirestoreChannelName } from "../firebase/useFirestore";
+import { useFirestoreTimestamp, useFirestore, useFirestoreChannelName, useFirestoreSubscriptions } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState, useContext, useEffect } from 'react';
@@ -12,6 +12,8 @@ import articleIcon from '../images/icons/article-icon.png'
 import { Link } from "react-router-dom";
 import MenuStatus from "../hooks/MenuStatus";
 import firebase from 'firebase';
+import Location from "../hooks/Location"
+import uuid from 'react-uuid';
 
 const Events = () => {
     const [authO] = useContext(Auth)
@@ -22,9 +24,12 @@ const Events = () => {
 
     const events = useFirestoreTimestamp("Events")
     const channels = useFirestoreChannelName('Events')
+    const subscriptions = useFirestoreSubscriptions(authO.ID)
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const route = Location()[3]
+    const id = uuid()
 
     const variants = {
         hidden: { opacity: 0 },
@@ -32,13 +37,19 @@ const Events = () => {
       }
 
       useEffect(() => {
-        channels && channels.forEach(channel => {
-            setChannelID(channel.docid)
+        subscriptions && subscriptions.forEach(sub => {
 
-            if(channel.Members.includes(authO.ID)){
+            if(sub.SubID === route){
+
                 setIsMember('flex')
                 setMemberStatus('Je bent lid')
             }
+        })
+    },[subscriptions])
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelID(channel.ID)
         })
     },[channels])
 
@@ -68,12 +79,18 @@ const Events = () => {
 
         e.target.innerText = 'Lid geworden'
 
-        db.collection('Channels')
-        .doc(channelID)
-        .update({
-            Members: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+        db.collection('Subscriptions')
+        .doc()
+        .set({
+            UserName: authO.UserName,
+            UserID: authO.ID,
+            SubID: channelID,
+            SubName: 'Events',
+            Timestamp: timestamp,
+            Compagny: client,
+            ID: id,
+            Type: 'Channel'
         })
-
     }
 
     return (

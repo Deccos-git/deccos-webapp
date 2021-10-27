@@ -91,9 +91,9 @@ const Group = () => {
 
         if(member === "everybody"){
             groups && groups.forEach(group => {
-                group.Members.forEach(member => {
-                    memberMailArray.push(member.Email)
-                })
+                // group.Members.forEach(member => {
+                //     memberMailArray.push(member.Email)
+                // })
             })
         } else {
             memberMailArray.push(member)
@@ -141,9 +141,9 @@ const Group = () => {
                         <select name="" id="" onChange={emailMemberHandler}>
                             <option value="">-- Selecteer --</option>
                             <option value="everybody">Iedereen</option>
-                            {group.Members.map(member => (
+                            {/* {group.Members.map(member => (
                                 <option value={member.Email}>{member.UserName}</option>
-                            ))}
+                            ))} */}
                         </select>
                     </div>
                 </div>

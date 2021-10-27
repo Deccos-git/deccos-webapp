@@ -3,7 +3,7 @@ import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
-import { useFirestore, useFirestoreChannelName } from "../firebase/useFirestore";
+import { useFirestore, useFirestoreChannelName, useFirestoreSubscriptions } from "../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import newsIcon from '../images/icons/news-icon.png'
 import { useState, useContext, useEffect } from 'react';
@@ -12,6 +12,8 @@ import { motion } from "framer-motion"
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
 import firebase from 'firebase';
+import Location from "../hooks/Location"
+import uuid from 'react-uuid';
 
 const News = () => {
     const [authO] = useContext(Auth)
@@ -22,20 +24,27 @@ const News = () => {
 
     const news = useFirestore("News")
     const history = useHistory()
+    const subscriptions = useFirestoreSubscriptions(authO.ID)
     const channels = useFirestoreChannelName('Nieuws')
 
     const menuState = MenuStatus()
+    const route = Location()[3]
+    const id = uuid()
     
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
 
     useEffect(() => {
-        channels && channels.forEach(channel => {
-            setChannelID(channel.docid)
-
-            if(channel.Members.includes(authO.ID)){
+        subscriptions && subscriptions.forEach(sub => {
+            if(sub.SubID === route){
                 setIsMember('flex')
                 setMemberStatus('Je bent lid')
             }
+        })
+    },[subscriptions])
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            setChannelID(channel.ID)
         })
     },[channels])
 
@@ -70,12 +79,18 @@ const News = () => {
 
         e.target.innerText = 'Lid geworden'
 
-        db.collection('Channels')
-        .doc(channelID)
-        .update({
-            Members: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+        db.collection('Subscriptions')
+        .doc()
+        .set({
+            UserName: authO.UserName,
+            UserID: authO.ID,
+            SubID: channelID,
+            SubName: 'Nieuws',
+            Timestamp: timestamp,
+            Compagny: client,
+            ID: id,
+            Type: 'Channel'
         })
-
     }
 
     return (

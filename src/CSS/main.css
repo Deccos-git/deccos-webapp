@@ -8,6 +8,10 @@
     margin-top: 20px;
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 #middle-bar h1{
     text-align: center;
 }
@@ -452,6 +456,24 @@
       background-color: #a7bdbd26;
       margin: 0px 0px 10px 10px;
       padding: 5px 25px 5px 5px;
+  }
+
+  #group-meta-div{
+      margin: 30px;
+  }
+
+  #group-notice{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px;
+      background-color: #f3f3f3;
+      border-radius: 15px;
+      padding: 10px;
+  }
+
+  #group-notice h3{
+      text-align: center;
   }
 
   .add-registration-field-container img{

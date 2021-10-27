@@ -1,23 +1,26 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import { useFirestoreNotApproved } from "../firebase/useFirestore";
+import { useFirestoreNotApproved, useFirestoreSubscriptionsNotApproved } from "../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import { useFirestore } from "../firebase/useFirestore";
 import firebase from "firebase";
 import MenuStatus from "../hooks/MenuStatus";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"
 
 const Registrations = () => {
     const [verificationMethode, setVerificationMethode] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
 
     const notApprovedUsers = useFirestoreNotApproved()
+    const notApprovedGroups = useFirestoreSubscriptionsNotApproved('Subscriptions')
     const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
 
     const menuState = MenuStatus()
+    const history = useHistory()
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -26,7 +29,6 @@ const Registrations = () => {
         })
     }, [banners])
 
-    let banner = null
     let docid = null
     let verificationAdmin = null
     let verificationEmail = null
@@ -97,6 +99,16 @@ const Registrations = () => {
         })
     }
 
+    const approveGroupMember = (e) => {
+        const id = e.target.dataset.id
+
+        db.collection('Subscriptions')
+        .doc(id)
+        .update({
+            Approved: true
+        })
+    }
+
     const verificationMethhodeHandler = (e) => {
         const methode = e.target.id 
 
@@ -115,6 +127,20 @@ const Registrations = () => {
             })
     }
 
+    const linkToUser = (e) => {
+        const id = e.target.dataset.userid
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
+
+    const linkToGroup = (e) => {
+        const id = e.target.dataset.groupid
+
+        history.push(`/${client}/GroupLanding/${id}`)
+    }
+
+
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -125,8 +151,23 @@ const Registrations = () => {
                         <h1>Aanmelden</h1>
                         <p>Beheer de instellingen van het aanmeldproces</p>
                     </div>
+                    <div className='divider'>
+                        <div className="verification-methode-container">
+                            <h3>Verificatie methode voor community</h3>
+                            <p>Selecteer de verificatiemethode voor nieuwe leden</p>
+                            <div className="radio-input-container">
+                                <input type="radio" name="verification-methode" id="Email" checked={verificationEmail} onChange={verificationMethhodeHandler} />
+                                <label htmlFor="verifcation-methode">Verificatie via email</label>
+                            </div>
+                            <div className="radio-input-container">
+                                <input type="radio" name="verification-methode" id="Admin" checked={verificationAdmin} onChange={verificationMethhodeHandler}/>
+                                <label htmlFor="verifcation-methode">Verificatie door admin</label>
+                            </div>
+                            <button className="button-simple button-verification" onClick={saveVerificationMethode}>Opslaan</button>
+                        </div>
+                    </div>
                     <div className="divider">
-                        <h3>Nieuwe aanmeldingen</h3>
+                        <h3>Nieuwe aanmeldingen voor community</h3>
                         {notApprovedUsers && notApprovedUsers.map(user => (
                             <div className="userrole-users-container" key={user.ID}>
                                 <img src={user.Photo} alt="" />
@@ -145,19 +186,21 @@ const Registrations = () => {
                         ))}
                     </div> 
                     <div className='divider'>
-                        <div className="verification-methode-container">
-                            <h3>Verificatie methode</h3>
-                            <p>Selecteer de verificatiemethode voor nieuwe leden</p>
-                            <div className="radio-input-container">
-                                <input type="radio" name="verification-methode" id="Email" checked={verificationEmail} onChange={verificationMethhodeHandler} />
-                                <label htmlFor="verifcation-methode">Verificatie via email</label>
+                        <h3>Nieuwe aanmeldingen voor groepen</h3>
+                        {notApprovedGroups && notApprovedGroups.map(group=> (
+                             <div className="userrole-users-container" key={group.ID}>
+                                <p className='pointer' onClick={linkToUser}><u data-userid={group.UserID}>{group.UserName}</u></p>
+                                <p>&nbsp;wil lid worden van&nbsp;</p>
+                                <p className='pointer' onClick={linkToGroup}><u data-groupid={group.SubID}>{group.SubName}</u></p>
+                                <p 
+                                className="userrole-users-approve-button" 
+                                data-id={group.docid}
+                                onClick={approveGroupMember}>
+                                Goedkeuren
+                                </p>
                             </div>
-                            <div className="radio-input-container">
-                                <input type="radio" name="verification-methode" id="Admin" checked={verificationAdmin} onChange={verificationMethhodeHandler}/>
-                                <label htmlFor="verifcation-methode">Verificatie door admin</label>
-                            </div>
-                            <button className="button-simple button-verification" onClick={saveVerificationMethode}>Opslaan</button>
-                        </div>
+                        ))}
+
                     </div>
                 </div>   
             </div>

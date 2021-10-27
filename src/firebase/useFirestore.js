@@ -541,6 +541,75 @@ const useFirestoreAdmins = (collection) => {
     return docs
 };
 
+const useFirestoreSubscriptions = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Subscriptions')
+        .where('Compagny', '==', client)
+        .where('UserID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreSubscriptionsChannelGroup = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Subscriptions')
+        .where('Compagny', '==', client)
+        .where('SubID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreSubscriptionsNotApproved = (collection) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .where('Compagny', '==', client)
+        .where('Approved', '==', false)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -565,5 +634,8 @@ export {
     useFirestoreAboutMe,
     useFirestoreActivities,
     useFirestoreChannelName,
-    useFirestoreAdmins
+    useFirestoreAdmins,
+    useFirestoreSubscriptions,
+    useFirestoreSubscriptionsChannelGroup,
+    useFirestoreSubscriptionsNotApproved
 }

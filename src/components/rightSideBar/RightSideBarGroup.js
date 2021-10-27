@@ -21,12 +21,12 @@ const RightSideBarGroup = () => {
             {groups && groups.map(group => (
                 <div>
                 <h3>Leden van {group.Room}</h3>
-                {group.Members.map(member => (
+                {/* {group.Members.map(member => (
                         <div className="all-members-member-container" key={member.ID}>
                             <img src={member.Photo} alt="" data-id={member.ID} onClick={updateRoute} />
                             <p name={member.ID} data-id={member.ID} onClick={updateRoute}>{member.UserName}</p>
                         </div>
-                    ))}   
+                    ))}    */}
                 </div>
             ))}
     </div>
