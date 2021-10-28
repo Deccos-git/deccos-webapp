@@ -518,6 +518,40 @@
       background-color: #a7bdbd26;
   }
 
+  .main-login-register{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    background-color: #a7bdbd26;
+    justify-content: center;
+  }
+
+  .channel-div-login-register{
+      margin: 20px;
+  }
+
+  .channel-inner-div-login-register{
+    display: flex;
+    justify-content: center;
+  }
+
+  .channel-inner-div-login-register p{
+      margin: 5px;
+  }
+
+  .login-register-container{
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin: 0px 20px;
+  }
+
+  .login-register-container img{
+      width: 30px;
+  }
+
   .message-options-container{
     border-top: 1px solid lightgray;
     margin-top: 10px;

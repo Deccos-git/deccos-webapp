@@ -2,6 +2,8 @@ import Login from "./Login"
 import Register from "./Register"
 import { useState } from "react"
 import { useFirestore } from "../firebase/useFirestore"
+import NewUserIcon from '../images/icons/new-user-icon.png'
+import DoorIcon2 from '../images/icons/door-icon-2.png'
 
 
 const LoginRegister = () => {
@@ -39,12 +41,18 @@ const LoginRegister = () => {
         <header className="top-bar">
             <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
         </header>
-        <div className="main">
-             <div className="left-side-bar">
-                <div className="channel-div">
-                    <div className="channel-inner-div">
-                        <p onClick={loginHandler}>Login</p>
-                        <p onClick={registerHandler}>Account maken</p>
+        <div className="main-login-register">
+             <div className="left-side-bar-login-register">
+                <div className="channel-div-login-register">
+                    <div className="channel-inner-div-login-register">
+                        <div className='login-register-container' onClick={loginHandler}>
+                            <img src={DoorIcon2} alt=""/>
+                            <p>Login</p>
+                        </div>
+                        <div className='login-register-container' onClick={registerHandler}>
+                            <img src={NewUserIcon} alt=""/>
+                            <p>Account maken</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ const Login = () => {
     return (
         <div className="main">
             <div className="login-container">
-            <h2>Login</h2>
+                <h2>Login</h2>
                 <form id="login-form">
                     <p>Email</p>
                     <input onChange={emailHandler} type="email" placeholder="Schrijf hier je emailadres" />
