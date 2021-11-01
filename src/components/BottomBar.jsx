@@ -4,9 +4,9 @@ import '../CSS/topbar.css';
 const BottomBar = () => {
 
     return (
-        <header className="bottom-bar">
+        <div className="bottom-bar">
             <Iconbar/>
-        </header>
+        </div>
     )
 }
 

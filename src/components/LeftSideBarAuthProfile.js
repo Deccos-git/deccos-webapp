@@ -117,9 +117,9 @@ const LeftSideBarAuthProfile = () => {
     const Admin = () => {
         if(admin){
             return <div>
-                        <h3>Community beheer</h3>
+                        <h3>Community</h3>
                         <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/Settings`}>Bedrijfsinstellingen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/Settings`}>Algemeen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/Analytics`}>Analytics</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/ProfileSettings`}>Profielen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/Members`}>Leden</NavLink>
@@ -130,9 +130,12 @@ const LeftSideBarAuthProfile = () => {
                             </div>
                             <NavLink activeClassName='active' to={`/${client}/ChannelSettings`}>Kanalen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`}>Welkom</NavLink>
+                        </div>
+                        <h3>Impact</h3>
+                        <div className="channel-inner-div">
                             <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/ImpactPathSettings`}>Impactpad</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`}>Welkom</NavLink>
                         </div>
                     </div>
         } else {

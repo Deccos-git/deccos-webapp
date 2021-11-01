@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom"
 const Registrations = () => {
     const [verificationMethode, setVerificationMethode] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
+    const [communityNameDB, setCommunityNameDB] = useState("")
+    const [logoDB, setLogoDB] = useState("")
 
     const notApprovedUsers = useFirestoreNotApproved()
     const notApprovedGroups = useFirestoreSubscriptionsNotApproved('Subscriptions')
@@ -21,6 +23,13 @@ const Registrations = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCommunityNameDB(comp.CommunityName)
+            setLogoDB(comp.Logo)
+        })
+    }, [compagny])
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -50,6 +59,7 @@ const Registrations = () => {
         const surname = e.target.dataset.surname 
         const photo = e.target.dataset.photo
         const userID = e.target.dataset.userid
+        const email = e.target.dataset.email
 
         const memberMap = {
             UserName: `${forname} ${surname}`,
@@ -97,15 +107,67 @@ const Registrations = () => {
                 Link: `PublicProfile/${userID}`
             })
         })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: email,
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je account is goedgekeurd voor ${communityNameDB}`,
+                html: `
+                    Beste ${forname} ${surname}, <br><br>
+    
+                    Je aanmelding voor ${communityNameDB} is goedgekeurd door een beheerder. <br><br>
+    
+                    Je kunt vanaf nu <a href='https://deccos.co/${client}'>hier</a> inloggen.<br><br>
+    
+                    Vriendelijke groet, </br></br>
+                    ${communityNameDB} </br></br>
+                    <img src="${logoDB}" width="100px">
+                    
+                    `,
+                Gebruikersnaam: `${forname} ${surname}`,
+                Emailadres: email,
+                Type: "Verification mail email"
+                  }     
+              });
+        })
     }
 
     const approveGroupMember = (e) => {
         const id = e.target.dataset.id
+        const email = e.target.dataset.email
+        const name = e.target.dataset.name
+        const groupName = e.target.dataset.groupname 
+        const groupID = e.target.dataset.groupid
 
         db.collection('Subscriptions')
         .doc(id)
         .update({
             Approved: true
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: email,
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je aanvraag voor groep ${groupName} is goedgekeurd op ${communityNameDB}`,
+                html: `
+                    Beste ${name}, <br><br>
+    
+                    Je aanvraag voor groep ${groupName} is goedgekeurd op ${communityNameDB}. <br><br>
+    
+                    Bekijk de groep <a href='https://deccos.co/${client}GroupLanding/${groupID}'>hier</a>.<br><br>
+    
+                    Vriendelijke groet, </br></br>
+                    ${communityNameDB} </br></br>
+                    <img src="${logoDB}" width="100px">
+                    
+                    `,
+                Gebruikersnaam: `${name}`,
+                Emailadres: email,
+                Type: "Verification mail email"
+                  }     
+              });
         })
     }
 
@@ -170,8 +232,8 @@ const Registrations = () => {
                         <h3>Nieuwe aanmeldingen voor community</h3>
                         {notApprovedUsers && notApprovedUsers.map(user => (
                             <div className="userrole-users-container" key={user.ID}>
-                                <img src={user.Photo} alt="" />
-                                <p>{user.UserName}</p>
+                                <img className='pointer' src={user.Photo} alt="" data-userid={user.ID} onClick={linkToUser} />
+                                <p className='pointer' data-userid={user.ID} onClick={linkToUser}>{user.UserName}</p>
                                 <p 
                                 className="userrole-users-approve-button" 
                                 data-id={user.Docid}
@@ -179,6 +241,7 @@ const Registrations = () => {
                                 data-forname={user.ForName} 
                                 data-surname={user.SurName}
                                 data-photo={user.Photo}
+                                data-email={user.Email}
                                 onClick={approveAdmin}>
                                 Goedkeuren
                                 </p>
@@ -189,12 +252,17 @@ const Registrations = () => {
                         <h3>Nieuwe aanmeldingen voor groepen</h3>
                         {notApprovedGroups && notApprovedGroups.map(group=> (
                              <div className="userrole-users-container" key={group.ID}>
-                                <p className='pointer' onClick={linkToUser}><u data-userid={group.UserID}>{group.UserName}</u></p>
+                                <img className='pointer' src={group.UserPhoto} alt="" data-userid={group.UserID} onClick={linkToUser} />
+                                <p className='pointer' onClick={linkToUser} data-userid={group.UserID}>{group.UserName}</p>
                                 <p>&nbsp;wil lid worden van&nbsp;</p>
                                 <p className='pointer' onClick={linkToGroup}><u data-groupid={group.SubID}>{group.SubName}</u></p>
                                 <p 
                                 className="userrole-users-approve-button" 
                                 data-id={group.docid}
+                                data-email={group.UserEmail}
+                                data-name={group.UserName}
+                                data-groupname={group.SubName}
+                                data-groupid={group.SubID}
                                 onClick={approveGroupMember}>
                                 Goedkeuren
                                 </p>

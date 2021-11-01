@@ -135,8 +135,7 @@ const PublicProfile = () => {
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
                             <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{numberOfContributions} bijdragen aan doelen</p>
-                            <p className="timestamp-public-profile">Lid sinds {profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                            <div className="button-container">
+                            <div className="button-container-public-profile">
                                 <button onClick={startChat}>Chatten</button>
                             </div>
                         </div>
@@ -145,6 +144,8 @@ const PublicProfile = () => {
                             <div className="about-me-inner-container">
                                 {introductions && introductions.map(introduction => (
                                     <div className="about-me-section" key={introduction.ID}>
+                                        <h3>Lid sinds</h3>
+                                        <p>{profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                                         <h3>Introductie</h3>
                                         <p>{introduction.Body}</p>
                                         {aboutMes && aboutMes.map(aboutMe => (

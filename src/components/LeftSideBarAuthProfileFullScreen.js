@@ -122,9 +122,9 @@ const LeftSideBarAuthProfile = () => {
     const Admin = () => {
         if(admin){
             return <div>
-                        <h3>Community beheer</h3>
+                        <h3>Community</h3>
                         <div className="channel-inner-div">
-                            <Link to={`/${client}/Settings`} onClick={changeMenuStatus}>Bedrijfsinstellingen</Link>
+                            <Link to={`/${client}/Settings`} onClick={changeMenuStatus}>Algemeen</Link>
                             <Link to={`/${client}/Analytics`} onClick={changeMenuStatus}>Analytics</Link>
                             <Link to={`/${client}/ProfileSettings`} onClick={changeMenuStatus}>Profielen</Link>
                             <Link to={`/${client}/Members`} onClick={changeMenuStatus}>Leden</Link>
@@ -135,9 +135,12 @@ const LeftSideBarAuthProfile = () => {
                             </div>
                             <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus}>Kanalen</Link>
                             <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus}>Groepen</Link>
+                            <Link to={`/${client}/WelcomeSettings`} onClick={changeMenuStatus}>Welkom</Link>
+                        </div>
+                        <h3>Impact</h3>
+                        <div className="channel-inner-div">
                             <Link to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
                             <Link to={`/${client}/ImpactPathSettings`} onClick={changeMenuStatus}>Impactpad</Link>
-                            <Link to={`/${client}/WelcomeSettings`} onClick={changeMenuStatus}>Welkom</Link>
                         </div>
                     </div>
         } else {

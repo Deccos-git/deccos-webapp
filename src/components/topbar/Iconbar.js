@@ -3,7 +3,7 @@ import chatIcon from '../../images/icons/chat-icon.png'
 import searchIcon from '../../images/icons/Search-icon.png'
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
-import { useFirestoreNotifications, useFirestoreNewMessages } from '../../firebase/useFirestore';
+import { useFirestoreNotifications } from '../../firebase/useFirestore';
 import { db } from '../../firebase/config';
 import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
@@ -23,7 +23,7 @@ const Iconbar = () => {
         ID = authO.ID
     }
 
-    const newMessages = useFirestoreNewMessages("Messages", ID)
+    const newMessages = ""
     const newNotifications = useFirestoreNotifications("Notifications", ID)
     const history = useHistory()
 

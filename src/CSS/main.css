@@ -39,6 +39,9 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
+.hide-message-options{
+    display: none;
+}
 
 .profile-results{
     width: 80% !important;
@@ -1327,6 +1330,7 @@
   .chat-screen{
       display: flex;
       flex-direction: column;
+      align-items: center;
       padding: 20px;
       background-color: white;
       min-height: 80vh;
@@ -1700,6 +1704,13 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
+.button-container-public-profile{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .layout-container h5{
     text-align: center;
 }
@@ -1829,6 +1840,11 @@
 
     .article-card-user-container {
         min-width: 0%;
+    }
+
+    .chat-screen {
+        padding: 20px 0px;
+        width: 90%;
     }
 
 }

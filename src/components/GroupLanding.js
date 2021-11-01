@@ -1,8 +1,7 @@
 import LeftSideBar from "./LeftSideBar"
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreID, useFirestoreSubscriptions, useFirestoreSubscriptionsChannelGroup, useFirestoreAdmins } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestoreSubscriptions, useFirestoreSubscriptionsChannelGroup, useFirestoreAdmins, useFirestore } from "../firebase/useFirestore"
 import { db, timestamp } from "../firebase/config"
-import firebase from "firebase"
 import { useHistory } from "react-router"
 import { client } from '../hooks/Client';
 import { useContext, useState, useEffect } from 'react';
@@ -19,6 +18,7 @@ const GroupLanding = () => {
     const [memberCount, setMemberCount] = useState('')
     const [creationDate, setCreationDate] = useState('')
     const [adminEmail, setAdminEmail] = useState('')
+    const [communityNameDB, setCommunityNameDB] = useState("")
 
     const route = Location()[3]
 
@@ -26,10 +26,17 @@ const GroupLanding = () => {
     const subscriptions = useFirestoreSubscriptions(authO.ID)
     const members = useFirestoreSubscriptionsChannelGroup(route)
     const admins = useFirestoreAdmins('Admins')
+    const compagny = useFirestore("CompagnyMeta")
 
     const history = useHistory()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCommunityNameDB(comp.CommunityName)
+        })
+    }, [compagny])
 
     useEffect(() => {
         const adminArray = []
@@ -87,13 +94,13 @@ const GroupLanding = () => {
                 to: adminEmail,
                 cc: "info@Deccos.nl",
                 message: {
-                subject: `Iemand heeft zich aangemald voor de groep ${groupName}`,
+                subject: `Iemand heeft zich aangemald voor de groep ${groupName} op ${communityNameDB}`,
                 html: `
-                    Iemand heeft zich aangemeld voor jullie community. <br><br>
+                Iemand heeft zich aangemald voor de groep ${groupName} op ${communityNameDB}. <br><br>
     
                     Naam: ${authO.UserName}. <br><br>
     
-                    Dit lidmaatschap moet door een beheerder worden geverificeerd.<br><br>
+                    Dit lidmaatschap moet door een beheerder worden goedgekeurd.<br><br>
     
                     <a href='https://deccos.co/${client}/Registrations'>Klik hier</a> om de alle openstaande aanvragen te beheren.<br><br>
                     

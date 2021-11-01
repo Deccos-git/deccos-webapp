@@ -2,7 +2,7 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBarGroup from "./rightSideBar/RightSideBarGroup"
 import MessageBarGroup from "./MessageBarGroup"
-import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreSubscriptionsChannelGroup } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreSubscriptionsChannelGroup, useFirestoreSubscriptions } from "../firebase/useFirestore"
 import emailIcon from '../images/icons/email-icon.png'
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
@@ -33,14 +33,38 @@ const Group = () => {
     const messages = useFirestoreMessages("Messages", route)
     const compagny = useFirestore("CompagnyMeta")
     const members = useFirestoreSubscriptionsChannelGroup(route)
+    const subscriptions = useFirestoreSubscriptions(authO.ID)
+
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
     const history = useHistory()
+
+    useEffect(() => {
+        subscriptions && subscriptions.forEach(sub => {
+
+            if(sub.UserID === authO.ID && sub.SubID === route && sub.Approved === false){
+
+                history.push(`/${client}/GroupLanding/${route}`)
+            } else if(sub.UserID === authO.ID && sub.SubID === route && sub.Approved === true) {
+                return
+            }
+        })
+    },[subscriptions])
+
+   
 
     const messageClass = (message) => {
         if(message.User === authO.UserName){
             return "auth-message"
         } else if (message.User != authO.UserName)  {
             return "user-message"
+        }
+    }
+
+    const optionsClass = (message) => {
+        if(message.User === authO.UserName){
+            return "message-options-container"
+        } else if (message.User != authO.UserName)  {
+            return "hide-message-options"
         }
     }
     
@@ -153,7 +177,7 @@ const Group = () => {
                     <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                 </div>
                 <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
-                <div className='message-options-container'>
+                <div className={optionsClass(message)}>
                     <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
                     <div className='message-options-inner-container' style={{display: showOptions}}>
                         <div className="send-as-mail-container">

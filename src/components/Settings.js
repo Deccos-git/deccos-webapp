@@ -103,8 +103,8 @@ const Settings = () => {
                 {compagny && compagny.map(comp => (
                 <div className="settings-inner-container">
                     <div className="card-header">
-                        <h1>Bedrijfsinstellingen</h1>
-                        <p>Verander de instellingen van {comp.CommunityName}</p>
+                        <h1>Algemeen</h1>
+                        <p>Verander de algemene instellingen van {comp.CommunityName}</p>
                     </div>
                     <div className="divider">
                         <h4>Community naam aanpassen</h4>

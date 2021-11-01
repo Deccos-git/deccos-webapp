@@ -29,6 +29,13 @@ const RegisterUser = () => {
     const admins = useFirestoreAdmins('Admins')
 
     useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setCommunityNameDB(comp.CommunityName)
+            setLogoDB(comp.Logo)
+        })
+    }, [compagny])
+
+    useEffect(() => {
         const adminArray = []
         admins && admins.forEach(admin => {
             adminArray.push(admin.Email)
@@ -110,13 +117,6 @@ const RegisterUser = () => {
             alert('De paswoorden zijn niet gelijk')
         }
     }
-
-    useEffect(() => {
-        compagny && compagny.forEach(comp => {
-            setCommunityNameDB(comp.CommunityName)
-            setLogoDB(comp.Logo)
-        })
-    }, [compagny])
 
     const registerHandler = () => {
     

@@ -9,6 +9,7 @@ import groupIcon from '../images/icons/group-icon.png'
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
 import { useState, useEffect } from "react";
+import firebase from "firebase";
 
 const ChatGroups = () => {
     const [chatSummary, setChatSummary] = useState("")
@@ -177,7 +178,7 @@ const ChatGroups = () => {
                 chat.map(ch => ((
                 <div className="chatpartner-meta-container divider" key={ch.id}>
                     <div className="chatpartner-container">
-                        <img src={ch.photo} alt=""data-id={ch.chatID} onClick={updateRouteChat} />
+                        <img src={ch.photo} alt="" data-id={ch.chatID} onClick={updateRouteChat} />
                         <p className="chat-overview-username" data-id={ch.chatID} onClick={updateRouteChat}>{ch.userName}</p>
                     </div>
                     <p>{ch.messages} berichten</p>
@@ -191,9 +192,29 @@ const ChatGroups = () => {
     const updateRouteChat = (e) => {
 
         const id = e.target.dataset.id
-         
-        history.push(`/${client}/ChatRoom/${id}`)
-            
+
+        db.collection("Messages")
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", id)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach((doc) => {
+
+                const read = doc.data().Read
+
+                if(!read.includes(route)){
+
+                        db.collection('Messages')
+                        .doc(doc.id)
+                        .update({
+                            Read:firebase.firestore.FieldValue.arrayUnion(route)
+                        })
+                    }
+                })
+            })
+            .then(() => {
+                history.push(`/${client}/ChatRoom/${id}`)
+            })
     }
 
     // Groups overview
@@ -223,8 +244,6 @@ const ChatGroups = () => {
     const totalGroupMessages = async (groupID) => {
 
         let totalMessages = ""
-
-        console.log(groupID)
     
             await db.collection("Messages")
             .where("Compagny", "==", client)
@@ -297,9 +316,31 @@ const ChatGroups = () => {
     const updateRouteGroup = (e) => {
 
         const id = e.target.dataset.id
-         
-        history.push(`/${client}/Group/${id}`)
-            
+
+        db.collection("Messages")
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", id)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach((doc) => {
+
+                const read = doc.data().Read
+
+                if(!read.includes(route)){
+
+                    console.log(doc)
+
+                        db.collection('Messages')
+                        .doc(doc.id)
+                        .update({
+                            Read:firebase.firestore.FieldValue.arrayUnion(route)
+                        })
+                    }
+                })
+            })
+            .then(() => {
+                history.push(`/${client}/Group/${id}`)
+            })   
     }
 
     

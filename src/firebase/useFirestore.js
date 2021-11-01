@@ -140,29 +140,6 @@ const useFirestoreMessages = (collection, id  ) => {
     return docs
 };
 
-const useFirestoreNewMessages = (collection, id) => {
-
-    const [docs, setDocs] = useState("")
-
-    useEffect(() => {
-        const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
-        .where("UserID", "==", id)
-        .onSnapshot(querySnapshot => {
-            let docArray = []
-            querySnapshot.forEach(doc => {
-                docArray.push({...doc.data(), docid: doc.id})
-            })
-            setDocs(docArray)
-        })
-        
-        return () => unsub();
-
-    }, [collection, id])  
-
-    return docs
-};
-
 const useFirestoreMyMessages = (collection, id) => {
 
     const [docs, setDocs] = useState("")
@@ -384,7 +361,7 @@ const useFirestoreNotApproved = () => {
 
     useEffect(() => {
         const unsub = db.collection("Users")
-        .where("Compagny", "==", client)
+        .where("Compagny", "array-contains", client)
         .where("Approved", "==", false)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -642,7 +619,6 @@ export {
     useFirestoreUser, 
     useFirestoreUsers, 
     useFirestoreMessages,
-    useFirestoreNewMessages,
     useFirestoreChats,
     useFirestoreChatsGroups,
     useFirestoreGroupsAuth,
