@@ -11,6 +11,7 @@ import { client } from "../hooks/Client"
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
+import Reaction from "./Reaction"
 
 const MessageDetail = () => {
     const route = Location()[3]
@@ -57,7 +58,7 @@ const MessageDetail = () => {
     reactions && reactions.forEach(reaction => {
 
         if(reaction.Thread.length === 0){
-            numberOfReactions = `Bekijk reactie`
+            numberOfReactions = `Bekijk 0 reacties`
         } else if (reaction.Thread.length === 1){
             numberOfReactions = `Bekijk ${reaction.Thread.length} reactie`
         } else {
@@ -138,29 +139,7 @@ const MessageDetail = () => {
                 </div>
                 <div className="reaction-area">
                 {reactions && reactions.map(reaction => ( 
-                    <div className="reaction-inner-container" key={reaction.ID}>
-                        <div className="auth-message-container">
-                            <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
-                        </div>
-                        <div className='message-inner-container'>
-                            <div className="user-meta-container">
-                                <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
-                                <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                            </div>
-                            <div className="message-container">
-                            <div className="massage" dangerouslySetInnerHTML={{__html:reaction.Message}}></div>
-                            </div>
-                            <div className="like-container">
-                                <p>Aantal bijdragen: {numberOfContributionsReaction}</p>
-                                {/* <img src={heartIcon} alt="" onClick={LikeHandler} /> */}
-                                < LikeBar message={reaction} />
-                            </div>
-                            <div className="button-container">
-                                <button onClick={updateRoute}>{numberOfReactions}</button>
-                            </div>
-                            < ReactionBar message={reaction} />
-                        </div>
-                    </div>
+                   <Reaction message={reaction}/>
                 ))}
             </div>
             </div>

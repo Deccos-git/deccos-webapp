@@ -3,23 +3,23 @@ import { useHistory } from "react-router-dom";
 import { client } from "../hooks/Client"
 import ReactionBar from './ReactionBar'
 import { useFirestoreMessages } from '../firebase/useFirestore';
+import { db } from '../firebase/config';
+import { useState, useEffect } from 'react';
 
 const IntroductionsCard = () => {
 
-    const docs = useFirestoreTimestamp("Introductions")
+    const introductions = useFirestoreTimestamp("Introductions")
 
     const history = useHistory()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     let id = null
 
-    docs && docs.forEach(doc => {
-        id = doc.ID
+    introductions && introductions.forEach(introduction => {
+        id = introduction.ID
     })
 
     const messages  = useFirestoreMessages("Messages", id)
-
-    const messageLength = messages.length
 
     const profileLink = (e) => {
         const id = e.target.dataset.id
@@ -33,15 +33,47 @@ const IntroductionsCard = () => {
         history.push(`/${client}/MessageDetail/${id}`)
     }
 
+    const ReactionCardButton = ({id}) => {
+
+        const [reactions, setReactions] = useState([])
+
+        const number = async () => {
+
+            const numberArray = []
+
+            await db.collection('Messages')
+            .where('ParentID', '==', id)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    numberArray.push(doc.data().ID)
+                })
+            })
+
+            return numberArray
+        }
+
+        useEffect(() => {
+            number().then(reaction => {
+                setReactions(reaction)
+            })
+        }, [messages])
+
+        console.log(reactions)
+
+        return(
+            <button onClick={showReactions} data-id={id} className="introduction-reaction-button">Bekijk {reactions.length} reacties</button>
+        )
+    }
+
     return (
-        docs && docs.map(doc => (
-            <div className="introduction-card" key={doc.ID} >
-                <img className="user-image" src={doc.Photo} alt="" data-id={doc.AuthID} onClick={profileLink} />
-                <h2 className="user-image" data-id={doc.AuthID} onClick={profileLink}>{doc.UserName}</h2>
-                <p>{doc.Body}</p>
-                <ReactionBar message={doc}/>
-                <button onClick={showReactions} data-id={doc.ID} className="introduction-reaction-button">Bekijk {messageLength} reacties</button>
-                <p className="introductioncard-timestamp">{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+        introductions && introductions.map(introduction => (
+            <div className="introduction-card" key={introduction.ID} >
+                <img className="user-image" src={introduction.Photo} alt="" data-id={introduction.AuthID} onClick={profileLink} />
+                <h2 className="user-image" data-id={introduction.AuthID} onClick={profileLink}>{introduction.UserName}</h2>
+                <p>{introduction.Body}</p>
+                <ReactionBar message={introduction}/>
+                <ReactionCardButton id={introduction.ID}/>
+                <p className="introductioncard-timestamp">{introduction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
             </div>
         ))
     )

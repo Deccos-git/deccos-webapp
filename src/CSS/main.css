@@ -370,7 +370,7 @@
 
   .auth-name{
       margin-right: 5px;
-      color: #2F2C41;
+      color: #959595;
       cursor: pointer;
   }
 
@@ -907,6 +907,10 @@
       margin: 20px;
   }
 
+  .start-banner h2{
+      margin-bottom: 50px;
+  }
+
   .no-email-button-container{
       display: flex;
       flex-direction: column;
@@ -1005,6 +1009,15 @@
 
   .auth-message-container{
       display: flex;
+      align-items: center;
+  }
+
+  .auth-photo-container img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
   }
 
   .massage{
@@ -1026,7 +1039,7 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    margin-right: 50px;
+    margin-right: 10px;
     cursor: pointer;
 }
 
@@ -1289,7 +1302,8 @@
 
   .like-container{
       border: 1px solid lightgray;
-      padding: 3px 0px;
+      padding: 10px;
+      margin-bottom: 20px;
       border-radius: 5px;
   }
 
@@ -1527,7 +1541,6 @@
 
   .like-goal-container{
       display: flex;
-      margin: 10px;
   }
 
   .contributions-amount-profile{

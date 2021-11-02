@@ -268,7 +268,7 @@ textarea ::placeholder{
 }
 
 .reaction-area{
-  width: 90%;
+  width: 80%;
   min-height: 50vh;
 }
 
@@ -276,9 +276,10 @@ textarea ::placeholder{
   margin: 20px;
   border-radius: 5px;
   padding: 20px;
-  margin: 5px 0px;
+  margin: 5px 0px 20px 0px;
   display: flex;
   border: 1px solid lightgray;
+  background-color: white;
 }
 
 .active{

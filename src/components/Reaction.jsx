@@ -11,7 +11,7 @@ const Reaction = ({message}) => {
     let numberOfReactions = ""
 
         if(message.Thread.length === 0){
-            numberOfReactions = `Bekijk bericht`
+            numberOfReactions = `Bekijk 0 reacties`
         } else if (message.Thread.length === 1){
             numberOfReactions = `Bekijk ${message.Thread.length} reactie`
         } else {
@@ -50,11 +50,11 @@ const Reaction = ({message}) => {
 
     return (
         <div className="reaction-inner-container" key={message.ID}>
-            <div className="auth-message-container">
+            <div className="auth-photo-container">
                 <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
             </div>
             <div className="message-outer-container">
-                <div className="user-meta-container">
+                <div className="auth-message-container">
                     <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
                     <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                 </div>
