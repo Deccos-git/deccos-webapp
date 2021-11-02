@@ -142,8 +142,6 @@ const Registrations = () => {
         const groupID = e.target.dataset.groupid
         const docid = e.target.dataset.docid
 
-        console.log(docid)
-
         db.collection('Subscriptions')
         .doc(id)
         .update({

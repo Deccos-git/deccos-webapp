@@ -8,6 +8,7 @@ import { auth, db } from './firebase/config';
 import { useState, useEffect } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
+import { ColorProvider } from './StateManagment/Colors';
 import NotApproved from './components/NotApproved'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
@@ -62,11 +63,13 @@ function App() {
         return ( 
         <AuthProvider>
         <MenuProvider>
+        <ColorProvider>
           <>
           <Topbar />
           <Main/>
           <BottomBar/>
           </>
+        </ColorProvider>
         </MenuProvider>
         </AuthProvider>
         )

@@ -3,7 +3,7 @@ import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
 import Location from "../hooks/Location"
-import { useFirestoreAboutMe, useFirestoreProfileFields, useFirestoreUser } from "../firebase/useFirestore";
+import { useFirestoreAboutMe, useFirestoreProfileFields, useFirestoreIntroductions } from "../firebase/useFirestore";
 import { useState, useContext, useRef, useEffect } from "react";
 import { db } from "../firebase/config";
 import { Auth } from '../StateManagment/Auth';
@@ -14,9 +14,12 @@ import uuid from 'react-uuid';
 const AboutMe = () => {
     const [authO] = useContext(Auth)
 
+    const [introduction, setIntroduction] = useState("")
+
     const route = Location()[3]
     const menuState = MenuStatus()
     const profileFields = useFirestoreProfileFields()
+    const introductions = useFirestoreIntroductions("Introductions", route)
     const aboutMe = useFirestoreAboutMe(route)
     const id = uuid()
 
@@ -54,6 +57,22 @@ const AboutMe = () => {
         })
     }
 
+    const introductionHandler = (e) => {
+        const message = e.target.value 
+
+        setIntroduction(message)
+    }
+
+    const saveIntrdoduction = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Introductions')
+        .doc(id)
+        .update({
+            Message: introduction
+        })
+    }
+
     return (
         <div className="main">
              <LeftSideBarAuthProfile />
@@ -63,21 +82,36 @@ const AboutMe = () => {
                     <h1>Over mij</h1>
                     <div className="divider about-me-user-text">
                         <h2>Mijn antwoorden</h2>
-                        {aboutMe && aboutMe.map(about => (
-                            <div key={about.ID}>
-                                <h3>{about.Title}</h3>
-                                <p>{about.Value}</p>
-                            </div>
-                        ))}
+                        <div>
+                            <h3>Introductie</h3>
+                            {introductions && introductions.map(introduction => (
+                                <p>{introduction.Message}</p>
+                            ))}
+                            {aboutMe && aboutMe.map(about => (
+                                <div key={about.ID}>
+                                    <h3>{about.Title}</h3>
+                                    <p>{about.Value}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className="divider">
                         <h2>Antwoorden aanpassen</h2>
-                        {profileFields && profileFields.map(field => (
-                            <div key={field.ID}>
-                                <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
-                                <div data-title={field.Title} dangerouslySetInnerHTML={{ __html: field.Button }} onClick={saveField}></div>
-                            </div>
-                        ))}
+                        <div>
+                            <h3>Introductie</h3>
+                            {introductions && introductions.map(introduction => (
+                                <div>
+                                    <textarea placeholder={introduction.Message} id="" cols="30" rows="10" onChange={introductionHandler}></textarea>
+                                    <button className='button-simple' data-id={introduction.docid} onClick={saveIntrdoduction}>Opslaan</button>
+                                </div>
+                            ))}
+                            {profileFields && profileFields.map(field => (
+                                <div key={field.ID}>
+                                    <div dangerouslySetInnerHTML={{ __html: field.HTML }}></div>
+                                    <div data-title={field.Title} dangerouslySetInnerHTML={{ __html: field.Button }} onClick={saveField}></div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                  </div>
              </div>

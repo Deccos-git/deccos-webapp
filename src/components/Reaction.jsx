@@ -2,8 +2,15 @@ import LikeBar from "./LikeBar"
 import ReactionBar from "./ReactionBar"
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
+import deleteIcon from '../images/icons/delete-icon.png'
+import settingsIcon from '../images/icons/settings-icon.png'
+import { useState, useContext } from "react"
+import { Auth } from '../StateManagment/Auth';
+import { db } from "../firebase/config"
 
 const Reaction = ({message}) => {
+    const [authO] = useContext(Auth)
+    const [showOptions, setShowOptions] = useState('none')
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
@@ -48,27 +55,61 @@ const Reaction = ({message}) => {
     
     }
 
+    const toggleOptions = () => {
+        if(showOptions === "none"){
+            setShowOptions("flex")
+        } else if(showOptions === "flex"){
+            setShowOptions("none")
+        }
+    }
+
+    const optionsClass = (message) => {
+        if(message.User === authO.UserName){
+            return "reaction-options-container"
+        } else if (message.User != authO.UserName)  {
+            return "hide-message-options"
+        }
+    }
+
+    const deleteMessage = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Messages')
+        .doc(id)
+        .delete()
+    }
+
     return (
-        <div className="reaction-inner-container" key={message.ID}>
-            <div className="auth-photo-container">
-                <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+        <div className='reaction-container'>
+            <div className="reaction-inner-container" key={message.ID}>
+                <div className="auth-photo-container">
+                    <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                </div>
+                <div className="message-outer-container">
+                    <div className="auth-message-container">
+                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                        <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    </div>
+                    <div className="message-container">
+                        <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                    </div>
+                    <div className="like-container">
+                        <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>
+                        < LikeBar message={message} />
+                    </div>
+                    <div className="button-container">
+                        <button className="reaction-button" onClick={updateRoute}>{numberOfReactions}</button>
+                    </div>
+                    < ReactionBar message={message} />
+                </div>
             </div>
-            <div className="message-outer-container">
-                <div className="auth-message-container">
-                    <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                    <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+            <div className={optionsClass(message)}>
+                <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                <div style={{display: showOptions}}>
+                    <div className='delete-message-container'>
+                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                    </div>
                 </div>
-                <div className="message-container">
-                    <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
-                </div>
-                <div className="like-container">
-                    <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>
-                    < LikeBar message={message} />
-                </div>
-                <div className="button-container">
-                    <button className="reaction-button" onClick={updateRoute}>{numberOfReactions}</button>
-                </div>
-                < ReactionBar message={message} />
             </div>
         </div>
     )

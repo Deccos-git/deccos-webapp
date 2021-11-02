@@ -110,7 +110,7 @@ const LeftSideBarAuthProfile = () => {
 
     useEffect(() => {
         numberOfNotificationsGroups().then((number) => {
-            setNotificationsGroups(number)
+            setNotificationsUsers(notificationsUsers + number)
         })
     }, [])
 

@@ -47,8 +47,6 @@ const Iconbar = () => {
 
     const newMessageArray = []
 
-    console.log(newMessages)
-
     newMessages && newMessages.forEach(message => {
 
         if(!message.Read.includes(ID)){

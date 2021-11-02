@@ -4,15 +4,18 @@ import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen
 import { db, bucket } from "../firebase/config.js"
 import {useFirestore, useFirestoreID } from "../firebase/useFirestore"
 import firebase from 'firebase'
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import MenuStatus from "../hooks/MenuStatus";
+import { Colors } from "../StateManagment/Colors";
 
 const Settings = () => {
+    const [colors] = useContext(Colors)
 
     const compagny = useFirestore("CompagnyMeta")
 
     const [communityName, setCommunityName] = useState("")
     const [website, setWebsite] = useState("")
+    const [backgroundColor, setBackgroundColor] = useState(colors.BackgroundColor)
 
     const menuState = MenuStatus()
 
@@ -95,8 +98,25 @@ const Settings = () => {
         })
     }
 
+    const backgroundColorHandler = (e) => {
+        const color = e.target.value 
+
+        setBackgroundColor(color)
+    }
+
+    const saveBackgroundColor = (e) => {
+        const id = e.target.dataset.id 
+        e.target.innerText = 'Opgeslagen'
+
+        db.collection('Colors')
+        .doc(colors.Docid)
+        .update({
+            BackgroundColor: backgroundColor
+        })
+    }
+
     return (
-        <div className="main">
+        <div className="main" style={{backgroundColor:backgroundColor}}>
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
@@ -123,6 +143,16 @@ const Settings = () => {
                         <input className="input-classic" type="text" placeholder={comp.Website} onChange={websiteHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveWebsite}>Opslaan</button>
+                        </div>
+                    </div >
+                    <div className="divider">
+                        <h4>Kleuren aanpassen</h4>
+                        <div className='color-container'>
+                            <h5>Achtergrond kleur</h5>
+                            <input className="input-color" type="color" value={backgroundColor} onChange={backgroundColorHandler} />
+                            <div className="button-container-colors">
+                                <button className="button-simple" onClick={saveBackgroundColor}>Opslaan</button>
+                            </div>
                         </div>
                     </div >
                 </div>

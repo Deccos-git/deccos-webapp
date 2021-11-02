@@ -70,8 +70,8 @@ const Group = () => {
     
     const emailOptions = () => {
             if(showSendMail === "none"){
-                setShowSendMail("flex")
-            } else if(showSendMail === "flex"){
+                setShowSendMail("block")
+            } else if(showSendMail === "block"){
                 setShowSendMail("none")
             }
     }

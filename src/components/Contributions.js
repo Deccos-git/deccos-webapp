@@ -24,6 +24,9 @@ const Contributions = () => {
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
+            <div className="page-header">
+                <h1>Bijdrage aan doelen</h1>
+            </div>
             {contributionsGoal && contributionsGoal.map(goal => (
                 <div className="notification-card" key={goal.ID}>
                     <div className="user-meta-container">

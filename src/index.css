@@ -248,6 +248,14 @@ textarea ::placeholder{
   color: #d11237;
 }
 
+.input-color{
+  height: 70px;
+  width: 70px;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .main-container{
   display: flex;
   flex-direction: column;
@@ -273,13 +281,17 @@ textarea ::placeholder{
 }
 
 .reaction-inner-container{
+  display: flex;
+
+}
+
+.reaction-container{
+  border: 1px solid lightgray;
+  background-color: white;
   margin: 20px;
   border-radius: 5px;
   padding: 20px;
   margin: 5px 0px 20px 0px;
-  display: flex;
-  border: 1px solid lightgray;
-  background-color: white;
 }
 
 .active{

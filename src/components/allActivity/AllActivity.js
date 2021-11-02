@@ -12,7 +12,7 @@ const AllActivity = () => {
     const menuState = MenuStatus()
 
     return (
-            <div className="main">
+            <div className='main'>
                 <LeftSideBar />
                 <LeftSideBarFullScreen/>
                 <div className="card-overview" style={{display: menuState}}>

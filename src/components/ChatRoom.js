@@ -12,9 +12,12 @@ import { client } from "../hooks/Client";
 import MenuStatus from "../hooks/MenuStatus";
 import { useHistory } from "react-router-dom"
 import GetLink from '../hooks/GetLink'
+import deleteIcon from '../images/icons/delete-icon.png'
+import settingsIcon from '../images/icons/settings-icon.png'
 
 const ChatRoom = () => {
     const [showSendMail, setShowSendMail] = useState("none")
+    const [showOptions, setShowOptions] = useState('none')
 
     const [authO] = useContext(Auth)
     const route = Location()[3]
@@ -102,6 +105,14 @@ const ChatRoom = () => {
           }); 
     }
 
+    const optionsClass = (message) => {
+        if(message.User === authO.UserName){
+            return "message-options-container"
+        } else if (message.User != authO.UserName)  {
+            return "hide-message-options"
+        }
+    }
+
     const emailOptions = () => {
         if(showSendMail === "none"){
             setShowSendMail("flex")
@@ -116,6 +127,22 @@ const ChatRoom = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const deleteMessage = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Messages')
+        .doc(id)
+        .delete()
+    }
+
+    const toggleOptions = () => {
+        if(showOptions === "none"){
+            setShowOptions("flex")
+        } else if(showOptions === "flex"){
+            setShowOptions("none")
+        }
+    }
+
     const ChatScreen = () => {
         return(
             <div className="chat-screen">
@@ -127,10 +154,16 @@ const ChatRoom = () => {
                         <p className="sender-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div dangerouslySetInnerHTML={{__html:GetLink(message)}}></div>
-                    <div className="send-as-mail-container">
-                        <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
-                        <div style={{display: showSendMail}}>
-                            <button onClick={sendAsMail}>Verstuur bericht als email</button>
+                    <div className={optionsClass(message)}>
+                        <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                        <div className='message-options-inner-container' style={{display: showOptions}}>
+                            <img className="notifications-icon-message" data-message={message.Message} src={emailIcon} alt="" onClick={emailOptions}/> 
+                            <div style={{display: showSendMail}}>
+                                <button className='send-as-mail-button' onClick={sendAsMail}>Verstuur bericht als email</button>
+                            </div>
+                            <div className='delete-message-container'>
+                                <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -151,7 +184,7 @@ const ChatRoom = () => {
                             <img className="user-image" src={user.Photo} alt="" data-id={user.ID} onClick={profileLink} /> 
                         </div>
                         <div className="header-title-container">
-                            <h2>Chat met</h2>
+                            <p>Chat met</p>
                             <h2 className="user-image" key={user.ID} data-id={user.ID} onClick={profileLink}>{user.UserName}</h2> 
                         </div>
                     </div>
