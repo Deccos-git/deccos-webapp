@@ -9,8 +9,6 @@ import { useState, useEffect } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
 import NotApproved from './components/NotApproved'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend }  from 'react-dnd-html5-backend'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
 
@@ -54,6 +52,8 @@ function App() {
     })
   }, [])
 
+  console.log(authO)
+
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
@@ -62,20 +62,22 @@ function App() {
         return ( 
         <AuthProvider>
         <MenuProvider>
-        <DndProvider backend={HTML5Backend}>
           <>
           <Topbar />
           <Main/>
           <BottomBar/>
           </>
-        </DndProvider>
         </MenuProvider>
         </AuthProvider>
         )
       } else if (online === true && approved === false && compagny.includes(client)){
         return <NotApproved/>
       } else if (online === true && !compagny.includes(client)){
-        return <MultipleAccounts authO={authO}/>
+        return (
+        <AuthProvider>
+          <MultipleAccounts/>
+        </AuthProvider>
+        )
       }
     }
 

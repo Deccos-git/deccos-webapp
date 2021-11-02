@@ -137,13 +137,25 @@ const Registrations = () => {
         const id = e.target.dataset.id
         const email = e.target.dataset.email
         const name = e.target.dataset.name
+        const memberID = e.target.dataset.memberid
         const groupName = e.target.dataset.groupname 
         const groupID = e.target.dataset.groupid
+        const docid = e.target.dataset.docid
+
+        console.log(docid)
 
         db.collection('Subscriptions')
         .doc(id)
         .update({
             Approved: true
+        })
+        .then(() => {
+            db.collection('Groups')
+            .doc(docid)
+            .update({
+                Members: firebase.firestore.FieldValue.arrayUnion(memberID)
+            })
+
         })
         .then(() => {
             db.collection("Email").doc().set({
@@ -260,9 +272,11 @@ const Registrations = () => {
                                 className="userrole-users-approve-button" 
                                 data-id={group.docid}
                                 data-email={group.UserEmail}
+                                data-memberid={group.UserID}
                                 data-name={group.UserName}
                                 data-groupname={group.SubName}
                                 data-groupid={group.SubID}
+                                data-docid={group.SubDocid}
                                 onClick={approveGroupMember}>
                                 Goedkeuren
                                 </p>

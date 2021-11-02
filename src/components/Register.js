@@ -119,6 +119,8 @@ const RegisterUser = () => {
     }
 
     const registerHandler = () => {
+
+        console.log(adminEmail)
     
         auth
         .createUserWithEmailAndPassword(email, password)
@@ -143,10 +145,10 @@ const RegisterUser = () => {
         .then(() => {
             compagny && compagny.forEach(comp => {
                 if(comp.VerificationMethode === "Admin"){
-                    verificationEmailAdmin(communityNameDB, email, forname, surname, logoDB)
+                    verificationEmailAdmin(email, forname, surname, communityNameDB, logoDB)
                     emailToAdminAdmin(forname, surname, communityNameDB)
                 } else if(comp.VerificationMethode === "Email"){
-                    verificationEmailEmail(communityNameDB, email, forname, surname, logoDB)
+                    verificationEmailEmail(email, forname, surname, communityNameDB, logoDB)
                     emailToAdminEmail(forname, surname, communityNameDB)
                 }
             })
@@ -210,7 +212,7 @@ const RegisterUser = () => {
           });
     }
 
-    const verificationEmailEmail = (communityName, email, forname, surname, logo) => {
+    const verificationEmailEmail = (email, forname, surname, communityName, logo) => {
         db.collection("Email").doc().set({
             to: [email],
             cc: "info@Deccos.nl",

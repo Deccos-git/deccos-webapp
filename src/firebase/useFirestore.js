@@ -140,6 +140,30 @@ const useFirestoreMessages = (collection, id  ) => {
     return docs
 };
 
+const useFirestoreNewMessagesChatGroups = ( id ) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Messages')
+        .where("Compagny", "==", client)
+        .where("Channel", "==", 'Chat')
+        .where("Members", "array-contains", id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMyMessages = (collection, id) => {
 
     const [docs, setDocs] = useState("")
@@ -628,6 +652,7 @@ export {
     useFirestoreNewNotifications,
     useFirestoreIntroductions,
     useFirestoreMyMessages,
+    useFirestoreNewMessagesChatGroups,
     useFirestoreNotApproved,
     useFirestoreProfileFields,
     useFirestoreProfileFieldsUser,

@@ -12,6 +12,7 @@ import uuid from 'react-uuid';
 const GroupLanding = () => {
     const [authO] = useContext(Auth)
     const [groupID, setGroupID] = useState('')
+    const [groupDocID, setGroupDocID] = useState('')
     const [groupName, setGroupName] = useState('')
     const [showButton, setShowButton] = useState('block')
     const [showNotice, setShowNotice] = useState('none')
@@ -49,6 +50,7 @@ const GroupLanding = () => {
     useEffect(() => {
         groups && groups.forEach(group => {
             setGroupID(group.ID)
+            setGroupDocID(group.docid)
             setGroupName(group.Room)
             setCreationDate(group.Timestamp.toDate().toLocaleDateString("nl-NL", options))
         })
@@ -81,6 +83,7 @@ const GroupLanding = () => {
             UserPhoto: authO.Photo,
             UserEmail: authO.Email,
             SubID: groupID,
+            SubDocid: groupDocID,
             SubName: groupName,
             Timestamp: timestamp,
             Compagny: client,

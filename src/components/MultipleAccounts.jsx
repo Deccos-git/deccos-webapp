@@ -4,12 +4,17 @@ import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom"
 import firebase from 'firebase';
+import { useContext, useState, useEffect } from 'react';
+import { Auth } from '../StateManagment/Auth';
 
-const MultipleAccounts = ({authO}) => {
+const MultipleAccounts = () => {
+    const [authO] = useContext(Auth)
 
     const compagnies = useFirestore("CompagnyMeta")
 
     const history = useHistory()
+
+    console.log(authO)
 
     let logo = ""
     let website = ""
@@ -22,6 +27,7 @@ const MultipleAccounts = ({authO}) => {
     })
 
     const registerUser = () => {
+        console.log(authO.docid)
         db.collection("Users")
         .doc(authO.docid)
         .update({

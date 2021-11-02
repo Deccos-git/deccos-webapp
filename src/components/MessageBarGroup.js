@@ -2,12 +2,11 @@ import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { db, timestamp, bucket } from "../firebase/config.js"
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestoreID, useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase';
-import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 
@@ -16,12 +15,26 @@ const MessageBarGroup = () => {
     const [Message, setMessage] = useState("")
     const [fileDisplay, setFileDisplay] = useState("none")
     const [progressBar, setProgressBar] = useState("")
+    const [members, setMembers] = useState('')
 
     const route = Location()[3]
     
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const groups = useFirestoreID("Groups", route)
+    const chats = useFirestoreID("Chats", route)
+
+    useEffect(() => {
+        groups && groups.forEach(group => {
+            setMembers(group.Members)
+        })
+    }, [groups])
+
+    useEffect(() => {
+        chats && chats.forEach(chat => {
+            setMembers(chat.MemberList)
+        })
+    }, [groups])
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -31,38 +44,27 @@ const MessageBarGroup = () => {
     
     const submitMessage = () => {
 
-        setTimeout(() => {
-
-            db.collection("Messages")
-            .doc()
-            .set({
-                Type: "Message",
-                Message: Message,
-                Timestamp: timestamp,
-                ParentID: route,
-                ID: id,
-                Compagny: client,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                Email: authO.Email,
-                Thread: [],
-                Channel: 'Chat',
-                Read: [authO.ID],
-                UserID: authO.ID
-            })
-            .then(() => {
-                groups && groups.forEach(group => {
-                    db.collection("Groups")
-                    .doc(group.docid)
-                    .update({
-                        Messages: firebase.firestore.FieldValue.increment(1)
-                    })
-                })
-            })
-            .then(() => {
-                setMessage("")
-            })
-        }, 1000)
+        db.collection("Messages")
+        .doc()
+        .set({
+            Type: "Message",
+            Message: Message,
+            Timestamp: timestamp,
+            ParentID: route,
+            ID: id,
+            Compagny: client,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            Email: authO.Email,
+            Members: members,
+            Thread: [],
+            Channel: 'Chat',
+            Read: [authO.ID],
+            UserID: authO.ID
+        })
+        .then(() => {
+            setMessage("")
+        })
     }
 
     const toggleFile = () => {
