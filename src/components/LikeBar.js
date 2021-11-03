@@ -5,7 +5,7 @@ import firebase from "firebase"
 import { client } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { Auth } from '../StateManagment/Auth';
-import { useFirestoreContributionGraph } from "../firebase/useFirestore"
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const LikeBar = ({message}) => {
     const [authO] = useContext(Auth)
@@ -13,39 +13,10 @@ const LikeBar = ({message}) => {
 
     const allGoals = useFirestore("Goals")
     const compagny = useFirestore("CompagnyMeta")
+
     const id = uuid()
-
-    const currentMonth = new Date().getMonth()
-    const currentYear = new Date().getFullYear()
-
-    const getMonthYear = () => {
-        if(currentMonth === 0){
-            return `Januari ${currentYear}` 
-        } else if (currentMonth === 1){
-            return `Februari ${currentYear}` 
-        } else if (currentMonth === 2){
-            return `Maart ${currentYear}` 
-        } else if (currentMonth === 3){
-            return `April ${currentYear}` 
-        } else if (currentMonth === 4){
-            return `Mei ${currentYear}` 
-        } else if (currentMonth === 5){
-            return `Juni ${currentYear}` 
-        } else if (currentMonth === 6){
-            return `Juli ${currentYear}` 
-        } else if (currentMonth === 7){
-            return `Augustus ${currentYear}` 
-        } else if (currentMonth === 8){
-            return `September ${currentYear}` 
-        } else if (currentMonth === 9){
-            return `Oktober ${currentYear}` 
-        } else if (currentMonth === 10){
-            return `November ${currentYear}` 
-        } else if (currentMonth === 11){
-            return `December ${currentYear}` 
-        }
-    }
-
+    const getYearMonth = GetYearMonth()
+  
     const goalHandler = (e) => {
 
         const select = e.target
@@ -139,10 +110,10 @@ const LikeBar = ({message}) => {
                     })
                 })
                 .then(() => {
-                    console.log(getMonthYear(), goal.ID)
+                    
                     db.collection("ContributionGraph")
                     .where("Compagny", "==", client)
-                    .where("Month", "==", getMonthYear())
+                    .where("Month", "==", getYearMonth)
                     .where("GoalID", "==", goal.ID)
                     .get()
                     .then(querySnapshot => {
@@ -162,7 +133,7 @@ const LikeBar = ({message}) => {
                             db.collection("ContributionGraph")
                             .doc()
                             .set({
-                                Month: getMonthYear(),
+                                Month: getYearMonth,
                                 Contributions: 1,
                                 Compagny: client,
                                 GoalID: goal.ID,

@@ -10,6 +10,8 @@ import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
+import worldIcon from '../images/icons/world-icon.png'
+import heartIcon from '../images/icons/heart-icon.png'
 
 const PublicProfile = () => {
     const [authO] = useContext(Auth)
@@ -134,7 +136,16 @@ const PublicProfile = () => {
                         <div className="divider ">
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
-                            <p className="contributions-amount-profile" onClick={showContributions} data-id={profile.ID}>{numberOfContributions} bijdragen aan doelen</p>
+                            <div className='like-icon-container-profile'>
+                                <div className='like-icon-inner-container'>
+                                    <img src={worldIcon}/>
+                                    <p className='notification-counter-small'>{numberOfContributions}</p>
+                                </div>
+                                <div className='like-icon-inner-container'>
+                                    <img src={heartIcon} alt=""/>
+                                    <p className='notification-counter-small'>0</p>
+                                </div>
+                            </div>
                             <div className="button-container-public-profile">
                                 <button onClick={startChat}>Chatten</button>
                             </div>

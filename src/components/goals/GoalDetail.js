@@ -55,18 +55,12 @@ const GoalDetail = () => {
                         <h2>{doc.Title}</h2>
                         <p>{doc.Body}</p>
                         <div className="type-container">
-                            <img src={icon} alt="" />
+                            <div className='like-count-container'>
+                                <img src={icon} alt="" onClick={showContributionsGoal} />
+                                <p className='notification-counter-small'>{doc.Contributions.length}</p>
+                            </div>
                             <p>{doc.Type}</p>
                             <p className="sdg-type">{doc.SDG}</p>
-                        </div>
-                        <div className="goal-progress-container">
-                            <p>Aantal bijdragen:</p>
-                            {docs && docs.map(doc => (
-                                <p>{doc.Contributions.length}</p>
-                            ))}
-                            <div className="button-container">
-                                <button className="button-simple" onClick={showContributionsGoal}>Bekijk</button>
-                            </div>
                         </div>
                     </div>
                 </motion.div>

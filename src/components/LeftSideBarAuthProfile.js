@@ -126,7 +126,7 @@ const LeftSideBarAuthProfile = () => {
                             <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
                             <div className="notification-sidebar-container">
                                 <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmelden</NavLink>
-                                <p style={{display: showNotification}} className="notification-counter-small">{notificationsTotal}</p>
+                                <p style={{display: showNotification}} className="notification-counter-small">{notificationsUsers}</p>
                             </div>
                             <NavLink activeClassName='active' to={`/${client}/ChannelSettings`}>Kanalen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>

@@ -245,6 +245,8 @@
 
 .notification-sidebar-container p{
     margin: 0px 0px 0px 3px;
+    padding: 2px;
+    font-size: 11px;
 }
 
 .userrole-users-approve-button{
@@ -253,6 +255,21 @@
     margin-right: 0px;
     cursor: pointer;
     font-size: 10px;
+}
+
+.like-icon-container{
+    display: flex;
+}
+
+.like-icon-inner-container{
+    display: flex;
+    margin-right: 10px;
+}
+
+.like-icon-inner-container p{
+    padding: 2px;
+    font-size: 11px;
+    margin-left: 0px;
 }
 
 .article-detail-banner{
@@ -565,9 +582,21 @@
   }
 
   .message-options-container{
-    border-top: 1px solid lightgray;
     margin-top: 10px;
+    display: flex;
+    justify-content: end;
   }
+
+.like-icon-container-profile{
+    display: flex;
+    justify-content: center;
+    margin: 10px 10px 20px 10px;
+}
+
+.like-icon-container-profile img{
+    width: 30px;
+    height: 30px;
+}
 
   .chat-screen a{
       text-decoration: underline;
@@ -721,7 +750,6 @@
   .type-container img{
       width: 20px;
       height: 20px;
-      margin-right: 10px;
   }
 
   .activity-list{
@@ -1317,10 +1345,22 @@
   }
 
   .like-container{
-      border: 1px solid lightgray;
       padding: 10px;
       margin-bottom: 20px;
       border-radius: 5px;
+  }
+
+  .like-count-container{
+      display: flex;
+      justify-content: center;
+      margin-right: 10px;
+      cursor: pointer;
+  }
+
+  .like-count-container p{
+      padding: 2px;
+      font-size: 11px;
+      margin-left: 0px;
   }
 
   .previous-message-container{

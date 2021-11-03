@@ -9,6 +9,8 @@ import firebase from "firebase";
 import MenuStatus from "../hooks/MenuStatus";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
+import GetYearMonth from '../hooks/GetYearMonth'
+import uuid from 'react-uuid';
 
 const Registrations = () => {
     const [verificationMethode, setVerificationMethode] = useState("")
@@ -23,6 +25,8 @@ const Registrations = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const getYearMonth = GetYearMonth()
+    const id = uuid()
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -61,12 +65,6 @@ const Registrations = () => {
         const userID = e.target.dataset.userid
         const email = e.target.dataset.email
 
-        const memberMap = {
-            UserName: `${forname} ${surname}`,
-            Photo: photo,
-            ID: id
-        }
-
         db.collection("Users")
         .doc(id)
         .update({
@@ -88,13 +86,6 @@ const Registrations = () => {
                 User: `${forname} ${surname}`,
                 UserID: userID,
                 UserPhoto: photo,
-            }) 
-        })
-        .then(() => {
-            db.collection("CompagnyMeta")
-            .doc(docid)
-            .update({
-                Members: firebase.firestore.FieldValue.arrayUnion(memberMap)
             }) 
         })
         .then(() => {
@@ -130,6 +121,37 @@ const Registrations = () => {
                 Type: "Verification mail email"
                   }     
               });
+        })
+        .then(() => {
+            db.collection("MemberGraph")
+            .where("Compagny", "==", client)
+            .where('Month', '==', getYearMonth)
+            .get()
+            .then(querySnapshot => {
+
+                if(querySnapshot.empty === false){
+
+                    querySnapshot.forEach(doc => {
+
+                        db.collection("MemberGraph")
+                        .doc(doc.id)
+                        .update({
+                            Contributions: firebase.firestore.FieldValue.increment(1)
+                        })
+                    })
+                } else if(querySnapshot.empty === true){
+
+                    db.collection("MemberGraph")
+                    .doc()
+                    .set({
+                        Month: getYearMonth,
+                        Contributions: 1,
+                        Compagny: client,
+                        LastActive: timestamp,
+                        ID: uuid()
+                    })
+                }
+            })
         })
     }
 

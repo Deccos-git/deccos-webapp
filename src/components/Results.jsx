@@ -41,55 +41,55 @@ const Results = () => {
 
     console.log(goalData)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const totalArray = []
-            db.collection("ContributionGraph")
-            .where("Compagny", "==", client)
-            .orderBy("LastActive", "desc")
-            .get()
-            .then(querySnapshot => {
+    //     const totalArray = []
+    //         db.collection("ContributionGraph")
+    //         .where("Compagny", "==", client)
+    //         .orderBy("LastActive", "desc")
+    //         .get()
+    //         .then(querySnapshot => {
               
-                querySnapshot.forEach(doc => {
-                    const contributions = doc.data().Contributions
-                    const month = doc.data().Month
+    //             querySnapshot.forEach(doc => {
+    //                 const contributions = doc.data().Contributions
+    //                 const month = doc.data().Month
 
-                    totalArray.push({sum: contributions,
-                                    month: month})
-                })
+    //                 totalArray.push({sum: contributions,
+    //                                 month: month})
+    //             })
 
-               console.log(totalArray)
+    //            console.log(totalArray)
 
-                setTotal(totalArray)
-            })
-    }, [goals])
+    //             setTotal(totalArray)
+    //         })
+    // }, [goals])
 
-    console.log(total)
+    // console.log(total)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const sdgArray = []
+    //     const sdgArray = []
         
-        compagny && compagny.forEach( async comp => {
-          // comp.SDGs.forEach(sdg => {
-            db.collection("ContributionGraph")
-            .where("Compagny", "==", client)
-            .where("SDG", "==", sdg)
-            .orderBy("LastActive", "desc")
-            .get()
-            .then(querySnapshot => {
+    //     compagny && compagny.forEach( async comp => {
+    //       // comp.SDGs.forEach(sdg => {
+    //         db.collection("ContributionGraph")
+    //         .where("Compagny", "==", client)
+    //         .where("SDG", "==", sdg)
+    //         .orderBy("LastActive", "desc")
+    //         .get()
+    //         .then(querySnapshot => {
               
-                querySnapshot.forEach(doc => {
-                    sdgArray.push(doc.data())
-                })
+    //             querySnapshot.forEach(doc => {
+    //                 sdgArray.push(doc.data())
+    //             })
 
-                setSdg(sdgArray)
-            })
-          })
-        // })
-    }, [compagny])
+    //             setSdg(sdgArray)
+    //         })
+    //       })
+    //     // })
+    // }, [compagny])
 
-    console.log(sdg)
+    // console.log(sdg)
 
     return (
         <div className="main">

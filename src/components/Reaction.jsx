@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import deleteIcon from '../images/icons/delete-icon.png'
 import settingsIcon from '../images/icons/settings-icon.png'
+import worldIcon from '../images/icons/world-icon.png'
+import heartIcon from '../images/icons/heart-icon.png'
 import { useState, useContext } from "react"
 import { Auth } from '../StateManagment/Auth';
 import { db } from "../firebase/config"
@@ -11,6 +13,7 @@ import { db } from "../firebase/config"
 const Reaction = ({message}) => {
     const [authO] = useContext(Auth)
     const [showOptions, setShowOptions] = useState('none')
+    const [goalLikeDiplay, setGoalLikeDiplay] = useState('none')
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
@@ -79,6 +82,14 @@ const Reaction = ({message}) => {
         .delete()
     }
 
+    const toggleGoalLikeBar = () => {
+        if(goalLikeDiplay === 'none'){
+            setGoalLikeDiplay('flex')
+        } else if (goalLikeDiplay === 'flex'){
+            setGoalLikeDiplay('none')
+        }
+    }
+
     return (
         <div className='reaction-container'>
             <div className="reaction-inner-container" key={message.ID}>
@@ -94,13 +105,24 @@ const Reaction = ({message}) => {
                         <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                     </div>
                     <div className="like-container">
-                        <p className="like-counter">Aantal bijdragen aan doelen: {message.Contributions.length}</p>
-                        < LikeBar message={message} />
+                        <div className='like-icon-container'>
+                            <div className='like-icon-inner-container'>
+                                <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
+                                <p className='notification-counter-small'>{message.Contributions.length}</p>
+                            </div>
+                            {/* <div className='like-icon-inner-container'>
+                                <img src={heartIcon} alt=""/>
+                                <p className='notification-counter-small'>{message.Likes.length}</p>
+                            </div> */}
+                        </div>
+                        <div style={{display: goalLikeDiplay}}>
+                            <LikeBar message={message} />
+                        </div>
                     </div>
+                    < ReactionBar message={message} />
                     <div className="button-container">
                         <button className="reaction-button" onClick={updateRoute}>{numberOfReactions}</button>
                     </div>
-                    < ReactionBar message={message} />
                 </div>
             </div>
             <div className={optionsClass(message)}>

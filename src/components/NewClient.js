@@ -9,6 +9,8 @@ import firebase from 'firebase'
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { useHistory } from "react-router-dom";
 import MenuStatus from "../hooks/MenuStatus";
+import { client } from "../hooks/Client";
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const NewClient = () => {
     const [compagnyName, setCompagnyName] = useState("")
@@ -20,6 +22,7 @@ const NewClient = () => {
     const history = useHistory();
     const id = uuid()
     const menuState = MenuStatus()
+    const getYearMonth = GetYearMonth()
 
     const compagnyNameHandler = (e) => {
 
@@ -157,6 +160,17 @@ const NewClient = () => {
                 ID: uuid(),
                 Timestamp: timestamp,
                 Goal: ''
+            })
+        })
+        .then(() => {
+            db.collection('MemberGraph')
+            .doc()
+            .set({
+                compagny: client,
+                ID: uuid(),
+                LastActive: timestamp,
+                Month: getYearMonth,
+                Contributions: 0
             })
         })
         .then(() => {

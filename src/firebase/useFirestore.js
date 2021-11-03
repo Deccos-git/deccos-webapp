@@ -475,6 +475,29 @@ const useFirestoreContributionGraph = (month, goal) => {
     return docs
 };
 
+const useFirestoreMemberGraph = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("MemberGraph")
+        .where('Compagny', '==', client)
+        .orderBy("LastActive", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
 const useFirestoreAboutMe = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -657,6 +680,7 @@ export {
     useFirestoreProfileFields,
     useFirestoreProfileFieldsUser,
     useFirestoreContributionGraph,
+    useFirestoreMemberGraph,
     useFirestoreAboutMe,
     useFirestoreActivities,
     useFirestoreChannelName,

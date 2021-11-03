@@ -154,7 +154,7 @@ const RegisterUser = () => {
             })
         })
         .then(() => {
-            history.push(`/${client}/NotApproved`)
+            history.push(`/${client}/NotApproved/1`)
         })
         .catch(err => {
             if(err){
@@ -213,6 +213,7 @@ const RegisterUser = () => {
     }
 
     const verificationEmailEmail = (email, forname, surname, communityName, logo) => {
+        console.log(email)
         db.collection("Email").doc().set({
             to: [email],
             cc: "info@Deccos.nl",
@@ -234,8 +235,9 @@ const RegisterUser = () => {
     }
 
     const emailToAdminEmail = (forname, surname, communityName) => {
+        console.log(adminEmail)
         db.collection("Email").doc().set({
-            to: [adminEmail],
+            to: adminEmail,
             cc: "info@Deccos.nl",
             message: {
             subject: `Iemand heeft zich aangemald voor ${communityName}`,
