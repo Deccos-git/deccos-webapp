@@ -1,6 +1,6 @@
 import { useFirestoreLikesGraphUser } from "../firebase/useFirestore"
-import LeftSideBar from "./LeftSideBar"
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
+import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
+import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
@@ -39,8 +39,8 @@ const Likes = () => {
     
     return (
         <div className="main">
-            <LeftSideBar />
-            <LeftSideBarFullScreen/>
+            <LeftSideBarPublicProfile />
+            <LeftSideBarPublicProfileFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
             <div className="page-header">
                 <h1>Likes</h1>
