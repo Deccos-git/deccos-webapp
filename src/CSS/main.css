@@ -583,8 +583,6 @@
 
   .message-options-container{
     margin-top: 10px;
-    display: flex;
-    justify-content: end;
   }
 
 .like-icon-container-profile{

@@ -56,7 +56,7 @@ const MyChannels = () => {
         <LeftSideBarPublicProfileFullScreen/>
         <div className="card-overview" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Mijn groepen</h1>
+                <h1>Mijn kanalen</h1>
             </div>
             {channels && channels.map(channel => (
                 <div className="list introductions-list my-message" data-id={channel.ID} data-link={channel.Link} onClick={linkToChannel}>
