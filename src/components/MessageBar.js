@@ -2,16 +2,16 @@ import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { db, timestamp, bucket } from "../firebase/config.js"
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import firebase from "firebase"
 import { client } from "../hooks/Client"
 import uuid from 'react-uuid';
 import { useFirestore } from "../firebase/useFirestore"
 import { useLocation } from "react-router-dom"
-import { useContext } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location";
 import { useHistory } from "react-router-dom";
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const MessageBar = () => {
     const [authO, setAuthO] = useContext(Auth)
@@ -21,10 +21,10 @@ const MessageBar = () => {
 
     const route = Location()[3]
     const id = uuid()
-    const compagny = useFirestore("CompagnyMeta")
     const chats = useFirestore("Chats", route)
     const location = useLocation()
     const history = useHistory()
+    const getYearMonth = GetYearMonth()
 
     const MessageInput = (e) => {
         const input = e.target.value
@@ -45,9 +45,11 @@ const MessageBar = () => {
             ParentID: route,
             PrevPath: location.pathname,
             ID: id,
+            Likes: 0,
             Compagny: client,
             User: authO.UserName,
             UserPhoto: authO.Photo,
+            UserDocID: authO.Docid,
             Email: authO.Email,
             Thread: [],
             Read: [authO.ID],
@@ -72,6 +74,37 @@ const MessageBar = () => {
                 Compagny: client,
                 Type: 'Reactie',
                 Link: `MessageDetail/${id}`
+            })
+        })
+        .then(() => {
+            db.collection("MessageGraph")
+            .where("Compagny", "==", client)
+            .where("Month", "==", getYearMonth)
+            .get()
+            .then(querySnapshot => {
+                if(querySnapshot.empty === false){
+                    querySnapshot.forEach(doc => {
+
+                        console.log("bestaat")
+
+                        db.collection("MessageGraph")
+                        .doc(doc.id)
+                        .update({
+                            Contributions: firebase.firestore.FieldValue.increment(1)
+                        })
+                    })
+                } else if (querySnapshot.empty === true){
+                    console.log("bestaat niet")
+                    db.collection("MessageGraph")
+                    .doc()
+                    .set({
+                        Month: getYearMonth,
+                        Contributions: 1,
+                        Compagny: client,
+                        LastActive: timestamp,
+                        ID: uuid(),
+                    })
+                } 
             })
         })
 

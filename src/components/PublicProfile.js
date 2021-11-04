@@ -127,6 +127,12 @@ const PublicProfile = () => {
 
     }
 
+    const showLikes = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/Likes/${id}`)
+    }
+
     return (
             <div className="main">
                 <LeftSideBarPublicProfile />
@@ -138,12 +144,12 @@ const PublicProfile = () => {
                             <h1>{profile.UserName}</h1>
                             <div className='like-icon-container-profile'>
                                 <div className='like-icon-inner-container'>
-                                    <img src={worldIcon}/>
+                                    <img src={worldIcon} data-id={profile.ID} onClick={showContributions}/>
                                     <p className='notification-counter-small'>{numberOfContributions}</p>
                                 </div>
                                 <div className='like-icon-inner-container'>
-                                    <img src={heartIcon} alt=""/>
-                                    <p className='notification-counter-small'>0</p>
+                                    <img src={heartIcon} data-id={profile.ID} onClick={showLikes}/>
+                                    <p className='notification-counter-small'>{profile.Likes}</p>
                                 </div>
                             </div>
                             <div className="button-container-public-profile">

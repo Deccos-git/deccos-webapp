@@ -1203,6 +1203,7 @@
     border-radius: 5px;
     background-color: #FFF;
     text-align: center;
+    padding: 5px;
   }
 
   .notification-card-inner-container{
@@ -1235,6 +1236,7 @@
       margin: 0px 0px -7px 10px;
       width: 15px;
       height: 15px;
+      font-size: 11px;
   }
 
   .notification-counter-small{
@@ -1435,6 +1437,22 @@
     border-top: 1px solid lightgray;
   }
 
+  .settings-inner-container h2{
+      text-align: left;
+  }
+
+  .settings-inner-container p{
+      margin-bottom:  0px;
+  }
+
+  .graph-div-contributions-container{
+      width: 80%;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      background-color: white;
+      border-radius: 5px;
+      padding: 5px;
+  }
+
   .chat-header{
     display: flex;
     flex-direction: column;
@@ -1445,6 +1463,20 @@
     background-color: white;
     margin: 20px;
     border-radius: 5px;
+}
+
+.like-icon-inner-container{
+    margin: 0px;
+    cursor: pointer;
+}
+
+.like-icon-inner-container img{
+    width: 30px;
+    height: 30px;
+}
+
+.like-container{
+    margin-bottom: 20px;
 }
 
   .user-message{

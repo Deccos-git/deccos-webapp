@@ -1,18 +1,42 @@
-import { useFirestoreContributions } from "../firebase/useFirestore"
+import { useFirestoreContributions, useFirestoreContributionGraphUser } from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
+import { useState, useEffect } from 'react'
+import { Line } from 'react-chartjs-2'
 
 const Contributions = () => {
+    const [labelGraphs, setLabelGraphs] = useState('')
+    const [dataGraphs, setDataGraphs] = useState('')
+
     const route = Location()[3]
     const menuState = MenuStatus()
 
     const contributionsGoal = useFirestoreContributions("Contributions", "GoalID", route)
     const contributionsMessage = useFirestoreContributions("Contributions", "MessageID", route)
     const contributionsReciever = useFirestoreContributions("Contributions", "RecieverID", route)
+    const graphs = useFirestoreContributionGraphUser(route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    useEffect(() => {
+
+        const monthArray = []
+        const countArray = []
+
+        graphs && graphs.forEach(graph => {
+            const month = graph.Month 
+            const count = graph.Contributions
+
+            monthArray.push(month)
+            countArray.push(count)
+    
+        })
+
+        setLabelGraphs(monthArray)
+        setDataGraphs(countArray)
+    }, [graphs])
 
 
     const recieverLink = (e) => {
@@ -25,7 +49,32 @@ const Contributions = () => {
             <LeftSideBarFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Likes</h1>
+                <h1>Bijdrage aan doelen</h1>
+            </div>
+            <div className='graph-div-contributions-container'>
+                <Line data={{
+                        labels: labelGraphs,
+                        datasets: [
+                        {
+                            label: 'Aantal bijdrage aan doelen',
+                            data: dataGraphs,
+                            fill: false,
+                            backgroundColor: 'green',
+                            borderColor: 'green',
+                        },
+                        ],
+                }} 
+                options={{
+                    scales: {
+                        yAxes: [
+                        {
+                            ticks: {
+                            beginAtZero: true,
+                            },
+                        },
+                        ],
+                    },
+                }} />
             </div>
             {contributionsGoal && contributionsGoal.map(goal => (
                 <div className="notification-card" key={goal.ID}>

@@ -135,11 +135,48 @@ const LikeBar = ({message}) => {
                             .set({
                                 Month: getYearMonth,
                                 Contributions: 1,
+                                UserID: message.UserID,
+                                UserName: message.User,
                                 Compagny: client,
                                 GoalID: goal.ID,
                                 GoalTitle: goal.Title,
                                 LastActive: timestamp,
                                 SDG: goal.SDG,
+                                ID: uuid()
+                            })
+                        } 
+                    })
+                })
+                .then(() => {
+                    
+                    db.collection("ContributionGraphUser")
+                    .where("Compagny", "==", client)
+                    .where("Month", "==", getYearMonth)
+                    .where("UserID", "==", message.UserID)
+                    .get()
+                    .then(querySnapshot => {
+                        if(querySnapshot.empty === false){
+                            querySnapshot.forEach(doc => {
+
+                                console.log("bestaat")
+
+                                db.collection("ContributionGraphUser")
+                                .doc(doc.id)
+                                .update({
+                                    Contributions: firebase.firestore.FieldValue.increment(1)
+                                })
+                            })
+                        } else if (querySnapshot.empty === true){
+                            console.log("bestaat niet")
+                            db.collection("ContributionGraphUser")
+                            .doc()
+                            .set({
+                                Month: getYearMonth,
+                                Contributions: 1,
+                                UserID: message.UserID,
+                                UserName: message.User,
+                                Compagny: client,
+                                LastActive: timestamp,
                                 ID: uuid()
                             })
                         } 

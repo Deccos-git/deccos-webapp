@@ -450,15 +450,13 @@ const useFirestoreProfileFieldsUser = () => {
     return docs
 };
 
-const useFirestoreContributionGraph = (month, goal) => {
+const useFirestoreContributionGraph = () => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection("ContributionGraph")
         .where('Compagny', '==', client)
-        .where("Month", "==", month)
-        .where("GoalID", "==", goal)
         .orderBy("LastActive", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -470,7 +468,103 @@ const useFirestoreContributionGraph = (month, goal) => {
         
         return () => unsub();
 
-    }, [month, goal])  
+    }, [])  
+
+    return docs
+};
+
+const useFirestoreContributionGraphUser = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("ContributionGraphUser")
+        .where('Compagny', '==', client)
+        .where("UserID", "==", id)
+        .orderBy("LastActive", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreMessageGraph = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("MessageGraph")
+        .where('Compagny', '==', client)
+        .orderBy("LastActive", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
+const useFirestoreLikesGraphUser = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    console.log(id)
+
+    useEffect(() => {
+        const unsub = db.collection("LikeGraph")
+        .where('Compagny', '==', client)
+        .where("UserID", "==", id)
+        .orderBy("LastActive", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreLikesGraph = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("LikeGraph")
+        .where('Compagny', '==', client)
+        .orderBy("LastActive", "desc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
 
     return docs
 };
@@ -680,6 +774,10 @@ export {
     useFirestoreProfileFields,
     useFirestoreProfileFieldsUser,
     useFirestoreContributionGraph,
+    useFirestoreContributionGraphUser,
+    useFirestoreMessageGraph,
+    useFirestoreLikesGraph,
+    useFirestoreLikesGraphUser,
     useFirestoreMemberGraph,
     useFirestoreAboutMe,
     useFirestoreActivities,

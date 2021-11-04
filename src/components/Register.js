@@ -8,6 +8,7 @@ import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
 import { useHistory } from "react-router-dom"
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const RegisterUser = () => {
 
@@ -24,6 +25,7 @@ const RegisterUser = () => {
 
     const id = uuid()
     const history = useHistory()
+    const getYearMonth = GetYearMonth()
     
     const compagny = useFirestore("CompagnyMeta")
     const admins = useFirestoreAdmins('Admins')
@@ -140,6 +142,19 @@ const RegisterUser = () => {
                 Approved: false,
                 Deleted: false,
                 Docid: cred.user.uid,
+            })
+        })
+        .then(() => {
+            db.collection('LikeGraph')
+            .doc()
+            .set({
+                Compagny: client,
+                UserName: `${forname} ${surname}`,
+                UserID: id,
+                Contributions: 0,
+                LastActive: timestamp,
+                Month: getYearMonth,
+                ID: uuid()
             })
         })
         .then(() => {

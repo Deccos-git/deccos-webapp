@@ -9,6 +9,7 @@ import { useFirestoreID, useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase';
 import { Auth } from '../StateManagment/Auth';
 import Location from "../hooks/Location"
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const MessageBarGroup = () => {
     const [authO] = useContext(Auth)
@@ -18,6 +19,7 @@ const MessageBarGroup = () => {
     const [members, setMembers] = useState('')
 
     const route = Location()[3]
+    const getYearMonth = GetYearMonth()
     
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
@@ -52,6 +54,7 @@ const MessageBarGroup = () => {
             Timestamp: timestamp,
             ParentID: route,
             ID: id,
+            Likes: 0,
             Compagny: client,
             User: authO.UserName,
             UserPhoto: authO.Photo,
@@ -61,6 +64,37 @@ const MessageBarGroup = () => {
             Channel: 'Chat',
             Read: [authO.ID],
             UserID: authO.ID
+        })
+        .then(() => {
+            db.collection("MessageGraph")
+            .where("Compagny", "==", client)
+            .where("Month", "==", getYearMonth)
+            .get()
+            .then(querySnapshot => {
+                if(querySnapshot.empty === false){
+                    querySnapshot.forEach(doc => {
+
+                        console.log("bestaat")
+
+                        db.collection("MessageGraph")
+                        .doc(doc.id)
+                        .update({
+                            Contributions: firebase.firestore.FieldValue.increment(1)
+                        })
+                    })
+                } else if (querySnapshot.empty === true){
+                    console.log("bestaat niet")
+                    db.collection("MessageGraph")
+                    .doc()
+                    .set({
+                        Month: getYearMonth,
+                        Contributions: 1,
+                        Compagny: client,
+                        LastActive: timestamp,
+                        ID: uuid(),
+                    })
+                } 
+            })
         })
         .then(() => {
             setMessage("")

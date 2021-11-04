@@ -58,6 +58,7 @@ import ImpactPath from './ImpactPath'
 import ImpactPathSettings from './ImpactPathSettings'
 import MyChannels from './MyChannels'
 import Subscriptions from './Subscriptions'
+import Likes from './Likes'
 
 const Main = () => {
 
@@ -84,6 +85,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Start`}>
                     <Start/>
+                </Route>
+                <Route path={`/${client}/Likes`}>
+                    <Likes/>
                 </Route>
                 <Route path={`/${client}/Results`}>
                     <Results/>

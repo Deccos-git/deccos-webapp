@@ -8,6 +8,7 @@ import uuid from 'react-uuid';
 import firebase from "firebase"
 import { useLocation } from "react-router-dom"
 import { Auth } from '../StateManagment/Auth';
+import GetYearMonth from '../hooks/GetYearMonth'
 
 const ReactionBar = ({message}) => {
     const [authO] = useContext(Auth)
@@ -17,6 +18,7 @@ const ReactionBar = ({message}) => {
     
     const id = uuid()
     const location = useLocation()
+    const getYearMonth = GetYearMonth()
     
     const reactionHandler = (e) => {
 
@@ -33,6 +35,7 @@ const ReactionBar = ({message}) => {
             Type: "Reaction",
             ParentID: message.ID,
             Message: reaction,
+            Likes: 0,
             Compagny: client,
             Timestamp: timestamp,
             PrevPath: location.pathname,
@@ -76,6 +79,37 @@ const ReactionBar = ({message}) => {
                 ID: uuid(),
                 Compagny: client,
                 Type: "Reaction"
+            })
+        })
+        .then(() => {
+            db.collection("MessageGraph")
+            .where("Compagny", "==", client)
+            .where("Month", "==", getYearMonth)
+            .get()
+            .then(querySnapshot => {
+                if(querySnapshot.empty === false){
+                    querySnapshot.forEach(doc => {
+
+                        console.log("bestaat")
+
+                        db.collection("MessageGraph")
+                        .doc(doc.id)
+                        .update({
+                            Contributions: firebase.firestore.FieldValue.increment(1)
+                        })
+                    })
+                } else if (querySnapshot.empty === true){
+                    console.log("bestaat niet")
+                    db.collection("MessageGraph")
+                    .doc()
+                    .set({
+                        Month: getYearMonth,
+                        Contributions: 1,
+                        Compagny: client,
+                        LastActive: timestamp,
+                        ID: uuid(),
+                    })
+                } 
             })
         })
     }
