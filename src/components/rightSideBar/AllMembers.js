@@ -1,11 +1,11 @@
-import { useFirestoreUsers, useFirestore } from "../../firebase/useFirestore"
+import { useFirestoreUsersApproved, useFirestore } from "../../firebase/useFirestore"
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const AllMembers = () => {
 
-    const users = useFirestoreUsers(false)
+    const users = useFirestoreUsersApproved(false, true)
     const compagny = useFirestore("CompagnyMeta")
     const history = useHistory()
 

@@ -13,6 +13,7 @@ import firebase from 'firebase'
 const NotApproved = () => {
     const [authO, setAuthO] = useState('')
     const [user, setUser] = useState(null)
+    const [online, setOnline] = useState(null)
     const [showSendMailContainer, setshowSendMailContainer] = useState("flex")
     const [showMailSendContainer, setshowMailSendContainer] = useState("none")
     const [communityName, setCommunityName] = useState("")
@@ -53,6 +54,7 @@ const NotApproved = () => {
     useEffect(() => {
         auth.onAuthStateChanged(User =>{
             if(User){
+                setOnline(true)
                 db.collection("Users")
                 .where("Compagny", "array-contains", client)
                 .where("Email", "==", User.email)
@@ -61,6 +63,8 @@ const NotApproved = () => {
                     setAuthO(doc.data())
                 })
             })
+            } else {
+                setOnline(null)
             }
         })
     }, [compagnies])
@@ -76,12 +80,14 @@ const NotApproved = () => {
 
     const verificationNotice = () => {
 
-        if(verificationMethode === "Admin" && route === 1){ 
+        console.log(verificationMethode, route, user, online)
+
+        if(verificationMethode === "Admin" && route === '1' && user != null){ 
             return  <div>
                         <h2>Je account wacht nog op goedkeuring van een beheerder</h2>
                         <p>Zodra je account is goedgekeurd ontvang je een mailtje en kun je direct inloggen.</p>
                     </div>
-        } else if(verificationMethode === "Email" && route === 1){
+        } else if(verificationMethode === "Email" && route === '1' && user != null){
             return  <div>
                         <h2>Je account moet nog worden geverificeerd</h2>
                         <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
@@ -94,11 +100,25 @@ const NotApproved = () => {
                             <p id="still-no-mail-notice">Nog niets ontvangen? Kijk in je spam of stuur een mailtje naar info@deccos.nl</p>
                         </div>
                     </div>
-        } else if(verificationMethode === "Email" && route != 1 && user != null){
+        } else if(verificationMethode === "Email" && route != '1' && user != null){
             return  <div>
                         <button onClick={verifiyAccount}>Verifieer je account</button>
                     </div>
-        } else if(verificationMethode === "Email" && route != 1 && user === null){
+        } else if(verificationMethode === "Email" && route != '1' && user === null){
+            return  <div>
+                        <h2>Je account moet nog worden geverificeerd</h2>
+                        <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
+                        <div style={{display: showSendMailContainer}} className="no-email-button-container">
+                            <p>Geen mail ontvangen?</p>
+                            <button className="button-simple" onClick={noMailRecieved}>Klik hier</button>
+                        </div>
+                        <div style={{display: showMailSendContainer}} className="no-email-button-container">
+                            <p>We hebben opnieuw een mail gestuurd naar {authO.Email}</p>
+                            <p id="still-no-mail-notice">Nog niets ontvangen? Kijk in je spam of stuur een mailtje naar info@deccos.nl</p>
+                        </div>
+                    </div>
+        }
+        else if(verificationMethode === "Email" && route === '1' && online === true && user === null){
             return  <div>
                         <h2>Je account moet nog worden geverificeerd</h2>
                         <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
@@ -188,33 +208,40 @@ const NotApproved = () => {
 
                     console.log(querySnapshot)
 
-                        if(querySnapshot.empty === false){
+                    if(querySnapshot.empty === false){
 
-                            querySnapshot.forEach(doc => {
-                                console.log('Bestaat')
+                        querySnapshot.forEach(doc => {
+                            console.log('Bestaat')
 
-                                db.collection("MemberGraph")
-                                .doc(doc.id)
-                                .update({
-                                    Contributions: firebase.firestore.FieldValue.increment(1)
-                                })
-                            })
-                        } else if(querySnapshot.empty === true){
-                            console.log("bestaat niet")
                             db.collection("MemberGraph")
-                            .doc()
-                            .set({
-                                Month: getYearMonth,
-                                Contributions: 1,
-                                Compagny: client,
-                                LastActive: timestamp,
-                                ID: uuid()
+                            .doc(doc.id)
+                            .update({
+                                Contributions: firebase.firestore.FieldValue.increment(1)
                             })
+                            .then(() => {
+                                console.log('link')
+                                history.push(`/${client}/`)
+                                window.location.reload()
+                            })
+                        })
+                    } else if(querySnapshot.empty === true){
+                        console.log("bestaat niet")
+                        db.collection("MemberGraph")
+                        .doc()
+                        .set({
+                            Month: getYearMonth,
+                            Contributions: 1,
+                            Compagny: client,
+                            LastActive: timestamp,
+                            ID: uuid()
+                        })
+                        .then(() => {
+                            console.log('link')
+                            history.push(`/${client}/`)
+                            window.location.reload()
+                        })
                     }
                 })
-            })
-            .then(() => {
-                history.push(`/${client}/`)
             })
         }
     }
@@ -230,7 +257,7 @@ const NotApproved = () => {
                     <h2>Hoi {authO.UserName},</h2>
                     <h1>Welkom bij {communityName}</h1>
                     {verificationNotice()}
-                    <a href={`${website}`}>Terug naar de website</a>
+                    <a href={`${website}`} target="_blank">Terug naar de website</a>
                 </div>
             </div>
         </div>

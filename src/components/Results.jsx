@@ -103,6 +103,7 @@ const Results = () => {
                     <div className="divider">
                       <div className="results-container">
                       <h2>Doelen</h2>
+                      <p>Aantal bijdragen aan de doelen vanuit de community</p>
                         {goalData && goalData.map(goal => (
                             <div key={goal.ID}>
                               <div className="goal-title-container">

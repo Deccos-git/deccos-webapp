@@ -116,6 +116,30 @@ const useFirestoreUsers = (state) => {
     return docs
 };
 
+const useFirestoreUsersApproved = (state) => {
+
+    const [docs, setDocs] = useState("")
+    
+    const docArray = []
+    useEffect(() => {
+        db.collection("Users")
+        .where("Compagny", "array-contains", client)
+        .where("Deleted", "==", state)
+        .where('Approved', '==', true)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        setDocs(docArray)
+
+    }, [state])  
+
+    return docs
+};
+
 const useFirestoreMessages = (collection, id  ) => {
 
     const [docs, setDocs] = useState("")
@@ -759,6 +783,7 @@ export {
     useFirestoreTimestamp, 
     useFirestoreUser, 
     useFirestoreUsers, 
+    useFirestoreUsersApproved,
     useFirestoreMessages,
     useFirestoreChats,
     useFirestoreChatsGroups,
