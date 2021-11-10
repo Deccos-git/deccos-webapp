@@ -385,6 +385,7 @@
   .spinner-container img{
       height: auto;
       width: 300px;
+      border-radius: 5px;
   }
 
   .save-bar button{

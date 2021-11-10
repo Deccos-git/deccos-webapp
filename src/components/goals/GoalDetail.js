@@ -53,19 +53,28 @@ const GoalDetail = () => {
                     <img src={doc.Banner} alt="" />
                     <div className="list-inner-container">
                         <h2>{doc.Title}</h2>
-                        <p>{doc.Body}</p>
-                        <div className="type-container">
-                            <div className='like-count-container'>
-                                <img src={icon} alt="" onClick={showContributionsGoal} />
-                                <p className='notification-counter-small'>{doc.Contributions.length}</p>
-                            </div>
-                            <p>{doc.Type}</p>
-                            <p className="sdg-type">{doc.SDG}</p>
+                        <h3>SDG</h3>
+                        <p>{doc.SDG}</p>
+                        <h3>Impact op maatschappij</h3>
+                        <p>{doc.ImpactSociety}</p>
+                        <h3>Impact op doelgroep</h3>
+                        <p>{doc.ImpactTargetgroup}</p>
+                        <div className='like-count-container'>
+                            <img src={icon} alt="" onClick={showContributionsGoal} />
+                            <p className='notification-counter-small'>{doc.Contributions.length}</p>
                         </div>
                     </div>
                 </motion.div>
                 ))
             }
+
+            <div className="article">
+                <h2>Activiteiten</h2>
+                <ul>
+                    <li>Taak 1</li>
+                </ul>
+
+            </div>
 
             <p> --- Reacties ---</p>
             <MessageBar route={route} auth={auth}/>

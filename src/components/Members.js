@@ -1,7 +1,7 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreUsers, useFirestore } from "./../firebase/useFirestore";
+import { useFirestoreUsersApproved, useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
 import { db, auth } from "../firebase/config";
@@ -15,7 +15,7 @@ const Members = () => {
     const [memberCount, setMemberCount] = useState('')
     const [communityName, setCommunityName] = useState('')
 
-    const docs = useFirestoreUsers(false)
+    const docs = useFirestoreUsersApproved(false, true)
     const compagnies = useFirestore("CompagnyMeta")
     const admins = useFirestore('Admins')
 

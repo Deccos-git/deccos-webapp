@@ -548,8 +548,6 @@ const useFirestoreLikesGraphUser = (id) => {
 
     const [docs, setDocs] = useState("")
 
-    console.log(id)
-
     useEffect(() => {
         const unsub = db.collection("LikeGraph")
         .where('Compagny', '==', client)

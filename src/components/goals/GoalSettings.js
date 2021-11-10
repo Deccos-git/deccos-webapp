@@ -34,7 +34,7 @@ const GoalSettings = () => {
             <div className="settings-inner-container">
                 <div className="divider card-header">
                     <h1>Doelen</h1>
-                    <p>Pas de impact instellingen aan</p>
+                    <p>Pas de instellingen aan de doelen aan</p>
                 </div>
                 <div className="divider">
                     <h3>Community doelen</h3>

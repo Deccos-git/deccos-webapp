@@ -54,11 +54,11 @@ import ProfileSettings from './ProfileSettings';
 import AboutMe from './AboutMe';
 import Results from './Results';
 import NotApproved from './NotApproved';
-import ImpactPath from './ImpactPath'
-import ImpactPathSettings from './ImpactPathSettings'
 import MyChannels from './MyChannels'
 import Subscriptions from './Subscriptions'
 import Likes from './Likes'
+import ActivitySettings from './ActivitySettings'
+import TaskSettings from './TaskSettings'
 
 const Main = () => {
 
@@ -92,12 +92,6 @@ const Main = () => {
                 <Route path={`/${client}/Results`}>
                     <Results/>
                 </Route>
-                <Route path={`/${client}/ImpactPath`}>
-                    <ImpactPath/>
-                </Route>
-                <Route path={`/${client}/ImpactPathSettings`}>
-                    <ImpactPathSettings/>
-                </Route>
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>
                 </Route>
@@ -106,6 +100,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Goals`}>
                     <Goals/>
+                </Route>
+                <Route path={`/${client}/ActivitySettings`}>
+                    <ActivitySettings/>
+                </Route>
+                <Route path={`/${client}/TaskSettings`}>
+                    <TaskSettings/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

@@ -14,12 +14,14 @@ const LeftSideBarAuthProfile = () => {
     const [showNotification, setShowNotification] = useState("")
     const [admin, setAdmin] = useState(false)
     const [author, setAuthor] = useState(false)
+    const [impacteer, setImpacteer] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
+    const impacteers = useFirestore('Impacteers')
     const channels = useFirestore("Channels")
     const groupChannels = useFirestore("GroupChannels")
 
@@ -38,6 +40,14 @@ const LeftSideBarAuthProfile = () => {
             }
         })
     }, [authors])
+
+    useEffect(() => {
+        impacteers && impacteers.forEach(impacteer => {
+            if(impacteer.UserID === authO.ID){
+                setImpacteer(true)
+            }
+        })
+    }, [impacteers])
 
     useEffect(() => {
             if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
@@ -132,10 +142,20 @@ const LeftSideBarAuthProfile = () => {
                             <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`}>Welkom</NavLink>
                         </div>
+                    </div>
+        } else {
+            return null
+        }
+    }
+
+    const Impact = () => {
+        if(admin || impacteer){
+            return <div>
                         <h3>Impact</h3>
                         <div className="channel-inner-div">
                             <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/ImpactPathSettings`}>Impactpad</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
                         </div>
                     </div>
         } else {
@@ -152,7 +172,7 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Author = () => {
-        if(author){
+        if(author || admin){
             return <div>
                         <h3>Toevoegen</h3>
                         <div className="channel-inner-div">
@@ -184,6 +204,7 @@ const LeftSideBarAuthProfile = () => {
                     </NavLink>
                 <Superadmin/>
                     <Admin/>
+                    <Impact/>
                     <Author/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">

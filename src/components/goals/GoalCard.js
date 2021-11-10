@@ -14,14 +14,6 @@ const GoalCard = ({doc}) => {
         visible: { opacity: 1 },
       }
 
-    let icon, type
-
-    doc.Type === "SDG" ? icon = worldIcon : icon = houseIcon
-
-    doc.Type === "internal" ? type = "Intern" : type = "Sociaal maatschappelijk"
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
     const updateRoute = () => {
 
         history.push(`/${client}/GoalDetail/${doc.ID}`)
@@ -39,10 +31,6 @@ const GoalCard = ({doc}) => {
             <img className="goal-card-banner" src={doc.Banner} alt="" />
             <div className="goalcard-body-div">
                 <h2>{doc.Title}</h2>
-                <div className="type-container">
-                    <img src={icon} alt="" />
-                    <p>{type}</p>
-                </div>
             </div>
             <div className="button-container">
                 <button className="goal-card-button" onClick={updateRoute} >Bekijk</button>

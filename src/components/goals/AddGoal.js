@@ -18,14 +18,13 @@ const AddGoal = () => {
     const [authO] = useContext(Auth)
 
     const [title, setTitle] = useState("")
-    const [body, setBody] = useState("")
-    const [type, setType] = useState("")
+    const [impactTargetgroup, setImpactTargetgroup] = useState("")
+    const [impactSociety, setImpactSociety] = useState("")
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
-    const [toggleGoal, setToggleGoal] = useState("none")
     const [SDG, setSDG] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
-    const [compagnyId, setCompagnyID] = useState('')
+    const [targetGroup, setTargetGroup] = useState('')
 
     const id = uuid()
     const menuState = MenuStatus()
@@ -40,12 +39,6 @@ const AddGoal = () => {
         })
     }, [banners])
 
-    useEffect(() => {
-        compagny && compagny.forEach(comp => {
-            setCompagnyID(comp.docid)
-        })
-    }, [compagny])
-
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
@@ -56,9 +49,21 @@ const AddGoal = () => {
         setTitle(title)
     }
 
-    const bodyHandler = (e) => {
+    const impactTargetgroupHandler = (e) => {
         const body = e.target.value
-        setBody(body)
+        setImpactTargetgroup(body)
+    }
+
+    const impactSocietyHandler = (e) => {
+        const body = e.target.value
+        setImpactSociety(body)
+    }
+
+    const targetGroupHandler = (e) => {
+        const target = e.target.value
+
+        setTargetGroup(target)
+        
     }
 
     const bannerHandler = (e) => {
@@ -100,8 +105,10 @@ const AddGoal = () => {
         .doc()
         .set({
             Title: title,
-            Body: body,
-            Type: type,
+            ImpactSociety: impactSociety,
+            ImpactTargetgroup: impactTargetgroup,
+            TargetGroup: targetGroup,
+            Type: 'SDG',
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
@@ -142,18 +149,6 @@ const AddGoal = () => {
         })
     }
 
-    const internalGoal = (e) => {
-        setToggleGoal("none")
-        const type = e.target.value
-        setType(type)
-    }
-
-    const SDGGoal = (e) => {
-        setToggleGoal("block")
-        const type = e.target.value
-        setType(type)
-    }
-
     const selectSDG = (e) => {
 
         const SDG = e.target.options[e.target.selectedIndex].value
@@ -183,45 +178,15 @@ const AddGoal = () => {
                     <div className="divider">
                         <h4>Geef het doel een titel</h4>
                         <input className="input-classic" type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
-                    </div >
+                    </div>
                     <div className="divider">
-                        <h4>Welk (maatschappelijk) probleem gaat dit doel oplossen?</h4>
-                        <textarea className="textarea-classic"
-                        name="body" 
-                        id="body" 
-                        cols="30" 
-                        rows="10" 
-                        placeholder="Omschrijf hier het (maatschappelijk) probleem"
-                        onChange={bodyHandler}>
-                        </textarea>
+                        <h4>Doelgroep</h4>
+                        <p>Welke groep mensen wil je helpen met dit doel?</p>
+                        <input type="text" onChange={targetGroupHandler}/>
                     </div>
-                    <div className='divider'> 
-                        <h4>Is het een intern (alleen voor jullie organisatie) of een sociaal maatschappelijk doel?</h4>
-                        <div className='input-label-container'> 
-                            <input 
-                            type="radio" 
-                            className="input-radio" 
-                            id="SDG" 
-                            value="SDG" 
-                            name="goal-type"
-                            onChange={SDGGoal}
-                            />
-                            <label htmlFor="SDG">Sociaal maatschappelijk</label>
-                        </div>
-                        <div className='input-label-container'> 
-                            <input 
-                            type="radio" 
-                            className="input-radio" 
-                            id="internal" 
-                            value="internal" 
-                            name="goal-type"
-                            onChange={internalGoal}/>
-                            <label htmlFor="internal">Intern</label>
-                        </div>
-                    </div>
-                    <div className="divider " style={{display: toggleGoal}}>
-                        <h2>Selecteer een SDG</h2>
-                        <p>Kies welke van de 17 Social Development Goals (SDG's) van Verenigde Naties (VN) past bij dit doel:</p>
+                    <div className="divider ">
+                        <h4>Selecteer een SDG</h4>
+                        <p>Kies welke van de 17 Social Development Goals (SDG's) van de Verenigde Naties (VN) past bij dit doel:</p>
                         <div>
                             <select className="SDG-select"name="" id="" onChange={selectSDG}>
                                 <option value="">--- Selecteer een SDG ---</option>
@@ -245,6 +210,30 @@ const AddGoal = () => {
                             </select>
                             <p className="more-sdg" onClick={SDGInformation}><u>Meer over de SDG's</u></p>
                         </div>
+                    </div>
+                    <div className="divider">
+                        <h4>Impact op doelgroep</h4>
+                        <p>Welke is de lange termijn impact die wil bereiken voor je doelgroep?</p>
+                        <textarea className="textarea-classic"
+                        name="body" 
+                        id="body" 
+                        cols="30" 
+                        rows="10" 
+                        placeholder="Omschrijf hier de impact voor de doelgroep"
+                        onChange={impactTargetgroupHandler}>
+                        </textarea>
+                    </div>
+                    <div className="divider">
+                        <h4>Impact op maatschappij</h4>
+                        <p>Welke is de lange termijn impact die wil bereiken voor de maatschappij?</p>
+                        <textarea className="textarea-classic"
+                        name="body" 
+                        id="body" 
+                        cols="30" 
+                        rows="10" 
+                        placeholder="Omschrijf hier de maatschappelijke impact"
+                        onChange={impactSocietyHandler}>
+                        </textarea>
                     </div>
                     <div className="divider">
                         <h4>Voeg een bannerfoto toe</h4>

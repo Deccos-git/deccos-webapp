@@ -26,13 +26,34 @@ const MessageDetail = () => {
     const [goalLikeDiplay, setGoalLikeDiplay] = useState('none')
     const [communityName, setCommunityName] = useState('')
     const [logo, setLogo] = useState('')
+    const [impacteer, setImpacteer] = useState('none')
 
     const messages = useFirestoreID("Messages", route)
     const compagny = useFirestore("CompagnyMeta")
+    const impacteers = useFirestore('Impacteers')
+    const admins = useFirestore('Admins')
+
     const history = useHistory()
     const menuState = MenuStatus()
     const getYearMonth = GetYearMonth()
     const id = uuid()
+
+    useEffect(() => {
+        impacteers && impacteers.forEach(impacteer => {
+            if(impacteer.UserID === authO.ID){
+                setImpacteer('flex')
+            }
+        })
+    }, [impacteers])
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setImpacteer('flex')
+            }
+        })
+    }, [admins])
+
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -290,7 +311,7 @@ const MessageDetail = () => {
                         <div className="massage" dangerouslySetInnerHTML={{__html:message.Message}}></div>
                         <div className='like-container'>
                             <div className='like-icon-container'>
-                                <div className='like-icon-inner-container' onClick={toggleGoalLikeBar}>
+                                <div className='like-icon-inner-container' onClick={toggleGoalLikeBar} style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" />
                                     <p className='notification-counter-small'>{message.Contributions.length}</p>
                                 </div>

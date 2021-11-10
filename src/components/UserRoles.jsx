@@ -16,12 +16,17 @@ const UserRoles = () => {
     const [authorName, setAuthorName] = useState("")
     const [authorPhoto, setAuthorPhoto] = useState("")
     const [authorEmail, setAuthorEmail] = useState("")
+    const [impacteerID, setImpacteerID] = useState("")
+    const [impacteerName, setImpacteerName] = useState("")
+    const [impacteerPhoto, setImpacteerPhoto] = useState("")
+    const [impacteerEmail, setImpacteerEmail] = useState("")
     const [communityName, setCommunityName] = useState('')
     const [communityLogo, setCommunityLogo] = useState('')
 
     const users = useFirestoreUsers(false)
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
+    const impacteers = useFirestore('Impacteers')
     const compagny = useFirestore("CompagnyMeta")
 
     const menuState = MenuStatus()
@@ -160,6 +165,69 @@ const UserRoles = () => {
         })
     }
 
+    const deleteImpacteer = (e) => {
+
+        const id = e.target.dataset.id
+
+        db.collection("Impacteers")
+        .doc(id)
+        .delete()
+    }
+
+    const impacteerHandler = (e) => {
+        const id = e.target.options[e.target.selectedIndex].dataset.id
+        const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        const username = e.target.options[e.target.selectedIndex].dataset.name
+        const email = e.target.options[e.target.selectedIndex].dataset.email
+
+        setImpacteerID(id)
+        setImpacteerName(username)
+        setImpacteerPhoto(photo)
+        setImpacteerEmail(email)
+    }
+
+    const addImpacteer= (e) => {
+
+        e.target.innerText = 'Toegevoegd'
+
+        db.collection("Impacteers")
+        .doc()
+        .set({
+            Compagny: client,
+            UserName: impacteerName,
+            Photo: impacteerPhoto,
+            UserID: impacteerID,
+            Email: impacteerEmail
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [authorEmail],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je bent als impacteer toegevoegd op ${communityName}`,
+                html: `Hallo ${authorName}, </br></br>
+                    Je bent door een beheerder van ${communityName} toegevoegd als impacteer.<br><br>
+    
+                    Dat betekent dat je vanaf nu:<br><br>
+    
+                    <ul>
+                        <li>Het impactpad van de community kunt bekijken</li>
+                        <li>Doelen van de community kunt bekijken</li>
+                        <li>Goal likes geven</li>
+                    </ul>
+                    <br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${communityLogo}" width="100px">`,
+                Gebruikersnaam: `${authorName}`,
+                Emailadres: authorEmail,
+                Type: "Verification mail"
+                  }     
+              });
+        })
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -201,7 +269,7 @@ const UserRoles = () => {
                             <button className="button-simple" onClick={addAdmin}>Toevoegen</button>
                         </div>
                     </div>
-                    <div >
+                    <div className='divider'>
                         <h3>Auteur</h3>
                         <p>De auteur rol geeft toegang tot de volgende beheersopties:</p>
                         <ul>
@@ -224,6 +292,33 @@ const UserRoles = () => {
                         </select>
                         <div className="button-userrole-container">
                             <button className="button-simple" onClick={addAuthor}>Toevoegen</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Impacteer</h3>
+                        <p>De impacteer rol geeft toegang tot de volgende opties:</p>
+                        <ul>
+                            <li>Doelen bekijken</li>
+                            <li>Goal likes geven</li>
+                            <li>Impactpad bekijken</li>
+                        </ul>
+                        <h4>Leden met rol impacteer</h4>
+                        {impacteers && impacteers.map(impacteer => (
+                            <div className="userrole-users-container" key={impacteer.ID}>
+                                <img src={impacteer.Photo} alt="" />
+                                <p>{impacteer.UserName}</p>
+                                <p className="userrole-users-delete-button" data-id={impacteer.docid} onClick={deleteImpacteer}>Verwijderen</p>
+                            </div>
+                        ))}
+                        <h4>Impacteer toevoegen</h4>
+                        <select className="userrole-select" name="" id="" onChange={impacteerHandler}>
+                            <option value="">--- Selecteer ---</option>
+                            {users && users.map(user => (
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                            ))}
+                        </select>
+                        <div className="button-userrole-container">
+                            <button className="button-simple" onClick={addImpacteer}>Toevoegen</button>
                         </div>
                     </div>
                 </div>
