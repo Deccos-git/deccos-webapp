@@ -21,6 +21,7 @@ const Channel = () => {
     const [channelTitle, setChannelTitle] = useState('')
 
     const route = Location()[3]
+    const menuState = MenuStatus()
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
     const channelsName = useFirestoreChannelName(channelTitle)
@@ -33,7 +34,7 @@ const Channel = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
-    const menuState = MenuStatus()
+    
 
     useEffect(() => {
         channels && channels.forEach(channel => {

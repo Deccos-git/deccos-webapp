@@ -8,6 +8,7 @@ import { Auth } from '../StateManagment/Auth';
 import uuid from 'react-uuid';
 import { db, timestamp } from "../firebase/config.js"
 import { client } from "../hooks/Client"
+import completeIcon from '../images/icons/complete-icon.png'
 
 const TaskSettings = () => {
     const [authO] = useContext(Auth)
@@ -74,7 +75,9 @@ const TaskSettings = () => {
             AppointedID: userID,
             AppointedName: userName,
             AppointedPhoto: userPhoto,
-            AppointedEmail: userEmail
+            AppointedEmail: userEmail,
+            Completed: false,
+            Icon: completeIcon
         })
     }
 

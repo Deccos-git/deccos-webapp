@@ -49,6 +49,9 @@ const LeftSideBar = () => {
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Goals`}>Doelen</NavLink>
                     </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/Activities`}>Activiteiten</NavLink>
+                    </div>
                 </div>
                 <div className="channel-div">
                     <div className="nav-title-container">

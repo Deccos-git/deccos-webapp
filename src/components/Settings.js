@@ -15,7 +15,10 @@ const Settings = () => {
 
     const [communityName, setCommunityName] = useState("")
     const [website, setWebsite] = useState("")
-    const [backgroundColor, setBackgroundColor] = useState(colors.BackgroundColor)
+    const [backgroundColor, setBackgroundColor] = useState(colors.Background)
+    const [topbarColor, setTopbarColor] = useState(colors.Topbar)
+
+    console.log(colors.Topbar)
 
     const menuState = MenuStatus()
 
@@ -105,15 +108,34 @@ const Settings = () => {
     }
 
     const saveBackgroundColor = (e) => {
-        const id = e.target.dataset.id 
+  
         e.target.innerText = 'Opgeslagen'
 
         db.collection('Colors')
-        .doc(colors.Docid)
+        .doc(colors.docid)
         .update({
-            BackgroundColor: backgroundColor
+            Background: backgroundColor
         })
     }
+
+    const topbarColorHandler = (e) => {
+        const color = e.target.value 
+
+        setTopbarColor(color)
+    }
+
+    const saveTopbarColor = (e) => {
+
+        e.target.innerText = 'Opgeslagen'
+
+        db.collection('Colors')
+        .doc(colors.docid)
+        .update({
+            Topbar: topbarColor
+        })
+    }
+
+    console.log(colors)
 
     return (
         <div className="main" style={{backgroundColor:backgroundColor}}>
@@ -147,11 +169,20 @@ const Settings = () => {
                     </div >
                     <div className="divider">
                         <h4>Kleuren aanpassen</h4>
-                        <div className='color-container'>
-                            <h5>Achtergrond kleur</h5>
-                            <input className="input-color" type="color" value={backgroundColor} onChange={backgroundColorHandler} />
-                            <div className="button-container-colors">
-                                <button className="button-simple" onClick={saveBackgroundColor}>Opslaan</button>
+                        <div>
+                            <div className='color-container'>
+                                <h5>Achtergrond</h5>
+                                <input className="input-color" type="color" value={backgroundColor} onChange={backgroundColorHandler} />
+                                <div className="button-container-colors">
+                                    <button className="button-simple" onClick={saveBackgroundColor}>Opslaan</button>
+                                </div>
+                            </div>
+                            <div className='color-container'>
+                                <h5>Topbar</h5>
+                                <input className="input-color" type="color" value={topbarColor} onChange={topbarColorHandler} />
+                                <div className="button-container-colors">
+                                    <button className="button-simple" onClick={saveTopbarColor}>Opslaan</button>
+                                </div>
                             </div>
                         </div>
                     </div >

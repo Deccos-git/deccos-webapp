@@ -6,8 +6,10 @@ import menuIcon from '../../images/icons/menu-icon.png'
 import menuOpenIcon from '../../images/icons/menu-open-icon.png'
 import { useContext, useState } from 'react';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
+import { Colors } from "../../StateManagment/Colors";
 
 const Topbar = () => {
+    const [colors] = useContext(Colors)
     const [menu, setMenu] = useContext(MobileMenu)
     const [icon, setIcon] = useState(menuIcon)
     const docs  = useFirestore("CompagnyMeta")
@@ -31,7 +33,7 @@ const Topbar = () => {
     }
 
     return (
-        <header className="top-bar">
+        <header className="top-bar" style={{backgroundColor: colors.Topbar}}>
             <div className="left-side-bar-toggle">
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>

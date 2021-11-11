@@ -13,7 +13,8 @@ export const ColorProvider = (props) => {
                 .where("Compagny", "==", client)
                 .onSnapshot(querySnapshot => {
                     querySnapshot.forEach (doc => {
-                    setColors(doc.data())
+                        console.log(doc.id)
+                    setColors({...doc.data(), docid: doc.id})
                 })
             })
                 return () => unsub();   

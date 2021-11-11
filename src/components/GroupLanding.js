@@ -97,9 +97,9 @@ const GroupLanding = () => {
                 to: adminEmail,
                 cc: "info@Deccos.nl",
                 message: {
-                subject: `Iemand heeft zich aangemald voor de groep ${groupName} op ${communityNameDB}`,
+                subject: `Iemand heeft zich aangemeld voor de groep ${groupName} op ${communityNameDB}`,
                 html: `
-                Iemand heeft zich aangemald voor de groep ${groupName} op ${communityNameDB}. <br><br>
+                Iemand heeft zich aangemeld voor de groep ${groupName} op ${communityNameDB}. <br><br>
     
                     Naam: ${authO.UserName}. <br><br>
     

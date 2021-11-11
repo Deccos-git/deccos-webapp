@@ -86,7 +86,8 @@ const ActivitySettings = () => {
             EffectLong: effectLong,
             Ingredients: ingredients,
             Goal: goalTitle,
-            GoalID: goalID
+            GoalID: goalID,
+            Progression: 0
         })
     }
 

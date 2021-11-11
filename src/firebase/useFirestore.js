@@ -643,7 +643,7 @@ const useFirestoreActivities = (goal) => {
 
     useEffect(() => {
         const unsub = db.collection("Activities")
-        .where("Goal", "==", goal)
+        .where("GoalID", "==", goal)
         .where('Compagny', '==', client)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -774,6 +774,53 @@ const useFirestoreSubscriptionsNotApproved = (collection) => {
     return docs
 };
 
+const useFirestoreTasks = (activity) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', activity)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [activity])  
+
+    return docs
+};
+
+const useFirestoreTasksComplete = (activity) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', activity)
+        .where('Completed', '==', true)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [activity])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -808,5 +855,7 @@ export {
     useFirestoreAdmins,
     useFirestoreSubscriptions,
     useFirestoreSubscriptionsChannelGroup,
-    useFirestoreSubscriptionsNotApproved
+    useFirestoreSubscriptionsNotApproved,
+    useFirestoreTasks,
+    useFirestoreTasksComplete
 }

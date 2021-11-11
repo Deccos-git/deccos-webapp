@@ -174,6 +174,27 @@ const NewClient = () => {
             })
         })
         .then(() => {
+            db.collection('Admins')
+            .doc()
+            .set({
+                Compagny: client,
+                Email: 'info@deccos.nl',
+                Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
+                UserID: '6a8bf-08c3-a1ad-d04d-231ebe51dc60',
+                UserName: 'Gijs van Beusekom'
+            })
+        })
+        .then(() => {
+            db.collectioin('Colors')
+            .doc()
+            .set({
+                Background: '#dee3e8',
+                Topbar: '#FFFFFF',
+                ID: uuid(),
+                Compagny: client
+            })
+        })
+        .then(() => {
             history.push(`/${compagnyName}`) 
         })
 

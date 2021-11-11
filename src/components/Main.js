@@ -59,6 +59,10 @@ import Subscriptions from './Subscriptions'
 import Likes from './Likes'
 import ActivitySettings from './ActivitySettings'
 import TaskSettings from './TaskSettings'
+import Activities from './Activities'
+import ActivityDetail from './ActivityDetail'
+import ActivityGoal from './ActivityGoal'
+import TaskDetail from './TaskDetail'
 
 const Main = () => {
 
@@ -100,6 +104,18 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Goals`}>
                     <Goals/>
+                </Route>
+                <Route path={`/${client}/Activities`}>
+                    <Activities/>
+                </Route>
+                <Route path={`/${client}/ActivityGoal`}>
+                    <ActivityGoal/>
+                </Route>
+                <Route path={`/${client}/ActivityDetail`}>
+                    <ActivityDetail/>
+                </Route>
+                <Route path={`/${client}/TaskDetail`}>
+                    <TaskDetail/>
                 </Route>
                 <Route path={`/${client}/ActivitySettings`}>
                     <ActivitySettings/>
