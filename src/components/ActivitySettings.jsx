@@ -130,11 +130,9 @@ const ActivitySettings = () => {
                         </select>
                         <h4>Beschrijf activiteit</h4>
                         <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
-                        <h4>Wat is het effect van deze activiteit op de korte termijn (0-12 maanden)</h4>
+                        <h4>Wat is het effect van deze activiteit op de korte termijn (0 - 1,5 jaar)</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={effectShortHandler}></textarea>
-                        <h4>Wat is het effect van deze activiteit op de middellange termijn (1 - 2 jaar)</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={effectMiddleHandler}></textarea>
-                        <h4>Wat is het effect van deze activiteit op de lange termijn (vanaf 2 jaar)</h4>
+                        <h4>Wat is het effect van deze activiteit op de lange termijn (vanaf 1,5 jaar)</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={effectLongHandler}></textarea>
                         <h4>Onder welke randvoorwaarden kunnen jullie de effecten waarmaken?</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={ingriendentsHandler}></textarea>

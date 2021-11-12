@@ -184,7 +184,7 @@ const ReactionBar = ({message}) => {
         <div>
             <div className="reaction-bar-container">
                 <img src={plusIcon} alt="" onClick={toggleFile} />
-                <input type="text" placeholder="Schrijf hier je reactie" value={reaction} onChange={reactionHandler} />
+                <textarea type="text" placeholder="Schrijf hier je reactie" value={reaction} onChange={reactionHandler} />
                 <img src={sendIcon} alt="" onClick={submitReaction} />
             </div>
             <div>

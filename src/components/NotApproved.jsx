@@ -87,6 +87,11 @@ const NotApproved = () => {
                         <h2>Je account wacht nog op goedkeuring van een beheerder</h2>
                         <p>Zodra je account is goedgekeurd ontvang je een mailtje en kun je direct inloggen.</p>
                     </div>
+        } else if (verificationMethode === "Admin" && route === '1' && user === null  && online === true){
+            return  <div>
+                        <h2>Je account wacht nog op goedkeuring van een beheerder</h2>
+                        <p>Zodra je account is goedgekeurd ontvang je een mailtje en kun je direct inloggen.</p>
+                    </div>
         } else if(verificationMethode === "Email" && route === '1' && user != null){
             return  <div>
                         <h2>Je account moet nog worden geverificeerd</h2>

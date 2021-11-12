@@ -6,6 +6,8 @@ import { useFirestoreID, useFirestoreTasks, useFirestoreTasksComplete } from "..
 import Location from "../hooks/Location"
 import { useState, useEffect } from 'react'
 import completeIcon from '../images/icons/complete-icon.png'
+import clockIcon from '../images/icons/clock-icon.png'
+import hourglassIcon from '../images/icons/hourglass-icon.png'
 import deleteTaskIcon from '../images/icons/delete-task-icon.png'
 import { useHistory } from "react-router-dom";
 import { client } from "../hooks/Client"
@@ -14,6 +16,8 @@ import { db } from "../firebase/config";
 const ActivityDetail = () => {
     const [activity, setActivity] = useState(null)
     const [activityDocid, setActivityDocid] = useState('')
+    const [effectShort, setEffectShort] = useState('')
+    const [effectLong, setEffectLong] = useState('')
     const [progression, setProgression] = useState(0)
 
     const menuState = MenuStatus()
@@ -29,6 +33,8 @@ const ActivityDetail = () => {
         activities && activities.forEach(activity => {
             setActivity(activity.Activity)
             setActivityDocid(activity.docid)
+            setEffectShort(activity.EffectShort)
+            setEffectLong(activity.EffectLong)
         })
     }, [activities])
 
@@ -108,8 +114,21 @@ const ActivityDetail = () => {
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
-            <div className='page-header'>
+            <div className='page-header page-container-activities'>
                 <h1>{activity}</h1>
+                <div className='activity-detail-effects-container'>
+                    <div className='effect-title-container'>
+                        <img src={clockIcon} alt=""/>
+                        <h3>Kortetermijn effect</h3>
+                    </div>
+                    <p>{effectShort}</p>
+                    <div className='effect-title-container'>
+                        <img src={hourglassIcon} alt=""/>
+                        <h3>Lange termijn effect</h3>
+                    </div>        
+                    <p>{effectLong}</p>
+                </div>
+                
             </div>
             <ProgressionBar/>
             <h2>Taken</h2>

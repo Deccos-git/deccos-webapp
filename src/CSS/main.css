@@ -1294,6 +1294,30 @@
       flex-wrap: nowrap;
   }
 
+  .effect-title-container{
+      display: flex;
+      align-items: center;
+  }
+
+  .groupsettings-detail-member-container img{
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
+      border-radius: 50%;
+  }
+
+  .groupsettings-detail-member-container{
+      display: flex;
+      cursor: pointer;
+      align-items: center;
+  }
+
+  .effect-title-container img{
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+  }
+
   #search-icon{
       margin-top: 20px;
   }
@@ -1395,6 +1419,10 @@
     align-items: flex-start;
 }
 
+.page-container-activities{
+    flex-direction: column;
+}
+
   .progressionbar-outer-bar{
       width: 80%;
       height: 30px;
@@ -1427,6 +1455,10 @@
     border: 1px solid lightgray;
     background-color: white;
     align-items: center;
+  }
+
+  .activity-detail-effects-container{
+      margin: 10px 50px 50px 50px;
   }
 
   .task-container img {
