@@ -22,6 +22,7 @@ const UserRoles = () => {
     const [impacteerEmail, setImpacteerEmail] = useState("")
     const [communityName, setCommunityName] = useState('')
     const [communityLogo, setCommunityLogo] = useState('')
+    const [displayImpact, setDisplayImpact] = useState('')
 
     const users = useFirestoreUsers(false)
     const admins = useFirestore('Admins')
@@ -30,6 +31,12 @@ const UserRoles = () => {
     const compagny = useFirestore("CompagnyMeta")
 
     const menuState = MenuStatus()
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setDisplayImpact(comp.Impact)
+        })
+    },[compagny])
 
     useEffect(() => {
        compagny && compagny.forEach(comp => {
@@ -228,6 +235,14 @@ const UserRoles = () => {
         })
     }
 
+    const showImpact = () => {
+        if(displayImpact === true){
+            return 'block'
+        } else if (displayImpact === false){
+            return 'none'
+        }
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -294,7 +309,7 @@ const UserRoles = () => {
                             <button className="button-simple" onClick={addAuthor}>Toevoegen</button>
                         </div>
                     </div>
-                    <div>
+                    <div style={{display: showImpact()}}>
                         <h3>Impacteer</h3>
                         <p>De impacteer rol geeft toegang tot de volgende opties:</p>
                         <ul>

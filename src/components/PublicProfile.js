@@ -1,7 +1,7 @@
 import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
 import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
-import { useFirestoreUser, useFirestoreIntroductions, useFirestoreAboutMe } from "./../firebase/useFirestore";
+import { useFirestoreUser, useFirestoreIntroductions, useFirestoreAboutMe, useFirestore } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
@@ -16,6 +16,9 @@ import heartIcon from '../images/icons/heart-icon.png'
 const PublicProfile = () => {
     const [authO] = useContext(Auth)
     const [numberOfContributions, setNumberOfContributions] = useState('')
+    const [admin, setAdmin] = useState(false)
+    const [impacteer, setImpacteer] = useState(false)
+    const [displayImpact, setDisplayImpact] = useState('')
 
     const history = useHistory()
     const route = Location()[3]
@@ -26,6 +29,31 @@ const PublicProfile = () => {
     const profiles = useFirestoreUser(route)
     const introductions = useFirestoreIntroductions("Introductions", route)
     const aboutMes = useFirestoreAboutMe(route)
+    const admins = useFirestore('Admins')
+    const impacteers = useFirestore('Impacteers')
+    const compagny = useFirestore("CompagnyMeta")
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setDisplayImpact(comp.Impact)
+        })
+    },[compagny])
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setAdmin(true)
+            }
+        })
+    }, [admins])
+
+    useEffect(() => {
+        impacteers && impacteers.forEach(impacteer => {
+            if(impacteer.UserID === authO.ID){
+                setImpacteer(true)
+            }
+        })
+    }, [impacteers])
 
     let room = ""
 
@@ -133,6 +161,24 @@ const PublicProfile = () => {
         history.push(`/${client}/Likes/${id}`)
     }
 
+    const showImpact = () => {
+        if(displayImpact === true && admin === true && impacteer === true){
+            return 'flex'
+        } else if (displayImpact === true && admin === true && impacteer === false){
+            return 'flex'
+        } else if (displayImpact === true && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === true){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === true){
+            return 'none'
+        }
+    }
+
     return (
             <div className="main">
                 <LeftSideBarPublicProfile />
@@ -143,7 +189,7 @@ const PublicProfile = () => {
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
                             <div className='like-icon-container-profile'>
-                                <div className='like-icon-inner-container'>
+                                <div className='like-icon-inner-container' style={{display: showImpact()}}>
                                     <img src={worldIcon} data-id={profile.ID} onClick={showContributions}/>
                                     <p className='notification-counter-small'>{numberOfContributions}</p>
                                 </div>

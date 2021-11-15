@@ -23,7 +23,7 @@ const MyIntroduction = () => {
                     <h1>Mijn introductie</h1>
                 </div>
                 {introductions && introductions.map(introduction => (
-                    <div className="list introductions-list" style={{display: menuState}}>
+                    <div className="introductions-container" style={{display: menuState}}>
                         <div className="introduction-list-inner-container">
                             <h4>{introduction.Body}</h4>
                             <p>{introduction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>

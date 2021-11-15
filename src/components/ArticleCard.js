@@ -37,7 +37,7 @@ const ArticleCard = ({doc}) => {
             animate="visible"
             variants={variants}>
                 <img className="card-banner" src={doc.Banner} alt="" />
-                <div className="list-inner-container">
+                <div className="card-inner-container">
                     <div className="article-card-user-container">
                         <img src={doc.UserPhoto} alt="" data-id={doc.UserID} onClick={profileLink} />
                         <p data-id={doc.UserID} onClick={profileLink}>{doc.User}</p>

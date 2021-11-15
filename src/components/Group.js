@@ -50,8 +50,6 @@ const Group = () => {
         })
     },[subscriptions])
 
-   
-
     const messageClass = (message) => {
         if(message.User === authO.UserName){
             return "auth-message"

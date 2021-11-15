@@ -49,7 +49,7 @@ const GroupChannel = () => {
                 className="card">
                     <div key={items.ID}>
                         <img className="card-banner" src={items.Banner} alt="" />
-                        <div className="list-inner-container">
+                        <div className="card-inner-container">
                             <div className="article-card-user-container">
                                 <img src={items.UserPhoto} alt="" data-id={items.UserID} onClick={profileLink} />
                                 <p data-id={items.UserID}>{items.User}</p>

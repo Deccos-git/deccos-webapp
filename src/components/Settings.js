@@ -7,9 +7,15 @@ import firebase from 'firebase'
 import { useState, useEffect, useContext } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { Colors } from "../StateManagment/Colors";
+import "../CSS/toggleSwitch.css";
 
 const Settings = () => {
     const [colors] = useContext(Colors)
+    const [docid, setDocid] = useState('')
+    const [welcome, setWelcome] = useState('')
+    const [impact, setImpact] = useState('')
+    const [channels, setChannels] = useState('')
+    const [groups, setGroups] = useState('')
 
     const compagny = useFirestore("CompagnyMeta")
 
@@ -18,9 +24,17 @@ const Settings = () => {
     const [backgroundColor, setBackgroundColor] = useState(colors.Background)
     const [topbarColor, setTopbarColor] = useState(colors.Topbar)
 
-    console.log(colors.Topbar)
-
     const menuState = MenuStatus()
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setDocid(comp.docid)
+            setWelcome(comp.Welcome)
+            setImpact(comp.Impact)
+            setChannels(comp.Channels)
+            setGroups(comp.Groups)
+        })
+    },[compagny])
 
     const LogoHandler = (e) => {
 
@@ -135,7 +149,137 @@ const Settings = () => {
         })
     }
 
-    console.log(colors)
+    const welcomeStatus = () => {
+        if(welcome === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
+    const impactStatus = () => {
+        if(impact === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
+    const channelsStatus = () => {
+        if(channels === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
+    const groupsStatus = () => {
+        if(groups === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
+    const ToggleSwitchWelcome = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={welcomeStatus()}
+                     name={'welcome'} id={'welcome'} onChange={toggleWelcome} />
+              <label className="label" htmlFor={'welcome'}>
+                <span className="inner"/>
+                <span className="switch"/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+      const ToggleSwitchImpact = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={impactStatus()}
+                     name={'impact'} id={'impact'} onChange={toggleImpact} />
+              <label className="label" htmlFor={'impact'}>
+                <span className="inner"/>
+                <span className="switch"/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+      const ToggleSwitchChannels = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={channelsStatus()}
+                     name={'channels'} id={'channels'} onChange={toggleChannels} />
+              <label className="label" htmlFor={'channels'}>
+                <span className="inner" data-selection='Uit'/>
+                <span className="switch" data-selection='aan'/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+      const ToggleSwitchGroups = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={groupsStatus()}
+                     name={'groups'} id={'groups'} onChange={toggleGroups} />
+              <label className="label" htmlFor={'groups'}>
+                <span className="inner" data-selection='Uit'/>
+                <span className="switch" data-selection='aan'/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+    const toggleWelcome = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Welcome: setting
+        })
+    }
+
+    const toggleImpact = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Impact: setting
+        })
+    }
+
+    const toggleChannels = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Channels: setting
+        })
+    }
+
+    const toggleGroups = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Groups: setting
+        })
+    }
 
     return (
         <div className="main" style={{backgroundColor:backgroundColor}}>
@@ -169,7 +313,7 @@ const Settings = () => {
                     </div >
                     <div className="divider">
                         <h4>Kleuren aanpassen</h4>
-                        <div>
+                        <div className='client-styles-container'>
                             <div className='color-container'>
                                 <h5>Achtergrond</h5>
                                 <input className="input-color" type="color" value={backgroundColor} onChange={backgroundColorHandler} />
@@ -185,7 +329,26 @@ const Settings = () => {
                                 </div>
                             </div>
                         </div>
-                    </div >
+                    </div>
+                    <div className='divider'>
+                        <h4>Functionaliteiten</h4>
+                        <div className='functionality-container'>
+                            <p>Welkom</p>
+                            <ToggleSwitchWelcome/>
+                        </div>
+                        <div className='functionality-container'>
+                            <p>Kanalen</p>
+                            <ToggleSwitchChannels/>
+                        </div>
+                        <div className='functionality-container'>
+                            <p>Groepen</p>
+                            <ToggleSwitchGroups/>
+                        </div>
+                        <div className='functionality-container'>
+                            <p>Impact</p>
+                            <ToggleSwitchImpact/>
+                        </div>
+                    </div>
                 </div>
                 ))}
             </div>

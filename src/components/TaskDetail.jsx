@@ -44,6 +44,30 @@ const TaskDetail = () => {
 
     }
 
+    const appointedLink = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+
+    }
+
+    const userLink = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/PublicProfile/${id}`)
+
+    }
+
+    const activityLink = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/ActivityDetail/${id}`)
+
+    }
+
     return (
          <div className="main">
         <LeftSideBar />
@@ -53,33 +77,32 @@ const TaskDetail = () => {
                 <img src={ArrowLeftIcon} alt="" />
                 <p>Taak overzicht</p>
             </div>
-            <div className='page-header'>
+            <div className='page-header task-detail-header'>
                 <h1>{task}</h1>
-            </div>
-            {tasks && tasks.map(task => (
+                {tasks && tasks.map(task => (
                 <div className='task-detail-container'>
                     <div className='task-detail-inner-container'>
                         <div>
                             <h3>Afgerond</h3>
                             <p>{taskCompleted()}</p>
                         </div>
-                        <div>
+                        <div className='pointer'>
                             <h3>Activiteit</h3>
-                            <p data-id={task.ID}>{task.Activity}</p>
+                            <p data-id={task.ActivityID} onClick={activityLink}>{task.Activity}</p>
                         </div>
                         <div>
                             <h3>Toegewezen aan</h3>
                             <div className='task-detail-user-container'>
-                                <img src={task.AppointedPhoto} alt=""/>
-                                <p>{task.AppointedName}</p>
+                                <img src={task.AppointedPhoto} data-id={task.AppointedID} onClick={appointedLink} alt=""/>
+                                <p data-id={task.AppointedID} onClick={appointedLink}>{task.AppointedName}</p>
                             </div>
                             
                         </div>
                         <div>
                             <h3>Gecreerd door</h3>
                             <div className='task-detail-user-container'>
-                                <img src={task.UserPhoto} alt=""/>
-                                <p>{task.User}</p>
+                                <img src={task.UserPhoto} data-id={task.UserID} onClick={userLink} alt=""/>
+                                <p data-id={task.UserID} onClick={userLink}>{task.User}</p>
                             </div>
                         </div>
                         <div>
@@ -89,7 +112,7 @@ const TaskDetail = () => {
                     </div>
                 </div>
             ))}
-            
+            </div>
         </div>
         <RightSideBar />
         </div>

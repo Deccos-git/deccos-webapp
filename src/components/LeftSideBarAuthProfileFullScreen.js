@@ -18,12 +18,26 @@ const LeftSideBarAuthProfile = () => {
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
+    const [displayWelcome, setDisplayWelcome] = useState('')
+    const [displayImpact, setDisplayImpact] = useState('')
+    const [displayChannels, setDisplayChannels] = useState('')
+    const [displayGroups, setDisplayGroups] = useState('')
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
     const impacteers = useFirestore('Impacteers')
     const channels = useFirestore("Channels")
     const groupChannels = useFirestore("GroupChannels")
+    const compagny = useFirestore("CompagnyMeta")
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setDisplayWelcome(comp.Welcome)
+            setDisplayImpact(comp.Impact)
+            setDisplayChannels(comp.Channels)
+            setDisplayGroups(comp.Groups)
+        })
+    },[compagny])   
 
     useEffect(() => {
         admins && admins.forEach(admin => {
@@ -129,6 +143,48 @@ const LeftSideBarAuthProfile = () => {
         setMenu("none")
     }
 
+    const showImpact = () => {
+        if(displayImpact === true && admin === true && impacteer === true){
+            return 'block'
+        } else if (displayImpact === true && admin === true && impacteer === false){
+            return 'block'
+        } else if (displayImpact === true && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === true){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === true){
+            return 'none'
+        }
+    }
+
+    const showGroups = () => {
+        if(displayGroups === true){
+            return 'block'
+        } else if (displayGroups === false){
+            return 'none'
+        }
+    }
+
+    const showChannels = () => {
+        if(displayChannels === true){
+            return 'block'
+        } else if (displayChannels === false){
+            return 'none'
+        }
+    }
+
+    const showWelcome = () => {
+        if(displayWelcome === true){
+            return 'block'
+        } else if (displayWelcome === false){
+            return 'none'
+        }
+    }
+
     const Admin = () => {
         if(admin){
             return <div>
@@ -143,9 +199,9 @@ const LeftSideBarAuthProfile = () => {
                                 <Link to={`/${client}/Registrations`} onClick={changeMenuStatus}>Aanmelden</Link>
                                 <p style={{display: showNotification}} className="notification-counter-small">{notificationsTotal}</p>
                             </div>
-                            <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus}>Kanalen</Link>
-                            <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus}>Groepen</Link>
-                            <Link to={`/${client}/WelcomeSettings`} onClick={changeMenuStatus}>Welkom</Link>
+                            <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus} style={{display: showChannels()}}>Kanalen</Link>
+                            <Link to={`/${client}/GroupSettings`} onClick={changeMenuStatus} style={{display: showGroups()}}>Groepen</Link>
+                            <Link to={`/${client}/WelcomeSettings`} onClick={changeMenuStatus} style={{display: showWelcome()}}>Welkom</Link>
                         </div>
                     </div>
         } else {
@@ -154,18 +210,14 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Impact = () => {
-        if(admin || impacteer){
-            return <div>
-                        <h3>Impact</h3>
-                        <div className="channel-inner-div">
-                            <Link activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</Link>
-                            <Link activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</Link>
-                            <Link activeClassName='active' to={`/${client}/TaskSettings`}>Taken</Link>
-                        </div>
+        return <div style={{display: showImpact()}}>
+                    <h3>Impact</h3>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</Link>
+                        <Link activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</Link>
+                        <Link activeClassName='active' to={`/${client}/TaskSettings`}>Taken</Link>
                     </div>
-        } else {
-            return null
-        }
+                </div>
     }
 
     const channelList = (channel) => {

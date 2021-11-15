@@ -34,7 +34,7 @@ const MyMessages = () => {
                     <h1>Mijn berichten</h1>
                 </div>
                 {messages && messages.map(message => (
-                    <div className="list introductions-list my-message" key={message.ID}>
+                    <div className="introductions-container my-message" key={message.ID}>
                         <div className="introduction-list-inner-container">
                             <h4 className="my-message-message-container" data-id={message.ID} onClick={messageDetail}>{message.Message}</h4>
                             <p>{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>

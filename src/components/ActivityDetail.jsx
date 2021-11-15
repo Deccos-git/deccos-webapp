@@ -86,9 +86,7 @@ const ActivityDetail = () => {
                     updateProgressActivity()
                 }, 1000) 
             })
-        }
-
-        
+        }   
     }
 
     const taskLink = (e) => {
@@ -133,8 +131,8 @@ const ActivityDetail = () => {
             <ProgressionBar/>
             <h2>Taken</h2>
             {tasks && tasks.map(task => (
-                <div className='task-outer-container'>
-                    <div className='task-container' key={task.ID} style={{backgroundColor: task.BackgroundColor}}>
+                <div className='task-outer-container' key={task.ID}>
+                    <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
                         <div className='task-inner-container'>
                             <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
                             <p>{task.Task}</p>

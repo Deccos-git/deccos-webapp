@@ -57,7 +57,12 @@ const ActivitieGoal = () => {
                 <div className='activity-container' key={activity.ID}>
                     <div className='activity-inner-container'>
                         <h3>{activity.Activity}</h3>
-                        <p>Voortgang {Math.trunc(activity.Progression)}%</p>
+                        <div className='progression-container-activity-detail'>
+                            <p>Voortgang {Math.trunc(activity.Progression)}%</p>
+                            <div className='progressionbar-outer-bar'>
+                                <div className='progressionbar-completed' style={{width: `${activity.Progression}%`}}></div>
+                            </div>
+                        </div>
                         <button className='button-simple' data-id={activity.ID} onClick={activityLink}>Details</button>
                     </div>
                 </div>

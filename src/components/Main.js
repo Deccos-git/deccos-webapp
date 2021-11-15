@@ -63,6 +63,7 @@ import Activities from './Activities'
 import ActivityDetail from './ActivityDetail'
 import ActivityGoal from './ActivityGoal'
 import TaskDetail from './TaskDetail'
+import Tasks from './Tasks'
 
 const Main = () => {
 
@@ -113,6 +114,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ActivityDetail`}>
                     <ActivityDetail/>
+                </Route>
+                <Route path={`/${client}/Tasks`}>
+                    <Tasks/>
                 </Route>
                 <Route path={`/${client}/TaskDetail`}>
                     <TaskDetail/>

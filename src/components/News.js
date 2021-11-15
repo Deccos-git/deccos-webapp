@@ -112,7 +112,7 @@ const News = () => {
                                 <p data-id={item.UserID} onClick={profileLink}>{item.User}</p>
                                 <p className="list-card-timestamp">{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
-                            <div className="list-inner-container">
+                            <div className="card-inner-container">
                                 <h2>{item.Title}</h2>
                                 <button onClick={detailRouter} data-docid={item.docid} data-id={item.ID}>Bekijk</button>
                             </div>

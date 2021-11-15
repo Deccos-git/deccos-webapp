@@ -18,12 +18,26 @@ const LeftSideBarAuthProfile = () => {
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
+    const [displayWelcome, setDisplayWelcome] = useState('')
+    const [displayImpact, setDisplayImpact] = useState('')
+    const [displayChannels, setDisplayChannels] = useState('')
+    const [displayGroups, setDisplayGroups] = useState('')
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
     const impacteers = useFirestore('Impacteers')
     const channels = useFirestore("Channels")
     const groupChannels = useFirestore("GroupChannels")
+    const compagny = useFirestore("CompagnyMeta")
+
+    useEffect(() => {
+        compagny && compagny.forEach(comp => {
+            setDisplayWelcome(comp.Welcome)
+            setDisplayImpact(comp.Impact)
+            setDisplayChannels(comp.Channels)
+            setDisplayGroups(comp.Groups)
+        })
+    },[compagny])
 
     useEffect(() => {
         admins && admins.forEach(admin => {
@@ -54,6 +68,48 @@ const LeftSideBarAuthProfile = () => {
                 setSuperAdmin(true)
             }
     }, [admins])
+
+    const showImpact = () => {
+        if(displayImpact === true && admin === true && impacteer === true){
+            return 'block'
+        } else if (displayImpact === true && admin === true && impacteer === false){
+            return 'block'
+        } else if (displayImpact === true && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === true){
+            return 'none'
+        } else if (displayImpact === false && admin === true && impacteer === false){
+            return 'none'
+        } else if (displayImpact === false && admin === false && impacteer === true){
+            return 'none'
+        }
+    }
+
+    const showGroups = () => {
+        if(displayGroups === true){
+            return 'block'
+        } else if (displayGroups === false){
+            return 'none'
+        }
+    }
+
+    const showChannels = () => {
+        if(displayChannels === true){
+            return 'block'
+        } else if (displayChannels === false){
+            return 'none'
+        }
+    }
+
+    const showWelcome = () => {
+        if(displayWelcome === true){
+            return 'block'
+        } else if (displayWelcome === false){
+            return 'none'
+        }
+    }
 
 
     const Superadmin = () => {
@@ -120,7 +176,7 @@ const LeftSideBarAuthProfile = () => {
 
     useEffect(() => {
         numberOfNotificationsGroups().then((number) => {
-            setNotificationsUsers(notificationsUsers + number)
+            // setNotificationsUsers(notificationsUsers + number)
         })
     }, [])
 
@@ -138,9 +194,9 @@ const LeftSideBarAuthProfile = () => {
                                 <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmelden</NavLink>
                                 <p style={{display: showNotification}} className="notification-counter-small">{notificationsUsers}</p>
                             </div>
-                            <NavLink activeClassName='active' to={`/${client}/ChannelSettings`}>Kanalen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/GroupSettings`}>Groepen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`}>Welkom</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`} style={{display: showWelcome()}}>Welkom</NavLink>
                         </div>
                     </div>
         } else {
@@ -149,18 +205,14 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Impact = () => {
-        if(admin || impacteer){
-            return <div>
-                        <h3>Impact</h3>
-                        <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
-                        </div>
+        return <div style={{display: showImpact()}}>
+                    <h3>Impact</h3>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
                     </div>
-        } else {
-            return null
-        }
+                </div>
     }
 
     const channelList = (channel) => {

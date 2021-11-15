@@ -39,6 +39,20 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
+.functionality-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    align-items: center;
+}
+
+.functionality-container p{
+    margin: 0px;
+}
+
 .hide-message-options{
     display: none;
 }
@@ -82,7 +96,7 @@
 }
 
 .logo-container img{
-    width: 100%;
+    width: 50%;
 }
 
 #start-image{
@@ -178,6 +192,11 @@
     border-radius: 3px;
     display: flex;
     flex-direction: column;
+  }
+
+  .client-styles-container{
+      display: flex;
+      flex-wrap: wrap;
   }
 
   .results-container{
@@ -919,6 +938,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin: 10px;
   }
 
   #members-container img {
@@ -1405,11 +1425,33 @@
       margin: 10px;
   }
 
+  .appointed-container{
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+  }
+
+  .task-appointed-photo{
+      height: 30px !important;
+      width: 30px !important;
+      border-radius: 50%;
+  }
+
   .progression-container{
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+  }
+
+  .progression-container-activity-detail{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .task-overview-container{
+      width: 83%;
   }
 
   .progression-container-goal-detail{
@@ -1438,6 +1480,14 @@
 
   .activity-inner-container{
       margin: 5px 10px;
+      width: 100%;
+  }
+
+  .mytask-overview-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   .task-outer-container{
@@ -1455,6 +1505,10 @@
     border: 1px solid lightgray;
     background-color: white;
     align-items: center;
+  }
+
+  .task-description{
+      width: 100%;
   }
 
   .activity-detail-effects-container{
@@ -1727,6 +1781,10 @@
       padding: 15px;
   }
 
+  .task-detail-header{
+      flex-direction: column;
+  }
+
   .introductions-list input{
       width: 70%;
   }
@@ -1737,9 +1795,17 @@
     border-radius: 50%;
   }
 
+  .introductions-container{
+      background-color: white;
+      border-radius: 5px;
+      width: 80%;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  }
+
   .activity-card-body{
       font-size: 16px;
       margin-top: 40px;
+      align-self: center;
   }
 
   #plus-icon-goal-settings{
@@ -1784,6 +1850,7 @@
   .activity-card-button{
       color: green;
       cursor: pointer;
+      align-self: center;
   }
 
   .like-goal-container select{
@@ -1888,6 +1955,18 @@
       text-align: left;
       width: 90%;
   }
+
+  .card-inner-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.card-inner-container button{
+   align-self: center;
+}
 
   .left-side-bar-toggle{
     display: none;
