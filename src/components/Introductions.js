@@ -36,7 +36,10 @@ const Introductions = () => {
         setBody(body)
     }
 
-    const saveIntroduction = () => {
+    const saveIntroduction = (e) => {
+
+        e.target.innerText = 'Verstuurd'
+        e.target.value = ''
 
         db.collection("Introductions")
         .doc()

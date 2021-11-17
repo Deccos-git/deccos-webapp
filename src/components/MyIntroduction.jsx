@@ -4,6 +4,8 @@ import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { useFirestoreIntroductions } from "../firebase/useFirestore";
 import MenuStatus from "../hooks/MenuStatus";
+import deleteIcon from '../images/icons/delete-icon.png'
+import { db } from "../firebase/config";
 
 const MyIntroduction = () => {
 
@@ -13,6 +15,14 @@ const MyIntroduction = () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     const introductions = useFirestoreIntroductions("Introductions", route)
+
+    const deleteIntroduction = (e) => {
+        const docid = e.target.dataset.docid 
+
+        db.collection('Introductions')
+        .doc(docid)
+        .delete()
+    }
     
     return (
         <div className="main">
@@ -25,8 +35,11 @@ const MyIntroduction = () => {
                 {introductions && introductions.map(introduction => (
                     <div className="introductions-container" style={{display: menuState}}>
                         <div className="introduction-list-inner-container">
-                            <h4>{introduction.Body}</h4>
+                            <p>{introduction.Body}</p>
                             <p>{introduction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            <div className='delete-button-my-introductions-container'>
+                                <img data-docid={introduction.docid} src={deleteIcon} alt="" onClick={deleteIntroduction} />
+                            </div>
                         </div>
                     </div>
                 ))}
