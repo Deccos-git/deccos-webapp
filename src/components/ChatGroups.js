@@ -181,8 +181,8 @@ const ChatGroups = () => {
                         <img src={ch.photo} alt="" data-id={ch.chatID} onClick={updateRouteChat} />
                         <p className="chat-overview-username" data-id={ch.chatID} onClick={updateRouteChat}>{ch.userName}</p>
                     </div>
-                    <p>{ch.messages} berichten</p>
-                    <p className="new-messages">{ch.newMessages} nieuw</p>
+                    <p data-id={ch.chatID} onClick={updateRouteChat}>{ch.messages} berichten</p>
+                    <p className="new-messages" data-id={ch.chatID} onClick={updateRouteChat}>{ch.newMessages} nieuw</p>
                 </div>
                 )))
              ))
@@ -304,8 +304,8 @@ const ChatGroups = () => {
                             <img src={groupIcon} alt="" data-id={gr.ID} onClick={updateRouteGroup} />
                             <p className="chat-overview-username" data-id={gr.ID} onClick={updateRouteGroup}>{gr.room}</p>
                         </div>
-                        <p>{gr.messages} berichten</p>
-                        <p className="new-messages"> {gr.newMessages} nieuw</p>
+                        <p data-id={gr.ID} onClick={updateRouteGroup}>{gr.messages} berichten</p>
+                        <p data-id={gr.ID} className="new-messages" onClick={updateRouteGroup}> {gr.newMessages} nieuw</p>
                     </div>
                 </div>
                 ))

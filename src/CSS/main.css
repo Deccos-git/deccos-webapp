@@ -221,7 +221,22 @@
     border-radius: 50%;
 }
 
-  .article img{
+.ReactModal__Overlay{
+    z-index: 2;
+}
+
+.tox .tox-editor-container {
+    z-index: 1;
+}
+
+.add-image-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.article-detail-banner{
     width: 100%;
     margin: 0px 0px;
 }
@@ -256,6 +271,13 @@
     margin-right: 0px;
     cursor: pointer;
     font-size: 10px;
+}
+
+.delete-button-my-introductions-container img{
+    width: 25px;
+    align-self: left;
+    cursor: pointer;
+    margin-left: 2px;
 }
 
 .notification-sidebar-container{
@@ -1799,6 +1821,7 @@
       background-color: white;
       border-radius: 5px;
       width: 80%;
+      margin-bottom: 20px;
       box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
 

@@ -31,6 +31,9 @@ const GroupSettingsDetail = () => {
     const users = useFirestoreUsers(false)
     const members = useFirestoreSubscriptionsChannelGroup(route)
     const compagnies = useFirestore("CompagnyMeta")
+    const groupChannels = useFirestoreID('GroupChannels', route)
+
+    console.log(groupChannels)
 
     useEffect(() => {
         compagnies && compagnies.forEach(comp => {
@@ -74,9 +77,22 @@ const GroupSettingsDetail = () => {
             .update({
                 Room: title
             })
+            .then(() => {
+                changeGroupChannelName()
+            })
         })
 
         e.target.innerHTML = "Opgeslagen"
+    }
+
+    const changeGroupChannelName = () => {
+        groupChannels && groupChannels.forEach(channel => {
+            db.collection('GroupChannels')
+            .doc(channel.docid)
+            .update({
+                Name: title
+            })
+        })
     }
 
     const saveNewMember = (e) => {
