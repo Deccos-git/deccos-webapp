@@ -1,5 +1,5 @@
-import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
-import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { useFirestoreIntroductions } from "../firebase/useFirestore";
@@ -26,8 +26,8 @@ const MyIntroduction = () => {
     
     return (
         <div className="main">
-             <LeftSideBarPublicProfile />
-             <LeftSideBarPublicProfileFullScreen/>
+              <LeftSideBarAuthProfile />
+             <LeftSideBarAuthProfileFullScreen/>
              <div className="card-overview">
                 <div className="page-header">
                     <h1>Mijn introductie</h1>

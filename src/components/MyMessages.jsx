@@ -1,5 +1,5 @@
-import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
-import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { useFirestoreMyMessages } from "../firebase/useFirestore";
@@ -27,8 +27,8 @@ const MyMessages = () => {
     
     return (
         <div className="main">
-             <LeftSideBarPublicProfile />
-             <LeftSideBarPublicProfileFullScreen/>
+              <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
              <div className="card-overview" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Mijn berichten</h1>

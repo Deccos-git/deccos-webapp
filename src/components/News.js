@@ -17,6 +17,7 @@ import uuid from 'react-uuid';
 
 const News = () => {
     const [authO] = useContext(Auth)
+    const [authID, setAuthID] = useState(null)
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
@@ -24,7 +25,7 @@ const News = () => {
 
     const news = useFirestore("News")
     const history = useHistory()
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
+    const subscriptions = useFirestoreSubscriptions(authID)
     const channels = useFirestoreChannelName('Nieuws')
 
     const menuState = MenuStatus()
@@ -32,6 +33,13 @@ const News = () => {
     const id = uuid()
     
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+
+            setAuthID(authO.ID)
+        }
+    },[authO])
 
     useEffect(() => {
         subscriptions && subscriptions.forEach(sub => {

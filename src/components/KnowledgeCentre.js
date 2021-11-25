@@ -16,6 +16,7 @@ import uuid from 'react-uuid';
 
 const KnowledgeCentre = () => {
     const [authO] = useContext(Auth)
+    const [authID, setAuthID] = useState(null)
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
@@ -23,11 +24,18 @@ const KnowledgeCentre = () => {
 
     const docs = useFirestore("KnowledgeCentre")
     const channels = useFirestoreChannelName('Kenniscentrum')
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
+    const subscriptions = useFirestoreSubscriptions(authID)
 
     const menuState = MenuStatus()
     const route = Location()[3]
     const id = uuid()
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+
+            setAuthID(authO.ID)
+        }
+    },[authO])
 
     const variants = {
         hidden: { opacity: 0 },

@@ -18,6 +18,7 @@ import settingsIcon from '../images/icons/settings-icon.png'
 
 const Group = () => {
     const [authO] = useContext(Auth)
+    const [authID, setAuthID] = useState(null)
     const [showSendMail, setShowSendMail] = useState("none")
     const [selectedEmailUser, setSelectedEmailUser] = useState("")
     const [chatDisplay, setChatDisplay] = useState('flex')
@@ -33,10 +34,17 @@ const Group = () => {
     const messages = useFirestoreMessages("Messages", route)
     const compagny = useFirestore("CompagnyMeta")
     const members = useFirestoreSubscriptionsChannelGroup(route)
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
+    const subscriptions = useFirestoreSubscriptions(authID)
 
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
     const history = useHistory()
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+
+            setAuthID(authO.ID)
+        }
+    },[authO])
 
     useEffect(() => {
         subscriptions && subscriptions.forEach(sub => {

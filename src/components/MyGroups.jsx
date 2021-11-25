@@ -1,6 +1,6 @@
 import { useFirestoreChatsGroups } from "../firebase/useFirestore";
-import LeftSideBarPublicProfile from "./LeftSideBarPublicProfile";
-import LeftSideBarPublicProfileFullScreen from "./LeftSideBarPublicProfileFullScreen";
+import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import Location from "../hooks/Location"
 import { client } from "../hooks/Client";
@@ -23,8 +23,8 @@ const MyGroups = () => {
 
     return (
         <div className="main">
-            <LeftSideBarPublicProfile />
-            <LeftSideBarPublicProfileFullScreen/>
+            <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfileFullScreen/>
             <div className="card-overview" style={{display: menuState}}>
             <div className="page-header">
                 <h1>Mijn groepen</h1>

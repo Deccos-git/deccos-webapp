@@ -244,10 +244,6 @@ textarea ::placeholder{
   margin-top: 20px;
 }
 
-.active{
-  color: #d11237;
-}
-
 .input-color{
   height: 70px;
   width: 70px;

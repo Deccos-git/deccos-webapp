@@ -17,6 +17,7 @@ import uuid from 'react-uuid';
 
 const Events = () => {
     const [authO] = useContext(Auth)
+    const [authID, setAuthID] = useState(null)
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
@@ -24,7 +25,7 @@ const Events = () => {
 
     const events = useFirestoreTimestamp("Events")
     const channels = useFirestoreChannelName('Events')
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
+    const subscriptions = useFirestoreSubscriptions(authID)
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -35,6 +36,13 @@ const Events = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+
+            setAuthID(authO.ID)
+        }
+    },[authO])
 
       useEffect(() => {
         subscriptions && subscriptions.forEach(sub => {

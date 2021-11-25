@@ -101,6 +101,7 @@
 
 #start-image{
     border-radius: 5px;
+    width: 100%;
 }
 
 .profile-settings-delete-icon{
@@ -1418,6 +1419,7 @@
       width: 80%;
       margin: 20px 0px;
       background-color: white;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
 
   .activity-container h2{
@@ -1493,6 +1495,7 @@
       border: 1px solid lightgray;
       margin-bottom: 30px;
       background-color: white;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
 
   .progressionbar-completed{
@@ -1501,7 +1504,7 @@
   }
 
   .activity-inner-container{
-      margin: 5px 10px;
+      margin: 10px 15px;
       width: 100%;
   }
 
@@ -1510,6 +1513,10 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+  }
+
+  .article img{
+      width: 100%;
   }
 
   .task-outer-container{
@@ -1527,6 +1534,7 @@
     border: 1px solid lightgray;
     background-color: white;
     align-items: center;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
   }
 
   .task-description{

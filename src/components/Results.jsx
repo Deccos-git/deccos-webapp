@@ -11,13 +11,10 @@ import { client } from "../hooks/Client";
 
 const Results = () => {
     const [goalData, setGoalData] = useState("")
-    const [total, setTotal] = useState("")
-    const [sdg, setSdg] = useState("")
 
     const menuState = MenuStatus()
 
     const goals  = useFirestoreTimestamp("Goals")
-    const compagny  = useFirestore("CompagnyMeta")
     
     useEffect(() => {
 
