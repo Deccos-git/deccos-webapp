@@ -21,7 +21,7 @@ const News = () => {
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
-    const [memberStatus, setMemberStatus] = useState('Lid worden')
+    const [memberStatus, setMemberStatus] = useState('Abonneren')
 
     const news = useFirestore("News")
     const history = useHistory()
@@ -45,7 +45,7 @@ const News = () => {
         subscriptions && subscriptions.forEach(sub => {
             if(sub.SubID === route){
                 setIsMember('flex')
-                setMemberStatus('Je bent lid')
+                setMemberStatus('Geabonneerd')
             }
         })
     },[subscriptions])
@@ -85,7 +85,7 @@ const News = () => {
 
     const becomeMember = (e) => {
 
-        e.target.innerText = 'Lid geworden'
+        e.target.innerText = 'Geabonneerd'
 
         db.collection('Subscriptions')
         .doc()
@@ -109,7 +109,7 @@ const News = () => {
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Nieuws</h1>
-                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
+                    <button className="subscribe-channel-button" onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
                     {news && news.map(item => (

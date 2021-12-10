@@ -11,12 +11,15 @@ import userIcon from '../images/icons/user-icon.png'
 import deleteTaskIcon from '../images/icons/delete-task-icon.png'
 import Location from "../hooks/Location"
 import { useContext, useState, useEffect } from 'react';
+import Calendar from "./Calender";
 
 const Tasks = () => {
     const [allTasksDisplay, setAllTasksDisplay] = useState('flex')
     const [myTasksDisplay, setMyTasksDisplay] = useState('none')
+    const [calendarDisplay, setCalendarDisplay] = useState('none')
     const [allTasksTab, setAllTasksTab] = useState('active-tab')
     const [myTasksTab, setMyTasksTab] = useState('not-active-tab')
+    const [calendarTab, setCalendarTab] = useState('not-active-tab')
 
     const menuState = MenuStatus()
     const history = useHistory();
@@ -74,15 +77,28 @@ const Tasks = () => {
     const showAllTasks = () => {
         setAllTasksDisplay('block')
         setMyTasksDisplay('none')
+        setCalendarDisplay('none')
         setAllTasksTab('active-tab')
         setMyTasksTab('not-active-tab')
+        setCalendarTab('not-active-tab')
     }
 
     const showMyTasks = () => {
         setAllTasksDisplay('none')
         setMyTasksDisplay('flex')
+        setCalendarDisplay('none')
         setAllTasksTab('not-active-tab')
         setMyTasksTab('active-tab')
+        setCalendarTab('not-active-tab')
+    }
+
+    const showCalendar = () => {
+        setAllTasksDisplay('none')
+        setMyTasksDisplay('none')
+        setCalendarDisplay('flex')
+        setAllTasksTab('not-active-tab')
+        setMyTasksTab('not-active-tab')
+        setCalendarTab('active-tab')
     }
 
     const MyTasks = () => {
@@ -116,6 +132,7 @@ const Tasks = () => {
                 <div className='group-navigation-container'>
                     <p className={allTasksTab} onClick={showAllTasks}>Alle taken</p>
                     <p className={myTasksTab} onClick={showMyTasks}>Mijn taken</p>
+                    <p className={calendarTab} onClick={showCalendar}>Agenda</p>
                 </div>
             </div>
             {tasks && tasks.map(task => (
@@ -133,8 +150,11 @@ const Tasks = () => {
                 </div>
             ))}
             <MyTasks/>
+            <div style={{display: calendarDisplay}}>
+                <Calendar events={tasks}/>
+            </div>
         </div>
-        <RightSideBar />
+        <RightSideBar/>
         </div>
     )
 }

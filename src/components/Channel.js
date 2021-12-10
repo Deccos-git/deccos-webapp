@@ -17,7 +17,7 @@ import uuid from 'react-uuid';
 const Channel = () => {
     const [authO] = useContext(Auth)
     const [isMember, setIsMember] = useState('none')
-    const [memberStatus, setMemberStatus] = useState('Lid worden')
+    const [memberStatus, setMemberStatus] = useState('Abonneren')
     const [channelTitle, setChannelTitle] = useState('')
 
     const route = Location()[3]
@@ -46,7 +46,7 @@ const Channel = () => {
         subscriptions && subscriptions.forEach(sub => {
             if(sub.SubID === route){
                 setIsMember('flex')
-                setMemberStatus('Je bent lid')
+                setMemberStatus('Geabonneerd')
             }
         })
     },[subscriptions])
@@ -75,7 +75,7 @@ const Channel = () => {
 
     const becomeMember = (e) => {
 
-        e.target.innerText = 'Lid geworden'
+        e.target.innerText = 'Geabonneerd'
 
         const channelID = e.target.dataset.id
         const name = e.target.dataset.name
@@ -105,7 +105,7 @@ const Channel = () => {
                 <>
                 <div className="page-header">
                     <h1>{channelTitle}</h1>
-                    <button className="button-simple" data-name={channel.Name} data-id={channel.ID} onClick={becomeMember}>{memberStatus}</button>
+                    <button className="subscribe-channel-button" data-name={channel.Name} data-id={channel.ID} onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
                     {items && items.map(item => (

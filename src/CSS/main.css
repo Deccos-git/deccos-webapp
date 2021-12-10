@@ -31,8 +31,10 @@
     width: 80%;
     background-color: white;
     margin: 20px;
+    padding: 20px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     align-items: center;
     border-radius: 5px;
@@ -84,6 +86,55 @@
 
 .impactpath-container{
     width: 80%;
+}
+
+.month-container{
+    display: grid;
+    grid: 100px / auto auto auto auto auto auto auto;
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.calendar-weekdays{
+    margin: 10px 0px -8px 0px;
+}
+
+.day-container{
+    height: 100px;
+    width: 100px;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.current-day{
+    background-color: lightgray;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.calendar-navigation-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calendar-navigation-container button{
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    color: gray;
+    margin-right: 20px;
+}
+
+.calendar-navigation-next-prev-container img{
+    height: 20px;
+}
+
+.calendar-navigation-next-prev-container{
+    margin-right: 20px;
+    cursor: pointer;
 }
 
 .arrow-down-container{
@@ -710,8 +761,8 @@
   }
 
   .chats-overview-container img{
-      width: 30px;
-      height: 30px;
+      width: 30px !important;
+      height: 30px !important;
       border-radius: 50%;
       margin-right: 10px;
   }
@@ -727,6 +778,13 @@
   .nav-title-container{
       display: flex;
       align-items: center;
+  }
+
+  .calendar-event-container{
+      background-color: lightgreen;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
   }
 
   .nav-title-container img{

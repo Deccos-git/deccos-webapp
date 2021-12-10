@@ -1,7 +1,7 @@
 import plusIcon from '../images/icons/plus-icon.png'
 import sendIcon from '../images/icons/send-icon.png'
 import spinnerRipple from '../images/spinner-ripple.svg'
-import { db, timestamp, bucket } from "../firebase/config.js"
+import { db, bucket } from "../firebase/config.js"
 import { useState, useContext, useEffect } from 'react';
 import { client, type } from "../hooks/Client"
 import uuid from 'react-uuid';
@@ -20,6 +20,7 @@ const MessageBarGroup = () => {
 
     const route = Location()[3]
     const getYearMonth = GetYearMonth()
+    const timestamp = firebase.firestore.Timestamp.fromDate(new Date())
     
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
@@ -51,7 +52,7 @@ const MessageBarGroup = () => {
         .set({
             Type: "Message",
             Message: Message,
-            Timestamp: timestamp,
+            Timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
             ParentID: route,
             ID: id,
             Likes: 0,
@@ -90,7 +91,7 @@ const MessageBarGroup = () => {
                         Month: getYearMonth,
                         Contributions: 1,
                         Compagny: client,
-                        LastActive: timestamp,
+                        LastActive: firebase.firestore.Timestamp.fromDate(new Date()),
                         ID: uuid(),
                     })
                 } 

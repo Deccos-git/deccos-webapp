@@ -249,6 +249,17 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
+    const MyActivity = () => {
+        return  <div>
+                    <h3>Mijn activiteiten</h3>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`} onClick={changeMenuStatus}>Mijn berichten</Link>
+                        <Link activeClassName='active' to={`/${client}/Contributions/${authO.ID}`} onClick={changeMenuStatus}>Mijn bijdragen</Link>
+                        <Link activeClassName='active' to={`/${client}/Likes/${authO.ID}`} onClick={changeMenuStatus}>Mijn likes</Link>
+                    </div>
+                </div>
+    }
+
     return (
         <div className="left-sidebar-container-mobile" style={{display: menu}}>
             <div className="left-side-bar-full-screen">
@@ -267,9 +278,10 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>
                         <Link to={`/${client}/AboutMe/${authO.ID}`} onClick={changeMenuStatus}>Over mij</Link>
-                        <Link to={`/${client}/Subscriptions/${authO.ID}`} onClick={changeMenuStatus}>Lidmaatschappen</Link>
+                        <Link to={`/${client}/Subscriptions/${authO.ID}`} onClick={changeMenuStatus}>Lidmaatschappen en abonnementen</Link>
                         <Link to={`/${client}/PublicProfile/${authO.ID}`} onClick={changeMenuStatus}>Openbaar profiel</Link>
                     </div>
+                    <MyActivity/>
                 </div>
             </div>
         </div>

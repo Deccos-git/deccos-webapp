@@ -22,6 +22,7 @@ const TaskSettings = () => {
     const [activityTitle, setActivityTitle] = useState('')
     const [activityID, setActivityID] = useState('')
     const [taskTitle, setTaskTitle] = useState('')
+    const [date, setDate] = useState('')
     const [userID, setUserID] = useState('')
     const [userName, setUserName] = useState('')
     const [userPhoto, setUserPhoto] = useState('')
@@ -41,6 +42,12 @@ const TaskSettings = () => {
 
         setTaskTitle(title)
 
+    }
+
+    const dateHandler = (e) => {
+        const date = e.target.value 
+
+        setDate(date)
     }
 
     const userHandler = (e) => {
@@ -72,6 +79,7 @@ const TaskSettings = () => {
             UserPhoto: authO.Photo,
             UserID: authO.ID,
             Task: taskTitle,
+            Date: date,
             AppointedID: userID,
             AppointedName: userName,
             AppointedPhoto: userPhoto,
@@ -119,6 +127,8 @@ const TaskSettings = () => {
                     </select>
                     <h4>Beschrijf taak</h4>
                     <input type="text" placeholder='Beschrijf hier je taak' onChange={taskHandler}/>
+                    <h4>Vervaldatum</h4>
+                    <input type="date" onChange={dateHandler} />
                     <h4>Taak toewijzen aan</h4>
                         <select className="userrole-select" name="" id="" onChange={userHandler}>
                             <option value="">--- Selecteer ---</option>

@@ -14,14 +14,19 @@ import MenuStatus from "../hooks/MenuStatus";
 import firebase from 'firebase';
 import Location from "../hooks/Location"
 import uuid from 'react-uuid';
+import Calendar from "./Calender";
 
 const Events = () => {
     const [authO] = useContext(Auth)
     const [authID, setAuthID] = useState(null)
+    const [listViewTab, setListViewTab] = useState('active-tab')
+    const [calenderViewTab, setCalenderViewTab] = useState('not-active-tab')
+    const [listDisplay, setListDisplay] = useState('flex')
+    const [calenderDisplay, setCalenderDisplay] = useState('none')
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
-    const [memberStatus, setMemberStatus] = useState('Lid worden')
+    const [memberStatus, setMemberStatus] = useState('Abonneren')
 
     const events = useFirestoreTimestamp("Events")
     const channels = useFirestoreChannelName('Events')
@@ -50,7 +55,7 @@ const Events = () => {
             if(sub.SubID === route){
 
                 setIsMember('flex')
-                setMemberStatus('Je bent lid')
+                setMemberStatus('Geabonneerd')
             }
         })
     },[subscriptions])
@@ -85,7 +90,7 @@ const Events = () => {
 
     const becomeMember = (e) => {
 
-        e.target.innerText = 'Lid geworden'
+        e.target.innerText = 'Geabonneerd'
 
         db.collection('Subscriptions')
         .doc()
@@ -102,6 +107,30 @@ const Events = () => {
         })
     }
 
+    const showListView = () => {
+        setListDisplay('flex')
+        setCalenderDisplay('none')
+        setListViewTab('active-tab')
+        setCalenderViewTab('not-active-tab')
+    }
+
+    const showCalenderView = () => {
+        setListDisplay('none')
+        setCalenderDisplay('flex')
+        setListViewTab('not-active-tab')
+        setCalenderViewTab('active-tab')
+    }
+
+    const CalenderView = () => {
+        return (
+
+            <div className="card-container" style={{display: isMember}} style={{display: calenderDisplay}}>
+                <Calendar events={events}/>
+            </div>
+
+        )
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -109,9 +138,13 @@ const Events = () => {
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Events</h1>
-                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
+                    <button className="subscribe-channel-button" onClick={becomeMember}>{memberStatus}</button>
+                    <div className='group-navigation-container'>
+                        <p className={listViewTab} onClick={showListView}>Lijst</p>
+                        <p className={calenderViewTab} onClick={showCalenderView}>Kalender</p>
+                    </div>
                 </div>
-                <div className="card-container" style={{display: isMember}}>
+                <div className="card-container" style={{display: isMember}} style={{display: listDisplay}}>
                     {events && events.map(even => (
                         <div className="card">
                             <img className="card-banner" src={even.Banner} alt="" />
@@ -129,6 +162,7 @@ const Events = () => {
                         </div>
                     ))}
                  </div>
+                 <CalenderView/>
             </div>
             <RightSideBar />
         </div>

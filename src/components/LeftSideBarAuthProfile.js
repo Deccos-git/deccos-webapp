@@ -246,12 +246,9 @@ const LeftSideBarAuthProfile = () => {
 
     const MyActivity = () => {
         return  <div>
-                    <h3>Mijn activiteit</h3>
+                    <h3>Mijn activiteiten</h3>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/MyIntroduction/${authO.ID}`}>Mijn introductie</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/MyGroups/${authO.ID}`}>Mijn groepen</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/MyChannels/${authO.ID}`}>Mijn kanalen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Contributions/${authO.ID}`}>Mijn bijdragen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Likes/${authO.ID}`}>Mijn likes</NavLink>
                     </div>
@@ -276,7 +273,7 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/AboutMe/${authO.ID}`}>Over mij</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/Subscriptions/${authO.ID}`}>Lidmaatschappen</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/Subscriptions/${authO.ID}`}>Lidmaatschappen en abonnementen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/PublicProfile/${authO.ID}`}>Openbaar profiel</NavLink>
                     </div>
                     <MyActivity/>

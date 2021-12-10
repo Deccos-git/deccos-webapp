@@ -7,6 +7,8 @@ import { useFirestoreMemberGraph, useFirestoreLikesGraph, useFirestoreContributi
 import { useState, useEffect } from 'react'
 
 const Analytics = () => {
+    
+    // State
     const [labelMembers, setLabelMembers] = useState('')
     const [dataMembers, setDataMembers] = useState('')
     const [labelLikes, setLabelLikes] = useState('')
@@ -16,15 +18,16 @@ const Analytics = () => {
     const [labelMessages, setLabelMessages] = useState('')
     const [dataMessages, setDataMessages] = useState('')
 
+    // Settings
     const menuState = MenuStatus()
+
+    // Database query's
     const members = useFirestoreMemberGraph()
     const likes = useFirestoreLikesGraph()
     const goalLikes = useFirestoreContributionGraph()
     const messages = useFirestoreMessageGraph()
 
-
     // Leden
-
     useEffect(() => {
 
         const monthArray = []
@@ -44,7 +47,6 @@ const Analytics = () => {
     }, [members])
 
     // Messages
-
     useEffect(() => {
 
         const monthArray = []
@@ -64,7 +66,6 @@ const Analytics = () => {
     }, [likes])
 
     // GoalLikes
-
     useEffect(() => {
 
         const monthArray = []
@@ -84,7 +85,6 @@ const Analytics = () => {
     }, [likes])
 
     // Likes
-
     useEffect(() => {
 
         const monthArray = []
@@ -102,9 +102,6 @@ const Analytics = () => {
         setLabelLikes(monthArray)
         setDataLikes(countArray)
     }, [likes])
-
-
-    
 
     return (
             <div className="main">

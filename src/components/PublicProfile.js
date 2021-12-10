@@ -1,5 +1,5 @@
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "./LeftSideBar";
+import LeftSideBarFullScreen from "./LeftSideBarFullScreen";
 import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreUser, useFirestoreIntroductions, useFirestoreAboutMe, useFirestore } from "./../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
@@ -181,8 +181,8 @@ const PublicProfile = () => {
 
     return (
             <div className="main">
-                 <LeftSideBarAuthProfile />
-                <LeftSideBarAuthProfileFullScreen/>
+                 <LeftSideBar />
+                <LeftSideBarFullScreen/>
                 {profiles && profiles.map(profile => (
                     <div className="profile public-profile-container" key={profile.ID} style={{display: menuState}}>
                         <div className="divider ">

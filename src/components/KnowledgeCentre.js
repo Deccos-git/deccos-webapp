@@ -20,7 +20,7 @@ const KnowledgeCentre = () => {
 
     const [channelID, setChannelID] = useState('')
     const [isMember, setIsMember] = useState('none')
-    const [memberStatus, setMemberStatus] = useState('Lid worden')
+    const [memberStatus, setMemberStatus] = useState('Abonneren')
 
     const docs = useFirestore("KnowledgeCentre")
     const channels = useFirestoreChannelName('Kenniscentrum')
@@ -46,7 +46,7 @@ const KnowledgeCentre = () => {
         subscriptions && subscriptions.forEach(sub => {
             if(sub.SubID === route){
                 setIsMember('flex')
-                setMemberStatus('Je bent lid')
+                setMemberStatus('Geabonneerd')
             }
         })
     },[subscriptions])
@@ -59,7 +59,7 @@ const KnowledgeCentre = () => {
 
     const becomeMember = (e) => {
 
-        e.target.innerText = 'Lid geworden'
+        e.target.innerText = 'Geabonneerd'
 
         db.collection('Subscriptions')
         .doc()
@@ -84,7 +84,7 @@ const KnowledgeCentre = () => {
              <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Kenniscentrum</h1>
-                    <button className="button-simple" onClick={becomeMember}>{memberStatus}</button>
+                    <button className="subscribe-channel-button" onClick={becomeMember}>{memberStatus}</button>
                 </div>
                 <div className="card-container" style={{display: isMember}}>
                     {docs && docs.map(doc => (
