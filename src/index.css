@@ -263,6 +263,7 @@ textarea ::placeholder{
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  width: 85%;
 }
 
 .list-container{

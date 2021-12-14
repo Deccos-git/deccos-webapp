@@ -183,7 +183,7 @@ const LeftSideBarAuthProfile = () => {
     const Admin = () => {
         if(admin){
             return <div>
-                        <h3>Community</h3>
+                        <h3>Admin</h3>
                         <div className="channel-inner-div">
                             <NavLink activeClassName='active' to={`/${client}/Settings`}>Algemeen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/Analytics`}>Analytics</NavLink>
@@ -191,7 +191,7 @@ const LeftSideBarAuthProfile = () => {
                             <NavLink activeClassName='active' to={`/${client}/Members`}>Leden</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
                             <div className="notification-sidebar-container">
-                                <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmelden</NavLink>
+                                <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmeldingen</NavLink>
                                 <p style={{display: showNotification}} className="notification-counter-small">{notificationsUsers}</p>
                             </div>
                             <NavLink activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</NavLink>
@@ -226,7 +226,7 @@ const LeftSideBarAuthProfile = () => {
     const Author = () => {
         if(author || admin){
             return <div>
-                        <h3>Toevoegen</h3>
+                        <h3>Auteur</h3>
                         <div className="channel-inner-div">
                             <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</NavLink>
@@ -251,6 +251,7 @@ const LeftSideBarAuthProfile = () => {
                         <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Contributions/${authO.ID}`}>Mijn bijdragen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Likes/${authO.ID}`}>Mijn likes</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MyEvents/${authO.ID}`}>Mijn events</NavLink>
                     </div>
                 </div>
     }
@@ -267,8 +268,8 @@ const LeftSideBarAuthProfile = () => {
                     </NavLink>
                 <Superadmin/>
                     <Admin/>
-                    <Impact/>
                     <Author/>
+                    <Impact/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>

@@ -844,6 +844,29 @@ const useFirestoreMyTasks = (id) => {
     return docs
 };
 
+const useFirestoreMyEvents = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('EventSignups')
+        .where('Compagny', '==', client)
+        .where('UserID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -881,5 +904,6 @@ export {
     useFirestoreSubscriptionsNotApproved,
     useFirestoreTasks,
     useFirestoreTasksComplete,
-    useFirestoreMyTasks
+    useFirestoreMyTasks,
+    useFirestoreMyEvents
 }

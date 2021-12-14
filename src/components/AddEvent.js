@@ -278,7 +278,8 @@ const AddEvent = () => {
             Location: locationType,
             LocationName: locationName,
             LocationAdres: street,
-            LocationCity: city
+            LocationCity: city,
+            Type: 'Event'
         })
         .then(() => {
             db.collection("AllActivity")

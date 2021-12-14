@@ -150,7 +150,7 @@ const Tasks = () => {
                 </div>
             ))}
             <MyTasks/>
-            <div style={{display: calendarDisplay}}>
+            <div className='task-calendar-container' style={{display: calendarDisplay}}>
                 <Calendar events={tasks}/>
             </div>
         </div>

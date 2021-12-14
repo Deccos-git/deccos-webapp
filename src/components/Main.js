@@ -45,6 +45,7 @@ import LeftSideBarFullScreen from './LeftSideBarFullScreen'
 import MyIntroduction from './MyIntroduction';
 import MyMessages from './MyMessages';
 import MyGroups from './MyGroups';
+import MyEvents from './MyEvents';
 import MyContributions from './MyContributions';
 import UserRoles from './UserRoles';
 import Registrations from './Registrations';
@@ -64,6 +65,7 @@ import ActivityDetail from './ActivityDetail'
 import ActivityGoal from './ActivityGoal'
 import TaskDetail from './TaskDetail'
 import Tasks from './Tasks'
+import EventSignups from './EventSignups';
 
 const Main = () => {
 
@@ -163,6 +165,9 @@ const Main = () => {
                 <Route path={`/${client}/MyGroups`}>
                     <MyGroups/>
                 </Route>
+                <Route path={`/${client}/MyEvents`}>
+                    <MyEvents/>
+                </Route>
                 <Route path={`/${client}/MyChannels`}>
                     <MyChannels/>
                 </Route>
@@ -178,8 +183,11 @@ const Main = () => {
                 <Route path={`/${client}/Registrations`}>
                     <Registrations/>
                 </Route>
+                <Route path={`/${client}/EventSignups`}>
+                    <EventSignups/>
+                </Route>
                 <Route path={`/${client}/Introductions`}>
-                    <Introductions/>
+                    <EventSignups/>
                 </Route>
                 <Route path={`/${client}/News`}>
                     <News/>

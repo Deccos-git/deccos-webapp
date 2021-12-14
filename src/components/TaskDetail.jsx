@@ -91,6 +91,10 @@ const TaskDetail = () => {
                             <p data-id={task.ActivityID} onClick={activityLink}>{task.Activity}</p>
                         </div>
                         <div>
+                            <h3>Vervaldatum</h3>
+                            <p>{task.Date}</p>
+                        </div>
+                        <div>
                             <h3>Toegewezen aan</h3>
                             <div className='task-detail-user-container'>
                                 <img src={task.AppointedPhoto} data-id={task.AppointedID} onClick={appointedLink} alt=""/>

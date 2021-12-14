@@ -33,11 +33,15 @@ const GroupLanding = () => {
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+    // Client communityname
+
     useEffect(() => {
         compagny && compagny.forEach(comp => {
             setCommunityNameDB(comp.CommunityName)
         })
     }, [compagny])
+
+    // Find emailadresses of community admins
 
     useEffect(() => {
         const adminArray = []
@@ -92,7 +96,7 @@ const GroupLanding = () => {
             Type: 'Group'
         })
         .then(() => {
-            console.log(adminEmail, groupName, authO.UserName, client)
+
             db.collection("Email").doc().set({
                 to: adminEmail,
                 cc: "info@Deccos.nl",

@@ -1,7 +1,7 @@
 import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import { useFirestoreNotApproved, useFirestoreSubscriptionsNotApproved } from "../firebase/useFirestore";
+import { useFirestoreNotApproved, useFirestoreSubscriptionsNotApproved, useFirestoreTimestamp } from "../firebase/useFirestore";
 import { db, timestamp } from "../firebase/config";
 import { client } from "../hooks/Client";
 import { useFirestore } from "../firebase/useFirestore";
@@ -22,6 +22,7 @@ const Registrations = () => {
     const notApprovedGroups = useFirestoreSubscriptionsNotApproved('Subscriptions')
     const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
+    const events = useFirestoreTimestamp("Events")
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -233,6 +234,18 @@ const Registrations = () => {
         history.push(`/${client}/GroupLanding/${id}`)
     }
 
+    const linkEventSignups = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/EventSignups/${id}`)
+    }
+
+    const eventLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/EventDetail/${id}`)
+    }
+
 
 
     return (
@@ -261,7 +274,7 @@ const Registrations = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Nieuwe aanmeldingen voor community</h3>
+                        <h3>Aanmeldingen voor community</h3>
                         {notApprovedUsers && notApprovedUsers.map(user => (
                             <div className="userrole-users-container" key={user.ID}>
                                 <img className='pointer' src={user.Photo} alt="" data-userid={user.ID} onClick={linkToUser} />
@@ -281,7 +294,7 @@ const Registrations = () => {
                         ))}
                     </div> 
                     <div className='divider'>
-                        <h3>Nieuwe aanmeldingen voor groepen</h3>
+                        <h3>Aanmeldingen voor groepen</h3>
                         {notApprovedGroups && notApprovedGroups.map(group=> (
                              <div className="userrole-users-container" key={group.ID}>
                                 <img className='pointer' src={group.UserPhoto} alt="" data-userid={group.UserID} onClick={linkToUser} />
@@ -300,6 +313,16 @@ const Registrations = () => {
                                 onClick={approveGroupMember}>
                                 Goedkeuren
                                 </p>
+                            </div>
+                        ))}
+
+                    </div>
+                    <div className='divider'>
+                        <h3>Aanmeldingen voor events</h3>
+                        {events && events.map(vnt => (
+                            <div className="events-signups-container">
+                                <p data-id={vnt.ID} onClick={eventLink}>{vnt.Title}</p>
+                                <button className='button-simple' data-id={vnt.ID} onClick={linkEventSignups}>Bekijk</button>
                             </div>
                         ))}
 

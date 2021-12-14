@@ -37,13 +37,13 @@ const NewsDetail = () => {
                 {news && news.map(doc => (
                     <div className="article">
                         <h1>{doc.Title}</h1>
-                        <img src={doc.Banner} alt="" />
-                        <div className="list-inner-container">
+                        <img className="article-detail-banner" src={doc.Banner} alt="" />
+                        <div className="article-meta-container">
                             <div className="article-card-user-container">
                                 <img src={doc.UserPhoto} alt="" data-id={doc.UserID} onClick={profileLink} />
                                 <p data-id={doc.UserID} onClick={profileLink}>{doc.User}</p>
                             </div>
-                            <p>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            <h3 id='event-detail-timestamp'>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</h3>
                             <div className="article-body-container">
                                 <div dangerouslySetInnerHTML={{ __html: doc.Body }}></div>
                             </div>

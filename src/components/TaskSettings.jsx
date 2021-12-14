@@ -79,13 +79,15 @@ const TaskSettings = () => {
             UserPhoto: authO.Photo,
             UserID: authO.ID,
             Task: taskTitle,
+            Title: taskTitle,
             Date: date,
             AppointedID: userID,
             AppointedName: userName,
             AppointedPhoto: userPhoto,
             AppointedEmail: userEmail,
             Completed: false,
-            Icon: completeIcon
+            Icon: completeIcon,
+            Type: 'Task'
         })
     }
 

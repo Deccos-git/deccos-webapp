@@ -84,33 +84,31 @@ const Calendar = ({events}) => {
 
     const eventLink = (e) => {
         const id = e.target.dataset.id
+        const type = e.target.dataset.type 
 
-        history.push(`/${client}/EventDetail/${id}`)
+        if(type === 'Event'){
+            history.push(`/${client}/EventDetail/${id}`)
+        } else if (type === 'Task'){
+            history.push(`/${client}/TaskDetail/${id}`)
+        }
 
     }
 
-        const event = (day) => {
-
-            for(const vnt of events){
-
-                console.log(vnt)
+        const event = (day, vnt) => {
 
                 if(day.format('YYYY-MM-DD') === vnt.Date){
                     return(
                     <div key={vnt.ID}>
-                        <p className='calendar-event-container' data-id={vnt.ID} onClick={eventLink}>{vnt.Title}</p>
+                        <p className='calendar-event-container' data-id={vnt.ID} data-type={vnt.Type} onClick={eventLink}>{vnt.Title}</p>
                     </div>
                     )
                 } else {
                     return <div></div>
                 }
-            }
         }
 
-    
-
     return (
-        <div>
+        <div className='calender-container'>
            <>
             <div className='calendar-navigation-container'>
                 <button onClick={currentMonthHandler}>Vandaag</button>
@@ -127,7 +125,11 @@ const Calendar = ({events}) => {
                                 {index === 0 && <p className='calendar-weekdays'>{day.locale(locale, null, true).format('ddd').toUpperCase()}</p>}
                                 <p className={`${currentDayClass(day)}`}>{day.format('DD')}</p>
                                 <div>
-                                    {event(day)}
+                                {events && events.map(vnt => (
+                                    <div>
+                                        {event(day, vnt)}
+                                    </div>
+                                ))}
                                 </div>
                             </div>
                         ))}

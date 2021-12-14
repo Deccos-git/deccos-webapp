@@ -188,7 +188,7 @@ const LeftSideBarAuthProfile = () => {
     const Admin = () => {
         if(admin){
             return <div>
-                        <h3>Community</h3>
+                        <h3>Admin</h3>
                         <div className="channel-inner-div">
                             <Link to={`/${client}/Settings`} onClick={changeMenuStatus}>Algemeen</Link>
                             <Link to={`/${client}/Analytics`} onClick={changeMenuStatus}>Analytics</Link>
@@ -196,7 +196,7 @@ const LeftSideBarAuthProfile = () => {
                             <Link to={`/${client}/Members`} onClick={changeMenuStatus}>Leden</Link>
                             <Link to={`/${client}/UserRoles`} onClick={changeMenuStatus}>Gebruikersrollen</Link>
                             <div className="notification-sidebar-container">
-                                <Link to={`/${client}/Registrations`} onClick={changeMenuStatus}>Aanmelden</Link>
+                                <Link to={`/${client}/Registrations`} onClick={changeMenuStatus}>Aanmeldingen</Link>
                                 <p style={{display: showNotification}} className="notification-counter-small">{notificationsTotal}</p>
                             </div>
                             <Link to={`/${client}/ChannelSettings`} onClick={changeMenuStatus} style={{display: showChannels()}}>Kanalen</Link>
@@ -231,7 +231,7 @@ const LeftSideBarAuthProfile = () => {
     const Author = () => {
         if(author || admin){
             return <div>
-                        <h3>Toevoegen</h3>
+                        <h3>Auteur</h3>
                         <div className="channel-inner-div">
                             <Link activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</Link>
                             <Link activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</Link>
@@ -256,6 +256,7 @@ const LeftSideBarAuthProfile = () => {
                         <Link activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`} onClick={changeMenuStatus}>Mijn berichten</Link>
                         <Link activeClassName='active' to={`/${client}/Contributions/${authO.ID}`} onClick={changeMenuStatus}>Mijn bijdragen</Link>
                         <Link activeClassName='active' to={`/${client}/Likes/${authO.ID}`} onClick={changeMenuStatus}>Mijn likes</Link>
+                        <Link activeClassName='active' to={`/${client}/MyEvents/${authO.ID}`} onClick={changeMenuStatus}>Mijn events</Link>
                     </div>
                 </div>
     }
@@ -272,8 +273,8 @@ const LeftSideBarAuthProfile = () => {
                     </Link>
                 <Superadmin/>
                     <Admin/>
-                    <Impact/>
                     <Author/>
+                    <Impact/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>

@@ -88,24 +88,31 @@
     width: 80%;
 }
 
+.calender-container{
+    width: 100%;
+    margin-bottom: 100px;
+}
+
 .month-container{
     display: grid;
-    grid: 100px / auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto;
     background-color: white;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
 .calendar-weekdays{
     margin: 10px 0px -8px 0px;
+    font-weight: 600;
 }
 
 .day-container{
-    height: 100px;
-    width: 100px;
+    min-height: 100px;
+    width: auto;
     border: 1px solid lightgray;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 35px;
 }
 
 .current-day{
@@ -775,16 +782,27 @@
     margin: 5px;
   }
 
+  .article-meta-container{
+      width: 80%;
+  }
+
+  #event-detail-timestamp{
+      text-align: center;
+  }
+
   .nav-title-container{
       display: flex;
       align-items: center;
   }
 
   .calendar-event-container{
-      background-color: lightgreen;
+      background-color: green;
       padding: 5px;
       border-radius: 5px;
       cursor: pointer;
+      color: white;
+      overflow: scroll;
+      width: 20px;
   }
 
   .nav-title-container img{
@@ -1573,10 +1591,6 @@
     width: 100%;
   }
 
-  .article img{
-      width: 100%;
-  }
-
   .task-outer-container{
     width: 80%;
   }
@@ -1949,14 +1963,45 @@
       max-width: 30%;
   }
 
+  #register-event-button-container{
+      display: flex;
+      justify-content: center;
+  }
+
+  .event-detail-button-signedup{
+      background-color: white;
+      border-color: lightgray;
+      color: lightgray;
+      margin: 20px;
+      cursor: default;
+  }
+
+  #show-calendar-button-hidden{
+      display: none;
+  }
+
+  #show-calendar-button{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  #show-calendar-button p{
+      text-align: center;
+  }
+
+  #show-calendar-button img{
+      width: 20px;
+      margin-right: 10px;
+  }
+
   .user-container-activity-card{
       display: flex;
       align-items: center;
   }
 
   .article-body-container{
-      padding: 20px;
-      width: 80%;
       border-top: 1px solid lightgray
   }
 
@@ -2123,6 +2168,43 @@
     align-items: center;
 }
 
+.events-signups-container{
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.signup-container{
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.signup-container img{
+    width: 60px;
+    margin-right: 10px;
+}
+
+.signup-timestamp{
+    margin-right: 0px;
+    margin-left:  auto;
+}
+
+.events-signups-container p{
+    margin: 0px 10px 0px 0px;
+    cursor: pointer;
+}
+
+.events-signups-container button{
+    margin-right: 0px;
+    margin-left: auto;
+}
+
 .layout-container h5{
     text-align: center;
 }
@@ -2144,6 +2226,10 @@
     border-radius: 3px;
     color: gray;
     font-size: 12px;
+}
+
+.task-calendar-container{
+    width: 85%;
 }
 
 @media only screen and (max-width: 1024px){
@@ -2265,6 +2351,15 @@
     .back-to-community-container p{
         font-size: 18px;
     }
+
+    .calendar-event-container {
+        width: 20px;
+    }
+
+    .calendar-navigation-container button {
+        margin-right: 0px;
+    }
+
 }
 
   
