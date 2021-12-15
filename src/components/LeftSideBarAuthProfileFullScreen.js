@@ -216,6 +216,7 @@ const LeftSideBarAuthProfile = () => {
                         <Link activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</Link>
                         <Link activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</Link>
                         <Link activeClassName='active' to={`/${client}/TaskSettings`}>Taken</Link>
+                        <Link activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</Link>
                     </div>
                 </div>
     }

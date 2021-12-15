@@ -1496,10 +1496,63 @@
       margin: 20px 0px;
       background-color: white;
       box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      border-radius: 5px;
+  }
+
+  .goal-detail-banner{
+      width: 100%;
   }
 
   .activity-container h2{
       text-align: left;
+  }
+
+  .card-header-add-questionnaire h1{
+      border-bottom: 1px dotted lightgray;
+  }
+
+  #questionnaire-field-text{
+      border: 1px dotted lightgray;
+      padding: 20px;
+      margin-top: 10px;
+  }
+
+  #questionnaire-question{
+      margin-top: 10px;
+      width: 95%;
+  }
+
+  .question-type-display-container{
+    padding: 10px 10px 20px 10px;
+    margin: 20px 0px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  }
+
+  #scale-reach-symbol{
+      font-weight: 600;
+      margin-left: 10px;
+      margin-top: 20px;
+  }
+
+  .select-scale-container input{
+    border-bottom: 1px dotted lightgray;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    border-right: none;
+    padding-bottom: 5px;
+    margin-left: 10px;
+  }
+
+  .select-scale-container{
+      margin-top: 10px;
+  }
+
+  .select-scale-container select{
+      width: 50px;
   }
 
   .task-detail-container{
@@ -2183,6 +2236,20 @@
     margin: 10px;
     display: flex;
     align-items: center;
+    background-color: white;
+}
+
+.my-event-card button{
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.my-event-card h3{
+    margin-right: 20px;
+}
+
+.my-event-list-container{
+    width: 85%;
 }
 
 .signup-container img{

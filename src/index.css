@@ -297,3 +297,11 @@ textarea ::placeholder{
   border-radius: 3px;
   color: #2F2C41;
 }
+
+.editable-text-input{
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  font-size: 30px;
+  color: #2F2C41
+}

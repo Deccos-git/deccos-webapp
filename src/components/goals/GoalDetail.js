@@ -75,7 +75,7 @@ const GoalDetail = () => {
             <div className="card-overview goal-detail-container" style={{display: menuState}}>
             {docs && docs.map(doc => (
                 <motion.div className="article" key={doc.id}>
-                    <img src={doc.Banner} alt="" />
+                    <img src={doc.Banner} alt="" className='goal-detail-banner' />
                     <div className="list-inner-container">
                         <h2>{doc.Title}</h2>
                         <h3>Voortgang</h3>

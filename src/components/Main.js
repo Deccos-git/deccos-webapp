@@ -66,6 +66,8 @@ import ActivityGoal from './ActivityGoal'
 import TaskDetail from './TaskDetail'
 import Tasks from './Tasks'
 import EventSignups from './EventSignups';
+import QuestionnaireSettings from './QuestionnaireSettings';
+import AddQuestionnaire from './AddQuestionnaire';
 
 const Main = () => {
 
@@ -152,6 +154,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ChannelDetail`}>
                     <ChannelDetail/>
+                </Route>
+                <Route path={`/${client}/QuestionnaireSettings`}>
+                    <QuestionnaireSettings/>
+                </Route>
+                <Route path={`/${client}/AddQuestionnaire`}>
+                    <AddQuestionnaire/>
                 </Route>
                 <Route path={`/${client}/AddArticle`}>
                     <AddArticle/>
