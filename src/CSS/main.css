@@ -1523,7 +1523,7 @@
   }
 
   .question-type-display-container{
-    padding: 10px 10px 20px 10px;
+    padding: 20px 10px 20px 10px;
     margin: 20px 0px;
     border: 1px solid lightgray;
     border-radius: 5px;
@@ -1536,6 +1536,25 @@
       margin-top: 20px;
   }
 
+  .email-example-container{
+      border: 1px solid lightgray;
+      padding: 10px;
+      border-radius: 5px;
+  }
+
+  .email-example-field-container{
+      border-bottom: 1px solid lightgray;
+      width: 90%;
+  }
+
+  .send-questionnaire-title h3{
+    text-align: center;
+  }
+
+  .email-example-section button{
+      margin-top: 30px;
+  }
+
   .select-scale-container input{
     border-bottom: 1px dotted lightgray;
     border-top: none;
@@ -1545,6 +1564,24 @@
     border-right: none;
     padding-bottom: 5px;
     margin-left: 10px;
+  }
+
+  #scale-container{
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0px;
+  }
+
+  #scale-container input{
+      box-shadow: none;
+      width: 11px;
+      margin-bottom: 5px;
+  }
+
+  #question-type-label-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 
   .select-scale-container{

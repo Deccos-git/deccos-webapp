@@ -37,6 +37,13 @@ const QuestionnaireSettings = () => {
         history.push(`/${client}/AddQuestionnaire/${ID}`)
     }
 
+    const sendQuestionnaire = (e) => {
+
+        const ID = e.target.dataset.id
+
+        history.push(`/${client}/SendQuestionnaire/${ID}`)
+    }
+
     return (
         <div className="main">
         <LeftSideBarAuthProfile />
@@ -52,6 +59,7 @@ const QuestionnaireSettings = () => {
                     {questionnaires && questionnaires.map(questionnaire => (
                         <div className='events-signups-container'>
                             <h3>{questionnaire.Title}</h3>
+                            <button className='button-simple' data-id={questionnaire.ID} onClick={sendQuestionnaire}>Versturen</button>
                             <button className='button-simple' data-id={questionnaire.ID} onClick={questionnaireLink}>Bekijk</button>
                         </div>
                     ))}

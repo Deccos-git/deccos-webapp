@@ -16,8 +16,8 @@ const AddQuestionnaire = () => {
     const [showScale, setShowScale] = useState('none')
     const [type, setType ] = useState('paragraph')
     const [question, setQuestion] = useState(null)
-    const [reachStart, setReachStart] = useState(null)
-    const [reachEnd, setReachEnd] = useState(null)
+    const [reachStart, setReachStart] = useState(0)
+    const [reachEnd, setReachEnd] = useState(0)
     const [reachStartLabel, setReachStartlabel] = useState(null)
     const [reachEndLabel, setReachEndLabel] = useState(null)
 
@@ -116,7 +116,7 @@ const AddQuestionnaire = () => {
             ReachStart: parseInt(reachStart),
             ReachStartLable: reachStartLabel,
             ReachEnd: parseInt(reachEnd),
-            ReachEndLabel: reachEndLabel
+            ReachEndLabel: reachEndLabel,
         })
     }
 
@@ -134,9 +134,11 @@ const AddQuestionnaire = () => {
         const start = field.ReachStart
         const end = field.ReachEnd
 
+        console.log(field.Type)
+
         useEffect(() => {
 
-        if(start != null && end != null){
+        if(field.Type === 'scale'){
             const range = (start, end) => {
                 return Array(end - start + 1).fill().map((_, idx) => start + idx)
             }
@@ -146,10 +148,7 @@ const AddQuestionnaire = () => {
             setRange(result)
         }
 
-    }, [field])
-
-        console.log(range)
-
+        }, [field])
         
 
         if(field.Type === 'paragraph'){
@@ -163,10 +162,10 @@ const AddQuestionnaire = () => {
             return(
                 <div className='question-type-display-container'>
                    <input type='text' value={question} />
-                   <div>
+                   <div id='scale-container'>
                        {field.ReachStartLable}
                        {range && range.map(btn => (
-                           <div>
+                           <div id='question-type-label-container'>
                                 <input type="radio" value={btn} />
                                 <label htmlFor={btn}>{btn}</label>
                            </div>
