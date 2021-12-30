@@ -40,8 +40,9 @@ const QuestionnaireSettings = () => {
     const sendQuestionnaire = (e) => {
 
         const ID = e.target.dataset.id
+        const key = e.target.dataset.key
 
-        history.push(`/${client}/SendQuestionnaire/${ID}`)
+        history.push(`/${client}/SendQuestionnaire/${ID}/${key}`)
     }
 
     return (
@@ -59,7 +60,7 @@ const QuestionnaireSettings = () => {
                     {questionnaires && questionnaires.map(questionnaire => (
                         <div className='events-signups-container'>
                             <h3>{questionnaire.Title}</h3>
-                            <button className='button-simple' data-id={questionnaire.ID} onClick={sendQuestionnaire}>Versturen</button>
+                            <button className='button-simple' data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire}>Versturen</button>
                             <button className='button-simple' data-id={questionnaire.ID} onClick={questionnaireLink}>Bekijk</button>
                         </div>
                     ))}

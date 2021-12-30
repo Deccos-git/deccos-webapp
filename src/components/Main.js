@@ -69,6 +69,7 @@ import EventSignups from './EventSignups';
 import QuestionnaireSettings from './QuestionnaireSettings';
 import AddQuestionnaire from './AddQuestionnaire';
 import SendQuestionnaire from './SendQuestionnaire';
+import Stakeholders from './Stakeholders';
 
 const Main = () => {
 
@@ -161,6 +162,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddQuestionnaire`}>
                     <AddQuestionnaire/>
+                </Route>
+                <Route path={`/${client}/Stakeholders`}>
+                    <Stakeholders/>
                 </Route>
                 <Route path={`/${client}/SendQuestionnaire`}>
                     <SendQuestionnaire/>

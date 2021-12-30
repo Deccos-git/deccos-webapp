@@ -117,6 +117,7 @@ const AddQuestionnaire = () => {
             ReachStartLable: reachStartLabel,
             ReachEnd: parseInt(reachEnd),
             ReachEndLabel: reachEndLabel,
+            Key: uuid()
         })
     }
 

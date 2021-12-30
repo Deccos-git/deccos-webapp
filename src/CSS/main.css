@@ -1536,6 +1536,31 @@
       margin-top: 20px;
   }
 
+  .stakeholder-container{
+      display: flex;
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      padding: 5px;
+      width: 100%;
+      margin-bottom: 5px;
+  }
+
+  .stakeholder-container p{
+      margin-right: 10px;
+  }
+
+  #stakeholder-email-container{
+      display: flex;
+  }
+
+  #stakeholder-email-container p{
+      background-color: lightgray;
+      border-radius: 5px;
+      padding: 2px;
+      margin-right: 10px;
+      cursor: pointer;
+  }
+
   .email-example-container{
       border: 1px solid lightgray;
       padding: 10px;
