@@ -14,6 +14,7 @@ const Settings = () => {
     const [docid, setDocid] = useState('')
     const [welcome, setWelcome] = useState('')
     const [impact, setImpact] = useState('')
+    const [projectManagement, setProjectManagement] = useState('')
     const [channels, setChannels] = useState('')
     const [groups, setGroups] = useState('')
 
@@ -33,6 +34,7 @@ const Settings = () => {
             setImpact(comp.Impact)
             setChannels(comp.Channels)
             setGroups(comp.Groups)
+            setProjectManagement(comp.ProjectManagement)
         })
     },[compagny])
 
@@ -149,8 +151,18 @@ const Settings = () => {
         })
     }
 
+    // Toggle status from database
+
     const welcomeStatus = () => {
         if(welcome === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
+    const projectManagementStatus = () => {
+        if(projectManagement === true){
             return 'checked'
         } else {
             return ''
@@ -181,6 +193,8 @@ const Settings = () => {
         }
     }
 
+    // Toogle switch
+
     const ToggleSwitchWelcome = () => {
         return (
           <div className="container">
@@ -188,6 +202,21 @@ const Settings = () => {
               <input type="checkbox" className="checkbox" defaultChecked={welcomeStatus()}
                      name={'welcome'} id={'welcome'} onChange={toggleWelcome} />
               <label className="label" htmlFor={'welcome'}>
+                <span className="inner"/>
+                <span className="switch"/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+      const ToggleSwitchProjectManagement = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={projectManagementStatus()}
+                     name={'projectManagement'} id={'projectManagement'} onChange={toggleProjectManagement} />
+              <label className="label" htmlFor={'projectManagement'}>
                 <span className="inner"/>
                 <span className="switch"/>
               </label>
@@ -241,6 +270,8 @@ const Settings = () => {
         );
       };
 
+      // Save setting to database
+
     const toggleWelcome = (e) => {
         const setting = e.target.checked
 
@@ -248,6 +279,16 @@ const Settings = () => {
         .doc(docid)
         .update({
             Welcome: setting
+        })
+    }
+
+    const toggleProjectManagement = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            ProjectManagement: setting
         })
     }
 
@@ -344,6 +385,14 @@ const Settings = () => {
                             <p>Groepen</p>
                             <ToggleSwitchGroups/>
                         </div>
+                        <div className='functionality-container'>
+                            <p>Projectbeheer</p>
+                            <ToggleSwitchProjectManagement/>
+                        </div>
+                        {/* <div className='functionality-container'>
+                            <p>Matchen</p>
+                            <ToggleSwitchImpact/>
+                        </div> */}
                         <div className='functionality-container'>
                             <p>Impact</p>
                             <ToggleSwitchImpact/>

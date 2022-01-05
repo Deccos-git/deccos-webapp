@@ -204,13 +204,22 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-    const Impact = () => {
+    const Projectmanagement = () => {
         return <div style={{display: showImpact()}}>
-                    <h3>Impact</h3>
+                    <h3>Projectbeheer</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
+                    </div>
+                </div>
+    }
+
+    const Impact = () => {
+        return <div style={{display: showImpact()}}>
+                    <h3>Impact</h3>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/ImpactIndicators`}>Meten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
                     </div>
@@ -271,6 +280,7 @@ const LeftSideBarAuthProfile = () => {
                 <Superadmin/>
                     <Admin/>
                     <Author/>
+                    <Projectmanagement/>
                     <Impact/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">

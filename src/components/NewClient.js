@@ -91,8 +91,10 @@ const NewClient = () => {
            ID: id,
            Groups: true,
            Channels: true,
-           Impact: true,
            Welcome: true,
+           Impact: false,
+           ProjectManagement: false,
+           Match: false,
            VerificationMethode: "Admin",
            Website: website,
            Rules: [],
@@ -189,11 +191,23 @@ const NewClient = () => {
             })
         })
         .then(() => {
-            db.collectioin('Colors')
+            db.collection('Colors')
             .doc()
             .set({
                 Background: '#dee3e8',
                 Topbar: '#FFFFFF',
+                ID: uuid(),
+                Compagny: client
+            })
+        })
+        .then(() => {
+            db.collection('Impact')
+            .doc()
+            .set({
+                Questoinnaires: false,
+                Matches: false,
+                Members: false,
+                Goals: false,
                 ID: uuid(),
                 Compagny: client
             })

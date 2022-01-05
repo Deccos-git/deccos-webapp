@@ -121,7 +121,7 @@ const LeftSideBarFullScreen = () => {
                 </div>
                 <div className="channel-div" style={{display: showImpact()}}>
                     <div className="nav-title-container">
-                        <h3>Impact</h3>
+                        <h3>Projectbeheer</h3>
                     </div>
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Goals`} onClick={changeMenuStatus}>Doelen</Link>

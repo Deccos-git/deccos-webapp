@@ -9,7 +9,9 @@ const LeftSideBar = () => {
     const [authO] = useContext(Auth)
 
     const [impacteer, setImpacteer] = useState('none')
+    const [projectManager, setprojectManager] = useState('none')
     const [displayWelcome, setDisplayWelcome] = useState('')
+    const [displayProjectManagement, setDisplayProjectManagement] = useState('')
     const [displayImpact, setDisplayImpact] = useState('')
     const [displayChannels, setDisplayChannels] = useState('')
     const [displayGroups, setDisplayGroups] = useState('')
@@ -18,11 +20,13 @@ const LeftSideBar = () => {
     const channels = useFirestore("Channels")
     const impacteers = useFirestore('Impacteers')
     const admins = useFirestore('Admins')
+    const projectManagers = useFirestore('ProjectManagers')
     const compagny = useFirestore("CompagnyMeta")
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
             setDisplayWelcome(comp.Welcome)
+            setDisplayProjectManagement(comp.ProjectManagement)
             setDisplayImpact(comp.Impact)
             setDisplayChannels(comp.Channels)
             setDisplayGroups(comp.Groups)
@@ -38,12 +42,30 @@ const LeftSideBar = () => {
     }, [impacteers])
 
     useEffect(() => {
+        projectManagers && projectManagers.forEach(manager => {
+            if(manager.UserID === authO.ID){
+                setprojectManager('block')
+            }
+        })
+    }, [impacteers])
+
+    useEffect(() => {
         admins && admins.forEach(admin => {
             if(admin.UserID === authO.ID){
                 setImpacteer('block')
             }
         })
     }, [admins])
+
+    const showProjectManagement = () => {
+        if(displayProjectManagement === true  && projectManager === 'block'){
+            return 'block'
+        } else if (displayProjectManagement === false  && projectManager=== 'block') {
+            return 'none'
+        } else if (displayProjectManagement === false  && projectManager === 'none') {
+            return 'none'
+        }
+    }
 
     const showImpact = () => {
         if(displayImpact === true  && impacteer === 'block'){
@@ -110,9 +132,9 @@ const LeftSideBar = () => {
                         </div>
                     ))}
                 </div>
-                <div className="channel-div" style={{display: showImpact()}}>
+                <div className="channel-div" style={{display: showProjectManagement()}}>
                     <div className="nav-title-container">
-                        <h3>Impact</h3>
+                        <h3>Projectbeheer</h3>
                     </div>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Goals`}>Doelen</NavLink>
@@ -122,6 +144,17 @@ const LeftSideBar = () => {
                     </div>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Tasks/${authO.ID}`}>Taken</NavLink>
+                    </div>
+                </div>
+                <div className="channel-div" style={{display: showImpact()}}>
+                    <div className="nav-title-container">
+                        <h3>Impact</h3>
+                    </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/Goals`}>Voortgang</NavLink>
+                    </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/Activities`}>Mijlpalen</NavLink>
                     </div>
                 </div>
             </div>

@@ -20,14 +20,20 @@ const UserRoles = () => {
     const [impacteerName, setImpacteerName] = useState("")
     const [impacteerPhoto, setImpacteerPhoto] = useState("")
     const [impacteerEmail, setImpacteerEmail] = useState("")
+    const [projectManagerID, setProjectManagerID] = useState("")
+    const [projectManagerName, setProjectManagerName] = useState("")
+    const [projectManagerPhoto, setProjectManagerPhoto] = useState("")
+    const [projectManagerEmail, setProjectManagerEmail] = useState("")
     const [communityName, setCommunityName] = useState('')
     const [communityLogo, setCommunityLogo] = useState('')
     const [displayImpact, setDisplayImpact] = useState('')
+    const [displayProjectManager, setDisplayProjectManager] = useState('')
 
     const users = useFirestoreUsers(false)
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
     const impacteers = useFirestore('Impacteers')
+    const projectManagers = useFirestore('ProjectManagers')
     const compagny = useFirestore("CompagnyMeta")
 
     const menuState = MenuStatus()
@@ -35,6 +41,7 @@ const UserRoles = () => {
     useEffect(() => {
         compagny && compagny.forEach(comp => {
             setDisplayImpact(comp.Impact)
+            setDisplayProjectManager(comp.ProjectManagement)
         })
     },[compagny])
 
@@ -181,6 +188,27 @@ const UserRoles = () => {
         .delete()
     }
 
+    const deleteProjectManager = (e) => {
+
+        const id = e.target.dataset.id
+
+        db.collection("ProjectManagers")
+        .doc(id)
+        .delete()
+    }
+
+    const projectManagerHandler = (e) => {
+        const id = e.target.options[e.target.selectedIndex].dataset.id
+        const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        const username = e.target.options[e.target.selectedIndex].dataset.name
+        const email = e.target.options[e.target.selectedIndex].dataset.email
+
+        setProjectManagerID(id)
+        setProjectManagerName(username)
+        setProjectManagerPhoto(photo)
+        setProjectManagerEmail(email)
+    }
+
     const impacteerHandler = (e) => {
         const id = e.target.options[e.target.selectedIndex].dataset.id
         const photo = e.target.options[e.target.selectedIndex].dataset.photo
@@ -191,6 +219,49 @@ const UserRoles = () => {
         setImpacteerName(username)
         setImpacteerPhoto(photo)
         setImpacteerEmail(email)
+    }
+
+    const addProjectManager= (e) => {
+
+        e.target.innerText = 'Toegevoegd'
+
+        db.collection("ProjectManagers")
+        .doc()
+        .set({
+            Compagny: client,
+            UserName: projectManagerName,
+            Photo: projectManagerPhoto,
+            UserID: projectManagerID,
+            Email: projectManagerEmail
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [authorEmail],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je bent als projectbeheerder toegevoegd op ${communityName}`,
+                html: `Hallo ${projectManagerName}, </br></br>
+                    Je bent door een beheerder van ${communityName} toegevoegd als projectbeheerder.<br><br>
+    
+                    Dat betekent dat je vanaf nu:<br><br>
+    
+                    <ul>
+                        <li>Doelen kunt toevoegen, aanpassen en verwijderen</li>
+                        <li>Activiteiten kunt toevoegen, aanpassen en verwijderen</li>
+                        <li>Taken kunt toevoegen, aanpassen en verwijderen</li>
+                        <li>Taken kunt afvinken</li>
+                    </ul>
+                    <br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${communityLogo}" width="100px">`,
+                Gebruikersnaam: `${projectManagerName}`,
+                Emailadres: projectManagerEmail,
+                Type: "Verification mail"
+                  }     
+              });
+        })
     }
 
     const addImpacteer= (e) => {
@@ -212,23 +283,25 @@ const UserRoles = () => {
                 cc: "info@Deccos.nl",
                 message: {
                 subject: `Je bent als impacteer toegevoegd op ${communityName}`,
-                html: `Hallo ${authorName}, </br></br>
+                html: `Hallo ${impacteerName}, </br></br>
                     Je bent door een beheerder van ${communityName} toegevoegd als impacteer.<br><br>
     
                     Dat betekent dat je vanaf nu:<br><br>
     
                     <ul>
-                        <li>Het impactpad van de community kunt bekijken</li>
-                        <li>Doelen van de community kunt bekijken</li>
-                        <li>Goal likes geven</li>
+                        <li>Impact meetinstrumenten instellen</li>
+                        <li>Impact voortgang bekijken</li>
+                        <li>Impact mijlpalen bekijken</li>
+                        <li>Stakeholders toevoegen</li>
+                        <li>Vragenlijsten maken en versturen</li>
                     </ul>
                     <br><br>
                     
                     Vriendelijke groet, </br></br>
                     ${communityName} </br></br>
                     <img src="${communityLogo}" width="100px">`,
-                Gebruikersnaam: `${authorName}`,
-                Emailadres: authorEmail,
+                Gebruikersnaam: `${impacteerName}`,
+                Emailadres: impacteerEmail,
                 Type: "Verification mail"
                   }     
               });
@@ -239,6 +312,14 @@ const UserRoles = () => {
         if(displayImpact === true){
             return 'block'
         } else if (displayImpact === false){
+            return 'none'
+        }
+    }
+
+    const showProjectManager = () => {
+        if(displayProjectManager === true){
+            return 'block'
+        } else if (displayProjectManager === false){
             return 'none'
         }
     }
@@ -309,13 +390,43 @@ const UserRoles = () => {
                             <button className="button-simple" onClick={addAuthor}>Toevoegen</button>
                         </div>
                     </div>
+                    <div className='divider' style={{display: showProjectManager()}}>
+                        <h3>Projectbeheerder</h3>
+                        <p>De projectbeheerder rol geeft toegang tot de volgende opties:</p>
+                        <ul>
+                            <li>Doelen toevoegen, aanpassen en verwijderen</li>
+                            <li>Activiteiten toevoegen, aanpassen en verwijderen</li>
+                            <li>Taken toevoegen, aanpassen en verwijderen</li>
+                            <li>Taken afvinken</li>
+                        </ul>
+                        <h4>Leden met rol projectbeheerder</h4>
+                        {projectManagers && projectManagers.map(manager => (
+                            <div className="userrole-users-container" key={manager.ID}>
+                                <img src={manager.Photo} alt="" />
+                                <p>{manager.UserName}</p>
+                                <p className="userrole-users-delete-button" data-id={manager.docid} onClick={deleteProjectManager}>Verwijderen</p>
+                            </div>
+                        ))}
+                        <h4>Projectbeheerder toevoegen</h4>
+                        <select className="userrole-select" name="" id="" onChange={projectManagerHandler}>
+                            <option value="">--- Selecteer ---</option>
+                            {users && users.map(user => (
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                            ))}
+                        </select>
+                        <div className="button-userrole-container">
+                            <button className="button-simple" onClick={addProjectManager}>Toevoegen</button>
+                        </div>
+                    </div>
                     <div style={{display: showImpact()}}>
                         <h3>Impacteer</h3>
                         <p>De impacteer rol geeft toegang tot de volgende opties:</p>
                         <ul>
-                            <li>Doelen bekijken</li>
-                            <li>Goal likes geven</li>
-                            <li>Impactpad bekijken</li>
+                            <li>Impact meetinstrumenten instellen</li>
+                            <li>Impact voortgang bekijken</li>
+                            <li>Impact mijlpalen bekijken</li>
+                            <li>Stakeholders toevoegen</li>
+                            <li>Vragenlijsten maken en versturen</li>
                         </ul>
                         <h4>Leden met rol impacteer</h4>
                         {impacteers && impacteers.map(impacteer => (
