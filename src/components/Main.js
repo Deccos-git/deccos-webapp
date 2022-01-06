@@ -71,6 +71,7 @@ import AddQuestionnaire from './AddQuestionnaire';
 import SendQuestionnaire from './SendQuestionnaire';
 import Stakeholders from './Stakeholders';
 import ImpactIndicators from './ImpactIndicators';
+import ImpactProgress from './ImpactProgress';
 
 const Main = () => {
 
@@ -145,6 +146,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ImpactIndicators`}>
                     <ImpactIndicators/>
+                </Route>
+                <Route path={`/${client}/ImpactProgress`}>
+                    <ImpactProgress/>
                 </Route>
                 <Route path={`/${client}/AddGoal`}>
                     <AddGoal/>

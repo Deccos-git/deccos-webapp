@@ -151,11 +151,11 @@ const LeftSideBar = () => {
                         <h3>Impact</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Goals`}>Voortgang</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Voortgang</NavLink>
                     </div>
-                    <div className="channel-inner-div">
+                    {/* <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Activities`}>Mijlpalen</NavLink>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

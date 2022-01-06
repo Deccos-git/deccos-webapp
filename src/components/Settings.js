@@ -193,6 +193,14 @@ const Settings = () => {
         }
     }
 
+    const matchesStatus = () => {
+        if(matches === true){
+            return 'checked'
+        } else {
+            return ''
+        }
+    }
+
     // Toogle switch
 
     const ToggleSwitchWelcome = () => {
@@ -270,6 +278,21 @@ const Settings = () => {
         );
       };
 
+      const ToggleSwitchMatches = () => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox" defaultChecked={matchesStatus()}
+                     name={'matches'} id={'matches'} onChange={toggleMatches} />
+              <label className="label" htmlFor={'matches'}>
+                <span className="inner" data-selection='Uit'/>
+                <span className="switch" data-selection='aan'/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
       // Save setting to database
 
     const toggleWelcome = (e) => {
@@ -319,6 +342,16 @@ const Settings = () => {
         .doc(docid)
         .update({
             Groups: setting
+        })
+    }
+
+    const toggleMatches = (e) => {
+        const setting = e.target.checked
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Matches: setting
         })
     }
 
@@ -389,10 +422,10 @@ const Settings = () => {
                             <p>Projectbeheer</p>
                             <ToggleSwitchProjectManagement/>
                         </div>
-                        {/* <div className='functionality-container'>
+                        <div className='functionality-container'>
                             <p>Matchen</p>
-                            <ToggleSwitchImpact/>
-                        </div> */}
+                            <ToggleSwitchMatches/>
+                        </div>
                         <div className='functionality-container'>
                             <p>Impact</p>
                             <ToggleSwitchImpact/>

@@ -28,22 +28,26 @@ const GoalDetail = () => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+    // Calculate totalprogression
+
+    const totalProgressionArray = []
+
     useEffect(() => {
         activities && activities.forEach(activity => {
             const progress = activity.Progression
-            setProgression(progress) 
+
+            const maxProgression = activities.length
+
+            const fractualProgression = progress/maxProgression
+
+            totalProgressionArray.push(fractualProgression)
+
+            const totalProgression = totalProgressionArray.reduce((a, b) => a + b, 0)
+
+            setProgression(totalProgression)
+
         })
     }, [activities])
-
-    let icon = ""
-
-    docs && docs.forEach(doc => {
-        if(doc.Type === "SDG"){
-            icon = worldIcon
-        } else if (doc.Type === "internal"){
-            icon = houseIcon
-        }
-    })
 
     const showContributionsGoal = () => {
 
@@ -88,7 +92,7 @@ const GoalDetail = () => {
                         <h3>Impact op doelgroep</h3>
                         <p>{doc.ImpactTargetgroup}</p>
                         <div className='like-count-container'>
-                            <img src={icon} alt="" onClick={showContributionsGoal} />
+                            <img src={worldIcon} alt="" onClick={showContributionsGoal} />
                             <p className='notification-counter-small'>{doc.Contributions.length}</p>
                         </div>
                     </div>

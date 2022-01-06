@@ -219,7 +219,7 @@ const LeftSideBarAuthProfile = () => {
         return <div style={{display: showImpact()}}>
                     <h3>Impact</h3>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/ImpactIndicators`}>Meten</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/ImpactIndicators`}>Meetinstrumenten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
                     </div>
