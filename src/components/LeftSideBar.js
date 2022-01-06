@@ -15,6 +15,7 @@ const LeftSideBar = () => {
     const [displayImpact, setDisplayImpact] = useState('')
     const [displayChannels, setDisplayChannels] = useState('')
     const [displayGroups, setDisplayGroups] = useState('')
+    const [displayMatches, setDisplayMatches] = useState('')
 
     const groups = useFirestore("Groups")
     const channels = useFirestore("Channels")
@@ -30,6 +31,7 @@ const LeftSideBar = () => {
             setDisplayImpact(comp.Impact)
             setDisplayChannels(comp.Channels)
             setDisplayGroups(comp.Groups)
+            setDisplayMatches(comp.Matches)
         })
     },[compagny])
 
@@ -47,7 +49,7 @@ const LeftSideBar = () => {
                 setprojectManager('block')
             }
         })
-    }, [impacteers])
+    }, [projectManagers])
 
     useEffect(() => {
         admins && admins.forEach(admin => {
@@ -101,6 +103,14 @@ const LeftSideBar = () => {
         }
     }
 
+    const showMatches = () => {
+        if(displayMatches === true){
+            return 'block'
+        } else if (displayMatches === false ) {
+            return 'none'
+        }
+    }
+
     return (
         <div className="left-sidebar-container">
             <div className="left-side-bar">
@@ -144,6 +154,17 @@ const LeftSideBar = () => {
                     </div>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Tasks/${authO.ID}`}>Taken</NavLink>
+                    </div>
+                </div>
+                <div className="channel-div" style={{display: showMatches()}}>
+                    <div className="nav-title-container">
+                        <h3>Matching</h3>
+                    </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Match items</NavLink>
+                    </div>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/Activities`}>Matches</NavLink>
                     </div>
                 </div>
                 <div className="channel-div" style={{display: showImpact()}}>

@@ -12,16 +12,20 @@ const LeftSideBarFullScreen = () => {
     const [authO] = useContext(Auth)
 
     const [impacteer, setImpacteer] = useState('none')
+    const [projectManager, setprojectManager] = useState('none')
     const [displayWelcome, setDisplayWelcome] = useState('')
     const [displayImpact, setDisplayImpact] = useState('')
     const [displayChannels, setDisplayChannels] = useState('')
     const [displayGroups, setDisplayGroups] = useState('')
+    const [displayProjectManagement, setDisplayProjectManagement] = useState('')
+    const [displayMatches, setDisplayMatches] = useState('')
 
     const groups = useFirestore("Groups")
     const channels = useFirestore("Channels")
     const impacteers = useFirestore('Impacteers')
     const admins = useFirestore('Admins')
     const compagny = useFirestore("CompagnyMeta")
+    const projectManagers = useFirestore('ProjectManagers')
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -29,8 +33,18 @@ const LeftSideBarFullScreen = () => {
             setDisplayImpact(comp.Impact)
             setDisplayChannels(comp.Channels)
             setDisplayGroups(comp.Groups)
+            setDisplayProjectManagement(comp.ProjectManagement)
+            setDisplayMatches(comp.Matches)
         })
     },[compagny])
+
+    useEffect(() => {
+        projectManagers && projectManagers.forEach(manager => {
+            if(manager.UserID === authO.ID){
+                setprojectManager('block')
+            }
+        })
+    }, [impacteers])
 
     useEffect(() => {
         impacteers && impacteers.forEach(impacteer => {
@@ -50,6 +64,16 @@ const LeftSideBarFullScreen = () => {
 
     const changeMenuStatus = () => {
         setMenu("none")
+    }
+
+    const showProjectManagement = () => {
+        if(displayProjectManagement === true  && projectManager === 'block'){
+            return 'block'
+        } else if (displayProjectManagement === false  && projectManager=== 'block') {
+            return 'none'
+        } else if (displayProjectManagement === false  && projectManager === 'none') {
+            return 'none'
+        }
     }
 
     const showImpact = () => {
@@ -82,6 +106,14 @@ const LeftSideBarFullScreen = () => {
         if(displayChannels === true){
             return 'block'
         } else if (displayChannels === false ) {
+            return 'none'
+        }
+    }
+
+    const showMatches = () => {
+        if(displayMatches === true){
+            return 'block'
+        } else if (displayMatches === false ) {
             return 'none'
         }
     }
@@ -119,7 +151,7 @@ const LeftSideBarFullScreen = () => {
                         </div>
                     ))}
                 </div>
-                <div className="channel-div" style={{display: showImpact()}}>
+                <div className="channel-div" style={{display: showProjectManagement()}}>
                     <div className="nav-title-container">
                         <h3>Projectbeheer</h3>
                     </div>
@@ -132,6 +164,28 @@ const LeftSideBarFullScreen = () => {
                     <div className="channel-inner-div">
                         <Link to={`/${client}/Tasks/${authO.ID}`} onClick={changeMenuStatus}>Taken</Link>
                     </div>
+                </div>
+                <div className="channel-div" style={{display: showMatches()}}>
+                    <div className="nav-title-container">
+                        <h3>Matching</h3>
+                    </div>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Match items</Link>
+                    </div>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/Activities`} onClick={changeMenuStatus}>Matches</Link>
+                    </div>
+                </div>
+                <div className="channel-div" style={{display: showImpact()}}>
+                    <div className="nav-title-container">
+                        <h3>Impact</h3>
+                    </div>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Voortgang</Link>
+                    </div>
+                    {/* <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/Activities`}>Mijlpalen</Link>
+                    </div> */}
                 </div>
             </div>
         </div>

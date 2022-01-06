@@ -17,6 +17,7 @@ const Settings = () => {
     const [projectManagement, setProjectManagement] = useState('')
     const [channels, setChannels] = useState('')
     const [groups, setGroups] = useState('')
+    const [matches, setMatches] = useState('')
 
     const compagny = useFirestore("CompagnyMeta")
 
@@ -34,6 +35,7 @@ const Settings = () => {
             setImpact(comp.Impact)
             setChannels(comp.Channels)
             setGroups(comp.Groups)
+            setMatches(comp.Matches)
             setProjectManagement(comp.ProjectManagement)
         })
     },[compagny])

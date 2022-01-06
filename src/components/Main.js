@@ -72,6 +72,7 @@ import SendQuestionnaire from './SendQuestionnaire';
 import Stakeholders from './Stakeholders';
 import ImpactIndicators from './ImpactIndicators';
 import ImpactProgress from './ImpactProgress';
+import MatchCategories from './Matching/MatchCategories';
 
 const Main = () => {
 
@@ -134,6 +135,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/TaskSettings`}>
                     <TaskSettings/>
+                </Route>
+                <Route path={`/${client}/MatchCategories`}>
+                    <MatchCategories/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

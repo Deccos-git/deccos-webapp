@@ -15,6 +15,7 @@ const LeftSideBarAuthProfile = () => {
     const [admin, setAdmin] = useState(false)
     const [author, setAuthor] = useState(false)
     const [impacteer, setImpacteer] = useState(false)
+    const [projectManager, setprojectManager] = useState('none')
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
@@ -22,6 +23,8 @@ const LeftSideBarAuthProfile = () => {
     const [displayImpact, setDisplayImpact] = useState('')
     const [displayChannels, setDisplayChannels] = useState('')
     const [displayGroups, setDisplayGroups] = useState('')
+    const [displayMatches, setDisplayMatches] = useState('')
+    const [displayProjectManagement, setDisplayProjectManagement] = useState('')
 
     const admins = useFirestore('Admins')
     const authors = useFirestore('Authors')
@@ -29,6 +32,7 @@ const LeftSideBarAuthProfile = () => {
     const channels = useFirestore("Channels")
     const groupChannels = useFirestore("GroupChannels")
     const compagny = useFirestore("CompagnyMeta")
+    const projectManagers = useFirestore('ProjectManagers')
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -36,6 +40,8 @@ const LeftSideBarAuthProfile = () => {
             setDisplayImpact(comp.Impact)
             setDisplayChannels(comp.Channels)
             setDisplayGroups(comp.Groups)
+            setDisplayMatches(comp.Matches)
+            setDisplayProjectManagement(comp.ProjectManagement)
         })
     },[compagny])
 
@@ -54,6 +60,14 @@ const LeftSideBarAuthProfile = () => {
             }
         })
     }, [authors])
+
+    useEffect(() => {
+        projectManagers && projectManagers.forEach(manager => {
+            if(manager.UserID === authO.ID){
+                setprojectManager('block')
+            }
+        })
+    }, [projectManagers])
 
     useEffect(() => {
         impacteers && impacteers.forEach(impacteer => {
@@ -95,6 +109,14 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
+    const showMatching = () => {
+        if(displayMatches === true){
+            return 'block'
+        } else if (displayMatches === false){
+            return 'none'
+        }
+    }
+
     const showChannels = () => {
         if(displayChannels === true){
             return 'block'
@@ -107,6 +129,16 @@ const LeftSideBarAuthProfile = () => {
         if(displayWelcome === true){
             return 'block'
         } else if (displayWelcome === false){
+            return 'none'
+        }
+    }
+
+    const showProjectManagement = () => {
+        if(displayProjectManagement === true  && projectManager === 'block'){
+            return 'block'
+        } else if (displayProjectManagement === false  && projectManager=== 'block') {
+            return 'none'
+        } else if (displayProjectManagement === false  && projectManager === 'none') {
             return 'none'
         }
     }
@@ -205,12 +237,22 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Projectmanagement = () => {
-        return <div style={{display: showImpact()}}>
+        return <div style={{display: showProjectManagement()}}>
                     <h3>Projectbeheer</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
+                    </div>
+                </div>
+    }
+
+    const Matching = () => {
+        return <div style={{display: showMatching()}}>
+                    <h3>Matching</h3>
+                    <div className="channel-inner-div">
+                        <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Match items</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
                     </div>
                 </div>
     }
@@ -281,6 +323,7 @@ const LeftSideBarAuthProfile = () => {
                     <Admin/>
                     <Author/>
                     <Projectmanagement/>
+                    <Matching/>
                     <Impact/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
