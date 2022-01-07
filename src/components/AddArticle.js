@@ -86,8 +86,6 @@ const AddArticle = () => {
     const imageHandler = (e) => {
         const image = e.target.files[0]
 
-        console.log(image)
-
         const fileType = image.type.split("/")
 
         const storageRef = bucket.ref("/ProfilePhotos/" + image.name);

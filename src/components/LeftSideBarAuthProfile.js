@@ -251,7 +251,7 @@ const LeftSideBarAuthProfile = () => {
         return <div style={{display: showMatching()}}>
                     <h3>Matching</h3>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Match items</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/AddMatchItem`}>Match items</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
                     </div>
                 </div>

@@ -73,6 +73,7 @@ import Stakeholders from './Stakeholders';
 import ImpactIndicators from './ImpactIndicators';
 import ImpactProgress from './ImpactProgress';
 import MatchCategories from './Matching/MatchCategories';
+import AddMatchItem from './Matching/AddMatchItem'
 
 const Main = () => {
 
@@ -138,6 +139,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MatchCategories`}>
                     <MatchCategories/>
+                </Route>
+                <Route path={`/${client}/AddMatchItem`}>
+                    <AddMatchItem/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

@@ -1722,6 +1722,43 @@
       margin-left: 10%;
   }
 
+  .tag-container input{
+      margin-top: 20px;
+  }
+
+  .add-match-item-categorie-input{
+      width: 10px;
+      box-shadow: none;
+      margin: 0px 10px !important;
+  }
+
+  .add-match-item-categorie-inner-container{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+  }
+
+  .match-item-inner-inner-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+  }
+
+  .match-item-inner-inner-container p{
+      font-size: 14px;
+  }
+
+  .match-item-banner{
+      margin-right: 10px;
+      border-radius: 50%;
+  }
+
+  .match-item-inner-container{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
   .progressionbar-completed{
       background-color: #b2d7bb;
       height: 30px;

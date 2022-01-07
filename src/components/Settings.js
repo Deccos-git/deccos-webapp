@@ -421,15 +421,15 @@ const Settings = () => {
                             <ToggleSwitchGroups/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Projectbeheer</p>
+                            <p>Projectbeheer<sup>beta</sup></p>
                             <ToggleSwitchProjectManagement/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Matchen</p>
+                            <p>Matchen<sup>beta</sup></p>
                             <ToggleSwitchMatches/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Impact</p>
+                            <p>Impact<sup>beta</sup></p>
                             <ToggleSwitchImpact/>
                         </div>
                     </div>
