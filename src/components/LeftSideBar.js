@@ -161,10 +161,10 @@ const LeftSideBar = () => {
                         <h3>Matching</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Match items</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MatchItems`}>Match items</NavLink>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Activities`}>Matches</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/Matches`}>Matches</NavLink>
                     </div>
                 </div>
                 <div className="channel-div" style={{display: showImpact()}}>

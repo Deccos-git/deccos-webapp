@@ -170,10 +170,10 @@ const LeftSideBarFullScreen = () => {
                         <h3>Matching</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Match items</Link>
+                        <Link activeClassName='active' to={`/${client}/MatchItems`} onClick={changeMenuStatus}>Match items</Link>
                     </div>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/Activities`} onClick={changeMenuStatus}>Matches</Link>
+                        <Link activeClassName='active' to={`/${client}/Matches`} onClick={changeMenuStatus}>Matches</Link>
                     </div>
                 </div>
                 <div className="channel-div" style={{display: showImpact()}}>

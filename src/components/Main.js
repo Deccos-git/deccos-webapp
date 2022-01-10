@@ -74,6 +74,8 @@ import ImpactIndicators from './ImpactIndicators';
 import ImpactProgress from './ImpactProgress';
 import MatchCategories from './Matching/MatchCategories';
 import AddMatchItem from './Matching/AddMatchItem'
+import MatchItems from './Matching/MatchItems';
+import MatchItemDetail from './Matching/MatchItemDetail';
 
 const Main = () => {
 
@@ -142,6 +144,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddMatchItem`}>
                     <AddMatchItem/>
+                </Route>
+                <Route path={`/${client}/MatchItems`}>
+                    <MatchItems/>
+                </Route>
+                <Route path={`/${client}/MatchItemDetail`}>
+                    <MatchItemDetail/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

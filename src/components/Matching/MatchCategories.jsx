@@ -151,7 +151,7 @@ const MatchCategories = () => {
                 <div className='divider'>
                     <h4>Categorien</h4>
                     {categorieSummary && categorieSummary.map(summary => (
-                    <div className='categorie-container'>
+                    <div className='categorie-container' key={summary.ID}>
                         <div className='categorie-inner-container'>
                             <p className='categorie-title'>{summary[0]}</p>
                             <img src={deleteIcon} alt="" data-id={summary[1]} onClick={deleteCategorie} />

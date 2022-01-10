@@ -24,7 +24,7 @@ const GoalCard = ({doc}) => {
        
         <motion.div 
         className="goal-list card" 
-        key={uuid()}
+        key={doc.ID}
         initial="hidden"
         animate="visible"
         variants={variants}>

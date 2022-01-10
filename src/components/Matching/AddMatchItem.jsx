@@ -12,6 +12,7 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
+import { useHistory } from "react-router-dom";
 
 const MatchCategories = () => {
     const [colors] = useContext(Colors)
@@ -19,10 +20,9 @@ const MatchCategories = () => {
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
     const [categorieSummary, setCategorieSummary] = useState([])
-    const [selectedCategories, setSelectedCategories] = useState([])
-    const [selectedTags, setSelectedTags] = useState([])
 
     const menuState = MenuStatus()
+    const history = useHistory()
 
     const matchItems = useFirestore('MatchItems')
 
@@ -70,6 +70,8 @@ const MatchCategories = () => {
         })
     }
 
+    // Display categories and tags in relationship
+
     const categories = useFirestore('MatchCategories')
 
     const tags = async (categorieID) => {
@@ -83,11 +85,13 @@ const MatchCategories = () => {
             querySnapshot.forEach((doc) => {
 
                 const tag = doc.data().Tag
+                const categorie = doc.data().Categorie
                 const id = doc.id
 
                 const tagObject = {
                     Name: tag,
-                    ID: id
+                    ID: id,
+                    Categorie: categorie
                 }
 
                 tagArray.push(tagObject)
@@ -129,15 +133,7 @@ const MatchCategories = () => {
         
     }, [categories])
 
-    const categorieArray = []
-
-    const categorieHandler = (e) => {
-        const categorie = e.target.value 
-
-        categorieArray.push(categorie)
-
-        setSelectedCategories(categorieArray)
-    }
+    // Select tags
 
     const tagArray = []
 
@@ -147,14 +143,17 @@ const MatchCategories = () => {
 
         tagArray.push(tag)
 
-        setSelectedTags(tagArray)
 
     }
+
+    // Save new match item
 
     const saveItem = (e) => {
 
         e.target.style.color = 'lightgray'
         e.target.innerText = 'Opgeslagen'
+
+        console.log(tagArray)
 
         db.collection('MatchItems')
         .doc()
@@ -163,14 +162,22 @@ const MatchCategories = () => {
             Timestamp: timestamp,
             ID: uuid(),
             Banner: bannerPhoto,
-            Categories: selectedCategories,
-            Tags: selectedTags,
+            Tags: tagArray,
             Compagny: client
         })
+        .then(
+            tagArray.splice(0,tagArray.length)
+        )
+    }
+
+    const matchItemDetailLink = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/MatchItemDetail/${id}`)
 
     }
     
-
     return (
         <div className="main" style={{backgroundColor: colors.Background}}>
             <LeftSideBarAuthProfile />
@@ -190,7 +197,7 @@ const MatchCategories = () => {
                                 <p className='categorie-title'>{item.Title}</p>
                             </div>
                             <div className='match-item-inner-inner-container'>
-                                <button className='button-simple'>Bekijk</button>
+                                <button className='button-simple' data-id={item.ID} onClick={matchItemDetailLink}>Bekijk</button>
                                 <img src={deleteIcon} alt="" data-id={item.ID} onClick={deleteMatchItem} />
                             </div>
                         </div>
@@ -209,16 +216,11 @@ const MatchCategories = () => {
                     <p>Selecteer categorien en tags</p>
                     {categorieSummary && categorieSummary.map(summary => (
                     <div className='categorie-container'>
-                        <h4>Categorie</h4>
-                        <div className='add-match-item-categorie-inner-container'>
-                            <input className='add-match-item-categorie-input' type="radio" id={summary[0]} value={summary[0]} onChange={categorieHandler}/>
-                            <label htmlFor={summary[0]}>{summary[0]}</label>
-                        </div>
+                        <h4>{summary[0]}</h4>
                         <div className='tag-container'>
-                            <h4>Tags</h4>
                             {summary[2] && summary[2].map(tag => (
                                 <div className='add-match-item-categorie-inner-container' key={tag.ID}>
-                                    <input className='add-match-item-categorie-input' type="radio" data-categorie={tag. Categorie} id={tag.Name} value={tag.Name} onChange={tagHandler}/>
+                                    <input className='add-match-item-categorie-input' type="checkbox" data-categorie={tag.Categorie} id={tag.Name} value={tag.Name} onChange={tagHandler}/>
                                     <label htmlFor={tag.Name}>{tag.Name}</label>
                                 </div>
                             ))}
