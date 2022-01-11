@@ -87,7 +87,7 @@ const GroupSettings = () => {
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: headerPhoto,
-                Link: `Group/${id}`
+                Link: `${client}/GroupLanding/${id}`
             }) 
         })
         .then(() => {

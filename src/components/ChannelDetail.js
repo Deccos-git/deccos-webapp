@@ -33,13 +33,13 @@ const ChannelDetail = () => {
                     {items && items.map(item => (
                         <div className="article" key={item.ID}>
                         <h1>{item.Title}</h1>
-                        <img src={item.Banner} alt="" />
-                        <div className="list-inner-container">
+                        <img className="article-detail-banner" src={item.Banner} alt="" />
+                        <div className="article-meta-container">
                             <div className="article-card-user-container">
                                 <img src={item.UserPhoto} alt="" data-id={item.UserID} onClick={profileLink} />
                                 <p data-id={item.UserID} onClick={profileLink}>{item.User}</p>
                             </div>
-                            <p>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            <p id='event-detail-timestamp'>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="article-body-container">
                                 <div dangerouslySetInnerHTML={{ __html: item.Body }}></div>
                             </div>

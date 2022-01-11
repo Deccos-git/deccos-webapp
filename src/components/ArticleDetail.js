@@ -37,7 +37,7 @@ const ArticleDetail = () => {
                                 <img src={doc.UserPhoto} alt="" data-id={doc.UserID} onClick={profileLink} />
                                 <p data-id={doc.UserID} onClick={profileLink}>{doc.User}</p>
                             </div>
-                            <h3 id='event-detail-timestamp'>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</h3>
+                            <p id='event-detail-timestamp'>{doc.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             <div className="article-body-container">
                                 <div dangerouslySetInnerHTML={{ __html: doc.Body }}></div>
                             </div>

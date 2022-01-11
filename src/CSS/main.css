@@ -2298,6 +2298,7 @@
   .article-card-user-container p{
       text-align: center;
       margin: 10px;
+      font-weight: bold;
   }
 
   .list-banner{
