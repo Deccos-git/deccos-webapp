@@ -16,8 +16,6 @@ const Likes = () => {
 
     const likes = useFirestoreLikesGraphUser(route)
 
-    console.log(likes)
-
     useEffect(() => {
 
         const monthArray = []

@@ -195,14 +195,14 @@ const PublicProfile = () => {
                                 </div>
                                 <div className='like-icon-inner-container'>
                                     <img src={heartIcon} data-id={profile.ID} onClick={showLikes}/>
-                                    <p className='notification-counter-small'>{profile.Likes}</p>
+                                    <p className='notification-counter-small'>{profile.Likes ? profile.Likes : 0}</p>
                                 </div>
                             </div>
                             <div className="button-container-public-profile">
                                 <button onClick={startChat}>Chatten</button>
                             </div>
                         </div>
-                        <div>
+                        <div id='about-me-container'>
                             <h2>Over mij</h2>
                             <div className="about-me-inner-container">
                                 {introductions && introductions.map(introduction => (

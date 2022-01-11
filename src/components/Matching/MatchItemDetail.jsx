@@ -1,4 +1,4 @@
-import { useFirestoreID, useFirestoreMessages, useFirestore } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreMatches } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
@@ -11,8 +11,10 @@ import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
 import Reaction from "../Reaction"
 import MenuStatus from "../../hooks/MenuStatus";
+import { db, timestamp } from "../../firebase/config"
 
 const MatchItemDetail = () => {
+    const [matchesOverview, setMatchesOverview] = useState('')
 
     const route = Location()[3]
     const menuState = MenuStatus()
@@ -23,6 +25,7 @@ const MatchItemDetail = () => {
     const matchItems = useFirestoreID('MatchItems', route)
     const allItems = useFirestore('MatchItems')
     const tags = useFirestore('MatchTags')
+    const matches = useFirestoreMatches(route)
 
     // Display tags and categories
 
@@ -61,7 +64,7 @@ const MatchItemDetail = () => {
         ItemArray.push(ItemObject)
     })
 
-    // Display matches
+    // Display possible matches
 
     const matchArray = []
 
@@ -90,16 +93,99 @@ const MatchItemDetail = () => {
                 
             })
 
-            matchArray.push(itemObject)
+            if(matches.length > 0){
+                matchArray.push(itemObject)
+            }
 
         }
     })
+
+    const resemblance = (length) => {
+        if(length > 1){
+            return 'Overeenkomsten'
+        } else {
+            return 'Overeenkomst'
+        }
+    }
 
     const itemLink = (e) => {
         const id = e.target.dataset.id
 
         history.push(`/${client}/MatchItemDetail/${id}`)
     }
+
+    const createMatch = (e) => {
+
+        e.target.innerText = 'Match is gecreeerd'
+        e.target.style.color = 'gray'
+
+        const matchID = e.target.dataset.id 
+
+        db.collection('Matches')
+        .doc()
+        .set({
+            ID: `${matchID}_${route}`,
+            Compagny: client,
+            Timestamp: timestamp,
+            Match: [
+                matchID,
+                route
+                ],
+        })
+
+    }
+
+    // Display matches
+
+    const displayMatches = async () => {
+
+        const matchArray = []
+
+        matches && matches.forEach(match => {
+    
+            match.Match.forEach(async id => {
+                if(id !== route){
+                    await db.collection('MatchItems')
+                    .where('ID', '==', id)
+                    .get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(doc => {
+                            const title = doc.data().Title
+                            const banner = doc.data().Banner
+                            const timestamp = doc.data().Timestamp
+                            const id = doc.data().ID
+    
+                            const matchObject = {
+                                Title: title,
+                                Banner: banner,
+                                Timestamp: timestamp,
+                                ID: id
+                            }
+    
+                            matchArray.push(matchObject)
+    
+                        })
+                    })
+                }
+            })
+        })
+
+        return matchArray
+
+    }
+
+    useEffect(() => {
+        displayMatches().then( match => {
+
+            if(match.length != 0){
+                setMatchesOverview(match)
+            }
+            
+        })
+    }, [matches])
+
+
+    console.log(matchesOverview)
     
 
     return (
@@ -112,7 +198,8 @@ const MatchItemDetail = () => {
                         <div className="article">
                             <h1>{item.Title}</h1>
                             <img className="match-item-detail-banner" src={item.Banner} alt="" />
-                            <div>
+                            <div id='tags-container'>
+                                <h3>Tags</h3>
                                 {item.Categories.map(tags => (
                                     <>
                                     {tags && tags.map(tag => (
@@ -124,20 +211,30 @@ const MatchItemDetail = () => {
                                     </>    
                                 ))}
                             </div>
-                            <div id='matches-container'>
+                            <div className='matches-container'>
                                 <h3>Mogelijke matches</h3>
                                 {matchArray && matchArray.map(match => (
                                     <div className='match-detail-container'>
                                         <img src={match.Banner} alt="" data-id={match.ID} onClick={itemLink} />
                                         <p id='match-detail-item-title' data-id={match.ID} onClick={itemLink}>{match.Title}</p>
-                                        <p>{match.Matches.length} matches</p>
+                                        <p>{match.Matches.length} {resemblance(match.Matches.length)}</p>
                                         {match.Matches.map(m => (
-                                            <p>{m}</p>
+                                            <p><i>{m}</i></p>
                                         ))}
-                                        <button className='button-simple'>Creeer match</button>
+                                        <button className='button-simple' data-id={match.ID} onClick={createMatch}>Creeer match</button>
                                         
                                     </div>
                                 ))}
+                            </div>
+                            <div className='matches-container'>
+                                <h3>Matches</h3>
+                                {matchesOverview && matchesOverview.map(match => (
+                                    <div className='match-detail-container'>
+                                        <img src={match.Banner} alt="" data-id={match.ID} onClick={itemLink} />
+                                        <p id='match-detail-item-title' data-id={match.ID} onClick={itemLink}>{match.Title}</p>
+                                    </div>
+                                ))}
+
                             </div>
                             <div className="article-meta-container">
                                 <p id='event-detail-timestamp'>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>

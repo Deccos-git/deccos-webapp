@@ -1218,7 +1218,6 @@
     width: 55%;
     margin-bottom: 5px;
     padding-top: 5px;
-    background-color: white;
 }
 
 .user-image{
@@ -1306,6 +1305,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+  }
+
+  #about-me-container{
+      padding-bottom: 100px;
   }
 
   .user-photo{
@@ -1778,7 +1781,7 @@
       font-weight: bold;
   }
 
-  #matches-container{
+  .matches-container{
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -1808,9 +1811,27 @@
       margin-right: 10px;
   }
 
+  .match-detail-container button{
+    margin-right: 10px;
+    margin-left:  auto;
+}
+
   #match-detail-item-title{
       font-weight: bold;
       cursor: pointer;
+  }
+
+  .match-card-banner{
+    border-radius: 50%;
+  }
+
+  #tags-container{
+      width: 80%;
+  }
+
+  #tags-container h3{
+      text-align: center;
+      margin-top: 50px;
   }
 
   .progressionbar-completed{
@@ -1940,7 +1961,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 20px 20px 100px 20px;
       background-color: white;
       min-height: 80vh;
       width: 80%;

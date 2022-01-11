@@ -890,6 +890,29 @@ const useFirestoreQuestionnaireFields = (id) => {
     return docs
 };
 
+const useFirestoreMatches = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Matches')
+        .where('Compagny', '==', client)
+        .where('Match', 'array-contains', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -929,5 +952,6 @@ export {
     useFirestoreTasksComplete,
     useFirestoreMyTasks,
     useFirestoreMyEvents,
-    useFirestoreQuestionnaireFields
+    useFirestoreQuestionnaireFields,
+    useFirestoreMatches
 }

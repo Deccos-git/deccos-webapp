@@ -66,23 +66,23 @@ const Analytics = () => {
     }, [likes])
 
     // GoalLikes
-    useEffect(() => {
+    // useEffect(() => {
 
-        const monthArray = []
-        const countArray = []
+    //     const monthArray = []
+    //     const countArray = []
 
-        goalLikes && goalLikes.forEach(goalLike => {
-            const month = goalLike.Month 
-            const count = goalLike.Contributions
+    //     goalLikes && goalLikes.forEach(goalLike => {
+    //         const month = goalLike.Month 
+    //         const count = goalLike.Contributions
 
-            monthArray.push(month)
-            countArray.push(count)
+    //         monthArray.push(month)
+    //         countArray.push(count)
     
-        })
+    //     })
 
-        setLabelGoalLikes(monthArray)
-        setDataGoalLikes(countArray)
-    }, [likes])
+    //     setLabelGoalLikes(monthArray)
+    //     setDataGoalLikes(countArray)
+    // }, [likes])
 
     // Likes
     useEffect(() => {
@@ -171,7 +171,7 @@ const Analytics = () => {
                                 }} />
                             </div>
                         </div>
-                        <div className='divider'>
+                        {/* <div className='divider'>
                             <h2>Bijdragen aan doelen</h2>
                             <p>Analyseer de trend van de groei van het aantal bijdragen aan de doelen van je community</p>
                             <div>
@@ -199,7 +199,7 @@ const Analytics = () => {
                                     },
                                 }} />
                             </div>
-                        </div>
+                        </div> */}
                         <div className='divider'>
                             <h2>Likes</h2>
                             <p>Analyseer de trend van de groei van het aantal likes van je community</p>

@@ -22,6 +22,7 @@ const ImpactProgress = () => {
 
     const impact = useFirestore('Impact')
     const goalsDB = useFirestore('Goals')
+    const matchesDB = useFirestore('Matches')
     const activities = useFirestoreActivities(goalID)
     const membersDB = useFirestoreUsersApproved(false, true)
 
@@ -109,12 +110,15 @@ const ImpactProgress = () => {
             return(
                 <div className='divider'>
                     <h4>Matches</h4>
+                    <p>Aantal matches {matchesDB.length}</p>
                 </div>
             )
         } else {
             return null
         }
     }
+
+    console.log(matches)
 
     // Goal progression
 

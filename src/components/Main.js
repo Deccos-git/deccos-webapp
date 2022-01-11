@@ -76,6 +76,8 @@ import MatchCategories from './Matching/MatchCategories';
 import AddMatchItem from './Matching/AddMatchItem'
 import MatchItems from './Matching/MatchItems';
 import MatchItemDetail from './Matching/MatchItemDetail';
+import Matches from './Matching/Matches';
+import MatchDetail from './Matching/MatchDetail';
 
 const Main = () => {
 
@@ -150,6 +152,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MatchItemDetail`}>
                     <MatchItemDetail/>
+                </Route>
+                <Route path={`/${client}/Matches`}>
+                    <Matches/>
+                </Route>
+                <Route path={`/${client}/MatchDetail`}>
+                    <MatchDetail/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>
@@ -227,7 +235,7 @@ const Main = () => {
                     <EventSignups/>
                 </Route>
                 <Route path={`/${client}/Introductions`}>
-                    <EventSignups/>
+                    <Introductions/>
                 </Route>
                 <Route path={`/${client}/News`}>
                     <News/>

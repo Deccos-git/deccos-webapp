@@ -11,6 +11,7 @@ import uuid from 'react-uuid';
 
 const GroupLanding = () => {
     const [authO] = useContext(Auth)
+    const [authID, setAuthID] = useState(null)
     const [groupID, setGroupID] = useState('')
     const [groupDocID, setGroupDocID] = useState('')
     const [groupName, setGroupName] = useState('')
@@ -24,7 +25,7 @@ const GroupLanding = () => {
     const route = Location()[3]
 
     const groups = useFirestoreID("Groups", route)
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
+    const subscriptions = useFirestoreSubscriptions(authID)
     const members = useFirestoreSubscriptionsChannelGroup(route)
     const admins = useFirestoreAdmins('Admins')
     const compagny = useFirestore("CompagnyMeta")
@@ -32,6 +33,15 @@ const GroupLanding = () => {
     const history = useHistory()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    // No undefined auth
+
+    useEffect(() => {
+        if(authO.ID != undefined){
+
+            setAuthID(authO.ID)
+        }
+    },[authO])
 
     // Client communityname
 
@@ -51,6 +61,8 @@ const GroupLanding = () => {
         setAdminEmail(adminArray)
     }, [admins])
 
+    // Set groups information in state
+
     useEffect(() => {
         groups && groups.forEach(group => {
             setGroupID(group.ID)
@@ -60,23 +72,29 @@ const GroupLanding = () => {
         })
     }, [groups])
 
-    useEffect(() => {
-        subscriptions && subscriptions.forEach(sub => {
+    // Check if auth is member
 
-            if(sub.UserID === authO.ID && sub.SubID === groupID && sub.Approved === true){
+    useEffect(() => {
+        members && members.forEach(member => {
+
+            if(member.UserID === authO.ID && member.Approved === true){
 
                 history.push(`/${client}/Group/${groupID}`)
-            } else if(sub.UserID === authO.ID && sub.SubID === groupID && sub.Approved === false) {
+            } else if(member.UserID === authO.ID && member.Approved === false) {
                 setShowButton('none')
                 setShowNotice('block')
             }
         })
-    },[subscriptions])
+    },[members])
+
+    // Set number of members in state
 
     useEffect(() => {
         setMemberCount(members.length)
         
     }, [members])
+
+    // Subscribe to group
 
     const subscribeToGroup = () => {
         db.collection('Subscriptions')
