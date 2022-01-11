@@ -189,7 +189,7 @@ const Registrations = () => {
     
                     Je aanvraag voor groep ${groupName} is goedgekeurd op ${communityNameDB}. <br><br>
     
-                    Bekijk de groep <a href='https://deccos.co/${client}GroupLanding/${groupID}'>hier</a>.<br><br>
+                    Bekijk de groep <a href='https://deccos.co/${client}/GroupLanding/${groupID}'>hier</a>.<br><br>
     
                     Vriendelijke groet, </br></br>
                     ${communityNameDB} </br></br>
