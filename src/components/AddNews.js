@@ -7,7 +7,7 @@ import { db, timestamp } from "../firebase/config.js"
 import { client } from '../hooks/Client';
 import { Link } from "react-router-dom";
 import uuid from 'react-uuid';
-import { useFirestore } from '../firebase/useFirestore.js';
+import { useFirestore, useFirestoreChannelName } from '../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRef, useContext, useEffect } from 'react';
 import firebase from 'firebase'
@@ -26,9 +26,11 @@ const AddNews = () => {
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false)
+    const [channelID, setChannelID] = useState('')
 
     const banners = useFirestore('Banners')
+    const channels = useFirestoreChannelName('News')
 
     const editorRef = useRef(null);
     const menuState = MenuStatus()
@@ -45,6 +47,16 @@ const AddNews = () => {
           transform: 'translate(-50%, -50%)',
         },
       };
+
+    // Set channel ID to state
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            if(channel.Name === 'News'){
+                setChannelID(channel.ID)
+            }
+        })
+    }, [channels])
 
     const variants = {
         hidden: { opacity: 0 },
@@ -182,7 +194,8 @@ const AddNews = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: bannerPhoto
+            Banner: bannerPhoto,
+            ChannelID: channelID
         })
         .then(() => {
             db.collection("AllActivity")

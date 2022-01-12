@@ -35,7 +35,8 @@ const AddEvent = () => {
     const [city, setCity] = useState("")
     const [physicalLocationDisplay, setPhysicalLocationDisplay] = useState("none")
     const [headerPhoto, setHeaderPhoto] = useState('')
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false)
+    const [channelID, setChannelID] = useState('')
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
@@ -56,6 +57,17 @@ const AddEvent = () => {
           transform: 'translate(-50%, -50%)',
         },
       };
+
+    // Set channel ID to state
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            if(channel.Name === 'Events'){
+                setChannelID(channel.ID)
+            }
+        })
+
+    }, [channels])
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -279,7 +291,8 @@ const AddEvent = () => {
             LocationName: locationName,
             LocationAdres: street,
             LocationCity: city,
-            Type: 'Event'
+            Type: 'Event',
+            ChannelID: channelID
         })
         .then(() => {
             db.collection("AllActivity")

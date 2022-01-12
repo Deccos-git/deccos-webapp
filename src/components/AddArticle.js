@@ -34,10 +34,12 @@ const AddArticle = () => {
     const [modalImageOpen, setModalImageOpen] = useState(false);
     const [modalVideoOpen, setModalVideoOpen] = useState(false);
     const [modalFileOpen, setModalFileOpen] = useState(false);
+    const [channelID, setChannelID] = useState('')
 
     const id = uuid()
     const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
+    const channels = useFirestore("Channels")
 
     const editorRef = useRef(null);
     const menuState = MenuStatus()
@@ -53,6 +55,8 @@ const AddArticle = () => {
           transform: 'translate(-50%, -50%)',
         },
       };
+
+    // Set banner image in state
     
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -61,11 +65,24 @@ const AddArticle = () => {
         })
     }, [banners])
 
+    // Set compagny id in state
+
     useEffect(() => {
         compagny && compagny.forEach(comp => {
             setCompagnyID(comp.docid)
         })
     }, [compagny])
+
+    // Set channel ID to state
+
+    useEffect(() => {
+        channels && channels.forEach(channel => {
+            if(channel.Name === 'Kenniscentrum'){
+                setChannelID(channel.ID)
+            }
+        })
+
+    }, [channels])
 
     const variants = {
         hidden: { opacity: 0 },
@@ -82,6 +99,8 @@ const AddArticle = () => {
             setBody(editorRef.current.getContent());
             }
     }
+
+    // Add image, video and/or pdf to editor
 
     const imageHandler = (e) => {
         const image = e.target.files[0]
@@ -162,6 +181,8 @@ const AddArticle = () => {
         setNewCategorie(newCategorie)
     }
 
+    // Upload banner image
+
     const photoHandler = (e) => {
         setLoader(spinnerRipple)
 
@@ -223,7 +244,8 @@ const AddArticle = () => {
             UserPhoto: authO.Photo,
             UserID: authO.ID,
             Categorie: categorie,
-            Banner: bannerPhoto
+            Banner: bannerPhoto,
+            ChannelID: channelID
         })
         .then(() => {
             db.collection("AllActivity")

@@ -595,6 +595,7 @@
     border: 1px solid lightgray;
     padding: 5px 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
   }
 
   .add-registration-field-container{
@@ -1410,11 +1411,14 @@
 
   .icon-container{
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      display: flex;
-      flex-wrap: nowrap;
+  }
+
+  #add-item-channel-settings-detail-button{
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
   }
 
   .effect-title-container{
@@ -2291,7 +2295,6 @@
     text-align: center;
     z-index: 4;
     cursor: pointer;
-    margin: 0px 30px 0px 30px;
     min-width: 33%;
   }
 
@@ -2299,6 +2302,10 @@
       text-align: center;
       margin: 10px;
       font-weight: bold;
+  }
+
+  #add-channel-container input {
+      margin: 20px 0px;
   }
 
   .list-banner{

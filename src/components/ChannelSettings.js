@@ -9,10 +9,19 @@ import { client } from '../hooks/Client';
 import { useHistory } from "react-router-dom"
 import plusIcon from '../images/icons/plus-icon.png'
 import MenuStatus from "../hooks/MenuStatus";
+import { useState, useEffect, useContext } from "react";
+import ButtonClicked from "../hooks/ButtonClicked";
+import { Auth } from '../StateManagment/Auth';
 
 const ChannelSettings = () => {
+    const [authO] = useContext(Auth)
+    const [channelName, setChannelName] = useState('')
+    const [admin, setAdmin] = useState(false)
+    const [author, setAuthor] = useState(false)
 
     const channels = useFirestore("Channels")
+    const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
 
     const uid = uuid()
     const history = useHistory()
@@ -26,7 +35,31 @@ const ChannelSettings = () => {
 
     }
 
+    const channelNameHandler = (e) => {
+        const name = e.target.value
+
+        setChannelName(name)
+    }
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setAdmin(true)
+            }
+        })
+    }, [admins])
+
+    useEffect(() => {
+        authors && authors.forEach(author => {
+            if(author.UserID === authO.ID){
+                setAuthor(true)
+            }
+        })
+    }, [authors])
+
     const newChannel = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
 
         db.collection("Channels")
         .doc()
@@ -34,10 +67,34 @@ const ChannelSettings = () => {
             ID: uid,
             Compagny: client,
             Link: `Channel`,
-            Members: []
-        }).then(() => {
-            history.push(`/${client}/ChannelSettingsDetail/${uid}`)
+            Name: channelName
         })
+    }
+
+    const ShowAddItemIcon = (channel) => {
+        if(author || admin){
+            return (
+                <img src={plusIcon} data-id={channel.ID} data-name={channel.Name} onClick={addItem} />
+            )
+
+        }
+    }
+
+    const addItem = (e) => {
+
+        const name = e.target.dataset.name 
+        const channelID = e.target.dataset.id
+
+        if(name === 'Kenniscentrum'){
+            history.push(`/${client}/AddArticle`)
+        } else if(name === 'Nieuws'){
+            history.push(`/${client}/AddNews`)
+        } else if(name === 'Events'){
+            history.push(`/${client}/AddEvent`)
+        } else {
+            history.push(`/${client}/AddChannelItem/${channelID}`)
+        }
+
     }
 
     return (
@@ -56,6 +113,7 @@ const ChannelSettings = () => {
                         <div className="channel-container" data-id={channel.ID}>
                             <h3>{channel.Name}</h3>
                             <div className="icon-container">
+                                <ShowAddItemIcon/>
                                 <img src={settingsIcon} data-id={channel.ID} onClick={channelSettings} />
                             </div>
                         </div>
@@ -63,8 +121,10 @@ const ChannelSettings = () => {
                     </div>
                     <div className="divider">
                         <h3>Kanaal toevoegen</h3>
-                        <div className="button-container">
-                            <img className="add-channel-icon" src={plusIcon} onClick={newChannel}/>
+                        <div id="add-channel-container">
+                            <p>Kanaal naam</p>
+                            <input type="text" placeholder='Geef het kanaal een naam' onChange={channelNameHandler}/>
+                            <button onClick={newChannel}>Opslaan</button>
                         </div>
                     </div>
                 </div>

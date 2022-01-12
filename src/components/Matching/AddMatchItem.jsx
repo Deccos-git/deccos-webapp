@@ -20,11 +20,13 @@ const MatchCategories = () => {
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
     const [categorieSummary, setCategorieSummary] = useState([])
+    const [showBannerContainer, setShowBannerContainer] = useState('none')
 
     const menuState = MenuStatus()
     const history = useHistory()
 
     const matchItems = useFirestore('MatchItems')
+    const matchProfileFields = useFirestore('MatchProfileFields')
 
     const deleteMatchItem  = (e) => {
 
@@ -62,6 +64,7 @@ const MatchCategories = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
+            setShowBannerContainer(true)
             setBannerPhoto(downloadURL)
             setLoader(downloadURL)
 
@@ -153,14 +156,14 @@ const MatchCategories = () => {
         e.target.style.color = 'lightgray'
         e.target.innerText = 'Opgeslagen'
 
-        console.log(tagArray)
+        const id = uuid()
 
         db.collection('MatchItems')
         .doc()
         .set({
             Title: title,
             Timestamp: timestamp,
-            ID: uuid(),
+            ID: id,
             Banner: bannerPhoto,
             Tags: tagArray,
             Compagny: client
@@ -168,6 +171,16 @@ const MatchCategories = () => {
         .then(
             tagArray.splice(0,tagArray.length)
         )
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: title,
+                Compagny: client,
+                Type: 'MatchItem',
+                Link: `MatchItemDetail/${id}`
+            })
+        })
     }
 
     const matchItemDetailLink = (e) => {
@@ -176,6 +189,33 @@ const MatchCategories = () => {
 
         history.push(`/${client}/MatchItemDetail/${id}`)
 
+    }
+
+    const profileFieldHandler = (e) => {
+        const input = e.target.value 
+
+        console.log(input)
+    }
+
+    const MatchProfileFields = ({field}) => {
+
+            if(field.Type === 'Textfield'){
+                return (
+                    <div>
+                        <p>{field.Title}</p>
+                        <input type="text" placeholder={field.Title} onChange={profileFieldHandler} />
+                    </div>
+                )
+            } else if(field.Type === 'Textarea'){
+                return (
+                    <div>
+                        <p>{field.Title}</p>
+                        <textarea placeholder={field.Title} onChange={profileFieldHandler}/>
+                    </div>
+                )
+            } else {
+                return null
+            }
     }
     
     return (
@@ -210,9 +250,12 @@ const MatchCategories = () => {
                     <input type="text" placeholder='Geef je matchitem een titel' onChange={titleHandler} />
                     <p>Upload een banner</p>
                     <input type="file" onChange={bannerHandler}/>
-                    <div className="spinner-container">
+                    <div className="spinner-container" style={{display:showBannerContainer}}>
                         <img src={loader} alt="" />
                     </div> 
+                    {matchProfileFields && matchProfileFields.map(field => (
+                        <MatchProfileFields field={field}/>
+                    ))}
                     <p>Selecteer categorien en tags</p>
                     {categorieSummary && categorieSummary.map(summary => (
                     <div className='categorie-container'>

@@ -22,6 +22,10 @@ const ProfileSettings = () => {
     const [classType, setClassType] = useState('')
 
     const profileFields = useFirestoreProfileFields()
+    const menuState = MenuStatus()
+    const id = uuid()
+
+    // Determine position of profilefields
 
     useEffect(() => {
         const positionArry = []
@@ -35,9 +39,6 @@ const ProfileSettings = () => {
         })
 
     }, [profileFields])
-
-    const menuState = MenuStatus()
-    const id = uuid()
 
     const deleteField = (e) => {
 

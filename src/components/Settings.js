@@ -363,7 +363,7 @@ const Settings = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 {compagny && compagny.map(comp => (
-                <div className="settings-inner-container">
+                <div className="settings-inner-container" key={comp.ID}>
                     <div className="card-header">
                         <h1>Algemeen</h1>
                         <p>Verander de algemene instellingen van {comp.CommunityName}</p>
@@ -409,15 +409,15 @@ const Settings = () => {
                     <div className='divider'>
                         <h4>Functionaliteiten</h4>
                         <div className='functionality-container'>
-                            <p>Welkom</p>
+                            <p>Welkom<sup>community</sup></p>
                             <ToggleSwitchWelcome/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Kanalen</p>
+                            <p>Kanalen<sup>community</sup></p>
                             <ToggleSwitchChannels/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Groepen</p>
+                            <p>Groepen<sup>community</sup></p>
                             <ToggleSwitchGroups/>
                         </div>
                         <div className='functionality-container'>

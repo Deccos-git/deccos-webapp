@@ -78,6 +78,7 @@ import MatchItems from './Matching/MatchItems';
 import MatchItemDetail from './Matching/MatchItemDetail';
 import Matches from './Matching/Matches';
 import MatchDetail from './Matching/MatchDetail';
+import MatchProfileFields from './Matching/MatchProfileFields';
 
 const Main = () => {
 
@@ -152,6 +153,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MatchItemDetail`}>
                     <MatchItemDetail/>
+                </Route>
+                <Route path={`/${client}/MatchProfileFields`}>
+                    <MatchProfileFields/>
                 </Route>
                 <Route path={`/${client}/Matches`}>
                     <Matches/>

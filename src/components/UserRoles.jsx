@@ -16,6 +16,10 @@ const UserRoles = () => {
     const [authorName, setAuthorName] = useState("")
     const [authorPhoto, setAuthorPhoto] = useState("")
     const [authorEmail, setAuthorEmail] = useState("")
+    const [communityManagerID, setCommunityManagerID] = useState("")
+    const [communityManagerName, setCommunityManagerName] = useState("")
+    const [communityManagerPhoto, setCommunityManagerPhoto] = useState("")
+    const [communityManagerEmail, setCommunityManagerEmail] = useState("")
     const [impacteerID, setImpacteerID] = useState("")
     const [impacteerName, setImpacteerName] = useState("")
     const [impacteerPhoto, setImpacteerPhoto] = useState("")
@@ -31,6 +35,7 @@ const UserRoles = () => {
 
     const users = useFirestoreUsers(false)
     const admins = useFirestore('Admins')
+    const communityManagers = useFirestore('CommunityManagers')
     const authors = useFirestore('Authors')
     const impacteers = useFirestore('Impacteers')
     const projectManagers = useFirestore('ProjectManagers')
@@ -105,6 +110,7 @@ const UserRoles = () => {
                         <li>Nieuwe aanmeldingen voor de community kan goedkeuren</li>
                         <li>Instellingen voor kanalen, groepen en doelen aanpassen</li>
                         <li>De welkomsboodschap aanpassen</li>
+                        <li>Alle beheerdersopties van de overige rollen kan uitvoeren</li>
                     </ul><br><br>
                     
                     Vriendelijke groet, </br></br>
@@ -112,6 +118,69 @@ const UserRoles = () => {
                     <img src="${communityLogo}" width="100px">`,
                 Gebruikersnaam: `${authorName}`,
                 Emailadres: authorEmail,
+                Type: "Verification mail"
+                  }     
+              });
+        })
+    }
+
+    const deleteCommunityManager = (e) => {
+
+        const id = e.target.dataset.id
+
+        db.collection("CommunityManagers")
+        .doc(id)
+        .delete()
+    }
+
+    const communityManagerHandler = (e) => {
+        const id = e.target.options[e.target.selectedIndex].dataset.id
+        const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        const username = e.target.options[e.target.selectedIndex].dataset.name
+        const email = e.target.options[e.target.selectedIndex].dataset.email
+
+        setCommunityManagerID(id)
+        setCommunityManagerName(username)
+        setCommunityManagerPhoto(photo)
+        setCommunityManagerEmail(email)
+    }
+
+    const addCommunityManager = (e) => {
+
+        e.target.innerText = 'Toegevoegd'
+
+        db.collection("CommunityManagers")
+        .doc()
+        .set({
+            Compagny: client,
+            UserName: communityManagerName,
+            Photo: communityManagerPhoto,
+            UserID: communityManagerID,
+            Email: communityManagerEmail
+        })
+        .then(() => {
+            db.collection("Email").doc().set({
+                to: [authorEmail],
+                cc: "info@Deccos.nl",
+                message: {
+                subject: `Je bent als community manager toegevoegd op ${communityName}`,
+                html: `Hallo ${authorName}, </br></br>
+                    Je bent door een beheerder van ${communityName} toegevoegd als community manager.<br><br>
+    
+                    Dat betekent dat je vanaf nu:<br><br>
+    
+                    <ul>
+                        <li>Instellingen voor kanalen en groepen kan aanpassen</li>
+                        <li>Nieuwe kanalen en groepen kan toevoegen</li>
+                        <li>Artikelen, events, neuwsberichten en andere kanaalitems kan toevoegen</li>
+                        <li>De welkomsboodschap kan aanpassen</li>
+                    </ul><br><br>
+                    
+                    Vriendelijke groet, </br></br>
+                    ${communityName} </br></br>
+                    <img src="${communityLogo}" width="100px">`,
+                Gebruikersnaam: `${communityManagerName}`,
+                Emailadres: communityManagerEmail,
                 Type: "Verification mail"
                   }     
               });
@@ -332,19 +401,20 @@ const UserRoles = () => {
                 <div className="settings-inner-container">
                     <div className="divider card-header">
                         <h1>Gebruikersrollen</h1>
-                        <p>Pas de gebruikersrollen van je community aan</p>
+                        <p>Pas de gebruikersrollen van je online omgeving aan</p>
                     </div>
                     <div className="divider">
                         <h3>Admin</h3>
                         <p>De admin rol geeft toegang tot de volgende beheersopties:</p>
                         <ul>
-                            <li>Algemene instellingen van de community aanpassen</li>
-                            <li>Analytics (statistieken) van de community inzien</li>
+                            <li>Algemene instellingen van de online omgeving aanpassen</li>
+                            <li>Analytics (statistieken) van de online omgeving inzien</li>
                             <li>Leden verwijderen</li>
                             <li>Gebruikersrollen wijzigen</li>
-                            <li>Nieuwe aanmeldingen voor de community goedkeuren</li>
+                            <li>Nieuwe aanmeldingen voor de online omgeving goedkeuren</li>
                             <li>Instellingen voor kanalen, groepen en doelen aanpassen</li>
                             <li>De welkomsboodschap aanpassen</li>
+                            <li>Alle beheerdersopties van de overige rollen uitvoeren</li>
                         </ul>
                         <h4>Leden met rol admin</h4>
                         {admins && admins.map(admin => (
@@ -363,6 +433,34 @@ const UserRoles = () => {
                         </select>
                         <div className="button-userrole-container">
                             <button className="button-simple" onClick={addAdmin}>Toevoegen</button>
+                        </div>
+                    </div>
+                    <div className="divider">
+                        <h3>Community beheerder</h3>
+                        <p>De community beheerder rol geeft toegang tot de volgende beheersopties:</p>
+                        <ul>
+                            <li>Instellingen voor kanalen en groepen aanpassen</li>
+                            <li>Nieuwe kanalen en groepen toevoegen</li>
+                            <li>Toevoegen van artikelen, events, neuwsberichten en andere kanaalitems</li>
+                            <li>De welkomsboodschap aanpassen</li>
+                        </ul>
+                        <h4>Leden met rol community beheerder</h4>
+                        {communityManagers && communityManagers.map(manager => (
+                            <div className="userrole-users-container" key={manager.ID}>
+                                <img src={manager.Photo} alt="" />
+                                <p>{manager.UserName}</p>
+                                <p className="userrole-users-delete-button" data-id={manager.docid} onClick={deleteCommunityManager}>Verwijderen</p>
+                            </div>
+                        ))}
+                        <h4>community beheerder toevoegen</h4>
+                        <select className="userrole-select" name="" id="" onChange={communityManagerHandler}>
+                            <option value="">--- Selecteer ---</option>
+                            {users && users.map(user => (
+                                <option data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                            ))}
+                        </select>
+                        <div className="button-userrole-container">
+                            <button className="button-simple" onClick={addCommunityManager}>Toevoegen</button>
                         </div>
                     </div>
                     <div className='divider'>

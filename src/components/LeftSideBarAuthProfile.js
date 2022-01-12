@@ -15,7 +15,8 @@ const LeftSideBarAuthProfile = () => {
     const [admin, setAdmin] = useState(false)
     const [author, setAuthor] = useState(false)
     const [impacteer, setImpacteer] = useState(false)
-    const [projectManager, setprojectManager] = useState('none')
+    const [projectManager, setprojectManager] = useState(false)
+    const [communityManager, setCommunityManager] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
@@ -33,6 +34,7 @@ const LeftSideBarAuthProfile = () => {
     const groupChannels = useFirestore("GroupChannels")
     const compagny = useFirestore("CompagnyMeta")
     const projectManagers = useFirestore('ProjectManagers')
+    const communityManagers = useFirestore('CommunityManagers')
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -60,6 +62,14 @@ const LeftSideBarAuthProfile = () => {
             }
         })
     }, [authors])
+
+    useEffect(() => {
+        communityManagers && communityManagers.forEach(communityManager => {
+            if(communityManager.UserID === authO.ID){
+                setCommunityManager(true)
+            }
+        })
+    }, [communityManagers])
 
     useEffect(() => {
         projectManagers && projectManagers.forEach(manager => {
@@ -143,7 +153,6 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-
     const Superadmin = () => {
         if(superAdmin){
             return <div>
@@ -226,9 +235,6 @@ const LeftSideBarAuthProfile = () => {
                                 <NavLink activeClassName='active' to={`/${client}/Registrations`}>Aanmeldingen</NavLink>
                                 <p style={{display: showNotification}} className="notification-counter-small">{notificationsUsers}</p>
                             </div>
-                            <NavLink activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`} style={{display: showWelcome()}}>Welkom</NavLink>
                         </div>
                     </div>
         } else {
@@ -236,15 +242,34 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-    const Projectmanagement = () => {
-        return <div style={{display: showProjectManagement()}}>
-                    <h3>Projectbeheer</h3>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
+    const CommunityManagers = () => {
+        if(communityManager || admin){
+            return <div>
+                        <h3>Community</h3>
+                        <div className="channel-inner-div">
+                            <NavLink activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/WelcomeSettings`} style={{display: showWelcome()}}>Welkom</NavLink>
+                        </div>
                     </div>
-                </div>
+            } else {
+            return null
+            }
+        }
+
+    const Projectmanagement = () => {
+        if(projectManager || admin){
+            return <div style={{display: showProjectManagement()}}>
+                        <h3>Projectbeheer</h3>
+                        <div className="channel-inner-div">
+                            <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/TaskSettings`}>Taken</NavLink>
+                        </div>
+                    </div>
+        } else {
+            return null
+        }  
     }
 
     const Matching = () => {
@@ -253,12 +278,14 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/AddMatchItem`}>Match items</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/MatchProfileFields`}>Profielvelden</NavLink>
                     </div>
                 </div>
     }
 
     const Impact = () => {
-        return <div style={{display: showImpact()}}>
+        if(impacteer || admin){
+            return <div style={{display: showImpact()}}>
                     <h3>Impact</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/ImpactIndicators`}>Meetinstrumenten</NavLink>
@@ -266,43 +293,47 @@ const LeftSideBarAuthProfile = () => {
                         <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
                     </div>
                 </div>
-    }
-
-    const channelList = (channel) => {
-        if(channel.Link === 'Channel'){
-            return  <div className="channel-inner-div" key={channel.ID}>
-                        <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name}</NavLink>
-                    </div>
-        }
-    }
-
-    const Author = () => {
-        if(author || admin){
-            return <div>
-                        <h3>Auteur</h3>
-                        <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/AddEvent`}>Nieuw Event</NavLink>
-                            {channels && channels.map(channel => (
-                                channelList(channel)
-                            ))}
-                            {groupChannels && groupChannels.map(groupChannel => (
-                                <NavLink activeClassName='active' key={groupChannels.ID} to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
-                            ))}
-                        </div>
-                    </div>
         } else {
             return null
-        }
+        }  
+        
     }
+
+    // const channelList = (channel) => {
+    //     if(channel.Link === 'Channel'){
+    //         return  <div className="channel-inner-div" key={channel.ID}>
+    //                     <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name}</NavLink>
+    //                 </div>
+    //     }
+    // }
+
+    // const Author = () => {
+    //     if(author || admin){
+    //         return <div>
+    //                     <h3>Auteur</h3>
+    //                     <div className="channel-inner-div">
+    //                         <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</NavLink>
+    //                         <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</NavLink>
+    //                         <NavLink activeClassName='active' to={`/${client}/AddEvent`}>Nieuw Event</NavLink>
+    //                         {channels && channels.map(channel => (
+    //                             channelList(channel)
+    //                         ))}
+    //                         {groupChannels && groupChannels.map(groupChannel => (
+    //                             <NavLink activeClassName='active' key={groupChannels.ID} to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
+    //                         ))}
+    //                     </div>
+    //                 </div>
+    //     } else {
+    //         return null
+    //     }
+    // }
 
     const MyActivity = () => {
         return  <div>
                     <h3>Mijn activiteiten</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/Contributions/${authO.ID}`}>Mijn bijdragen</NavLink>
+                        {/* <NavLink activeClassName='active' to={`/${client}/Contributions/${authO.ID}`}>Mijn bijdragen</NavLink> */}
                         <NavLink activeClassName='active' to={`/${client}/Likes/${authO.ID}`}>Mijn likes</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyEvents/${authO.ID}`}>Mijn events</NavLink>
                     </div>
@@ -321,7 +352,8 @@ const LeftSideBarAuthProfile = () => {
                     </NavLink>
                 <Superadmin/>
                     <Admin/>
-                    <Author/>
+                    <CommunityManagers/>
+                    {/* <Author/> */}
                     <Projectmanagement/>
                     <Matching/>
                     <Impact/>
