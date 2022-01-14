@@ -12,6 +12,7 @@ import Location from "../../hooks/Location"
 import Reaction from "../Reaction"
 import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config"
+import uuid from "react-uuid"
 
 const MatchItemDetail = () => {
     const [matchesOverview, setMatchesOverview] = useState('')
@@ -124,7 +125,7 @@ const MatchItemDetail = () => {
         db.collection('Matches')
         .doc()
         .set({
-            ID: `${matchID}_${route}`,
+            ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
             Match: [
@@ -201,14 +202,14 @@ const MatchItemDetail = () => {
                             <div id='tags-container'>
                                 <h3>Tags</h3>
                                 {item.Categories.map(tags => (
-                                    <>
+                                    <div id="match-item-detail-categorie-tag-container">
                                     {tags && tags.map(tag => (
-                                        <>
-                                        <h5>{tag[0]}</h5>
-                                        <p>{tag[1]}</p>
-                                        </>             
+                                        <div id="match-item-detail-inner-categorie-tag-container">
+                                            <h5>{tag[0]}</h5>
+                                            <p>{tag[1]}</p>
+                                        </div>             
                                     ))}
-                                    </>    
+                                    </div>    
                                 ))}
                             </div>
                             <div className='matches-container'>

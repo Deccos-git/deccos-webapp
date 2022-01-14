@@ -30,6 +30,12 @@ const MatchCategories = () => {
 
     const deleteMatchItem  = (e) => {
 
+        const id = e.target.dataset.id 
+
+        db.collection('MatchItems')
+        .doc(id)
+        .delete()
+
     }
 
     const titleHandler = (e) => {
@@ -146,7 +152,34 @@ const MatchCategories = () => {
 
         tagArray.push(tag)
 
+        findCorrespondingCategorie(tag)
 
+    }
+
+    // Get categories
+
+    const categorieArray = []
+
+    const findCorrespondingCategorie = (tag) => {
+
+        db.collection('MatchTags')
+        .where('Tag', '==', tag)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const categorie = doc.data().Categorie
+
+                // Check for doubles
+
+                if(categorieArray.includes(categorie)){
+                    return
+                } else {
+                    // Push to array
+                    categorieArray.push(categorie)
+                }
+
+            })
+        })
     }
 
     // Save new match item
@@ -166,6 +199,7 @@ const MatchCategories = () => {
             ID: id,
             Banner: bannerPhoto,
             Tags: tagArray,
+            Categories: categorieArray,
             Compagny: client
         })
         .then(
@@ -238,7 +272,7 @@ const MatchCategories = () => {
                             </div>
                             <div className='match-item-inner-inner-container'>
                                 <button className='button-simple' data-id={item.ID} onClick={matchItemDetailLink}>Bekijk</button>
-                                <img src={deleteIcon} alt="" data-id={item.ID} onClick={deleteMatchItem} />
+                                <img src={deleteIcon} alt="" data-id={item.docid} onClick={deleteMatchItem} />
                             </div>
                         </div>
                     </div>

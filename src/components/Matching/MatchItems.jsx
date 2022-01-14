@@ -5,17 +5,19 @@ import RightSideBar from "../rightSideBar/RightSideBar";
 import MenuStatus from "../../hooks/MenuStatus";
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router-dom";
-import { useRef, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { db, timestamp } from "../../firebase/config.js"
 
 const MatchItems = () => {
+    const [filterTag, setFilterTag] = useState(null)
+    const [filter, setFilter] = useState([])
+    const [tagsList, setTagsList] = useState([])
 
     const menuState = MenuStatus()
     const history = useHistory()
-    const elementRef = useRef()
 
     const matchItems = useFirestoreTimestamp('MatchItems')
-    const tags = useFirestore('MatchTags')
+    const categories = useFirestore('MatchCategories')
 
     const matchItemDetailLink = (e) => {
         const id = e.target.dataset.id
@@ -23,47 +25,108 @@ const MatchItems = () => {
         history.push(`/${client}/MatchItemDetail/${id}`)
     }
 
-    const filterCategorieHandler = (e) => {
+    const filterTagHandler = (e) => {
         const option = e.target.options
 
-        const categorie = option[option.selectedIndex].innerHTML
+        const tag = option[option.selectedIndex].innerHTML
 
-        console.log(categorie)
+        if(tag === '-- Selecteer --'){
+            setFilterTag(null)
+        } else {
+            setFilterTag(tag)
+        }
     }
 
-    const ItemArray = []
+    // Filter items based on user filter data
 
-    matchItems && matchItems.forEach(item => {
+    const filteredArray = () => {
 
-        const categorieArray = []
+        const filterArray = []
 
-        const tagArray = []
+        matchItems && matchItems.forEach(item => {
 
-        tags && tags.forEach(tag => {
-            const categorie = tag.Categorie
+            if(filterTag !== null){
+                if(item.Tags.includes(filterTag)){
 
-            if(item.Tags.includes(tag.Tag)){
 
-                const tags = [
-                    categorie,
-                    tag.Tag
-                ]
+                    const filterObject = {
+                        Title: item.Title,
+                        Banner: item.Banner,
+                        Categories: item.Categories,
+                        ID: item.ID
+                    }
+    
+                    filterArray.push(filterObject)
+                }
 
-                tagArray.push(tags) 
-            }
+            } else if(filterTag === null){
+                
+                const itemObject = {
+                    Title: item.Title,
+                    Banner: item.Banner,
+                    ID: item.ID
+                }
+    
+                filterArray.push(itemObject)
+
+            }            
         })
 
-        categorieArray.push(tagArray)
+        return filterArray
 
-        const ItemObject = {
-            Title: item.Title,
-            Banner: item.Banner,
-            Categories: categorieArray,
-            ID: item.ID
+    }
+
+    const findTags = async (categorie) => {
+
+        const tags = []
+
+        await db.collection('MatchTags')
+        .where('Categorie', '==', categorie)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach( async doc => {
+                const tag = doc.data().Tag
+
+                tags.push(tag)
+            })
+        })
+
+        return tags
+
+    }
+
+    const filters = async () => {
+
+        const categorieList = []
+
+        for(const categorie of categories){
+
+            console.log(categorie)
+
+            const tagList = await findTags(categorie.Categorie)
+
+            const categorieObject = {
+                Categorie: categorie.Categorie,
+                Tags: tagList,
+                ID: categorie.ID
+            }
+
+            categorieList.push(categorieObject)
         }
 
-        ItemArray.push(ItemObject)
-    })
+        console.log(categorieList)
+        
+        return categorieList
+    }
+
+    useEffect(() => {
+        filters().then(filter => {
+            setFilter(filter)
+        })
+    }, [categories])
+
+    console.log(filter)
+
 
     return (
         <div className="main">
@@ -73,31 +136,27 @@ const MatchItems = () => {
                 <div className="page-header">
                     <h1>Match items</h1>
                 </div>
-                <div>
-                    <p>Categorien</p>
-                    <select name="" id="" onChange={filterCategorieHandler}>
-                        <option value="">-- Selecteer een categorie --</option>
-                        
-                    </select>
+                <div id='match-items-filter-container'>
+                    <div id="filter-select-container">
+                       {filter && filter.map(filter => (
+                           <div id="filter-inner-container" key={filter.ID}>
+                               <h3>{filter.Categorie}</h3>
+                               <select name="" id="">
+                                   <option value="">-- Alle --</option>
+                                   {filter.Tags.map(tag => (
+                                       <option value="">{tag}</option>
+                                   ))}
+                               </select>
+                           </div>
+                       ))}
+                    </div>
                 </div>
                 <div className="card-container">
-                    {ItemArray && ItemArray.map(item => (
+                    {filteredArray() && filteredArray().map(item => (
                         <div className="goal-list card" key={item.ID}>
-                            <img className="goal-card-banner" src={item.Banner} alt="" />
+                            <img className="match-card-banner" src={item.Banner} alt="" />
                             <div className="goalcard-body-div">
                                 <h2>{item.Title}</h2>
-                            </div>
-                            <div>
-                                {item.Categories.map(tags => (
-                                    <>
-                                    {tags && tags.map(tag => (
-                                        <>
-                                        <h5>{tag[0]}</h5>
-                                        <p>{tag[1]}</p>
-                                        </>             
-                                    ))}
-                                    </>    
-                                ))}
                             </div>
                             <div className="button-container">
                                 <button className="goal-card-button" data-id={item.ID} onClick={matchItemDetailLink} >Bekijk</button>

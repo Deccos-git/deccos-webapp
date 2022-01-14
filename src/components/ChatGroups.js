@@ -172,6 +172,8 @@ const ChatGroups = () => {
         
     }, [chats])
 
+    console.log(chatSummary)
+
     const ChatsAuth = () => {
          return (
              chatSummary && chatSummary.chats.map(chat => (

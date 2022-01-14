@@ -7,6 +7,7 @@ import Search from './Search';
 import Register from "./Register";
 import Profile from "./Profile";
 import "../CSS/main.css";
+import "../CSS/matching.css";
 import GoalDetail from "./goals/GoalDetail";
 import AddArticle from "./AddArticle";
 import { client } from '../hooks/Client';
