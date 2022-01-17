@@ -290,6 +290,7 @@ const LeftSideBarAuthProfile = () => {
                         <Link activeClassName='active' to={`/${client}/AddMatchItem`} onClick={changeMenuStatus}>Match items</Link>
                         <Link activeClassName='active' to={`/${client}/MatchCategories`} onClick={changeMenuStatus}>Categorien en tags</Link>
                         <Link activeClassName='active' to={`/${client}/MatchProfileFields`} onClick={changeMenuStatus}>Profielvelden</Link>
+                        <Link activeClassName='active' to={`/${client}/RoadMap`} onClick={changeMenuStatus}>Stappenplan</Link>
                     </div>
                 </div>
     }

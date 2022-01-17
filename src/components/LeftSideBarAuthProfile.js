@@ -279,6 +279,7 @@ const LeftSideBarAuthProfile = () => {
                         <NavLink activeClassName='active' to={`/${client}/AddMatchItem`}>Match items</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MatchProfileFields`}>Profielvelden</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/RoadMap`}>Stappenplan</NavLink>
                     </div>
                 </div>
     }

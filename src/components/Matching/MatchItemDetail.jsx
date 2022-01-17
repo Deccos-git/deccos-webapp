@@ -128,6 +128,7 @@ const MatchItemDetail = () => {
             ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
+            Status: 'Active',
             Match: [
                 matchID,
                 route
@@ -138,53 +139,80 @@ const MatchItemDetail = () => {
 
     // Display matches
 
-    const displayMatches = async () => {
+    const matchedItems = async (id) => {
 
         const matchArray = []
 
-        matches && matches.forEach(match => {
-    
-            match.Match.forEach(async id => {
-                if(id !== route){
-                    await db.collection('MatchItems')
-                    .where('ID', '==', id)
-                    .get()
-                    .then(querySnapshot => {
-                        querySnapshot.forEach(doc => {
-                            const title = doc.data().Title
-                            const banner = doc.data().Banner
-                            const timestamp = doc.data().Timestamp
-                            const id = doc.data().ID
-    
-                            const matchObject = {
-                                Title: title,
-                                Banner: banner,
-                                Timestamp: timestamp,
-                                ID: id
-                            }
-    
-                            matchArray.push(matchObject)
-    
-                        })
-                    })
+        await db.collection('MatchItems')
+        .where('ID', '==', id)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const title = doc.data().Title
+                const banner = doc.data().Banner
+                const timestamp = doc.data().Timestamp
+                const id = doc.data().ID
+
+                const matchObject = {
+                    Title: title,
+                    Banner: banner,
+                    Timestamp: timestamp,
+                    ID: id
                 }
+
+                matchArray.push(matchObject)
+
             })
         })
 
         return matchArray
+    }
+
+    const displayMatches = async () => {
+
+        let items = {}
+
+        for(const match of matches){
+
+            for(const id of match.Match){
+                if(id !== route){
+                    items.Match = await matchedItems(id) 
+
+                    items.ID = match.ID
+                    items.Status = match.Status
+                }
+            }
+        }
+
+        return items
 
     }
 
     useEffect(() => {
         displayMatches().then( match => {
 
-            if(match.length != 0){
                 setMatchesOverview(match)
-            }
             
         })
     }, [matches])
 
+
+    const matchLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/MatchDetail/${id}`)
+    }
+
+    const Status = ({status}) => {
+
+        if(status === 'Active'){
+            return <div id="status-active"></div>
+        } else if(status === 'Inactive'){
+            return <div id="status-inactive"></div>
+        } else if(status === 'Deleted'){
+            return <div id="status-deleted"></div>
+        } 
+    }
 
     console.log(matchesOverview)
     
@@ -229,10 +257,11 @@ const MatchItemDetail = () => {
                             </div>
                             <div className='matches-container'>
                                 <h3>Matches</h3>
-                                {matchesOverview && matchesOverview.map(match => (
+                                {matchesOverview.Match && matchesOverview.Match.map(match => (
                                     <div className='match-detail-container'>
-                                        <img src={match.Banner} alt="" data-id={match.ID} onClick={itemLink} />
-                                        <p id='match-detail-item-title' data-id={match.ID} onClick={itemLink}>{match.Title}</p>
+                                        <img src={match.Banner} alt="" data-id={matchesOverview.ID} onClick={matchLink} />
+                                        <p id='match-detail-item-title' data-id={matchesOverview.ID} onClick={matchLink}>{match.Title}</p>
+                                        <Status status={matchesOverview.Status}/>
                                     </div>
                                 ))}
 

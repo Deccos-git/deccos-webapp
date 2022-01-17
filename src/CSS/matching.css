@@ -179,3 +179,75 @@
     border-radius: 50% !important;
     margin-top: 10px;
 }
+
+#match-detail-banner-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 50px 10px 50px 10px;
+}
+
+#match-detail-banner-container img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+#match-detail-container{
+    display: flex;
+    justify-content: center;
+}
+
+#match-item-detail-container{
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+#match-detail-outer-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#status-active{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+#status-inactive{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: orange;
+}
+
+#status-deleted{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+#status-display-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#status-display-container h3{
+    margin-right: 10px;
+}
+
+#status-container{
+    margin: 10px 10px 50px 10px;
+}
+
+#matches-status-container{
+    margin-bottom: 20px;
+}
+
+#add-match-item-banner-preview{
+    border-radius: 50%;
+}

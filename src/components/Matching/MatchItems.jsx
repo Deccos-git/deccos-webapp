@@ -25,6 +25,8 @@ const MatchItems = () => {
         history.push(`/${client}/MatchItemDetail/${id}`)
     }
 
+    // Get user filter inputs
+
     const filterTagHandler = (e) => {
         const option = e.target.options
 
@@ -46,19 +48,18 @@ const MatchItems = () => {
         matchItems && matchItems.forEach(item => {
 
             if(filterTag !== null){
-                if(item.Tags.includes(filterTag)){
 
+                    if(item.Tags.includes(filterTag)){
 
-                    const filterObject = {
-                        Title: item.Title,
-                        Banner: item.Banner,
-                        Categories: item.Categories,
-                        ID: item.ID
+                        const filterObject = {
+                            Title: item.Title,
+                            Banner: item.Banner,
+                            Categories: item.Categories,
+                            ID: item.ID
+                        }
+        
+                        filterArray.push(filterObject)
                     }
-    
-                    filterArray.push(filterObject)
-                }
-
             } else if(filterTag === null){
                 
                 const itemObject = {
@@ -125,7 +126,7 @@ const MatchItems = () => {
         })
     }, [categories])
 
-    console.log(filter)
+    
 
 
     return (
@@ -141,7 +142,7 @@ const MatchItems = () => {
                        {filter && filter.map(filter => (
                            <div id="filter-inner-container" key={filter.ID}>
                                <h3>{filter.Categorie}</h3>
-                               <select name="" id="">
+                               <select name="" id="" onChange={filterTagHandler}>
                                    <option value="">-- Alle --</option>
                                    {filter.Tags.map(tag => (
                                        <option value="">{tag}</option>

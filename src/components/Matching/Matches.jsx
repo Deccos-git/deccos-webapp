@@ -16,7 +16,6 @@ const Matches = () => {
     const menuState = MenuStatus()
     const history = useHistory()
 
-    const tags = useFirestore('MatchTags')
     const matches = useFirestore('Matches')
 
     const items = async (id) => {
@@ -48,21 +47,18 @@ const Matches = () => {
             return matchDuo
     }
 
-
     const matchArray = async () => {
 
-        const matchesArray = {
-            Matches: []
-        }
+        const matchesArray = []
 
         for(const match of matches){
 
-            matchesArray.ID = match.ID
-
             const matchList = []
 
-            for(const id of match.Match){
+            matchList.ID = match.ID
+            matchList.Status = match.Status
 
+            for(const id of match.Match){
 
                 const itemList = await items(id)
 
@@ -70,7 +66,7 @@ const Matches = () => {
 
             }
 
-            matchesArray.Matches.push(matchList)
+            matchesArray.push(matchList)
         }
 
         return matchesArray
@@ -90,7 +86,20 @@ const Matches = () => {
 
     }
 
-    console.log(matchesOverview.ID)
+    const Status = ({status}) => {
+
+        console.log(status)
+
+        if(status === 'Active'){
+            return <div id="status-active"></div>
+        } else if(status === 'Inactive'){
+            return <div id="status-inactive"></div>
+        } else if(status === 'Deleted'){
+            return <div id="status-deleted"></div>
+        } 
+    }
+
+    console.log(matchesOverview)
    
 
     return (
@@ -102,7 +111,7 @@ const Matches = () => {
                     <h1>Matches</h1>
                 </div>
                 <div className="card-container">
-                    {matchesOverview && matchesOverview.Matches.map(matches => (
+                    {matchesOverview && matchesOverview.map(matches => (
                         <div className="goal-list card" key={uuid()}>
                             {matches.map(match => (
                                 <>
@@ -116,8 +125,11 @@ const Matches = () => {
                                 ))}
                                 </>
                             ))}
+                            <div id='matches-status-container'>
+                                <Status status={matches.Status}/>
+                            </div>
                             <div className="button-container">
-                                <button className="goal-card-button" data-id={matchesOverview.ID} onClick={matchDetailLink} >Bekijk</button>
+                                <button className="goal-card-button" data-id={matches.ID} onClick={matchDetailLink} >Bekijk</button>
                             </div>
                         </div>
                     ))}

@@ -80,6 +80,7 @@ import MatchItemDetail from './Matching/MatchItemDetail';
 import Matches from './Matching/Matches';
 import MatchDetail from './Matching/MatchDetail';
 import MatchProfileFields from './Matching/MatchProfileFields';
+import RoadMap from './Matching/Roadmap';
 
 const Main = () => {
 
@@ -163,6 +164,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MatchDetail`}>
                     <MatchDetail/>
+                </Route>
+                <Route path={`/${client}/RoadMap`}>
+                    <RoadMap/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

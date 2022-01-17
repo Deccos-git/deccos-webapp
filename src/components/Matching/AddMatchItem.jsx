@@ -212,7 +212,9 @@ const MatchCategories = () => {
                 Name: title,
                 Compagny: client,
                 Type: 'MatchItem',
-                Link: `MatchItemDetail/${id}`
+                Link: `MatchItemDetail/${id}`,
+                Tags: tagArray,
+                Categories: categorieArray,
             })
         })
     }
@@ -285,7 +287,7 @@ const MatchCategories = () => {
                     <p>Upload een banner</p>
                     <input type="file" onChange={bannerHandler}/>
                     <div className="spinner-container" style={{display:showBannerContainer}}>
-                        <img src={loader} alt="" />
+                        <img id='add-match-item-banner-preview' src={loader} alt="" />
                     </div> 
                     {matchProfileFields && matchProfileFields.map(field => (
                         <MatchProfileFields field={field}/>
