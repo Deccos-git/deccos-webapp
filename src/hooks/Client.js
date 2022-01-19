@@ -4,3 +4,4 @@ const type = url[2]
 const pathID = url[3]
 
 export {client, type, pathID}
+

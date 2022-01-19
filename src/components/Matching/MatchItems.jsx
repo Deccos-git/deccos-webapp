@@ -126,9 +126,6 @@ const MatchItems = () => {
         })
     }, [categories])
 
-    
-
-
     return (
         <div className="main">
             <LeftSideBar />

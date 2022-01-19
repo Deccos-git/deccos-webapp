@@ -182,7 +182,26 @@ const MatchCategories = () => {
         })
     }
 
+    // Collect profilefield inputs
+
+    const fieldArray = []
+
+    const profileFieldHandler = (e) => {
+
+        const input = e.target.value 
+        const title = e.target.dataset.title
+        const type = e.target.dataset.type
+
+        fieldArray.push({
+            Title: title,
+            Input: input,
+            Type: type
+        })
+    }
+
     // Save new match item
+
+    const newArray = []
 
     const saveItem = (e) => {
 
@@ -190,6 +209,41 @@ const MatchCategories = () => {
         e.target.innerText = 'Opgeslagen'
 
         const id = uuid()
+
+        // Create seperate objects from titles
+
+        function groupBy(objectArray, property) {
+            return objectArray.reduce((acc, obj) => {
+              let key = obj[property]
+              if (!acc[key]) {
+                acc[key] = []
+              }
+              acc[key].push(obj)
+              return acc
+            }, {})
+          }
+
+        // Create array from object
+
+        const array = Object.entries(groupBy(fieldArray, 'Title')) 
+
+        // Find longest input in newly created array and pust in new array
+
+        const filteredArray = []
+
+        array.forEach(arr => {
+            const inputs = arr[1]
+            
+                const longest = inputs.reduce(
+                    (a, b) => {
+                        return a.length > b.length ? a : b
+                    }
+                );
+
+                filteredArray.push(longest)
+            })
+        
+        // Save new match item
 
         db.collection('MatchItems')
         .doc()
@@ -200,7 +254,9 @@ const MatchCategories = () => {
             Banner: bannerPhoto,
             Tags: tagArray,
             Categories: categorieArray,
-            Compagny: client
+            Compagny: client,
+            ProfileFields: filteredArray
+
         })
         .then(
             tagArray.splice(0,tagArray.length)
@@ -215,6 +271,7 @@ const MatchCategories = () => {
                 Link: `MatchItemDetail/${id}`,
                 Tags: tagArray,
                 Categories: categorieArray,
+                Description: filteredArray
             })
         })
     }
@@ -227,26 +284,20 @@ const MatchCategories = () => {
 
     }
 
-    const profileFieldHandler = (e) => {
-        const input = e.target.value 
-
-        console.log(input)
-    }
-
     const MatchProfileFields = ({field}) => {
 
             if(field.Type === 'Textfield'){
                 return (
                     <div>
                         <p>{field.Title}</p>
-                        <input type="text" placeholder={field.Title} onChange={profileFieldHandler} />
+                        <input type="text" placeholder={field.Title} data-title={field.Title} data-type={field.Type} onChange={profileFieldHandler} />
                     </div>
                 )
             } else if(field.Type === 'Textarea'){
                 return (
                     <div>
                         <p>{field.Title}</p>
-                        <textarea placeholder={field.Title} onChange={profileFieldHandler}/>
+                        <textarea placeholder={field.Title} data-title={field.Title} data-type={field.Type} onChange={profileFieldHandler}/>
                     </div>
                 )
             } else {
@@ -260,8 +311,8 @@ const MatchCategories = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h1>Matchitems</h1>
-                    <p>Beheer de matchitems</p>
+                    <h1>Match items</h1>
+                    <p>Beheer de match items</p>
                 </div>
                 <div className='divider'>
                     <h4>Match Items</h4>

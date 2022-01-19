@@ -27,6 +27,7 @@ const MatchItemDetail = () => {
     const allItems = useFirestore('MatchItems')
     const tags = useFirestore('MatchTags')
     const matches = useFirestoreMatches(route)
+    const profileFields = useFirestore('MatchProfileFields')
 
     // Display tags and categories
 
@@ -59,7 +60,8 @@ const MatchItemDetail = () => {
             Banner: item.Banner,
             Timestamp: item.Timestamp,
             Categories: categorieArray,
-            ID: item.ID
+            ID: item.ID,
+            Fields: item.ProfileFields
         }
 
         ItemArray.push(ItemObject)
@@ -80,7 +82,7 @@ const MatchItemDetail = () => {
                 Banner: item.Banner,
                 Timestamp: item.Timestamp,
                 Matches: matches,
-                ID: item.ID
+                ID: item.ID,
             }
 
             // Check for resemblance
@@ -121,6 +123,7 @@ const MatchItemDetail = () => {
         e.target.style.color = 'gray'
 
         const matchID = e.target.dataset.id 
+        const matches = e.target.dataset.matches
 
         db.collection('Matches')
         .doc()
@@ -128,7 +131,9 @@ const MatchItemDetail = () => {
             ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
+            Matches: matches,
             Status: 'Active',
+            Rating: 0,
             Match: [
                 matchID,
                 route
@@ -157,7 +162,7 @@ const MatchItemDetail = () => {
                     Title: title,
                     Banner: banner,
                     Timestamp: timestamp,
-                    ID: id
+                    ID: id,
                 }
 
                 matchArray.push(matchObject)
@@ -214,9 +219,8 @@ const MatchItemDetail = () => {
         } 
     }
 
-    console.log(matchesOverview)
+    console.log(ItemArray)
     
-
     return (
         <div className="main">
             <LeftSideBar />
@@ -227,6 +231,15 @@ const MatchItemDetail = () => {
                         <div className="article">
                             <h1>{item.Title}</h1>
                             <img className="match-item-detail-banner" src={item.Banner} alt="" />
+                            <div id='profile-fields-container'>
+                                {item.Fields.map(field => (
+                                    <div>
+                                        <p id='title-field'>{field.Title}</p>
+                                        <p>{field.Input}</p>
+                                    </div>
+                                ))}
+
+                            </div>
                             <div id='tags-container'>
                                 <h3>Tags</h3>
                                 {item.Categories.map(tags => (
@@ -250,7 +263,7 @@ const MatchItemDetail = () => {
                                         {match.Matches.map(m => (
                                             <p><i>{m}</i></p>
                                         ))}
-                                        <button className='button-simple' data-id={match.ID} onClick={createMatch}>Creeer match</button>
+                                        <button className='button-simple' data-matches={match.Matches} data-id={match.ID} onClick={createMatch}>Creeer match</button>
                                         
                                     </div>
                                 ))}

@@ -271,10 +271,10 @@ const Reaction = ({message}) => {
                     </div>
                     <div className="like-container">
                         <div className='like-icon-container'>
-                            <div className='like-icon-inner-container' style={{display: impacteer}}>
+                            {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                 <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
                                 <p className='notification-counter-small'>{message.Contributions.length}</p>
-                            </div>
+                            </div> */}
                             <div className='like-icon-inner-container'>
                                 <img 
                                 src={heartIcon} 

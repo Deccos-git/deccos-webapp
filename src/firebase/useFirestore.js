@@ -913,6 +913,29 @@ const useFirestoreMatches = (id) => {
     return docs
 };
 
+const useFirestoreMatchRoadmaps = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('MatchRoadmaps')
+        .where('Compagny', '==', client)
+        .orderBy("Position", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -953,5 +976,6 @@ export {
     useFirestoreMyTasks,
     useFirestoreMyEvents,
     useFirestoreQuestionnaireFields,
-    useFirestoreMatches
+    useFirestoreMatches,
+    useFirestoreMatchRoadmaps
 }

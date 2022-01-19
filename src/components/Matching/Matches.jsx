@@ -57,6 +57,7 @@ const Matches = () => {
 
             matchList.ID = match.ID
             matchList.Status = match.Status
+            matchList.Rating = match.Rating
 
             for(const id of match.Match){
 
@@ -88,8 +89,6 @@ const Matches = () => {
 
     const Status = ({status}) => {
 
-        console.log(status)
-
         if(status === 'Active'){
             return <div id="status-active"></div>
         } else if(status === 'Inactive'){
@@ -99,7 +98,27 @@ const Matches = () => {
         } 
     }
 
-    console.log(matchesOverview)
+    const StarRating = ({rating}) => {
+
+        const quality = rating  
+
+        return (
+          <div className="star-rating">
+            {[...Array(5)].map((star, index) => {
+              return (
+                <button
+                  type="button"
+                  id='star-item'
+                  key={index}
+                  className={index <= (quality) ? "on" : "off"}
+                >
+                  <span className="star">&#9733;</span>
+                </button>
+              );
+            })}
+          </div>
+        );
+      };
    
 
     return (
@@ -127,6 +146,9 @@ const Matches = () => {
                             ))}
                             <div id='matches-status-container'>
                                 <Status status={matches.Status}/>
+                            </div>
+                            <div id='matches-rating-container'>
+                                <StarRating rating={matches.Rating}/>
                             </div>
                             <div className="button-container">
                                 <button className="goal-card-button" data-id={matches.ID} onClick={matchDetailLink} >Bekijk</button>

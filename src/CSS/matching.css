@@ -11,10 +11,11 @@
     display: flex;
     justify-content: center;
     margin-bottom: 50px;
+    flex-wrap: wrap;
 }
 
 #match-item-detail-inner-categorie-tag-container{
-    margin-right: 10px;
+    margin: 10px;
     border: 1px solid lightgray;
     padding: 5px;
     border-radius: 5px;
@@ -95,12 +96,6 @@
     max-height: 300px;
     max-width: 100%;
     border-radius: 50%;
-}
-
-.match-item-detail-categorie-tag-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .match-item-detail-categorie-tag-inner-container{
@@ -188,8 +183,8 @@
 }
 
 #match-detail-banner-container img{
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
 }
 
@@ -250,4 +245,94 @@
 
 #add-match-item-banner-preview{
     border-radius: 50%;
+}
+
+#matches-container{
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#match-detail-resemblance-container{
+    display: flex;
+    justify-content: center;
+}
+
+#match-detail-resemblance-container div{
+    margin-right: 10px;
+}
+
+#roadmap-inner-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.roadmap-container{
+    padding: 0px 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.roadmap-container img{
+    width: 20px;
+    cursor: pointer;
+}
+
+#step-container{
+    display: flex;
+}
+
+#profile-fields-container{
+    margin-top: 50px;
+}
+
+#title-field{
+    font-weight: bold;
+}
+
+#star-item {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.on {
+color: green;
+}
+
+.off {
+color: #ccc;
+}
+
+.star{
+    font-size: 24px;
+}
+
+#quality-container{
+    margin-bottom: 50px;
+}
+
+@media only screen and (max-width: 1024px){
+    #match-detail-banner-container img{
+        width: 100px;
+        height: 100px;
+    }
+
+    #match-item-detail-container {
+        margin-right: 0px;
+        cursor: pointer;
+    }
+    
+    .match-detail-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .match-detail-container button {
+        margin-right: auto;
+    }
 }

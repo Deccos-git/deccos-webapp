@@ -1,4 +1,4 @@
-import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreMatches } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestoreMatchRoadmaps } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
@@ -17,11 +17,25 @@ const MatchDetail = () => {
     const [matchesOverview, setMatchesOverview] = useState('')
     const [docid, setDocid] = useState('')
     const [status, setStatus] = useState('')
+    const [rating, setRating] = useState(0);
 
     const route = Location()[3]
     const menuState = MenuStatus()
+    const history = useHistory()
+
     const messages  = useFirestoreMessages("Messages", route )
     const matches = useFirestoreID("Matches", route)
+    const matchRoadmaps = useFirestoreMatchRoadmaps()
+
+    // Set default rating in state
+
+    useEffect(() => {
+        matches && matches.forEach(match => {
+            const rating = match.Rating
+
+            setRating(rating)
+        })
+    }, [matches])
 
     // set docid of match in state
 
@@ -83,6 +97,7 @@ const MatchDetail = () => {
             const matchList = []
 
             matchList.ID = match.ID
+            matchList.Matches = match.Matches
 
             for(const id of match.Match){
 
@@ -133,6 +148,54 @@ const MatchDetail = () => {
         } 
     }
 
+    const matchResemblance = (matches) => {
+
+        const matchesArray = matches.split(',')
+
+        return matchesArray
+    }
+
+    const matchItemDetailLink = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/MatchItemDetail/${id}`)
+    }
+
+    const StarRating = () => {
+        const [hover, setHover] = useState(0);
+
+        console.log(rating, hover)
+
+        return (
+          <div className="star-rating">
+            {[...Array(5)].map((star, index) => {
+              index += 1;
+              return (
+                <button
+                  type="button"
+                  id='star-item'
+                  key={index}
+                  className={index <= (hover || rating) ? "on" : "off"}
+                  onClick={() => saveRating(index) }
+                  onMouseEnter={() => setHover(index)}
+                  onMouseLeave={() => setHover(rating)}
+                >
+                  <span className="star">&#9733;</span>
+                </button>
+              );
+            })}
+          </div>
+        );
+      };
+
+      const saveRating = (index) => {
+          db.collection('Matches')
+          .doc(docid)
+          .update({
+              Rating: index
+          })
+      }
+
 
     return (
         <div className="main">
@@ -141,15 +204,15 @@ const MatchDetail = () => {
             <div className="card-overview goal-detail-container" style={{display: menuState}}>
                 <div className="article-container">
                     {matchesOverview && matchesOverview.map(matches => (
-                        <div id='match-detail-outer-container'>
+                        <div id='match-detail-outer-container' className='article'>
                             <div id='match-detail-container'>
                                 {matches.map(match => (
                                 <>
                                     {match.map(item => (
                                         <div id='match-item-detail-container'>
                                             <div id='match-detail-banner-container'>
-                                                <img src={item.Banner} alt="" />
-                                                <h3>{item.Title}</h3>
+                                                <img src={item.Banner} alt="" data-id={item.ID} onClick={matchItemDetailLink} />
+                                                <h3 data-id={item.ID} onClick={matchItemDetailLink}>{item.Title}</h3>
                                             </div>
                                         </div>
                                     ))}
@@ -166,7 +229,33 @@ const MatchDetail = () => {
                                     <option value="Inactive">Inactief</option>
                                     <option value="Deleted">Verwijderd</option>
                                 </select>
-                            </div>            
+                            </div> 
+                            <div id='matches-container'>
+                                <h3>Overeenkomsten</h3>
+                                <div id='match-detail-resemblance-container'>
+                                    {matchResemblance(matches.Matches) && matchResemblance(matches.Matches).map(match => (
+                                        <div id='match-item-detail-inner-categorie-tag-container'>
+                                            <p>{match}</p>
+                                        </div>
+                                    ))}
+                                 </div>
+                            </div>
+                            <div>
+                                <h3>Stappenplan</h3>
+                                {matchRoadmaps && matchRoadmaps.map(step => (
+                                    <div>
+                                        <div id='step-container'>
+                                            <p>{step.Position}</p>
+                                            <p>{step.Title}</p>
+                                            <p>V</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>  
+                            <div id='quality-container'>
+                                <h3>Kwaliteit</h3>
+                                <StarRating/>      
+                            </div>        
                         </div>
                     ))}
                     <h2>Berichten</h2>
