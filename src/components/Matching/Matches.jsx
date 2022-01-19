@@ -100,7 +100,7 @@ const Matches = () => {
 
     const StarRating = ({rating}) => {
 
-        const quality = rating  
+        const quality = rating -1 
 
         return (
           <div className="star-rating">
@@ -132,6 +132,9 @@ const Matches = () => {
                 <div className="card-container">
                     {matchesOverview && matchesOverview.map(matches => (
                         <div className="goal-list card" key={uuid()}>
+                             <div id='matches-status-container'>
+                                <Status status={matches.Status}/>
+                            </div>
                             {matches.map(match => (
                                 <>
                                 {match.map(item => (
@@ -144,9 +147,6 @@ const Matches = () => {
                                 ))}
                                 </>
                             ))}
-                            <div id='matches-status-container'>
-                                <Status status={matches.Status}/>
-                            </div>
                             <div id='matches-rating-container'>
                                 <StarRating rating={matches.Rating}/>
                             </div>

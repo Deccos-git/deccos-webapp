@@ -185,6 +185,7 @@ const MatchItemDetail = () => {
 
                     items.ID = match.ID
                     items.Status = match.Status
+                    items.Rating = match.Rating
                 }
             }
         }
@@ -211,15 +212,39 @@ const MatchItemDetail = () => {
     const Status = ({status}) => {
 
         if(status === 'Active'){
-            return <div id="status-active"></div>
+            return <div id="status-active" className='match-detail-status-image'></div>
         } else if(status === 'Inactive'){
-            return <div id="status-inactive"></div>
+            return <div id="status-inactive" className='match-detail-status-image'></div>
         } else if(status === 'Deleted'){
-            return <div id="status-deleted"></div>
+            return <div id="status-deleted" className='match-detail-status-image'></div>
         } 
     }
 
-    console.log(ItemArray)
+    const StarRating = ({rating}) => {
+
+        const quality = rating -1
+
+        console.log(rating)
+
+        console.log(quality)
+
+        return (
+          <div className="star-rating">
+            {[...Array(5)].map((star, index) => {
+              return (
+                <button
+                  type="button"
+                  id='star-item'
+                  key={index}
+                  className={index <= (quality) ? "on" : "off"}
+                >
+                  <span className="star">&#9733;</span>
+                </button>
+              );
+            })}
+          </div>
+        );
+      };
     
     return (
         <div className="main">
@@ -232,8 +257,9 @@ const MatchItemDetail = () => {
                             <h1>{item.Title}</h1>
                             <img className="match-item-detail-banner" src={item.Banner} alt="" />
                             <div id='profile-fields-container'>
+                                <h3>Over mij</h3>
                                 {item.Fields.map(field => (
-                                    <div>
+                                    <div className='profile-field-inner-container'>
                                         <p id='title-field'>{field.Title}</p>
                                         <p>{field.Input}</p>
                                     </div>
@@ -274,13 +300,11 @@ const MatchItemDetail = () => {
                                     <div className='match-detail-container'>
                                         <img src={match.Banner} alt="" data-id={matchesOverview.ID} onClick={matchLink} />
                                         <p id='match-detail-item-title' data-id={matchesOverview.ID} onClick={matchLink}>{match.Title}</p>
+                                        <StarRating rating={matchesOverview.Rating}/> 
                                         <Status status={matchesOverview.Status}/>
                                     </div>
                                 ))}
 
-                            </div>
-                            <div className="article-meta-container">
-                                <p id='event-detail-timestamp'>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
                         </div>
                     ))}

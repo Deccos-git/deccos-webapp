@@ -245,9 +245,9 @@ const MatchDetail = () => {
                                 {matchRoadmaps && matchRoadmaps.map(step => (
                                     <div>
                                         <div id='step-container'>
-                                            <p>{step.Position}</p>
+                                            <p>{step.Position}.</p>
                                             <p>{step.Title}</p>
-                                            <p>V</p>
+                                            <p className='check-icon-roadmap'>V</p>
                                         </div>
                                     </div>
                                 ))}

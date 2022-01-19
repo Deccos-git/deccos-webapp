@@ -136,6 +136,11 @@
     cursor: pointer;
 }
 
+.match-detail-status-image{
+    margin-left: auto;
+    margin-right: 5px;
+}
+
 .match-detail-container p{
     margin-right: 10px;
 }
@@ -240,7 +245,7 @@
 }
 
 #matches-status-container{
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 #add-match-item-banner-preview{
@@ -313,7 +318,20 @@ color: #ccc;
 }
 
 #quality-container{
-    margin-bottom: 50px;
+    margin: 50px;
+}
+
+#matches-rating-container{
+    margin-bottom: 30px;
+}
+
+#profile-fields-container h3{
+    text-align: center;
+}
+
+.profile-field-inner-container{
+    padding-left: 10px;
+    border-left: 1px solid lightgray;
 }
 
 @media only screen and (max-width: 1024px){
