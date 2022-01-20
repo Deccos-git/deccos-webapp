@@ -1,4 +1,4 @@
-import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreMatches } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore, useFirestoreMatches, useFirestoreMatchTagsType } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
@@ -27,7 +27,7 @@ const MatchItemDetail = () => {
     const allItems = useFirestore('MatchItems')
     const tags = useFirestore('MatchTags')
     const matches = useFirestoreMatches(route)
-    const profileFields = useFirestore('MatchProfileFields')
+    const mainTags = useFirestoreMatchTagsType('Main')
 
     // Display tags and categories
 
@@ -61,7 +61,8 @@ const MatchItemDetail = () => {
             Timestamp: item.Timestamp,
             Categories: categorieArray,
             ID: item.ID,
-            Fields: item.ProfileFields
+            Fields: item.ProfileFields,
+            Tags: item.Tags
         }
 
         ItemArray.push(ItemObject)
@@ -83,6 +84,7 @@ const MatchItemDetail = () => {
                 Timestamp: item.Timestamp,
                 Matches: matches,
                 ID: item.ID,
+                Tags: item.Tags
             }
 
             // Check for resemblance
@@ -157,12 +159,14 @@ const MatchItemDetail = () => {
                 const banner = doc.data().Banner
                 const timestamp = doc.data().Timestamp
                 const id = doc.data().ID
+                const tags = doc.data().Tags
 
                 const matchObject = {
                     Title: title,
                     Banner: banner,
                     Timestamp: timestamp,
                     ID: id,
+                    Tags: tags
                 }
 
                 matchArray.push(matchObject)
@@ -186,6 +190,7 @@ const MatchItemDetail = () => {
                     items.ID = match.ID
                     items.Status = match.Status
                     items.Rating = match.Rating
+                    items.Tags = match.Tags
                 }
             }
         }
@@ -224,10 +229,6 @@ const MatchItemDetail = () => {
 
         const quality = rating -1
 
-        console.log(rating)
-
-        console.log(quality)
-
         return (
           <div className="star-rating">
             {[...Array(5)].map((star, index) => {
@@ -245,6 +246,24 @@ const MatchItemDetail = () => {
           </div>
         );
       };
+      
+      const typeColor = (item) => {
+
+        let color = ''
+
+        console.log(item)
+
+        mainTags && mainTags.forEach(tag => {
+            const tagMain = tag.Tag
+
+            if(item.Tags.includes(tagMain)){
+                color = tag.Color
+            }
+        })
+
+        return color
+
+    }
     
     return (
         <div className="main">
@@ -255,7 +274,7 @@ const MatchItemDetail = () => {
                     {ItemArray && ItemArray.map(item => (
                         <div className="article">
                             <h1>{item.Title}</h1>
-                            <img className="match-item-detail-banner" src={item.Banner} alt="" />
+                            <img className="match-item-detail-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div id='profile-fields-container'>
                                 <h3>Over mij</h3>
                                 {item.Fields.map(field => (
@@ -283,7 +302,7 @@ const MatchItemDetail = () => {
                                 <h3>Mogelijke matches</h3>
                                 {matchArray && matchArray.map(match => (
                                     <div className='match-detail-container'>
-                                        <img src={match.Banner} alt="" data-id={match.ID} onClick={itemLink} />
+                                        <img src={match.Banner} alt="" data-id={match.ID} onClick={itemLink} style={{border: `3px solid ${typeColor(match)}`}}/>
                                         <p id='match-detail-item-title' data-id={match.ID} onClick={itemLink}>{match.Title}</p>
                                         <p>{match.Matches.length} {resemblance(match.Matches.length)}</p>
                                         {match.Matches.map(m => (
@@ -298,13 +317,16 @@ const MatchItemDetail = () => {
                                 <h3>Matches</h3>
                                 {matchesOverview.Match && matchesOverview.Match.map(match => (
                                     <div className='match-detail-container'>
-                                        <img src={match.Banner} alt="" data-id={matchesOverview.ID} onClick={matchLink} />
+                                        <img src={match.Banner} alt="" data-id={matchesOverview.ID} onClick={matchLink} style={{border: `3px solid ${typeColor(match)}`}}/>
                                         <p id='match-detail-item-title' data-id={matchesOverview.ID} onClick={matchLink}>{match.Title}</p>
                                         <StarRating rating={matchesOverview.Rating}/> 
                                         <Status status={matchesOverview.Status}/>
                                     </div>
                                 ))}
 
+                            </div>
+                            <div>
+                                <p>Aangemeld op <b>{item.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</b></p>
                             </div>
                         </div>
                     ))}

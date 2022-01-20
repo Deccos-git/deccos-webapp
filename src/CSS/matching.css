@@ -49,6 +49,7 @@
     align-items: center;
     border-bottom: 1px solid lightgray;
     margin-bottom: 5px;
+    padding-left: 10px;
 }
 
 .categorie-inner-container p{
@@ -332,6 +333,28 @@ color: #ccc;
 .profile-field-inner-container{
     padding-left: 10px;
     border-left: 1px solid lightgray;
+}
+
+.Main{
+    border: 3px solid gray;
+    background-color: rgb(243, 243, 243);
+}
+
+.main-categorie-tag-color{
+    width: 50px;
+    padding: 0px
+}
+
+.select-tag-color-container{
+    align-items: center;
+}
+
+.select-tag-color-container p{
+    margin-bottom: 10px;
+}
+
+.select-tag-color-container input{
+    margin: 0px 10px 5px 10px;
 }
 
 @media only screen and (max-width: 1024px){

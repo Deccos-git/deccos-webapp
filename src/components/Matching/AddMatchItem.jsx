@@ -201,12 +201,15 @@ const MatchCategories = () => {
 
     // Save new match item
 
-    const newArray = []
-
     const saveItem = (e) => {
 
         e.target.style.color = 'lightgray'
         e.target.innerText = 'Opgeslagen'
+
+        setTimeout(() => {
+            e.target.style.color = '#008000'
+            e.target.innerText = 'Opslaan'
+        }, 3000);
 
         const id = uuid()
 

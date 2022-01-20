@@ -2132,43 +2132,8 @@
       align-items: center;
   }
 
-  .article-body-container{
-      border-top: 1px solid lightgray
-  }
-
-  .article-body-container p{
-      color: #2F2C41;
-  }
-
   .activity-card-timestamp{
       text-align: center;
-  }
-
-  .article-body-container li{
-    color: #2F2C41;
-}
-
-  .article-container{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-  }
-
-  .article-card-user-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    z-index: 4;
-    cursor: pointer;
-    min-width: 33%;
-  }
-
-  .article-card-user-container p{
-      text-align: center;
-      margin: 10px;
-      font-weight: bold;
   }
 
   #add-channel-container input {

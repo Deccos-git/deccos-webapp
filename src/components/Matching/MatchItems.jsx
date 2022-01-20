@@ -1,4 +1,4 @@
-import {useFirestoreTimestamp, useFirestore, useFirestoreID} from "../../firebase/useFirestore"
+import {useFirestoreTimestamp, useFirestore, useFirestoreMatchTagsType} from "../../firebase/useFirestore"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar";
@@ -18,6 +18,7 @@ const MatchItems = () => {
 
     const matchItems = useFirestoreTimestamp('MatchItems')
     const categories = useFirestore('MatchCategories')
+    const mainTags = useFirestoreMatchTagsType('Main')
 
     const matchItemDetailLink = (e) => {
         const id = e.target.dataset.id
@@ -55,7 +56,8 @@ const MatchItems = () => {
                             Title: item.Title,
                             Banner: item.Banner,
                             Categories: item.Categories,
-                            ID: item.ID
+                            ID: item.ID,
+                            Tags: item.Tags
                         }
         
                         filterArray.push(filterObject)
@@ -65,7 +67,9 @@ const MatchItems = () => {
                 const itemObject = {
                     Title: item.Title,
                     Banner: item.Banner,
-                    ID: item.ID
+                    ID: item.ID,
+                    Color: item.Color,
+                    Tags: item.Tags
                 }
     
                 filterArray.push(itemObject)
@@ -126,6 +130,22 @@ const MatchItems = () => {
         })
     }, [categories])
 
+    const typeColor = (item) => {
+
+        let color = ''
+
+        mainTags && mainTags.forEach(tag => {
+            const tagMain = tag.Tag
+
+            if(item.Tags.includes(tagMain)){
+                color = tag.Color
+            }
+        })
+
+        return color
+
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -152,7 +172,7 @@ const MatchItems = () => {
                 <div className="card-container">
                     {filteredArray() && filteredArray().map(item => (
                         <div className="goal-list card" key={item.ID}>
-                            <img className="match-card-banner" src={item.Banner} alt="" />
+                            <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">
                                 <h2>{item.Title}</h2>
                             </div>

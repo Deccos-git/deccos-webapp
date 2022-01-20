@@ -122,6 +122,8 @@ const Settings = () => {
     const backgroundColorHandler = (e) => {
         const color = e.target.value 
 
+        console.log(color)
+
         setBackgroundColor(color)
     }
 

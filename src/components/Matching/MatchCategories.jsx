@@ -14,12 +14,13 @@ const MatchCategories = () => {
     const [colors] = useContext(Colors)
     const [categorie, setCategorie] = useState('')
     const [tag, setTag] = useState('')
-    const [backgroundColor, setBackgroundColor] = useState(colors.Background)
     const [categorieSummary, setCategorieSummary] = useState([])
+    const [type, setType] = useState('')
 
     const menuState = MenuStatus()
 
     const categories = useFirestore('MatchCategories')
+    const matchTags = useFirestore('MatchTags')
 
     const tags = async (categorieID) => {
 
@@ -32,11 +33,15 @@ const MatchCategories = () => {
             querySnapshot.forEach((doc) => {
 
                 const tag = doc.data().Tag
-                const id = doc.id
+                const ID = doc.data().ID
+                const docid = doc.id
+                const color = doc.data().Color
 
                 const tagObject = {
                     Name: tag,
-                    ID: id
+                    Docid: docid,
+                    ID: ID,
+                    Color: color
                 }
 
                 tagArray.push(tagObject)
@@ -56,14 +61,19 @@ const MatchCategories = () => {
 
             const categorieDetail = []
 
-            categorieDetail.push(categorie.Categorie)
-            categorieDetail.push(categorie.ID)
-
             const tagList = await tags(categorie.ID)
 
-            categorieDetail.push(tagList)
+            const detailsObject = {
+                Categorie: categorie.Categorie,
+                ID: categorie.ID,
+                Docid: categorie.docid,
+                Tags: tagList,
+                Type: categorie.Type
+            }
 
-            categorieList.push(categorieDetail)
+            categorieDetail.push(detailsObject)
+
+            categorieList.push(detailsObject)
 
         }
 
@@ -76,9 +86,8 @@ const MatchCategories = () => {
             setCategorieSummary(categorieList)
         })
         
-    }, [categories])
+    }, [categories, matchTags])
 
-    console.log(categorieSummary)
 
     const categorieHandler = (e) => {
         const categorie = e.target.value
@@ -100,7 +109,8 @@ const MatchCategories = () => {
             Categorie: categorie,
             Timestamp: timestamp,
             ID: uuid(),
-            Compagny: client
+            Compagny: client,
+            Type: type
         })
     }
 
@@ -108,6 +118,7 @@ const MatchCategories = () => {
 
         const categorie = e.target.dataset.categorie
         const categorieID = e.target.dataset.categorieid
+        const type = e.target.dataset.type
 
         db.collection('MatchTags')
         .doc()
@@ -117,17 +128,21 @@ const MatchCategories = () => {
             CategorieID: categorieID,
             Timestamp: timestamp,
             ID: uuid(),
-            Compagny: client
+            Compagny: client,
+            Color: '#ffffff',
+            Type: type
         })
+
     }
 
     const deleteCategorie = (e) => {
         const id = e.target.dataset.id 
 
+        console.log(id)
+
         db.collection('MatchCategories')
         .doc(id)
         .delete()
-
     }
 
     const deleteTag = (e) => {
@@ -139,8 +154,60 @@ const MatchCategories = () => {
 
     }
 
+    const typeHandler = (e) => {
+        const option = e.target.options
+
+        const categorie = option[option.selectedIndex].value
+
+        setType(categorie)
+    }
+
+    
+    const ColorTagSelect = ({tag, summary}) => {
+        const [tagColor, setTagColor] = useState('')
+
+        useEffect(() => {
+            db.collection('MatchTags')
+            .doc(tag.Docid)
+            .get()
+            .then(doc => {
+                    const color = doc.data() && doc.data().Color 
+
+                    setTagColor(color)
+            })
+        },[])
+
+        const tagColorHandler = (e) => {
+            const color = e.target.value 
+    
+            setTagColor(color)
+        }
+
+        const saveTagColor = (e) => {
+
+            const docid = e.target.dataset.id 
+    
+            console.log(docid)
+            console.log(tagColor)
+    
+            db.collection('MatchTags')
+            .doc(docid)
+            .update({
+                Color: tagColor
+            })
+        }
+
+        return (
+            <div className='select-tag-color-container' style={{display: summary.Type === 'Main' ? 'flex' : 'none'}}>
+                <p>Selecteer kleur</p>
+                <input type="color" data-id={tag.Docid} defaultValue={tag.Color} value={tagColor}  className='main-categorie-tag-color' onChange={tagColorHandler} />
+                <button className='button-simple' data-id={tag.Docid} onClick={saveTagColor}>Opslaan</button>
+            </div>
+        )
+    }
+
     return (
-        <div className="main" style={{backgroundColor:backgroundColor}}>
+        <div className="main" style={{backgroundColor:colors.Background}}>
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
@@ -151,21 +218,22 @@ const MatchCategories = () => {
                 <div className='divider'>
                     <h4>Categorien</h4>
                     {categorieSummary && categorieSummary.map(summary => (
-                    <div className='categorie-container' key={summary.ID}>
+                    <div className={`categorie-container ${summary.Type}`} key={summary.ID}>
                         <div className='categorie-inner-container'>
-                            <p className='categorie-title'>{summary[0]}</p>
-                            <img src={deleteIcon} alt="" data-id={summary[1]} onClick={deleteCategorie} />
+                            <p className='categorie-title'>{summary.Categorie}</p>
+                            <img src={deleteIcon} alt="" data-id={summary.Docid} onClick={deleteCategorie} />
                         </div>
                         <div className='tag-container'>
                             <h4>Tags</h4>
-                            {summary[2] && summary[2].map(tag => (
-                                <div className='categorie-inner-container' key={tag.ID}>
+                            {summary.Tags && summary.Tags.map(tag => (
+                                <div className='categorie-inner-container' key={tag.ID} style={{borderLeft: `5px solid ${tag.Color}` }}>
                                     <p>{tag.Name}</p>
-                                    <img src={deleteIcon} data-id={tag.ID} alt="" onClick={deleteTag} />
+                                    <ColorTagSelect tag={tag} summary={summary}/>
+                                    <img src={deleteIcon} data-id={tag.Docid} alt="" onClick={deleteTag} />
                                 </div>
                             ))}
                             <input type="text" placeholder='Voeg tag toe' onChange={tagHandler} />
-                            <button className='button-simple' data-categorieid={summary[1]} data-categorie={summary[0]} onClick={saveTag}>Opslaan</button>
+                            <button className='button-simple' data-categorieid={summary.ID} data-categorie={summary.Categorie} data-type={summary.Type} onClick={saveTag}>Opslaan</button>
                         </div>
                     </div>
                     ))}
@@ -174,6 +242,11 @@ const MatchCategories = () => {
                     <h4>Voeg een categorie toe</h4>
                     <p>Categorie</p>
                     <input type="text" placeholder='Geef je categorie een naam' onChange={categorieHandler} />
+                    <p>Selecteer categorie type</p>
+                    <select name="" id="" onChange={typeHandler}>
+                        <option value="Filter">Filter categorie</option>
+                        <option value="Main">Hoofd categorie</option>
+                    </select>
                     <div>
                         <button className='button-simple' onClick={saveCategorie}>Opslaan</button>
                     </div>

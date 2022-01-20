@@ -936,6 +936,29 @@ const useFirestoreMatchRoadmaps = () => {
     return docs
 };
 
+const useFirestoreMatchTagsType = (type) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('MatchTags')
+        .where('Compagny', '==', client)
+        .where('Type', '==', type)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [type])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -977,5 +1000,6 @@ export {
     useFirestoreMyEvents,
     useFirestoreQuestionnaireFields,
     useFirestoreMatches,
-    useFirestoreMatchRoadmaps
+    useFirestoreMatchRoadmaps,
+    useFirestoreMatchTagsType
 }

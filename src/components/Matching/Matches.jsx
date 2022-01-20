@@ -1,4 +1,4 @@
-import {useFirestoreTimestamp, useFirestore, useFirestoreID, useFirestoreMatches} from "../../firebase/useFirestore"
+import {useFirestoreTimestamp, useFirestore, useFirestoreMatchTagsType} from "../../firebase/useFirestore"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar";
@@ -17,6 +17,7 @@ const Matches = () => {
     const history = useHistory()
 
     const matches = useFirestore('Matches')
+    const mainTags = useFirestoreMatchTagsType('Main')
 
     const items = async (id) => {
 
@@ -31,12 +32,14 @@ const Matches = () => {
                     const banner = doc.data().Banner
                     const timestamp = doc.data().Timestamp
                     const id = doc.data().ID
+                    const tags = doc.data().Tags
 
                     const matchObject = {
                         Title: title,
                         Banner: banner,
                         Timestamp: timestamp,
                         ID: id,
+                        Tags: tags
                     }
 
                     matchDuo.push(matchObject)
@@ -119,7 +122,24 @@ const Matches = () => {
           </div>
         );
       };
-   
+
+    const typeColor = (item) => {
+
+        let color = ''
+
+        console.log(item)
+
+        mainTags && mainTags.forEach(tag => {
+            const tagMain = tag.Tag
+
+            if(item.Tags.includes(tagMain)){
+                color = tag.Color
+            }
+        })
+
+        return color
+
+    }
 
     return (
         <div className="main">
@@ -139,7 +159,7 @@ const Matches = () => {
                                 <>
                                 {match.map(item => (
                                     <div className='matches-inner-container'>
-                                        <img className="match-card-banner" src={item.Banner} alt="" />
+                                        <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}}/>
                                         <div className="goalcard-body-div">
                                             <h2>{item.Title}</h2>
                                         </div>

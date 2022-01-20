@@ -1,4 +1,4 @@
-import { useFirestoreID, useFirestoreMessages, useFirestoreMatchRoadmaps } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestoreMatchRoadmaps, useFirestoreMatchTagsType } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
 import MessageBar from "../MessageBar"
 import LeftSideBar from "../LeftSideBar"
@@ -26,6 +26,7 @@ const MatchDetail = () => {
     const messages  = useFirestoreMessages("Messages", route )
     const matches = useFirestoreID("Matches", route)
     const matchRoadmaps = useFirestoreMatchRoadmaps()
+    const mainTags = useFirestoreMatchTagsType('Main')
 
     // Set default rating in state
 
@@ -72,12 +73,14 @@ const MatchDetail = () => {
                     const banner = doc.data().Banner
                     const timestamp = doc.data().Timestamp
                     const id = doc.data().ID
+                    const tags = doc.data().Tags
 
                     const matchObject = {
                         Title: title,
                         Banner: banner,
                         Timestamp: timestamp,
                         ID: id,
+                        Tags: tags
                     }
 
                     matchDuo.push(matchObject)
@@ -196,6 +199,23 @@ const MatchDetail = () => {
           })
       }
 
+    const typeColor = (item) => {
+
+        let color = ''
+
+        console.log(item)
+
+        mainTags && mainTags.forEach(tag => {
+            const tagMain = tag.Tag
+
+            if(item.Tags.includes(tagMain)){
+                color = tag.Color
+            }
+        })
+
+        return color
+
+    }
 
     return (
         <div className="main">
@@ -211,7 +231,7 @@ const MatchDetail = () => {
                                     {match.map(item => (
                                         <div id='match-item-detail-container'>
                                             <div id='match-detail-banner-container'>
-                                                <img src={item.Banner} alt="" data-id={item.ID} onClick={matchItemDetailLink} />
+                                                <img src={item.Banner} alt="" data-id={item.ID} onClick={matchItemDetailLink} style={{border: `3px solid ${typeColor(item)}`}}/>
                                                 <h3 data-id={item.ID} onClick={matchItemDetailLink}>{item.Title}</h3>
                                             </div>
                                         </div>
