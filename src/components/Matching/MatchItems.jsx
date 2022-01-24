@@ -9,15 +9,16 @@ import { useEffect, useState } from 'react'
 import { db, timestamp } from "../../firebase/config.js"
 
 const MatchItems = () => {
-    const [filterTag, setFilterTag] = useState(null)
+    const [filterTags, setFilterTags] = useState(null)
     const [filter, setFilter] = useState([])
-    const [tagsList, setTagsList] = useState([])
+    const [filterItems, setFilterItems] = useState([])
 
     const menuState = MenuStatus()
     const history = useHistory()
 
     const matchItems = useFirestoreTimestamp('MatchItems')
     const categories = useFirestore('MatchCategories')
+    const tags = useFirestore('MatchTags')
     const mainTags = useFirestoreMatchTagsType('Main')
 
     const matchItemDetailLink = (e) => {
@@ -28,58 +29,104 @@ const MatchItems = () => {
 
     // Get user filter inputs
 
+    const selectedTagsArray = []
+
     const filterTagHandler = (e) => {
         const option = e.target.options
 
-        const tag = option[option.selectedIndex].innerHTML
+        const tagSelected = option[option.selectedIndex].innerHTML
+        const categorie = e.target.dataset.categorie
 
-        if(tag === '-- Selecteer --'){
-            setFilterTag(null)
-        } else {
-            setFilterTag(tag)
-        }
+        selectedTagsArray.push(tagSelected)
+
+        filterTags && filterTags[categorie].forEach((tag) => {
+            if(selectedTagsArray.includes(tag.Tag) && tag.Tag !== tagSelected){
+                const index = selectedTagsArray.indexOf(tag.Tag)
+                selectedTagsArray.splice(index, 1)
+            }
+        })
+
+        filterAllItems(selectedTagsArray)
+
     }
 
-    // Filter items based on user filter data
+    // Filter items 
+    const filterAllItems = (array) => {
 
-    const filteredArray = () => {
+        const newArray = []
+
+        array && array.forEach(tag => {
+            console.log(filterItems)
+            filterItems && filterItems.forEach(item => {
+                if(item.Tags.includes(tag)){
+                    newArray.push(item)
+                }
+            })
+        })
+
+        setFilterItems(newArray)
+    }
+    
+    // Set all tags in state
+
+    useEffect(() => {
+
+        // Get all tags and categories in an array
+
+        const tagArray = tags && tags.map(tag => {
+            return {Categorie: tag.Categorie,
+                    Tag: tag.Tag}
+        })
+
+        // Group the array by categorie
+
+        if (tagArray){
+            const groupBy = (tagArray, property) => {
+                return tagArray.reduce((acc, obj) => {
+                  let key = obj[property]
+                  if (!acc[key]) {
+                    acc[key] = []
+                  }
+                  acc[key].push(obj)
+                  return acc
+                }, {})
+              }
+
+            // Create array of grouped tags
+
+            const arrayOfSelectedTags = groupBy(tagArray, 'Categorie')
+
+            // Set state with filtertags
+
+            setFilterTags(arrayOfSelectedTags)
+        } 
+
+    }, [tags])
+
+    // Set all items to filtered array in state
+
+    useEffect(() => {
 
         const filterArray = []
 
         matchItems && matchItems.forEach(item => {
 
-            if(filterTag !== null){
+            const filterObject = {
+                Title: item.Title,
+                Banner: item.Banner,
+                Categories: item.Categories,
+                ID: item.ID,
+                Tags: item.Tags
+            }
 
-                    if(item.Tags.includes(filterTag)){
+            filterArray.push(filterObject)
 
-                        const filterObject = {
-                            Title: item.Title,
-                            Banner: item.Banner,
-                            Categories: item.Categories,
-                            ID: item.ID,
-                            Tags: item.Tags
-                        }
-        
-                        filterArray.push(filterObject)
-                    }
-            } else if(filterTag === null){
-                
-                const itemObject = {
-                    Title: item.Title,
-                    Banner: item.Banner,
-                    ID: item.ID,
-                    Color: item.Color,
-                    Tags: item.Tags
-                }
-    
-                filterArray.push(itemObject)
-
-            }            
         })
 
-        return filterArray
+        setFilterItems(filterArray)
+    }, [matchItems])
 
-    }
+    // Create filter tags
 
     const findTags = async (categorie) => {
 
@@ -106,8 +153,6 @@ const MatchItems = () => {
 
         for(const categorie of categories){
 
-            console.log(categorie)
-
             const tagList = await findTags(categorie.Categorie)
 
             const categorieObject = {
@@ -118,8 +163,6 @@ const MatchItems = () => {
 
             categorieList.push(categorieObject)
         }
-
-        console.log(categorieList)
         
         return categorieList
     }
@@ -159,7 +202,7 @@ const MatchItems = () => {
                        {filter && filter.map(filter => (
                            <div id="filter-inner-container" key={filter.ID}>
                                <h3>{filter.Categorie}</h3>
-                               <select name="" id="" onChange={filterTagHandler}>
+                               <select name="" id="" data-categorie={filter.Categorie} onChange={filterTagHandler}>
                                    <option value="">-- Alle --</option>
                                    {filter.Tags.map(tag => (
                                        <option value="">{tag}</option>
@@ -170,7 +213,7 @@ const MatchItems = () => {
                     </div>
                 </div>
                 <div className="card-container">
-                    {filteredArray() && filteredArray().map(item => (
+                    {filterItems && filterItems.map(item => (
                         <div className="goal-list card" key={item.ID}>
                             <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">
