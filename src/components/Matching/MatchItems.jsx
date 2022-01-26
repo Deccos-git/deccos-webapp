@@ -11,7 +11,8 @@ import { db, timestamp } from "../../firebase/config.js"
 const MatchItems = () => {
     const [filterTags, setFilterTags] = useState(null)
     const [filter, setFilter] = useState([])
-    const [filterItems, setFilterItems] = useState([])
+    // const [filterItems, setFilterItems] = useState([])
+    const [selectedTags, setSelectedTags] = useState([])
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -25,6 +26,29 @@ const MatchItems = () => {
         const id = e.target.dataset.id
 
         history.push(`/${client}/MatchItemDetail/${id}`)
+    }
+
+    // Set all items to filtered array in state
+
+    const filterItems = () => {
+
+        const filterArray = []
+
+        matchItems && matchItems.forEach(item => {
+
+            const filterObject = {
+                Title: item.Title,
+                Banner: item.Banner,
+                Categories: item.Categories,
+                ID: item.ID,
+                Tags: item.Tags
+            }
+
+            filterArray.push(filterObject)
+
+        })
+
+        return filterArray
     }
 
     // Get user filter inputs
@@ -47,24 +71,33 @@ const MatchItems = () => {
         })
 
         filterAllItems(selectedTagsArray)
-
     }
 
+
     // Filter items 
+
+    const newArray = []
+
     const filterAllItems = (array) => {
 
-        const newArray = []
+        console.log(array)
+        console.log(newArray)
 
-        array && array.forEach(tag => {
-            console.log(filterItems)
-            filterItems && filterItems.forEach(item => {
-                if(item.Tags.includes(tag)){
+        while(newArray.length > 0) {
+            newArray.pop();
+        }
+        
+            filterItems().forEach(item => {
+            console.log(newArray.length)
+
+            array.every(filterTag => {
+                if(item.Tags.includes(filterTag)){
                     newArray.push(item)
                 }
             })
         })
 
-        setFilterItems(newArray)
+        console.log(newArray)
     }
     
     // Set all tags in state
@@ -102,29 +135,6 @@ const MatchItems = () => {
         } 
 
     }, [tags])
-
-    // Set all items to filtered array in state
-
-    useEffect(() => {
-
-        const filterArray = []
-
-        matchItems && matchItems.forEach(item => {
-
-            const filterObject = {
-                Title: item.Title,
-                Banner: item.Banner,
-                Categories: item.Categories,
-                ID: item.ID,
-                Tags: item.Tags
-            }
-
-            filterArray.push(filterObject)
-
-        })
-
-        setFilterItems(filterArray)
-    }, [matchItems])
 
     // Create filter tags
 
@@ -213,7 +223,7 @@ const MatchItems = () => {
                     </div>
                 </div>
                 <div className="card-container">
-                    {filterItems && filterItems.map(item => (
+                    {newArray && newArray.map(item => (
                         <div className="goal-list card" key={item.ID}>
                             <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">

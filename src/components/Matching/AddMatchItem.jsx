@@ -7,7 +7,7 @@ import { Colors } from "../../StateManagment/Colors";
 import { db, timestamp } from "../../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../../hooks/Client"
-import {useFirestore } from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreMatchTagsType } from "../../firebase/useFirestore"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
@@ -27,6 +27,7 @@ const MatchCategories = () => {
 
     const matchItems = useFirestore('MatchItems')
     const matchProfileFields = useFirestore('MatchProfileFields')
+    const mainTags = useFirestoreMatchTagsType('Main')
 
     const deleteMatchItem  = (e) => {
 
@@ -213,7 +214,7 @@ const MatchCategories = () => {
 
         const id = uuid()
 
-        // Create seperate objects from titles
+        // Create seperate objects from titles in profile fields
 
         function groupBy(objectArray, property) {
             return objectArray.reduce((acc, obj) => {
@@ -261,9 +262,6 @@ const MatchCategories = () => {
             ProfileFields: filteredArray
 
         })
-        .then(
-            tagArray.splice(0,tagArray.length)
-        )
         .then(() => {
             db.collection("Search")
             .doc()
@@ -277,6 +275,10 @@ const MatchCategories = () => {
                 Description: filteredArray
             })
         })
+        .then(() => {
+            window.location.reload(false);
+        })
+        
     }
 
     const matchItemDetailLink = (e) => {
@@ -307,6 +309,22 @@ const MatchCategories = () => {
                 return null
             }
     }
+
+    const typeColor = (item) => {
+
+        let color = ''
+
+        mainTags && mainTags.forEach(tag => {
+            const tagMain = tag.Tag
+
+            if(item.Tags.includes(tagMain)){
+                color = tag.Color
+            }
+        })
+
+        return color
+
+    }
     
     return (
         <div className="main" style={{backgroundColor: colors.Background}}>
@@ -323,7 +341,7 @@ const MatchCategories = () => {
                     <div className='categorie-container' key={item.ID}>
                         <div className='match-item-inner-container'>
                             <div className='match-item-inner-inner-container'>
-                                <img className='match-item-banner' src={item.Banner} alt="" />
+                                <img className='match-item-banner' src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                                 <p className='categorie-title'>{item.Title}</p>
                             </div>
                             <div className='match-item-inner-inner-container'>
