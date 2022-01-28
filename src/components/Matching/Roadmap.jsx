@@ -9,6 +9,7 @@ import uuid from 'react-uuid';
 import { client } from "../../hooks/Client"
 import {useFirestoreMatchRoadmaps} from "../../firebase/useFirestore"
 import deleteIcon from '../../images/icons/delete-icon.png'
+import completeIcon from '../../images/icons/complete-icon.png'
 
 const RoadMap = () => {
     const [colors] = useContext(Colors)
@@ -42,7 +43,9 @@ const RoadMap = () => {
             Position: position,
             ID: uuid(),
             Compagny: client,
-            Timestamp: timestamp
+            Timestamp: timestamp,
+            Completed: false,
+            Icon: completeIcon,
         })
     }
 

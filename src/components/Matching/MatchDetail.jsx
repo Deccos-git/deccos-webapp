@@ -12,8 +12,13 @@ import Location from "../../hooks/Location"
 import Reaction from "../Reaction"
 import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config"
+import completeIcon from '../../images/icons/complete-icon.png'
+import userIcon from '../../images/icons/user-icon.png'
+import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
 
 const MatchDetail = () => {
+    const [authO] = useContext(Auth)
+
     const [matchesOverview, setMatchesOverview] = useState('')
     const [docid, setDocid] = useState('')
     const [status, setStatus] = useState('')
@@ -217,6 +222,47 @@ const MatchDetail = () => {
 
     }
 
+    const taskCompleted = (e) => {
+        const docid = e.target.dataset.docid 
+        const completed = e.target.dataset.completed
+
+        if(completed === 'false'){
+            db.collection('MatchRoadmaps')
+            .doc(docid)
+            .update({
+                Completed: true,
+                BackgroundColor: '#b2d7bb',
+                Icon: deleteTaskIcon,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+            })
+        } else if (completed === 'true'){
+            db.collection('MatchRoadmaps')
+            .doc(docid)
+            .update({
+                Completed: false,
+                BackgroundColor: 'white',
+                Icon: completeIcon,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+            })
+        }  
+    }
+
+    const stepUserLink = (e) => {
+        const id = e.target.dataset.id 
+
+        history.push(`/${client}/PublicProfile/${id}`)
+    }
+
+    const showStepUserPhoto = (step) => {
+        if(step.Completed === false){
+            return 'hidden'
+        }
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -260,14 +306,17 @@ const MatchDetail = () => {
                                     ))}
                                  </div>
                             </div>
-                            <div>
+                            <div id='step-outer-container'>
                                 <h3>Stappenplan</h3>
                                 {matchRoadmaps && matchRoadmaps.map(step => (
-                                    <div>
-                                        <div id='step-container'>
-                                            <p>{step.Position}.</p>
-                                            <p>{step.Title}</p>
-                                            <p className='check-icon-roadmap'>V</p>
+                                    <div id='step-container'>
+                                        <p id='step-position-roadmap'>{step.Position}</p>
+                                        <div id='step-inner-container' style={{backgroundColor: step.BackgroundColor}}>
+                                            <img src={step.Icon} id='check-icon-roadmap' data-docid={step.docid} data-completed={step.Completed} onClick={taskCompleted}/>
+                                            <p id='step-title-roadmap'>{step.Title}</p>
+                                        </div>
+                                        <div id='step-user-container' style={{visibility: showStepUserPhoto(step)}}>
+                                            <img src={step.UserPhoto} data-id={step.UserID} alt="" onClick={stepUserLink} />
                                         </div>
                                     </div>
                                 ))}

@@ -47,3 +47,21 @@
   width: 30px;
   border-radius: 50%;
 }
+
+#search-bar-container{
+  margin: 30px;
+  width: 80%;
+}
+
+#search-bar-container input{
+  border-radius: 5px;
+}
+
+#search-item-container{
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  margin: 10px;
+  background-color: white;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}

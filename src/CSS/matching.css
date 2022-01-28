@@ -300,6 +300,43 @@
     display: flex;
 }
 
+#step-inner-container{
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#step-position-roadmap{
+    margin-right: 15px;
+}
+
+#check-icon-roadmap{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#step-outer-container{
+    width: 80%;
+}
+
+#step-outer-container h3{
+    text-align: center;
+}
+
+#step-title-roadmap{
+    margin-left: 20px;
+}
+
+#step-user-container img{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
 #profile-fields-container{
     margin-top: 50px;
 }

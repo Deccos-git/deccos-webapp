@@ -11,8 +11,6 @@ import { db, timestamp } from "../../firebase/config.js"
 const MatchItems = () => {
     const [filterTags, setFilterTags] = useState(null)
     const [filter, setFilter] = useState([])
-    // const [filterItems, setFilterItems] = useState([])
-    const [selectedTags, setSelectedTags] = useState([])
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -29,8 +27,7 @@ const MatchItems = () => {
     }
 
     // Set all items to filtered array in state
-
-    const filterItems = () => {
+    const allItems = () => {
 
         const filterArray = []
 
@@ -41,7 +38,7 @@ const MatchItems = () => {
                 Banner: item.Banner,
                 Categories: item.Categories,
                 ID: item.ID,
-                Tags: item.Tags
+                Tags: item.Tags,
             }
 
             filterArray.push(filterObject)
@@ -52,67 +49,72 @@ const MatchItems = () => {
     }
 
     // Get user filter inputs
-
     const selectedTagsArray = []
 
     const filterTagHandler = (e) => {
         const option = e.target.options
 
-        const tagSelected = option[option.selectedIndex].innerHTML
+        const tagSelected = option[option.selectedIndex].value
         const categorie = e.target.dataset.categorie
 
         selectedTagsArray.push(tagSelected)
 
+        // Handle new option in categorie
+        handleNewOptionInCategorie(categorie, tagSelected)
+
+        // Handle all option
+        handleAllOption(tagSelected)
+
+        // Filter items
+        filterItems(selectedTagsArray)
+    }
+
+    const handleNewOptionInCategorie = (categorie, tagSelected) => {
         filterTags && filterTags[categorie].forEach((tag) => {
             if(selectedTagsArray.includes(tag.Tag) && tag.Tag !== tagSelected){
                 const index = selectedTagsArray.indexOf(tag.Tag)
                 selectedTagsArray.splice(index, 1)
             }
         })
-
-        filterAllItems(selectedTagsArray)
     }
 
+    const handleAllOption = (tagSelected) => {
+        if(tagSelected === 'All'){
+            const index = selectedTagsArray.indexOf(tagSelected)
+            selectedTagsArray.splice(index, 1)
+        }
+    }
 
     // Filter items 
-
-    const newArray = []
-
-    const filterAllItems = (array) => {
+    const filterItems = (array) => {
 
         console.log(array)
-        console.log(newArray)
 
-        while(newArray.length > 0) {
-            newArray.pop();
-        }
-        
-            filterItems().forEach(item => {
-            console.log(newArray.length)
+        const newArray = []
 
-            array.every(filterTag => {
-                if(item.Tags.includes(filterTag)){
-                    newArray.push(item)
-                }
-            })
+        allItems().forEach(item => {
+
+            if(array.every(tag => item.Tags.includes(tag))){
+                newArray.push(item)
+            }
         })
 
         console.log(newArray)
+
+        return newArray
     }
+
     
     // Set all tags in state
-
     useEffect(() => {
 
         // Get all tags and categories in an array
-
         const tagArray = tags && tags.map(tag => {
             return {Categorie: tag.Categorie,
                     Tag: tag.Tag}
         })
 
         // Group the array by categorie
-
         if (tagArray){
             const groupBy = (tagArray, property) => {
                 return tagArray.reduce((acc, obj) => {
@@ -126,18 +128,15 @@ const MatchItems = () => {
               }
 
             // Create array of grouped tags
-
             const arrayOfSelectedTags = groupBy(tagArray, 'Categorie')
 
             // Set state with filtertags
-
             setFilterTags(arrayOfSelectedTags)
         } 
 
     }, [tags])
 
     // Create filter tags
-
     const findTags = async (categorie) => {
 
         const tags = []
@@ -213,9 +212,9 @@ const MatchItems = () => {
                            <div id="filter-inner-container" key={filter.ID}>
                                <h3>{filter.Categorie}</h3>
                                <select name="" id="" data-categorie={filter.Categorie} onChange={filterTagHandler}>
-                                   <option value="">-- Alle --</option>
+                                   <option value="All">-- Alle --</option>
                                    {filter.Tags.map(tag => (
-                                       <option value="">{tag}</option>
+                                       <option value={tag}>{tag}</option>
                                    ))}
                                </select>
                            </div>
@@ -223,7 +222,7 @@ const MatchItems = () => {
                     </div>
                 </div>
                 <div className="card-container">
-                    {newArray && newArray.map(item => (
+                    {allItems() && allItems().map(item => (
                         <div className="goal-list card" key={item.ID}>
                             <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">

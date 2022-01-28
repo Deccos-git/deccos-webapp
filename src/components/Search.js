@@ -3,63 +3,83 @@ import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
-import algoliasearch from 'algoliasearch/lite'
-import {
-    InstantSearch,
-    Hits,
-    SearchBox,
-  } from 'react-instantsearch-dom';
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { client } from '../hooks/Client';
-
-const searchClient = algoliasearch('BTFVOCIBOO', '4d04d8398ec514e63f0f8fe5bef9d629')
+import { Auth } from '../StateManagment/Auth';
 
 const Search = () => {
+    const [authO] = useContext(Auth)
+    const [input, setInput] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory();
 
-    const Hit = ({ hit }) => {
+    const searchItems = useFirestore('Search')
 
-        let state = null
+    const searchInputHandler = (e) => {
+        const input = e.target.value 
 
-        if(hit.Compagny === client){
-            state = "block"
-        } else {
-            state = "none"
-        }
-        return (
-            <div className="hit-container" style={{display: state}}>
-                <h2>{hit.Name}</h2>
-                <p>Soort: {hit.Type}</p>
-                <button onClick={updateRoute} data-link={hit.Link}>Bekijk</button>
-            </div>
-        )
+        setInput(input)
     }
 
-    const updateRoute = (e) => {
+    const filter = () => {
 
-        const link = e.target.dataset.link
+        const itemArray = []
 
-        history.push(`/${client}/${link}`)
+        searchItems && searchItems.forEach(item => {
+            if(item.Name.includes(input)){
+                itemArray.push(item)
+            } else if(item.Description){
+                item.Description.forEach(description => {
+                    if(description.Input.includes(input)){
+                        itemArray.push(item)
+                    }
+                })
+            }
+        })
 
+        return itemArray
     }
+
+    console.log(authO)
 
     return (
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
             <div className="card-overview">
+                <div id='search-bar-container'>
+                    <input type="text" placeholder={`Waar zoek je naar op zoek ${authO.ForName}?`} onChange={searchInputHandler} />
+                </div>
                 <div id="search-container" style={{display: menuState}}>
-                <InstantSearch indexName="Deccos" searchClient={searchClient}>
+                    {filter().map(item => (
+                        <div id='search-item-container'>
+                            <div>
+                                <h3>Text</h3>
+                                <p>{item.Name}</p>
+                            </div>
+                            <div>
+                                <h3>{item.Description && 'Omschrijving'}</h3>
+                                {item.Description && item.Description.map(input => (
+                                <p>{input.Input}</p>
+                            ))}
+                            </div>
+                            <div>
+                                <h3>Type</h3>
+                                <p>{item.Type}</p>
+                            </div>
+                            <a href={item.Link}><button>Bekijk</button></a>
+                        </div>
+                    ))}
+                {/* <InstantSearch indexName="Deccos" searchClient={searchClient}>
                     <div className="right-panel">
                         <SearchBox translations={{
                             placeholder: 'Zoek hier...',
                         }} />
                         <Hits hitComponent={Hit} />
                     </div>
-                </InstantSearch>
-            </div>
+                </InstantSearch> */}
+                </div>
             </div>
             <RightSideBar />
         </div>
