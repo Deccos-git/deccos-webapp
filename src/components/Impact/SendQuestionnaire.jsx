@@ -1,12 +1,12 @@
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "./rightSideBar/RightSideBar"
-import Location from "../hooks/Location"
-import MenuStatus from "../hooks/MenuStatus";
-import { useFirestoreID, useFirestore } from "../firebase/useFirestore"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import RightSideBar from "../rightSideBar/RightSideBar"
+import Location from "../../hooks/Location"
+import MenuStatus from "../../hooks/MenuStatus";
+import { useFirestoreID, useFirestore } from "../../firebase/useFirestore"
 import { useState, useRef, useEffect } from "react";
-import { client } from "../hooks/Client";
-import { db, timestamp } from "../firebase/config";
+import { client } from "../../hooks/Client";
+import { db, timestamp } from "../../firebase/config";
 
 const SendQuestionnaire = () => {
     const route = Location()[3]
@@ -82,11 +82,15 @@ const SendQuestionnaire = () => {
 
     const removeEmailAdress = (e) => {
 
+        e.target.style.display = 'none'
+
         const email = e.target.dataset.email
 
         const postition = emailList.indexOf(email) 
 
         const array = emailList 
+
+        console.log(array)
 
         array.splice(postition, 1) 
 

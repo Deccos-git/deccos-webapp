@@ -1,12 +1,14 @@
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "./rightSideBar/RightSideBar"
-import MenuStatus from "../hooks/MenuStatus";
-import { client } from "../hooks/Client"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import RightSideBar from "../rightSideBar/RightSideBar"
+import MenuStatus from "../../hooks/MenuStatus";
+import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
-import { db, timestamp } from "../firebase/config.js"
-import { useFirestore } from "../firebase/useFirestore"
+import { db, timestamp } from "../../firebase/config.js"
+import { useFirestore } from "../../firebase/useFirestore"
+import sendIcon from '../../images/icons/send-icon.png'
+import editIcon from '../../images/icons/edit-icon.png'
 
 const QuestionnaireSettings = () => {
 
@@ -58,10 +60,12 @@ const QuestionnaireSettings = () => {
                 <div className="divider">
                     <h2>Vragenlijsten</h2>
                     {questionnaires && questionnaires.map(questionnaire => (
-                        <div className='events-signups-container'>
+                        <div className='impact-questionnaires-container'>
                             <h3>{questionnaire.Title}</h3>
-                            <button className='button-simple' data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire}>Versturen</button>
-                            <button className='button-simple' data-id={questionnaire.ID} onClick={questionnaireLink}>Bekijk</button>
+                            <div id='impact-questionnaire-icon-container'>
+                                <img src={sendIcon} alt="" data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire} />
+                                <img src={editIcon} alt="" data-id={questionnaire.ID} onClick={questionnaireLink}/>
+                            </div>
                         </div>
                     ))}
 

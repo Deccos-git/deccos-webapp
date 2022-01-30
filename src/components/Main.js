@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import "../CSS/main.css";
 import "../CSS/matching.css";
 import "../CSS/community.css";
+import "../CSS/impact.css";
 import GoalDetail from "./goals/GoalDetail";
 import AddArticle from "./AddArticle";
 import { client } from '../hooks/Client';
@@ -68,12 +69,12 @@ import ActivityGoal from './ActivityGoal'
 import TaskDetail from './TaskDetail'
 import Tasks from './Tasks'
 import EventSignups from './EventSignups';
-import QuestionnaireSettings from './QuestionnaireSettings';
+import QuestionnaireSettings from './Impact/QuestionnaireSettings';
 import AddQuestionnaire from './AddQuestionnaire';
-import SendQuestionnaire from './SendQuestionnaire';
-import Stakeholders from './Stakeholders';
-import ImpactIndicators from './ImpactIndicators';
-import ImpactProgress from './ImpactProgress';
+import SendQuestionnaire from './Impact/SendQuestionnaire';
+import Stakeholders from './Impact/Stakeholders';
+import ImpactIndicators from './Impact/ImpactIndicators';
+import ImpactProgress from './Impact/ImpactProgress';
 import MatchCategories from './Matching/MatchCategories';
 import AddMatchItem from './Matching/AddMatchItem'
 import MatchItems from './Matching/MatchItems';

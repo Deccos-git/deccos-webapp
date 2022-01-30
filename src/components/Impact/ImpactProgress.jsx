@@ -1,11 +1,11 @@
-import LeftSideBar from "./LeftSideBar";
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
-import MenuStatus from "../hooks/MenuStatus";
-import { useFirestore, useFirestoreActivities, useFirestoreUsersApproved } from "../firebase/useFirestore";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import MenuStatus from "../../hooks/MenuStatus";
+import { useFirestore, useFirestoreActivities, useFirestoreUsersApproved } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
-import { client } from "../hooks/Client"
+import { client } from "../../hooks/Client"
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')

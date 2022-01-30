@@ -1,13 +1,13 @@
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "./rightSideBar/RightSideBar"
-import Location from "../hooks/Location"
-import MenuStatus from "../hooks/MenuStatus";
-import { useFirestore } from "../firebase/useFirestore"
-import { db, timestamp } from "../firebase/config.js"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import RightSideBar from "../rightSideBar/RightSideBar"
+import Location from "../../hooks/Location"
+import MenuStatus from "../../hooks/MenuStatus";
+import { useFirestore } from "../../firebase/useFirestore"
+import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import { useState } from "react";
-import { client } from "../hooks/Client";
+import { client } from "../../hooks/Client";
 
 const Stakeholders = () => {
     const [email, setEmail] = useState('')

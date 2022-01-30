@@ -1,10 +1,10 @@
-import RightSideBar from "./rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import MenuStatus from "../hooks/MenuStatus";
-import { db } from "../firebase/config.js"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import MenuStatus from "../../hooks/MenuStatus";
+import { db } from "../../firebase/config.js"
 import { useState, useEffect } from "react";
-import {useFirestore} from "../firebase/useFirestore"
+import {useFirestore} from "../../firebase/useFirestore"
 
 const ImpactIndicators = () => {
     const [questionniare, setQuestionniare] = useState('')
