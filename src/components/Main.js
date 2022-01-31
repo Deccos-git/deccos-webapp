@@ -83,6 +83,7 @@ import Matches from './Matching/Matches';
 import MatchDetail from './Matching/MatchDetail';
 import MatchProfileFields from './Matching/MatchProfileFields';
 import RoadMap from './Matching/Roadmap';
+import QuestionnaireAnalysis from './Impact/QuestionnaireAnalysis';
 
 const Main = () => {
 
@@ -205,6 +206,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddQuestionnaire`}>
                     <AddQuestionnaire/>
+                </Route>
+                <Route path={`/${client}/QuestionnaireAnalysis`}>
+                    <QuestionnaireAnalysis/>
                 </Route>
                 <Route path={`/${client}/Stakeholders`}>
                     <Stakeholders/>

@@ -11,6 +11,7 @@ import { db, timestamp } from "../../firebase/config.js"
 const MatchItems = () => {
     const [filterTags, setFilterTags] = useState(null)
     const [filter, setFilter] = useState([])
+    const [filteredItems, setFilteredItems] = useState([])
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -88,8 +89,6 @@ const MatchItems = () => {
     // Filter items 
     const filterItems = (array) => {
 
-        console.log(array)
-
         const newArray = []
 
         allItems().forEach(item => {
@@ -99,9 +98,23 @@ const MatchItems = () => {
             }
         })
 
-        console.log(newArray)
-
         return newArray
+    }
+
+    const filterButton = () => {
+
+        console.log(selectedTagsArray)
+
+        const newArray = []
+
+        allItems().forEach(item => {
+
+            if(selectedTagsArray.every(tag => item.Tags.includes(tag))){
+                newArray.push(item)
+            }
+        })
+
+        setFilteredItems(newArray)
     }
 
     
@@ -219,10 +232,11 @@ const MatchItems = () => {
                                </select>
                            </div>
                        ))}
+                       <button onClick={filterButton}>Filter</button>
                     </div>
                 </div>
                 <div className="card-container">
-                    {allItems() && allItems().map(item => (
+                    {filteredItems && filteredItems.map(item => (
                         <div className="goal-list card" key={item.ID}>
                             <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">

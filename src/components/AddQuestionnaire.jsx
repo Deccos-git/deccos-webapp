@@ -122,20 +122,10 @@ const AddQuestionnaire = () => {
     }
 
     const QuestionnaireField = ({field}) => {
-
-        const [question, setQuestion] = useState(null)
         const [range, setRange] = useState(null)
-
-        useEffect(() => {
-
-            setQuestion(field.Question)
-    
-        }, [field])
 
         const start = field.ReachStart
         const end = field.ReachEnd
-
-        console.log(field.Type)
 
         useEffect(() => {
 
@@ -155,14 +145,14 @@ const AddQuestionnaire = () => {
         if(field.Type === 'paragraph'){
             return(
                 <div className='question-type-display-container'>
-                    <input type='text' value={question} />
+                    <input type='text' value={field.Question} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
                 </div>
             )
         } else if(field.Type === 'scale'){
             return(
                 <div className='question-type-display-container'>
-                   <input type='text' value={question} />
+                   <input type='text' value={field.Question} />
                    <div id='scale-container'>
                        {field.ReachStartLable}
                        {range && range.map(btn => (

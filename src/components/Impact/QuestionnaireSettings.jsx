@@ -9,6 +9,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import { useFirestore } from "../../firebase/useFirestore"
 import sendIcon from '../../images/icons/send-icon.png'
 import editIcon from '../../images/icons/edit-icon.png'
+import { useState } from 'react';
 
 const QuestionnaireSettings = () => {
 
@@ -47,6 +48,41 @@ const QuestionnaireSettings = () => {
         history.push(`/${client}/SendQuestionnaire/${ID}/${key}`)
     }
 
+    const Responses = ({questionnaire}) => {
+
+        const [length, setLength] = useState(0)
+
+        const id = questionnaire.ID 
+
+        db.collection('QuestionnairesFilled')
+        .where('Compagny', '==', client)
+        .where('QuestionnaireID', '==', id)
+        .get()
+        .then(querySnapshot => {
+
+            const length = querySnapshot.size
+
+            setLength(length)
+           
+        })
+
+        if(length !== 0){
+            return <p id='responses-count' data-id={questionnaire.ID} onClick={showResponses}>Bekijk {length} responses</p>
+        } else {
+            return null
+        }
+
+
+    }
+
+    const showResponses = (e) => {
+
+        const id = e.target.dataset.id 
+
+        history.push(`/${client}/QuestionnaireAnalysis/${id}`)
+
+    }
+
     return (
         <div className="main">
         <LeftSideBarAuthProfile />
@@ -63,6 +99,7 @@ const QuestionnaireSettings = () => {
                         <div className='impact-questionnaires-container'>
                             <h3>{questionnaire.Title}</h3>
                             <div id='impact-questionnaire-icon-container'>
+                                <Responses questionnaire={questionnaire}/>
                                 <img src={sendIcon} alt="" data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire} />
                                 <img src={editIcon} alt="" data-id={questionnaire.ID} onClick={questionnaireLink}/>
                             </div>

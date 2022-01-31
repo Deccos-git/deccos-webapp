@@ -17,4 +17,26 @@
 #impact-questionnaire-icon-container{
     margin-left: auto;
     margin-right: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#responses-count{
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#responses-count:hover{
+    color: green;
+}
+
+#respons-overview-container{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    justify-content: space-between;
 }
