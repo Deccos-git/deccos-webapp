@@ -12,6 +12,8 @@ const MatchItems = () => {
     const [filterTags, setFilterTags] = useState(null)
     const [filter, setFilter] = useState([])
     const [filteredItems, setFilteredItems] = useState([])
+    const [filteredTags, setFilteredTags] = useState([])
+    const [items, setItems] = useState()
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -27,7 +29,7 @@ const MatchItems = () => {
         history.push(`/${client}/MatchItemDetail/${id}`)
     }
 
-    // Set all items to filtered array in state
+    // Get all items
     const allItems = () => {
 
         const filterArray = []
@@ -47,59 +49,81 @@ const MatchItems = () => {
         })
 
         return filterArray
+
     }
 
-    // Get user filter inputs
-    const selectedTagsArray = []
+    // Set all items to filtered array in state
+    useEffect(() => {
 
+        const filterArray = []
+
+        matchItems && matchItems.forEach(item => {
+
+            const filterObject = {
+                Title: item.Title,
+                Banner: item.Banner,
+                Categories: item.Categories,
+                ID: item.ID,
+                Tags: item.Tags,
+            }
+
+            filterArray.push(filterObject)
+
+        })
+
+        setItems(filterArray)
+
+    },[matchItems])
+
+    // Get user filter inputs
     const filterTagHandler = (e) => {
         const option = e.target.options
 
         const tagSelected = option[option.selectedIndex].value
         const categorie = e.target.dataset.categorie
 
-        selectedTagsArray.push(tagSelected)
-
-        // Handle new option in categorie
-        handleNewOptionInCategorie(categorie, tagSelected)
-
-        // Handle all option
-        handleAllOption(tagSelected)
-
-        // Filter items
-        filterItems(selectedTagsArray)
+        if(tagSelected !== 'All'){
+            setFilteredTags([...filteredTags, tagSelected])
+            handleNewOptionInCategorie(categorie, tagSelected)
+        } else if(tagSelected === 'All'){
+            handleAllOption(categorie, tagSelected)
+        }
     }
 
     const handleNewOptionInCategorie = (categorie, tagSelected) => {
         filterTags && filterTags[categorie].forEach((tag) => {
-            if(selectedTagsArray.includes(tag.Tag) && tag.Tag !== tagSelected){
-                const index = selectedTagsArray.indexOf(tag.Tag)
-                selectedTagsArray.splice(index, 1)
+            if(filteredTags.includes(tag.Tag) && tag.Tag !== tagSelected){
+                const index = filteredTags.indexOf(tag.Tag)
+                filteredTags.splice(index, 1)
+                setFilteredTags([...filteredTags, tagSelected])
             }
         })
     }
 
-    const handleAllOption = (tagSelected) => {
-        if(tagSelected === 'All'){
-            const index = selectedTagsArray.indexOf(tagSelected)
-            selectedTagsArray.splice(index, 1)
-        }
+    console.log(filteredTags)
+
+    const handleAllOption = (categorie, tagSelected) => {
+
+        filterTags && filterTags[categorie].forEach((tag) => {
+            const index = filteredTags.indexOf(tag.Tag)
+            if(index > -1){
+                filteredTags.splice(index, 1)
+                setFilteredTags([...filteredTags])
+            }
+        })
     }
 
-    // Filter items 
-    const filterItems = (array) => {
-
+    const filterButton = () => {
         const newArray = []
 
-        allItems().forEach(item => {
-
-            if(array.every(tag => item.Tags.includes(tag))){
+        allItems() && allItems().forEach(item => {
+           
+            if(filteredTags.every(tag => item.Tags.includes(tag))){
                 newArray.push(item)
             }
         })
 
-        console.log(newArray)
-
+        setItems(newArray)
     }
     
     // Set all tags in state
@@ -186,7 +210,7 @@ const MatchItems = () => {
         mainTags && mainTags.forEach(tag => {
             const tagMain = tag.Tag
 
-            if(item.Tags.includes(tagMain)){
+            if(item.Tags && item.Tags.includes(tagMain)){
                 color = tag.Color
             }
         })
@@ -216,12 +240,13 @@ const MatchItems = () => {
                                </select>
                            </div>
                        ))}
+                       <button onClick={filterButton}>Filter</button>
                     </div>
                 </div>
                 <div className="card-container">
-                    {filteredItems && filteredItems.map(item => (
+                    {items && items.map(item => (
                         <div className="goal-list card" key={item.ID}>
-                            <img className="match-card-banner" src={item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
+                            <img className="match-card-banner" src={item.Banner && item.Banner} alt="" style={{border: `3px solid ${typeColor(item)}`}} />
                             <div className="goalcard-body-div">
                                 <h2>{item.Title}</h2>
                             </div>
