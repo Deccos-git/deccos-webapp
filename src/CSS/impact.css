@@ -40,3 +40,17 @@
     margin-bottom: 20px;
     justify-content: space-between;
 }
+
+.question-analyse-container{
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#questionnaire-analysis-container{
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

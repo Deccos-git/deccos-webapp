@@ -890,12 +890,35 @@ const useFirestoreQuestionnaireFields = (id) => {
     return docs
 };
 
-const useFirestoreQuestionnairesFilled = (id) => {
+const useFirestoreQuestionnaireAnalysis = (id) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
-        const unsub = db.collection('QuestionnairesFilled')
+        const unsub = db.collection('QuestionnaireAnalysis')
+        .where('Compagny', '==', client)
+        .where('QuestionnaireID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreQuestionnairesResponses = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('QuestionnairesResponses')
         .where('Compagny', '==', client)
         .where('QuestionnaireID', '==', id)
         .onSnapshot(querySnapshot => {
@@ -1022,7 +1045,8 @@ export {
     useFirestoreMyTasks,
     useFirestoreMyEvents,
     useFirestoreQuestionnaireFields,
-    useFirestoreQuestionnairesFilled,
+    useFirestoreQuestionnairesResponses,
+    useFirestoreQuestionnaireAnalysis,
     useFirestoreMatches,
     useFirestoreMatchRoadmaps,
     useFirestoreMatchTagsType

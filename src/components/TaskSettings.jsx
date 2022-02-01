@@ -110,15 +110,6 @@ const TaskSettings = () => {
                     <p>Pas de instellingen aan de taken aan</p>
                 </div>
                 <div className='divider'>
-                    <h3>Community taken</h3>
-                    {tasks && tasks.map(task => (
-                        <div className='channel-container'>
-                            <p>{task.Task}</p>
-                            <p className='userrole-users-delete-button' data-docid={task.docid} onClick={deleteTask}>Verwijderen</p>
-                        </div>
-                    ))}
-                </div>
-                <div className='divider'>
                     <h3>Taak toevoegen</h3>
                     <h4>Selecteer een activiteit</h4>
                     <select name="" id="" onChange={activityHandler}>
@@ -139,6 +130,15 @@ const TaskSettings = () => {
                             ))}
                         </select>
                     <button className='button-simple' onClick={saveTask}>Opslaan</button>
+                </div>
+                <div className='divider'>
+                    <h3>Community taken</h3>
+                    {tasks && tasks.map(task => (
+                        <div className='channel-container'>
+                            <p>{task.Task}</p>
+                            <p className='userrole-users-delete-button' data-docid={task.docid} onClick={deleteTask}>Verwijderen</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

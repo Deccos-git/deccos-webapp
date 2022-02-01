@@ -98,25 +98,9 @@ const MatchItems = () => {
             }
         })
 
-        return newArray
+        console.log(newArray)
+
     }
-
-    const filterButton = () => {
-
-        console.log(selectedTagsArray)
-
-        const newArray = []
-
-        allItems().forEach(item => {
-
-            if(selectedTagsArray.every(tag => item.Tags.includes(tag))){
-                newArray.push(item)
-            }
-        })
-
-        setFilteredItems(newArray)
-    }
-
     
     // Set all tags in state
     useEffect(() => {
@@ -232,7 +216,6 @@ const MatchItems = () => {
                                </select>
                            </div>
                        ))}
-                       <button onClick={filterButton}>Filter</button>
                     </div>
                 </div>
                 <div className="card-container">

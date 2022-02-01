@@ -54,7 +54,7 @@ const QuestionnaireSettings = () => {
 
         const id = questionnaire.ID 
 
-        db.collection('QuestionnairesFilled')
+        db.collection('QuestionnairesResponses')
         .where('Compagny', '==', client)
         .where('QuestionnaireID', '==', id)
         .get()
@@ -67,7 +67,7 @@ const QuestionnaireSettings = () => {
         })
 
         if(length !== 0){
-            return <p id='responses-count' data-id={questionnaire.ID} onClick={showResponses}>Bekijk {length} responses</p>
+            return <p id='responses-count' data-id={questionnaire.ID} onClick={showResponses}>Analyseer {length} responses</p>
         } else {
             return null
         }
