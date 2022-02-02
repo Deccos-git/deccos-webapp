@@ -115,7 +115,7 @@ const Iconbar = () => {
                     {
                         width: '19px',
                         height: '19px',
-                        margin: '7px',
+                        margin: '10px',
                         fill: colors.TopBarIconsColor
                     }
                 }  
@@ -127,7 +127,8 @@ const Iconbar = () => {
                     {
                         width: '19px',
                         height: '19px',
-                        fill: colors.TopBarIconsColor
+                        fill: colors.TopBarIconsColor,
+                        marginBottom: '-7px'
                     }
                 }  />
             </Link>
