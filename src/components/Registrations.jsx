@@ -260,7 +260,7 @@ const Registrations = () => {
                     </div>
                     <div className='divider'>
                         <div className="verification-methode-container">
-                            <h3>Verificatie methode voor community</h3>
+                            <h3>Verificatie methode voor online omgeving</h3>
                             <p>Selecteer de verificatiemethode voor nieuwe leden</p>
                             <div className="radio-input-container">
                                 <input type="radio" name="verification-methode" id="Email" checked={verificationEmail} onChange={verificationMethhodeHandler} />
@@ -274,7 +274,7 @@ const Registrations = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Aanmeldingen voor community</h3>
+                        <h3>Aanmeldingen voor online omgeving</h3>
                         {notApprovedUsers && notApprovedUsers.map(user => (
                             <div className="userrole-users-container" key={user.ID}>
                                 <img className='pointer' src={user.Photo} alt="" data-userid={user.ID} onClick={linkToUser} />

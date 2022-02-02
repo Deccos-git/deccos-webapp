@@ -98,7 +98,7 @@ const NotApproved = () => {
                         <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
                         <div style={{display: showSendMailContainer}} className="no-email-button-container">
                             <p>Geen mail ontvangen?</p>
-                            <button className="button-simple" onClick={noMailRecieved}>Klik hier</button>
+                            <button className="button-simple" onClick={noMailRecieved}>Opnieuw versturen</button>
                         </div>
                         <div style={{display: showMailSendContainer}} className="no-email-button-container">
                             <p>We hebben opnieuw een mail gestuurd naar {authO.Email}</p>
@@ -146,6 +146,7 @@ const NotApproved = () => {
     }
 
     const verificationEmailEmail = () => {
+        console.log(authO.Email)
         db.collection("Email").doc().set({
             to: [authO.Email],
             cc: "info@Deccos.nl",
@@ -186,7 +187,6 @@ const NotApproved = () => {
                 })
             })
             .then(() => {
-                console.log('test activity')
                 db.collection("AllActivity")
                 .doc()
                 .set({
@@ -204,7 +204,6 @@ const NotApproved = () => {
                 }) 
             })
             .then(() => {
-                console.log('test graph')
                 db.collection("MemberGraph")
                 .where("Compagny", "==", client)
                 .where('Month', '==', getYearMonth)
@@ -252,7 +251,7 @@ const NotApproved = () => {
     }
 
     return (
-        <div>
+        <div id='not-approved-container'>
              <header className="top-bar">
                 <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
             </header>

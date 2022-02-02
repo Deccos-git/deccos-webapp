@@ -17,6 +17,7 @@ const LeftSideBarAuthProfile = () => {
     const [impacteer, setImpacteer] = useState(false)
     const [projectManager, setprojectManager] = useState(false)
     const [communityManager, setCommunityManager] = useState(false)
+    const [matcher, setMatcher] = useState(false)
     const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
@@ -35,6 +36,7 @@ const LeftSideBarAuthProfile = () => {
     const compagny = useFirestore("CompagnyMeta")
     const projectManagers = useFirestore('ProjectManagers')
     const communityManagers = useFirestore('CommunityManagers')
+    const matchers = useFirestore('Matchers')
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -88,6 +90,14 @@ const LeftSideBarAuthProfile = () => {
     }, [impacteers])
 
     useEffect(() => {
+        matchers && matchers.forEach(matcher => {
+            if(matcher.UserID === authO.ID){
+                setMatcher(true)
+            }
+        })
+    }, [matcher])
+
+    useEffect(() => {
             if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
                 setSuperAdmin(true)
             }
@@ -119,14 +129,6 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
-    const showMatching = () => {
-        if(displayMatches === true){
-            return 'block'
-        } else if (displayMatches === false){
-            return 'none'
-        }
-    }
-
     const showChannels = () => {
         if(displayChannels === true){
             return 'block'
@@ -143,12 +145,30 @@ const LeftSideBarAuthProfile = () => {
         }
     }
 
+    const showCommunity = () => {
+        if(displayWelcome === true || displayChannels === true || displayGroups === true){
+            return 'block'
+        } else if (displayWelcome === false  && displayChannels === false && displayGroups === false){
+            return 'none'
+        }
+    }
+
     const showProjectManagement = () => {
         if(displayProjectManagement === true  && projectManager === 'block'){
             return 'block'
         } else if (displayProjectManagement === false  && projectManager=== 'block') {
             return 'none'
         } else if (displayProjectManagement === false  && projectManager === 'none') {
+            return 'none'
+        } else if (displayProjectManagement === false  && projectManager === false) {
+            return 'none'
+        }
+    }
+
+    const showMatching = () => {
+        if(displayMatches === true){
+            return 'block'
+        } else if (displayMatches === false){
             return 'none'
         }
     }
@@ -245,7 +265,7 @@ const LeftSideBarAuthProfile = () => {
     const CommunityManagers = () => {
         if(communityManager || admin){
             return <div>
-                        <h3>Community</h3>
+                        <h3 style={{display: showCommunity()}}>Community</h3>
                         <div className="channel-inner-div">
                             <NavLink activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</NavLink>
                             <NavLink activeClassName='active' to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</NavLink>
@@ -273,15 +293,19 @@ const LeftSideBarAuthProfile = () => {
     }
 
     const Matching = () => {
-        return <div style={{display: showMatching()}}>
-                    <h3>Matching</h3>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/AddMatchItem`}>Match items</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/MatchProfileFields`}>Profielvelden</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/RoadMap`}>Stappenplan</NavLink>
+        if(matcher || admin){
+            return <div style={{display: showMatching()}}>
+                        <h3>Matching</h3>
+                        <div className="channel-inner-div">
+                            <NavLink activeClassName='active' to={`/${client}/AddMatchItem`}>Match items</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/MatchCategories`}>Categorien en tags</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/MatchProfileFields`}>Profielvelden</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/RoadMap`}>Stappenplan</NavLink>
+                        </div>
                     </div>
-                </div>
+        } else {
+            return null
+        }
     }
 
     const Impact = () => {
@@ -296,45 +320,14 @@ const LeftSideBarAuthProfile = () => {
                 </div>
         } else {
             return null
-        }  
-        
+        } 
     }
-
-    // const channelList = (channel) => {
-    //     if(channel.Link === 'Channel'){
-    //         return  <div className="channel-inner-div" key={channel.ID}>
-    //                     <NavLink activeClassName='active' to={`/${client}/AddChannelItem/${channel.ID}`}> Nieuw {channel.Name}</NavLink>
-    //                 </div>
-    //     }
-    // }
-
-    // const Author = () => {
-    //     if(author || admin){
-    //         return <div>
-    //                     <h3>Auteur</h3>
-    //                     <div className="channel-inner-div">
-    //                         <NavLink activeClassName='active' to={`/${client}/AddArticle`}>Nieuw Artikel</NavLink>
-    //                         <NavLink activeClassName='active' to={`/${client}/AddNews`}>Nieuw Nieuws</NavLink>
-    //                         <NavLink activeClassName='active' to={`/${client}/AddEvent`}>Nieuw Event</NavLink>
-    //                         {channels && channels.map(channel => (
-    //                             channelList(channel)
-    //                         ))}
-    //                         {groupChannels && groupChannels.map(groupChannel => (
-    //                             <NavLink activeClassName='active' key={groupChannels.ID} to={`/${client}/AddChannelItem/${groupChannel.ID}`}> Nieuw {groupChannel.Name}</NavLink>
-    //                         ))}
-    //                     </div>
-    //                 </div>
-    //     } else {
-    //         return null
-    //     }
-    // }
 
     const MyActivity = () => {
         return  <div>
                     <h3>Mijn activiteiten</h3>
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`}>Mijn berichten</NavLink>
-                        {/* <NavLink activeClassName='active' to={`/${client}/Contributions/${authO.ID}`}>Mijn bijdragen</NavLink> */}
                         <NavLink activeClassName='active' to={`/${client}/Likes/${authO.ID}`}>Mijn likes</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MyEvents/${authO.ID}`}>Mijn events</NavLink>
                     </div>
@@ -354,7 +347,6 @@ const LeftSideBarAuthProfile = () => {
                 <Superadmin/>
                     <Admin/>
                     <CommunityManagers/>
-                    {/* <Author/> */}
                     <Projectmanagement/>
                     <Matching/>
                     <Impact/>

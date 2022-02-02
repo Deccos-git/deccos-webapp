@@ -27,6 +27,11 @@
     margin-right: 10px;
 }
 
+#not-approved-container{
+    width: 100%;
+    margin-top: 60px;
+}
+
 .page-header{
     width: 80%;
     background-color: white;
@@ -331,6 +336,9 @@
     margin-right: 0px;
     cursor: pointer;
     font-size: 10px;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 0px !important;
 }
 
 .delete-button-my-introductions-container img{
@@ -1053,6 +1061,7 @@
       width: 40px;
       margin-right: 20px;
       border-radius: 50%;
+      object-fit: cover;
   }
 
   .activity-card-banner{

@@ -86,7 +86,7 @@ const MatchItems = () => {
             setFilteredTags([...filteredTags, tagSelected])
             handleNewOptionInCategorie(categorie, tagSelected)
         } else if(tagSelected === 'All'){
-            handleAllOption(categorie, tagSelected)
+            handleAllOption(categorie)
         }
     }
 
@@ -100,9 +100,7 @@ const MatchItems = () => {
         })
     }
 
-    console.log(filteredTags)
-
-    const handleAllOption = (categorie, tagSelected) => {
+    const handleAllOption = (categorie) => {
 
         filterTags && filterTags[categorie].forEach((tag) => {
             const index = filteredTags.indexOf(tag.Tag)
