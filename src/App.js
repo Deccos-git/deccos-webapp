@@ -12,6 +12,7 @@ import { ColorProvider } from './StateManagment/Colors';
 import NotApproved from './components/NotApproved'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
+import Colors from "./hooks/Colors";
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
   const [approved, setApproved] = useState(true)
   const [compagny, setCompagny] = useState("")
   const [authO, setAuthO] = useState('')
+
+  const colors = Colors()
 
   useEffect(() => {
     auth.onAuthStateChanged(User => {
@@ -53,6 +56,9 @@ function App() {
     })
   }, [])
 
+  console.log(authO)
+  console.log(compagny)
+
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>
@@ -76,7 +82,7 @@ function App() {
       } else if (online === true && !compagny.includes(client)){
         return (
         <AuthProvider>
-          <MultipleAccounts/>
+          <MultipleAccounts authO={authO}/>
         </AuthProvider>
         )
       }
@@ -114,7 +120,8 @@ function App() {
     className="App"
     initial="hidden"
     animate="visible"
-    variants={variants}>
+    variants={variants}
+    style={{backgroundColor: colors.BackgroundColor}}>
       <Router>
         <AuthRedirect />
       </Router>

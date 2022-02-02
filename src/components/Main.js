@@ -10,6 +10,7 @@ import "../CSS/main.css";
 import "../CSS/matching.css";
 import "../CSS/community.css";
 import "../CSS/impact.css";
+import "../CSS/projectManagement.css";
 import GoalDetail from "./goals/GoalDetail";
 import AddArticle from "./AddArticle";
 import { client } from '../hooks/Client';

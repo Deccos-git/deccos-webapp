@@ -1,54 +1,81 @@
 import { useFirestore } from "../firebase/useFirestore"
-import { db, timestamp } from "../firebase/config";
+import { db, timestamp, auth } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom"
 import firebase from 'firebase';
 import { useContext, useState, useEffect } from 'react';
-import { Auth } from '../StateManagment/Auth';
+import Colors from "../hooks/Colors";
+import ButtonClicked from "../hooks/ButtonClicked";
 
 const MultipleAccounts = () => {
-    const [authO] = useContext(Auth)
+    const [name, setName] = useState('')
+    const [userDocID, setUserDocID] = useState('')
+    const [userID, setUserID] = useState('')
+    const [logo, setLogo] = useState('')
+    const [website, setWebsite] = useState('')
+    const [communityName, setCommunityName] = useState('')
 
     const compagnies = useFirestore("CompagnyMeta")
+    
+    const colors = Colors()
 
-    const history = useHistory()
+    auth.onAuthStateChanged(User => {
+        if(User){
 
-    console.log(authO)
+            db.collection("Users")
+            .where("Email", "==", User.email)
+            .get()
+            .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                const name = doc.data().UserName
+                const ID = doc.data().ID
 
-    let logo = ""
-    let website = ""
-    let communityName = ""
+                setName(name)
+                setUserDocID(doc.id)
+                setUserID(ID)
+            })
+            })
+        } else if (User === null) {
+            return
+        }
+        })
 
-    compagnies && compagnies.map(doc => {
-        logo = doc.Logo
-        website = doc.Website
-        communityName = doc.CommunityName
-    })
+    useEffect(() => {
 
-    const registerUser = () => {
-        console.log(authO.docid)
+        compagnies && compagnies.forEach(doc => {
+            setLogo(doc.Logo)
+            setWebsite(doc.Website)
+            setCommunityName(doc.CommunityName)
+        })
+
+    },[compagnies])
+
+    const registerUser = (e) => {
+
+        ButtonClicked(e, 'Aangemeld')
+
         db.collection("Users")
-        .doc(authO.docid)
+        .doc(userDocID)
         .update({
-            Compagny: firebase.firestore.FieldValue.arrayUnion(authO.ID)
+            Compagny: firebase.firestore.FieldValue.arrayUnion(client)
         })
         .then(() => {
-            history.push(`/${client}/NotApproved`)
+            window.location.reload()
         })
       }
 
     return (
         <div>
-            <header className="top-bar">
+            <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
                 <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
             </header>
-            <div className="main">
+            <div className="main" style={{backgroundColor: colors.BackgroundColor}}>
                 <div className="approval-message-container">
-                    <h2>Hoi {authO.UserName}</h2>
+                    <h2>Hoi {name}</h2>
                     <h1>Welkom bij {communityName}</h1>
-                    <h2>Wil je lid worden van onze community?</h2>
-                    <button onClick={registerUser}>Ja, graag</button>
+                    <h2>Wil je lid worden van onze online omgeving?</h2>
+                    <button onClick={registerUser}>Aanmelden</button>
                 </div>
             </div>
         </div>

@@ -378,7 +378,7 @@ const MatchCategories = () => {
                         </div>
                     </div>
                     ))}
-                    <div>
+                    <div className='button-userrole-container'>
                         <button className='button-simple' onClick={saveItem}>Opslaan</button>
                     </div>
                 </div>

@@ -6,8 +6,7 @@ import {useFirestore } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useHistory } from "react-router";
 import { client } from '../hooks/Client';
-import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
 
@@ -16,12 +15,20 @@ const Profile = () => {
     const [ authO ] = useContext(Auth)
     const [forName, setForName] = useState(authO.ForName)
     const [surName, setSurName] = useState(authO.SurName)
+    const [userCompagnies, setUserCompagnies] = useState(null)
+    const [userCompagnyArray, setUserCompagnyArray] = useState([])
 
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
-    const editorRef = useRef(null);
     const menuState = MenuStatus()
 
+    useEffect(() => {
+      const compagnies = authO.Compagny 
+
+      setUserCompagnies(compagnies)
+
+    }, [authO]);
+  
     const changePhoto = (e) => {
 
         const newPhoto = e.target.files[0]
@@ -121,6 +128,14 @@ const Profile = () => {
         })
     }
 
+    const linkUserCompagny = (e) => {
+        const compagny = e.target.dataset.compagny 
+
+        history.push(`/${compagny}`)
+
+        window.location.reload()
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -140,9 +155,9 @@ const Profile = () => {
                         <div className="divider">
                             <h4>Schermnaam aanpassen</h4>
                             <h5>Voornaam</h5>
-                            <input className="input-classic" type="text" placeholder={authO.ForName} onChange={forNameHandler}/>
+                            <input className="input-classic" type="text" defaultValue={authO.ForName} onChange={forNameHandler}/>
                             <h5>Achternaam</h5>
-                            <input className="input-classic" type="text" placeholder={authO.SurName} onChange={surNameHandler}/>
+                            <input className="input-classic" type="text" defaultValue={authO.SurName} onChange={surNameHandler}/>
                             <div className="button-container">
                                 <button className="button-simple" onClick={saveUserName}>Opslaan</button>
                             </div>
@@ -154,6 +169,20 @@ const Profile = () => {
                             </div>
                             <input className="input-classic" type="file" onChange={changePhoto} />
                         </div >
+                        <div className='divider'>
+                            {userCompagnies > 0}{
+                                <>
+                                    <h4>Mijn online omgevingen</h4>
+                                    <div>
+                                        {userCompagnies && userCompagnies.map(compagny => (
+                                            <div>
+                                                <p id='user-compagny' data-compagny={compagny} onClick={linkUserCompagny}>{compagny}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>
+                            }
+                        </div>
                         <div className="divider account-status">
                             <h4>Account verwijderen</h4>
                             <button id="delete-account-button" onClick={deleteAccount}>Verwijderen</button>

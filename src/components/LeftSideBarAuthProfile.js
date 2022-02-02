@@ -92,10 +92,11 @@ const LeftSideBarAuthProfile = () => {
     useEffect(() => {
         matchers && matchers.forEach(matcher => {
             if(matcher.UserID === authO.ID){
+                console.log('true')
                 setMatcher(true)
             }
         })
-    }, [matcher])
+    }, [matchers])
 
     useEffect(() => {
             if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){

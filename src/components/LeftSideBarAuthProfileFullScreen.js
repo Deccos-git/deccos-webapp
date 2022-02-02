@@ -102,7 +102,7 @@ const LeftSideBarAuthProfile = () => {
                 setMatcher(true)
             }
         })
-    }, [matcher])
+    }, [matchers])
 
     const Superadmin = () => {
         if(superAdmin){

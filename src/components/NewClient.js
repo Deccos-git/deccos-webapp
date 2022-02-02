@@ -186,6 +186,7 @@ const NewClient = () => {
             .set({
                 Background: '#dee3e8',
                 Topbar: '#FFFFFF',
+                TopBarIcons: '#2F2C41',
                 ID: uuid(),
                 Compagny: compagnyName
             })

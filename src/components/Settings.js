@@ -21,10 +21,13 @@ const Settings = () => {
 
     const compagny = useFirestore("CompagnyMeta")
 
+    console.log(colors)
+
     const [communityName, setCommunityName] = useState("")
     const [website, setWebsite] = useState("")
     const [backgroundColor, setBackgroundColor] = useState(colors.Background)
     const [topbarColor, setTopbarColor] = useState(colors.Topbar)
+    const [topbarIconsColor, setTopbarIconsColor] = useState(colors.TopbarIcons)
 
     const menuState = MenuStatus()
 
@@ -152,6 +155,25 @@ const Settings = () => {
         .doc(colors.docid)
         .update({
             Topbar: topbarColor
+        })
+    }
+
+    const topbarIconsColorHandler = (e) => {
+        const color = e.target.value 
+
+        console.log(color)
+
+        setTopbarIconsColor(color)
+    }
+
+    const saveTopbarIconsColor = (e) => {
+
+        e.target.innerText = 'Opgeslagen'
+
+        db.collection('Colors')
+        .doc(colors.docid)
+        .update({
+            TopbarIcons: topbarIconsColor
         })
     }
 
@@ -359,6 +381,8 @@ const Settings = () => {
         })
     }
 
+    console.log(topbarIconsColor)
+
     return (
         <div className="main" style={{backgroundColor:backgroundColor}}>
             <LeftSideBarAuthProfile />
@@ -372,7 +396,7 @@ const Settings = () => {
                     </div>
                     <div className="divider">
                         <h4>Community naam aanpassen</h4>
-                        <input className="input-classic" type="text" placeholder={comp.CommunityName} onChange={communityNameHandler} />
+                        <input className="input-classic" type="text" defaultValue={comp.CommunityName} onChange={communityNameHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveName}>Opslaan</button>
                         </div>
@@ -384,7 +408,7 @@ const Settings = () => {
                     </div >
                     <div className="divider">
                         <h4>Website aanpassen</h4>
-                        <input className="input-classic" type="text" placeholder={comp.Website} onChange={websiteHandler} />
+                        <input className="input-classic" type="text" defaultValue={comp.Website} onChange={websiteHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveWebsite}>Opslaan</button>
                         </div>
@@ -394,16 +418,23 @@ const Settings = () => {
                         <div className='client-styles-container'>
                             <div className='color-container'>
                                 <h5>Achtergrond</h5>
-                                <input className="input-color" type="color" value={backgroundColor} onChange={backgroundColorHandler} />
+                                <input className="input-color" type="color" defaultValue={backgroundColor} onChange={backgroundColorHandler} />
                                 <div className="button-container-colors">
                                     <button className="button-simple" onClick={saveBackgroundColor}>Opslaan</button>
                                 </div>
                             </div>
                             <div className='color-container'>
                                 <h5>Topbar</h5>
-                                <input className="input-color" type="color" value={topbarColor} onChange={topbarColorHandler} />
+                                <input className="input-color" type="color" defaultValue={topbarColor} onChange={topbarColorHandler} />
                                 <div className="button-container-colors">
                                     <button className="button-simple" onClick={saveTopbarColor}>Opslaan</button>
+                                </div>
+                            </div>
+                            <div className='color-container'>
+                                <h5>Topbar icons</h5>
+                                <input className="input-color" type="color" defaultValue={topbarIconsColor} onChange={topbarIconsColorHandler} />
+                                <div className="button-container-colors">
+                                    <button className="button-simple" onClick={saveTopbarIconsColor}>Opslaan</button>
                                 </div>
                             </div>
                         </div>

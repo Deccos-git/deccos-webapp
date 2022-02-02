@@ -4,13 +4,14 @@ import { useState } from "react"
 import { useFirestore } from "../firebase/useFirestore"
 import NewUserIcon from '../images/icons/new-user-icon.png'
 import DoorIcon2 from '../images/icons/door-icon-2.png'
-
+import Colors from "../hooks/Colors";
 
 const LoginRegister = () => {
 
     const [form, setForm] = useState("Login")
 
     const compagnies = useFirestore("CompagnyMeta")
+    const colors = Colors()
 
     const loginHandler = () => {
         setForm("Login")
@@ -38,10 +39,10 @@ const LoginRegister = () => {
 
     return (
         <div>
-        <header className="top-bar">
+        <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
             <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
         </header>
-        <div className="main-login-register">
+        <div className="main-login-register" style={{backgroundColor: colors.BackgroundColor}}>
              <div className="left-side-bar-login-register">
                 <div className="channel-div-login-register">
                     <div className="channel-inner-div-login-register">

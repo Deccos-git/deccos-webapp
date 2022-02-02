@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom"
 import uuid from 'react-uuid';
 import GetYearMonth from '../hooks/GetYearMonth'
 import firebase from 'firebase'
-
+import Colors from "../hooks/Colors";
 
 const NotApproved = () => {
     const [authO, setAuthO] = useState('')
@@ -26,6 +26,7 @@ const NotApproved = () => {
     const id = uuid()
     const getYearMonth = GetYearMonth()
     const location = Location()[3]
+    const colors = Colors()
 
     let route = ''
 
@@ -252,10 +253,10 @@ const NotApproved = () => {
 
     return (
         <div id='not-approved-container'>
-             <header className="top-bar">
+             <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
                 <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
             </header>
-            <div className="main">
+            <div className="main" style={{backgroundColor: colors.BackgroundColor}}>
                 <div className="approval-message-container">
                     <img src={authO.Photo} alt=""/>
                     <h2>Hoi {authO.UserName},</h2>

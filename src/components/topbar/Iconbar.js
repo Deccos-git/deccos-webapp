@@ -1,6 +1,7 @@
-import notificationsIcon from '../../images/icons/notifications-icon.png'
-import chatIcon from '../../images/icons/chat-icon.png'
-import searchIcon from '../../images/icons/Search-icon.png'
+
+import {ReactComponent as NotificationIcon} from '../../images/icons/notifications-icon.svg'
+import {ReactComponent as ChatIcon} from '../../images/icons/chat-icon.svg'
+import {ReactComponent as SearchIcon}  from '../../images/icons/search-icon.svg'
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { useFirestoreNotifications, useFirestoreNewMessagesChatGroups } from '../../firebase/useFirestore';
@@ -9,11 +10,16 @@ import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
+import Colors from "../../hooks/Colors";
 
 const Iconbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
     const [authO] = useContext(Auth)
+
+    const colors = Colors()
     let ID = ""
+
+    console.log(colors)
 
     const changeMenuStatus = () => {
         setMenu("none")
@@ -92,13 +98,39 @@ const Iconbar = () => {
         <div className="icon-bar">
             <div className="icon-container">
                 <p id={notificationStatus} className="notification-counter" onClick={showNotifications} >{notificationsArray.length}</p>
-                <img src={notificationsIcon} alt="" onClick={showNotifications} />
+                <NotificationIcon 
+                style={
+                    {
+                        width: '19px',
+                        height: '19px',
+                        fill: colors.TopBarIconsColor
+                    }
+                }  
+                onClick={showNotifications}/>
             </div>
             <div className="icon-container">
                 <p id={messageStatus} className="notification-counter" onClick={showMessages}>{newMessageArray.length}</p>
-                <img src={chatIcon} alt="" onClick={showMessages} />
+                <ChatIcon 
+                style={
+                    {
+                        width: '19px',
+                        height: '19px',
+                        margin: '7px',
+                        fill: colors.TopBarIconsColor
+                    }
+                }  
+                onClick={showMessages}/>
             </div>
-            <Link to={`/${client}/Search`} onClick={changeMenuStatus}><img id="search-icon" src={searchIcon} alt="" /></Link>
+            <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                <SearchIcon 
+                style={
+                    {
+                        width: '19px',
+                        height: '19px',
+                        fill: colors.TopBarIconsColor
+                    }
+                }  />
+            </Link>
         </div>
     )
 }
