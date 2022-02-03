@@ -23,6 +23,7 @@ const ImpactProgress = () => {
     const impact = useFirestore('Impact')
     const goalsDB = useFirestore('Goals')
     const matchesDB = useFirestore('Matches')
+    const questionnaireAnalysis = useFirestore('QuestionnaireAnalysis')
     const activities = useFirestoreActivities(goalID)
     const membersDB = useFirestoreUsersApproved(false, true)
 
@@ -50,6 +51,14 @@ const ImpactProgress = () => {
         history.push(`/${client}/GoalDetail/${goalID}`)
     }
 
+    const matchesLink = () => {
+        history.push(`/${client}/Matches`)
+    }
+
+    const memberLink = () => {
+        history.push(`/${client}/Members`)
+    }
+
     // Number of members
 
     useEffect(() => {
@@ -66,8 +75,8 @@ const ImpactProgress = () => {
         if(goals === true){
             return(
                 <div className='divider'>
-                    <h4>Doelen en activiteiten</h4>
-                    <p>{goalName}</p>
+                    <h2>Doelen en activiteiten</h2>
+                    <h4>{goalName}</h4>
                     <p>Voortgang {Math.trunc(progression)}%</p>
                     <div className='progressionbar-outer-bar'>
                         <div className='progressionbar-completed' style={{width: `${progression}%`}}></div>
@@ -84,7 +93,20 @@ const ImpactProgress = () => {
         if(questionniare === true){
             return(
                 <div className='divider'>
-                    <h4>Vragenlijsten</h4>
+                    <h2>Vragenlijsten</h2>
+                    {questionnaireAnalysis && questionnaireAnalysis.map(analyse => (
+                        <div id='impact-progress-questionnaire-container'>
+                            <h3>{analyse.QuestionnaireTitle}</h3>
+                            {analyse.Analysis.map(question => (
+                                <div>
+                                    <h4>{question.Question}</h4>
+                                    <p>{question.Average && `Gemiddelde score ${question.Average}`}</p>
+                                    <p>{question.Word && `Analyse woord: ${question.Word}`}</p>
+                                    <p>{question.Count && `Aantal keer in responses: ${question.Count}`}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
             )
         } else {
@@ -96,8 +118,9 @@ const ImpactProgress = () => {
         if(members === true){
             return(
                 <div className='divider'>
-                    <h4>Leden</h4>
+                    <h2>Leden</h2>
                     <p>Aantal leden {memberCount}</p>
+                    <button className='button-simple' onClick={memberLink}>Bekijk</button>
                 </div>
             )
         } else {
@@ -109,16 +132,15 @@ const ImpactProgress = () => {
         if(matches === true){
             return(
                 <div className='divider'>
-                    <h4>Matches</h4>
+                    <h2>Matches</h2>
                     <p>Aantal matches {matchesDB.length}</p>
+                    <button className='button-simple' onClick={matchesLink}>Bekijk</button>
                 </div>
             )
         } else {
             return null
         }
     }
-
-    console.log(matches)
 
     // Goal progression
 

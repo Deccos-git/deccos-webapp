@@ -342,7 +342,7 @@ const LeftSideBarAuthProfile = () => {
                     <NavLink activeClassName='active' to={`/${client}/AllActivity`}>
                         <div className="back-to-community-container">
                             <img src={ArrowLeftIcon} alt="" />
-                            <p>Community</p>
+                            <p>Home</p>
                         </div>
                     </NavLink>
                 <Superadmin/>

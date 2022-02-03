@@ -14,6 +14,7 @@ import Location from "../../hooks/Location"
 import ButtonClicked from "../../hooks/ButtonClicked";
 
 const QuestionnaireAnalysis = () => {
+    const [questionnaireTitle, setQuestionnaireTitle] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -25,6 +26,15 @@ const QuestionnaireAnalysis = () => {
     const responses = useFirestoreQuestionnairesResponses(route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)
     const analysis = useFirestoreQuestionnaireAnalysis(route)
+
+    useEffect(() => {
+      questionnaires && questionnaires.forEach(questionnaire => {
+          const title = questionnaire.Title
+
+          setQuestionnaireTitle(title)
+      })
+    }, [questionnaires]);
+    
 
     const linkRespons = (e) => {
         const id = e.target.dataset.id 
@@ -135,6 +145,7 @@ const QuestionnaireAnalysis = () => {
             Compagny: client,
             Timestamp: timestamp,
             QuestionnaireID: route,
+            QuestionnaireTitle: questionnaireTitle,
             Analysis: analysisArray
         })
 

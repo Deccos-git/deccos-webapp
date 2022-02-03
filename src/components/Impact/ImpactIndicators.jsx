@@ -178,7 +178,7 @@ const ImpactIndicators = () => {
                 </div>
                 <div>
                     <h4>Meetinstrumenten</h4>
-                    <p>Bepaal via welke bronnen je impact wilt meten.</p>
+                    <p>Bepaal via welke bronnen je jullie impact wilt meten.</p>
                     <div className='functionality-container'>
                         <p>Resultaten van vragenlijsten</p>
                         <ToggleSwitchQuestionnaire/>

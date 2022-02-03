@@ -353,7 +353,7 @@ const LeftSideBarAuthProfile = () => {
                     <Link to={`/${client}/AllActivity`} onClick={changeMenuStatus}>
                         <div className="back-to-community-container">
                             <img src={ArrowLeftIcon} alt="" />
-                            <p>Community</p>
+                            <p>Home</p>
                         </div>
                     </Link>
                 <Superadmin/>
