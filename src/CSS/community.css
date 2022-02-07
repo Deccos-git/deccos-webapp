@@ -124,3 +124,33 @@
     text-align: center;
     margin: 30px 50px;
 }
+
+#members-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+#members-total-count-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#members-total-count-container h4{
+    padding: 10px;
+    color: gray;
+    border: 1px solid gray;
+    border-radius: 50%;
+    margin-left: 10px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

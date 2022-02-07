@@ -8,6 +8,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import { useState } from "react";
 import { client } from "../../hooks/Client";
+import deleteIcon from '../../images/icons/delete-icon.png'
 
 const Stakeholders = () => {
     const [email, setEmail] = useState('')
@@ -43,6 +44,14 @@ const Stakeholders = () => {
         })
     }
 
+    const deleteStakeholders = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Stakeholders')
+        .doc(id)
+        .delete()
+    }
+
     return (
         <div className="main">
         <LeftSideBarAuthProfile />
@@ -58,7 +67,7 @@ const Stakeholders = () => {
                 <div className='stakeholder-container'>
                     <p>{stakeholder.Name}</p>
                     <p>{stakeholder.Email}</p>
-                    <button className='button-simple'>Verwijder</button>
+                    <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-id={stakeholder.docid} onClick={deleteStakeholders}/>
                 </div>
             ))}
             </div>

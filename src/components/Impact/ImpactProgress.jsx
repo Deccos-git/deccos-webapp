@@ -169,7 +169,7 @@ const ImpactProgress = () => {
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
-                    <h1>Impact voortgang</h1>  
+                    <h1>Impact dashboard</h1>  
                 </div>
                 <div className='profile profile-auth-profile'>
                     <Goals/>

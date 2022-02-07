@@ -928,34 +928,6 @@
     margin-bottom: 30px;
 }
 
-  #members-container{
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin: 10px;
-      width: 70%;
-      cursor: pointer;
-  }
-
-  #members-total-count-container{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-
-  #members-total-count-container h4{
-      padding: 10px;
-      color: gray;
-      border: 1px solid gray;
-      border-radius: 50%;
-      margin-left: 10px;
-      height: 30px;
-      width: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-
   .color-container{
       display: flex;
       flex-direction: column;
@@ -1029,6 +1001,12 @@
   .profile-auth-profile{
       width: 80%;
       padding: 20px;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      margin-bottom: 50px;
+  }
+
+  .profile-auth-profile h2{
+      text-align: left;
   }
 
   .profile-auth-goal{
@@ -1464,31 +1442,6 @@
       font-weight: 600;
       margin-left: 10px;
       margin-top: 20px;
-  }
-
-  .stakeholder-container{
-      display: flex;
-      border: 1px solid lightgray;
-      border-radius: 5px;
-      padding: 5px;
-      width: 100%;
-      margin-bottom: 5px;
-  }
-
-  .stakeholder-container p{
-      margin-right: 10px;
-  }
-
-  #stakeholder-email-container{
-      display: flex;
-  }
-
-  #stakeholder-email-container p{
-      background-color: lightgray;
-      border-radius: 5px;
-      padding: 2px;
-      margin-right: 10px;
-      cursor: pointer;
   }
 
   .email-example-container{

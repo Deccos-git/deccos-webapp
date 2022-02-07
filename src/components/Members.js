@@ -8,6 +8,7 @@ import { db, auth } from "../firebase/config";
 import { useState, useContext, useEffect } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { Auth } from '../StateManagment/Auth';
+import deleteIcon from '../images/icons/delete-icon.png'
 
 const Members = () => {
     const [authO] = useContext(Auth)
@@ -79,7 +80,7 @@ const Members = () => {
                     <div id="members-container" key={doc.ID}>
                         <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
                         <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
-                        <p style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser}>Verwijderen</p>
+                        <img src={deleteIcon} alt="" style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser} />
                     </div>
                       ))}
                 </div>

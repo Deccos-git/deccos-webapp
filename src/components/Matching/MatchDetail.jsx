@@ -1,6 +1,6 @@
 import { useFirestoreID, useFirestoreMessages, useFirestoreMatchRoadmaps, useFirestoreMatchTagsType } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
-import MessageBar from "../MessageBar"
+import MessageBar from "../Community/MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
@@ -9,7 +9,7 @@ import { client } from "../../hooks/Client"
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import Reaction from "../Reaction"
+import Reaction from "../Community/Reaction"
 import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config"
 import completeIcon from '../../images/icons/complete-icon.png'

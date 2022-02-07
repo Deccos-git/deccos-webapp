@@ -7,7 +7,7 @@ import { Auth } from '../StateManagment/Auth';
 import { useState } from 'react';
 import { db } from '../firebase/config';
 import {useFirestore} from "../firebase/useFirestore"
-import GroupChannel from './GroupChannel';
+
 
 const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)

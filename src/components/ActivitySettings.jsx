@@ -8,6 +8,7 @@ import { Auth } from '../StateManagment/Auth';
 import uuid from 'react-uuid';
 import { db, timestamp } from "../firebase/config.js"
 import { client } from "../hooks/Client"
+import deleteIcon from '../images/icons/delete-icon.png'
 
 const ActivitySettings = () => {
     const [authO] = useContext(Auth)
@@ -115,7 +116,7 @@ const ActivitySettings = () => {
                     {activities && activities.map(activity => (
                         <div className='channel-container'>
                             <p>{activity.Activity}</p>
-                            <p className='userrole-users-delete-button' data-docid={activity.docid} onClick={deleteActivity}>Verwijderen</p>
+                            <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={activity.docid} onClick={deleteActivity}/>
                         </div>
                     ))}
                 </div>
