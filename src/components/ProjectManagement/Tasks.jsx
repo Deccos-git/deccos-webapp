@@ -9,11 +9,12 @@ import { db } from "../../firebase/config";
 import completeIcon from '../../images/icons/complete-icon.png'
 import userIcon from '../../images/icons/user-icon.png'
 import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
+import plusIcon from '../../images/icons/plus-icon.png'
+import deleteIcon from '../../images/icons/delete-icon.png'
 import Location from "../../hooks/Location"
 import { useContext, useState, useEffect } from 'react';
 import Calendar from "../Calender";
 import settingsIcon from '../../images/icons/settings-icon.png'
-import TaskSettings from "./TaskSettings";
 
 const Tasks = () => {
     const [allTasksDisplay, setAllTasksDisplay] = useState('flex')
@@ -97,15 +98,6 @@ const Tasks = () => {
 
         history.push(`/${client}/TaskDetail/${id}`)
 
-    }
-
-    const appointedPhoto = (task) => {
-
-        if(task.AppointedPhoto === ""){
-            return userIcon
-        } else if (task.AppointedPhoto !== ""){
-            return task.AppointedPhoto
-        }
     }
 
     const taskCompleted = (e) => {
@@ -218,7 +210,19 @@ const Tasks = () => {
 
     }
 
-    console.log(tasksOverview)
+    const addTaskLink = () => {
+        
+        history.push(`/${client}/TaskSettings`)
+
+    }
+
+    const deleteTask = (e) => {
+        const id = e.target.dataset.id 
+
+        db.collection('Tasks')
+        .doc(id)
+        .delete()
+    }
 
     return (
         <div className="main">
@@ -274,23 +278,32 @@ const Tasks = () => {
                     <button onClick={filter}>Filter</button>
                 </div>
             </div>
-            {tasksOverview && tasksOverview.map(task => (
-                <div className='task-overview-container' key={task.ID} style={{display: allTasksDisplay}}>
-                     <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
-                         <div className='task-inner-container'>
-                            <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
-                            <p className='task-description'>{task.Task}</p>
-                            <TaskPriority task={task}/>
-                            <div className='appointed-container'>
-                                <img className='task-appointed-photo' onClick={linkProfile} src={appointedPhoto(task)} data-id={task.AppointedID} alt=""/>
-                            </div>
-                            <img src={settingsIcon} alt="" data-id={task.ID} onClick={taskLink}/>
-                         </div>
+            <div id='tasks-outer-container'>
+                <div className='task-overview-container add-task-container' onClick={addTaskLink}>
+                    <div className='task-inner-container'>
+                        <img id='add-task-icon' src={plusIcon} alt="" />
+                        <p>Taak toevoegen</p>
                     </div>
                 </div>
-            ))}
-            <div className='task-calendar-container' style={{display: calendarDisplay}}>
-                <Calendar events={tasks}/>
+                {tasksOverview && tasksOverview.map(task => (
+                    <div className='task-overview-container' key={task.ID} style={{display: allTasksDisplay}}>
+                        <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
+                            <div className='task-inner-container'>
+                                <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
+                                <p className='task-description'>{task.Task}</p>
+                                <TaskPriority task={task}/>
+                                <div className='appointed-container'>
+                                    <img className='task-appointed-photo' onClick={linkProfile} src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} alt=""/>
+                                </div>
+                                <img src={settingsIcon} alt="" data-id={task.ID} onClick={taskLink}/>
+                                <img src={deleteIcon} alt="" data-id={task.docid} onClick={deleteTask}/>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                <div className='task-calendar-container' style={{display: calendarDisplay}}>
+                    <Calendar events={tasks}/>
+                </div>
             </div>
         </div>
         <RightSideBar/>

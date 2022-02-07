@@ -19,6 +19,8 @@ const TaskSettings = () => {
     const tasks = useFirestore("Tasks")
     const activities = useFirestore("Activities")
     const users = useFirestoreUsers(false)
+    const banners = useFirestore('Banners')
+
 
     const [activityTitle, setActivityTitle] = useState('')
     const [activityID, setActivityID] = useState('')
@@ -29,6 +31,14 @@ const TaskSettings = () => {
     const [userPhoto, setUserPhoto] = useState('')
     const [userEmail, setUserEmail] = useState('')
     const [priority, setPriority] = useState('')
+    const [headerPhoto, setHeaderPhoto] = useState('')
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewGoal
+            setHeaderPhoto(header)
+        })
+    }, [banners])
 
     const activityHandler = (e) => {
         const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -77,12 +87,14 @@ const TaskSettings = () => {
 
         e.target.innerText = 'Opgeslagen'
 
+        const ID = uuid()
+
         db.collection('Tasks')
         .doc()
         .set({
             Activity: activityTitle,
             ActivityID: activityID,
-            ID: uuid(),
+            ID: ID,
             Compagny: client,
             Timestamp: timestamp,
             User: authO.UserName,
@@ -99,6 +111,34 @@ const TaskSettings = () => {
             Icon: completeIcon,
             Type: 'Task',
             Priority: priority
+        })
+        .then(() => {
+            db.collection("Search")
+            .doc()
+            .set({
+                Name: taskTitle,
+                Compagny: client,
+                Type: 'Taak',
+                Link: `TasksDetail/${ID}`
+            })
+        })
+        .then(() => {
+            db.collection("AllActivity")
+            .doc()
+            .set({
+                Title: taskTitle,
+                Type: "NewTask",
+                Compagny: client,
+                Timestamp: timestamp,
+                ID: uuid(),
+                Description: "heeft een nieuwe taak toegevoegd:",
+                ButtonText: "Bekijk taak",
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Banner: headerPhoto,
+                Link: `TaskDetail/${ID}`
+            }) 
         })
     }
 

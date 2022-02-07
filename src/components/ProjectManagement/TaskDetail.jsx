@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import ArrowLeftIcon from '../../images/icons/arrow-left-icon.png'
 import { db } from "../../firebase/config";
+import userIcon from '../../images/icons/user-icon.png'
 
 const TaskDetail = () => {
     const [task, setTask] = useState(null)
@@ -155,7 +156,7 @@ const TaskDetail = () => {
                         <div>
                             <h3>Toegewezen aan</h3>
                             <div className='task-detail-user-container'>
-                                <img src={task.AppointedPhoto} data-id={task.AppointedID} onClick={appointedLink} alt=""/>
+                                <img src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} onClick={appointedLink} alt=""/>
                                 <p data-id={task.AppointedID} onClick={appointedLink}>{task.AppointedName}</p>
                             </div>
                             

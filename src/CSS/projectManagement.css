@@ -179,3 +179,21 @@
     color: white;
     overflow: scroll;
 }
+
+#tasks-outer-container{
+    margin-bottom: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#add-task-icon{
+    height: 15px;
+    width: 15px;
+    margin-right: 10px;
+}
+
+.add-task-container{
+    cursor: pointer;
+}
