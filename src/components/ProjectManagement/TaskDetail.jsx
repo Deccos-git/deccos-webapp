@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
-import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
+import ArrowLeftIcon from '../../images/icons/arrow-left-icon.png'
 
 const TaskDetail = () => {
     const [task, setTask] = useState(null)

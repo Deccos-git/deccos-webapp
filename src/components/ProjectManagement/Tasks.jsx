@@ -1,17 +1,17 @@
-import LeftSideBar from "./LeftSideBar";
-import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
-import MenuStatus from "../hooks/MenuStatus";
-import { useFirestore, useFirestoreMyTasks } from "../firebase/useFirestore"
-import { client } from "../hooks/Client"
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import MenuStatus from "../../hooks/MenuStatus";
+import { useFirestore, useFirestoreMyTasks } from "../../firebase/useFirestore"
+import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
-import { db } from "../firebase/config";
-import completeIcon from '../images/icons/complete-icon.png'
-import userIcon from '../images/icons/user-icon.png'
-import deleteTaskIcon from '../images/icons/delete-task-icon.png'
-import Location from "../hooks/Location"
+import { db } from "../../firebase/config";
+import completeIcon from '../../images/icons/complete-icon.png'
+import userIcon from '../../images/icons/user-icon.png'
+import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
+import Location from "../../hooks/Location"
 import { useContext, useState, useEffect } from 'react';
-import Calendar from "./Calender";
+import Calendar from "../Calender";
 
 const Tasks = () => {
     const [allTasksDisplay, setAllTasksDisplay] = useState('flex')

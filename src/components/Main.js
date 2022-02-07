@@ -1,7 +1,7 @@
 import AllActivity from './allActivity/AllActivity';
 import Start from './Community/Start';
-import Goals from './goals/Goals';
-import AddGoal from './goals/AddGoal';
+import Goals from './ProjectManagement/Goals';
+import AddGoal from './ProjectManagement/AddGoal';
 import { Switch, Route } from "react-router-dom";
 import Search from './Search';
 import Register from "./Register";
@@ -11,7 +11,7 @@ import "../CSS/matching.css";
 import "../CSS/community.css";
 import "../CSS/impact.css";
 import "../CSS/projectManagement.css";
-import GoalDetail from "./goals/GoalDetail";
+import GoalDetail from "./ProjectManagement/GoalDetail";
 import AddArticle from "./Community/AddArticle";
 import { client } from '../hooks/Client';
 import NewClient from './NewClient';
@@ -36,7 +36,7 @@ import GroupSettings from './Community/GroupSettings';
 import GroupLanding from './Community/GroupLanding';
 import Channel from './Community/Channel';
 import ChannelDetail from './Community/ChannelDetail';
-import GoalSettings from './goals/GoalSettings';
+import GoalSettings from './ProjectManagement/GoalSettings';
 import WelcomeSettings from './Community/WelcomeSettings';
 import KnowLedgeCentre from './Community/KnowledgeCentre'
 import AddChannelItem from './Community/AddChannelItem'
@@ -53,7 +53,7 @@ import MyEvents from './MyEvents';
 import MyContributions from './MyContributions';
 import UserRoles from './UserRoles';
 import Registrations from './Registrations';
-import GoalSettingsDetail from './goals/GoalSettingsDetail';
+import GoalSettingsDetail from './ProjectManagement/GoalSettingsDetail';
 import GroupSettingsDetail from './Community/GroupSettingsDetail';
 import ProfileSettings from './ProfileSettings';
 import AboutMe from './AboutMe';
@@ -67,7 +67,7 @@ import Activities from './Activities'
 import ActivityDetail from './ActivityDetail'
 import ActivityGoal from './ActivityGoal'
 import TaskDetail from './ProjectManagement/TaskDetail'
-import Tasks from './Tasks'
+import Tasks from './ProjectManagement/Tasks'
 import EventSignups from './Community/EventSignups';
 import QuestionnaireSettings from './Impact/QuestionnaireSettings';
 import AddQuestionnaire from './Impact/AddQuestionnaire';
@@ -113,9 +113,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Likes`}>
                     <Likes/>
-                </Route>
-                <Route path={`/${client}/Results`}>
-                    <Results/>
                 </Route>
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>

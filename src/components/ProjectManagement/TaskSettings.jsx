@@ -1,15 +1,15 @@
-import RightSideBar from "./rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import MenuStatus from "../hooks/MenuStatus";
-import {useFirestore, useFirestoreUsers} from "../firebase/useFirestore"
+import RightSideBar from "../rightSideBar/RightSideBar"
+import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
+import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import MenuStatus from "../../hooks/MenuStatus";
+import {useFirestore, useFirestoreUsers} from "../../firebase/useFirestore"
 import { useState, useEffect, useContext } from 'react'
-import { Auth } from '../StateManagment/Auth';
+import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
-import { db, timestamp } from "../firebase/config.js"
-import { client } from "../hooks/Client"
-import completeIcon from '../images/icons/complete-icon.png'
-import deleteIcon from '../images/icons/delete-icon.png'
+import { db, timestamp } from "../../firebase/config.js"
+import { client } from "../../hooks/Client"
+import completeIcon from '../../images/icons/complete-icon.png'
+import deleteIcon from '../../images/icons/delete-icon.png'
 
 const TaskSettings = () => {
     const [authO] = useContext(Auth)
