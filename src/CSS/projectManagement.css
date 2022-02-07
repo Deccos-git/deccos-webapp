@@ -3,3 +3,179 @@
     justify-content: center;
     margin-bottom: 30px;
 }
+
+.priority-color{
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.priority-color-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select-scale-container select{
+    width: 50px;
+}
+
+.task-detail-container{
+    background-color: white;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-detail-user-container{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.task-detail-user-container img{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+.task-detail-inner-container{
+    margin: 10px;
+}
+
+.appointed-container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.task-appointed-photo{
+    height: 30px !important;
+    width: 30px !important;
+    border-radius: 50%;
+}
+
+.progression-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progression-container-activity-detail{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-overview-container{
+    width: 83%;
+}
+
+.progression-container-goal-detail{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.page-container-activities{
+  flex-direction: column;
+}
+
+.progressionbar-outer-bar{
+    width: 80%;
+    height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    background-color: white;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+
+.progressionbar-completed{
+    background-color: #b2d7bb;
+    height: 30px;
+}
+
+.activity-inner-container{
+    margin: 10px 15px;
+    width: 100%;
+}
+
+.mytask-overview-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.task-outer-container{
+  width: 80%;
+}
+
+.button-activity-detail{
+    margin-right: 5px;
+    margin-left: auto;
+}
+
+.task-container{
+  width: 100%;
+  display: flex;
+  border: 1px solid lightgray;
+  background-color: white;
+  align-items: center;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.task-description{
+    width: 100%;
+}
+
+.activity-detail-effects-container{
+    margin: 10px 50px 50px 50px;
+}
+
+.task-container img {
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.task-inner-container{
+  margin: 5px 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#task-filter-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 30px;
+}
+
+.task-filter-inner-container{
+    margin: 10px;
+}
+
+#button-tasks-filter-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 75px;
+}
+
+.calendar-event-container{
+    background-color: green;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    overflow: scroll;
+}

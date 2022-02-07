@@ -8,11 +8,13 @@ import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import ArrowLeftIcon from '../../images/icons/arrow-left-icon.png'
+import { db } from "../../firebase/config";
 
 const TaskDetail = () => {
     const [task, setTask] = useState(null)
     const [completed, setCompleted] = useState('')
     const [taskID, setTaskID] = useState('')
+    const [priority, setPriority] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
@@ -68,6 +70,51 @@ const TaskDetail = () => {
 
     }
 
+    const PriorityColorContainer = ({priority}) => {
+
+        if(priority === 'urgent-important'){
+            return <div className='priority-color-container' >
+                        <div className='priority-color' style={{backgroundColor: 'red'}}></div>
+                        <p>Urgent en belangrijk</p>
+                </div>
+        } else if(priority === 'urgent-not-important'){
+            return <div className='priority-color-container'>
+                            <div className='priority-color' style={{backgroundColor: 'orange'}}></div>
+                            <p>Urgent en niet belangrijk</p>
+                    </div>
+        } else if(priority === 'not-urgent-important'){
+            return <div className='priority-color-container'>
+                            <div className='priority-color' style={{backgroundColor: 'yellow'}}></div>
+                            <p>Niet urgent en belangrijk</p>
+                    </div>
+        } else if(priority === 'not-urgent-not-important'){
+            return <div className='priority-color-container'>
+                            <div className='priority-color' style={{backgroundColor: 'green'}}></div>
+                            <p>Niet urgent en niet belangrijk</p>
+                    </div>
+        } else if(priority === undefined){
+            return null
+        }
+    }
+
+    const priorityHandler = (e) => {
+
+        const priority = e.target.options[e.target.selectedIndex].value 
+        const id = e.target.dataset.id
+
+        savePriority(priority, id)
+
+    }
+
+    const savePriority = (priority, id) => {
+
+        db.collection('Tasks')
+        .doc(id)
+        .update({
+            Priority: priority
+        })
+    } 
+
     return (
          <div className="main">
         <LeftSideBar />
@@ -89,6 +136,17 @@ const TaskDetail = () => {
                         <div className='pointer'>
                             <h3>Activiteit</h3>
                             <p data-id={task.ActivityID} onClick={activityLink}>{task.Activity}</p>
+                        </div>
+                        <div>
+                            <h3>Prioriteit</h3>
+                            <PriorityColorContainer priority={task.Priority && task.Priority}/>
+                            <select name="" id="" data-id={task.docid} onChange={priorityHandler}>
+                                <option value="no-prioority">-- selecteer prioriteit --</option>
+                                <option value="urgent-important">Urgent en belangrijk</option>
+                                <option value="urgent-not-important">Urgent en niet belangrijk</option>
+                                <option value="not-urgent-important">Niet urgent en belangrijk</option>
+                                <option value="not-urgent-not-important">Niet urgent en niet belangrijk</option>
+                            </select>
                         </div>
                         <div>
                             <h3>Vervaldatum</h3>

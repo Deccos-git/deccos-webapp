@@ -131,8 +131,6 @@ const MatchDetail = () => {
 
         const status = e.target.options[e.target.selectedIndex].value 
 
-        console.log(status)
-
         saveStatus(status)
     }
 
@@ -172,8 +170,6 @@ const MatchDetail = () => {
     const StarRating = () => {
         const [hover, setHover] = useState(0);
 
-        console.log(rating, hover)
-
         return (
           <div className="star-rating">
             {[...Array(5)].map((star, index) => {
@@ -207,8 +203,6 @@ const MatchDetail = () => {
     const typeColor = (item) => {
 
         let color = ''
-
-        console.log(item)
 
         mainTags && mainTags.forEach(tag => {
             const tagMain = tag.Tag

@@ -28,6 +28,7 @@ const TaskSettings = () => {
     const [userName, setUserName] = useState('')
     const [userPhoto, setUserPhoto] = useState('')
     const [userEmail, setUserEmail] = useState('')
+    const [priority, setPriority] = useState('')
 
     const activityHandler = (e) => {
         const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -42,6 +43,14 @@ const TaskSettings = () => {
         const title = e.target.value 
 
         setTaskTitle(title)
+
+    }
+
+    const priorityHandler = (e) => {
+
+        const priority = e.target.options[e.target.selectedIndex].value 
+
+        setPriority(priority)
 
     }
 
@@ -88,7 +97,8 @@ const TaskSettings = () => {
             AppointedEmail: userEmail,
             Completed: false,
             Icon: completeIcon,
-            Type: 'Task'
+            Type: 'Task',
+            Priority: priority
         })
     }
 
@@ -118,6 +128,14 @@ const TaskSettings = () => {
                         {activities && activities.map(activity => (
                             <option value="" key={activity.ID} data-id={activity.ID} data-title={activity.Activity}>{activity.Activity}</option>
                         ))}
+                    </select>
+                    <h4>Prioriteit</h4>
+                    <select name="" id="" onChange={priorityHandler}>
+                        <option value="no-prioority">-- selecteer prioriteit --</option>
+                        <option value="urgent-important">Urgent en belangrijk</option>
+                        <option value="urgent-not-important">Urgent en niet belangrijk</option>
+                        <option value="not-urgent-important">Niet urgent en belangrijk</option>
+                        <option value="not-urgent-not-important">Niet urgent en niet belangrijk</option>
                     </select>
                     <h4>Beschrijf taak</h4>
                     <input type="text" placeholder='Beschrijf hier je taak' onChange={taskHandler}/>

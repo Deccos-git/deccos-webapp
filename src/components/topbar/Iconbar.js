@@ -19,8 +19,6 @@ const Iconbar = () => {
     const colors = Colors()
     let ID = ""
 
-    console.log(colors)
-
     const changeMenuStatus = () => {
         setMenu("none")
     }
