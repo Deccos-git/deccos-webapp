@@ -15,7 +15,7 @@ const TaskDetail = () => {
     const [task, setTask] = useState(null)
     const [completed, setCompleted] = useState('')
     const [taskID, setTaskID] = useState('')
-    const [priority, setPriority] = useState('')
+    const [taskDocid, setTaskDocid] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
@@ -30,6 +30,7 @@ const TaskDetail = () => {
             setTask(task.Task)
             setCompleted(task.Completed)
             setTaskID(task.ActivityID)
+            setTaskDocid(task.docid)
         })
     }, [tasks])
 
@@ -43,7 +44,7 @@ const TaskDetail = () => {
 
     const backToOverview = () => {
 
-        history.push(`/${client}/ActivityDetail/${taskID}`)
+        history.push(`/${client}/Tasks`)
 
     }
 
@@ -116,6 +117,23 @@ const TaskDetail = () => {
         })
     } 
 
+    const titleHandler = (e) => {
+        const title = e.target.value
+
+        saveTitle(title)
+
+    }
+
+    const saveTitle = (title, id) => {
+
+        db.collection('Tasks')
+        .doc(taskDocid)
+        .update({
+            Task: title,
+            Title: title
+        })
+    }
+
     return (
          <div className="main">
         <LeftSideBar />
@@ -126,7 +144,7 @@ const TaskDetail = () => {
                 <p>Taak overzicht</p>
             </div>
             <div className='page-header task-detail-header'>
-                <h1>{task}</h1>
+                <input id='input-task-edit-title' type="text" defaultValue={task} onChange={titleHandler}/>
                 {tasks && tasks.map(task => (
                 <div className='task-detail-container'>
                     <div className='task-detail-inner-container'>

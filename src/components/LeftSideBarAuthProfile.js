@@ -317,6 +317,7 @@ const LeftSideBarAuthProfile = () => {
                         <NavLink activeClassName='active' to={`/${client}/ImpactIndicators`}>Meetinstrumenten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/Impacthub`}>Impacthub</NavLink>
                     </div>
                 </div>
         } else {

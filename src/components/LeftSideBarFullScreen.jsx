@@ -183,6 +183,9 @@ const LeftSideBarFullScreen = () => {
                     <div className="channel-inner-div">
                         <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Dashboard</Link>
                     </div>
+                    <div className="channel-inner-div">
+                        <Link activeClassName='active' to={`/${client}/ImpactPath`} onClick={changeMenuStatus}>ImpactPad</Link>
+                    </div>
                     {/* <div className="channel-inner-div">
                         <Link activeClassName='active' to={`/${client}/Activities`}>Mijlpalen</Link>
                     </div> */}

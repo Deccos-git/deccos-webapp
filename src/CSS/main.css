@@ -32,6 +32,28 @@
     margin-top: 60px;
 }
 
+#password-reset-button-modal{
+    font-size: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#password-reset-button{
+    cursor: pointer;
+}
+
+#button-reset-password{
+    margin-top: 20px;
+}
+
+#error-message-reset-password{
+    color: red;
+}
+
+#succes-message-password-reset{
+    color: green;
+}
+
 .page-header{
     width: 80%;
     background-color: white;
@@ -1403,87 +1425,6 @@
 
   .activity-container h2{
       text-align: left;
-  }
-
-  .card-header-add-questionnaire h1{
-      border-bottom: 1px dotted lightgray;
-  }
-
-  #questionnaire-field-text{
-      border: 1px dotted lightgray;
-      padding: 20px;
-      margin-top: 10px;
-  }
-
-  #questionnaire-question{
-      margin-top: 10px;
-      width: 95%;
-  }
-
-  .question-type-display-container{
-    padding: 20px 10px 20px 10px;
-    margin: 20px 0px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-  }
-
-  #scale-reach-symbol{
-      font-weight: 600;
-      margin-left: 10px;
-      margin-top: 20px;
-  }
-
-  .email-example-container{
-      border: 1px solid lightgray;
-      padding: 10px;
-      border-radius: 5px;
-  }
-
-  .email-example-field-container{
-      border-bottom: 1px solid lightgray;
-      width: 90%;
-  }
-
-  .send-questionnaire-title h3{
-    text-align: center;
-  }
-
-  .email-example-section button{
-      margin-top: 30px;
-  }
-
-  .select-scale-container input{
-    border-bottom: 1px dotted lightgray;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    box-shadow: none;
-    border-right: none;
-    padding-bottom: 5px;
-    margin-left: 10px;
-  }
-
-  #scale-container{
-      display: flex;
-      justify-content: space-around;
-      margin: 20px 0px;
-  }
-
-  #scale-container input{
-      box-shadow: none;
-      width: 11px;
-      margin-bottom: 5px;
-  }
-
-  #question-type-label-container{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .select-scale-container{
-      margin-top: 10px;
   }
 
   .goal-activity-header{

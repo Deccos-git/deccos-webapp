@@ -20,6 +20,7 @@ const TaskSettings = () => {
     const activities = useFirestore("Activities")
     const users = useFirestoreUsers(false)
     const banners = useFirestore('Banners')
+    const projectManagers = useFirestore('ProjectManagers')
 
 
     const [activityTitle, setActivityTitle] = useState('')
@@ -86,6 +87,12 @@ const TaskSettings = () => {
     const saveTask = (e) => {
 
         e.target.innerText = 'Opgeslagen'
+        e.target.style.color = '#959595'
+
+        setTimeout(() => {
+            e.target.innerText = 'Opslaan'
+            e.target.style.color = 'green'
+        }, 3000);
 
         const ID = uuid()
 
@@ -184,8 +191,8 @@ const TaskSettings = () => {
                     <h4>Taak toewijzen aan</h4>
                         <select className="userrole-select" name="" id="" onChange={userHandler}>
                             <option value="">--- Selecteer ---</option>
-                            {users && users.map(user => (
-                                <option key={user.ID} data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                            {projectManagers&& projectManagers.map(user => (
+                                <option key={user.UserID} data-id={user.UserID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                     <button className='button-simple' onClick={saveTask}>Opslaan</button>

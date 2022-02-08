@@ -75,6 +75,7 @@ import SendQuestionnaire from './Impact/SendQuestionnaire';
 import Stakeholders from './Impact/Stakeholders';
 import ImpactIndicators from './Impact/ImpactIndicators';
 import ImpactProgress from './Impact/ImpactProgress';
+import ImpactPath from './Impact/ImpactPath';
 import MatchCategories from './Matching/MatchCategories';
 import AddMatchItem from './Matching/AddMatchItem'
 import MatchItems from './Matching/MatchItems';
@@ -84,6 +85,7 @@ import MatchDetail from './Matching/MatchDetail';
 import MatchProfileFields from './Matching/MatchProfileFields';
 import RoadMap from './Matching/Roadmap';
 import QuestionnaireAnalysis from './Impact/QuestionnaireAnalysis';
+import Impacthub from './Impact/Impacthub';
 
 const Main = () => {
 
@@ -182,6 +184,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ImpactProgress`}>
                     <ImpactProgress/>
+                </Route>
+                <Route path={`/${client}/ImpactPath`}>
+                    <ImpactPath/>
+                </Route>
+                <Route path={`/${client}/Impacthub`}>
+                    <Impacthub/>
                 </Route>
                 <Route path={`/${client}/AddGoal`}>
                     <AddGoal/>

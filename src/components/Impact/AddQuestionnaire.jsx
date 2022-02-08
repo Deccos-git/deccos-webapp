@@ -3,15 +3,20 @@ import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScree
 import RightSideBar from "../rightSideBar/RightSideBar"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestore } from "../../firebase/useFirestore"
 import { useState, useEffect } from 'react';
 import { db, timestamp } from "../../firebase/config";
 import { client } from "../../hooks/Client";
 import uuid from 'react-uuid';
+import ButtonClicked from '../../hooks/ButtonClicked'
+import deleteIcon from '../../images/icons/delete-icon.png'
+import { useHistory } from "react-router-dom";
 
 const AddQuestionnaire = () => {
     const [title, setTitle ] = useState('Titel van vragenlijst')
     const [docid, setDocid ] = useState('')
+    const [ID, setID ] = useState('')
+    const [key, setKey] = useState('')
     const [showParagraph, setShowParagraph] = useState('block')
     const [showScale, setShowScale] = useState('none')
     const [type, setType ] = useState('paragraph')
@@ -20,17 +25,26 @@ const AddQuestionnaire = () => {
     const [reachEnd, setReachEnd] = useState(0)
     const [reachStartLabel, setReachStartlabel] = useState(null)
     const [reachEndLabel, setReachEndLabel] = useState(null)
+    const [goalTitle, setGoalTitle] = useState('')
+    const [goalID, setGoalID] = useState('')
+    const [questionnaireGoal, setQuestionnaireGoal] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
+    const history = useHistory()
 
     const questionnares = useFirestoreID('Questionnaires', route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)
+    const goals = useFirestore('Goals')
 
     useEffect(() => {
         questionnares && questionnares.forEach(questionnare => {
             setTitle(questionnare.Title)
             setDocid(questionnare.docid)
+            setID(questionnare.ID)
+            setGoalID(questionnare.goalID)
+            setQuestionnaireGoal(questionnare.GoalTitle)
+            setKey(questionnare.Key)
         })
     }, [questionnares])
 
@@ -147,6 +161,7 @@ const AddQuestionnaire = () => {
                 <div className='question-type-display-container'>
                     <input type='text' value={field.Question} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
+                    <img className='delete-field-icon' src={deleteIcon} alt="" data-docid={field.docid} onClick={deleteField}/>
                 </div>
             )
         } else if(field.Type === 'scale'){
@@ -163,10 +178,47 @@ const AddQuestionnaire = () => {
                        ))}
                        {field.ReachEndLabel}
                    </div>
+                   <img className='delete-field-icon' src={deleteIcon} alt="" data-docid={field.docid} onClick={deleteField}/>
                 </div>
             )
         }
 
+    }
+
+    const deleteField = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection('QuestionnaireFields')
+        .doc(docid)
+        .delete()
+
+    }
+
+    const goalHandler = (e) => {
+        const goal = e.target.options[e.target.selectedIndex].value  
+        const id = e.target.options[e.target.selectedIndex].dataset.id 
+
+        setGoalTitle(goal)
+        setGoalID(id)
+    }
+
+    const saveQuestionnaireGoal = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        db.collection('Questionnaires')
+        .doc(docid)
+        .update({
+            GoalID: goalID,
+            GoalTitle: goalTitle
+        })
+
+    }
+
+    const sendQuestionnaire = () => {
+
+        history.push(`/${client}/SendQuestionnaire/${ID}/${key}`)
     }
 
     return (
@@ -177,6 +229,17 @@ const AddQuestionnaire = () => {
             <div className="settings-inner-container">
                 <div className="divider card-header-add-questionnaire">
                     <input type="text" className='editable-text-input' value={title} onChange={titleHandler}/>
+                </div>
+                <div className='divider'>
+                    <h2>Koppel aan doel</h2>
+                    <h3>{questionnaireGoal}</h3>
+                    <select name="" id="" onChange={goalHandler}>
+                        <option value="">-- Selecteer doel --</option>
+                        {goals && goals.map(goal => (
+                            <option data-id={goal.ID} value={goal.Title}>{goal.Title}</option>
+                        ))}
+                    </select>
+                    <button className='button-simple' id='button-save-questionnaire-goal' onClick={saveQuestionnaireGoal}>Opslaan</button>
                 </div>
                 <div className="divider">
                     <h2>Vraag toevoegen</h2>
@@ -226,6 +289,9 @@ const AddQuestionnaire = () => {
                         </div>
                     ))}
 
+                </div>
+                <div>
+                    <button onClick={sendQuestionnaire}>Vragenlijst versturen</button>
                 </div>
             </div>
         </div>

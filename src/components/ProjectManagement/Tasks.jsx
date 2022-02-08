@@ -156,6 +156,10 @@ const Tasks = () => {
             return <div className='priority-color' style={{backgroundColor: 'green'}}></div>
         } else if(task.Priority === undefined){
             return null
+        } else if(task.Priority === ""){
+            return null
+        } else {
+            return null
         }
     }
 
