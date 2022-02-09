@@ -7,12 +7,17 @@ import menuOpenIcon from '../../images/icons/menu-open-icon.png'
 import { useContext, useState } from 'react';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
 import { Colors } from "../../StateManagment/Colors";
+import { client } from '../../hooks/Client';
+import { useHistory } from "react-router"
 
 const Topbar = () => {
     const [colors] = useContext(Colors)
     const [menu, setMenu] = useContext(MobileMenu)
     const [icon, setIcon] = useState(menuIcon)
+
     const docs  = useFirestore("CompagnyMeta")
+
+    const history = useHistory()
 
     let logo = ""
     let website = ""
@@ -32,12 +37,18 @@ const Topbar = () => {
         }
     }
 
+    const homeLink = () => {
+
+        history.push(`/${client}/AllActivity`)
+
+    }
+
     return (
         <header className="top-bar" style={{backgroundColor: colors.Topbar}}>
             <div className="left-side-bar-toggle">
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>
-            <a href={`${website}`} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
+            <a onClick={homeLink} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
             <div className="iconbar-external-container">
                 <Iconbar/>
             </div>

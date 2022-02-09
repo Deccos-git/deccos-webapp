@@ -1,4 +1,5 @@
 import LeftSideBar from "../LeftSideBar"
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import { useFirestoreID, useFirestoreSubscriptions, useFirestoreSubscriptionsChannelGroup, useFirestoreAdmins, useFirestore } from "../../firebase/useFirestore"
 import { db, timestamp } from "../../firebase/config"
@@ -8,6 +9,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
 import uuid from 'react-uuid';
+import MenuStatus from "../../hooks/MenuStatus";
 
 const GroupLanding = () => {
     const [authO] = useContext(Auth)
@@ -31,6 +33,7 @@ const GroupLanding = () => {
     const compagny = useFirestore("CompagnyMeta")
 
     const history = useHistory()
+    const menuState = MenuStatus()
     const id = uuid()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -141,9 +144,10 @@ const GroupLanding = () => {
     return (
         <div className="main"> 
             <LeftSideBar />
+            <LeftSideBarFullScreen/>
             {groups && groups.map(group => (
                 <>
-                <div className="profile">
+                <div className="profile" style={{display: menuState}}>
                     <div className="group-landing-container">
                         <h2>{group.Room}</h2>
                         <img src={group.Banner} alt="" />

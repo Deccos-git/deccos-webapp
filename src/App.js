@@ -13,6 +13,7 @@ import NotApproved from './components/NotApproved'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
 import Colors from "./hooks/Colors";
+import Footer from './components/Footer';
 
 function App() {
 
@@ -72,6 +73,7 @@ function App() {
           <Topbar />
           <Main/>
           <BottomBar/>
+          <Footer/>
           </>
         </ColorProvider>
         </MenuProvider>

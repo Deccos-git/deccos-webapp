@@ -11,6 +11,7 @@ import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location";
 import { useHistory } from "react-router-dom";
 import GetYearMonth from '../../hooks/GetYearMonth'
+import { MentionsInput, Mention } from 'react-mentions'
 
 const MessageBar = () => {
     const [authO, setAuthO] = useContext(Auth)
@@ -25,7 +26,7 @@ const MessageBar = () => {
     const history = useHistory()
     const getYearMonth = GetYearMonth()
 
-    const MessageInput = (e) => {
+    const messageInput = (e) => {
         const input = e.target.value
 
         setMessage(input)
@@ -185,6 +186,17 @@ const MessageBar = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
+    const mentionHandler = (e) => {
+        if(e.keyCode === 50){
+            // console.log(e.target.getRangeAt(0))
+            // e.target.insertNode(<p>Heelo</p>)
+        }
+    }
+
+    const usersList = () => {
+
+    }
+
     return (
         <div className="massage-container">
             <div>
@@ -198,14 +210,30 @@ const MessageBar = () => {
                     className="message-input" 
                     placeholder="Schrijf hier je bericht"
                     value = {message}
-                    onChange={MessageInput}
+                    onChange={messageInput}
                     /> 
+                    {/* {/* <div
+                    contentEditable={true}
+                    type="text" 
+                    className="message-input-content-editable" 
+                    placeholder="Schrijf hier je bericht"
+                    value = {message}
+                    onInput={messageInput}
+                    onKeyDown={mentionHandler}
+                    ></div> */}
                     <img src={sendIcon} alt="" onClick={submitMessage} /> 
-                </div>
+                </div> 
                 <div>
                     <div>{progressBar}</div>
                     <input onChange={insertFile} type="file" style={{display: fileDisplay}} />
                 </div>
+                {/* <MentionsInput  onChange={messageInput}>
+                <Mention
+                    trigger="@"
+                    data={usersList}
+                    // renderSuggestion={this.renderUserSuggestion}
+                />
+                </MentionsInput> */}
             </div>
         </div>
     )

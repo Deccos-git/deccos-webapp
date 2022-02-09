@@ -2011,6 +2011,18 @@
     width: 85%;
 }
 
+#footer-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+#footer-container a{
+    padding: 5px;
+    font-size: 12px;
+}
+
 @media only screen and (max-width: 1024px){
 
     .top-bar-logo{
