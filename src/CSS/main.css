@@ -964,6 +964,7 @@
       width: 70%;
       align-self: center;
       margin: 30px;
+      max-width: 300px;
   }
 
   .public-profile-container{
@@ -2014,13 +2015,21 @@
 #footer-container{
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     background-color: white;
+    align-items: center;
 }
 
 #footer-container a{
     padding: 5px;
     font-size: 12px;
+    font-weight: bold;
+    color: black;
+}
+
+#footer-container img{
+    width: 10px;
+    height: 10px;
 }
 
 @media only screen and (max-width: 1024px){

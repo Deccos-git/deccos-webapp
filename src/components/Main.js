@@ -75,7 +75,6 @@ import SendQuestionnaire from './Impact/SendQuestionnaire';
 import Stakeholders from './Impact/Stakeholders';
 import ImpactIndicators from './Impact/ImpactIndicators';
 import ImpactProgress from './Impact/ImpactProgress';
-import ImpactPath from './Impact/ImpactPath';
 import MatchCategories from './Matching/MatchCategories';
 import AddMatchItem from './Matching/AddMatchItem'
 import MatchItems from './Matching/MatchItems';
@@ -184,9 +183,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ImpactProgress`}>
                     <ImpactProgress/>
-                </Route>
-                <Route path={`/${client}/ImpactPath`}>
-                    <ImpactPath/>
                 </Route>
                 <Route path={`/${client}/Impacthub`}>
                     <Impacthub/>

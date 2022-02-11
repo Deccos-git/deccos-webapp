@@ -262,7 +262,6 @@ const NotApproved = () => {
                     <h2>Hoi {authO.UserName},</h2>
                     <h1>Welkom bij {communityName}</h1>
                     {verificationNotice()}
-                    <a href={`${website}`} target="_blank">Terug naar de website</a>
                 </div>
             </div>
         </div>

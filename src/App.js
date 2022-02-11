@@ -57,9 +57,6 @@ function App() {
     })
   }, [])
 
-  console.log(authO)
-  console.log(compagny)
-
     const AuthRedirect = () => {
       if(online === false){
         return <LoginRegister/>

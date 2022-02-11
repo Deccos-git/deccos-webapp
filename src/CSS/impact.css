@@ -188,3 +188,24 @@
 .select-scale-container{
     margin-top: 10px;
 }
+
+#activity-outer-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.activity-inner-container-dashboard{
+    border-radius: 5px;
+    width: 350px;
+    margin: 10px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    padding: 10px;
+}
+
+@media only screen and (max-width: 1024px){
+
+    .activity-inner-container-dashboard {
+        width: 100%;
+    }
+}

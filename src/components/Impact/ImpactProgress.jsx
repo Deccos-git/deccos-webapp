@@ -6,15 +6,14 @@ import { useFirestore, useFirestoreActivities, useFirestoreUsersApproved } from 
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
+import { db } from "../../firebase/config";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
     const [goals, setGoals] = useState('')
     const [matches, setMatches] = useState('')
     const [members, setMembers] = useState('')
-    const [progression, setProgression] = useState(0)
     const [goalID, setGoalID] = useState('')
-    const [goalName, setGoalName] = useState('')
     const [memberCount, setMemberCount] = useState('')
 
     const menuState = MenuStatus()
@@ -27,92 +26,96 @@ const ImpactProgress = () => {
     const activities = useFirestoreActivities(goalID)
     const membersDB = useFirestoreUsersApproved(false, true)
 
+    const activitiesOverview = async (goal) => {
+
+        const activitiesArray = []
+
+        await db.collection("Activities")
+        .where('GoalID', '==', goal.ID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+
+                const name = doc.data().Activity
+                const progress = doc.data().Progression
+
+                const activitieObject = {
+                    Name: name,
+                    Progress: Math.floor(progress)
+                }
+
+                activitiesArray.push(activitieObject)
+            })
+        })
+
+        return activitiesArray
+
+    } 
+
+    const questionnaireOverview = async (goal) => {
+
+        const questionnaireArray = []
+
+        await db.collection('Questionnaires')
+        .where('GoalID', '==', goal.ID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+
+                const title = doc.data().Title
+                const ID = doc.data().ID
+
+                const questionnaireObject = {
+                    Title: title,
+                    ID: ID
+                }
+
+                questionnaireArray.push(questionnaireObject)
+            })
+        })
+
+        return questionnaireArray
+    }
+
+    const goalOverview = async () => {
+
+        const goalArray = []
+
+        for(const goal of goalsDB){
+
+            const progressArray = []
+
+            const goalProgress = progressArray.reduce((a, b) => a + b, 0)
+            const goalProgressAverage = goalProgress / progressArray.length
+
+            console.log(progressArray, goalProgress)
+
+            const activities = await activitiesOverview(goal)
+            const questionnaires = await questionnaireOverview(goal)
+
+            const goalObject = {
+                Goal: goal.Title,
+                SDG: goal.SDG,
+                Progress: goalProgress,
+                Activities: activities,
+                Questionnaires: questionnaires
+            }
+
+            goalArray.push(goalObject)
+        }
+
+        return goalArray
+
+    }
+
     useEffect(() => {
-        goalsDB && goalsDB.forEach(goal => {
-            setGoalID(goal.ID)
-            setGoalName(goal.Title)
+
+        goalOverview().then((goalArray) => {
+            setGoals(goalArray)
         })
     }, [goalsDB])
 
-    // Get display or hide indicators from database
-
-    useEffect(() => {
-        impact&& impact.forEach(imp => {
-            setQuestionniare(imp.Questionnaires)
-            setGoals(imp.Goals)
-            setMatches(imp.Matches)
-            setMembers(imp.Members)
-        })
-    },[impact])
-
-    // Link to details
-
-    const goalLink = () => {
-        history.push(`/${client}/GoalDetail/${goalID}`)
-    }
-
-    const matchesLink = () => {
-        history.push(`/${client}/Matches`)
-    }
-
-    const memberLink = () => {
-        history.push(`/${client}/Members`)
-    }
-
-    // Number of members
-
-    useEffect(() => {
-        const membersArray = []
-        membersDB && membersDB.forEach(member => {
-            membersArray.push(member)
-        })
-        setMemberCount(membersArray.length)
-    }, [members])
-
-    // Display or hide indicators
-
-    const Goals = () => {
-        if(goals === true){
-            return(
-                <div className='divider'>
-                    <h2>Doelen en activiteiten</h2>
-                    <h4>{goalName}</h4>
-                    <p>Voortgang {Math.trunc(progression)}%</p>
-                    <div className='progressionbar-outer-bar'>
-                        <div className='progressionbar-completed' style={{width: `${progression}%`}}></div>
-                    </div>
-                    <button className='button-simple' onClick={goalLink}>Bekijk</button>
-                </div>
-            )
-        } else {
-            return null
-        }
-    }
-
-    const Questionnaire = () => {
-        if(questionniare === true){
-            return(
-                <div className='divider'>
-                    <h2>Vragenlijsten</h2>
-                    {questionnaireAnalysis && questionnaireAnalysis.map(analyse => (
-                        <div id='impact-progress-questionnaire-container'>
-                            <h3>{analyse.QuestionnaireTitle}</h3>
-                            {analyse.Analysis.map(question => (
-                                <div>
-                                    <h4>{question.Question}</h4>
-                                    <p>{question.Average && `Gemiddelde score ${question.Average}`}</p>
-                                    <p>{question.Word && `Analyse woord: ${question.Word}`}</p>
-                                    <p>{question.Count && `Aantal keer in responses: ${question.Count}`}</p>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            )
-        } else {
-            return null
-        }
-    }
+    console.log(goals)
 
     const Members = () => {
         if(members === true){
@@ -142,26 +145,15 @@ const ImpactProgress = () => {
         }
     }
 
-    // Goal progression
+    const memberLink = () => {
 
-    const totalProgressionArray = []
+    }
 
-    useEffect(() => {
-        activities && activities.forEach(activity => {
-            const progression = activity.Progression 
-
-            const maxProgression = activities.length
-
-            const fractualProgression = progression/maxProgression
-
-            totalProgressionArray.push(fractualProgression)
-
-            const totalProgression = totalProgressionArray.reduce((a, b) => a + b, 0)
-
-            setProgression(totalProgression)
-        })
+    const matchesLink = () => {
         
-    }, [activities])
+    }
+
+
 
     return (
         <div className="main">
@@ -172,8 +164,36 @@ const ImpactProgress = () => {
                     <h1>Impact dashboard</h1>  
                 </div>
                 <div className='profile profile-auth-profile'>
-                    <Goals/>
-                    <Questionnaire/>
+                {goals && goals.map(goal => (
+                        <div>
+                            <h2>{goal.Goal}</h2>
+                            <p>SDG: {goal.SDG}</p>
+                            <div className='progressionbar-outer-bar'>
+                                <div className='progressionbar-completed' style={{width: `${goal.Progress}%`}}></div>
+                            </div>
+                            <div>
+                                <h3>Activiteiten</h3>
+                                <div id='activity-outer-container'>
+                                {goal.Activities.map(activity => (
+                                    <div className='activity-inner-container-dashboard'>
+                                        <h3>{activity.Name}</h3>
+                                        <div className='progressionbar-outer-bar'>
+                                            <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
+                                        </div>
+                                    </div>
+                                ))}
+                                </div>
+                            </div>
+                            <div>
+                                <h3>Vragenlijsten</h3>
+                                {goal.Questionnaires.map(questionnaire => (
+                                    <div>
+                                        <h2>{questionnaire.Title}</h2>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                     <Members/>
                     <Matches/>
                 </div>
