@@ -43,7 +43,6 @@ import AddChannelItem from './Community/AddChannelItem'
 import ChannelSettingsDetail from './Community/ChannelSettingsDetail';
 import EventDetail from './Community/EventDetail';
 import NewsDetail from './Community/NewsDetail';
-import Contributions from './Contributions';
 import Measures from './Measures';
 import LeftSideBarFullScreen from './LeftSideBarFullScreen'
 import MyIntroduction from './MyIntroduction';
@@ -60,7 +59,6 @@ import AboutMe from './AboutMe';
 import NotApproved from './NotApproved';
 import MyChannels from './MyChannels'
 import Subscriptions from './Subscriptions'
-import Likes from './Community/Likes'
 import ActivitySettings from './ActivitySettings'
 import TaskSettings from './ProjectManagement/TaskSettings'
 import Activities from './Activities'
@@ -111,9 +109,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Start`}>
                     <Start/>
-                </Route>
-                <Route path={`/${client}/Likes`}>
-                    <Likes/>
                 </Route>
                 <Route path={`/${client}/AboutMe`}>
                     <AboutMe/>
@@ -235,9 +230,6 @@ const Main = () => {
                 <Route path={`/${client}/MyChannels`}>
                     <MyChannels/>
                 </Route>
-                <Route path={`/${client}/MyContributions`}>
-                    <MyContributions/>
-                </Route>
                 <Route path={`/${client}/NewClient`}>
                     <NewClient/>
                 </Route>
@@ -288,9 +280,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Members`}>
                     <Members/>
-                </Route>
-                <Route path={`/${client}/Contributions`}>
-                    <Contributions/>
                 </Route>
                 <Route path={`/${client}/ArticleDetail`}>
                     <ArticleDetail/>

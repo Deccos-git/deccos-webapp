@@ -9,6 +9,7 @@ import { client } from '../hooks/Client';
 import { useState, useContext, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
+import externalLinkIcon from '../images/icons/external-link-icon.png'
 
 const Profile = () => {
 
@@ -175,8 +176,9 @@ const Profile = () => {
                                     <h4>Mijn online omgevingen</h4>
                                     <div>
                                         {userCompagnies && userCompagnies.map(compagny => (
-                                            <div>
-                                                <p id='user-compagny' data-compagny={compagny} onClick={linkUserCompagny}>{compagny}</p>
+                                            <div className='user-compagnies-container'>
+                                                <p id='user-compagny' data-compagny={compagny} onClick={linkUserCompagny} >{compagny}</p>
+                                                <img src={externalLinkIcon} alt="" data-compagny={compagny} onClick={linkUserCompagny} />
                                             </div>
                                         ))}
                                     </div>

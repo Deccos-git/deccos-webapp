@@ -2032,6 +2032,26 @@
     height: 10px;
 }
 
+.my-messages-delete-button{
+    cursor: pointer;
+    width: 20px ;
+    height: 20px ;
+    margin: 0px 10px 10px 10px;
+}
+
+.user-compagnies-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-compagnies-container img{
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
+
 @media only screen and (max-width: 1024px){
 
     .top-bar-logo{

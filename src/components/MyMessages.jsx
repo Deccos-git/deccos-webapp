@@ -6,6 +6,8 @@ import { useFirestoreMyMessages } from "../firebase/useFirestore";
 import { client } from "../hooks/Client";
 import { useHistory } from "react-router-dom";
 import MenuStatus from "../hooks/MenuStatus";
+import deleteIcon from '../images/icons/delete-icon.png'
+import { db } from "../firebase/config";
 
 const MyMessages = () => {
 
@@ -24,6 +26,15 @@ const MyMessages = () => {
         history.push(`/${client}/MessageDetail/${id}`)
 
     }
+
+    const deleteMessage = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection('Messages')
+        .doc(docid)
+        .delete()
+    }
     
     return (
         <div className="main">
@@ -39,6 +50,7 @@ const MyMessages = () => {
                             <h4 className="my-message-message-container" data-id={message.ID} onClick={messageDetail}>{message.Message}</h4>
                             <p>{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                         </div>
+                        <img className='my-messages-delete-button' data-docid={message.docid} src={deleteIcon} onClick={deleteMessage} alt="" />
                     </div>
                 ))}
             </div>

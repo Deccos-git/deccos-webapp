@@ -58,16 +58,7 @@ const Subscriptions = () => {
                 <div className="settings-inner-container">
                     <h1>Lidmaatschappen</h1>
                 </div>
-                <div className='divider'>
-                    <h2>Kanalen</h2>
-                    {channels && channels.map(channel => (
-                        <div className='subscription-container channel-container' key={channel.ID}>
-                            <h3>{channel.SubName}</h3>
-                            <p data-id={channel.docid} onClick={unSub}>Verlaten</p>
-                        </div>
-                    ))}
-                </div>
-                <div className='divider'>
+                <div>
                     <h2>Groepen</h2>
                     {groups && groups.map(group => (
                         <div className='subscription-container channel-container' key={group.ID}>

@@ -171,7 +171,7 @@ const ImpactProgress = () => {
                             <div className='progressionbar-outer-bar'>
                                 <div className='progressionbar-completed' style={{width: `${goal.Progress}%`}}></div>
                             </div>
-                            <div>
+                            <div className='divider'>
                                 <h3>Activiteiten</h3>
                                 <div id='activity-outer-container'>
                                 {goal.Activities.map(activity => (
@@ -184,7 +184,7 @@ const ImpactProgress = () => {
                                 ))}
                                 </div>
                             </div>
-                            <div>
+                            <div className='divider'>
                                 <h3>Vragenlijsten</h3>
                                 {goal.Questionnaires.map(questionnaire => (
                                     <div>

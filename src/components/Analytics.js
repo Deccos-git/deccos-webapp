@@ -3,14 +3,14 @@ import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen
 import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
 import { Line } from 'react-chartjs-2'
-import { useFirestoreMemberGraph, useFirestoreLikesGraph, useFirestoreContributionGraph, useFirestoreMessageGraph } from '../firebase/useFirestore'
+import { useFirestoreUsers, useFirestore } from '../firebase/useFirestore'
 import { useState, useEffect } from 'react'
 
 const Analytics = () => {
     
     // State
-    const [labelMembers, setLabelMembers] = useState('')
-    const [dataMembers, setDataMembers] = useState('')
+    const [labelUsers, setLabelUsers] = useState('')
+    const [dataUsers, setDataUsers] = useState('')
     const [labelLikes, setLabelLikes] = useState('')
     const [dataLikes, setDataLikes] = useState('')
     const [labelGoalLikes, setLabelGoalLikes] = useState('')
@@ -20,88 +20,137 @@ const Analytics = () => {
 
     // Settings
     const menuState = MenuStatus()
+    const options = { month: 'long'};
 
     // Database query's
-    const members = useFirestoreMemberGraph()
-    const likes = useFirestoreLikesGraph()
-    const goalLikes = useFirestoreContributionGraph()
-    const messages = useFirestoreMessageGraph()
+    const users = useFirestoreUsers(false)
+    const messages = useFirestore('Messages')
+    const likes = useFirestore('Likes')
+
+    const groupBy = (array, property) => {
+        return array.reduce((acc, obj) => {
+          let key = obj[property]
+          if (!acc[key]) {
+            acc[key] = []
+          }
+          acc[key].push(obj)
+          return acc
+        }, {})
+      }
 
     // Leden
     useEffect(() => {
 
+        const usersArray = []
+
+        users && users.forEach(user => {
+
+            const month = user.Timestamp.toDate().toLocaleDateString("nl-NL", options)
+
+            const userObject = {
+                Month: month,
+                ID: user.ID
+            }
+
+            usersArray.push(userObject)
+        })
+
+        const array = Object.entries(groupBy(usersArray, 'Month')) 
+
         const monthArray = []
         const countArray = []
 
-        members && members.forEach(member => {
-            const month = member.Month 
-            const count = member.Contributions
+        array && array.forEach(arr => {
+
+            const month = arr[0]
+            const count = arr[1].length
 
             monthArray.push(month)
             countArray.push(count)
-    
+
         })
 
-        setLabelMembers(monthArray)
-        setDataMembers(countArray)
-    }, [members])
+        setLabelUsers(monthArray)
+        setDataUsers(countArray)
+
+    },[users])
 
     // Messages
     useEffect(() => {
 
-        const monthArray = []
-        const countArray = []
+        const messagesArray = []
+
+        console.log(messages)
 
         messages && messages.forEach(message => {
-            const month = message.Month 
-            const count = message.Contributions
+
+            const month = message.Timestamp.toDate().toLocaleDateString("nl-NL", options)
+
+            const messageObject = {
+                Month: month,
+                ID: message.ID
+            }
+
+            messagesArray.push(messageObject)
+        })
+
+        const array = Object.entries(groupBy(messagesArray, 'Month')) 
+
+        const monthArray = []
+        const userCountArray = []
+
+        array && array.forEach(arr => {
+
+            const month = arr[0]
+            const count = arr[1].length
 
             monthArray.push(month)
-            countArray.push(count)
-    
+            userCountArray.push(count)
+
         })
 
         setLabelMessages(monthArray)
-        setDataMessages(countArray)
-    }, [likes])
+        setDataMessages(userCountArray)
 
-    // GoalLikes
-    // useEffect(() => {
+    },[messages])
 
-    //     const monthArray = []
-    //     const countArray = []
-
-    //     goalLikes && goalLikes.forEach(goalLike => {
-    //         const month = goalLike.Month 
-    //         const count = goalLike.Contributions
-
-    //         monthArray.push(month)
-    //         countArray.push(count)
-    
-    //     })
-
-    //     setLabelGoalLikes(monthArray)
-    //     setDataGoalLikes(countArray)
-    // }, [likes])
 
     // Likes
     useEffect(() => {
 
+        const likesArray = []
+
+        likes && likes.forEach(like => {
+
+            const month = like.Timestamp.toDate().toLocaleDateString("nl-NL", options)
+
+            const likeObject = {
+                Month: month,
+                ID: like.ID
+            }
+
+            likesArray.push(likeObject)
+        })
+
+        const array = Object.entries(groupBy(likesArray, 'Month')) 
+
         const monthArray = []
         const countArray = []
 
-        likes && likes.forEach(like => {
-            const month = like.Month 
-            const count = like.Contributions
+        array && array.forEach(arr => {
+
+            const month = arr[0]
+            const count = arr[1].length
 
             monthArray.push(month)
             countArray.push(count)
-    
+
         })
 
         setLabelLikes(monthArray)
         setDataLikes(countArray)
-    }, [likes])
+
+    },[likes])
 
     return (
             <div className="main">
@@ -118,28 +167,30 @@ const Analytics = () => {
                             <p>Analyseer de trend van de groei van het aantal leden van je community</p>
                                 <div>
                                 <Line data={{
-                                        labels: labelMembers,
+                                        labels: labelUsers,
                                         datasets: [
-                                        {
-                                            label: 'Aantal leden',
-                                            data: dataMembers,
-                                            fill: false,
-                                            backgroundColor: 'green',
-                                            borderColor: 'green',
-                                        },
-                                        ],
-                                }} 
-                                options={{
-                                    scales: {
-                                        yAxes: [
-                                        {
-                                            ticks: {
-                                            beginAtZero: true,
+                                            {
+                                                label: 'Aantal leden',
+                                                data: dataUsers,
+                                                fill: false,
+                                                backgroundColor: 'green',
+                                                borderColor: 'green',
                                             },
-                                        },
                                         ],
-                                    },
-                                }} />
+                                        options: {
+                                            scales: {
+                                                yAxis: [
+                                                {
+                                                    ticks: {
+                                                    beginAtZero: true,
+                                                    stepSize: 100
+                                                    },
+                                                },
+                                                ],
+                                            },
+                                        } 
+                                    }}
+                                /> 
                             </div>
                         </div>
                         <div className='divider'>
@@ -150,82 +201,56 @@ const Analytics = () => {
                                         labels: labelMessages,
                                         datasets: [
                                         {
-                                            label: 'Aantal leden',
+                                            label: 'Aantal berichten',
                                             data: dataMessages,
                                             fill: false,
                                             backgroundColor: 'green',
                                             borderColor: 'green',
                                         },
                                         ],
-                                }} 
-                                options={{
-                                    scales: {
-                                        yAxes: [
-                                        {
-                                            ticks: {
-                                            beginAtZero: true,
+                                        options: {
+                                            scales: {
+                                                yAxes: [
+                                                {
+                                                    ticks: {
+                                                    beginAtZero: true,
+                                                    stepSize: 10
+                                                    },
+                                                },
+                                                ],
                                             },
-                                        },
-                                        ],
-                                    },
-                                }} />
+                                        } 
+                                    }} 
+                                />
                             </div>
                         </div>
-                        {/* <div className='divider'>
-                            <h2>Bijdragen aan doelen</h2>
-                            <p>Analyseer de trend van de groei van het aantal bijdragen aan de doelen van je community</p>
-                            <div>
-                                <Line data={{
-                                        labels: labelGoalLikes,
-                                        datasets: [
-                                        {
-                                            label: 'Aantal bijdragen aan doelen',
-                                            data: dataGoalLikes,
-                                            fill: false,
-                                            backgroundColor: 'green',
-                                            borderColor: 'green',
-                                        },
-                                        ],
-                                }} 
-                                options={{
-                                    scales: {
-                                        yAxes: [
-                                        {
-                                            ticks: {
-                                            beginAtZero: true,
-                                            },
-                                        },
-                                        ],
-                                    },
-                                }} />
-                            </div>
-                        </div> */}
                         <div className='divider'>
                             <h2>Likes</h2>
                             <p>Analyseer de trend van de groei van het aantal likes van je community</p>
                             <div>
                                 <Line data={{
-                                        labels: labelLikes,
-                                        datasets: [
-                                        {
-                                            label: 'Aantal likes',
-                                            data: dataLikes,
-                                            fill: false,
-                                            backgroundColor: 'green',
-                                            borderColor: 'green',
-                                        },
-                                        ],
-                                }} 
-                                options={{
-                                    scales: {
-                                        yAxes: [
-                                        {
-                                            ticks: {
-                                            beginAtZero: true,
-                                            },
-                                        },
-                                        ],
+                                    labels: labelLikes,
+                                    datasets: [
+                                    {
+                                        label: 'Aantal likes',
+                                        data: dataLikes,
+                                        fill: false,
+                                        backgroundColor: 'green',
+                                        borderColor: 'green',
                                     },
+                                    ],
+                                    options: {
+                                        scales: {
+                                            yAxes: [
+                                            {
+                                                ticks: {
+                                                beginAtZero: true,
+                                                stepSize: 10
+                                                },
+                                            },
+                                            ],
+                                        },
+                                    } 
                                 }} />
                             </div>
                         </div>

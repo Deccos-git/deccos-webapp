@@ -311,10 +311,10 @@ const MessageDetail = () => {
                         <div className="massage" dangerouslySetInnerHTML={{__html:message.Message}}></div>
                         <div className='like-container'>
                             <div className='like-icon-container'>
-                                <div className='like-icon-inner-container' onClick={toggleGoalLikeBar} style={{display: impacteer}}>
+                                {/* <div className='like-icon-inner-container' onClick={toggleGoalLikeBar} style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" />
                                     <p className='notification-counter-small'>{message.Contributions.length}</p>
-                                </div>
+                                </div> */}
                                 <div className='like-icon-inner-container'>
                                     <img 
                                     src={heartIcon} 

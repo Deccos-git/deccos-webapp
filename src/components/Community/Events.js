@@ -2,67 +2,28 @@ import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import { client } from '../../hooks/Client';
-import { useFirestoreTimestamp, useFirestore, useFirestoreChannelName, useFirestoreSubscriptions } from "../../firebase/useFirestore";
+import { useFirestoreTimestamp } from "../../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { motion } from "framer-motion"
-import { useState, useContext, useEffect } from 'react';
-import { auth, db, timestamp } from '../../firebase/config';
-import { Auth } from '../../StateManagment/Auth';
+import { useState } from 'react';
+import { db, timestamp } from '../../firebase/config';
 import MenuStatus from "../../hooks/MenuStatus";
 import firebase from 'firebase';
-import Location from "../../hooks/Location"
-import uuid from 'react-uuid';
+
 import Calendar from "../Calender";
 
 const Events = () => {
-    const [authO] = useContext(Auth)
-    const [authID, setAuthID] = useState(null)
     const [listViewTab, setListViewTab] = useState('active-tab')
     const [calenderViewTab, setCalenderViewTab] = useState('not-active-tab')
     const [listDisplay, setListDisplay] = useState('flex')
     const [calenderDisplay, setCalenderDisplay] = useState('none')
 
-    const [channelID, setChannelID] = useState('')
-    const [isMember, setIsMember] = useState('none')
     const [memberStatus, setMemberStatus] = useState('Abonneren')
 
     const events = useFirestoreTimestamp("Events")
-    const channels = useFirestoreChannelName('Events')
-    const subscriptions = useFirestoreSubscriptions(authID)
 
     const menuState = MenuStatus()
     const history = useHistory()
-    const route = Location()[3]
-    const id = uuid()
-
-    const variants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }
-
-    useEffect(() => {
-        if(authO.ID != undefined){
-
-            setAuthID(authO.ID)
-        }
-    },[authO])
-
-      useEffect(() => {
-        subscriptions && subscriptions.forEach(sub => {
-
-            if(sub.SubID === route){
-
-                setIsMember('flex')
-                setMemberStatus('Geabonneerd')
-            }
-        })
-    },[subscriptions])
-
-    useEffect(() => {
-        channels && channels.forEach(channel => {
-            setChannelID(channel.ID)
-        })
-    },[channels])
 
     const detailRouter = (e) => {
 
@@ -86,25 +47,6 @@ const Events = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
-    const becomeMember = (e) => {
-
-        e.target.innerText = 'Geabonneerd'
-
-        db.collection('Subscriptions')
-        .doc()
-        .set({
-            UserName: authO.UserName,
-            UserID: authO.ID,
-            UserEmail: authO.Email,
-            SubID: channelID,
-            SubName: 'Events',
-            Timestamp: timestamp,
-            Compagny: client,
-            ID: id,
-            Type: 'Channel'
-        })
-    }
-
     const showListView = () => {
         setListDisplay('flex')
         setCalenderDisplay('none')
@@ -122,7 +64,7 @@ const Events = () => {
     const CalenderView = () => {
         return (
 
-            <div className="card-container" style={{display: isMember}} style={{display: calenderDisplay}}>
+            <div className="card-container" style={{display: calenderDisplay}}>
                 <Calendar events={events}/>
             </div>
 
@@ -136,13 +78,12 @@ const Events = () => {
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
                     <h1>Events</h1>
-                    <button className="subscribe-channel-button" onClick={becomeMember}>{memberStatus}</button>
                     <div className='group-navigation-container'>
                         <p className={listViewTab} onClick={showListView}>Lijst</p>
                         <p className={calenderViewTab} onClick={showCalenderView}>Kalender</p>
                     </div>
                 </div>
-                <div className="card-container" style={{display: isMember}} style={{display: listDisplay}}>
+                <div className="card-container" style={{display: listDisplay}}>
                     {events && events.map(even => (
                         <div className="card">
                             <img className="card-banner" src={even.Banner} alt="" />
