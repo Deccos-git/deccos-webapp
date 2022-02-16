@@ -173,12 +173,12 @@ const ImpactIndicators = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h1>Impact meetinstrumenten</h1>
-                    <p>Verander de instellingen van de impact meetinstrumenten</p>
+                    <h1>Impact indicatoren</h1>
+                    <p>Verander de instellingen van de impact indicatoren</p>
                 </div>
                 <div>
-                    <h4>Meetinstrumenten</h4>
-                    <p>Bepaal via welke bronnen je jullie impact wilt meten.</p>
+                    <h4>Indicatoren</h4>
+                    <p>Bepaal met welke indicatoren jullie je impact wilen meten.</p>
                     <div className='functionality-container'>
                         <p>Resultaten van vragenlijsten</p>
                         <ToggleSwitchQuestionnaire/>

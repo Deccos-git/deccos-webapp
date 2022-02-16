@@ -68,21 +68,6 @@
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
-.functionality-container{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid lightgray;
-    align-items: center;
-}
-
-.functionality-container p{
-    margin: 0px;
-    font-weight: bold;
-}
-
 .hide-message-options{
     display: none;
 }
@@ -782,16 +767,6 @@
       cursor: pointer;
   }
 
-  .group-landing-container{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .group-landing-container img{
-      width: 100%;
-  }
-
   .messagebar-outer-cointainer{
       width: 80%;
   }
@@ -1112,70 +1087,6 @@
     cursor: pointer;
   }
 
-  .auth-message-container img{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.message-card-timestamp{
-    margin: 0px 0px 0px auto;
-    font-size: 12px;
-}
-
-.messagebar-group-container{
-    bottom: 0px;
-    top: auto;
-    position: fixed;
-    width: 55%;
-    margin-bottom: 5px;
-    padding-top: 5px;
-}
-
-.user-image{
-    cursor: pointer;
-}
-
-.approval-message-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 50px;
-}
-
-.approval-message-container img{
-    max-width: 200px;
-    border-radius: 50%;
-}
-
-.approval-message-container a{
-    color: green;
-    margin-top: 30px;
-}
-
-.messagebar-group-inner-container{
-    display: flex;
-    align-items: center;
-}
-
-#welcome-banner{
-    width: 100%;
-}
-
-.messagebar-group-container img{
-    width: 20px;
-    height: 20px;
-    margin: 10px;
-    cursor: pointer;
-}
-
-.messagebar-group-container textarea{
-    min-height: 75%;
-}
-
   .auth-message{
     cursor: pointer;
     margin-right: 5px;
@@ -1320,12 +1231,6 @@
 
   .block p{
       font-size: 18px;
-  }
-
-  .icon-container{
-      display: flex;
-      align-items: center;
-      justify-content: center;
   }
 
   #add-item-channel-settings-detail-button{
@@ -1478,48 +1383,6 @@
       align-items: center;
   }
 
-  .chat-header img{
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-  }
-
-  .chat-header h2{
-      margin: 0px 5px 10px 5px;
-  }
-
-  .chat-container{
-      width: 90%;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .chat-screen{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 20px 100px 20px;
-      background-color: white;
-      min-height: 80vh;
-      width: 80%;
-      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-  }
-
-  .group-navigation-container{
-      display: flex;
-      align-self: flex-start;
-      margin-left: -20px;
-  }
-
-  .group-navigation-container p{
-      padding: 5px;
-      cursor: pointer;
-    border-radius: 3px;
-    color: #2F2C41;
-    font-weight: bold;
-    margin-bottom: -20px;
-  }
-
   .active-tab{
     box-shadow: inset 0 1px 2px #d3d3d3;
     background-color: #a7bdbd26;
@@ -1545,113 +1408,9 @@
       padding: 5px;
   }
 
-  .chat-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-    width: 80%;
-    background-color: white;
-    margin: 20px;
-    border-radius: 5px;
-}
-
-.like-icon-inner-container{
-    margin: 0px;
-    cursor: pointer;
-}
-
-.like-icon-inner-container img{
-    width: 30px;
-    height: 30px;
-}
-
-.like-container{
-    margin-bottom: 20px;
-}
-
-  .user-message{
-    align-self: flex-start;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    word-break: break-word;
-    border-radius: 15px;
-    font-size: 16px;
-    margin: 15px 15px;
-    max-width: 50%;
-    background-color: white;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-  }
-
-  .like-counter{
-      margin-left: 10px;
-  }
-
   .sdg-type{
       color: #2F2C41;
       margin-left: 10px;
-  }
-
-  .auth-message{
-    align-self: flex-end;
-    display: flex;
-    flex-direction: column;
-    word-break: break-word;
-    padding: 5px;
-    border-radius: 15px;
-    font-size: 16px;
-    margin: 15px 15px;
-    max-width: 50%;
-    background-color: white;
-    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
-  }
-
-  .sender-meta-container{
-      display: flex;
-      align-items: center;
-  }
-
-  .sender-photo{
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      margin-right: 5px;
-      cursor: pointer;
-  }
-
-  .sender-name{
-      align-self: flex-end;
-      font-size: 12px;
-      font-weight: bold;
-      margin: 10px;
-      color: #2F2C41;
-      cursor: pointer;
-  }
-
-  .sender-timestamp{
-      align-self: flex-start;
-      font-size: 12px;
-  }
-
-  .notifications-icon-message{
-      width: 15px;
-      align-self: left;
-      cursor: pointer;
-      margin-left: 2px;
-  }
-
-  .group-header{
-      height: 150px;
-      background-color: white;
-      border-bottom: 5px solid #a7bdbd60;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
   }
 
   .back-to-community-container{
@@ -2023,7 +1782,6 @@
 #footer-container a{
     padding: 5px;
     font-size: 12px;
-    font-weight: bold;
     color: black;
 }
 

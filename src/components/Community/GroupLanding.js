@@ -147,10 +147,13 @@ const GroupLanding = () => {
             <LeftSideBarFullScreen/>
             {groups && groups.map(group => (
                 <>
-                <div className="profile" style={{display: menuState}}>
+                <div className="profile landing-outer-container" style={{display: menuState}}>
                     <div className="group-landing-container">
                         <h2>{group.Room}</h2>
                         <img src={group.Banner} alt="" />
+                    </div>
+                    <div id='group-landing-description'>
+                        <p>{group.Description}</p>
                     </div>
                     <div id="group-meta-div">
                         <p><b>Aantal leden:</b> {memberCount}</p>

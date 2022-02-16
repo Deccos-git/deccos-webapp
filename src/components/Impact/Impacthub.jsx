@@ -34,6 +34,9 @@ const Impacthub = () => {
                     <p>Verander de instellingen voor de impacthub</p>
                 </div>
                 <div>
+                    <h2>Delen op impacthub</h2>
+                </div>
+                <div>
                     <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impacthub</button></a>
                    
                 </div>

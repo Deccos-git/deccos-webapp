@@ -83,6 +83,10 @@ import MatchProfileFields from './Matching/MatchProfileFields';
 import RoadMap from './Matching/Roadmap';
 import QuestionnaireAnalysis from './Impact/QuestionnaireAnalysis';
 import Impacthub from './Impact/Impacthub';
+import Likes from './Community/Likes';
+import Output from './Impact/Output';
+import AddActivity from './Impact/AddActivity';
+import AddOutput from './Impact/AddOutput';
 
 const Main = () => {
 
@@ -182,8 +186,17 @@ const Main = () => {
                 <Route path={`/${client}/Impacthub`}>
                     <Impacthub/>
                 </Route>
+                <Route path={`/${client}/Output`}>
+                    <Output/>
+                </Route>
+                <Route path={`/${client}/AddOutput`}>
+                    <AddOutput/>
+                </Route>
                 <Route path={`/${client}/AddGoal`}>
                     <AddGoal/>
+                </Route>
+                <Route path={`/${client}/AddActivity`}>
+                    <AddActivity/>
                 </Route>
                 <Route path={`/${client}/Search`}>
                     <Search/>
@@ -280,6 +293,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Members`}>
                     <Members/>
+                </Route>
+                <Route path={`/${client}/Likes`}>
+                    <Likes/>
                 </Route>
                 <Route path={`/${client}/ArticleDetail`}>
                     <ArticleDetail/>

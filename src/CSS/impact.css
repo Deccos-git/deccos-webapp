@@ -4,7 +4,8 @@
     justify-content: flex-start;
     border: 1px solid lightgray;
     padding: 5px;
-    border-radius: 3px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 #impact-questionnaire-icon-container img{
@@ -201,6 +202,55 @@
     margin: 10px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     padding: 10px;
+}
+
+.icon-container-activities{
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.icon-container-activities img{
+    margin-right: 10px;
+}
+
+.next-step-impact{
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.next-step-impact img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.functionality-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    align-items: center;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.functionality-container p{
+    margin: 0px;
+    font-weight: bold;
+}
+
+#number-indicators-output{
+    margin-left: 20px;
+}
+
+#impact-dasboard-goal-banner{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 }
 
 @media only screen and (max-width: 1024px){

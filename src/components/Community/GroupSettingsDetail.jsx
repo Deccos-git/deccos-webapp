@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
+import ButtonClicked from "../../hooks/ButtonClicked";
 
 const GroupSettingsDetail = () => {
     const [title, setTitle] = useState("")
@@ -21,6 +22,7 @@ const GroupSettingsDetail = () => {
     const [groupID, setGroupID] = useState('')
     const [groupDocID, setGroupDocID] = useState('')
     const [groupName, setGroupName] = useState('')
+    const [description, setDescription] = useState('')
 
     const route = Location()[3]
     const menuState = MenuStatus()
@@ -33,8 +35,6 @@ const GroupSettingsDetail = () => {
     const compagnies = useFirestore("CompagnyMeta")
     const groupChannels = useFirestoreID('GroupChannels', route)
 
-    console.log(groupChannels)
-
     useEffect(() => {
         compagnies && compagnies.forEach(comp => {
             setCommunityNameDB(comp.CommunityName)
@@ -46,6 +46,7 @@ const GroupSettingsDetail = () => {
             setGroupID(group.ID)
             setGroupDocID(group.docid)
             setGroupName(group.Room)
+            setDescription(group.Description)
         })
     },[groups])
    
@@ -71,6 +72,8 @@ const GroupSettingsDetail = () => {
 
     const saveTitle = (e) => {
 
+        ButtonClicked(e, "Opgeslagen")
+
         groups && groups.forEach(group => {
             db.collection("Groups")
             .doc(group.docid)
@@ -81,8 +84,6 @@ const GroupSettingsDetail = () => {
                 changeGroupChannelName()
             })
         })
-
-        e.target.innerHTML = "Opgeslagen"
     }
 
     const changeGroupChannelName = () => {
@@ -96,6 +97,8 @@ const GroupSettingsDetail = () => {
     }
 
     const saveNewMember = (e) => {
+
+        ButtonClicked(e, "Toegevoegd")
 
         db.collection('Subscriptions')
         .doc()
@@ -148,6 +151,35 @@ const GroupSettingsDetail = () => {
         setUserEmail(userEmail)
     }
 
+    const descriptionHandler = (e) => {
+        const description = e.target.value
+        
+        setDescription(description)
+
+    }
+
+    const saveDescription = (e) => {
+
+        ButtonClicked(e, "Opgeslagen")
+
+        const docid = e.target.dataset.docid 
+
+        db.collection('Groups')
+        .doc(docid)
+        .update({
+            Description: description
+        })
+    }
+
+    const deleteMember = (e) => {
+
+        const docid = e.target.dataset.docid
+
+        db.collection('Subscriptions')
+        .doc(docid)
+        .delete()
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -161,9 +193,17 @@ const GroupSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h3>Titel</h3>
-                        <input className="input-classic" type="text" placeholder={group.Room} onChange={titleHandler}/>
+                        <input className="input-classic" type="text" defaultValue={group.Room} onChange={titleHandler}/>
                         <div className="button-container">
                             <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                        </div>
+                    </div>
+                    <div className="divider">
+                        <h3>Omschrijving</h3>
+                        <p>Geef een omschrijving van je groep zodat mensen weten wat ze van deze groep kunnen verwachten.</p>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={description} onChange={descriptionHandler}></textarea>
+                        <div className="button-container">
+                            <button className="button-simple" data-docid={group.docid} onClick={saveDescription}>Opslaan</button>
                         </div>
                     </div>
                     <div className='divider'>
@@ -172,7 +212,7 @@ const GroupSettingsDetail = () => {
                             <div className='groupsettings-detail-member-container' key={member.ID}>
                                 <img src={member.UserPhoto} alt=""/>
                                 <p>{member.UserName}</p>
-                                <button className='userrole-users-delete-button button-simple'>Verwijderen</button>
+                                <img className='userrole-users-delete-button' data-docid={member.docid} src={deleteIcon} alt="" onClick={deleteMember} />
                             </div>
                         ))}
                     </div>

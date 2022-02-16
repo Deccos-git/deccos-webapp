@@ -292,8 +292,6 @@ const LeftSideBarAuthProfile = () => {
             return <div style={{display: showProjectManagement()}}>
                     <h3>Projectbeheer</h3>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
-                        <Link activeClassName='active' to={`/${client}/ActivitySettings`} onClick={changeMenuStatus}>Activiteiten</Link>
                         <Link activeClassName='active' to={`/${client}/TaskSettings`} onClick={changeMenuStatus}>Taken</Link>
                     </div>
                 </div>
@@ -324,7 +322,9 @@ const LeftSideBarAuthProfile = () => {
             return <div style={{display: showImpact()}}>
                     <h3>Impact</h3>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/ImpactIndicators`} onClick={changeMenuStatus}>Meetinstrumenten</Link>
+                        <Link activeClassName='active' to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
+                        <Link activeClassName='active' to={`/${client}/ActivitySettings`} onClick={changeMenuStatus}>Activiteiten</Link>
+                        <Link activeClassName='active' to={`/${client}/Output`} onClick={changeMenuStatus}>Output</Link>
                         <Link activeClassName='active' to={`/${client}/QuestionnaireSettings`} onClick={changeMenuStatus}>Vragenlijsten</Link>
                         <Link activeClassName='active' to={`/${client}/Stakeholders`} onClick={changeMenuStatus}>Stakeholders</Link>
                         <Link activeClassName='active' to={`/${client}/Impacthub`} onClick={changeMenuStatus}>Impacthub</Link>

@@ -727,6 +727,29 @@ const useFirestoreMyEvents = (id) => {
     return docs
 };
 
+const useFirestoreMyLikes = (type, id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Likes')
+        .where('Compagny', '==', client)
+        .where(type, '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [type, id])  
+
+    return docs
+};
+
 const useFirestoreQuestionnaireFields = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -898,6 +921,7 @@ export {
     useFirestoreTasksComplete,
     useFirestoreMyTasks,
     useFirestoreMyEvents,
+    useFirestoreMyLikes,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
     useFirestoreQuestionnaireAnalysis,

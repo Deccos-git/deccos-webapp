@@ -13,6 +13,8 @@ import { bucket } from '../../firebase/config';
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
+import { useHistory } from "react-router-dom";
+import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
 
 const AddGoal = () => {
     const [authO] = useContext(Auth)
@@ -28,6 +30,7 @@ const AddGoal = () => {
 
     const id = uuid()
     const menuState = MenuStatus()
+    const history = useHistory()
     
     const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
@@ -161,6 +164,12 @@ const AddGoal = () => {
 
     }
 
+    const nextStep = () => {
+
+        history.push(`/${client}/ActivitySettings`)
+
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -245,6 +254,10 @@ const AddGoal = () => {
                 </form>
                 <div id="button-add-goal">
                     <Link to={`/${client}/Goals`}><button onClick={saveGoal}>Opslaan</button></Link>
+                </div>
+                <div className='next-step-impact'>
+                    <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
+                    <h3 onClick={nextStep}>Volgende stap: activiteiten toevoegen</h3>
                 </div>
             </motion.div>
             <RightSideBar />

@@ -7,8 +7,6 @@ import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
 import { db, timestamp } from "../../firebase/config.js"
 import { useFirestoreID, useFirestoreQuestionnairesResponses, useFirestoreQuestionnaireFields, useFirestoreQuestionnaireAnalysis } from "../../firebase/useFirestore"
-import sendIcon from '../../images/icons/send-icon.png'
-import editIcon from '../../images/icons/edit-icon.png'
 import { useState, useEffect } from 'react';
 import Location from "../../hooks/Location"
 import ButtonClicked from "../../hooks/ButtonClicked";

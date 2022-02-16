@@ -92,7 +92,7 @@ const TaskSettings = () => {
         setTimeout(() => {
             e.target.innerText = 'Opslaan'
             e.target.style.color = 'green'
-        }, 3000);
+        }, 10000);
 
         const ID = uuid()
 

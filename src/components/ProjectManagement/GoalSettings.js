@@ -37,6 +37,10 @@ const GoalSettings = () => {
                     <p>Pas de instellingen aan de doelen aan</p>
                 </div>
                 <div className="divider">
+                    <h3>Doel toevoegen</h3>
+                    <Link to={`/${client}/AddGoal`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
+                </div>
+                <div className="divider">
                     <h3>Community doelen</h3>
                     {goals && goals.map(goal => (
                         <div className="channel-container">
@@ -46,10 +50,6 @@ const GoalSettings = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-                <div className="divider">
-                    <h3>Maak een nieuw doel</h3>
-                    <Link to={`/${client}/AddGoal`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
                 </div>
             </div>
         </div>

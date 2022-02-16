@@ -38,10 +38,12 @@ const ImpactProgress = () => {
 
                 const name = doc.data().Activity
                 const progress = doc.data().Progression
+                const ID = doc.data().ID
 
                 const activitieObject = {
                     Name: name,
-                    Progress: Math.floor(progress)
+                    Progress: Math.floor(progress),
+                    ID: ID
                 }
 
                 activitiesArray.push(activitieObject)
@@ -88,14 +90,13 @@ const ImpactProgress = () => {
             const goalProgress = progressArray.reduce((a, b) => a + b, 0)
             const goalProgressAverage = goalProgress / progressArray.length
 
-            console.log(progressArray, goalProgress)
-
             const activities = await activitiesOverview(goal)
             const questionnaires = await questionnaireOverview(goal)
 
             const goalObject = {
                 Goal: goal.Title,
                 SDG: goal.SDG,
+                Banner: goal.Banner,
                 Progress: goalProgress,
                 Activities: activities,
                 Questionnaires: questionnaires
@@ -114,8 +115,6 @@ const ImpactProgress = () => {
             setGoals(goalArray)
         })
     }, [goalsDB])
-
-    console.log(goals)
 
     const Members = () => {
         if(members === true){
@@ -153,6 +152,44 @@ const ImpactProgress = () => {
         
     }
 
+    const Indicatoren = ({activity}) => {
+        const [display, setDisplay] = useState('none')
+        const [indicators, setIndicators] = useState([])
+
+        const ID = activity.ID 
+
+        db.collection('Outputs')
+        .where('ActivityID', '==', ID)
+        .get()
+        .then(querySnapshot => {
+
+           if(querySnapshot.empty === false){
+            setDisplay('block')
+           }
+
+            querySnapshot.forEach(doc => {
+                const output = doc.data().Output
+
+                console.log(output)
+
+
+            })
+        })
+
+
+        return (
+            <div style={{display: display}}>
+                <h4>Indicatoren</h4>
+                {indicators && indicators.map(indicator => (
+                    <ul>
+                        <li>{indicator}</li>
+                    </ul>
+                ))}
+
+            </div>
+        )
+    }
+
 
 
     return (
@@ -166,6 +203,7 @@ const ImpactProgress = () => {
                 <div className='profile profile-auth-profile'>
                 {goals && goals.map(goal => (
                         <div>
+                            <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
                             <h2>{goal.Goal}</h2>
                             <p>SDG: {goal.SDG}</p>
                             <div className='progressionbar-outer-bar'>
@@ -175,22 +213,15 @@ const ImpactProgress = () => {
                                 <h3>Activiteiten</h3>
                                 <div id='activity-outer-container'>
                                 {goal.Activities.map(activity => (
-                                    <div className='activity-inner-container-dashboard'>
+                                    <div className='activity-inner-container-dashboard' key={activity.ID}>
                                         <h3>{activity.Name}</h3>
                                         <div className='progressionbar-outer-bar'>
                                             <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
                                         </div>
+                                        <Indicatoren activity={activity} />
                                     </div>
                                 ))}
                                 </div>
-                            </div>
-                            <div className='divider'>
-                                <h3>Vragenlijsten</h3>
-                                {goal.Questionnaires.map(questionnaire => (
-                                    <div>
-                                        <h2>{questionnaire.Title}</h2>
-                                    </div>
-                                ))}
                             </div>
                         </div>
                     ))}
