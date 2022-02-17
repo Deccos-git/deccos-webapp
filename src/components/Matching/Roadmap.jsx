@@ -10,6 +10,7 @@ import { client } from "../../hooks/Client"
 import {useFirestoreMatchRoadmaps} from "../../firebase/useFirestore"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import completeIcon from '../../images/icons/complete-icon.png'
+import ButtonClicked from '../../hooks/ButtonClicked'
 
 const RoadMap = () => {
     const [colors] = useContext(Colors)
@@ -34,7 +35,9 @@ const RoadMap = () => {
         setPosition(position)
     }
 
-    const saveStep = () => {
+    const saveStep = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
 
         db.collection('MatchRoadmaps')
         .doc()
@@ -68,7 +71,7 @@ const RoadMap = () => {
                     <p>Voeg een stappenplan toe aan de matches</p>
                 </div>
                 <div className='divider'>
-                    <h4>Stappen</h4>
+                    <h2>Stappen</h2>
                     {matchRoadmaps && matchRoadmaps.map(map => (
                     <div className='roadmap-container' key={map.ID}>
                         <div id='roadmap-inner-container'>
@@ -80,12 +83,12 @@ const RoadMap = () => {
                     ))}
                 </div>
                 <div className='divider'>
-                    <h4>Voeg een stap toe</h4>
+                    <h2>Voeg een stap toe</h2>
                     <p>Titel</p>
                     <input type="text" placeholder='Geef je stap een titel' onChange={titleHandler} />
                     <p>Positie</p>
                     <input type="number" placeholder='Geef je stap een positie' onChange={positionHandler}/>
-                    <div>
+                    <div className='button-userrole-container'>
                         <button className='button-simple' onClick={saveStep}>Opslaan</button>
                     </div>
                 </div>

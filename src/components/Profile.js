@@ -150,11 +150,11 @@ const Profile = () => {
                             <p>Verander de instellingen van je profiel</p>
                         </div>
                         <div className="divider account-status">
-                            <h4>Uitloggen</h4>
+                            <h2>Uitloggen</h2>
                             <button id="log-out-button" onClick={logOut}>Uitloggen</button>
                         </div >
                         <div className="divider">
-                            <h4>Schermnaam aanpassen</h4>
+                            <h2>Schermnaam aanpassen</h2>
                             <h5>Voornaam</h5>
                             <input className="input-classic" type="text" defaultValue={authO.ForName} onChange={forNameHandler}/>
                             <h5>Achternaam</h5>
@@ -164,7 +164,7 @@ const Profile = () => {
                             </div>
                         </div >
                         <div className="divider">
-                            <h4>Profielfoto aanpassen</h4>
+                            <h2>Profielfoto aanpassen</h2>
                             <div className="photo-container-profile">
                                 <img id="adjust-photo-profile" src={authO.Photo} alt="" />
                             </div>
@@ -173,7 +173,7 @@ const Profile = () => {
                         <div className='divider'>
                             {userCompagnies > 0}{
                                 <>
-                                    <h4>Mijn online omgevingen</h4>
+                                    <h2>Mijn online omgevingen</h2>
                                     <div>
                                         {userCompagnies && userCompagnies.map(compagny => (
                                             <div className='user-compagnies-container'>
@@ -186,7 +186,7 @@ const Profile = () => {
                             }
                         </div>
                         <div className="divider account-status">
-                            <h4>Account verwijderen</h4>
+                            <h2>Account verwijderen</h2>
                             <button id="delete-account-button" onClick={deleteAccount}>Verwijderen</button>
                         </div >
                     </div>

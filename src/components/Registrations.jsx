@@ -260,7 +260,7 @@ const Registrations = () => {
                     </div>
                     <div className='divider'>
                         <div className="verification-methode-container">
-                            <h3>Verificatie methode voor online omgeving</h3>
+                            <h2>Verificatie methode voor online omgeving</h2>
                             <p>Selecteer de verificatiemethode voor nieuwe leden</p>
                             <div className="radio-input-container">
                                 <input type="radio" name="verification-methode" id="Email" checked={verificationEmail} onChange={verificationMethhodeHandler} />
@@ -274,7 +274,7 @@ const Registrations = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Aanmeldingen voor online omgeving</h3>
+                        <h2>Aanmeldingen voor online omgeving</h2>
                         {notApprovedUsers && notApprovedUsers.map(user => (
                             <div className="userrole-users-container" key={user.ID}>
                                 <img className='pointer' src={user.Photo} alt="" data-userid={user.ID} onClick={linkToUser} />
@@ -294,7 +294,7 @@ const Registrations = () => {
                         ))}
                     </div> 
                     <div className='divider'>
-                        <h3>Aanmeldingen voor groepen</h3>
+                        <h2>Aanmeldingen voor groepen</h2>
                         {notApprovedGroups && notApprovedGroups.map(group=> (
                              <div className="userrole-users-container" key={group.ID}>
                                 <img className='pointer' src={group.UserPhoto} alt="" data-userid={group.UserID} onClick={linkToUser} />
@@ -318,7 +318,7 @@ const Registrations = () => {
 
                     </div>
                     <div className='divider'>
-                        <h3>Aanmeldingen voor events</h3>
+                        <h2>Aanmeldingen voor events</h2>
                         {events && events.map(vnt => (
                             <div className="events-signups-container">
                                 <p data-id={vnt.ID} onClick={eventLink}>{vnt.Title}</p>

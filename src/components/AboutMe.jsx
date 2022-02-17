@@ -101,7 +101,7 @@ const AboutMe = () => {
                             <h3>Introductie</h3>
                             {introductions && introductions.map(introduction => (
                                 <div>
-                                    <textarea placeholder={introduction.Message} id="" cols="30" rows="10" onChange={introductionHandler}></textarea>
+                                    <textarea defaultValue={introduction.Message} id="" cols="30" rows="10" onChange={introductionHandler}></textarea>
                                     <button className='button-simple' data-id={introduction.docid} onClick={saveIntrdoduction}>Opslaan</button>
                                 </div>
                             ))}

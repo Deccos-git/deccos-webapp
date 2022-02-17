@@ -251,11 +251,26 @@
     width: 100%;
     height: 300px;
     object-fit: cover;
+    border-radius: 5px;
+}
+
+#impact-progress-goal-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#goal-meta-container{
+    margin-left: 50px;
 }
 
 @media only screen and (max-width: 1024px){
 
     .activity-inner-container-dashboard {
         width: 100%;
+    }
+
+    #goal-meta-container{
+        margin-left: 10px;
     }
 }

@@ -9,6 +9,7 @@ import uuid from 'react-uuid';
 import { client } from "../../hooks/Client"
 import {useFirestore } from "../../firebase/useFirestore"
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ButtonClicked from '../../hooks/ButtonClicked'
 
 const MatchCategories = () => {
     const [colors] = useContext(Colors)
@@ -101,7 +102,9 @@ const MatchCategories = () => {
         setTag(tag)
     }
 
-    const saveCategorie = () => {
+    const saveCategorie = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
 
         db.collection('MatchCategories')
         .doc()
@@ -115,6 +118,8 @@ const MatchCategories = () => {
     }
 
     const saveTag = (e) => {
+
+        ButtonClicked(e, 'Toegevoegd')
 
         const categorie = e.target.dataset.categorie
         const categorieID = e.target.dataset.categorieid
@@ -185,10 +190,10 @@ const MatchCategories = () => {
 
         const saveTagColor = (e) => {
 
+            ButtonClicked(e, 'Opgeslagen')
+
             const docid = e.target.dataset.id 
     
-            console.log(docid)
-            console.log(tagColor)
     
             db.collection('MatchTags')
             .doc(docid)
@@ -216,7 +221,7 @@ const MatchCategories = () => {
                     <p>Voeg categorien en tags toe om matches te maken</p>
                 </div>
                 <div className='divider'>
-                    <h4>Categorien</h4>
+                    <h2>Categorien</h2>
                     {categorieSummary && categorieSummary.map(summary => (
                     <div className={`categorie-container ${summary.Type}`} key={summary.ID}>
                         <div className='categorie-inner-container'>
@@ -233,13 +238,15 @@ const MatchCategories = () => {
                                 </div>
                             ))}
                             <input type="text" placeholder='Voeg tag toe' onChange={tagHandler} />
-                            <button className='button-simple' data-categorieid={summary.ID} data-categorie={summary.Categorie} data-type={summary.Type} onClick={saveTag}>Opslaan</button>
+                            <div className='button-userrole-container'>
+                                <button className='button-simple' data-categorieid={summary.ID} data-categorie={summary.Categorie} data-type={summary.Type} onClick={saveTag}>Toevoegen</button>
+                            </div>
                         </div>
                     </div>
                     ))}
                 </div>
                 <div className='divider'>
-                    <h4>Voeg een categorie toe</h4>
+                    <h2>Voeg een categorie toe</h2>
                     <p>Categorie</p>
                     <input type="text" placeholder='Geef je categorie een naam' onChange={categorieHandler} />
                     <p>Selecteer categorie type</p>
@@ -247,7 +254,7 @@ const MatchCategories = () => {
                         <option value="Filter">Filter categorie</option>
                         <option value="Main">Hoofd categorie</option>
                     </select>
-                    <div>
+                    <div className='button-userrole-container'>
                         <button className='button-simple' onClick={saveCategorie}>Opslaan</button>
                     </div>
                 </div>

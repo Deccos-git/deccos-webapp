@@ -484,7 +484,7 @@ const UserRoles = () => {
                         <p>Pas de gebruikersrollen van je online omgeving aan</p>
                     </div>
                     <div className="divider">
-                        <h3>Admin</h3>
+                        <h2>Admin</h2>
                         <p>De admin rol geeft toegang tot de volgende beheersopties:</p>
                         <ul>
                             <li>Algemene instellingen van de online omgeving aanpassen</li>
@@ -516,7 +516,7 @@ const UserRoles = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Community beheerder</h3>
+                        <h2>Community beheerder</h2>
                         <p>De community beheerder rol geeft toegang tot de volgende beheersopties:</p>
                         <ul>
                             <li>Instellingen voor kanalen en groepen aanpassen</li>
@@ -544,7 +544,7 @@ const UserRoles = () => {
                         </div>
                     </div>
                     <div className='divider'>
-                        <h3>Auteur</h3>
+                        <h2>Auteur</h2>
                         <p>De auteur rol geeft toegang tot de volgende beheersopties:</p>
                         <ul>
                         <li>Toevoegen van artikelen, events, neuwsberichten en andere kanaalitems</li>
@@ -569,7 +569,7 @@ const UserRoles = () => {
                         </div>
                     </div>
                     <div className='divider' style={{display: showProjectManager()}}>
-                        <h3>Projectbeheerder</h3>
+                        <h2>Projectbeheerder</h2>
                         <p>De projectbeheerder rol geeft toegang tot de volgende opties:</p>
                         <ul>
                             <li>Doelen toevoegen, aanpassen en verwijderen</li>
@@ -597,7 +597,7 @@ const UserRoles = () => {
                         </div>
                     </div>
                     <div className='divider' style={{display: showMatching()}}>
-                        <h3>Matchers</h3>
+                        <h2>Matchers</h2>
                         <p>De matcher rol geeft toegang tot de volgende opties:</p>
                         <ul>
                             <li>Match items toevoegen, aanpassen en verwijderen</li>
@@ -628,7 +628,7 @@ const UserRoles = () => {
                         </div>
                     </div>
                     <div style={{display: showImpact()}}>
-                        <h3>Impacteer</h3>
+                        <h2>Impacteer</h2>
                         <p>De impacteer rol geeft toegang tot de volgende opties:</p>
                         <ul>
                             <li>Impact meetinstrumenten instellen</li>

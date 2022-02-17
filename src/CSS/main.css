@@ -167,7 +167,7 @@
 }
 
 .logo-container img{
-    width: 50%;
+    max-width: 150px;
 }
 
 #start-image{
@@ -193,6 +193,10 @@
 
 .group-settings-banner{
     width: 100%;
+}
+
+.button-container-colors{
+    margin-top: 10px;
 }
 
 .impact-path-section-container{

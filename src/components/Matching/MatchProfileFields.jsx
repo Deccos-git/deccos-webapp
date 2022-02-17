@@ -11,6 +11,7 @@ import uuid from 'react-uuid';
 import { client } from "../../hooks/Client"
 import {useFirestore } from "../../firebase/useFirestore"
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ButtonClicked from '../../hooks/ButtonClicked'
 
 const MatchProfileFields = () => {
     const [colors] = useContext(Colors)
@@ -37,6 +38,8 @@ const MatchProfileFields = () => {
     }
 
     const addField = (e) => {
+
+        ButtonClicked(e, 'Toegevoegd')
 
         db.collection("MatchProfileFields")
         .doc()
@@ -111,7 +114,9 @@ const MatchProfileFields = () => {
                     <p data-type={"radio"}>Meerkeuze knoppen</p>
                     <img data-type={"radio"} src={RegistrationRadio} alt="" />
                 </div> */}
-                <button className='button-simple' onClick={addField}>Toevoegen</button>  
+                <div className='button-userrole-container'>
+                    <button className='button-simple' onClick={addField}>Toevoegen</button>  
+                </div>
             </div>
         </div>
         <RightSideBar />

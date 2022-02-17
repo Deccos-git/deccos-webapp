@@ -26,6 +26,47 @@ const ImpactProgress = () => {
     const activities = useFirestoreActivities(goalID)
     const membersDB = useFirestoreUsersApproved(false, true)
 
+    const tasksProgress = async (ID) => {
+
+        const completedArray = []
+        const totalArray = []
+
+        await db.collection('Tasks')
+        .where('ActivityID', '==', ID)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+
+                totalArray.push(doc)
+
+            })  
+        })
+
+        await db.collection('Tasks')
+        .where('ActivityID', '==', ID)
+        .where('Completed', '==', true)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+
+                completedArray.push(doc)
+
+            })  
+        })
+
+        const onePercentage = 100/totalArray.length
+        const completed = completedArray.length
+
+        console.log(onePercentage)
+        console.log(completed)
+
+        const average = onePercentage*completed
+
+        console.log(average)
+
+        return average
+    }
+
     const activitiesOverview = async (goal) => {
 
         const activitiesArray = []
@@ -34,16 +75,24 @@ const ImpactProgress = () => {
         .where('GoalID', '==', goal.ID)
         .get()
         .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
+            querySnapshot.forEach(async doc => {
 
                 const name = doc.data().Activity
                 const progress = doc.data().Progression
                 const ID = doc.data().ID
+                const ingredients = doc.data().Ingredients
+                const effectShort = doc.data().EffectShort 
+                const effectLong = doc.data().EffectLong
+
+                const taskProgress = await tasksProgress(ID)
 
                 const activitieObject = {
                     Name: name,
-                    Progress: Math.floor(progress),
-                    ID: ID
+                    Progress: Math.floor(taskProgress),
+                    ID: ID,
+                    Ingredients: ingredients,
+                    EffectShort: effectShort,
+                    EffectLong: effectLong
                 }
 
                 activitiesArray.push(activitieObject)
@@ -85,11 +134,6 @@ const ImpactProgress = () => {
 
         for(const goal of goalsDB){
 
-            const progressArray = []
-
-            const goalProgress = progressArray.reduce((a, b) => a + b, 0)
-            const goalProgressAverage = goalProgress / progressArray.length
-
             const activities = await activitiesOverview(goal)
             const questionnaires = await questionnaireOverview(goal)
 
@@ -97,7 +141,10 @@ const ImpactProgress = () => {
                 Goal: goal.Title,
                 SDG: goal.SDG,
                 Banner: goal.Banner,
-                Progress: goalProgress,
+                Targetgroup: goal.TargetGroup,
+                ImpactTargetgroup: goal.ImpactTargetgroup,
+                ImpactSociety: goal.ImpactSociety,
+                Progress: goalProgress(activities),
                 Activities: activities,
                 Questionnaires: questionnaires
             }
@@ -106,6 +153,23 @@ const ImpactProgress = () => {
         }
 
         return goalArray
+
+    }
+
+    const goalProgress = (activities) => {
+
+        const array = []
+        activities && activities.forEach(activity => {
+
+            array.push(activity.Progress)
+
+        })
+
+        const sum = array.reduce((partialSum, a) => partialSum + a, 0)
+
+        const average = sum/array.length 
+
+        return Math.floor(average)
 
     }
 
@@ -170,7 +234,7 @@ const ImpactProgress = () => {
             querySnapshot.forEach(doc => {
                 const output = doc.data().Output
 
-                console.log(output)
+                
 
 
             })
@@ -185,7 +249,6 @@ const ImpactProgress = () => {
                         <li>{indicator}</li>
                     </ul>
                 ))}
-
             </div>
         )
     }
@@ -204,19 +267,52 @@ const ImpactProgress = () => {
                 {goals && goals.map(goal => (
                         <div>
                             <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
-                            <h2>{goal.Goal}</h2>
-                            <p>SDG: {goal.SDG}</p>
-                            <div className='progressionbar-outer-bar'>
-                                <div className='progressionbar-completed' style={{width: `${goal.Progress}%`}}></div>
+                            <div id='impact-progress-goal-container' className='divider'>
+                                <h2>{goal.Goal}</h2>
+                                <div className='progressionbar-outer-bar'>
+                                    <div className='progressionbar-completed' style={{width: `${goal.Progress}%`}}></div>
+                                </div>
+                                <div id='goal-meta-container'>
+                                    <div className='goal-meta-inner-container'>
+                                        <h3>SDG</h3>
+                                        <p>{goal.SDG}</p>
+                                    </div>
+                                    <div className='goal-meta-inner-container'>
+                                        <h3>Doelgroep</h3>
+                                        <p>{goal.Targetgroup}</p>
+                                    </div>
+                                    <div className='goal-meta-inner-container'>
+                                        <h3>Impact op doelgroep</h3>
+                                        <p>{goal.ImpactTargetgroup}</p>
+                                    </div>
+                                    <div className='goal-meta-inner-container'>
+                                        <h3>Impact maatschappij</h3>
+                                        <p>{goal.ImpactSociety}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='divider'>
-                                <h3>Activiteiten</h3>
+                            <div>
+                                <h2>Activiteiten</h2>
                                 <div id='activity-outer-container'>
                                 {goal.Activities.map(activity => (
                                     <div className='activity-inner-container-dashboard' key={activity.ID}>
                                         <h3>{activity.Name}</h3>
                                         <div className='progressionbar-outer-bar'>
                                             <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <h3>Voorwaarden</h3>
+                                                <p>{activity.Ingredients}</p>
+                                            </div>
+                                            <div>
+                                                <h3>Korte termijn effect</h3>
+                                                <p>{activity.EffectShort}</p>
+                                            </div>
+                                            <div>
+                                                <h3>Lange termijn effect</h3>
+                                                <p>{activity.EffectLong}</p>
+                                            </div>
                                         </div>
                                         <Indicatoren activity={activity} />
                                     </div>

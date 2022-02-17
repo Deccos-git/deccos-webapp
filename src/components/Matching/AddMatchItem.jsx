@@ -336,7 +336,7 @@ const MatchCategories = () => {
                     <p>Beheer de match items</p>
                 </div>
                 <div className='divider'>
-                    <h4>Match Items</h4>
+                    <h2>Match Items</h2>
                     {matchItems && matchItems.map(item=> (
                     <div className='categorie-container' key={item.ID}>
                         <div className='match-item-inner-container'>
@@ -353,7 +353,7 @@ const MatchCategories = () => {
                     ))}
                 </div>
                 <div className='divider'>
-                    <h4>Voeg een match item toe</h4>
+                    <h2>Voeg een match item toe</h2>
                     <p>Titel</p>
                     <input type="text" placeholder='Geef je matchitem een titel' onChange={titleHandler} />
                     <p>Upload een banner</p>

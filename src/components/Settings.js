@@ -395,26 +395,26 @@ const Settings = () => {
                         <p>Verander de algemene instellingen van {comp.CommunityName}</p>
                     </div>
                     <div className="divider">
-                        <h4>Community naam aanpassen</h4>
+                        <h2>Community naam aanpassen</h2>
                         <input className="input-classic" type="text" defaultValue={comp.CommunityName} onChange={communityNameHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveName}>Opslaan</button>
                         </div>
                     </div >
                     <div className="divider logo-container">
-                        <h4>Logo aanpassen</h4>
+                        <h2>Logo aanpassen</h2>
                         <img src={comp.Logo} alt="" />
                         <input className="input-classic" type="file" onChange={LogoHandler} />
                     </div >
                     <div className="divider">
-                        <h4>Website aanpassen</h4>
+                        <h2>Website aanpassen</h2>
                         <input className="input-classic" type="text" defaultValue={comp.Website} onChange={websiteHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveWebsite}>Opslaan</button>
                         </div>
                     </div >
                     <div className="divider">
-                        <h4>Kleuren aanpassen</h4>
+                        <h2>Kleuren aanpassen</h2>
                         <div className='client-styles-container'>
                             <div className='color-container'>
                                 <h5>Achtergrond</h5>
@@ -440,29 +440,29 @@ const Settings = () => {
                         </div>
                     </div>
                     <div className='divider'>
-                        <h4>Functionaliteiten</h4>
+                        <h2>Functionaliteiten</h2>
                         <div className='functionality-container'>
-                            <p>Welkom<sup>community</sup></p>
+                            <p>Welkom</p>
                             <ToggleSwitchWelcome/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Kanalen<sup>community</sup></p>
+                            <p>Kanalen</p>
                             <ToggleSwitchChannels/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Groepen<sup>community</sup></p>
+                            <p>Groepen</p>
                             <ToggleSwitchGroups/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Projectbeheer<sup>beta</sup></p>
+                            <p>Projectbeheer</p>
                             <ToggleSwitchProjectManagement/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Matchen<sup>beta</sup></p>
+                            <p>Matchen</p>
                             <ToggleSwitchMatches/>
                         </div>
                         <div className='functionality-container'>
-                            <p>Impact<sup>beta</sup></p>
+                            <p>Impact</p>
                             <ToggleSwitchImpact/>
                         </div>
                     </div>
