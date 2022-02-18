@@ -54,8 +54,8 @@ const ImpactProgress = () => {
             })  
         })
 
-        const onePercentage = 100/totalArray.length
-        const completed = completedArray.length
+        const onePercentage = totalArray.length !== 0 ? 100/totalArray.length : 100/1
+        const completed = completedArray.length !== 0 ? completedArray.length : 1
 
         console.log(onePercentage)
         console.log(completed)
@@ -86,6 +86,8 @@ const ImpactProgress = () => {
 
                 const taskProgress = await tasksProgress(ID)
 
+                console.log(taskProgress)
+
                 const activitieObject = {
                     Name: name,
                     Progress: Math.floor(taskProgress),
@@ -98,6 +100,8 @@ const ImpactProgress = () => {
                 activitiesArray.push(activitieObject)
             })
         })
+
+        console.log(activitiesArray)
 
         return activitiesArray
 
@@ -294,7 +298,7 @@ const ImpactProgress = () => {
                             <div>
                                 <h2>Activiteiten</h2>
                                 <div id='activity-outer-container'>
-                                {goal.Activities.map(activity => (
+                                {goal.Activities && goal.Activities.map(activity => (
                                     <div className='activity-inner-container-dashboard' key={activity.ID}>
                                         <h3>{activity.Name}</h3>
                                         <div className='progressionbar-outer-bar'>

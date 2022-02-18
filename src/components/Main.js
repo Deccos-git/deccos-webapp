@@ -40,6 +40,7 @@ import GoalSettings from './ProjectManagement/GoalSettings';
 import WelcomeSettings from './Community/WelcomeSettings';
 import KnowLedgeCentre from './Community/KnowledgeCentre'
 import AddChannelItem from './Community/AddChannelItem'
+import AddGroupChannelItem from './Community/AddGroupChannelItem'
 import ChannelSettingsDetail from './Community/ChannelSettingsDetail';
 import EventDetail from './Community/EventDetail';
 import NewsDetail from './Community/NewsDetail';
@@ -176,6 +177,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddChannelItem`}>
                     <AddChannelItem/>
+                </Route>
+                <Route path={`/${client}/AddGroupChannelItem`}>
+                    <AddGroupChannelItem/>
                 </Route>
                 <Route path={`/${client}/ImpactIndicators`}>
                     <ImpactIndicators/>

@@ -129,7 +129,7 @@ const NotApproved = () => {
                         <h2>Je account moet nog worden geverificeerd</h2>
                         <p>Je hebt een email ontvangen op {authO.Email} waarmee je je account kunt verificeren.</p>
                         <div style={{display: showSendMailContainer}} className="no-email-button-container">
-                            <p>Geen mail ontvangen?</p>
+                            <p>Geen mail ontvangen (kijk ook even in je spam folder)?</p>
                             <button className="button-simple" onClick={noMailRecieved}>Klik hier</button>
                         </div>
                         <div style={{display: showMailSendContainer}} className="no-email-button-container">

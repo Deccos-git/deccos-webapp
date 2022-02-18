@@ -940,10 +940,11 @@
 
   .public-profile-photo{
       border-radius: 50%;
-      width: 70%;
       align-self: center;
       margin: 30px;
-      max-width: 300px;
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
   }
 
   .public-profile-container{
@@ -1113,6 +1114,7 @@
       width: 30px;
       border-radius: 50%;
       margin-right: 10px;
+      object-fit: cover;
   }
 
   .group-container{

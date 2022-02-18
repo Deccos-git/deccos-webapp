@@ -163,12 +163,12 @@ const WelcomeSettings = () => {
                         <p>Pas de instellingen van de welkomspagina van {compagny.CommunityName}</p>
                     </div>
                     <div className="divider">
-                        <h4>Welkomsbanner aanpassen</h4>
+                        <h2>Welkomsbanner aanpassen</h2>
                         <img id="welcome-banner" src={compagny.WelcomeHeader} alt="" />
                         <input className="input-classic" onChange={photoHandler} type="file" />
                     </div>
                     <div className="divider">
-                        <h4>Welkomstext aanpassen</h4>
+                        <h2>Welkomstext aanpassen</h2>
                         <Editor onChange={bodyHandler}
                             apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                             initialValue={compagny.WelcomeText}
@@ -193,7 +193,7 @@ const WelcomeSettings = () => {
                         </div>
                     </div >
                     <div className="divider">
-                        <h4>Community regels aanpassen</h4>
+                        <h2>Community regels aanpassen</h2>
                         <div className="rule-input-container">
                             <p>1.</p>
                             <input type="text" placeholder={ruleOne} onChange={ruleOneHandler}/>

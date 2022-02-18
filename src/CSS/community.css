@@ -54,6 +54,7 @@
 
 .allActivity-banner{
     width: 100%;
+    border-radius: 5px;
 }
 
 .massage-container{
@@ -414,9 +415,25 @@
     margin-bottom: -20px;
 }
 
+#reactions-container{
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.message-detail-container{
+    margin-left: 10%;
+}
+
 @media only screen and (max-width: 1024px){
 
     .massage-container {
+        margin-left: 0px;
+    }
+
+    .message-detail-container{
         margin-left: 0px;
     }
 }

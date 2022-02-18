@@ -1,40 +1,42 @@
 import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "../rightSideBar/RightSideBar"
-import { useState } from 'react'
 import { motion } from "framer-motion"
 import { db, timestamp } from "../../firebase/config.js"
 import { client } from '../../hooks/Client';
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
-import { useFirestore, useFirestoreChannelName } from '../../firebase/useFirestore.js';
+import { Auth } from '../../StateManagment/Auth';
+import { useFirestore, useFirestoreID } from '../../firebase/useFirestore.js';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRef, useContext, useEffect } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
 import spinnerRipple from '../../images/spinner-ripple.svg'
-import { Auth } from '../../StateManagment/Auth';
+import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
 import imageIcon from '../../images/icons/image-icon.png'
 import Modal from 'react-modal';
 
-const AddNews = () => {
+const AddGroupChannelItem = () => {
     const [authO] = useContext(Auth)
-
+    const [groupName, setGroupName] = useState("")
+    const [headerPhoto, setHeaderPhoto] = useState('')
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
-    const [headerPhoto, setHeaderPhoto] = useState('')
-    const [modalOpen, setModalOpen] = useState(false)
-    const [channelID, setChannelID] = useState('')
+    const [modalOpen, setModalOpen] = useState(false);
 
+    const route = Location()[3]
+
+    const groups = useFirestoreID("Groups", route)
     const banners = useFirestore('Banners')
-    const channels = useFirestoreChannelName('News')
 
-    const editorRef = useRef(null);
-    const menuState = MenuStatus()
     const id = uuid()
+    const editorRef = useRef(null);
+    const history = useHistory()
+    const menuState = MenuStatus()
     Modal.setAppElement('#root');
 
     const modalStyles = {
@@ -48,16 +50,6 @@ const AddNews = () => {
         },
       };
 
-    // Set channel ID to state
-
-    useEffect(() => {
-        channels && channels.forEach(channel => {
-            if(channel.Name === 'News'){
-                setChannelID(channel.ID)
-            }
-        })
-    }, [channels])
-
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
@@ -65,11 +57,16 @@ const AddNews = () => {
 
     useEffect(() => {
         banners && banners.forEach(banner => {
-            const header = banner.NewNews
-            console.log(header)
+            const header = banner.NewChannelItem
             setHeaderPhoto(header)
         })
     }, [banners])
+
+    useEffect(() => {
+        groups && groups.forEach(group => {
+            setGroupName(group.Room)
+        })
+    }, [groups])
 
     const titleHandler = (e) => {
         const title = e.target.value
@@ -181,9 +178,9 @@ const AddNews = () => {
 
     }
     
-    const saveEvent = (e) => {
+    const saveItem = () => {
 
-        db.collection("News")
+        db.collection("ChannelItems")
         .doc()
         .set({
             Title: title,
@@ -191,28 +188,28 @@ const AddNews = () => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
+            ChannelID: route,
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: bannerPhoto,
-            ChannelID: channelID
+            Banner: bannerPhoto
         })
         .then(() => {
             db.collection("AllActivity")
             .doc()
             .set({
                 Title: title,
-                Type: "NewNews",
+                Type: `New Item`,
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: id,
-                Description: "heeft een nieuws item toegevoegd:",
+                Description: `heeft een nieuw item aan het kanaal van de groep ${groupName} toegevoegd:`,
                 ButtonText: "Bekijk bericht",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
                 Banner: headerPhoto,
-                Link: `NewsDetail/${id}`
+                Link: `ChannelDetail/${id}`
             }) 
         })
         .then(() => {
@@ -221,15 +218,18 @@ const AddNews = () => {
             .set({
                 Name: title,
                 Compagny: client,
-                Type: 'Nieuws item',
-                Link: `NewsDetail/${id}`
+                Type: 'KanaalItem',
+                Link: `ChannelDetail/${id}`
             })
+        })
+        .then(() => {
+            history.push(`/${client}/ChannelDetail/${id}`)
         })
     }
 
     return (
         <div className="main">
-             <LeftSideBarAuthProfile />
+            <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             <motion.div className="article"
             initial="hidden"
@@ -237,14 +237,13 @@ const AddNews = () => {
             variants={variants}
             style={{display: menuState}}>
                 <div className="card-header">
-                        <h1>Voeg een nieuws item toe</h1>
-                        <p>Voeg een nieuws item toe om de leden van de community op de hoogte te houden van de laatste ontwikkelingen</p>
+                        <h1>Voeg een item toe aan het kanaal van de groep {groupName} </h1>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h2>Geef het nieuws item een titel</h2>
+                        <h2>Geef het item een titel</h2>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
-                    </div>
+                    </div >
                     <Modal
                         isOpen={modalOpen}
                         onAfterOpen={afterOpenModal}
@@ -259,7 +258,7 @@ const AddNews = () => {
                     </div>
                     </Modal>
                     <div className="divider">
-                        <h2>Schrijf het nieuws item</h2>
+                        <h2>Geef het item een omschrijving</h2>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -296,8 +295,8 @@ const AddNews = () => {
                         </div> 
                     </div>
                 </form>
-                <div id="button-add-event">
-                    <Link to={`/${client}/News`}><button onClick={saveEvent}>Opslaan</button></Link>
+                <div className="button-container" id="button-add-event">
+                    <button onClick={saveItem}>Opslaan</button>
                 </div>
             </motion.div>
             <RightSideBar />
@@ -305,4 +304,4 @@ const AddNews = () => {
     )
 }
 
-export default AddNews
+export default AddGroupChannelItem

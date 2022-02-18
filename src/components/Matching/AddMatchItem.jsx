@@ -13,11 +13,16 @@ import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
 import { useHistory } from "react-router-dom";
+import dummyPhoto from '../../images/Design/dummy-photo.jpeg'
+import { Auth } from '../../StateManagment/Auth';
 
 const MatchCategories = () => {
+    const [authO] = useContext(Auth)
     const [colors] = useContext(Colors)
+
     const [title, setTitle] = useState('')
-    const [bannerPhoto, setBannerPhoto] = useState("")
+    const [bannerPhoto, setBannerPhoto] = useState(dummyPhoto)
+    const [headerPhoto, setHeaderPhoto] = useState('')
     const [loader, setLoader] = useState("")
     const [categorieSummary, setCategorieSummary] = useState([])
     const [showBannerContainer, setShowBannerContainer] = useState('none')
@@ -28,6 +33,15 @@ const MatchCategories = () => {
     const matchItems = useFirestore('MatchItems')
     const matchProfileFields = useFirestore('MatchProfileFields')
     const mainTags = useFirestoreMatchTagsType('Main')
+    const banners = useFirestore('Banners')
+
+    useEffect(() => {
+        banners && banners.forEach(banner => {
+            const header = banner.NewIntroduction
+            setHeaderPhoto(header)
+        })
+    }, [banners])
+
 
     const deleteMatchItem  = (e) => {
 
@@ -260,7 +274,6 @@ const MatchCategories = () => {
             Categories: categorieArray,
             Compagny: client,
             ProfileFields: filteredArray
-
         })
         .then(() => {
             db.collection("Search")
@@ -274,6 +287,24 @@ const MatchCategories = () => {
                 Categories: categorieArray,
                 Description: filteredArray
             })
+        })
+        .then(() => {
+            db.collection("AllActivity")
+            .doc()
+            .set({
+                Title: title,
+                Type: "NewMatchItem",
+                Compagny: client,
+                Timestamp: timestamp,
+                ID: uuid(),
+                Description: "heeft een nieuws matchitem toegevoegd:",
+                ButtonText: "Bekijk item",
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Banner: headerPhoto,
+                Link: `MatchItemDetail/${id}`
+            }) 
         })
         .then(() => {
             window.location.reload(false);

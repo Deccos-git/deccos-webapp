@@ -31,7 +31,6 @@ const AddChannelItem = () => {
     const route = Location()[3]
 
     const channels = useFirestoreID("Channels", route)
-    const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
 
     const id = uuid()
@@ -240,11 +239,11 @@ const AddChannelItem = () => {
             variants={variants}
             style={{display: menuState}}>
                 <div className="card-header">
-                        <h2>Voeg een item toe aan {channelName} </h2>
+                        <h1>Voeg een item toe aan {channelName} </h1>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h4>Geef het item een titel</h4>
+                        <h2>Geef het item een titel</h2>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <Modal
@@ -261,7 +260,7 @@ const AddChannelItem = () => {
                     </div>
                     </Modal>
                     <div className="divider">
-                        <h4>Geef het item een omschrijving</h4>
+                        <h2>Geef het item een omschrijving</h2>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -291,7 +290,7 @@ const AddChannelItem = () => {
                         />
                     </div>
                     <div className="divider">
-                        <h4>Voeg een bannerfoto toe</h4>
+                        <h2>Voeg een bannerfoto toe</h2>
                         <input onChange={photoHandler} type="file" />
                         <div className="spinner-container">
                             <img src={loader} alt="" />

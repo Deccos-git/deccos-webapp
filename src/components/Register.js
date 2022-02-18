@@ -121,8 +121,6 @@ const RegisterUser = () => {
     }
 
     const registerHandler = () => {
-
-        console.log(adminEmail)
     
         auth
         .createUserWithEmailAndPassword(email, password)
@@ -142,19 +140,6 @@ const RegisterUser = () => {
                 Approved: false,
                 Deleted: false,
                 Docid: cred.user.uid,
-            })
-        })
-        .then(() => {
-            db.collection('LikeGraph')
-            .doc()
-            .set({
-                Compagny: client,
-                UserName: `${forname} ${surname}`,
-                UserID: id,
-                Contributions: 0,
-                LastActive: timestamp,
-                Month: getYearMonth,
-                ID: uuid()
             })
         })
         .then(() => {
@@ -184,6 +169,8 @@ const RegisterUser = () => {
         db.collection("Email").doc().set({
             to: adminEmail,
             cc: "info@Deccos.nl",
+            from: 'info@deccos.nl',
+            replyTo: 'info@deccos.nl',
             message: {
             subject: `Iemand heeft zich aangemald voor ${communityName}`,
             html: `
@@ -205,8 +192,10 @@ const RegisterUser = () => {
 
     const verificationEmailAdmin = (email, forname, surname, communityName, logo) => {
         db.collection("Email").doc().set({
-            to: [email],
+            to: email,
             cc: "info@Deccos.nl",
+            from: 'info@deccos.nl',
+            replyTo: 'info@deccos.nl',
             message: {
             subject: `Je account wordt geverifieerd door een beheerder `,
             html: `Hallo ${forname} ${surname}, </br></br>
@@ -230,7 +219,9 @@ const RegisterUser = () => {
     const verificationEmailEmail = (email, forname, surname, communityName, logo) => {
         console.log(email)
         db.collection("Email").doc().set({
-            to: [email],
+            to: email,
+            from: 'info@deccos.nl',
+            replyTo: 'info@deccos.nl',
             cc: "info@Deccos.nl",
             message: {
             subject: `Verificeer je account `,
@@ -254,6 +245,8 @@ const RegisterUser = () => {
         db.collection("Email").doc().set({
             to: adminEmail,
             cc: "info@Deccos.nl",
+            from: 'info@deccos.nl',
+            replyTo: 'info@deccos.nl',
             message: {
             subject: `Iemand heeft zich aangemald voor ${communityName}`,
             html: `

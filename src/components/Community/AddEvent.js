@@ -357,12 +357,12 @@ const AddEvent = () => {
             variants={variants}
             style={{display: menuState}}>
                 <div className="card-header">
-                        <h2>Voeg een event toe</h2>
+                        <h1>Voeg een event toe</h1>
                         <p>Voeg een nieuw event waar de leden van de community zich voor aan kunnen melden</p>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h4>Geef het event een titel</h4>
+                        <h2>Geef het event een titel</h2>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <Modal
@@ -379,7 +379,7 @@ const AddEvent = () => {
                     </div>
                     </Modal>
                     <div className="divider">
-                        <h4>Geef het event een omschrijving</h4>
+                        <h2>Geef het event een omschrijving</h2>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -409,14 +409,14 @@ const AddEvent = () => {
                         />
                     </div>
                     <div className="divider">
-                        <h4>Voeg een bannerfoto toe</h4>
+                        <h2>Voeg een bannerfoto toe</h2>
                         <input onChange={photoHandler} type="file" />
                         <div className="spinner-container">
                             <img src={loader} alt="" />
                         </div> 
                     </div>
                     <div className="divider">
-                        <h4>Is het event online of heeft een fysieke locatie?</h4>
+                        <h2>Is het event online of heeft een fysieke locatie?</h2>
                         <select name="" id="" onChange={locationTypeSelect}>
                             <option value="">--- Selecteer ---</option>
                             <option value="online">Online</option>
@@ -432,15 +432,15 @@ const AddEvent = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h4>Wanneer vindt het event plaats?</h4>
+                        <h2>Wanneer vindt het event plaats?</h2>
                         <input type="date" onChange={dateHandler} />
                     </div>
                     <div className="divider">
-                        <h4>Hoeveel kost het event?</h4>
+                        <h2>Hoeveel kost het event?</h2>
                         <input type="number" onChange={priceHandler} />
                     </div>
                     <div className="divider">
-                        <h4>Wat is het maximaal aantal deelnemers?</h4>
+                        <h2>Wat is het maximaal aantal deelnemers?</h2>
                         <input type="number" onChange={capacityHandler}/>
                     </div>
                 </form>

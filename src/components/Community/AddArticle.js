@@ -300,12 +300,12 @@ const AddArticle = () => {
             variants={variants}
             style={{display: menuState}}>
                 <div className="card-header">
-                    <h2>Voeg een artikel toe</h2>
+                    <h1>Voeg een artikel toe</h1>
                     <p>Voeg een nieuw artikel voor de leden van de community</p>
                 </div>
                 <form id="add-goal-form">
                     <div className="divider">
-                        <h4>Geef het artikel een titel</h4>
+                        <h2>Geef het artikel een titel</h2>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
                     <Modal
@@ -345,7 +345,7 @@ const AddArticle = () => {
                     </div>
                     </Modal>
                     <div className="divider">
-                        <h4>Schrijf je artikel</h4>
+                        <h2>Schrijf je artikel</h2>
                         <Editor onChange={bodyHandler}
                         apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -390,7 +390,7 @@ const AddArticle = () => {
                         />
                     </div>
                     <div className="divider">
-                        <h4>Voeg een categorie toe</h4>
+                        <h2>Voeg een categorie toe</h2>
                         {compagny && compagny.map(comp => (
                                 <select name="" id="" onChange={categoryHandler} key={uuid()}>
                                      {comp.Categories.map(cat => (
@@ -403,7 +403,7 @@ const AddArticle = () => {
                         <p className="button-minimal" onClick={saveNewcategorie}>Voeg toe</p>
                     </div>
                     <div>
-                        <p>Voeg een bannerfoto toe</p>
+                        <h2>Voeg een bannerfoto toe</h2>
                         <input onChange={photoHandler} type="file" />
                         <div className="spinner-container">
                             <img src={loader} alt="" />

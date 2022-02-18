@@ -10,20 +10,41 @@ import { client } from '../../hooks/Client';
 import { Auth } from '../../StateManagment/Auth';
 import { useHistory } from "react-router-dom";
 import MenuStatus from "../../hooks/MenuStatus";
+import plusIcon from '../../images/icons/plus-icon.png'
 
 const GroupSettings = () => {
     const [authO] = useContext(Auth)
 
     const [groupTitle, setGroupTitle] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
+    const [admin, setAdmin] = useState(false)
+    const [author, setAuthor] = useState(false)
 
     const groups = useFirestore("Groups")
     const banners = useFirestore('Banners')
+    const admins = useFirestore('Admins')
+    const authors = useFirestore('Authors')
     
     const history = useHistory();
     const menuState = MenuStatus()
    
     const id = uuid()
+
+    useEffect(() => {
+        admins && admins.forEach(admin => {
+            if(admin.UserID === authO.ID){
+                setAdmin(true)
+            }
+        })
+    }, [admins])
+
+    useEffect(() => {
+        authors && authors.forEach(author => {
+            if(author.UserID === authO.ID){
+                setAuthor(true)
+            }
+        })
+    }, [authors])
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -108,6 +129,24 @@ const GroupSettings = () => {
         history.push(`/${client}/GroupSettingsDetail/${id}`)
     }
 
+    const ShowAddItemIcon = ({group}) => {
+        if(author || admin){
+            return (
+                <img src={plusIcon} data-id={group.ID} onClick={addItem} />
+            )
+
+        }
+    }
+
+    const addItem = (e) => {
+
+        const ID = e.target.dataset.id
+        
+        history.push(`/${client}/AddGroupChannelItem/${ID}`)
+
+    }
+
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -118,19 +157,20 @@ const GroupSettings = () => {
                         <h1>Groepen</h1>
                         <p>Pas de instellingen van je groepen aan</p>
                     </div>
-                    <h3>Groepen</h3>
+                    <h2>Groepen</h2>
                     <div className="divider">
                         {groups && groups.map(group => (
                         <div className="channel-container" key={group.ID}>
                             <h3>{group.Room}</h3>
                             <div className="icon-container">
+                                <ShowAddItemIcon group={group}/>
                                 <img src={settingsIcon} data-id={group.ID} onClick={channelSettings} />
                             </div>
                         </div>
                         ))}
                     </div>
                     <div className="divider">
-                        <h3>Groep toevoegen</h3>
+                        <h2>Groep toevoegen</h2>
                         <div className="new-group-container">
                             <p>Geef je groep een naam</p>
                             <input className="input-classic" type="text" placeholder="Schrijf hier de naam van het nieuwe kanaal" onChange={newGroupTitleHandler}/>

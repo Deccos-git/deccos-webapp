@@ -59,7 +59,7 @@ const ChannelSettings = () => {
 
     const newChannel = (e) => {
 
-        ButtonClicked(e, 'Opgeslagen')
+        ButtonClicked(e, 'Toegevoegd')
 
         db.collection("Channels")
         .doc()
@@ -71,7 +71,7 @@ const ChannelSettings = () => {
         })
     }
 
-    const ShowAddItemIcon = (channel) => {
+    const ShowAddItemIcon = ({channel}) => {
         if(author || admin){
             return (
                 <img src={plusIcon} data-id={channel.ID} data-name={channel.Name} onClick={addItem} />
@@ -84,6 +84,8 @@ const ChannelSettings = () => {
 
         const name = e.target.dataset.name 
         const channelID = e.target.dataset.id
+
+        console.log(name)
 
         if(name === 'Kenniscentrum'){
             history.push(`/${client}/AddArticle`)
@@ -108,23 +110,25 @@ const ChannelSettings = () => {
                         <p>Pas de instellingen van je kanalen aan</p>
                     </div>
                     <div className="divider">
-                        <h3>Community kanalen</h3>
+                        <h2>Kanalen</h2>
                         {channels && channels.map(channel =>(
                         <div className="channel-container" data-id={channel.ID}>
                             <h3>{channel.Name}</h3>
                             <div className="icon-container">
-                                <ShowAddItemIcon/>
+                                <ShowAddItemIcon channel={channel}/>
                                 <img src={settingsIcon} data-id={channel.ID} onClick={channelSettings} />
                             </div>
                         </div>
                         ))}
                     </div>
                     <div className="divider">
-                        <h3>Kanaal toevoegen</h3>
+                        <h2>Kanaal toevoegen</h2>
                         <div id="add-channel-container">
                             <p>Kanaal naam</p>
                             <input type="text" placeholder='Geef het kanaal een naam' onChange={channelNameHandler}/>
-                            <button onClick={newChannel}>Opslaan</button>
+                            <div>
+                                <button className='button-simple' onClick={newChannel}>Toevoegen</button>
+                            </div>
                         </div>
                     </div>
                 </div>

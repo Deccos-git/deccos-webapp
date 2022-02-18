@@ -8,24 +8,16 @@ import { motion } from "framer-motion";
 import Location from "../../hooks/Location"
 import { useState, useContext, useEffect } from 'react';
 import { auth, db, timestamp } from '../../firebase/config';
-import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 import firebase from 'firebase';
-import uuid from 'react-uuid';
 
 const Channel = () => {
-    const [authO] = useContext(Auth)
-    const [isMember, setIsMember] = useState('none')
-    const [memberStatus, setMemberStatus] = useState('Abonneren')
-    const [channelTitle, setChannelTitle] = useState('')
 
     const route = Location()[3]
     const menuState = MenuStatus()
     const channels = useFirestoreID("Channels", route)
     const items = useFirestoreChannelItems("ChannelItems", route)
-    const channelsName = useFirestoreChannelName(channelTitle)
-    const subscriptions = useFirestoreSubscriptions(authO.ID)
-    const id = uuid()
+
 
     const history = useHistory()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -33,22 +25,7 @@ const Channel = () => {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },
       }
-    
 
-    useEffect(() => {
-        channels && channels.forEach(channel => {
-            setChannelTitle(channel.Name)
-        })
-    }, [channels])
-
-    useEffect(() => {
-        subscriptions && subscriptions.forEach(sub => {
-            if(sub.SubID === route){
-                setIsMember('flex')
-                setMemberStatus('Geabonneerd')
-            }
-        })
-    },[subscriptions])
 
     const updateRoute = (e) => {
 
@@ -72,29 +49,6 @@ const Channel = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
-    const becomeMember = (e) => {
-
-        e.target.innerText = 'Geabonneerd'
-
-        const channelID = e.target.dataset.id
-        const name = e.target.dataset.name
-
-        db.collection('Subscriptions')
-        .doc()
-        .set({
-            UserName: authO.UserName,
-            UserID: authO.ID,
-            SubID: channelID,
-            UserEmail: authO.Email,
-            SubName: name,
-            Timestamp: timestamp,
-            Compagny: client,
-            ID: id,
-            Type: 'Channel'
-        })
-
-    }
-
     return (
         <div className="main">
             <LeftSideBar />
@@ -103,10 +57,9 @@ const Channel = () => {
             {channels && channels.map(channel => (
                 <>
                 <div className="page-header">
-                    <h1>{channelTitle}</h1>
-                    <button className="subscribe-channel-button" data-name={channel.Name} data-id={channel.ID} onClick={becomeMember}>{memberStatus}</button>
+                    <h1>{channel.Name}</h1>
                 </div>
-                <div className="card-container" style={{display: isMember}}>
+                <div className="card-container" >
                     {items && items.map(item => (
                         <motion.div  initial="hidden"
                         animate="visible"
