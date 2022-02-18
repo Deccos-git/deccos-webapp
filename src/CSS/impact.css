@@ -238,6 +238,12 @@
     margin-bottom: 10px;
 }
 
+.group-settings-banner{
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
 .functionality-container p{
     margin: 0px;
     font-weight: bold;

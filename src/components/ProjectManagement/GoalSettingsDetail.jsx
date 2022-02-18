@@ -153,18 +153,18 @@ const GoalSettingsDetail = () => {
                 {goals && goals.map(goal => (
                 <div key={goal.ID}>
                     <div className="divider card-header">
-                        <h2>{goal.Title} instellingen</h2>
-                        <p>Pas de instellingen van het kanaal {goal.Title} aan</p>
+                        <h1>{goal.Title}</h1>
+                        <p>Pas de instellingen van het doel aan</p>
                     </div>
                     <div className="divider">
-                        <h3>Titel</h3>
-                        <input className="input-classic" type="text" placeholder={goal.Title} onChange={titleHandler}/>
+                        <h2>Titel</h2>
+                        <input className="input-classic" type="text" defaultValue={goal.Title} onChange={titleHandler}/>
                         <div className="button-container">
                             <button className="button-simple" onClick={saveTitle}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Banner</h3>
+                        <h2>Banner</h2>
                         <img className='group-settings-banner' src={goal.Banner} alt="" />
                         <input type="file"  onChange={bannerHandler}/>
                         <div className="button-container">
@@ -172,24 +172,37 @@ const GoalSettingsDetail = () => {
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Omschrijving</h3>
-                        <textarea className="input-classic" type="text" placeholder={goal.Body} onChange={bodyHandler}/>
+                        <h2>SDG</h2>
+                        <select name="" id="">
+                            <option defaultValue={goal.SDG}></option>
+                        </select>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveBody}>Opslaan</button>
+                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
-                        <h3>Type doel</h3>
-                        <select name="" id="" onChange={typeHandler}>
-                            <option value="SDG">SDG</option>
-                            <option value="Intern">Intern</option>
-                        </select>
+                        <h2>Doelgroep</h2>
+                        <input type="text" defaultValue={goal.TargetGroup} />
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveType}>Opslaan</button>
+                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                        </div>
+                    </div>
+                    <div className='divider'>
+                        <h2>Impact op doelgroep</h2>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactTargetgroup}></textarea>
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                        </div>
+                    </div>
+                    <div className='divider'>
+                        <h2>Impact op maatschappij</h2>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactSociety}></textarea>
+                        <div className="button-container">
+                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
                         </div>
                     </div>
                      <div className="divider">
-                        <h3>Kanaal verwijderen</h3>
+                        <h3>Groep verwijderen</h3>
                         <img className="delete-channel" src={deleteIcon} data-id={goal.ID} onClick={deleteGoal} />
                     </div>
                  </div>
