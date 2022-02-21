@@ -281,15 +281,6 @@ textarea ::placeholder{
 
 }
 
-.reaction-container{
-  border: 1px solid lightgray;
-  background-color: white;
-  margin: 20px;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 5px 0px 20px 0px;
-}
-
 .active{
   background-color: lightgray;
   padding: 3px 3px 3px 0px;

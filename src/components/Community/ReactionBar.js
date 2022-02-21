@@ -81,37 +81,6 @@ const ReactionBar = ({message}) => {
                 Type: "Reaction"
             })
         })
-        .then(() => {
-            db.collection("MessageGraph")
-            .where("Compagny", "==", client)
-            .where("Month", "==", getYearMonth)
-            .get()
-            .then(querySnapshot => {
-                if(querySnapshot.empty === false){
-                    querySnapshot.forEach(doc => {
-
-                        console.log("bestaat")
-
-                        db.collection("MessageGraph")
-                        .doc(doc.id)
-                        .update({
-                            Contributions: firebase.firestore.FieldValue.increment(1)
-                        })
-                    })
-                } else if (querySnapshot.empty === true){
-                    console.log("bestaat niet")
-                    db.collection("MessageGraph")
-                    .doc()
-                    .set({
-                        Month: getYearMonth,
-                        Contributions: 1,
-                        Compagny: client,
-                        LastActive: timestamp,
-                        ID: uuid(),
-                    })
-                } 
-            })
-        })
     }
 
     const toggleFile = () => {

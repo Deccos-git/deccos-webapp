@@ -1,5 +1,6 @@
 import { useFirestoreID, useFirestoreMessages, useFirestoreMatchRoadmaps, useFirestoreMatchTagsType } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
+import Reaction from "../Community/Reaction"
 import MessageBar from "../Community/MessageBar"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
@@ -9,12 +10,13 @@ import { client } from "../../hooks/Client"
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import Reaction from "../Community/Reaction"
 import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config"
 import completeIcon from '../../images/icons/complete-icon.png'
 import userIcon from '../../images/icons/user-icon.png'
 import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
+import Messages from "../Community/Messages"
+
 
 const MatchDetail = () => {
     const [authO] = useContext(Auth)
@@ -28,7 +30,7 @@ const MatchDetail = () => {
     const menuState = MenuStatus()
     const history = useHistory()
 
-    const messages  = useFirestoreMessages("Messages", route )
+    const reactions = useFirestoreMessages("Messages", route )
     const matches = useFirestoreID("Matches", route)
     const matchRoadmaps = useFirestoreMatchRoadmaps()
     const mainTags = useFirestoreMatchTagsType('Main')
@@ -324,9 +326,9 @@ const MatchDetail = () => {
                     <h2>Berichten</h2>
                     <MessageBar/>
                     <div className="reaction-area">
-                    {messages && messages.map(message => ( 
-                    <Reaction message={message}/>
-                    ))}
+                        {reactions && reactions.map(reaction => (
+                            <Reaction message={reaction}/>
+                        ))}
                     </div>
                 </div>    
             </div>

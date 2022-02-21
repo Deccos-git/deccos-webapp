@@ -10,8 +10,8 @@ import { Auth } from '../../StateManagment/Auth';
 import { db, timestamp } from "../../firebase/config"
 import { useFirestore } from "../../firebase/useFirestore"
 import firebase from "firebase"
-import GetYearMonth from '../../hooks/GetYearMonth'
 import uuid from 'react-uuid';
+import { connectScrollTo } from "react-instantsearch-core"
 
 const Reaction = ({message}) => {
     const [authO] = useContext(Auth)
@@ -20,10 +20,10 @@ const Reaction = ({message}) => {
     const [communityName, setCommunityName] = useState('')
     const [logo, setLogo] = useState('')
     const [reactionList, setReactionList] = useState('')
+    const [subReactionList, setSubReactionList] = useState('')
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
-    const getYearMonth = GetYearMonth()
     const id = uuid()
 
     const compagny = useFirestore("CompagnyMeta")
@@ -41,16 +41,6 @@ const Reaction = ({message}) => {
         })
      }, [compagny])
 
-    let numberOfReactions = ""
-
-        if(message.Thread.length === 0){
-            numberOfReactions = `Bekijk 0 reacties`
-        } else if (message.Thread.length === 1){
-            numberOfReactions = `Bekijk ${message.Thread.length} reactie`
-        } else {
-            numberOfReactions = `Bekijk ${message.Thread.length} reacties`
-        }
-
     const profileLink = (e) => {
         const id = e.target.dataset.id
 
@@ -60,7 +50,7 @@ const Reaction = ({message}) => {
     const linkInText = (message) => {
     
         const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-        const links = message.Message.match(urlRegex)
+        const links =message.Massage && message.Message.match(urlRegex)
     
         if(links != null){
     
@@ -166,43 +156,6 @@ const Reaction = ({message}) => {
                     Likes: firebase.firestore.FieldValue.increment(1)
                 })
             })
-            .then(() => {
-
-                console.log(client, getYearMonth, userID)
-                
-                db.collection("LikeGraph")
-                .where("Compagny", "==", client)
-                .where("Month", "==", getYearMonth)
-                .where('UserID', '==', userID )
-                .get()
-                .then(querySnapshot => {
-                    if(querySnapshot.empty === false){
-                        querySnapshot.forEach(doc => {
-
-                            console.log("bestaat")
-
-                            db.collection("LikeGraph")
-                            .doc(doc.id)
-                            .update({
-                                Contributions: firebase.firestore.FieldValue.increment(1)
-                            })
-                        })
-                    } else if (querySnapshot.empty === true){
-                        console.log("bestaat niet")
-                        db.collection("LikeGraph")
-                        .doc()
-                        .set({
-                            Month: getYearMonth,
-                            Contributions: 1,
-                            Compagny: client,
-                            LastActive: timestamp,
-                            ID: uuid(),
-                            UserName: userName,
-                            UserID: userID
-                        })
-                    } 
-                })
-            })
             .then (() => {
                 sendAsMail(userID)
             })
@@ -232,7 +185,7 @@ const Reaction = ({message}) => {
           }); 
     }
 
-    const reactions = async () => {
+    const fetchMessages = async (ID) => {
 
         const reactionArray = [] 
 
@@ -240,7 +193,7 @@ const Reaction = ({message}) => {
         .where('ParentID', '==', message.ID)
         .get()
         .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
+            querySnapshot.forEach( async doc => {
 
                 const message = doc.data().Message 
                 const id = doc.data().ID
@@ -262,7 +215,7 @@ const Reaction = ({message}) => {
                     UserID: userID,
                     UserPhoto: userPhoto,
                     Likes: likes,
-                    UserDocID: userDocID
+                    UserDocID: userDocID,
                 }
 
                 reactionArray.push(reactionObject)
@@ -271,33 +224,19 @@ const Reaction = ({message}) => {
         })
 
         return reactionArray
+
     }
 
-    useEffect(() => {
-        reactions().then(reactions => {
-            console.log(reactions)
-            setReactionList(reactions)
-        })
-    },[message])
+    const DisplayMessage = ({message}) => {
 
-    const SubReaction = ({reaction}) => {
-        console.log(reaction) 
-
-        return(
-            <div id='reactions-container' className={reaction.ID}>
-                <p>{reaction.ID}</p>
-            </div>
-        )
-    }
-
-    return (
-        <div className='reaction-container'>
+        return (
+            <>
             <div className="reaction-inner-container" key={message.ID} id={message.ID}>
                 <div className="message-outer-container">
                     <div className="auth-message-container">
                         <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
                         <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                        <p className="message-card-timestamp">{message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div className="message-detail-container">
                         <div className="message-container">
@@ -308,7 +247,7 @@ const Reaction = ({message}) => {
                                 {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
                                     <p className='notification-counter-small'>{message.Contributions.length}</p>
-                                </div> */}
+                                </div>   */}
                                 <div className='like-icon-inner-container'>
                                     <img 
                                     src={heartIcon} 
@@ -325,10 +264,10 @@ const Reaction = ({message}) => {
                                 </div>
                             </div>
                             <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={message} />
+                                <LikeBar message={ message && message} />
                             </div>
                         </div>
-                        <ReactionBar message={message} />
+                        <ReactionBar message={message && message} />
                     </div>
                 </div>
             </div>
@@ -339,56 +278,258 @@ const Reaction = ({message}) => {
                         <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                     </div>
                 </div>
-            </div>
-            <div>
-                {reactionList && reactionList.map(reaction => (
-                    <div id='reactions-container' className={reaction.ID}>
-                        <div className="auth-message-container">
-                            <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
-                            <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
-                            <p className="message-card-timestamp">{reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+            </div> 
+            <Reactions message={message}/>
+        </>
+        )
+    }
+
+    const DisplayReaction = ({message}) => {
+
+        return (
+        <div className='reaction-container'>
+            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+                <div className="message-outer-container">
+                    <div className="auth-message-container">
+                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    </div>
+                    <div className="message-detail-container">
+                        <div className="message-container">
+                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                         </div>
-                        <div className="message-detail-container">
-                            <p>{reaction.Message}</p>
-                            <div className="like-container">
+                        <div className="like-container">
                             <div className='like-icon-container'>
                                 {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
                                     <p className='notification-counter-small'>{message.Contributions.length}</p>
-                                </div> */}
+                                </div>   */}
                                 <div className='like-icon-inner-container'>
                                     <img 
                                     src={heartIcon} 
                                     alt="" 
-                                    data-message={reaction.Message}
-                                    data-messageid={reaction.ID}
-                                    data-messagedocid={reaction.docid}
-                                    data-username={reaction.User}
-                                    data-userphoto={reaction.UserPhoto}
-                                    data-userid={reaction.UserID}
-                                    data-userdocid={reaction.UserDocID}
+                                    data-message={message.Message}
+                                    data-messageid={message.ID}
+                                    data-messagedocid={message.docid}
+                                    data-username={message.User}
+                                    data-userphoto={message.UserPhoto}
+                                    data-userid={message.UserID}
+                                    data-userdocid={message.UserDocID}
                                     onClick={likeHandler}/>
-                                    <p className='notification-counter-small'>{reaction.Likes}</p>
+                                    <p className='notification-counter-small'>{message.Likes}</p>
                                 </div>
                             </div>
                             <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={reaction} />
+                                <LikeBar message={ message && message} />
                             </div>
                         </div>
-                        <ReactionBar message={reaction} />
+                        <ReactionBar message={message && message} />
+                    </div>
+                </div>
+            </div>
+            <div className={optionsClass(message)}>
+                <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                <div style={{display: showOptions}}>
+                    <div className='delete-message-container'>
+                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                    </div>
+                </div>
+            </div> 
+            <SubReactions message={message}/>
+        </div>
+        )
+    }
+
+    const DisplaySubReaction = ({message}) => {
+
+        return (
+        <div className='reaction-container'>
+            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+                <div className="message-outer-container">
+                    <div className="auth-message-container">
+                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    </div>
+                    <div className="message-detail-container">
+                        <div className="message-container">
+                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
                         </div>
-                        <div className={optionsClass(reaction)}>
-                            <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
-                            <div style={{display: showOptions}}>
-                                <div className='delete-message-container'>
-                                    <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                        <div className="like-container">
+                            <div className='like-icon-container'>
+                                {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
+                                    <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
+                                    <p className='notification-counter-small'>{message.Contributions.length}</p>
+                                </div>   */}
+                                <div className='like-icon-inner-container'>
+                                    <img 
+                                    src={heartIcon} 
+                                    alt="" 
+                                    data-message={message.Message}
+                                    data-messageid={message.ID}
+                                    data-messagedocid={message.docid}
+                                    data-username={message.User}
+                                    data-userphoto={message.UserPhoto}
+                                    data-userid={message.UserID}
+                                    data-userdocid={message.UserDocID}
+                                    onClick={likeHandler}/>
+                                    <p className='notification-counter-small'>{message.Likes}</p>
                                 </div>
                             </div>
+                            <div style={{display: goalLikeDiplay}}>
+                                <LikeBar message={ message && message} />
+                            </div>
                         </div>
-                        <SubReaction reaction={reaction}/>
+                        <ReactionBar message={message && message} />
                     </div>
+                </div>
+            </div>
+            <div className={optionsClass(message)}>
+                <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                <div style={{display: showOptions}}>
+                    <div className='delete-message-container'>
+                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                    </div>
+                </div>
+            </div> 
+            <SubSubReactions message={message}/>
+        </div>
+        )
+    }
+
+    const DisplaySubSubReaction = ({message}) => {
+
+        return (
+        <div className='reaction-container'>
+            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+                <div className="message-outer-container">
+                    <div className="auth-message-container">
+                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
+                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                    </div>
+                    <div className="message-detail-container">
+                        <div className="message-container">
+                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                        </div>
+                        <div className="like-container">
+                            <div className='like-icon-container'>
+                                {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
+                                    <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
+                                    <p className='notification-counter-small'>{message.Contributions.length}</p>
+                                </div>   */}
+                                <div className='like-icon-inner-container'>
+                                    <img 
+                                    src={heartIcon} 
+                                    alt="" 
+                                    data-message={message.Message}
+                                    data-messageid={message.ID}
+                                    data-messagedocid={message.docid}
+                                    data-username={message.User}
+                                    data-userphoto={message.UserPhoto}
+                                    data-userid={message.UserID}
+                                    data-userdocid={message.UserDocID}
+                                    onClick={likeHandler}/>
+                                    <p className='notification-counter-small'>{message.Likes}</p>
+                                </div>
+                            </div>
+                            <div style={{display: goalLikeDiplay}}>
+                                <LikeBar message={ message && message} />
+                            </div>
+                        </div>
+                        <ReactionBar message={message && message} />
+                    </div>
+                </div>
+            </div>
+            <div className={optionsClass(message)}>
+                <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
+                <div style={{display: showOptions}}>
+                    <div className='delete-message-container'>
+                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                    </div>
+                </div>
+            </div> 
+            {/* <SubSubSubReactions message={message}/> */}
+        </div>
+        )
+    }
+
+    const Reactions = ({message}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(message.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[message])
+
+        console.log(reactionOverview)
+
+        return (
+            <div>
+                {reactionOverview && reactionOverview.map(reaction => (
+                    <DisplayReaction message={reaction}/>
                 ))}
             </div>
+        )
+    }
+
+    const SubReactions = ({message}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(message.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[message])
+
+        console.log(reactionOverview)
+
+        return (
+            <div>
+                {reactionOverview && reactionOverview.map(reaction => (
+                    <DisplaySubReaction message={reaction}/>
+                ))}
+            </div>
+        )
+    }
+
+    const SubSubReactions = ({message}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(message.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[message])
+
+        console.log(reactionOverview)
+
+        return (
+            <div>
+                {reactionOverview && reactionOverview.map(reaction => (
+                    <DisplaySubSubReaction message={reaction}/>
+                ))}
+            </div>
+        )
+    }
+
+    return (
+        <div className='reaction-container'>
+            <DisplayMessage message={message}/>
         </div>
     )
 }

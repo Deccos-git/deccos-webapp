@@ -11,7 +11,7 @@ import { client } from "../../hooks/Client"
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import Reaction from "../Community/Reaction"
+import Messages from "../Community/Messages"
 import MenuStatus from "../../hooks/MenuStatus";
 
 const GoalDetail = () => {
@@ -103,9 +103,7 @@ const GoalDetail = () => {
             <p> --- Reacties ---</p>
             <MessageBar route={route} auth={auth}/>
             <div className="reaction-area">
-                {messages && messages.map(message => ( 
-                   <Reaction message={message}/>
-                ))}
+                <Messages/>
             </div>
             </div>
             <RightSideBar />
