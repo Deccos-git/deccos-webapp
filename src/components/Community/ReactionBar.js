@@ -46,12 +46,13 @@ const ReactionBar = ({message}) => {
             Thread: [],
             Read: [authO.ID],
             UserID: authO.ID,
+            UserDocID: authO.Docid,
             Contributions: [],
             Public: true
         })
         .then(() => {
             db.collection("Messages")
-            .doc(message.docid)
+            .doc(message.Docid)
             .update({
                 Thread: firebase.firestore.FieldValue.arrayUnion(id)
             })

@@ -106,6 +106,8 @@ const Reaction = ({message}) => {
         const messageID = e.target.dataset.messageid
         const messageDocid = e.target.dataset.messagedocid
         const message = e.target.dataset.message
+
+        console.log(messageDocid)
     
         db.collection("Likes")
         .doc()
@@ -120,7 +122,7 @@ const Reaction = ({message}) => {
             MessageID: messageID,
             MessageBody: message,
             Read: false,
-            ID: id,
+            ID: uuid(),
             Compagny: client,
         })
         .then(() => {
@@ -190,10 +192,12 @@ const Reaction = ({message}) => {
         const reactionArray = [] 
 
         await db.collection('Messages')
-        .where('ParentID', '==', message.ID)
+        .where('ParentID', '==', ID)
         .get()
         .then(querySnapshot => {
             querySnapshot.forEach( async doc => {
+
+                console.log(doc.id)
 
                 const message = doc.data().Message 
                 const id = doc.data().ID
@@ -204,11 +208,12 @@ const Reaction = ({message}) => {
                 const userPhoto = doc.data().UserPhoto 
                 const likes = doc.data().Likes
                 const userDocID = doc.data().UserDocID
+                const docid = doc.id
 
                 const reactionObject = {
                     Message: message,
                     ID: id,
-                    Docid: doc.id,
+                    Docid: docid,
                     Email: email,
                     Timestamp: timestamp,
                     User: user,
@@ -227,7 +232,19 @@ const Reaction = ({message}) => {
 
     }
 
+    // Layer 1
+
     const DisplayMessage = ({message}) => {
+
+        const [displayTextarea, setDisplayTextarea] = useState('none')
+
+        const asnwerDisplay = () => {
+            if(displayTextarea === 'block'){
+                setDisplayTextarea('none')
+            } else {
+                setDisplayTextarea('block')
+            }
+        }
 
         return (
             <>
@@ -236,7 +253,7 @@ const Reaction = ({message}) => {
                     <div className="auth-message-container">
                         <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
                         <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        <p className="message-card-timestamp">{message.Timestamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div className="message-detail-container">
                         <div className="message-container">
@@ -262,12 +279,17 @@ const Reaction = ({message}) => {
                                     onClick={likeHandler}/>
                                     <p className='notification-counter-small'>{message.Likes}</p>
                                 </div>
-                            </div>
-                            <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={ message && message} />
+                                <div style={{display: goalLikeDiplay}}>
+                                    <LikeBar message={ message && message} />
+                                </div>
+                                <div className='answer-area-container'>
+                                    <p onClick={asnwerDisplay}>Beantwoorden</p>
+                                </div>
                             </div>
                         </div>
-                        <ReactionBar message={message && message} />
+                        <div style={{display: displayTextarea}}>
+                            <ReactionBar message={message && message} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -279,28 +301,64 @@ const Reaction = ({message}) => {
                     </div>
                 </div>
             </div> 
-            <Reactions message={message}/>
+            <Reactions reaction={message}/>
         </>
         )
     }
 
-    const DisplayReaction = ({message}) => {
+    const Reactions = ({reaction}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(reaction.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[reaction])
 
         return (
-        <div className='reaction-container'>
-            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+            <div>
+                {reactionOverview && reactionOverview.map(reaction => (
+                    <DisplayReaction reaction={reaction}/>
+                ))}
+            </div>
+        )
+    }
+
+    // Layer 2
+
+    const DisplayReaction = ({reaction}) => {
+        const [displayTextarea, setDisplayTextarea] = useState('none')
+
+        const asnwerDisplay = () => {
+            if(displayTextarea === 'block'){
+                setDisplayTextarea('none')
+            } else {
+                setDisplayTextarea('block')
+            }
+        }
+
+        console.log(reaction)
+
+        return (
+        <>
+        <div>
+            <div className="reaction-inner-container" key={reaction.ID} id={reaction.ID}>
                 <div className="message-outer-container">
                     <div className="auth-message-container">
-                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
-                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
+                        <p className="message-card-timestamp">{reaction.Timestamp && reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div className="message-detail-container">
                         <div className="message-container">
-                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                            <div className="massage">{reaction.Message}</div>
                         </div>
                         <div className="like-container">
-                            <div className='like-icon-container'>
+                            <div className='like-icon-container'> 
                                 {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
                                     <p className='notification-counter-small'>{message.Contributions.length}</p>
@@ -309,221 +367,239 @@ const Reaction = ({message}) => {
                                     <img 
                                     src={heartIcon} 
                                     alt="" 
-                                    data-message={message.Message}
-                                    data-messageid={message.ID}
-                                    data-messagedocid={message.docid}
-                                    data-username={message.User}
-                                    data-userphoto={message.UserPhoto}
-                                    data-userid={message.UserID}
-                                    data-userdocid={message.UserDocID}
+                                    data-message={reaction.Message}
+                                    data-messageid={reaction.ID}
+                                    data-messagedocid={reaction.Docid}
+                                    data-username={reaction.User}
+                                    data-userphoto={reaction.UserPhoto}
+                                    data-userid={reaction.UserID}
+                                    data-userdocid={reaction.UserDocID}
                                     onClick={likeHandler}/>
-                                    <p className='notification-counter-small'>{message.Likes}</p>
+                                    <p className='notification-counter-small'>{reaction.Likes}</p>
+                                </div>
+                                <div className='answer-area-container'>
+                                    <p onClick={asnwerDisplay}>Beantwoorden</p>
                                 </div>
                             </div>
                             <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={ message && message} />
+                                <LikeBar message={reaction && reaction} />
                             </div>
                         </div>
-                        <ReactionBar message={message && message} />
+                        <div style={{display: displayTextarea}}>
+                            <ReactionBar message={reaction && reaction} />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={optionsClass(message)}>
+            <div className={optionsClass(reaction)}>
                 <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
                 <div style={{display: showOptions}}>
                     <div className='delete-message-container'>
-                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                     </div>
                 </div>
             </div> 
-            <SubReactions message={message}/>
+            <SubReactions reaction={reaction}/>
         </div>
+       
+        </>
         )
     }
 
-    const DisplaySubReaction = ({message}) => {
+    const SubReactions = ({reaction}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            console.log(reaction.ID)
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(reaction.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[reaction])
+
+        console.log(reactionOverview)
+
+        return (
+            <div>
+                {reactionOverview && reactionOverview.map(subreaction => (
+                    <DisplaySubReaction reaction={subreaction}/>
+                ))}
+            </div>
+        )
+    }
+
+    // Layer 3
+
+    const DisplaySubReaction = ({reaction}) => {
+
+        const [displayTextarea, setDisplayTextarea] = useState('none')
+
+        const asnwerDisplay = () => {
+            if(displayTextarea === 'block'){
+                setDisplayTextarea('none')
+            } else {
+                setDisplayTextarea('block')
+            }
+        }
 
         return (
         <div className='reaction-container'>
-            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+            <div className="reaction-inner-container" key={reaction.ID} id={reaction.ID}>
                 <div className="message-outer-container">
                     <div className="auth-message-container">
-                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
-                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
+                        <p className="message-card-timestamp">{reaction.Timestamp && reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div className="message-detail-container">
                         <div className="message-container">
-                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                            <div className="massage">{reaction.Message}</div>
                         </div>
                         <div className="like-container">
                             <div className='like-icon-container'>
                                 {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
-                                    <p className='notification-counter-small'>{message.Contributions.length}</p>
+                                    <p className='notification-counter-small'>{reaction.Contributions.length}</p>
                                 </div>   */}
                                 <div className='like-icon-inner-container'>
                                     <img 
                                     src={heartIcon} 
                                     alt="" 
-                                    data-message={message.Message}
-                                    data-messageid={message.ID}
-                                    data-messagedocid={message.docid}
-                                    data-username={message.User}
-                                    data-userphoto={message.UserPhoto}
-                                    data-userid={message.UserID}
-                                    data-userdocid={message.UserDocID}
+                                    data-message={reaction.Message}
+                                    data-messageid={reaction.ID}
+                                    data-messagedocid={reaction.Docid}
+                                    data-username={reaction.User}
+                                    data-userphoto={reaction.UserPhoto}
+                                    data-userid={reaction.UserID}
+                                    data-userdocid={reaction.UserDocID}
                                     onClick={likeHandler}/>
-                                    <p className='notification-counter-small'>{message.Likes}</p>
+                                    <p className='notification-counter-small'>{reaction.Likes}</p>
+                                </div>
+                                <div style={{display: goalLikeDiplay}}>
+                                    <LikeBar message={ reaction && reaction} />
+                                </div>
+                                <div className='answer-area-container'>
+                                    <p onClick={asnwerDisplay}>Beantwoorden</p>
                                 </div>
                             </div>
-                            <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={ message && message} />
-                            </div>
                         </div>
-                        <ReactionBar message={message && message} />
+                        <div style={{display: displayTextarea}}>
+                            <ReactionBar message={reaction && reaction} />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={optionsClass(message)}>
+            <div className={optionsClass(reaction)}>
                 <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
                 <div style={{display: showOptions}}>
                     <div className='delete-message-container'>
-                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                     </div>
                 </div>
             </div> 
-            <SubSubReactions message={message}/>
+            <SubSubReactions reaction={reaction}/>
         </div>
         )
     }
 
-    const DisplaySubSubReaction = ({message}) => {
+    const SubSubReactions = ({reaction}) => {
+
+        const [reactionOverview, setReactionOverview] = useState([])
+
+        useEffect(() => {
+
+            const getReactions = async () => {
+                const reactions = await fetchMessages(reaction.ID)
+                setReactionOverview(reactions)
+            }
+            getReactions()
+        },[reaction])
+
+        console.log(reactionOverview)
+
+        return (
+            <div>
+                {reactionOverview && reactionOverview.map(reaction => (
+                    <DisplaySubSubReaction reaction={reaction}/>
+                ))}
+            </div>
+        )
+    }
+
+    // Layer 4
+
+    const DisplaySubSubReaction = ({reaction}) => {
+        const [displayTextarea, setDisplayTextarea] = useState('none')
+
+        const asnwerDisplay = () => {
+            if(displayTextarea === 'block'){
+                setDisplayTextarea('none')
+            } else {
+                setDisplayTextarea('block')
+            }
+        }
 
         return (
         <div className='reaction-container'>
-            <div className="reaction-inner-container" key={message.ID} id={message.ID}>
+            <div className="reaction-inner-container" key={reaction.ID} id={reaction.ID}>
                 <div className="message-outer-container">
                     <div className="auth-message-container">
-                        <img src={message.UserPhoto} alt="" data-id={message.UserID} onClick={profileLink}/>
-                        <p className="auth-name" data-id={message.UserID} onClick={profileLink}>{message.User}</p>
-                        <p className="message-card-timestamp">{message.Timsetamp && message.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        <img src={reaction.UserPhoto} alt="" data-id={reaction.UserID} onClick={profileLink}/>
+                        <p className="auth-name" data-id={reaction.UserID} onClick={profileLink}>{reaction.User}</p>
+                        <p className="message-card-timestamp">{reaction.Timsetamp && reaction.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                     </div>
                     <div className="message-detail-container">
                         <div className="message-container">
-                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(message)}}></div>
+                            <div className="massage" dangerouslySetInnerHTML={{__html:linkInText(reaction)}}></div>
                         </div>
                         <div className="like-container">
                             <div className='like-icon-container'>
                                 {/* <div className='like-icon-inner-container' style={{display: impacteer}}>
                                     <img src={worldIcon} alt="" onClick={toggleGoalLikeBar}/>
-                                    <p className='notification-counter-small'>{message.Contributions.length}</p>
+                                    <p className='notification-counter-small'>{reaction.Contributions.length}</p>
                                 </div>   */}
                                 <div className='like-icon-inner-container'>
                                     <img 
                                     src={heartIcon} 
                                     alt="" 
-                                    data-message={message.Message}
-                                    data-messageid={message.ID}
-                                    data-messagedocid={message.docid}
-                                    data-username={message.User}
-                                    data-userphoto={message.UserPhoto}
-                                    data-userid={message.UserID}
-                                    data-userdocid={message.UserDocID}
+                                    data-message={reaction.Message}
+                                    data-messageid={reaction.ID}
+                                    data-messagedocid={reaction.Docid}
+                                    data-username={reaction.User}
+                                    data-userphoto={reaction.UserPhoto}
+                                    data-userid={reaction.UserID}
+                                    data-userdocid={reaction.UserDocID}
                                     onClick={likeHandler}/>
-                                    <p className='notification-counter-small'>{message.Likes}</p>
+                                    <p className='notification-counter-small'>{reaction.Likes}</p>
+                                </div>
+                                <div style={{display: goalLikeDiplay}}>
+                                    <LikeBar message={ reaction && reaction} />
+                                </div>
+                                <div className='answer-area-container'>
+                                    <p onClick={asnwerDisplay}>Beantwoorden</p>
                                 </div>
                             </div>
-                            <div style={{display: goalLikeDiplay}}>
-                                <LikeBar message={ message && message} />
-                            </div>
                         </div>
-                        <ReactionBar message={message && message} />
+                        <div style={{display: displayTextarea}}>
+                            <ReactionBar message={reaction && reaction} />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={optionsClass(message)}>
+            <div className={optionsClass(reaction)}>
                 <img className="notifications-icon-message" onClick={toggleOptions} src={settingsIcon} alt=""/>
                 <div style={{display: showOptions}}>
                     <div className='delete-message-container'>
-                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                     </div>
                 </div>
             </div> 
-            {/* <SubSubSubReactions message={message}/> */}
+            {/* <SubSubSubReactions reaction={reaction}/> */}
         </div>
-        )
-    }
-
-    const Reactions = ({message}) => {
-
-        const [reactionOverview, setReactionOverview] = useState([])
-
-        useEffect(() => {
-
-            const getReactions = async () => {
-                const reactions = await fetchMessages(message.ID)
-                setReactionOverview(reactions)
-            }
-            getReactions()
-        },[message])
-
-        console.log(reactionOverview)
-
-        return (
-            <div>
-                {reactionOverview && reactionOverview.map(reaction => (
-                    <DisplayReaction message={reaction}/>
-                ))}
-            </div>
-        )
-    }
-
-    const SubReactions = ({message}) => {
-
-        const [reactionOverview, setReactionOverview] = useState([])
-
-        useEffect(() => {
-
-            const getReactions = async () => {
-                const reactions = await fetchMessages(message.ID)
-                setReactionOverview(reactions)
-            }
-            getReactions()
-        },[message])
-
-        console.log(reactionOverview)
-
-        return (
-            <div>
-                {reactionOverview && reactionOverview.map(reaction => (
-                    <DisplaySubReaction message={reaction}/>
-                ))}
-            </div>
-        )
-    }
-
-    const SubSubReactions = ({message}) => {
-
-        const [reactionOverview, setReactionOverview] = useState([])
-
-        useEffect(() => {
-
-            const getReactions = async () => {
-                const reactions = await fetchMessages(message.ID)
-                setReactionOverview(reactions)
-            }
-            getReactions()
-        },[message])
-
-        console.log(reactionOverview)
-
-        return (
-            <div>
-                {reactionOverview && reactionOverview.map(reaction => (
-                    <DisplaySubSubReaction message={reaction}/>
-                ))}
-            </div>
         )
     }
 
