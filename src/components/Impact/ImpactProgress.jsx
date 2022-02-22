@@ -57,12 +57,7 @@ const ImpactProgress = () => {
         const onePercentage = totalArray.length !== 0 ? 100/totalArray.length : 100/1
         const completed = completedArray.length !== 0 ? completedArray.length : 1
 
-        console.log(onePercentage)
-        console.log(completed)
-
         const average = onePercentage*completed
-
-        console.log(average)
 
         return average
     }
@@ -84,13 +79,13 @@ const ImpactProgress = () => {
                 const effectShort = doc.data().EffectShort 
                 const effectLong = doc.data().EffectLong
 
-                const taskProgress = await tasksProgress(ID)
 
-                console.log(taskProgress)
+                const taskProgress = tasksProgress(ID)
+                const roundedProgress = Math.floor(taskProgress)
 
                 const activitieObject = {
                     Name: name,
-                    Progress: Math.floor(taskProgress),
+                    Progress: roundedProgress,
                     ID: ID,
                     Ingredients: ingredients,
                     EffectShort: effectShort,
@@ -100,8 +95,6 @@ const ImpactProgress = () => {
                 activitiesArray.push(activitieObject)
             })
         })
-
-        console.log(activitiesArray)
 
         return activitiesArray
 
@@ -231,6 +224,8 @@ const ImpactProgress = () => {
         .get()
         .then(querySnapshot => {
 
+            const outputArray = []
+
            if(querySnapshot.empty === false){
             setDisplay('block')
            }
@@ -238,10 +233,11 @@ const ImpactProgress = () => {
             querySnapshot.forEach(doc => {
                 const output = doc.data().Output
 
-                
-
+                outputArray.push(output)
 
             })
+
+            setIndicators(outputArray)
         })
 
 
@@ -306,15 +302,15 @@ const ImpactProgress = () => {
                                         </div>
                                         <div>
                                             <div>
-                                                <h3>Voorwaarden</h3>
+                                                <h4>Voorwaarden</h4>
                                                 <p>{activity.Ingredients}</p>
                                             </div>
                                             <div>
-                                                <h3>Korte termijn effect</h3>
+                                                <h4>Korte termijn effect</h4>
                                                 <p>{activity.EffectShort}</p>
                                             </div>
                                             <div>
-                                                <h3>Lange termijn effect</h3>
+                                                <h4>Lange termijn effect</h4>
                                                 <p>{activity.EffectLong}</p>
                                             </div>
                                         </div>

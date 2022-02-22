@@ -441,6 +441,124 @@
     cursor: pointer;
 }
 
+.massage{
+    color: #2F2C41;
+  }
+
+  .message-container{
+      padding: 10px;
+      border-radius: 5px;
+      margin-left: 16px;
+  }
+
+  .like-container img{
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .auth-message{
+    cursor: pointer;
+    margin-right: 5px;
+    color: #d11237;
+  }
+
+  .reaction-outer-container{
+      padding: 20px;
+      border-left: 1px solid lightgray;
+  }
+
+  .options-icon img{
+      margin-right: 10px;
+      height: 20px;
+      width: 20px;
+  }
+
+  .like-icon-container{
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+}
+
+.like-icon-inner-container{
+    display: flex;
+    margin-right: 10px;
+}
+
+.like-icon-inner-container p{
+    padding: 2px;
+    font-size: 11px;
+    margin-left: 0px;
+}
+
+.article-detail-banner{
+    margin-bottom: -38px !important;
+}
+
+.article-inner-div{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article h2{
+      text-align: left;
+  }
+
+  .message-card{
+    height: auto;
+    width: 84%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    margin: 30px 10px 30px 10px;
+    border-radius: 5px;
+    background-color: #FFF;
+    padding: 20px;
+  }
+
+  .delete-message-container{
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .delete-message-container img{
+      margin-right: 10px;
+  }
+
+  .card-overview{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+  }
+
+  .send-message-as-email-button{
+      border-radius: 3px;
+      border: 1px solid lightgray;
+      padding: 6px;
+      color: gray;
+  }
+
+  .tag-container{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-left: 60px;
+      margin-bottom: 5px;
+  }
+
+  .tag-container img{
+      height: 20px;
+      width: 20px;
+      margin-right: 5px;
+  }
+
+  .tagged-user{
+      cursor: pointer;
+      border-radius: 50%;
+  }
+
 @media only screen and (max-width: 1024px){
 
     .massage-container {

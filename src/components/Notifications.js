@@ -25,17 +25,9 @@ const Notifications = () => {
 
     const messageLink = (e) => {
 
-        const messageID = e.target.dataset.messageid
+        const route = e.target.dataset.route
 
-        history.push(`/${client}/MessageDetail/${messageID}`)
-
-    }
-
-    const goalLink = (e) => {
-
-        const goalID = e.target.dataset.goalid
-
-        history.push(`/${client}/GoalDetail/${goalID}`)
+        history.push(`/${client}/${route}`)
 
     }
 
@@ -54,10 +46,12 @@ const Notifications = () => {
                                     <img className="user-photo" src={notification.SenderPhoto} alt="" data-senderid={notification.SenderID} onClick={senderLink} />
                                     <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.Header}</p>
                                 </div>
-                                <h2 className="notification-message" onClick={messageLink} data-messageid={notification.MessageID}>{notification.MessageBody}</h2>
+                                <h2 className="notification-message" onClick={messageLink} data-route={notification.Route}>{notification.MessageBody}</h2>
                                 <p>{notification.SubHeader}</p>
-                                <h2 className="notification-goal" onClick={goalLink} data-goalid={notification.GoalID}>{notification.GoalName}</h2>
                                 <p className="notification-timestamp">{notification.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                                <div id='button-notifications-container'>
+                                    <button className='button-simple' data-route={notification.Route} onClick={messageLink}>Bekijk</button>
+                                </div>
                             </div>
                         </div>
                     ))}

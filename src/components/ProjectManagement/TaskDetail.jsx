@@ -2,7 +2,7 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, } from "../../firebase/useFirestore"
 import { useState, useEffect } from 'react'
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,8 @@ import { client } from "../../hooks/Client"
 import ArrowLeftIcon from '../../images/icons/arrow-left-icon.png'
 import { db } from "../../firebase/config";
 import userIcon from '../../images/icons/user-icon.png'
+import Reaction from "../Community/Reaction"
+import MessageBar from "../Community/MessageBar"
 
 const TaskDetail = () => {
     const [task, setTask] = useState(null)
@@ -23,6 +25,7 @@ const TaskDetail = () => {
     const history = useHistory();
 
     const tasks = useFirestoreID('Tasks', route)
+    const reactions = useFirestoreMessages("Messages", route )
 
     useEffect(() => {
 
@@ -193,6 +196,13 @@ const TaskDetail = () => {
                     </div>
                 </div>
             ))}
+            </div>
+            <h2>Berichten</h2>
+            <MessageBar/>
+            <div className="reaction-area">
+                {reactions && reactions.map(reaction => (
+                    <Reaction message={reaction}/>
+                ))}
             </div>
         </div>
         <RightSideBar />

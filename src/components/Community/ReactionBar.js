@@ -8,7 +8,7 @@ import uuid from 'react-uuid';
 import firebase from "firebase"
 import { useLocation } from "react-router-dom"
 import { Auth } from '../../StateManagment/Auth';
-import GetYearMonth from '../../hooks/GetYearMonth'
+import Location from "../../hooks/Location"
 
 const ReactionBar = ({message}) => {
     const [authO] = useContext(Auth)
@@ -18,7 +18,7 @@ const ReactionBar = ({message}) => {
     
     const id = uuid()
     const location = useLocation()
-    const getYearMonth = GetYearMonth()
+    const localRoute = `${Location()[2]}/${Location()[3]}` 
     
     const reactionHandler = (e) => {
 
@@ -51,13 +51,6 @@ const ReactionBar = ({message}) => {
             Public: true
         })
         .then(() => {
-            db.collection("Messages")
-            .doc(message.Docid)
-            .update({
-                Thread: firebase.firestore.FieldValue.arrayUnion(id)
-            })
-        })
-        .then(() => {
             setReaction("")
         })
         .then(() => {
@@ -67,6 +60,7 @@ const ReactionBar = ({message}) => {
                 MessageID: message.ID,
                 ParentID: message.ID,
                 MessageBody: message.Message,
+                Route: localRoute,
                 Reaction: reaction,
                 Timestamp: timestamp,
                 SenderID: authO.ID,
@@ -81,6 +75,9 @@ const ReactionBar = ({message}) => {
                 Compagny: client,
                 Type: "Reaction"
             })
+        })
+        .then(() => {
+            window.location.reload(false)
         })
     }
 

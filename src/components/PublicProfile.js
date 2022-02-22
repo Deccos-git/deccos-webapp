@@ -189,10 +189,10 @@ const PublicProfile = () => {
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
                             <div className='like-icon-container-profile'>
-                                <div className='like-icon-inner-container' style={{display: showImpact()}}>
+                                {/* <div className='like-icon-inner-container' style={{display: showImpact()}}>
                                     <img src={worldIcon} data-id={profile.ID} onClick={showContributions}/>
                                     <p className='notification-counter-small'>{numberOfContributions}</p>
-                                </div>
+                                </div> */}
                                 <div className='like-icon-inner-container'>
                                     <img src={heartIcon} data-id={profile.ID} onClick={showLikes}/>
                                     <p className='notification-counter-small'>{profile.Likes ? profile.Likes : 0}</p>

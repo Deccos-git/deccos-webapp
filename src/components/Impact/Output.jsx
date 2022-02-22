@@ -48,21 +48,23 @@ const Output = () => {
 
     }
 
+    console.log(outputs)
+
   return (
     <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h1>Impact output</h1>
-                    <p>Verander de instellingen van de impact output</p>
+                    <h1>Impact resultaten</h1>
+                    <p>Verander de instellingen van de impact resultaten</p>
                 </div>
                 <div className='divider'>
-                    <h3>Output toevoegen</h3>
+                    <h3>Resultaat toevoegen</h3>
                     <Link to={`/${client}/AddOutput`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
                 </div>
                 <div>
-                    <h4>Outputs</h4>
+                    <h4>Resultaten</h4>
                     {outputs && outputs.map(output => (
                         <div id="members-container" key={output.ID}>
                             <h3 id={output.ID} >{output.ActivityTitle}</h3>

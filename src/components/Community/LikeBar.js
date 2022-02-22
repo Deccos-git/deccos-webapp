@@ -28,8 +28,6 @@ const LikeBar = ({message}) => {
 
     }
 
-    console.log(message)
-
     const goals = useFirestoreID("Goals", goalID)
 
     let userID = ""

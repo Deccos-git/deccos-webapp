@@ -11,8 +11,8 @@ import { client } from "../../hooks/Client"
 import { useContext, useState, useEffect } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import Messages from "../Community/Messages"
 import MenuStatus from "../../hooks/MenuStatus";
+import Reaction from "../Community/Reaction"
 
 const GoalDetail = () => {
     const [auth] = useContext(Auth)
@@ -23,7 +23,7 @@ const GoalDetail = () => {
     const history = useHistory()
 
     const docs = useFirestoreID("Goals", route)
-    const messages  = useFirestoreMessages("Messages", route)
+    const reactions = useFirestoreMessages("Messages", route)
     const activities = useFirestoreActivities(route)
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -103,7 +103,9 @@ const GoalDetail = () => {
             <p> --- Reacties ---</p>
             <MessageBar route={route} auth={auth}/>
             <div className="reaction-area">
-                <Messages/>
+                {reactions && reactions.map(reaction => (
+                    <Reaction message={reaction}/>
+                ))}
             </div>
             </div>
             <RightSideBar />
