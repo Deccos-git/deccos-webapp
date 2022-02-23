@@ -36,9 +36,10 @@ const Activities = () => {
                     <div className='activity-inner-container'>
                         <h3>{activity.Activity}</h3>
                         <div className='progression-container-activity-detail'>
-                            <p>Voortgang {Math.trunc(activity.Progression)}%</p>
                             <div className='progressionbar-outer-bar'>
-                                <div className='progressionbar-completed' style={{width: `${activity.Progression}%`}}></div>
+                                <div className='progressionbar-completed' style={{width: `${activity.Progression}%`}}>
+                                <p>{Math.trunc(activity.Progression)}%</p>
+                                </div>
                             </div>
                         </div>
                         

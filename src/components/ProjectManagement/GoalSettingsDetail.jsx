@@ -125,26 +125,6 @@ const GoalSettingsDetail = () => {
         e.target.innerHTML = "Opgeslagen"
     }
 
-    const typeHandler = (e) => {
-
-        const type = e.target.options[e.target.selectedIndex].value
-
-        setType(type)
-
-    }
-
-    const saveType = (e) => {
-        goals && goals.forEach(goal => {
-            db.collection("Goals")
-            .doc(goal.docid)
-            .update({
-                Type: type
-            })
-        })
-
-        e.target.innerHTML = "Opgeslagen"
-    }
-
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -202,7 +182,7 @@ const GoalSettingsDetail = () => {
                         </div>
                     </div>
                      <div className="divider">
-                        <h3>Groep verwijderen</h3>
+                        <h3>Doel verwijderen</h3>
                         <img className="delete-channel" src={deleteIcon} data-id={goal.ID} onClick={deleteGoal} />
                     </div>
                  </div>

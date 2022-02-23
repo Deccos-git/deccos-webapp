@@ -238,6 +238,7 @@
     flex-direction: column;
     align-items: center;
     width: 80%;
+    padding: 20px;
   }
 
   .delete-channel{
@@ -271,6 +272,13 @@
       flex-wrap: wrap;
   }
 
+  .subtitle-header{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -35px;
+  }
+
   .results-container{
       padding: 20px;
   }
@@ -285,6 +293,7 @@
       height: 150px;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
+      object-fit: cover;
   }
 
 #profile-header-photo{
@@ -1085,7 +1094,7 @@
     border-radius: 5px;
     background-color: #FFF;
     text-align: center;
-    padding: 5px;
+    padding: 20px;
   }
 
   .notification-card-inner-container{

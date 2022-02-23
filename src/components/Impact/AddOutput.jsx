@@ -19,10 +19,7 @@ const AddOutput = () => {
     const [goalID, setGoalID] = useState(null)
     const [activityTitle, setActivityTitle] = useState('')
     const [activityID, setActivityID] = useState(null)
-    const [outputArray, setOutputArray] = useState([])
-    const [output, setOutput] = useState('')
-    const [matchesSwitch, setMatchesSwitch] = useState(false)
-    const [membersSwitch, setMembersSwitch] = useState(false)
+    const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -51,115 +48,37 @@ const AddOutput = () => {
 
     }
 
-    // Switches
+    const titleHandler = (e) => {
+      const title = e.target.value 
 
-      const ToggleSwitchMatches = () => {
-        return (
-          <div className="container">
-            <div className="toggle-switch">
-              <input type="checkbox" className="checkbox" 
-                     name={'matches'} id={'matches'} onChange={() => { setMatchesSwitch(true)}} />
-              <label className="label" htmlFor={'matches'}>
-                <span className="inner"/>
-                <span className="switch"/>
-              </label>
-            </div>
-          </div>
-        );
-      };
+      setTitle(title)
+    }
 
-      const ToggleSwitchMembers = () => {
-        return (
-          <div className="container">
-            <div className="toggle-switch">
-              <input type="checkbox" className="checkbox"
-                     name={'members'} id={'members'} onChange={() => { setMembersSwitch(true)}} />
-              <label className="label" htmlFor={'members'}>
-                <span className="inner"/>
-                <span className="switch"/>
-              </label>
-            </div>
-          </div>
-        );
-      };
+    
 
-      const ToggleSwitchCustom= ({output}) => {
-        return (
-          <div className="container">
-            <div className="toggle-switch">
-              <input type="checkbox" className="checkbox" defaultChecked={true}
-                     name={output} id={output} data-output={output} onChange={customSwitchHandler} />
-              <label className="label" htmlFor={output}>
-                <span className="inner"/>
-                <span className="switch"/>
-              </label>
-            </div>
-          </div>
-        );
-      };
+    const saveOutput = (e) => {
 
-      const customSwitchHandler = (e) => {
-        const output = e.target.dataset.output 
+      ButtonClicked(e, 'Opgeslagen')
 
-        if(outputArray.includes(output)){
-          const index = outputArray.indexOf(output)
-          outputArray.splice(index, 1)
-        }
-      }
-
-      const customIndicatorHandler = (e) => {
-          const input = e.target.value 
-
-          setOutput(input)
-      }
-
-       // Save ouput to database
-
-       const saveOutput = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
-        const totalArray = []
-
-        if(matchesSwitch === true){
-          totalArray.push('matches')
-        }
-
-        if(membersSwitch === true){
-          totalArray.push('members')
-        }
-
-        outputArray && outputArray.forEach(output => {
-          totalArray.push(output)
-        })
-
-        totalArray && totalArray.forEach(output => {
-
-          db.collection('Outputs')
-          .doc()
-          .set({
-              ActivityTitle: activityTitle,
-              ActivityID: activityID,
-              ID: uuid(),
-              Compagny: client,
-              Timestamp: timestamp,
-              User: authO.UserName,
-              UserPhoto: authO.Photo,
-              UserID: authO.ID,
-              Output: output,
-          })
-        })
+      db.collection('Outputs')
+      .doc()
+      .set({
+          ActivityTitle: activityTitle,
+          ActivityID: activityID,
+          Title: title,
+          ID: uuid(),
+          Compagny: client,
+          Timestamp: timestamp,
+          User: authO.UserName,
+          UserPhoto: authO.Photo,
+          UserID: authO.ID,
+          Type: `Activiteit "${activityTitle}"`
+      })
     }
 
     const nextStep = () => {
 
-        history.push(`/${client}/QuestionnaireSettings`)
-
-    }
-
-    const addIndicator = (e) => {
-
-      setOutputArray([...outputArray, output])
+        history.push(`/${client}/Output`)
 
     }
 
@@ -170,10 +89,10 @@ const AddOutput = () => {
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="settings-inner-container">
                 <div className="divider card-header">
-                    <h1>Output toevoegen</h1>
+                    <h1>Resultaat toevoegen</h1>
                 </div>
                 <div className='divider'>
-                    <h4>Selecteer een doel</h4>
+                    <h2>Selecteer een doel</h2>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
                         {goals && goals.map(goal => (
@@ -181,7 +100,7 @@ const AddOutput = () => {
                         ))}
                     </select>
                     <div style={{display: goalID ? 'block' : 'none'}}>
-                        <h4>Selecteer een activiteit</h4>
+                        <h2>Selecteer een activiteit</h2>
                         <select name="" id="" onChange={activityHandler}>
                             <option value="">-- Selecteer een activiteit --</option>
                             {activities && activities.map(activity => (
@@ -189,36 +108,20 @@ const AddOutput = () => {
                             ))}
                     </select>
                     </div>
-                    <div style={{display: activityID ? 'block' : 'none'}}>
-                        <h4>Selecteer een indicator</h4>
-                        <div className='functionality-container'>
-                            <p>Aantal matches</p>
-                            <ToggleSwitchMatches/>
-                        </div>
-                        <div className='functionality-container'>
-                            <p>Aantal communityleden</p>
-                            <ToggleSwitchMembers/>
-                        </div>
-                        {outputArray && outputArray.map(output => (
-                          <div className='functionality-container'>
-                            <p>{output}</p>
-                            <ToggleSwitchCustom output={output}/>
-                          </div>
-                        ))}
-                        <div>
-                            <h4>Voeg een eigen indicator toe</h4>
-                            <input type="text" placeholder='Wat wil je meten?' onChange={customIndicatorHandler} />
-                            <button className='button-simple' onClick={addIndicator}>Toevoegen</button>
-                        </div>
+                </div>
+                <div className='divider'>
+                    <div>
+                      <h2>Geef het resultaat een titel</h2>
+                      <input type="text" placeholder='Schrijf hier de titel van het resultaat' onChange={titleHandler} />
                     </div>
                 </div>
             </div>
             <div id="button-add-goal" style={{display: activityID ? 'block' : 'none'}}>
-                    <Link to={`/${client}/Output`}><button onClick={saveOutput}>Opslaan</button></Link>
-                </div>
+                <Link to={`/${client}/Output`}><button onClick={saveOutput}>Opslaan</button></Link>
+            </div>
             <div className='next-step-impact'>
                 <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
-                <h3 onClick={nextStep}>Volgende stap: vragenlijst toevoegen</h3>
+                <h3 onClick={nextStep}>Volgende stap: meetinstrumenten toevoegen</h3>
             </div>
         </div>
         <RightSideBar />

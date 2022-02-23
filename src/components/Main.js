@@ -88,6 +88,9 @@ import Likes from './Community/Likes';
 import Output from './Impact/Output';
 import AddActivity from './Impact/AddActivity';
 import AddOutput from './Impact/AddOutput';
+import Instruments from './Impact/Instruments';
+import AddInstrument from './Impact/AddInstrument';
+import InstrumentDetail from './Impact/InstrumentDetail';
 
 const Main = () => {
 
@@ -183,6 +186,15 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ImpactIndicators`}>
                     <ImpactIndicators/>
+                </Route>
+                <Route path={`/${client}/Instruments`}>
+                    <Instruments/>
+                </Route>
+                <Route path={`/${client}/AddInstrument`}>
+                    <AddInstrument/>
+                </Route>
+                <Route path={`/${client}/InstrumentDetail`}>
+                    <InstrumentDetail/>
                 </Route>
                 <Route path={`/${client}/ImpactProgress`}>
                     <ImpactProgress/>

@@ -73,12 +73,14 @@ const AddActivity = () => {
     const saveActivity = (e) => {
 
         e.target.innerText = 'Opgeslagen'
+
+        const id = uuid()
         
         db.collection('Activities')
         .doc()
         .set({
             Activity: activityTitle,
-            ID: uuid(),
+            ID: id,
             Compagny: client,
             Timestamp: timestamp,
             User: authO.UserName,
@@ -92,6 +94,67 @@ const AddActivity = () => {
             GoalID: goalID,
             Progression: 0
         })
+        .then(() => {
+            db.collection('Outputs')
+            .doc()
+            .set({
+                Title: activityTitle,
+                ActivityID: id,
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Type: 'Activiteit'
+            })
+        })
+        .then(() => {
+            db.collection('Outputs')
+            .doc()
+            .set({
+                Title: effectShort,
+                ActivityID: id,
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Type: `<b>Korte termijn effect</b> van activiteit "${activityTitle}"`
+            })
+        })
+        .then(() => {
+            db.collection('Outputs')
+            .doc()
+            .set({
+                Title: effectLong,
+                ActivityID: id,
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Type: `Lange termijn effect van activiteit "${activityTitle}"`
+            })
+        })
+        .then(() => {
+            db.collection('Outputs')
+            .doc()
+            .set({
+                Title: effectLong,
+                ActivityID: id,
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Type: `Voorwaarden van activiteit "${activityTitle}"`
+            })
+        })
+        
     }
 
     const deleteActivity = (e) => {
@@ -139,7 +202,7 @@ const AddActivity = () => {
             </div>
             <div className='next-step-impact'>
                 <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
-                <h3 onClick={nextStep}>Volgende stap: output toevoegen</h3>
+                <h3 onClick={nextStep}>Volgende stap: resulaten toevoegen</h3>
             </div>
         </div>
         <RightSideBar />

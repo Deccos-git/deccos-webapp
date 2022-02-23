@@ -401,6 +401,7 @@
     background-color: white;
     min-height: 80vh;
     width: 80%;
+    border-radius: 5px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     margin-bottom: 30px;
 }
@@ -437,7 +438,7 @@
     margin: 20px;
     border-radius: 5px;
     padding: 20px;
-    margin: 5px 0px 20px 0px;
+    margin: 5px 0px 30px 0px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
@@ -451,7 +452,7 @@
   }
 
   .message-container{
-      padding: 10px;
+      padding: 15px;
       border-radius: 5px;
       margin-left: 16px;
   }
@@ -498,6 +499,7 @@
 
 .article-detail-banner{
     margin-bottom: -38px !important;
+    border-radius: 5px;
 }
 
 .article-inner-div{

@@ -704,6 +704,53 @@ const useFirestoreTasksComplete = (activity) => {
     return docs
 };
 
+const useFirestoreTasksGoals = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreTasksCompleteGoals = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('GoalID', '==', id)
+        .where('Completed', '==', true)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMyTasks = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -911,6 +958,52 @@ const useFirestoreMatchTagsType = (type) => {
     return docs
 };
 
+const useFirestoreImpactInstruments = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('ImpactInstruments')
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreOutputQuestionnaireFields = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('QuestionnaireFields')
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -943,6 +1036,8 @@ export {
     useFirestoreSubscriptionsNotApproved,
     useFirestoreTasks,
     useFirestoreTasksComplete,
+    useFirestoreTasksGoals,
+    useFirestoreTasksCompleteGoals,
     useFirestoreMyTasks,
     useFirestoreMyEvents,
     useFirestoreMyLikes,
@@ -951,5 +1046,7 @@ export {
     useFirestoreQuestionnaireAnalysis,
     useFirestoreMatches,
     useFirestoreMatchRoadmaps,
-    useFirestoreMatchTagsType
+    useFirestoreMatchTagsType,
+    useFirestoreImpactInstruments,
+    useFirestoreOutputQuestionnaireFields
 }

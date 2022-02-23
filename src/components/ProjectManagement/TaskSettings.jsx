@@ -25,6 +25,7 @@ const TaskSettings = () => {
 
     const [activityTitle, setActivityTitle] = useState('')
     const [activityID, setActivityID] = useState('')
+    const [goalID, setGoalID] = useState('')
     const [taskTitle, setTaskTitle] = useState('')
     const [date, setDate] = useState('')
     const [userID, setUserID] = useState('')
@@ -44,9 +45,11 @@ const TaskSettings = () => {
     const activityHandler = (e) => {
         const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
         const activityID = e.target.options[e.target.selectedIndex].dataset.id
+        const goalID = e.target.options[e.target.selectedIndex].dataset.goalid
 
         setActivityTitle(activityTitle)
         setActivityID(activityID)
+        setGoalID(goalID)
     }
 
     const taskHandler = (e) => {
@@ -101,6 +104,7 @@ const TaskSettings = () => {
         .set({
             Activity: activityTitle,
             ActivityID: activityID,
+            GoalID: goalID,
             ID: ID,
             Compagny: client,
             Timestamp: timestamp,
@@ -168,15 +172,15 @@ const TaskSettings = () => {
                     <p>Pas de instellingen aan de taken aan</p>
                 </div>
                 <div className='divider'>
-                    <h3>Taak toevoegen</h3>
+                    <h2>Taak toevoegen</h2>
                     <h4>Selecteer een activiteit</h4>
                     <select name="" id="" onChange={activityHandler}>
                         <option value="">-- Selecteer een activiteit --</option>
                         {activities && activities.map(activity => (
-                            <option value="" key={activity.ID} data-id={activity.ID} data-title={activity.Activity}>{activity.Activity}</option>
+                            <option value="" key={activity.ID} data-id={activity.ID} data-title={activity.Activity} data-goalid={activity.GoalID}>{activity.Activity}</option>
                         ))}
                     </select>
-                    <h4>Prioriteit</h4>
+                    <h3>Prioriteit</h3>
                     <select name="" id="" onChange={priorityHandler}>
                         <option value="no-prioority">-- selecteer prioriteit --</option>
                         <option value="urgent-important">Urgent en belangrijk</option>
@@ -184,11 +188,11 @@ const TaskSettings = () => {
                         <option value="not-urgent-important">Niet urgent en belangrijk</option>
                         <option value="not-urgent-not-important">Niet urgent en niet belangrijk</option>
                     </select>
-                    <h4>Beschrijf taak</h4>
+                    <h3>Beschrijf taak</h3>
                     <input type="text" placeholder='Beschrijf hier je taak' onChange={taskHandler}/>
-                    <h4>Vervaldatum</h4>
+                    <h3>Vervaldatum</h3>
                     <input type="date" onChange={dateHandler} />
-                    <h4>Taak toewijzen aan</h4>
+                    <h3>Taak toewijzen aan</h3>
                         <select className="userrole-select" name="" id="" onChange={userHandler}>
                             <option value="">--- Selecteer ---</option>
                             {projectManagers&& projectManagers.map(user => (
@@ -198,7 +202,7 @@ const TaskSettings = () => {
                     <button className='button-simple' onClick={saveTask}>Opslaan</button>
                 </div>
                 <div className='divider'>
-                    <h3>Community taken</h3>
+                    <h2>Taken</h2>
                     {tasks && tasks.map(task => (
                         <div className='channel-container'>
                             <p>{task.Task}</p>
