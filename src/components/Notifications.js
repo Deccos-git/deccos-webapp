@@ -6,14 +6,28 @@ import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
 import Location from "../hooks/Location"
 import MenuStatus from "../hooks/MenuStatus";
+import { useState, useEffect } from "react"
+import { useFirestore} from "../firebase/useFirestore"
 
 const Notifications = () => {
     const route = Location()[3]
+    const [color, setColor] = useState('')
 
     const notifications = useFirestoreNotifications("Notifications", route)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
     const menuState = MenuStatus()
+
+    const colors = useFirestore('Colors')
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
 
     const senderLink = (e) => {
 
@@ -46,7 +60,9 @@ const Notifications = () => {
                                     <img className="user-photo" src={notification.SenderPhoto} alt="" data-senderid={notification.SenderID} onClick={senderLink} />
                                     <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.Header}</p>
                                 </div>
-                                <h2 className="notification-message" onClick={messageLink} data-route={notification.Route}>{notification.MessageBody}</h2>
+                                <div className="message-container" style={{backgroundColor: color}}>
+                                    <p className="notification-message" onClick={messageLink} data-route={notification.Route}>{notification.MessageBody}</p>
+                                </div>
                                 <p>{notification.SubHeader}</p>
                                 <p className="notification-timestamp">{notification.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                                 <div id='button-notifications-container'>

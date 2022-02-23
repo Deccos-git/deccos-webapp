@@ -43,11 +43,9 @@ const ReactionBar = ({message}) => {
             UserPhoto: authO.Photo,
             Email: authO.Email,
             ID: uuid(),
-            Thread: [],
             Read: [authO.ID],
             UserID: authO.ID,
             UserDocID: authO.Docid,
-            Contributions: [],
             Public: true
         })
         .then(() => {
@@ -75,9 +73,6 @@ const ReactionBar = ({message}) => {
                 Compagny: client,
                 Type: "Reaction"
             })
-        })
-        .then(() => {
-            window.location.reload(false)
         })
     }
 

@@ -245,7 +245,7 @@ const ImpactProgress = () => {
             <div style={{display: display}}>
                 <h4>Indicatoren</h4>
                 {indicators && indicators.map(indicator => (
-                    <ul>
+                    <ul key={indicator.ID}>
                         <li>{indicator}</li>
                     </ul>
                 ))}

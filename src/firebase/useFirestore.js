@@ -212,6 +212,29 @@ const useFirestoreMyMessages = (collection, id) => {
     return docs
 };
 
+const useFirestoreMessagesParentID = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Messages')
+        .where("Compagny", "==", client)
+        .where("ParentID", "==", id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreChats = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -906,6 +929,7 @@ export {
     useFirestoreNewNotifications,
     useFirestoreIntroductions,
     useFirestoreMyMessages,
+    useFirestoreMessagesParentID,
     useFirestoreNewMessagesChatGroups,
     useFirestoreNotApproved,
     useFirestoreProfileFields,

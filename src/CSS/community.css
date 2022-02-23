@@ -34,6 +34,10 @@
     font-weight: bold;
 }
 
+.article-card-user-container h2{
+    text-align: center;
+}
+
 .activity-list{
     align-items: center;
     padding: 20px 20px 20px 20px;
@@ -313,6 +317,7 @@
     border-radius: 50%;
     margin-right: 10px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .message-card-timestamp{

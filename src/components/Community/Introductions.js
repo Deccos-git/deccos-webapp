@@ -6,10 +6,13 @@ import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import IntroductionsCard from './IntroductionsCard'
 import { client } from "../../hooks/Client";
-import { useFirestore } from '../../firebase/useFirestore'
+import { useFirestore, useFirestoreMessages } from '../../firebase/useFirestore'
 import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 import { useLocation } from "react-router-dom"
+import Location from "../../hooks/Location"
+import Reaction from "./Reaction"
+import ButtonClicked from "../../hooks/ButtonClicked"
 
 const Introductions = () => {
     const [authO] = useContext(Auth)
@@ -17,11 +20,15 @@ const Introductions = () => {
     const [body, setBody] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
 
-    const banners = useFirestore('Banners')
-
     const id = uuid()
     const menuState = MenuStatus()
     const location = useLocation()
+    const route = Location()[2]
+
+    const banners = useFirestore('Banners')
+    const messages  = useFirestoreMessages("Messages", route)
+
+    console.log(messages)
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -38,22 +45,26 @@ const Introductions = () => {
 
     const saveIntroduction = (e) => {
 
-        e.target.innerText = 'Verstuurd'
-        e.target.value = ''
+        ButtonClicked(e, 'Verstuurd')
 
-        db.collection("Introductions")
+        db.collection("Messages")
         .doc()
         .set({
-            Body: body,
-            UserName: authO.UserName,
-            Photo: authO.Photo,
-            ForName: authO.ForName,
+            Type: "Introduction",
+            Message: body,
             Timestamp: timestamp,
             ID: id,
+            Tagged: [],
+            ParentID: route,
             Compagny: client,
-            AuthID: authO.ID,
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            Email: authO.Email,
+            Read: [authO.ID],
             UserID: authO.ID,
-            Message: body
+            Contributions: [],
+            Public: true,
+            Likes: 0
         })
         .then(() => {
             db.collection("AllActivity")
@@ -83,26 +94,6 @@ const Introductions = () => {
                 Link: `Introductions`
             })
         })
-        .then(() => {
-            db.collection("Messages")
-            .doc()
-            .set({
-                Type: "Introduction",
-                Message: body,
-                Timestamp: timestamp,
-                PrevPath: location.pathname,
-                ID: id,
-                Compagny: client,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                Email: authO.Email,
-                Thread: [],
-                Read: [authO.ID],
-                UserID: authO.ID,
-                Contributions: [],
-                Public: true
-            })
-        })
     }
 
     const placeholder = `Schijf iets over jezelf - Wat wil je aan de community bijdragen? - Wat wil je uit de community halen?`
@@ -122,7 +113,11 @@ const Introductions = () => {
                         <button className="button-simple" onClick={saveIntroduction}>Versturen</button>
                     </div>
                 </div>
-                <IntroductionsCard />
+                <div className="reaction-area">
+                {messages && messages.map(message => ( 
+                    <Reaction message={message}/>
+                ))}
+                </div>
             </div>
             <RightSideBar />
         </div>

@@ -28,10 +28,12 @@ const AddQuestionnaire = () => {
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
     const [questionnaireGoal, setQuestionnaireGoal] = useState('')
+    const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
     const history = useHistory()
+    const colors = useFirestore('Colors')
 
     const questionnares = useFirestoreID('Questionnaires', route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)
@@ -47,6 +49,15 @@ const AddQuestionnaire = () => {
             setKey(questionnare.Key)
         })
     }, [questionnares])
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
 
     const titleHandler = (e) => {
 
@@ -158,7 +169,7 @@ const AddQuestionnaire = () => {
 
         if(field.Type === 'paragraph'){
             return(
-                <div className='question-type-display-container'>
+                <div className='question-type-display-container' style={{backgroundColor: color}}>
                     <input type='text' value={field.Question} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
                     <img className='delete-field-icon' src={deleteIcon} alt="" data-docid={field.docid} onClick={deleteField}/>
@@ -166,7 +177,7 @@ const AddQuestionnaire = () => {
             )
         } else if(field.Type === 'scale'){
             return(
-                <div className='question-type-display-container'>
+                <div className='question-type-display-container' style={{backgroundColor: color}}>
                    <input type='text' value={field.Question} />
                    <div id='scale-container'>
                        {field.ReachStartLable}
@@ -247,7 +258,7 @@ const AddQuestionnaire = () => {
                         <option value="paragraph">Textvraag</option>
                         <option value="scale">Schaalvraag</option>
                     </select>
-                    <div className='question-type-display-container'>
+                    <div className='question-type-display-container' style={{backgroundColor: color}}>
                         <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
                         <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
                             <p id='questionnaire-field-text'>Text antwoord</p>
