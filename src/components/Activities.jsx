@@ -32,18 +32,14 @@ const Activities = () => {
                 <h1>Activiteiten</h1>
             </div>
             {activities && activities.map(activity => (
-                <div className='activity-container' key={activity.ID}>
-                    <div className='activity-inner-container'>
-                        <h3>{activity.Activity}</h3>
-                        <div className='progression-container-activity-detail'>
-                            <div className='progressionbar-outer-bar'>
-                                <div className='progressionbar-completed' style={{width: `${activity.Progression}%`}}>
-                                <p>{Math.trunc(activity.Progression)}%</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button className='button-simple' data-id={activity.ID} onClick={activityLink}>Details</button>
+                <div 
+                className="goal-list card" key={activity.ID}>
+                    <img className="goal-card-banner" src={activity.Banner} alt="" />
+                    <div className="goalcard-body-div">
+                        <h2>{activity.Activity}</h2>
+                    </div>
+                    <div className="button-container">
+                        <button className="goal-card-button" data-id={activity.ID} onClick={activityLink} >Bekijk</button>
                     </div>
                 </div>
             ))}

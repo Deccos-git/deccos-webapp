@@ -11,6 +11,9 @@ import { client } from "../../hooks/Client"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import { useHistory } from "react-router-dom";
 import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
+import spinnerRipple from '../../images/spinner-ripple.svg'
+import firebase from 'firebase'
+import { bucket } from '../../firebase/config';
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
@@ -22,6 +25,8 @@ const AddActivity = () => {
     const [effectMiddle, setEffectMiddle] = useState('')
     const [effectLong, setEffectLong] = useState('')
     const [ingredients, setIngredients] = useState('')
+    const [banner, setBanner] = useState("")
+    const [loader, setLoader] = useState("")
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -92,28 +97,15 @@ const AddActivity = () => {
             Ingredients: ingredients,
             Goal: goalTitle,
             GoalID: goalID,
-            Progression: 0
-        })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
-                Title: activityTitle,
-                ActivityID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: 'Activiteit'
-            })
+            Progression: 0,
+            Banner: banner,
         })
         .then(() => {
             db.collection('Outputs')
             .doc()
             .set({
                 Title: effectShort,
+                Description: 'Korte termijn effect',
                 ActivityID: id,
                 ID: uuid(),
                 Compagny: client,
@@ -129,6 +121,7 @@ const AddActivity = () => {
             .doc()
             .set({
                 Title: effectLong,
+                Description: 'Lange termijn effect',
                 ActivityID: id,
                 ID: uuid(),
                 Compagny: client,
@@ -143,7 +136,8 @@ const AddActivity = () => {
             db.collection('Outputs')
             .doc()
             .set({
-                Title: effectLong,
+                Title: ingredients,
+                Description: 'Voorwaarden',
                 ActivityID: id,
                 ID: uuid(),
                 Compagny: client,
@@ -169,6 +163,40 @@ const AddActivity = () => {
 
         history.push(`/${client}/Output`)
 
+    }
+
+    const bannerHandler = (e) => {
+        setLoader(spinnerRipple)
+
+        const photo = e.target.files[0]
+
+        const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
+        const uploadTask = storageRef.put(photo)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setBanner(downloadURL)
+            setLoader(downloadURL)
+
+                })
+            })
+        })
     }
 
 
@@ -198,6 +226,13 @@ const AddActivity = () => {
                         <h4>Onder welke randvoorwaarden kunnen jullie de effecten waarmaken?</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={ingriendentsHandler}></textarea>
                         <button className='button-simple' onClick={saveActivity}>Opslaan</button>
+                </div>
+                <div className="divider">
+                    <h4>Voeg een bannerfoto toe</h4>
+                    <input className="input-classic" onChange={bannerHandler} type="file" />
+                    <div className="spinner-container">
+                        <img src={loader} alt="" />
+                    </div> 
                 </div>
             </div>
             <div className='next-step-impact'>

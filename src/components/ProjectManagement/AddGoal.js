@@ -154,21 +154,6 @@ const AddGoal = () => {
             db.collection('Outputs')
             .doc()
             .set({
-                Title: title,
-                GoalID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: 'Doel'
-            })
-        })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
                 Title: impactSociety,
                 GoalID: id,
                 ID: uuid(),

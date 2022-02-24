@@ -13,6 +13,7 @@ const Impacthub = () => {
     const menuState = MenuStatus()
 
     const compagnies = useFirestore('CompagnyMeta')
+    const questionnaires = useFirestore('Questionnaires')
 
     useEffect(() => {
       compagnies && compagnies.forEach(compagny => {
@@ -22,7 +23,33 @@ const Impacthub = () => {
       })
     }, [compagnies]);
     
+    const ToggleSwitch = ({questionnaire}) => {
+        return (
+          <div className="container">
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox"
+                     name={questionnaire.Title} id={questionnaire.Title} data-docid={questionnaire.docid} onChange={toggleQuestionnaire} />
+              <label className="label" htmlFor={questionnaire.Title}>
+                <span className="inner"/>
+                <span className="switch"/>
+              </label>
+            </div>
+          </div>
+        );
+      };
 
+    const toggleQuestionnaire = (e) => {
+
+        const check = e.target.checked
+        const docid = e.target.dataset.docid
+
+        db.collection('Questionnaires')
+        .doc(docid)
+        .update({
+            Public: check
+        })
+
+    }
     
     return (
        <div className="main">
@@ -32,6 +59,15 @@ const Impacthub = () => {
                 <div className="card-header">
                     <h1>Impacthub</h1>
                     <p>Verander de instellingen voor de impacthub</p>
+                </div>
+                <div className='divider'>
+                    <h2>Deel vragenlijsten op impacthub</h2>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                        <div className='functionality-container' key={questionnaire.ID}>
+                           <p>{questionnaire.Title}</p>
+                           <ToggleSwitch questionnaire={questionnaire}/>
+                        </div>
+                    ))}
                 </div>
                 <div>
                     <h2>Delen op impacthub</h2>

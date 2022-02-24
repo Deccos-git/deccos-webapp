@@ -91,6 +91,7 @@ import AddOutput from './Impact/AddOutput';
 import Instruments from './Impact/Instruments';
 import AddInstrument from './Impact/AddInstrument';
 import InstrumentDetail from './Impact/InstrumentDetail';
+import CreateQuestionnaire from './Impact/CreateQuestionnaire';
 
 const Main = () => {
 
@@ -231,6 +232,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddQuestionnaire`}>
                     <AddQuestionnaire/>
+                </Route>
+                <Route path={`/${client}/CreateQuestionnaire`}>
+                    <CreateQuestionnaire/>
                 </Route>
                 <Route path={`/${client}/QuestionnaireAnalysis`}>
                     <QuestionnaireAnalysis/>

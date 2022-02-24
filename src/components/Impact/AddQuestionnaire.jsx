@@ -114,7 +114,9 @@ const AddQuestionnaire = ({output}) => {
 
     }
 
-    const addField = () => {
+    const addField = (e) => {
+
+        ButtonClicked(e, 'Toegevoegd')
 
         db.collection('QuestionnaireFields')
         .doc()

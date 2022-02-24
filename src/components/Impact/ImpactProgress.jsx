@@ -2,7 +2,18 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestore, useFirestoreActivities, useFirestoreTasksGoals, useFirestoreTasksCompleteGoals, useFirestoreTasks, useFirestoreTasksComplete} from "../../firebase/useFirestore";
+import { 
+    useFirestore, 
+    useFirestoreActivities, 
+    useFirestoreTasksGoals, 
+    useFirestoreTasksCompleteGoals, 
+    useFirestoreTasks, 
+    useFirestoreTasksComplete, 
+    useFirestoreOutputs,
+    useFirestoreImpactInstruments,
+    useFirestoreOutputQuestionnaireFields,
+    useFirestoreUsersApproved
+} from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
@@ -104,32 +115,21 @@ const ImpactProgress = () => {
 
         const activities = useFirestoreActivities(goal.ID)
 
-
         return(
             <>
                 <h2>Activiteiten</h2>
                 <div id='activity-outer-container'>
                 {activities && activities.map(activity => (
                     <div className='activity-inner-container-dashboard' key={activity.ID} style={{backgroundColor: color}}>
-                        
+                        <img id='impact-dasboard-activity-banner' src={activity.Banner} alt="" />
                         <h3>{activity.Activity}</h3>
                         <div className='progressionbar-outer-bar'>
                         <ProgressionBarActivity activity={activity}/>
                             <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
                         </div>
                         <div>
-                            <div>
-                                <h4>Voorwaarden</h4>
-                                <p>{activity.Ingredients}</p>
-                            </div>
-                            <div>
-                                <h4>Korte termijn effect</h4>
-                                <p>{activity.EffectShort}</p>
-                            </div>
-                            <div>
-                                <h4>Lange termijn effect</h4>
-                                <p>{activity.EffectLong}</p>
-                            </div>
+                            <h4>Resultaten</h4>
+                            <Output activity={activity}/>
                         </div>
                         
                     </div>
@@ -137,6 +137,62 @@ const ImpactProgress = () => {
                 </div>
             </>
         )
+    }
+
+    const Output = ({activity}) => {
+
+        const outputs = useFirestoreOutputs('ActivityID', activity.ID)
+
+        return (
+            <div className='impact-dashboard-output-container'>
+                {outputs && outputs.map(output => (
+                    <div>
+                        <h5>{output.Description}</h5>
+                        <p>{output.Title}</p>
+                        <div className='dashboard-instruments-container' style={{backgroundColor: color}}>
+                            <h5>Meetinstrumenten</h5>
+                            <Instruments output={output}/>
+                            <QuestionnairyFields output={output}/>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const Instruments = ({output}) => {
+        const instruments = useFirestoreImpactInstruments(output.ID) 
+        
+        return(
+            <div className='output-instrument-inner-container'>
+                <h4>Interne instrumenten</h4>
+                {instruments && instruments.map(instrument => (
+                    <div className='dashboard-internal-results-container'>
+                        <p data-id={instrument.ID}>{instrument.Output.Output}</p>
+                        <ResultsInternal instrument={instrument}/>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const QuestionnairyFields= ({output}) => {
+
+        const questionnaireFields = useFirestoreOutputQuestionnaireFields(output.ID)
+
+        return(
+            <div className='output-instrument-inner-container'>
+                <h4>Vragen</h4>
+                {questionnaireFields && questionnaireFields.map(field => (
+                    <div className='dashboard-internal-results-container'>
+                        <p key={field.ID} data-id={field.ID}>{field.Question}</p>
+                        <QuestionnaireResults field={field}/>
+                    </div>
+                    
+                ))}
+            </div>
+        )
+
     }
 
     const ProgressionBarActivity = ({activity}) => {
@@ -165,168 +221,49 @@ const ImpactProgress = () => {
         )
     }
 
+    const ResultsInternal = ({instrument}) => {
 
-    const tasksProgress = async (ID) => {
+        const users = useFirestoreUsersApproved(false)
 
-        const completedArray = []
-        const totalArray = []
+        const resultArray = []
 
-        await db.collection('Tasks')
-        .where('ActivityID', '==', ID)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
+        if(instrument.Output.Output === 'Aantal leden van de community'){
+            const members = users.length 
 
-                totalArray.push(doc)
-
-            })  
-        })
-
-        await db.collection('Tasks')
-        .where('ActivityID', '==', ID)
-        .where('Completed', '==', true)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-
-                completedArray.push(doc)
-
-            })  
-        })
-
-        const onePercentage = totalArray.length !== 0 ? 100/totalArray.length : 100/1
-        const completed = completedArray.length !== 0 ? completedArray.length : 1
-
-        const average = onePercentage*completed
-
-        return average
-    }
-
-    const activitiesOverview = async (goal) => {
-
-        const activitiesArray = []
-
-        await db.collection("Activities")
-        .where('GoalID', '==', goal.ID)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(async doc => {
-
-                const name = doc.data().Activity
-                const progress = doc.data().Progression
-                const ID = doc.data().ID
-                const ingredients = doc.data().Ingredients
-                const effectShort = doc.data().EffectShort 
-                const effectLong = doc.data().EffectLong
-
-
-                // const taskProgress = tasksProgress(ID)
-                // const roundedProgress = Math.floor(taskProgress)
-
-                const activitieObject = {
-                    Name: name,
-                    // Progress: roundedProgress,
-                    ID: ID,
-                    Ingredients: ingredients,
-                    EffectShort: effectShort,
-                    EffectLong: effectLong
-                }
-
-                activitiesArray.push(activitieObject)
+            resultArray.push({
+                Title: 'Leden',
+                Amount: members
             })
-        })
+        }
 
-        return activitiesArray
+        if(instrument.Output.Output === 'Aantal matches'){
+            const members = users.length 
 
-    } 
-
-    const questionnaireOverview = async (goal) => {
-
-        const questionnaireArray = []
-
-        await db.collection('Questionnaires')
-        .where('GoalID', '==', goal.ID)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-
-                const title = doc.data().Title
-                const ID = doc.data().ID
-
-                const questionnaireObject = {
-                    Title: title,
-                    ID: ID
-                }
-
-                questionnaireArray.push(questionnaireObject)
+            resultArray.push({
+                Title: 'Leden',
+                Amount: members
             })
-        })
-
-        return questionnaireArray
-    }
-
-
-    const goalProgress = (activities) => {
-
-        const array = []
-        activities && activities.forEach(activity => {
-
-            array.push(activity.Progress)
-
-        })
-
-        const sum = array.reduce((partialSum, a) => partialSum + a, 0)
-
-        const average = sum/array.length 
-
-        return Math.floor(average)
-
-    }
-
-    
-    const Members = () => {
-        if(members === true){
-            return(
-                <div className='divider'>
-                    <h2>Leden</h2>
-                    <p>Aantal leden {memberCount}</p>
-                    <button className='button-simple' onClick={memberLink}>Bekijk</button>
-                </div>
-            )
-        } else {
-            return null
         }
+
+
+
+        return (
+            <div>
+                {resultArray && resultArray.map(result => (
+                    <p>{result.Amount}</p>
+                ))}
+            </div>
+        )
     }
 
-    const Matches = () => {
-        if(matches === true){
-            return(
-                <div className='divider'>
-                    <h2>Matches</h2>
-                    <p>Aantal matches {matchesDB.length}</p>
-                    <button className='button-simple' onClick={matchesLink}>Bekijk</button>
-                </div>
-            )
-        } else {
-            return null
-        }
+    const QuestionnaireResults = ({field}) => {
+
+        console.log(field)
+
+        return(
+            <div></div>
+        )
     }
-
-    const memberLink = () => {
-
-    }
-
-    const matchesLink = () => {
-        
-    }
-
-
-
-
-        
-    
-
-
 
     return (
         <div className="main">

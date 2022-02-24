@@ -277,9 +277,9 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3 style={{display: showCommunity()}}>Community</h3>
                         <div className="channel-inner-div">
-                            <Link activeClassName='active' to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</Link>
-                            <Link activeClassName='active' to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</Link>
-                            <Link activeClassName='active' to={`/${client}/WelcomeSettings`} style={{display: showWelcome()}}>Welkom</Link>
+                            <Link to={`/${client}/ChannelSettings`} style={{display: showChannels()}}>Kanalen</Link>
+                            <Link to={`/${client}/GroupSettings`} style={{display: showGroups()}}>Groepen</Link>
+                            <Link to={`/${client}/WelcomeSettings`} style={{display: showWelcome()}}>Welkom</Link>
                         </div>
                     </div>
             } else {
@@ -292,7 +292,7 @@ const LeftSideBarAuthProfile = () => {
             return <div style={{display: showProjectManagement()}}>
                     <h3>Projectbeheer</h3>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/TaskSettings`} onClick={changeMenuStatus}>Taken</Link>
+                        <Link to={`/${client}/TaskSettings`} onClick={changeMenuStatus}>Taken</Link>
                     </div>
                 </div>
         } else {
@@ -306,10 +306,10 @@ const LeftSideBarAuthProfile = () => {
             return <div style={{display: showMatching()}}>
                         <h3>Matching</h3>
                         <div className="channel-inner-div">
-                            <Link activeClassName='active' to={`/${client}/AddMatchItem`} onClick={changeMenuStatus}>Match items</Link>
-                            <Link activeClassName='active' to={`/${client}/MatchCategories`} onClick={changeMenuStatus}>Categorien en tags</Link>
-                            <Link activeClassName='active' to={`/${client}/MatchProfileFields`} onClick={changeMenuStatus}>Profielvelden</Link>
-                            <Link activeClassName='active' to={`/${client}/RoadMap`} onClick={changeMenuStatus}>Stappenplan</Link>
+                            <Link to={`/${client}/AddMatchItem`} onClick={changeMenuStatus}>Match items</Link>
+                            <Link to={`/${client}/MatchCategories`} onClick={changeMenuStatus}>Categorien en tags</Link>
+                            <Link to={`/${client}/MatchProfileFields`} onClick={changeMenuStatus}>Profielvelden</Link>
+                            <Link to={`/${client}/RoadMap`} onClick={changeMenuStatus}>Stappenplan</Link>
                         </div>
                     </div>
         } else {
@@ -322,13 +322,13 @@ const LeftSideBarAuthProfile = () => {
             return <div style={{display: showImpact()}}>
                     <h3>Impact</h3>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
-                        <Link activeClassName='active' to={`/${client}/ActivitySettings`} onClick={changeMenuStatus}>Activiteiten</Link>
-                        <Link activeClassName='active' to={`/${client}/Output`} onClick={changeMenuStatus}>Resultaten</Link>
-                        <Link activeClassName='active' to={`/${client}/Instruments`} onClick={changeMenuStatus}>Meetinstrumenten</Link>
-                        <Link activeClassName='active' to={`/${client}/QuestionnaireSettings`} onClick={changeMenuStatus}>Vragenlijsten</Link>
-                        <Link activeClassName='active' to={`/${client}/Stakeholders`} onClick={changeMenuStatus}>Stakeholders</Link>
-                        <Link activeClassName='active' to={`/${client}/Impacthub`} onClick={changeMenuStatus}>Impacthub</Link>
+                        <Link to={`/${client}/GoalSettings`} onClick={changeMenuStatus}>Doelen</Link>
+                        <Link to={`/${client}/ActivitySettings`} onClick={changeMenuStatus}>Activiteiten</Link>
+                        <Link to={`/${client}/Output`} onClick={changeMenuStatus}>Resultaten</Link>
+                        <Link to={`/${client}/Instruments`} onClick={changeMenuStatus}>Meetinstrumenten</Link>
+                        <Link to={`/${client}/QuestionnaireSettings`} onClick={changeMenuStatus}>Vragenlijsten</Link>
+                        <Link to={`/${client}/Stakeholders`} onClick={changeMenuStatus}>Stakeholders</Link>
+                        <Link to={`/${client}/Impacthub`} onClick={changeMenuStatus}>Impacthub</Link>
                     </div>
                 </div>
         } else {
@@ -341,9 +341,9 @@ const LeftSideBarAuthProfile = () => {
         return  <div>
                     <h3>Mijn activiteiten</h3>
                     <div className="channel-inner-div">
-                        <Link activeClassName='active' to={`/${client}/MyMessages/${authO.ID}`} onClick={changeMenuStatus}>Mijn berichten</Link>
-                        <Link activeClassName='active' to={`/${client}/Likes/${authO.ID}`} onClick={changeMenuStatus} style={{display: showCommunity()}}>Mijn likes</Link>
-                        <Link activeClassName='active' to={`/${client}/MyEvents/${authO.ID}`} onClick={changeMenuStatus} style={{display: showChannels()}}>Mijn events</Link>
+                        <Link to={`/${client}/MyMessages/${authO.ID}`} onClick={changeMenuStatus}>Mijn berichten</Link>
+                        <Link to={`/${client}/Likes/${authO.ID}`} onClick={changeMenuStatus} style={{display: showCommunity()}}>Mijn likes</Link>
+                        <Link to={`/${client}/MyEvents/${authO.ID}`} onClick={changeMenuStatus} style={{display: showChannels()}}>Mijn events</Link>
                     </div>
                 </div>
     }

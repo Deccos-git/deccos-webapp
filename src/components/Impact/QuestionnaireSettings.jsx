@@ -19,6 +19,8 @@ const QuestionnaireSettings = () => {
 
     const questionnaires = useFirestore('Questionnaires')
 
+    console.log(questionnaires)
+
     const newQuestionnaire = () => {
 
         db.collection('Questionnaires')
@@ -29,7 +31,7 @@ const QuestionnaireSettings = () => {
             Compagny: client,
         })
         .then(() => {
-            history.push(`/${client}/AddQuestionnaire/${id}`)
+            history.push(`/${client}/CreateQuestionnaire/${id}`)
         })
     }
 
@@ -37,7 +39,7 @@ const QuestionnaireSettings = () => {
 
         const ID = e.target.dataset.id
 
-        history.push(`/${client}/AddQuestionnaire/${ID}`)
+        history.push(`/${client}/CreateQuestionnaire/${ID}`)
     }
 
     const sendQuestionnaire = (e) => {
@@ -96,11 +98,11 @@ const QuestionnaireSettings = () => {
                 <div className="divider">
                     <h2>Vragenlijsten</h2>
                     {questionnaires && questionnaires.map(questionnaire => (
-                        <div className='impact-questionnaires-container'>
+                        <div className='impact-questionnaires-container' key={questionnaire.ID}>
                             <h3>{questionnaire.Title}</h3>
                             <div id='impact-questionnaire-icon-container'>
                                 <Responses questionnaire={questionnaire}/>
-                                <img src={sendIcon} alt="" data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire} />
+                                {/* <img src={sendIcon} alt="" data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire} /> */}
                                 <img src={editIcon} alt="" data-id={questionnaire.ID} onClick={questionnaireLink}/>
                             </div>
                         </div>
