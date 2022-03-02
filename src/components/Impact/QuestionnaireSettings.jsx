@@ -19,8 +19,6 @@ const QuestionnaireSettings = () => {
 
     const questionnaires = useFirestore('Questionnaires')
 
-    console.log(questionnaires)
-
     const newQuestionnaire = () => {
 
         db.collection('Questionnaires')
@@ -39,7 +37,7 @@ const QuestionnaireSettings = () => {
 
         const ID = e.target.dataset.id
 
-        history.push(`/${client}/CreateQuestionnaire/${ID}`)
+        history.push(`/${client}/QuestionnaireSettingsDetail/${ID}`)
     }
 
     const sendQuestionnaire = (e) => {

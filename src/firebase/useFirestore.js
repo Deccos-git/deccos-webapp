@@ -827,7 +827,7 @@ const useFirestoreQuestionnaireFields = (id) => {
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
         .where('Compagny', '==', client)
-        .where('QuestionnaireID', '==', id)
+        .where('ID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {

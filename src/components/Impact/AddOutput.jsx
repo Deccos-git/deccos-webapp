@@ -89,7 +89,7 @@ const AddOutput = () => {
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="settings-inner-container">
                 <div className="divider card-header">
-                    <h1>Resultaat toevoegen</h1>
+                    <h1>Output toevoegen</h1>
                 </div>
                 <div className='divider'>
                     <h2>Selecteer een doel</h2>
@@ -111,7 +111,7 @@ const AddOutput = () => {
                 </div>
                 <div className='divider'>
                     <div>
-                      <h2>Geef het resultaat een titel</h2>
+                      <h2>Geef de output een titel</h2>
                       <input type="text" placeholder='Schrijf hier de titel van het resultaat' onChange={titleHandler} />
                     </div>
                 </div>

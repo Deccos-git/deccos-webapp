@@ -106,19 +106,19 @@ const Output = () => {
             <LeftSideBarAuthProfileFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h1>Impact resultaten</h1>
-                    <p>Verander de instellingen van de impact resultaten</p>
+                    <h1>Output</h1>
+                    <p>Verander de instellingen van de impact outputs</p>
                 </div>
                 <div className='divider'>
-                    <h2>Resultaat toevoegen</h2>
+                    <h2>Output toevoegen</h2>
                     <Link to={`/${client}/AddOutput`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
                 </div>
                 <div>
-                    <h2>Resultaten</h2>
+                    <h2>Outputs</h2>
                     {outputs && outputs.map(output => (
                         <div id="output-container" key={output.ID} style={{backgroundColor: color}}>
-                            <h3><b>{output.Type}</b></h3>
-                            <p id={output.ID} >{output.Title}</p>
+                            <h3><b>{output.Title}</b></h3>
+                            <p>{output.Type}</p>
                             <h4>Meetinstrumenten</h4>
                             <div className='output-instrument-container'>
                                 <Instruments output={output}/>

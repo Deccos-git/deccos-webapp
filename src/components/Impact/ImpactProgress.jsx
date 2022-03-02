@@ -55,7 +55,7 @@ const ImpactProgress = () => {
             <div>
             <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
             <div id='impact-progress-goal-container' className='divider'>
-                <h2>{goal.Goal}</h2>
+                <h2>{goal.Title}</h2>
                 <div className='progressionbar-outer-bar'>
                     <ProgressionBarGoal goal={goal}/>
                 </div>
@@ -66,7 +66,7 @@ const ImpactProgress = () => {
                     </div>
                     <div className='goal-meta-inner-container'>
                         <h3>Doelgroep</h3>
-                        <p>{goal.TargetGroup}</p>
+                        <p>{goal.Targetgroup}</p>
                     </div>
                     <div className='goal-meta-inner-container'>
                         <h3>Impact op doelgroep</h3>

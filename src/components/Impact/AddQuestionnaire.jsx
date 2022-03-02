@@ -21,8 +21,8 @@ const AddQuestionnaire = ({output}) => {
     const [showScale, setShowScale] = useState('none')
     const [type, setType ] = useState('paragraph')
     const [question, setQuestion] = useState(null)
-    const [reachStart, setReachStart] = useState(0)
-    const [reachEnd, setReachEnd] = useState(0)
+    const [reachStart, setReachStart] = useState(1)
+    const [reachEnd, setReachEnd] = useState(5)
     const [reachStartLabel, setReachStartlabel] = useState(null)
     const [reachEndLabel, setReachEndLabel] = useState(null)
     const [goalTitle, setGoalTitle] = useState('')
@@ -209,6 +209,7 @@ const AddQuestionnaire = ({output}) => {
                 <div className='questionnaire-field-scale-container' style={{display: showScale}}>
                     <div className='select-scale-container'>
                         <select name="" id="" onChange={reachStartHandler}>
+                            <option value=""></option>
                             <option value="0">0</option>
                             <option value="1" selected>1</option>
                         </select>

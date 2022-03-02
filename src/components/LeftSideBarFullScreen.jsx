@@ -162,6 +162,9 @@ const LeftSideBarFullScreen = () => {
                         <Link to={`/${client}/Activities`} onClick={changeMenuStatus}>Activiteiten</Link>
                     </div>
                     <div className="channel-inner-div">
+                        <Link to={`/${client}/Milestones`} onClick={changeMenuStatus}>Mijlpalen</Link>
+                    </div>
+                    <div className="channel-inner-div">
                         <Link to={`/${client}/Tasks/${authO.ID}`} onClick={changeMenuStatus}>Taken</Link>
                     </div>
                 </div>

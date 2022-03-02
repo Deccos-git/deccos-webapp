@@ -92,6 +92,11 @@ import Instruments from './Impact/Instruments';
 import AddInstrument from './Impact/AddInstrument';
 import InstrumentDetail from './Impact/InstrumentDetail';
 import CreateQuestionnaire from './Impact/CreateQuestionnaire';
+import QuestionnaireSettingsDetail from './Impact/QuestionnaireSettingsDetail';
+import Milestones from './ProjectManagement/Milestones';
+import AddMilestone from './ProjectManagement/AddMilestone';
+import MilestoneSettingsDetail from './ProjectManagement/MilestoneSettingsDetail';
+import MilestoneSettings from './ProjectManagement/MilestoneSettings';
 
 const Main = () => {
 
@@ -148,6 +153,18 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/TaskSettings`}>
                     <TaskSettings/>
+                </Route>
+                <Route path={`/${client}/MilestoneSettings`}>
+                    <MilestoneSettings/>
+                </Route>
+                <Route path={`/${client}/AddMilestone`}>
+                    <AddMilestone/>
+                </Route>
+                <Route path={`/${client}/MilstoneSettingsDetail`}>
+                    <MilestoneSettingsDetail/>
+                </Route>
+                <Route path={`/${client}/Milestones`}>
+                    <Milestones/>
                 </Route>
                 <Route path={`/${client}/MatchCategories`}>
                     <MatchCategories/>
@@ -229,6 +246,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/QuestionnaireSettings`}>
                     <QuestionnaireSettings/>
+                </Route>
+                <Route path={`/${client}/QuestionnaireSettingsDetail`}>
+                    <QuestionnaireSettingsDetail/>
                 </Route>
                 <Route path={`/${client}/AddQuestionnaire`}>
                     <AddQuestionnaire/>

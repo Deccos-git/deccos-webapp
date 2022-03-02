@@ -11,13 +11,16 @@ import { useState } from "react";
 import { bucket } from "../../firebase/config";
 import firebase from "firebase";
 import MenuStatus from "../../hooks/MenuStatus";
+import ButtonClicked from "../../hooks/ButtonClicked";
 
 
 const GoalSettingsDetail = () => {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [banner, setBanner] = useState("")
-    const [type, setType] = useState("")
+    const [impactTargetgroup, setImpactTargetgroup] = useState('')
+    const [impactSociety, setImpactSociety] = useState('')
+    const [targetgroup, setTargetgroup] = useState('')
 
     const route = Location()[3]
     const menuState = MenuStatus()
@@ -27,13 +30,13 @@ const GoalSettingsDetail = () => {
 
     const deleteGoal = (e) => {
 
-        goals && goals.forEach(goal => {
-            db.collection("Goals")
-            .doc(goal.docid)
-            .delete()
-            .then(() => {
-                history.push(`/${client}/GoalSettings`)
-            })
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .delete()
+        .then(() => {
+            history.push(`/${client}/GoalSettings`)
         })
     }
 
@@ -47,36 +50,15 @@ const GoalSettingsDetail = () => {
 
     const saveTitle = (e) => {
 
-        goals && goals.forEach(goal => {
-            db.collection("Goals")
-            .doc(goal.docid)
-            .update({
-                Title: title
-            })
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Title: title
         })
-
-        e.target.innerHTML = "Opgeslagen"
-    }
-
-    const bodyHandler = (e) => {
-
-        const body = e.target.value
-
-        setBody(body)
-
-    }
-
-    const saveBody = (e) => {
-
-        goals && goals.forEach(goal => {
-            db.collection("Goals")
-            .doc(goal.docid)
-            .update({
-                Body: body
-            })
-        })
-
-        e.target.innerHTML = "Opgeslagen"
     }
 
     const bannerHandler = (e) => {
@@ -114,15 +96,79 @@ const GoalSettingsDetail = () => {
     }
 
     const saveBanner = (e) => {
-        goals && goals.forEach(goal => {
-            db.collection("Goals")
-            .doc(goal.docid)
-            .update({
-                Banner: banner
-            })
-        })
 
-        e.target.innerHTML = "Opgeslagen"
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Banner: banner
+        })
+    }
+
+    const impactTargetgroupHandler = (e) => {
+        const input = e.target.value 
+
+        setImpactTargetgroup(input)
+    }
+
+    const saveImpactTargetgroup = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+            .doc(docid)
+            .update({
+                ImpactTargetgroup: impactTargetgroup
+            })
+
+    }
+
+    const impactSocietyHandler = (e) => {
+        const input = e.target.value 
+
+        setImpactSociety(input)
+    }
+
+    const saveImpactSociety = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+            .doc(docid)
+            .update({
+                ImpactSociety: impactSociety
+            })
+
+    }
+
+    const targetgroupHandler = (e) => {
+        const input = e.target.value 
+
+        setTargetgroup(input)
+    }
+
+    const saveTargetgroup = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        console.log(docid)
+        console.log(targetgroup)
+
+        db.collection("Goals")
+            .doc(docid)
+            .update({
+                Targetgroup: targetgroup
+            })
+
     }
 
     return (
@@ -140,7 +186,7 @@ const GoalSettingsDetail = () => {
                         <h2>Titel</h2>
                         <input className="input-classic" type="text" defaultValue={goal.Title} onChange={titleHandler}/>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                            <button className="button-simple"  data-docid={goal.docid} onClick={saveTitle}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
@@ -148,7 +194,7 @@ const GoalSettingsDetail = () => {
                         <img className='group-settings-banner' src={goal.Banner} alt="" />
                         <input type="file"  onChange={bannerHandler}/>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveBanner}>Opslaan</button>
+                            <button className="button-simple" data-docid={goal.docid} onClick={saveBanner}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
@@ -162,28 +208,28 @@ const GoalSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h2>Doelgroep</h2>
-                        <input type="text" defaultValue={goal.TargetGroup} />
+                        <input type="text" defaultValue={goal.Targetgroup} onChange={targetgroupHandler}/>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                            <button className="button-simple"  data-docid={goal.docid} onClick={saveTargetgroup}>Opslaan</button>
                         </div>
                     </div>
                     <div className='divider'>
                         <h2>Impact op doelgroep</h2>
-                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactTargetgroup}></textarea>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactTargetgroup} onChange={impactTargetgroupHandler}></textarea>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                            <button className="button-simple" data-docid={goal.docid} onClick={saveImpactTargetgroup}>Opslaan</button>
                         </div>
                     </div>
                     <div className='divider'>
                         <h2>Impact op maatschappij</h2>
-                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactSociety}></textarea>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactSociety} onChange={impactSocietyHandler}></textarea>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                            <button className="button-simple" data-docid={goal.docid} onClick={saveImpactSociety}>Opslaan</button>
                         </div>
                     </div>
                      <div className="divider">
                         <h3>Doel verwijderen</h3>
-                        <img className="delete-channel" src={deleteIcon} data-id={goal.ID} onClick={deleteGoal} />
+                        <img className="delete-channel" src={deleteIcon} data-id={goal.ID} data-docid={goal.docid} onClick={deleteGoal} />
                     </div>
                  </div>
                 ))}        

@@ -17,15 +17,14 @@ const TaskSettings = () => {
     const menuState = MenuStatus()
 
     const tasks = useFirestore("Tasks")
-    const activities = useFirestore("Activities")
-    const users = useFirestoreUsers(false)
     const banners = useFirestore('Banners')
     const projectManagers = useFirestore('ProjectManagers')
+    const milestones = useFirestore('Milestones')
 
 
-    const [activityTitle, setActivityTitle] = useState('')
+    const [milestoneTitle, setMilestoneTitle] = useState('')
+    const [milestoneID, setMilestoneID] = useState('')
     const [activityID, setActivityID] = useState('')
-    const [goalID, setGoalID] = useState('')
     const [taskTitle, setTaskTitle] = useState('')
     const [date, setDate] = useState('')
     const [userID, setUserID] = useState('')
@@ -42,14 +41,14 @@ const TaskSettings = () => {
         })
     }, [banners])
 
-    const activityHandler = (e) => {
-        const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
-        const activityID = e.target.options[e.target.selectedIndex].dataset.id
-        const goalID = e.target.options[e.target.selectedIndex].dataset.goalid
+    const milestoneHandler = (e) => {
+        const milestoneTitle = e.target.options[e.target.selectedIndex].dataset.title
+        const milestoneID = e.target.options[e.target.selectedIndex].dataset.id
+        const activityID = e.target.options[e.target.selectedIndex].dataset.activityid
 
-        setActivityTitle(activityTitle)
+        setMilestoneTitle(milestoneTitle)
+        setMilestoneID(milestoneID)
         setActivityID(activityID)
-        setGoalID(goalID)
     }
 
     const taskHandler = (e) => {
@@ -102,9 +101,9 @@ const TaskSettings = () => {
         db.collection('Tasks')
         .doc()
         .set({
-            Activity: activityTitle,
+            Milestone: milestoneTitle,
+            MilestoneID: milestoneID,
             ActivityID: activityID,
-            GoalID: goalID,
             ID: ID,
             Compagny: client,
             Timestamp: timestamp,
@@ -173,11 +172,11 @@ const TaskSettings = () => {
                 </div>
                 <div className='divider'>
                     <h2>Taak toevoegen</h2>
-                    <h4>Selecteer een activiteit</h4>
-                    <select name="" id="" onChange={activityHandler}>
-                        <option value="">-- Selecteer een activiteit --</option>
-                        {activities && activities.map(activity => (
-                            <option value="" key={activity.ID} data-id={activity.ID} data-title={activity.Activity} data-goalid={activity.GoalID}>{activity.Activity}</option>
+                    <h4>Selecteer een mijlpaal</h4>
+                    <select name="" id="" onChange={milestoneHandler}>
+                        <option value="">-- Selecteer een mijlpaal --</option>
+                        {milestones && milestones.map(milestone => (
+                            <option value="" key={milestone.ID} data-id={milestone.ID} data-title={milestone.Title} data-activityid={milestone.ActivityID}>{milestone.Title}</option>
                         ))}
                     </select>
                     <h3>Prioriteit</h3>

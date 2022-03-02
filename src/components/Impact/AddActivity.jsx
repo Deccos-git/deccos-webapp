@@ -14,6 +14,7 @@ import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
+import ButtonClicked from "../../hooks/ButtonClicked";
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
@@ -21,9 +22,7 @@ const AddActivity = () => {
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
-    const [effectShort, setEffectShort] = useState('')
-    const [effectMiddle, setEffectMiddle] = useState('')
-    const [effectLong, setEffectLong] = useState('')
+    const [effect, setEffect] = useState('')
     const [ingredients, setIngredients] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
@@ -49,22 +48,10 @@ const AddActivity = () => {
 
     }
 
-    const effectShortHandler = (e) => {
+    const effectHandler = (e) => {
         const effect = e.target.value
 
-        setEffectShort(effect)
-    }
-
-    const effectMiddleHandler = (e) => {
-        const effect = e.target.value
-
-        setEffectMiddle(effect)
-    }
-
-    const effectLongHandler = (e) => {
-        const effect = e.target.value
-
-        setEffectLong(effect)
+        setEffect(effect)
     }
 
     const ingriendentsHandler = (e) => {
@@ -77,7 +64,7 @@ const AddActivity = () => {
 
     const saveActivity = (e) => {
 
-        e.target.innerText = 'Opgeslagen'
+        ButtonClicked(e, 'Opgeslagen')
 
         const id = uuid()
         
@@ -91,9 +78,7 @@ const AddActivity = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            EffectShort: effectShort,
-            EffectMiddle: effectMiddle,
-            EffectLong: effectLong,
+            Effect: effect,
             Ingredients: ingredients,
             Goal: goalTitle,
             GoalID: goalID,
@@ -104,8 +89,8 @@ const AddActivity = () => {
             db.collection('Outputs')
             .doc()
             .set({
-                Title: effectShort,
-                Description: 'Korte termijn effect',
+                Title: effect,
+                Description: 'Effect',
                 ActivityID: id,
                 ID: uuid(),
                 Compagny: client,
@@ -113,42 +98,9 @@ const AddActivity = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Type: `<b>Korte termijn effect</b> van activiteit "${activityTitle}"`
+                Type: `Effect van activiteit "${activityTitle}"`
             })
-        })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
-                Title: effectLong,
-                Description: 'Lange termijn effect',
-                ActivityID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: `Lange termijn effect van activiteit "${activityTitle}"`
-            })
-        })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
-                Title: ingredients,
-                Description: 'Voorwaarden',
-                ActivityID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: `Voorwaarden van activiteit "${activityTitle}"`
-            })
-        })
-        
+        })  
     }
 
     const deleteActivity = (e) => {
@@ -219,13 +171,10 @@ const AddActivity = () => {
                         </select>
                         <h4>Beschrijf activiteit</h4>
                         <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
-                        <h4>Wat is het effect van deze activiteit op de korte termijn (0 - 1,5 jaar)</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={effectShortHandler}></textarea>
-                        <h4>Wat is het effect van deze activiteit op de lange termijn (vanaf 1,5 jaar)</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={effectLongHandler}></textarea>
+                        <h4>Wat is het beoogde effect van deze activiteit</h4>
+                        <textarea name="" id="" cols="30" rows="10" onChange={effectHandler}></textarea>
                         <h4>Onder welke randvoorwaarden kunnen jullie de effecten waarmaken?</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={ingriendentsHandler}></textarea>
-                        <button className='button-simple' onClick={saveActivity}>Opslaan</button>
                 </div>
                 <div className="divider">
                     <h4>Voeg een bannerfoto toe</h4>
@@ -234,6 +183,7 @@ const AddActivity = () => {
                         <img src={loader} alt="" />
                     </div> 
                 </div>
+                <button onClick={saveActivity}>Opslaan</button>
             </div>
             <div className='next-step-impact'>
                 <img src={ArrowRightIcon} alt="" onClick={nextStep}/>

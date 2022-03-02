@@ -236,7 +236,6 @@
 
 .dashboard-internal-results-container{
     background-color: white;
-    padding: 20px;
     border-radius: 5px;
 }
 
@@ -264,6 +263,18 @@
 }
 
 .icon-container-activities img{
+    margin-right: 10px;
+}
+
+#print-questionnaire-container{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#print-questionnaire-container img{
+    width: 30px;
+    height: 30px;
     margin-right: 10px;
 }
 
@@ -354,3 +365,9 @@
         margin-left: 10px;
     }
 }
+
+@media print { 
+    .top-bar, .right-sidebar, .left-side-bar-container, #card-header-title, #print-questionnaire-container { 
+        display: none !important; 
+    } 
+   }
