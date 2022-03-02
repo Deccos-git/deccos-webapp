@@ -355,6 +355,37 @@
     margin-left: 50px;
 }
 
+.goal-meta-title-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: -20px;
+}
+
+.goal-meta-title-container img{
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.goal-meta-inner-container p{
+    margin-left: 30px;
+}
+
+.activity-meta-title-container{
+    display: flex;
+    align-items: center;
+}
+
+.activity-meta-title-container img{
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.activity-meta-title-container p{
+    margin-left: 30px;
+}
+
 @media only screen and (max-width: 1024px){
 
     .activity-inner-container-dashboard {

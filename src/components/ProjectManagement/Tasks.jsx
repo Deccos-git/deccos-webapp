@@ -23,7 +23,7 @@ const Tasks = () => {
     const [allTasksTab, setAllTasksTab] = useState('active-tab')
     const [myTasksTab, setMyTasksTab] = useState('not-active-tab')
     const [calendarTab, setCalendarTab] = useState('not-active-tab')
-    const [activityFilter, setActivityFilter] = useState('')
+    const [milestoneFilter, setMilestoneFilter] = useState('')
     const [priorityFilter, setPriorityFilter] = useState('')
     const [completedFilter, setCompletedFilter] = useState('')
     const [appointedFilter, setAppointedFilter] = useState('')
@@ -35,7 +35,7 @@ const Tasks = () => {
     const route = Location()[3]
 
     const tasks = useFirestore("Tasks")
-    const activities = useFirestore('Activities')
+    const milestones = useFirestore('Milestones')
     const projectManagers = useFirestore('ProjectManagers')
 
     const allTasks = () => {
@@ -53,9 +53,9 @@ const Tasks = () => {
                 Task: task.Task,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Activity: task.Activity,
+                Milestone: task.Milestone,
                 Priority: task.Priority,
-                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
+                Tags:[task.Milestone, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
             }
 
             taskArray.push(taskObject)
@@ -80,9 +80,9 @@ const Tasks = () => {
                 Task: task.Task,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Activity: task.Activity,
+                Milestone: task.Milestone,
                 Priority: task.Priority,
-                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
+                Tags:[task.Milestone, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
             }
 
             taskArray.push(taskObject)
@@ -171,11 +171,11 @@ const Tasks = () => {
 
     }
 
-    const activityFilterHandler = (e) => {
+    const milestoneFilterHandler = (e) => {
 
-        const activity = e.target.options[e.target.selectedIndex].value
+        const milestone = e.target.options[e.target.selectedIndex].value
 
-        setActivityFilter(activity)
+        setMilestoneFilter(milestone)
         
     }
 
@@ -197,7 +197,7 @@ const Tasks = () => {
 
     const filter = () => {
 
-        const filterArray = [activityFilter, priorityFilter, completedFilter, appointedFilter]
+        const filterArray = [milestoneFilter, priorityFilter, completedFilter, appointedFilter]
 
         const newArray = []
 
@@ -252,11 +252,11 @@ const Tasks = () => {
 
                 </div>
                 <div className='task-filter-inner-container'>
-                    <h3>Activiteit</h3>
-                    <select name="" id="" data-categorie={'activities'} onChange={activityFilterHandler}>
+                    <h3>Mijlpaal</h3>
+                    <select name="" id="" data-categorie={'milestones'} onChange={milestoneFilterHandler}>
                         <option value='All'>-- alle -- </option>
-                        {activities && activities.map(activity => (
-                            <option value={activity.Activity} data-categorie={'activities'} key={activity.ID}>{activity.Activity}</option>
+                        {milestones && milestones.map(milestone => (
+                            <option value={milestone.Title} data-categorie={'milestones'} key={milestone.ID}>{milestone.Title}</option>
                         ))}
                     </select>
                 </div>

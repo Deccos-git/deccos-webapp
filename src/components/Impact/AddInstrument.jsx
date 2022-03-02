@@ -21,24 +21,24 @@ const AddInstrument = () => {
     const [matchesSwitch, setMatchesSwitch] = useState(false)
     const [membersSwitch, setMembersSwitch] = useState(false)
     const [dataType, setDataType] = useState('')
-    const [outputTitle, setOutputTitle] = useState('')
-    const [outputData, setOutputData] = useState('')
+    const [milestoneTitle, setMilestoneTitle] = useState('')
+    const [outputData, setMilestoneData] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
 
-    const outputs = useFirestoreID('Outputs', route ? route : '')
+    const milestones = useFirestoreID('Milestones', route ? route : '')
     const questionnaireFields = useFirestoreOutputQuestionnaireFields(route)
 
     console.log(questionnaireFields)
 
     useEffect(() => {
-        outputs && outputs.forEach(output => {
-            setOutputTitle(output.Title)
-            setOutputData(output)
+        milestones && milestones.forEach(milestone => {
+            setMilestoneTitle(milestone.Title)
+            setMilestoneData(milestone)
         })
 
-    },[outputs])
+    },[milestones])
 
     // Switches
 
@@ -125,8 +125,8 @@ const AddInstrument = () => {
             db.collection('ImpactInstruments')
             .doc()
             .set({
-                OutputID: route,
-                OutputTitle: outputTitle,
+                MilestoneID: route,
+                MilestoneTitle: milestoneTitle,
                 ID: uuid(),
                 Compagny: client,
                 Timestamp: timestamp,
@@ -164,12 +164,10 @@ const AddInstrument = () => {
         <div className="settings-inner-container">
             <div className="divider card-header">
                 <h1>Meetinstrument toevoegen</h1>
-                {outputs && outputs.map(output => (
-                    <div className='subtitle-header'>
-                        <p>aan resultaat:</p>
-                        <p><b>{output.Title}</b></p>
-                    </div>
-                ))}
+                <div className='subtitle-header'>
+                    <p>aan resultaat:</p>
+                    <p><b>{milestoneTitle}</b></p>
+                </div>
             </div>
         </div>
         <div>

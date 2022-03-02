@@ -12,12 +12,23 @@ import {
     useFirestoreOutputs,
     useFirestoreImpactInstruments,
     useFirestoreOutputQuestionnaireFields,
-    useFirestoreUsersApproved
+    useFirestoreUsersApproved,
+    useFirestoreMilestones
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
 import { db } from "../../firebase/config";
+import worldIcon from '../../images/icons/world-icon.png'
+import worldIcon2 from '../../images/icons/world-icon2.png'
+import milestoneIcon from '../../images/icons/milestone-icon.png'
+import groupIcon from '../../images/icons/group-icon.png'
+import leafIcon from '../../images/icons/leaf-icon.png'
+import newUserIcon from '../../images/icons/new-user-icon.png'
+import effectIcon from '../../images/icons/traject-icon.png'
+import measureIcon from '../../images/icons/measure-icon.png'
+import questionIcon from '../../images/icons/question-icon.png'
+import houseIcon from '../../images/icons/house-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -53,27 +64,40 @@ const ImpactProgress = () => {
             <>
             {goals && goals.map(goal => (
             <div>
+                <h1>Doel</h1>
             <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
             <div id='impact-progress-goal-container' className='divider'>
                 <h2>{goal.Title}</h2>
-                <div className='progressionbar-outer-bar'>
+                {/* <div className='progressionbar-outer-bar'>
                     <ProgressionBarGoal goal={goal}/>
-                </div>
+                </div> */}
                 <div id='goal-meta-container'>
                     <div className='goal-meta-inner-container'>
-                        <h3>SDG</h3>
+                        <div className='goal-meta-title-container'>
+                            <img src={worldIcon} alt="" />
+                            <h3>SDG</h3>
+                        </div>
                         <p>{goal.SDG}</p>
                     </div>
                     <div className='goal-meta-inner-container'>
-                        <h3>Doelgroep</h3>
+                        <div className='goal-meta-title-container'>
+                            <img src={groupIcon} alt="" />
+                            <h3>Doelgroep</h3>
+                        </div>
                         <p>{goal.Targetgroup}</p>
                     </div>
                     <div className='goal-meta-inner-container'>
-                        <h3>Impact op doelgroep</h3>
+                        <div className='goal-meta-title-container'>
+                            <img src={newUserIcon} alt="" />
+                            <h3>Impact op doelgroep</h3>
+                        </div>
                         <p>{goal.ImpactTargetgroup}</p>
                     </div>
                     <div className='goal-meta-inner-container'>
-                        <h3>Impact maatschappij</h3>
+                        <div className='goal-meta-title-container'>
+                            <img src={leafIcon} alt="" />
+                            <h3>Impact maatschappij</h3>
+                        </div>
                         <p>{goal.ImpactSociety}</p>
                     </div>
                 </div>
@@ -123,15 +147,20 @@ const ImpactProgress = () => {
                     <div className='activity-inner-container-dashboard' key={activity.ID} style={{backgroundColor: color}}>
                         <img id='impact-dasboard-activity-banner' src={activity.Banner} alt="" />
                         <h3>{activity.Activity}</h3>
-                        <div className='progressionbar-outer-bar'>
-                        <ProgressionBarActivity activity={activity}/>
-                            <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
+                        <div className='goal-meta-inner-container'>
+                            <div className='goal-meta-title-container'>
+                                <img src={effectIcon} alt="" />
+                                <h3>Effect</h3>
+                            </div>
+                            <p>{activity.Effect}</p>
                         </div>
                         <div>
-                            <h4>Resultaten</h4>
-                            <Output activity={activity}/>
+                            <Milestones activity={activity}/>
                         </div>
-                        
+                        {/* <div className='progressionbar-outer-bar'>
+                            <ProgressionBarActivity activity={activity}/>
+                            <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
+                        </div> */}
                     </div>
                 ))}
                 </div>
@@ -139,20 +168,30 @@ const ImpactProgress = () => {
         )
     }
 
-    const Output = ({activity}) => {
+    const Milestones = ({activity}) => {
 
-        const outputs = useFirestoreOutputs('ActivityID', activity.ID)
+        const milestones = useFirestoreMilestones(activity.ID) 
 
-        return (
-            <div className='impact-dashboard-output-container'>
-                {outputs && outputs.map(output => (
-                    <div>
-                        <h5>{output.Description}</h5>
-                        <p>{output.Title}</p>
+        console.log(milestones)
+
+        return(
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={milestoneIcon} alt="" />
+                    <h3>Mijlpalen</h3>
+                </div>
+                {milestones && milestones.map(milestone => (
+                    <div className='impact-dashboard-output-container'>
+                        <h4>{milestone.Title}</h4>
+                        <p>Doel: {milestone.TargetAmount}</p>
+                        <p>Huidig: {milestone.CurrentAmount}</p>
+                        <div className='activity-meta-title-container'>
+                            <img src={measureIcon} alt="" />
+                            <h4>Meetinstrumenten</h4>
+                        </div>
                         <div className='dashboard-instruments-container' style={{backgroundColor: color}}>
-                            <h5>Meetinstrumenten</h5>
-                            <Instruments output={output}/>
-                            <QuestionnairyFields output={output}/>
+                            <Instruments milestone={milestone}/>
+                            <QuestionnairyFields milestone={milestone}/>
                         </div>
                     </div>
                 ))}
@@ -160,12 +199,15 @@ const ImpactProgress = () => {
         )
     }
 
-    const Instruments = ({output}) => {
-        const instruments = useFirestoreImpactInstruments(output.ID) 
+    const Instruments = ({milestone}) => {
+        const instruments = useFirestoreImpactInstruments(milestone.ID) 
         
         return(
             <div className='output-instrument-inner-container'>
-                <h4>Interne instrumenten</h4>
+                <div className='activity-meta-title-container'>
+                    <img src={houseIcon} alt="" />
+                    <h5>Interne instrumenten</h5>
+                </div>
                 {instruments && instruments.map(instrument => (
                     <div className='dashboard-internal-results-container'>
                         <p data-id={instrument.ID}>{instrument.Output.Output}</p>
@@ -176,13 +218,16 @@ const ImpactProgress = () => {
         )
     }
 
-    const QuestionnairyFields= ({output}) => {
+    const QuestionnairyFields= ({milestone}) => {
 
-        const questionnaireFields = useFirestoreOutputQuestionnaireFields(output.ID)
+        const questionnaireFields = useFirestoreOutputQuestionnaireFields(milestone.ID)
 
         return(
             <div className='output-instrument-inner-container'>
-                <h4>Vragen</h4>
+                <div className='activity-meta-title-container'>
+                    <img src={questionIcon} alt="" />
+                    <h5>Vragen</h5>
+                </div>
                 {questionnaireFields && questionnaireFields.map(field => (
                     <div className='dashboard-internal-results-container'>
                         <p key={field.ID} data-id={field.ID}>{field.Question}</p>

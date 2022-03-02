@@ -150,36 +150,6 @@ const AddGoal = () => {
                 Link: `GoalDetail/${id}`
             })
         })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
-                Title: impactSociety,
-                GoalID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: `Impact van doel op maatschappij van doel "${title}"'`
-            })
-        })
-        .then(() => {
-            db.collection('Outputs')
-            .doc()
-            .set({
-                Title: impactTargetgroup,
-                GoalID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: `Impact van doel op doelgroep van doel "${title}""`
-            })
-        })
     }
 
     const selectSDG = (e) => {

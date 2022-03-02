@@ -24,6 +24,7 @@ const AddActivity = () => {
     const [activityTitle, setActivityTitle] = useState('')
     const [effect, setEffect] = useState('')
     const [ingredients, setIngredients] = useState('')
+    const [externalFactors, setExternalfactors] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
 
@@ -62,6 +63,12 @@ const AddActivity = () => {
         
     }
 
+    const externalFactorsHandler = (e) => {
+        const externalFactors = e.target.value 
+
+        setExternalfactors(externalFactors)
+    }
+
     const saveActivity = (e) => {
 
         ButtonClicked(e, 'Opgeslagen')
@@ -80,6 +87,7 @@ const AddActivity = () => {
             UserID: authO.ID,
             Effect: effect,
             Ingredients: ingredients,
+            Externalfactors: externalFactors,
             Goal: goalTitle,
             GoalID: goalID,
             Progression: 0,
@@ -113,7 +121,7 @@ const AddActivity = () => {
 
     const nextStep = () => {
 
-        history.push(`/${client}/Output`)
+        history.push(`/${client}/MilestoneSettings`)
 
     }
 
@@ -175,6 +183,8 @@ const AddActivity = () => {
                         <textarea name="" id="" cols="30" rows="10" onChange={effectHandler}></textarea>
                         <h4>Onder welke randvoorwaarden kunnen jullie de effecten waarmaken?</h4>
                         <textarea name="" id="" cols="30" rows="10" onChange={ingriendentsHandler}></textarea>
+                        <h4>Welke externe factoren (positief en negatief) hebben invloed het waarmaken van het effect?</h4>
+                        <textarea name="" id="" cols="30" rows="10" onChange={externalFactorsHandler}></textarea>
                 </div>
                 <div className="divider">
                     <h4>Voeg een bannerfoto toe</h4>
@@ -187,7 +197,7 @@ const AddActivity = () => {
             </div>
             <div className='next-step-impact'>
                 <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
-                <h3 onClick={nextStep}>Volgende stap: resulaten toevoegen</h3>
+                <h3 onClick={nextStep}>Volgende stap: mijlpalen toevoegen</h3>
             </div>
         </div>
         <RightSideBar />

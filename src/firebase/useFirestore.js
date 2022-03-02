@@ -965,7 +965,7 @@ const useFirestoreImpactInstruments = (id) => {
     useEffect(() => {
         const unsub = db.collection('ImpactInstruments')
         .where('Compagny', '==', client)
-        .where('OutputID', '==', id)
+        .where('MilestoneID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1027,6 +1027,29 @@ const useFirestoreOutputs = (type,id) => {
     return docs
 };
 
+const useFirestoreMilestones = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Milestones')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -1072,5 +1095,6 @@ export {
     useFirestoreMatchTagsType,
     useFirestoreImpactInstruments,
     useFirestoreOutputQuestionnaireFields,
-    useFirestoreOutputs
+    useFirestoreOutputs,
+    useFirestoreMilestones
 }

@@ -61,6 +61,12 @@ const Impacthub = () => {
                     <p>Verander de instellingen voor de impacthub</p>
                 </div>
                 <div className='divider'>
+                    <h2>Deel impactdashboard op impacthub</h2>
+                </div>
+                <div className='divider'>
+                    <h2>Deel mijlpalen op impacthub</h2>
+                </div>
+                <div className='divider'>
                     <h2>Deel vragenlijsten op impacthub</h2>
                     {questionnaires && questionnaires.map(questionnaire => (
                         <div className='functionality-container' key={questionnaire.ID}>
@@ -68,9 +74,6 @@ const Impacthub = () => {
                            <ToggleSwitch questionnaire={questionnaire}/>
                         </div>
                     ))}
-                </div>
-                <div>
-                    <h2>Delen op impacthub</h2>
                 </div>
                 <div>
                     <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impacthub</button></a>

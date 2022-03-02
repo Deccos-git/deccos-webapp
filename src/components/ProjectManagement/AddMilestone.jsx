@@ -17,18 +17,29 @@ import { bucket } from '../../firebase/config';
 import ButtonClicked from "../../hooks/ButtonClicked";
 
 const AddMilestone = () => {
+  const [authO] = useContext(Auth)
+
   const [activityID, setActivityID] = useState(null)
   const [activityTitle, setActivityTitle] = useState(null)
   const [goalID, setGoalID] = useState(null)
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [deadline, setDeadline] = useState('')
+  const [headerPhoto, setHeaderPhoto] = useState('')
 
   const menuState = MenuStatus()
   const history = useHistory()
 
   const goals = useFirestore('Goals')
   const activities = useFirestoreActivities(goalID && goalID)
+  const banners = useFirestore('Banners')
+
+  useEffect(() => {
+    banners && banners.forEach(banner => {
+        const header = banner.NewGoal
+        setHeaderPhoto(header)
+    })
+  }, [banners])
 
   const goalHandler = (e) => {
     const goalID = e.target.options[e.target.selectedIndex].value 
@@ -66,10 +77,12 @@ const AddMilestone = () => {
 
     ButtonClicked(e, 'Opgeslagen')
 
+    const id = uuid()
+
     db.collection('Milestones')
     .doc()
     .set({
-      ID: uuid(),
+      ID: id,
       Compagny: client,
       Timestamp: timestamp,
       Activity: activityTitle,
@@ -79,6 +92,34 @@ const AddMilestone = () => {
       Deadline: deadline,
       CurrentAmount: 0
     })
+    .then(() => {
+      db.collection("AllActivity")
+      .doc()
+      .set({
+          Title: title,
+          Type: "NewMilestone",
+          Compagny: client,
+          Timestamp: timestamp,
+          ID: id,
+          Description: "heeft een nieuwe mijlpaal toegevoegd:",
+          ButtonText: "Bekijk mijlpaal",
+          User: authO.UserName,
+          UserPhoto: authO.Photo,
+          UserID: authO.ID,
+          Banner: headerPhoto,
+          Link: `MilestoneDetail/${id}`
+      }) 
+  })
+  .then(() => {
+      db.collection("Search")
+      .doc()
+      .set({
+          Name: title,
+          Compagny: client,
+          Type: 'Mijlpaal',
+          Link: `MilestoneDetail/${id}`
+      })
+  })
 
   }
 
@@ -124,10 +165,12 @@ const AddMilestone = () => {
             </div>
             <div className='divider'>
               <h2>Quantificeer je mijlpaal</h2>
+              <p>Maak de mijlpaal concreet door er een aantal aan toe te kennen</p>
               <input type="number" onChange={amountHandler} />
             </div>
             <div className='divider'>
               <h2>Selecteer een deadline</h2>
+              <p>Wat is de uiterste datum warop deze mijlpaal moet zijn bereikt?</p>
               <input type="date" onChange={deadlineHandler} />
             </div>
             <button onClick={saveMilestone}>Opslaan</button>
