@@ -227,11 +227,24 @@
     padding: 20px;
     border-radius: 5px;
     background-color: white;
+    margin: 0px 0px 10px 30px;
 }
 
 .dashboard-instruments-container{
     padding: 20px;
     border-radius: 5px;
+}
+
+#activity-title{
+    text-align: center;
+}
+
+.activity-meta-title-description{
+    margin-left: 30px;
+}
+
+.amount-container p {
+    font-weight: bold;
 }
 
 .dashboard-internal-results-container{
@@ -382,8 +395,15 @@
     margin-right: 10px;
 }
 
-.activity-meta-title-container p{
-    margin-left: 30px;
+.dashboard-questions-container{
+    margin-left: 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.dashboard-questions-container p {
+    font-weight: normal;
+    cursor: none;
 }
 
 @media only screen and (max-width: 1024px){

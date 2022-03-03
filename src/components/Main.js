@@ -95,6 +95,7 @@ import Milestones from './ProjectManagement/Milestones';
 import AddMilestone from './ProjectManagement/AddMilestone';
 import MilestoneSettingsDetail from './ProjectManagement/MilestoneSettingsDetail';
 import MilestoneSettings from './ProjectManagement/MilestoneSettings';
+import MilestoneDetail from './ProjectManagement/MilestoneDetail';
 
 const Main = () => {
 
@@ -154,6 +155,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/MilestoneSettings`}>
                     <MilestoneSettings/>
+                </Route>
+                <Route path={`/${client}/MilestoneDetail`}>
+                    <MilestoneDetail/>
                 </Route>
                 <Route path={`/${client}/AddMilestone`}>
                     <AddMilestone/>

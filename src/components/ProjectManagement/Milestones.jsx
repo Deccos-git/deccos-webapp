@@ -2,25 +2,39 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import {useFirestore} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreTasks, useFirestoreTasksComplete} from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext  } from 'react'
 import settingsIcon from '../../images/icons/settings-icon.png'
+import goalIcon from '../../images/icons/goal-icon.png'
+import completeIcon from '../../images/icons/complete-icon.png'
+import eventIcon from '../../images/icons/event-icon.png'
+import tasklistIcon from '../../images/icons/task-list-icon.png'
 
 const Milestones = () => {
-
     const menuState = MenuStatus()
     const history = useHistory();
 
-    const milestones = useFirestore("Milestones")    
-
+    const milestones = useFirestore("Milestones")  
+    
     const milestoneLink = (e) => {
 
         const id = e.target.dataset.id
 
         history.push(`/${client}/MilestoneDetail/${id}`)
 
+    }
+
+    const Progression = ({milestone}) => {
+        const tasks = useFirestoreTasks(milestone.ID)
+        const tasksCompleted = useFirestoreTasksComplete(milestone.ID)
+
+        return(
+            <div>
+                <p>Totaal: {tasks.length}</p>
+            </div>
+        )
     }
 
   return (
@@ -33,11 +47,36 @@ const Milestones = () => {
             </div>
             {milestones && milestones.map(milestone => (
                 <div className="task-overview-container" key={milestone.ID}>
-                    <div className='task-container'>
-                        <h2>{milestone.Title}</h2>
-                        <p>Beoogd aantal: {milestone.TargetAmount}</p>
-                        <p>Huidig aantal: {milestone.CurrentAmount}</p>
-                        <p>Deadline: {milestone.Deadline}</p>
+                    <div className='milestone-container'>
+                        <h3>{milestone.Title}</h3>
+                        <div>
+                            <div className='activity-meta-title-container amount-container'>
+                                <img src={goalIcon} alt="" />
+                                <p>Beoogd aantal</p>
+                            </div>
+                            <p className='activity-meta-title-description'>{milestone.TargetAmount}</p>
+                        </div>
+                        <div>
+                            <div className='activity-meta-title-container amount-container'>
+                                <img src={completeIcon} alt="" />
+                                <p>Huidig aantal</p>
+                            </div>
+                            <p className='activity-meta-title-description'>{milestone.CurrentAmount}</p>
+                        </div>
+                        <div>
+                            <div className='activity-meta-title-container amount-container'>
+                                <img src={eventIcon} alt="" />
+                                <p>Deadline</p>
+                            </div>
+                            <p className='activity-meta-title-description'>{milestone.Deadline}</p>
+                        </div>
+                        <div>
+                            <div className='activity-meta-title-container amount-container'>
+                                <img src={tasklistIcon} alt="" />
+                                <p>Taken</p>
+                            </div>
+                            <p className='activity-meta-title-description'><Progression milestone={milestone}/></p>
+                        </div>
                         <img src={settingsIcon} alt="" data-id={milestone.ID} onClick={milestoneLink}/>
                     </div>
                 </div>

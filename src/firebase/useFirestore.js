@@ -657,14 +657,14 @@ const useFirestoreSubscriptionsNotApproved = (collection) => {
     return docs
 };
 
-const useFirestoreTasks = (activity) => {
+const useFirestoreTasks = (id) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
         .where('Compagny', '==', client)
-        .where('ActivityID', '==', activity)
+        .where('MilestoneID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -675,19 +675,19 @@ const useFirestoreTasks = (activity) => {
         
         return () => unsub();
 
-    }, [activity])  
+    }, [id])  
 
     return docs
 };
 
-const useFirestoreTasksComplete = (activity) => {
+const useFirestoreTasksComplete = (id) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
         .where('Compagny', '==', client)
-        .where('ActivityID', '==', activity)
+        .where('MilstoneID', '==', id)
         .where('Completed', '==', true)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -699,7 +699,7 @@ const useFirestoreTasksComplete = (activity) => {
         
         return () => unsub();
 
-    }, [activity])  
+    }, [id])  
 
     return docs
 };
@@ -1004,29 +1004,6 @@ const useFirestoreOutputQuestionnaireFields = (id) => {
     return docs
 };
 
-const useFirestoreOutputs = (type,id) => {
-
-    const [docs, setDocs] = useState("")
-
-    useEffect(() => {
-        const unsub = db.collection('Outputs')
-        .where('Compagny', '==', client)
-        .where(type, '==', id)
-        .onSnapshot(querySnapshot => {
-            let docArray = []
-            querySnapshot.forEach(doc => {
-                docArray.push({...doc.data(), docid: doc.id})
-            })
-            setDocs(docArray)
-        })
-        
-        return () => unsub();
-
-    }, [type, id])  
-
-    return docs
-};
-
 const useFirestoreMilestones = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1095,6 +1072,5 @@ export {
     useFirestoreMatchTagsType,
     useFirestoreImpactInstruments,
     useFirestoreOutputQuestionnaireFields,
-    useFirestoreOutputs,
     useFirestoreMilestones
 }

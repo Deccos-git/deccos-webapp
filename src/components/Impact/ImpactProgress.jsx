@@ -29,6 +29,9 @@ import effectIcon from '../../images/icons/traject-icon.png'
 import measureIcon from '../../images/icons/measure-icon.png'
 import questionIcon from '../../images/icons/question-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
+import goalIcon from '../../images/icons/goal-icon.png'
+import completeIcon from '../../images/icons/complete-icon.png'
+import eventIcon from '../../images/icons/event-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -146,7 +149,7 @@ const ImpactProgress = () => {
                 {activities && activities.map(activity => (
                     <div className='activity-inner-container-dashboard' key={activity.ID} style={{backgroundColor: color}}>
                         <img id='impact-dasboard-activity-banner' src={activity.Banner} alt="" />
-                        <h3>{activity.Activity}</h3>
+                        <h3 id='activity-title'>{activity.Activity}</h3>
                         <div className='goal-meta-inner-container'>
                             <div className='goal-meta-title-container'>
                                 <img src={effectIcon} alt="" />
@@ -172,8 +175,6 @@ const ImpactProgress = () => {
 
         const milestones = useFirestoreMilestones(activity.ID) 
 
-        console.log(milestones)
-
         return(
             <div>
                 <div className='activity-meta-title-container'>
@@ -183,8 +184,21 @@ const ImpactProgress = () => {
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container'>
                         <h4>{milestone.Title}</h4>
-                        <p>Doel: {milestone.TargetAmount}</p>
-                        <p>Huidig: {milestone.CurrentAmount}</p>
+                        <div className='activity-meta-title-container amount-container'>
+                            <img src={goalIcon} alt="" />
+                            <p>Doel</p>
+                        </div>
+                        <p className='activity-meta-title-description'> {milestone.TargetAmount}</p>
+                        <div className='activity-meta-title-container amount-container'>
+                            <img src={completeIcon} alt="" />
+                            <p>Huidig</p>
+                        </div>
+                        <p className='activity-meta-title-description'>{milestone.CurrentAmount}</p>
+                        <div className='activity-meta-title-container amount-container'>
+                            <img src={eventIcon} alt="" />
+                            <p>Vervaldatum</p>
+                        </div>
+                        <p className='activity-meta-title-description'>{milestone.Deadline}</p>
                         <div className='activity-meta-title-container'>
                             <img src={measureIcon} alt="" />
                             <h4>Meetinstrumenten</h4>
@@ -229,7 +243,7 @@ const ImpactProgress = () => {
                     <h5>Vragen</h5>
                 </div>
                 {questionnaireFields && questionnaireFields.map(field => (
-                    <div className='dashboard-internal-results-container'>
+                    <div className='dashboard-questions-container'>
                         <p key={field.ID} data-id={field.ID}>{field.Question}</p>
                         <QuestionnaireResults field={field}/>
                     </div>
