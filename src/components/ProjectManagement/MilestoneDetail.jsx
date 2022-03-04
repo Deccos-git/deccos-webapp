@@ -104,12 +104,12 @@ const MilestoneDetail = () => {
             db.collection("AllActivity")
             .doc()
             .set({
-                Title: `1 ${milestoneTitle}`,
+                Title: `${milestoneTitle}`,
                 Type: "NewMilestoneStep",
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: uuid(),
-                Description: "heeft een nieuwe mijlpaal toegevoegd!",
+                Description: "heeft een nieuwe mijlpaal bereikt!",
                 ButtonText: "Bekijk mijlpaal",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
@@ -126,15 +126,15 @@ const MilestoneDetail = () => {
          const steps = useFirestoreMilestoneSteps(milestone.ID)
 
          return(
-             <>
+             <div id='milestone-container-milestone-detail'>
              {steps && steps.map(step => (
                 <div className='add-milestone-container' style={{backgroundColor: color}}>
-                    <h4>1 {step.MilestoneTitle}</h4>
+                    <h4>{step.MilestoneTitle}</h4>
                     <img src={festiveIcon} alt="" />
                     <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                 </div>
              ))}
-             </>
+             </div>
          )
     }
 
@@ -163,7 +163,7 @@ const MilestoneDetail = () => {
                         <div>
                             <h3>Mijlpaal toevoegen</h3>
                             <div className='add-milestone-container' style={{backgroundColor: color}}>
-                                <h4>1 {milestone.Title}</h4>
+                                <h4>{milestone.Title}</h4>
                                 <img src={festiveIcon} alt="" />
                                 <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
                             </div>

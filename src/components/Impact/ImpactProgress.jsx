@@ -242,15 +242,15 @@ const ImpactProgress = () => {
         const steps = useFirestoreMilestoneSteps(milestone.ID)
 
         return(
-            <>
+            <div id='milestone-container-milestone-detail'>
             {steps && steps.map(step => (
                <div className='dashboard-milestone-step-container'>
-                   <p>1 {step.MilestoneTitle}</p>
+                   <p>{step.MilestoneTitle}</p>
                    <img src={festiveIcon} alt="" />
                    <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                </div>
             ))}
-            </>
+            </div>
         )
    }
 
