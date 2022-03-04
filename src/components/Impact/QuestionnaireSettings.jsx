@@ -9,6 +9,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import { useFirestore } from "../../firebase/useFirestore"
 import sendIcon from '../../images/icons/send-icon.png'
 import editIcon from '../../images/icons/edit-icon.png'
+import deleteIcon from '../../images/icons/delete-icon.png'
 import { useState } from 'react';
 
 const QuestionnaireSettings = () => {
@@ -29,7 +30,7 @@ const QuestionnaireSettings = () => {
             Compagny: client,
         })
         .then(() => {
-            history.push(`/${client}/CreateQuestionnaire/${id}`)
+            history.push(`/${client}/AddQuestionnaire/${id}`)
         })
     }
 
@@ -83,6 +84,16 @@ const QuestionnaireSettings = () => {
 
     }
 
+    const deleteQuestionnaire = (e) => {
+
+        const docid = e.target.dataset.docid
+
+        db.collection('Questionnaires')
+        .doc(docid)
+        .delete()
+
+    }
+
     return (
         <div className="main">
         <LeftSideBarAuthProfile />
@@ -102,6 +113,7 @@ const QuestionnaireSettings = () => {
                                 <Responses questionnaire={questionnaire}/>
                                 {/* <img src={sendIcon} alt="" data-key={questionnaire.Key} data-id={questionnaire.ID} onClick={sendQuestionnaire} /> */}
                                 <img src={editIcon} alt="" data-id={questionnaire.ID} onClick={questionnaireLink}/>
+                                <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={questionnaire.docid} onClick={deleteQuestionnaire} />
                             </div>
                         </div>
                     ))}

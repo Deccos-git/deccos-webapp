@@ -314,6 +314,7 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/GoalSettings`}>Doelen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/ActivitySettings`}>Activiteiten</NavLink>
+                        <NavLink activeClassName='active' to={`/${client}/OutputSettings`}>Outputs</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Mijlpalen</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/Instruments`}>Meetinstrumenten</NavLink>
                         <NavLink activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</NavLink>

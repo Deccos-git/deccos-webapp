@@ -10,8 +10,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import { useFirestoreID, useFirestoreOutputQuestionnaireFields } from "../../firebase/useFirestore";
-import AddQuestionnaire from "./AddQuestionnaire";
+import { useFirestoreID, useFirestore } from "../../firebase/useFirestore";
 
 const AddInstrument = () => {
     const [authO] = useContext(Auth)
@@ -21,24 +20,22 @@ const AddInstrument = () => {
     const [matchesSwitch, setMatchesSwitch] = useState(false)
     const [membersSwitch, setMembersSwitch] = useState(false)
     const [dataType, setDataType] = useState('')
-    const [milestoneTitle, setMilestoneTitle] = useState('')
-    const [outputData, setMilestoneData] = useState('')
+    const [outputTitle, setOutputTitle] = useState('')
+    const [outputData, setOutputData] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
 
-    const milestones = useFirestoreID('Milestones', route ? route : '')
-    const questionnaireFields = useFirestoreOutputQuestionnaireFields(route)
-
-    console.log(questionnaireFields)
+    const outputs = useFirestoreID('Outputs', route ? route : '')
+    const questionnaires = useFirestore('Questionnaires')
 
     useEffect(() => {
-        milestones && milestones.forEach(milestone => {
-            setMilestoneTitle(milestone.Title)
-            setMilestoneData(milestone)
+        outputs && outputs.forEach(output => {
+            setOutputTitle(output.Title)
+            setOutputData(output)
         })
 
-    },[milestones])
+    },[outputs])
 
     // Switches
 
@@ -109,11 +106,11 @@ const AddInstrument = () => {
         const totalArray = []
 
         if(matchesSwitch === true){
-            totalArray.push({Output:'Aantal matches', Datatype: 'amount'})
+            totalArray.push({Output:'Aantal matches', Datatype: 'Automatisch gegenereerd'})
         }
 
         if(membersSwitch === true){
-            totalArray.push({Output:'Aantal leden van de community', Datatype: 'amount'})
+            totalArray.push({Output:'Aantal leden van de community', Datatype: 'Automatisch gegenereerd'})
         }
 
         if(outputArray.length > 0){
@@ -125,8 +122,8 @@ const AddInstrument = () => {
             db.collection('ImpactInstruments')
             .doc()
             .set({
-                MilestoneID: route,
-                MilestoneTitle: milestoneTitle,
+                OutputID: route,
+                OutputTitle: outputTitle,
                 ID: uuid(),
                 Compagny: client,
                 Timestamp: timestamp,
@@ -141,7 +138,7 @@ const AddInstrument = () => {
 
     const addIndicator = (e) => {
 
-        setOutputArray([...outputArray, {Output:output, Datatype: dataType}])
+        setOutputArray([...outputArray, {Output:output, Datatype: 'Handmatig genereren', ID: uuid()}])
   
       }
     
@@ -156,6 +153,13 @@ const AddInstrument = () => {
 
     }
 
+    const questionnaireHandler = (e) => {
+        const questionnaireID = e.target.options[e.target.selectedIndex].value
+        const questionnaireTitle = e.target.options[e.target.selectedIndex].dataset.title
+
+        setOutputArray([...outputArray, {Output:questionnaireTitle, Datatype: 'Vragenlijst', ID: questionnaireID}])
+    }
+
   return (
     <div className="main">
     <LeftSideBarAuthProfile />
@@ -165,8 +169,8 @@ const AddInstrument = () => {
             <div className="divider card-header">
                 <h1>Meetinstrument toevoegen</h1>
                 <div className='subtitle-header'>
-                    <p>aan resultaat:</p>
-                    <p><b>{milestoneTitle}</b></p>
+                    <p>aan output:</p>
+                    <p><b>{outputTitle}</b></p>
                 </div>
             </div>
         </div>
@@ -185,8 +189,14 @@ const AddInstrument = () => {
                 </div>
             </div>
             <div className='divider'>
-                <h2>Voeg een vraag toe</h2>
-                <AddQuestionnaire output={outputData}/>
+                <h2>Voeg een vragenlijst toe</h2>
+                <select name="" id="" onChange={questionnaireHandler}>
+                    <option value="">-- Selecteer een vragenlijst --</option>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                        <option value={questionnaire.ID} data-title={questionnaire.Title}>{questionnaire.Title}</option>
+                    ))}
+                </select>
+                
             </div>
             <div className='divider'>
                 <h2>Selecteer bestaande meetinstrument</h2>
@@ -201,11 +211,6 @@ const AddInstrument = () => {
                 {outputArray && outputArray.map(output => (
                     <div className='functionality-container'>
                     <p>{output.Output}</p>
-                    </div>
-                ))}
-                {questionnaireFields && questionnaireFields.map(field => (
-                    <div className='functionality-container'>
-                        <p>{field.Question}</p>
                     </div>
                 ))}
             </div>

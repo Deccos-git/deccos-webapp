@@ -19,19 +19,15 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 const AddMilestone = () => {
   const [authO] = useContext(Auth)
 
-  const [activityID, setActivityID] = useState(null)
-  const [activityTitle, setActivityTitle] = useState(null)
-  const [goalID, setGoalID] = useState(null)
+  const [outputID, setOutputID] = useState(null)
+  const [outputTitle, setOutputTitle] = useState(null)
   const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [deadline, setDeadline] = useState('')
   const [headerPhoto, setHeaderPhoto] = useState('')
 
   const menuState = MenuStatus()
   const history = useHistory()
 
-  const goals = useFirestore('Goals')
-  const activities = useFirestoreActivities(goalID && goalID)
+  const outputs = useFirestore('Outputs')
   const banners = useFirestore('Banners')
 
   useEffect(() => {
@@ -41,36 +37,18 @@ const AddMilestone = () => {
     })
   }, [banners])
 
-  const goalHandler = (e) => {
-    const goalID = e.target.options[e.target.selectedIndex].value 
+  const outputHandler = (e) => {
+    const outputID = e.target.options[e.target.selectedIndex].dataset.id 
+    const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
 
-    setGoalID(goalID)
-  }
-
-  const activityHandler = (e) => {
-    const activityID = e.target.options[e.target.selectedIndex].dataset.id 
-    const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
-
-    setActivityID(activityID)
-    setActivityTitle(activityTitle)
+    setOutputID(outputID)
+    setOutputTitle(outputTitle)
   }
 
   const titleHandler = (e) => {
     const title = e.target.value 
 
     setTitle(title)
-  }
-
-  const amountHandler = (e) => {
-    const amount = e.target.value 
-
-    setAmount(amount)
-  }
-
-  const deadlineHandler = (e) => {
-    const deadline = e.target.value 
-
-    setDeadline(deadline)
   }
 
   const saveMilestone = (e) => {
@@ -85,12 +63,9 @@ const AddMilestone = () => {
       ID: id,
       Compagny: client,
       Timestamp: timestamp,
-      Activity: activityTitle,
-      ActivityID: activityID,
+      Output: outputTitle,
+      OutputID: outputID,
       Title: title,
-      TargetAmount: amount,
-      Deadline: deadline,
-      CurrentAmount: 0
     })
     .then(() => {
       db.collection("AllActivity")
@@ -127,7 +102,7 @@ const AddMilestone = () => {
 
     history.push(`/${client}/TaskSettings`)
 
-}
+  }
 
 
   return (
@@ -141,20 +116,11 @@ const AddMilestone = () => {
             </div>
             <div className='divider'>
               <div>
-                <h2>Selecteer een doel <sup>*</sup></h2>
-                <select name="" id="" onChange={goalHandler}>
-                  <option value="">-- Selecteer een doel --</option>
-                  {goals && goals.map(goal => (
-                    <option value={goal.ID} key={goal.ID}>{goal.Title}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <h2>Selecteer een activiteit<sup>*</sup></h2>
-                <select name="" id="" onChange={activityHandler}>
-                  <option value="">-- Selecteer een activiteit --</option>
-                  {activities && activities.map(activity => (
-                    <option data-id={activity.ID} data-title={activity.Activity} key={activity.ID}>{activity.Activity}</option>
+                <h2>Selecteer een output<sup>*</sup></h2>
+                <select name="" id="" onChange={outputHandler}>
+                  <option value="">-- Selecteer een output --</option>
+                  {outputs && outputs.map(output => (
+                    <option data-id={output.ID} data-title={output.Title} key={output.ID}>{output.Title}</option>
                   ))}
                 </select>
               </div>
@@ -163,17 +129,9 @@ const AddMilestone = () => {
               <h2>Geef de mijlpaal een titel</h2>
               <input type="text" onChange={titleHandler} />
             </div>
-            <div className='divider'>
-              <h2>Quantificeer je mijlpaal</h2>
-              <p>Maak de mijlpaal concreet door er een aantal aan toe te kennen</p>
-              <input type="number" onChange={amountHandler} />
+            <div>
+              <button onClick={saveMilestone}>Opslaan</button>
             </div>
-            <div className='divider'>
-              <h2>Selecteer een deadline</h2>
-              <p>Wat is de uiterste datum warop deze mijlpaal moet zijn bereikt?</p>
-              <input type="date" onChange={deadlineHandler} />
-            </div>
-            <button onClick={saveMilestone}>Opslaan</button>
         </div>
         <div className='next-step-impact'>
             <img src={ArrowRightIcon} alt="" onClick={nextStep}/>

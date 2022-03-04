@@ -827,7 +827,7 @@ const useFirestoreQuestionnaireFields = (id) => {
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
         .where('Compagny', '==', client)
-        .where('ID', '==', id)
+        .where('QuestionnaireID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -965,7 +965,7 @@ const useFirestoreImpactInstruments = (id) => {
     useEffect(() => {
         const unsub = db.collection('ImpactInstruments')
         .where('Compagny', '==', client)
-        .where('MilestoneID', '==', id)
+        .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1004,6 +1004,29 @@ const useFirestoreOutputQuestionnaireFields = (id) => {
     return docs
 };
 
+const useFirestoreOutputs = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Outputs')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMilestones = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1011,7 +1034,30 @@ const useFirestoreMilestones = (id) => {
     useEffect(() => {
         const unsub = db.collection('Milestones')
         .where('Compagny', '==', client)
-        .where('ActivityID', '==', id)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreMilestoneSteps = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('MilestoneSteps')
+        .where('Compagny', '==', client)
+        .where('MilestoneID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1072,5 +1118,7 @@ export {
     useFirestoreMatchTagsType,
     useFirestoreImpactInstruments,
     useFirestoreOutputQuestionnaireFields,
-    useFirestoreMilestones
+    useFirestoreOutputs,
+    useFirestoreMilestones,
+    useFirestoreMilestoneSteps
 }

@@ -54,9 +54,10 @@ const ActivitySettings = () => {
                     <Link to={`/${client}/AddActivity`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
                 </div>
                 <div className='divider'>
+                    <h2>Activiteiten</h2>
                     {activities && activities.map(activity => (
                         <div id="members-container" key={activity.ID}>
-                            <h3 id={activity.ID} >{activity.Activity}</h3>
+                            <p id={activity.ID} >{activity.Activity}</p>
                             <div className='icon-container-activities'>
                                 <img src={settingsIcon} alt="" className="userrole-users-delete-button" data-id={activity.ID} onClick={activityLink}/>
                                 <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={activity.docid} onClick={deleteActivity} />

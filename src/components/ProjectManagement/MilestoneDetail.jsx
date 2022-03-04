@@ -2,12 +2,13 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreMessages, useFirestore } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore , useFirestoreMilestoneSteps} from "../../firebase/useFirestore"
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import ArrowLeftIcon from '../../images/icons/arrow-left-icon.png'
 import userIcon from '../../images/icons/user-icon.png'
+import festiveIcon from '../../images/icons/festive-icon.png'
 import Reaction from "../Community/Reaction"
 import MessageBar from "../Community/MessageBar"
 import { Auth } from '../../StateManagment/Auth';
@@ -18,22 +19,31 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 
 const MilestoneDetail = () => {
     const [authO] = useContext(Auth)
+    const [color, setColor] = useState('')
 
     const [headerPhoto, setHeaderPhoto] = useState('')
     const [title, setTitle] = useState(null)
     const [completed, setCompleted] = useState('')
-    const [activityID, setActivityID] = useState('')
     const [docid, setDocid] = useState('')
-    const [currentAmount, setCurrentAmount] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric'};
     const history = useHistory();
 
     const milestones = useFirestoreID('Milestones', route)
     const reactions = useFirestoreMessages("Messages", route )
     const banners = useFirestore('Banners')  
+    const colors = useFirestore('Colors')
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -47,30 +57,13 @@ const MilestoneDetail = () => {
         milestones && milestones.forEach(milestone => {
             setTitle(milestone.Title)
             setCompleted(milestone.Completed)
-            setActivityID(milestone.ActivityID)
             setDocid(milestone.docid)
         })
     }, [milestones])
 
-    const taskCompleted = () => {
-        if(completed === false){
-            return 'Nee'
-        } else if (completed === true){
-            return 'Ja'
-        }
-    }
-
     const backToOverview = () => {
 
         history.push(`/${client}/Milestones`)
-
-    }
-
-    const activityLink = (e) => {
-
-        const id = e.target.dataset.id
-
-        history.push(`/${client}/ActivityDetail/${id}`)
 
     }
 
@@ -91,48 +84,32 @@ const MilestoneDetail = () => {
         })
     }
 
-    const currentAmountHandler = (e) => {
-        const amount = e.target.value
-        
-        setCurrentAmount(amount)
-        
-    }
-
-    const saveMilestoneStep = (e) => {
+    const saveMilestone= (e) => {
 
         ButtonClicked(e, 'Opgeslagen')
 
-        const docid = e.target.dataset.docid
         const milestoneID = e.target.dataset.id
         const milestoneTitle = e.target.dataset.title
 
-        db.collection('Milestones')
-        .doc(docid)
-        .update({
-            CurrentAmount: currentAmount
-        })
-        .then(() => {
-            db.collection('MilestoneSteps')
-            .doc()
-            .set({
-                Compagny: client,
-                Timestamp: timestamp,
-                MilestoneID: milestoneID,
-                MilestoneTitle: milestoneTitle,
-                Step: currentAmount,
-                ID: uuid()
-            })
+        db.collection('MilestoneSteps')
+        .doc()
+        .set({
+            Compagny: client,
+            Timestamp: timestamp,
+            MilestoneID: milestoneID,
+            MilestoneTitle: milestoneTitle,
+            ID: uuid()
         })
         .then(() => {
             db.collection("AllActivity")
             .doc()
             .set({
-                Title: `${milestoneTitle}. Gezette stap: ${currentAmount}`,
+                Title: `1 ${milestoneTitle}`,
                 Type: "NewMilestoneStep",
                 Compagny: client,
                 Timestamp: timestamp,
                 ID: uuid(),
-                Description: "heeft een nieuwe stap gezet richting een mijlpaal:",
+                Description: "heeft een nieuwe mijlpaal toegevoegd!",
                 ButtonText: "Bekijk mijlpaal",
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
@@ -142,6 +119,23 @@ const MilestoneDetail = () => {
             }) 
         })
 
+    }
+
+    const MilestoneSteps = ({milestone}) => {
+
+         const steps = useFirestoreMilestoneSteps(milestone.ID)
+
+         return(
+             <>
+             {steps && steps.map(step => (
+                <div className='add-milestone-container' style={{backgroundColor: color}}>
+                    <h4>1 {step.MilestoneTitle}</h4>
+                    <img src={festiveIcon} alt="" />
+                    <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                </div>
+             ))}
+             </>
+         )
     }
 
     return (
@@ -159,26 +153,20 @@ const MilestoneDetail = () => {
                 <div className='task-detail-container'>
                     <div className='task-detail-inner-container'>
                         <div>
-                            <h3>Afgerond</h3>
-                            <p>{taskCompleted()}</p>
-                        </div>
-                        <div className='pointer'>
-                            <h3>Activiteit</h3>
-                            <p data-id={milestone.ActivityID} onClick={activityLink}>{milestone.Activity}</p>
-                        </div>
-                        <div>
-                            <h3>Huidig aantal</h3>
-                            <input className='activity-meta-title-description' type="number" defaultValue={milestone.CurrentAmount} onChange={currentAmountHandler} />
-                            <button className='button-simple' data-title={milestone.Title} data-docid={milestone.docid} data-id={milestone.ID} onClick={saveMilestoneStep}>Opslaan</button>
-                        </div>
-                        
-                        <div>
-                            <h3>Vervaldatum</h3>
-                            <p>{milestone.Deadline}</p>
-                        </div>
-                        <div>
                             <h3>Gecreerd op</h3>
                             <p>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                        </div>
+                        <div>
+                            <h3>Mijlpalen</h3>
+                            <MilestoneSteps milestone={milestone}/>
+                        </div>
+                        <div>
+                            <h3>Mijlpaal toevoegen</h3>
+                            <div className='add-milestone-container' style={{backgroundColor: color}}>
+                                <h4>1 {milestone.Title}</h4>
+                                <img src={festiveIcon} alt="" />
+                                <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
+                            </div>
                         </div>
                     </div>
                 </div>

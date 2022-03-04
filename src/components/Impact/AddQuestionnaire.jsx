@@ -3,61 +3,50 @@ import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScree
 import RightSideBar from "../rightSideBar/RightSideBar"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestore } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore"
 import { useState, useEffect } from 'react';
 import { db, timestamp } from "../../firebase/config";
 import { client } from "../../hooks/Client";
 import uuid from 'react-uuid';
-import ButtonClicked from '../../hooks/ButtonClicked'
-import deleteIcon from '../../images/icons/delete-icon.png'
-import { useHistory } from "react-router-dom";
+import ButtonClicked from "../../hooks/ButtonClicked";
 
-const AddQuestionnaire = ({output}) => {
+const AddQuestionnaire = () => {
     const [title, setTitle ] = useState('Titel van vragenlijst')
     const [docid, setDocid ] = useState('')
-    const [ID, setID ] = useState('')
-    const [key, setKey] = useState('')
     const [showParagraph, setShowParagraph] = useState('block')
     const [showScale, setShowScale] = useState('none')
     const [type, setType ] = useState('paragraph')
     const [question, setQuestion] = useState(null)
-    const [reachStart, setReachStart] = useState(1)
-    const [reachEnd, setReachEnd] = useState(5)
+    const [reachStart, setReachStart] = useState(0)
+    const [reachEnd, setReachEnd] = useState(0)
     const [reachStartLabel, setReachStartlabel] = useState(null)
     const [reachEndLabel, setReachEndLabel] = useState(null)
-    const [goalTitle, setGoalTitle] = useState('')
-    const [goalID, setGoalID] = useState('')
-    const [questionnaireGoal, setQuestionnaireGoal] = useState('')
-    const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
-    const history = useHistory()
-    const colors = useFirestore('Colors')
 
     const questionnares = useFirestoreID('Questionnaires', route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)
-    const goals = useFirestore('Goals')
 
     useEffect(() => {
         questionnares && questionnares.forEach(questionnare => {
             setTitle(questionnare.Title)
             setDocid(questionnare.docid)
-            setID(questionnare.ID)
-            setGoalID(questionnare.goalID)
-            setQuestionnaireGoal(questionnare.GoalTitle)
-            setKey(questionnare.Key)
         })
     }, [questionnares])
 
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
+    const titleHandler = (e) => {
 
-            setColor(background)
+        const title = e.target.value 
+
+        setTitle(title)
+
+        db.collection('Questionnaires')
+        .doc(docid)
+        .update({
+            Title: title
         })
-
-    },[colors])
+    }
 
     const typeHandler = (e) => {
 
@@ -124,7 +113,7 @@ const AddQuestionnaire = ({output}) => {
             Compagny: client,
             ID: uuid(),
             Timestamp: timestamp,
-            OutputID: output.ID,
+            QuestionnaireID: route,
             Type: type,
             Question: question,
             ReachStart: parseInt(reachStart),
@@ -136,10 +125,20 @@ const AddQuestionnaire = ({output}) => {
     }
 
     const QuestionnaireField = ({field}) => {
+
+        const [question, setQuestion] = useState(null)
         const [range, setRange] = useState(null)
+
+        useEffect(() => {
+
+            setQuestion(field.Question)
+    
+        }, [field])
 
         const start = field.ReachStart
         const end = field.ReachEnd
+
+        console.log(field.Type)
 
         useEffect(() => {
 
@@ -158,16 +157,15 @@ const AddQuestionnaire = ({output}) => {
 
         if(field.Type === 'paragraph'){
             return(
-                <div className='question-type-display-container' style={{backgroundColor: color}}>
-                    <input type='text' value={field.Question} />
+                <div className='question-type-display-container'>
+                    <input type='text' value={question} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
-                    <img className='delete-field-icon' src={deleteIcon} alt="" data-docid={field.docid} onClick={deleteField}/>
                 </div>
             )
         } else if(field.Type === 'scale'){
             return(
-                <div className='question-type-display-container' style={{backgroundColor: color}}>
-                   <input type='text' value={field.Question} />
+                <div className='question-type-display-container'>
+                   <input type='text' value={question} />
                    <div id='scale-container'>
                        {field.ReachStartLable}
                        {range && range.map(btn => (
@@ -178,63 +176,73 @@ const AddQuestionnaire = ({output}) => {
                        ))}
                        {field.ReachEndLabel}
                    </div>
-                   <img className='delete-field-icon' src={deleteIcon} alt="" data-docid={field.docid} onClick={deleteField}/>
                 </div>
             )
         }
 
     }
 
-    const deleteField = (e) => {
-
-        const docid = e.target.dataset.docid 
-
-        db.collection('QuestionnaireFields')
-        .doc(docid)
-        .delete()
-
-    }
-
     return (
-        <div>
-            <select name="" id="" onChange={typeHandler}>
-                <option value="paragraph">Textvraag</option>
-                <option value="scale">Schaalvraag</option>
-            </select>
-            <div className='question-type-display-container' style={{backgroundColor: color}}>
-                <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
-                <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
-                    <p id='questionnaire-field-text'>Text antwoord</p>
+        <div className="main">
+        <LeftSideBarAuthProfile />
+        <LeftSideBarAuthProfileFullScreen/>
+        <div className="profile profile-auth-profile" style={{display: menuState}}>
+            <div className="settings-inner-container">
+                <div className="divider card-header-add-questionnaire">
+                    <input type="text" className='editable-text-input' value={title} onChange={titleHandler}/>
                 </div>
-                <div className='questionnaire-field-scale-container' style={{display: showScale}}>
-                    <div className='select-scale-container'>
-                        <select name="" id="" onChange={reachStartHandler}>
-                            <option value=""></option>
-                            <option value="0">0</option>
-                            <option value="1" selected>1</option>
-                        </select>
-                        <input type="text" placeholder='Voeg label toe' onChange={reachStartLabelHandler} />
+                <div className="divider">
+                    <h2>Vraag toevoegen</h2>
+                    <select name="" id="" onChange={typeHandler}>
+                        <option value="paragraph">Textvraag</option>
+                        <option value="scale">Schaalvraag</option>
+                    </select>
+                    <div className='question-type-display-container'>
+                        <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
+                        <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
+                            <p id='questionnaire-field-text'>Text antwoord</p>
+                        </div>
+                        <div className='questionnaire-field-scale-container' style={{display: showScale}}>
+                            <div className='select-scale-container'>
+                                <select name="" id="" onChange={reachStartHandler}>
+                                    <option value="0">0</option>
+                                    <option value="1" selected>1</option>
+                                </select>
+                                <input type="text" placeholder='Voeg label toe' onChange={reachStartLabelHandler} />
+                            </div>
+                            <p id='scale-reach-symbol'>t/m</p>
+                            <div className='select-scale-container'>
+                                <select name="" id="" onChange={reachEndHandler}>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5" selected>5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                                <input type="text" placeholder='Voeg label toe' onChange={reachEndLabelHandler} />
+                            </div>
+                        </div>
                     </div>
-                    <p id='scale-reach-symbol'>t/m</p>
-                    <div className='select-scale-container'>
-                        <select name="" id="" onChange={reachEndHandler}>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5" selected>5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                        <input type="text" placeholder='Voeg label toe' onChange={reachEndLabelHandler} />
+                    <div>
+                        <button className='button-simple' onClick={addField}>Toevoegen</button>
                     </div>
+                </div>
+                <div>
+                    <h2>Vragenlijst</h2>
+                    {questionnaireFields && questionnaireFields.map(field => (
+                        <div>
+                            <QuestionnaireField field={field}/>
+                        </div>
+                    ))}
+
                 </div>
             </div>
-            <div>
-                <button className='button-simple' onClick={addField}>Toevoegen</button>
-            </div>
+        </div>
+        <RightSideBar />
         </div>
     )
 }

@@ -51,27 +51,6 @@ const Milestones = () => {
                         <h3>{milestone.Title}</h3>
                         <div>
                             <div className='activity-meta-title-container amount-container'>
-                                <img src={goalIcon} alt="" />
-                                <p>Beoogd aantal</p>
-                            </div>
-                            <p className='activity-meta-title-description'>{milestone.TargetAmount}</p>
-                        </div>
-                        <div>
-                            <div className='activity-meta-title-container amount-container'>
-                                <img src={completeIcon} alt="" />
-                                <p>Huidig aantal</p>
-                            </div>
-                            <p className='activity-meta-title-description'>{milestone.CurrentAmount}</p>
-                        </div>
-                        <div>
-                            <div className='activity-meta-title-container amount-container'>
-                                <img src={eventIcon} alt="" />
-                                <p>Deadline</p>
-                            </div>
-                            <p className='activity-meta-title-description'>{milestone.Deadline}</p>
-                        </div>
-                        <div>
-                            <div className='activity-meta-title-container amount-container'>
                                 <img src={tasklistIcon} alt="" />
                                 <p>Taken</p>
                             </div>

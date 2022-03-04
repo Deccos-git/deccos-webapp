@@ -44,11 +44,9 @@ const TaskSettings = () => {
     const milestoneHandler = (e) => {
         const milestoneTitle = e.target.options[e.target.selectedIndex].dataset.title
         const milestoneID = e.target.options[e.target.selectedIndex].dataset.id
-        const activityID = e.target.options[e.target.selectedIndex].dataset.activityid
 
         setMilestoneTitle(milestoneTitle)
         setMilestoneID(milestoneID)
-        setActivityID(activityID)
     }
 
     const taskHandler = (e) => {
@@ -103,7 +101,6 @@ const TaskSettings = () => {
         .set({
             Milestone: milestoneTitle,
             MilestoneID: milestoneID,
-            ActivityID: activityID,
             ID: ID,
             Compagny: client,
             Timestamp: timestamp,
@@ -176,7 +173,7 @@ const TaskSettings = () => {
                     <select name="" id="" onChange={milestoneHandler}>
                         <option value="">-- Selecteer een mijlpaal --</option>
                         {milestones && milestones.map(milestone => (
-                            <option value="" key={milestone.ID} data-id={milestone.ID} data-title={milestone.Title} data-activityid={milestone.ActivityID}>{milestone.Title}</option>
+                            <option value="" key={milestone.ID} data-id={milestone.ID} data-title={milestone.Title}>{milestone.Title}</option>
                         ))}
                     </select>
                     <h3>Prioriteit</h3>

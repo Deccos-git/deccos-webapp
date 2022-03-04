@@ -96,6 +96,9 @@ import AddMilestone from './ProjectManagement/AddMilestone';
 import MilestoneSettingsDetail from './ProjectManagement/MilestoneSettingsDetail';
 import MilestoneSettings from './ProjectManagement/MilestoneSettings';
 import MilestoneDetail from './ProjectManagement/MilestoneDetail';
+import OutputSettings from './Impact/OutputSettings';
+import OutputSettingsDetail from './Impact/OutputSettingsDetail';
+import AddOutput from './Impact/AddOutput';
 
 const Main = () => {
 
@@ -152,6 +155,15 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/TaskSettings`}>
                     <TaskSettings/>
+                </Route>
+                <Route path={`/${client}/OutputSettings`}>
+                    <OutputSettings/>
+                </Route>
+                <Route path={`/${client}/OutputSettingsDetail`}>
+                    <OutputSettingsDetail/>
+                </Route>
+                <Route path={`/${client}/AddOutput`}>
+                    <AddOutput/>
                 </Route>
                 <Route path={`/${client}/MilestoneSettings`}>
                     <MilestoneSettings/>
