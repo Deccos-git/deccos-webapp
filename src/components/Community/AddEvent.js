@@ -291,7 +291,7 @@ const AddEvent = () => {
             LocationName: locationName,
             LocationAdres: street,
             LocationCity: city,
-            Type: 'Event',
+            Type: 'Events',
             ChannelID: channelID
         })
         .then(() => {

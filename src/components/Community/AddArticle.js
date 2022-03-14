@@ -240,6 +240,7 @@ const AddArticle = () => {
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
+            Type: 'KnowledgeCentre',
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,

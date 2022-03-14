@@ -192,7 +192,8 @@ const AddGroupChannelItem = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: bannerPhoto
+            Banner: bannerPhoto,
+            Type: 'ChannelItems'
         })
         .then(() => {
             db.collection("AllActivity")

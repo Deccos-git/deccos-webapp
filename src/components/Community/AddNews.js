@@ -195,7 +195,8 @@ const AddNews = () => {
             UserPhoto: authO.Photo,
             UserID: authO.ID,
             Banner: bannerPhoto,
-            ChannelID: channelID
+            ChannelID: channelID,
+            Type: 'News'
         })
         .then(() => {
             db.collection("AllActivity")

@@ -56,8 +56,6 @@ const ChannelSettingsDetail = () => {
         setChannelName(name)
     }
 
-    console.log(itemsArray)
-
     const saveName = () => {
 
         channels && channels.forEach(channel => {
@@ -114,21 +112,9 @@ const ChannelSettingsDetail = () => {
 
     const deleteItem = (e) => {
         const id = e.target.dataset.id
-        const name = e.target.dataset.name
+        const type = e.target.dataset.type
 
-        let collection = ''
-
-        if(name === 'Kenniscentrum'){
-            collection = 'KnowledgeCentre'
-        } else if(name === 'Nieuws'){
-            collection = 'News'
-        } else if(name === 'Events'){
-            collection = 'Events'
-        } else {
-            collection = 'ChannelItems'
-        }
-
-        db.collection(collection)
+        db.collection(type)
         .doc(id)
         .delete()
     }
@@ -172,7 +158,7 @@ const ChannelSettingsDetail = () => {
                         {itemsArray && itemsArray.map(item => (
                             <div className='channel-container'>
                                 <p>{item.Title}</p>
-                                <img className="delete-channel" src={deleteIcon} data-name={item.Name} data-id={item.docid} onClick={deleteItem} />
+                                <img className="delete-channel" src={deleteIcon} data-type={item.Type} data-id={item.docid} onClick={deleteItem} />
                             </div>
                         ))}
                     </div>

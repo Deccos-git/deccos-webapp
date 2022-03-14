@@ -325,16 +325,15 @@
     flex-direction: column;
 }
 
+#impact-banner{
+    width: 100%;
+    border-radius: 5px;
+}
+
 .internal-results-container{
     background-color: white;
     border-radius: 5px;
     padding: 5px;
-}
-
-.output-instrument-inner-container p{
-    margin-left: 10px;
-    font-weight: bold;
-    cursor: pointer;
 }
 
 .add-instrument-button{
