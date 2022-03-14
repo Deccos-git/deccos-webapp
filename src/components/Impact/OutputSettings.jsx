@@ -6,11 +6,13 @@ import { Link } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
-import {useFirestore, useFirestoreImpactInstruments, useFirestoreOutputQuestionnaireFields } from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreImpactInstruments} from "../../firebase/useFirestore"
 import settingsIcon from '../../images/icons/settings-icon.png'
 import { db } from "../../firebase/config.js"
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
+import measureIcon from '../../images/icons/measure-icon.png'
+import effectIcon from '../../images/icons/traject-icon.png'
 
 const OutputSettings = () => {
     const [color, setColor] = useState('')
@@ -104,10 +106,18 @@ const OutputSettings = () => {
             {outputs && outputs.map(output => (
             <div id="output-container" key={output.ID} style={{backgroundColor: color}}>
                 <h3><b>{output.Title}</b></h3>
-                <h4>Meetinstrumenten</h4>
-                    <div>
-                        <Instruments output={output}/>
-                    </div>
+                <div className='goal-meta-title-container'>
+                    <img src={effectIcon} alt="" />
+                    <h4>Effect</h4>
+                </div>
+                <p className='output-seeting-effect'>{output.Effect}</p>
+                <div className='goal-meta-title-container'>
+                    <img src={measureIcon} alt="" />
+                    <h4>Meetinstrumenten</h4>
+                </div>
+                <div>
+                    <Instruments output={output}/>
+                </div>
                 <div className='icon-container-activities'>
                     <img src={settingsIcon} alt="" className="userrole-users-delete-button" data-id={output.ID} onClick={outputLink}/>
                     <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={output.docid} onClick={deleteOutput} />

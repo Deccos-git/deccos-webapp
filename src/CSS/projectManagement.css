@@ -154,6 +154,12 @@
     margin-right: 10px;
 }
 
+#add-goal-sdg-container input{
+    width: auto;
+    box-shadow: none;
+    margin-right: 10px;
+}
+
 .task-inner-container{
   margin: 5px 10px;
   display: flex;

@@ -34,6 +34,9 @@ import completeIcon from '../../images/icons/complete-icon.png'
 import eventIcon from '../../images/icons/event-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
 import festiveIcon from '../../images/icons/festive-icon.png'
+import preconditionsIcon from '../../images/icons/preconditions-icon.png'
+import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
+import impactIcon from '../../images/icons/impact-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -79,9 +82,11 @@ const ImpactProgress = () => {
                     <div className='goal-meta-inner-container'>
                         <div className='goal-meta-title-container'>
                             <img src={worldIcon} alt="" />
-                            <h3>SDG</h3>
+                            <h3>SDGs</h3>
                         </div>
-                        <p>{goal.SDG}</p>
+                        {goal.SDG && goal.SDG.map(sdg => (
+                            <p>{sdg}</p>
+                        ))}
                     </div>
                     <div className='goal-meta-inner-container'>
                         <div className='goal-meta-title-container'>
@@ -103,6 +108,20 @@ const ImpactProgress = () => {
                             <h3>Impact maatschappij</h3>
                         </div>
                         <p>{goal.ImpactSociety}</p>
+                    </div>
+                    <div className='goal-meta-inner-container'>
+                        <div className='goal-meta-title-container'>
+                            <img src={preconditionsIcon} alt="" />
+                            <h3>Randvoorwaarden</h3>
+                        </div>
+                        <p>{goal.Preconditions}</p>
+                    </div>
+                    <div className='goal-meta-inner-container'>
+                        <div className='goal-meta-title-container'>
+                            <img src={externalFactorsIcon} alt="" />
+                            <h3>Externe factoren</h3>
+                        </div>
+                        <p>{goal.ExternalFactors}</p>
                     </div>
                 </div>
             </div>
@@ -153,10 +172,10 @@ const ImpactProgress = () => {
                         <h3 id='activity-title'>{activity.Activity}</h3>
                         <div className='goal-meta-inner-container'>
                             <div className='goal-meta-title-container'>
-                                <img src={effectIcon} alt="" />
-                                <h3>Effect</h3>
+                                <img src={impactIcon} alt="" />
+                                <h3>Impact</h3>
                             </div>
-                            <p>{activity.Effect}</p>
+                            <p>{activity.Impact}</p>
                         </div>
                         <div>
                             <Outputs activity={activity}/>
@@ -183,11 +202,15 @@ const ImpactProgress = () => {
                 </div>
                 {outputs && outputs.map(output => (
                     <div className='impact-dashboard-output-container'>
-                        <div className='activity-meta-title-container'>
-                            <img src={outputIcon} alt="" />
-                            <h4>{output.Title}</h4>
+                        <h3 className='output-title'>{output.Title}</h3>
+                        <div className='dashboard-instruments-container'>
+                            <div className='activity-meta-title-container'>
+                                <img src={effectIcon} alt="" />
+                                <h4>Effect</h4>
+                            </div>
+                            <p className='output-seeting-effect'>{output.Effect}</p>
                         </div>
-                        <div className='dashboard-instruments-container' style={{backgroundColor: color}}>
+                        <div className='dashboard-instruments-container'>
                             <Instruments output={output}/>
                         </div>
                         <Milestones output={output}/>
@@ -203,14 +226,14 @@ const ImpactProgress = () => {
         const milestones = useFirestoreMilestones(output.ID) 
 
         return(
-            <div>
+            <div className='dashboard-instruments-container'>
                 <div className='activity-meta-title-container'>
                     <img src={festiveIcon} alt="" />
                     <h4>Mijlpalen</h4>
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
-                        <h4>{milestone.Title}</h4>
+                        <h5>{milestone.Title}</h5>
                         <MilestoneSteps milestone={milestone}/>
                     </div>
                 ))}
@@ -225,14 +248,16 @@ const ImpactProgress = () => {
             <div className='output-instrument-inner-container'>
                 <div className='activity-meta-title-container'>
                     <img src={measureIcon} alt="" />
-                    <h5>Meetinstrumenten</h5>
+                    <h4>Meetinstrumenten</h4>
                 </div>
-                {instruments && instruments.map(instrument => (
-                    <div className='dashboard-internal-results-container'>
-                        <p data-id={instrument.ID}>{instrument.Output.Output} ({instrument.Output.Datatype})</p>
-                        <ResultsInternal instrument={instrument}/>
-                    </div>
-                ))}
+                <div className='output-seeting-effect'>
+                    {instruments && instruments.map(instrument => (
+                        <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
+                            <p data-id={instrument.ID}>{instrument.Output.Output} ({instrument.Output.Datatype})</p>
+                            <ResultsInternal instrument={instrument}/>
+                        </div>
+                    ))}
+                </div>
             </div>
         )
     }
@@ -245,7 +270,7 @@ const ImpactProgress = () => {
             <div id='milestone-container-milestone-detail'>
             {steps && steps.map(step => (
                <div className='dashboard-milestone-step-container'>
-                   <p>{step.MilestoneTitle}</p>
+                   <p> + {step.MilestoneTitle}</p>
                    <img src={festiveIcon} alt="" />
                    <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                </div>
@@ -309,7 +334,10 @@ const ImpactProgress = () => {
         return (
             <div>
                 {resultArray && resultArray.map(result => (
-                    <p>{result.Amount}</p>
+                    <div className='internal-results-container'>
+                        <h5>Resultaten</h5>
+                        <p>{result.Amount}</p>
+                    </div>
                 ))}
             </div>
         )

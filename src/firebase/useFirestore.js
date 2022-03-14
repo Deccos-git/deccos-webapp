@@ -1073,6 +1073,27 @@ const useFirestoreMilestoneSteps = (id) => {
     return docs
 };
 
+const useFirestoreSDGs = (collection) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(collection)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [collection])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -1120,5 +1141,6 @@ export {
     useFirestoreOutputQuestionnaireFields,
     useFirestoreOutputs,
     useFirestoreMilestones,
-    useFirestoreMilestoneSteps
+    useFirestoreMilestoneSteps,
+    useFirestoreSDGs
 }

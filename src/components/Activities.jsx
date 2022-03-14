@@ -31,19 +31,20 @@ const Activities = () => {
             <div className='page-header'>
                 <h1>Activiteiten</h1>
             </div>
-            {activities && activities.map(activity => (
-                <div 
-                className="goal-list card" key={activity.ID}>
-                    <img className="goal-card-banner" src={activity.Banner} alt="" />
-                    <div className="goalcard-body-div">
-                        <h2>{activity.Activity}</h2>
+            <div className='card-container'>
+                {activities && activities.map(activity => (
+                    <div 
+                    className="goal-list card" key={activity.ID}>
+                        <img className="goal-card-banner" src={activity.Banner} alt="" />
+                        <div className="goalcard-body-div">
+                            <h2>{activity.Activity}</h2>
+                        </div>
+                        <div className="button-container">
+                            <button className="goal-card-button" data-id={activity.ID} onClick={activityLink} >Bekijk</button>
+                        </div>
                     </div>
-                    <div className="button-container">
-                        <button className="goal-card-button" data-id={activity.ID} onClick={activityLink} >Bekijk</button>
-                    </div>
-                </div>
-            ))}
-
+                ))}
+            </div>
         </div>
         <RightSideBar />
         </div>

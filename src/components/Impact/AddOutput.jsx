@@ -19,6 +19,7 @@ const AddOutput = () => {
     const [activityID, setActivityID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
     const [title, setTitle] = useState('')
+    const [effect, setEffect] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -52,9 +53,18 @@ const AddOutput = () => {
             Compagny: client,
             Timestamp: timestamp,
             Activity: activityTitle,
+            Effect: effect,
             ActivityID: activityID,
             Title: title,
         })
+    }
+
+    const effectHandler = (e) => {
+
+        const effect = e.target.value 
+
+        setEffect(effect)
+
     }
 
     const nextStep = () => {
@@ -83,7 +93,11 @@ const AddOutput = () => {
             </div>
             <div className='divider'>
                 <h2>Geef de output een titel</h2>
-                <input type="text" onChange={titleHandler} />
+                <input type="text" placeholder='Schrijf hier de titel van deze output' onChange={titleHandler} />
+            </div>
+            <div className='divider'>
+                <h2>Wat is het effect van deze output?</h2>
+                <textarea name="" id="" cols="30" rows="10" placeholder='Beschrijf hier het effect van de output' onChange={effectHandler}></textarea>
             </div>
             <div>
                 <button onClick={saveOutput}>Opslaan</button>

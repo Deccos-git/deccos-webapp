@@ -6,7 +6,7 @@ import uuid from 'react-uuid';
 import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "../rightSideBar/RightSideBar"
-import { useFirestore } from '../../firebase/useFirestore.js';
+import { useFirestore, useFirestoreSDGs } from '../../firebase/useFirestore.js';
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
@@ -15,6 +15,7 @@ import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom";
 import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
+import ButtonClicked from "../../hooks/ButtonClicked.jsx";
 
 const AddGoal = () => {
     const [authO] = useContext(Auth)
@@ -22,6 +23,8 @@ const AddGoal = () => {
     const [title, setTitle] = useState("")
     const [impactTargetgroup, setImpactTargetgroup] = useState("")
     const [impactSociety, setImpactSociety] = useState("")
+    const [preconditions, setPreconditions] = useState('')
+    const [externalFactors, setExternalFactors] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
     const [SDG, setSDG] = useState("")
@@ -32,8 +35,8 @@ const AddGoal = () => {
     const menuState = MenuStatus()
     const history = useHistory()
     
-    const compagny = useFirestore("CompagnyMeta")
     const banners = useFirestore('Banners')
+    const sdgs = useFirestoreSDGs('SDGs')
 
     useEffect(() => {
         banners && banners.forEach(banner => {
@@ -103,7 +106,10 @@ const AddGoal = () => {
         })
     }
 
-    const saveGoal = () => {
+    const saveGoal = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
         db.collection("Goals")
         .doc()
         .set({
@@ -111,7 +117,8 @@ const AddGoal = () => {
             ImpactSociety: impactSociety,
             ImpactTargetgroup: impactTargetgroup,
             TargetGroup: targetGroup,
-            Type: 'SDG',
+            Preconditions: preconditions,
+            ExternalFactors: externalFactors,
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
@@ -152,11 +159,26 @@ const AddGoal = () => {
         })
     }
 
-    const selectSDG = (e) => {
+    const SDGhandler = (e) => {
 
-        const SDG = e.target.options[e.target.selectedIndex].value
+        const sdg = e.target.value
 
-        setSDG(SDG)
+        setSDG([...SDG, sdg])
+
+    }
+
+    const preconditionsHandler = (e) => {
+        const precondition = e.target.value 
+
+        setPreconditions(precondition)
+
+    }
+
+    const externalFactorsHandler = (e) => {
+
+        const factors = e.target.value 
+
+       setExternalFactors(factors)
 
     }
 
@@ -195,28 +217,14 @@ const AddGoal = () => {
                     </div>
                     <div className="divider ">
                         <h4>Selecteer een SDG</h4>
-                        <p>Kies welke van de 17 Social Development Goals (SDG's) van de Verenigde Naties (VN) past bij dit doel:</p>
+                        <p>Kies welke van de 17 Social Development Goals (SDG's) van de Verenigde Naties (VN) passen bij dit doel:</p>
                         <div>
-                            <select className="SDG-select"name="" id="" onChange={selectSDG}>
-                                <option value="">--- Selecteer een SDG ---</option>
-                                <option value="Geen armoede">Geen armoede</option>
-                                <option value="Geen honger">Geen honger</option>
-                                <option value="Goede gezondheid en welzijn">Goede gezondheid en welzijn</option>
-                                <option value="Kwaliteitsonderwijs">Kwaliteitsonderwijs</option>
-                                <option value="Gendergelijkheid">Gendergelijkheid</option>
-                                <option value="Schoon water en sanitair">Schoon water en sanitair</option>
-                                <option value="Betaalbare en duurzame energie">Betaalbare en duurzame energie</option>
-                                <option value="Waardig werk en economische groei">Waardig werk en economische groei</option>
-                                <option value="Industrie, innovatie en infrastructuur">Industrie, innovatie en infrastructuur</option>
-                                <option value="Ongelijkheid verminderen">Ongelijkheid verminderen</option>
-                                <option value="Duurzame steden en gemeenschappen">Duurzame steden en gemeenschappen</option>
-                                <option value="Verantwoorde consumptie en productie">Verantwoorde consumptie en productie</option>
-                                <option value="Klimaatactie">Klimaatactie</option>
-                                <option value="Leven in het water">Leven in het water</option>
-                                <option value="Leven op het land">Leven op het land</option>
-                                <option value="Vrede, justitie en sterker publieke diensten">Vrede, justitie en sterke publieke diensten</option>
-                                <option value="Partnerschap om doelstellingen te bereiken">Partnerschap om doelstellingen te bereiken</option>
-                            </select>
+                            {sdgs && sdgs.map(sdg => (
+                                <div id='add-goal-sdg-container'>
+                                    <input type="radio" id={sdg.ID} value={sdg.SDG} onChange={SDGhandler} />
+                                    <label htmlFor={sdg.SDG}>{sdg.SDG}</label>
+                                </div>
+                            ))}
                             <p className="more-sdg" onClick={SDGInformation}><u>Meer over de SDG's</u></p>
                         </div>
                     </div>
@@ -245,6 +253,28 @@ const AddGoal = () => {
                         </textarea>
                     </div>
                     <div className="divider">
+                        <h4>Onder welke randvoorwaarden kunnen jullie de impact waarmaken?</h4>
+                        <textarea className="textarea-classic"
+                        name="body" 
+                        id="body" 
+                        cols="30" 
+                        rows="10" 
+                        placeholder="Omschrijf hier de randvoorwaarden"
+                        onChange={preconditionsHandler}>
+                        </textarea>
+                    </div>
+                    <div className="divider">
+                        <h4>Welke externe factoren (positief en negatief) hebben invloed het waarmaken van het impact?</h4>
+                        <textarea className="textarea-classic"
+                        name="body" 
+                        id="body" 
+                        cols="30" 
+                        rows="10" 
+                        placeholder="Omschrijf hier de externe factoren"
+                        onChange={externalFactorsHandler}>
+                        </textarea>
+                    </div>
+                    <div className="divider">
                         <h4>Voeg een bannerfoto toe</h4>
                         <input className="input-classic" onChange={bannerHandler} type="file" />
                         <div className="spinner-container">
@@ -253,7 +283,7 @@ const AddGoal = () => {
                     </div>
                 </form>
                 <div id="button-add-goal">
-                    <Link to={`/${client}/Goals`}><button onClick={saveGoal}>Opslaan</button></Link>
+                    <Link to={`/${client}/GoalSettings`}><button onClick={saveGoal}>Opslaan</button></Link>
                 </div>
                 <div className='next-step-impact'>
                     <img src={ArrowRightIcon} alt="" onClick={nextStep}/>

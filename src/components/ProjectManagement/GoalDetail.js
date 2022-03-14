@@ -86,7 +86,9 @@ const GoalDetail = () => {
                         <ProgressionBar/>
                         <button className='button-simple' data-id={doc.ID} onClick={activityGoalLink}>Details</button>
                         <h3>SDG</h3>
-                        <p>{doc.SDG}</p>
+                        {doc.SDG && doc.SDG.map(sdg => (
+                            <p>{sdg}</p>
+                        ))}
                         <h3>Impact op maatschappij</h3>
                         <p>{doc.ImpactSociety}</p>
                         <h3>Impact op doelgroep</h3>

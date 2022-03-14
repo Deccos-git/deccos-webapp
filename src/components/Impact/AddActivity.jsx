@@ -22,9 +22,7 @@ const AddActivity = () => {
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
-    const [effect, setEffect] = useState('')
-    const [ingredients, setIngredients] = useState('')
-    const [externalFactors, setExternalfactors] = useState('')
+    const [impact, setImpact] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
 
@@ -49,24 +47,10 @@ const AddActivity = () => {
 
     }
 
-    const effectHandler = (e) => {
-        const effect = e.target.value
+    const impactHandler = (e) => {
+        const impact = e.target.value
 
-        setEffect(effect)
-    }
-
-    const ingriendentsHandler = (e) => {
-
-        const ingredients = e.target.value
-
-        setIngredients(ingredients)
-        
-    }
-
-    const externalFactorsHandler = (e) => {
-        const externalFactors = e.target.value 
-
-        setExternalfactors(externalFactors)
+        setImpact(impact)
     }
 
     const saveActivity = (e) => {
@@ -85,9 +69,7 @@ const AddActivity = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Effect: effect,
-            Ingredients: ingredients,
-            Externalfactors: externalFactors,
+            Impact: impact,
             Goal: goalTitle,
             GoalID: goalID,
             Progression: 0,
@@ -97,7 +79,7 @@ const AddActivity = () => {
             db.collection('Outputs')
             .doc()
             .set({
-                Title: effect,
+                Title: impact,
                 Description: 'Effect',
                 ActivityID: id,
                 ID: uuid(),
@@ -179,12 +161,8 @@ const AddActivity = () => {
                         </select>
                         <h4>Beschrijf activiteit</h4>
                         <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
-                        <h4>Wat is het beoogde effect van deze activiteit</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={effectHandler}></textarea>
-                        <h4>Onder welke randvoorwaarden kunnen jullie de effecten waarmaken?</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={ingriendentsHandler}></textarea>
-                        <h4>Welke externe factoren (positief en negatief) hebben invloed het waarmaken van het effect?</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={externalFactorsHandler}></textarea>
+                        <h4>Wat is het beoogde impact van deze activiteit</h4>
+                        <textarea name="" id="" cols="30" rows="10" onChange={impactHandler}></textarea>
                 </div>
                 <div className="divider">
                     <h4>Voeg een bannerfoto toe</h4>

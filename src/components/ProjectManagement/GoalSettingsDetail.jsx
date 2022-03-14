@@ -1,13 +1,13 @@
 import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile"
 import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
 import RightSideBar from "../rightSideBar/RightSideBar";
-import { useFirestoreID } from "../../firebase/useFirestore";
+import { useFirestoreID, useFirestoreSDGs } from "../../firebase/useFirestore";
 import Location from "../../hooks/Location"
 import { db } from "../../firebase/config";
 import deleteIcon from '../../images/icons/delete-icon.png'
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { bucket } from "../../firebase/config";
 import firebase from "firebase";
 import MenuStatus from "../../hooks/MenuStatus";
@@ -20,13 +20,29 @@ const GoalSettingsDetail = () => {
     const [banner, setBanner] = useState("")
     const [impactTargetgroup, setImpactTargetgroup] = useState('')
     const [impactSociety, setImpactSociety] = useState('')
+    const [preconditions, setPreconditions] = useState('')
+    const [externalFactors, setExternalFactors] = useState('')
     const [targetgroup, setTargetgroup] = useState('')
+    const [SDG, setSDG] = useState("")
+    const [checkedSDGs, setCheckedSDGs] = useState([])
 
     const route = Location()[3]
     const menuState = MenuStatus()
+    const history = useHistory()
 
     const goals = useFirestoreID("Goals", route)
-    const history = useHistory()
+    const sdgs = useFirestoreSDGs('SDGs')
+
+    useEffect(() => {
+
+        {goals && goals.forEach(goal => {
+            const SDGs = goal.SDG 
+
+            setCheckedSDGs(SDGs)
+        })}
+
+    }, [goals])
+    
 
     const deleteGoal = (e) => {
 
@@ -148,6 +164,27 @@ const GoalSettingsDetail = () => {
 
     }
 
+    const SDGhandler = (e) => {
+
+        const sdg = e.target.value
+
+        setSDG([...SDG, sdg])
+
+    }
+
+    const saveSDGs = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            SDG: SDG
+        })
+    }
+
     const targetgroupHandler = (e) => {
         const input = e.target.value 
 
@@ -160,14 +197,57 @@ const GoalSettingsDetail = () => {
 
         const docid = e.target.dataset.docid 
 
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Targetgroup: targetgroup
+        })
+
+    }
+
+    const preconditionsHandler = (e) => {
+        const precondition = e.target.value 
+
+        setPreconditions(precondition)
+
+    }
+
+    const savePreconditions = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
         console.log(docid)
-        console.log(targetgroup)
+        console.log(preconditions)
 
         db.collection("Goals")
-            .doc(docid)
-            .update({
-                Targetgroup: targetgroup
-            })
+        .doc(docid)
+        .update({
+            Preconditions: preconditions
+        })
+
+    }
+
+    const externalFactorsHandler = (e) => {
+
+        const factors = e.target.value 
+
+       setExternalFactors(factors)
+
+    }
+
+    const saveExternalFactors = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            ExternalFactors: externalFactors
+        })
 
     }
 
@@ -199,11 +279,16 @@ const GoalSettingsDetail = () => {
                     </div>
                     <div className="divider">
                         <h2>SDG</h2>
-                        <select name="" id="">
-                            <option defaultValue={goal.SDG}></option>
-                        </select>
+                        <div>
+                        {sdgs && sdgs.map(sdg => (
+                            <div id='add-goal-sdg-container' key={sdg.ID}>
+                                <input type="radio" id={sdg.ID} onChange={SDGhandler} checked={checkedSDGs.includes(sdg.SDG) ? true : false}/>
+                                <label htmlFor={sdg.SDG}>{sdg.SDG}</label>
+                            </div>
+                        ))}
+                        </div>
                         <div className="button-container">
-                            <button className="button-simple" onClick={saveTitle}>Opslaan</button>
+                            <button className="button-simple" data-docid={goal.docid} onClick={saveSDGs}>Opslaan</button>
                         </div>
                     </div>
                     <div className="divider">
@@ -225,6 +310,20 @@ const GoalSettingsDetail = () => {
                         <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ImpactSociety} onChange={impactSocietyHandler}></textarea>
                         <div className="button-container">
                             <button className="button-simple" data-docid={goal.docid} onClick={saveImpactSociety}>Opslaan</button>
+                        </div>
+                    </div>
+                    <div className='divider'>
+                        <h2>Randvoorwaarden</h2>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.Preconditions} onChange={preconditionsHandler}></textarea>
+                        <div className="button-container">
+                            <button className="button-simple" data-docid={goal.docid} onClick={savePreconditions}>Opslaan</button>
+                        </div>
+                    </div>
+                    <div className='divider'>
+                        <h2>Externe factors</h2>
+                        <textarea name="" id="" cols="30" rows="10" defaultValue={goal.ExternalFactors} onChange={externalFactorsHandler}></textarea>
+                        <div className="button-container">
+                            <button className="button-simple" data-docid={goal.docid} onClick={saveExternalFactors}>Opslaan</button>
                         </div>
                     </div>
                      <div className="divider">
