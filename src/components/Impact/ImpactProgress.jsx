@@ -329,8 +329,6 @@ const ImpactProgress = () => {
             })
         }
 
-
-
         return (
             <div>
                 {resultArray && resultArray.map(result => (

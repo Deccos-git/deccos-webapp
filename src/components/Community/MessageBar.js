@@ -10,8 +10,6 @@ import { useLocation } from "react-router-dom"
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location";
 import { useHistory } from "react-router-dom";
-import GetYearMonth from '../../hooks/GetYearMonth'
-import { MentionsInput, Mention } from 'react-mentions'
 
 const MessageBar = () => {
     const [authO, setAuthO] = useContext(Auth)
@@ -24,7 +22,6 @@ const MessageBar = () => {
     const chats = useFirestore("Chats", route)
     const location = useLocation()
     const history = useHistory()
-    const getYearMonth = GetYearMonth()
 
     const messageInput = (e) => {
         const input = e.target.value

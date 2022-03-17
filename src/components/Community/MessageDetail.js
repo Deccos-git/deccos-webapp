@@ -15,7 +15,6 @@ import Reaction from "./Reaction"
 import worldIcon from '../../images/icons/world-icon.png'
 import { useState, useContext, useEffect } from "react"
 import { Auth } from '../../StateManagment/Auth';
-import GetYearMonth from '../../hooks/GetYearMonth'
 import uuid from 'react-uuid';
 import firebase from "firebase"
 
@@ -35,7 +34,6 @@ const MessageDetail = () => {
 
     const history = useHistory()
     const menuState = MenuStatus()
-    const getYearMonth = GetYearMonth()
     const id = uuid()
 
     useEffect(() => {
@@ -224,43 +222,6 @@ const MessageDetail = () => {
             .doc(userDocID)
             .update({
                     Likes: firebase.firestore.FieldValue.increment(1)
-                })
-            })
-            .then(() => {
-
-                console.log(client, getYearMonth, userID)
-                
-                db.collection("LikeGraph")
-                .where("Compagny", "==", client)
-                .where("Month", "==", getYearMonth)
-                .where('UserID', '==', userID )
-                .get()
-                .then(querySnapshot => {
-                    if(querySnapshot.empty === false){
-                        querySnapshot.forEach(doc => {
-
-                            console.log("bestaat")
-
-                            db.collection("LikeGraph")
-                            .doc(doc.id)
-                            .update({
-                                Contributions: firebase.firestore.FieldValue.increment(1)
-                            })
-                        })
-                    } else if (querySnapshot.empty === true){
-                        console.log("bestaat niet")
-                        db.collection("LikeGraph")
-                        .doc()
-                        .set({
-                            Month: getYearMonth,
-                            Contributions: 1,
-                            Compagny: client,
-                            LastActive: timestamp,
-                            ID: uuid(),
-                            UserName: userName,
-                            UserID: userID
-                        })
-                    } 
                 })
             })
             .then (() => {

@@ -5,7 +5,6 @@ import firebase from "firebase"
 import { client } from "../../hooks/Client"
 import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
-import GetYearMonth from '../../hooks/GetYearMonth'
 
 const LikeBar = ({message}) => {
     const [authO] = useContext(Auth)
@@ -15,7 +14,6 @@ const LikeBar = ({message}) => {
     const compagny = useFirestore("CompagnyMeta")
 
     const id = uuid()
-    const getYearMonth = GetYearMonth()
   
     const goalHandler = (e) => {
 

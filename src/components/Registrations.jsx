@@ -9,7 +9,6 @@ import firebase from "firebase";
 import MenuStatus from "../hooks/MenuStatus";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
-import GetYearMonth from '../hooks/GetYearMonth'
 import uuid from 'react-uuid';
 
 const Registrations = () => {
@@ -26,7 +25,6 @@ const Registrations = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
-    const getYearMonth = GetYearMonth()
     const id = uuid()
 
     useEffect(() => {
@@ -122,37 +120,6 @@ const Registrations = () => {
                 Type: "Verification mail email"
                   }     
               });
-        })
-        .then(() => {
-            db.collection("MemberGraph")
-            .where("Compagny", "==", client)
-            .where('Month', '==', getYearMonth)
-            .get()
-            .then(querySnapshot => {
-
-                if(querySnapshot.empty === false){
-
-                    querySnapshot.forEach(doc => {
-
-                        db.collection("MemberGraph")
-                        .doc(doc.id)
-                        .update({
-                            Contributions: firebase.firestore.FieldValue.increment(1)
-                        })
-                    })
-                } else if(querySnapshot.empty === true){
-
-                    db.collection("MemberGraph")
-                    .doc()
-                    .set({
-                        Month: getYearMonth,
-                        Contributions: 1,
-                        Compagny: client,
-                        LastActive: timestamp,
-                        ID: uuid()
-                    })
-                }
-            })
         })
     }
 

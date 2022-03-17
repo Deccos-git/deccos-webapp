@@ -15,8 +15,7 @@ import { bucket } from '../../firebase/config';
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import imageIcon from '../../images/icons/image-icon.png'
-import Modal from 'react-modal';
+import TinyMCE from './TinyMCE'
 
 const AddChannelItem = () => {
     const [authO] = useContext(Auth)
@@ -26,7 +25,6 @@ const AddChannelItem = () => {
     const [body, setBody] = useState("")
     const [bannerPhoto, setBannerPhoto] = useState("")
     const [loader, setLoader] = useState("")
-    const [modalOpen, setModalOpen] = useState(false);
 
     const route = Location()[3]
 
@@ -34,21 +32,8 @@ const AddChannelItem = () => {
     const banners = useFirestore('Banners')
 
     const id = uuid()
-    const editorRef = useRef(null);
     const history = useHistory()
     const menuState = MenuStatus()
-    Modal.setAppElement('#root');
-
-    const modalStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        },
-      };
 
     const variants = {
         hidden: { opacity: 0 },
@@ -72,12 +57,6 @@ const AddChannelItem = () => {
     const titleHandler = (e) => {
         const title = e.target.value
         setTitle(title)
-    }
-
-    const bodyHandler = (e) => {
-        if (editorRef.current) {
-            setBody(editorRef.current.getContent());
-            }
     }
 
     const photoHandler = (e) => {
@@ -112,71 +91,6 @@ const AddChannelItem = () => {
                 })
             })
         })
-    }
-
-    const imageHandler = (e) => {
-        const image = e.target.files[0]
-
-        const fileType = image.type.split("/")
-
-        const storageRef = bucket.ref("/ProfilePhotos/" + image.name);
-        const uploadTask = storageRef.put(image)
-
-        uploadTask.then(() => {
-          
-            uploadTask.on('state_changed', snapshot => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED:
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING:
-                console.log('Upload is running');
-                break;
-            }
-            }, (err) => {
-                alert(err)
-            }, () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('File available at', downloadURL);
-
-            if (editorRef.current) {
-                if(fileType[0] === "image"){
-                    editorRef.current.insertContent(
-                        `
-                        <img style="width:80%" src="${downloadURL}">
-                        `
-                        )
-                } else if(fileType[0] === "video"){
-                    editorRef.current.insertContent(
-                        `
-                        <video width="90%" height="90%" controls autoplay muted>
-                            <source src="${downloadURL}">
-                        </video>
-                        `
-                    )
-                } else if(fileType[0] === "application"){
-                    editorRef.current.insertContent(
-
-                        `
-                        <embed src="${downloadURL}" width="90% height="90%"></embed>
-                        `
-                    )
-                } else {
-                    editorRef.current.insertContent(`<div> src=${downloadURL}</div>`);
-                }
-                }
-                })
-            })
-        })
-    }
-
-    const closeModal = () => {
-        setModalOpen(false);
-      }
-    
-    const afterOpenModal = () => {
-
     }
     
     const saveItem = () => {
@@ -247,49 +161,7 @@ const AddChannelItem = () => {
                         <h2>Geef het item een titel</h2>
                         <input type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
                     </div >
-                    <Modal
-                        isOpen={modalOpen}
-                        onAfterOpen={afterOpenModal}
-                        onRequestClose={closeModal}
-                        style={modalStyles}
-                        contentLabel="Upload file"
-                    >
-                    <div className='add-image-container'>
-                        <img src={imageIcon} alt="" />
-                        <p>Voeg een plaatje of video toe</p>
-                        <input onChange={imageHandler} type="file" />
-                    </div>
-                    </Modal>
-                    <div className="divider">
-                        <h2>Geef het item een omschrijving</h2>
-                        <Editor onChange={bodyHandler}
-                        apiKey="dz1gl9k5tz59z7k2rlwj9603jg6xi0bdbce371hyw3k0auqm"
-                        onInit={(evt, editor) => editorRef.current = editor}
-                        init={{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'advlist autolink lists link image charmap print preview anchor',
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste code help'
-                        ],
-                        toolbar: 'undo redo | formatselect | ' +
-                        'bold italic backcolor | imageFunction | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                        setup: function (editor) {
-
-                            editor.ui.registry.addButton('imageFunction', {
-                              icon: 'image',
-                              onAction: function (_) {
-                                setModalOpen(true);
-                              },
-                            });
-                        },
-                        content_style: 'body { font-family: Raleway, sans-serif; font-size:14px; color: gray }'
-                        }}
-                        />
-                    </div>
+                    <TinyMCE setBody={setBody}/>
                     <div className="divider">
                         <h2>Voeg een bannerfoto toe</h2>
                         <input onChange={photoHandler} type="file" />
