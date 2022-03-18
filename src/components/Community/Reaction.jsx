@@ -672,7 +672,7 @@ const Reaction = ({message}) => {
                                     <div className='delete-message-container' style={{backgroundColor: color}}>
                                         <img src={AtIcon} alt="" onClick={toggleAddUser} />
                                         <img src={emailIcon} alt="" onClick={toggleSendEmail} />
-                                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                                     </div>
                                 </div>
                             </div>
@@ -931,7 +931,7 @@ const Reaction = ({message}) => {
                                     <div className='delete-message-container' style={{backgroundColor: color}}>
                                         <img src={AtIcon} alt="" onClick={toggleAddUser} />
                                         <img src={emailIcon} alt="" onClick={toggleSendEmail} />
-                                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                                     </div>
                                 </div>
                             </div>
@@ -1189,7 +1189,7 @@ const Reaction = ({message}) => {
                                     <div className='delete-message-container' style={{backgroundColor: color}}>
                                         <img src={AtIcon} alt="" onClick={toggleAddUser} />
                                         <img src={emailIcon} alt="" onClick={toggleSendEmail} />
-                                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                                     </div>
                                 </div>
                             </div>
@@ -1450,7 +1450,7 @@ const Reaction = ({message}) => {
                                     <div className='delete-message-container' style={{backgroundColor: color}}>
                                         <img src={AtIcon} alt="" onClick={toggleAddUser} />
                                         <img src={emailIcon} alt="" onClick={toggleSendEmail} />
-                                        <img className="notifications-icon-message" data-id={message.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
+                                        <img className="notifications-icon-message" data-id={reaction.docid} src={deleteIcon} onClick={deleteMessage} alt=""/>
                                     </div>
                                 </div>
                             </div>

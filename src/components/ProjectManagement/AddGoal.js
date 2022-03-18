@@ -116,7 +116,7 @@ const AddGoal = () => {
             Title: title,
             ImpactSociety: impactSociety,
             ImpactTargetgroup: impactTargetgroup,
-            TargetGroup: targetGroup,
+            Targetgroup: targetGroup,
             Preconditions: preconditions,
             ExternalFactors: externalFactors,
             Compagny: client,

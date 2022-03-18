@@ -664,7 +664,7 @@ const useFirestoreTasks = (id) => {
     useEffect(() => {
         const unsub = db.collection('Tasks')
         .where('Compagny', '==', client)
-        .where('MilestoneID', '==', id)
+        .where('ProjectID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -687,7 +687,7 @@ const useFirestoreTasksComplete = (id) => {
     useEffect(() => {
         const unsub = db.collection('Tasks')
         .where('Compagny', '==', client)
-        .where('MilstoneID', '==', id)
+        .where('ProjectID', '==', id)
         .where('Completed', '==', true)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -826,7 +826,6 @@ const useFirestoreQuestionnaireFields = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
-        .where('Compagny', '==', client)
         .where('QuestionnaireID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []

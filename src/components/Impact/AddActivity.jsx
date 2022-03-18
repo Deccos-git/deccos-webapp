@@ -76,11 +76,10 @@ const AddActivity = () => {
             Banner: banner,
         })
         .then(() => {
-            db.collection('Outputs')
+            db.collection('Projects')
             .doc()
             .set({
-                Title: impact,
-                Description: 'Effect',
+                Title: activityTitle,
                 ActivityID: id,
                 ID: uuid(),
                 Compagny: client,
@@ -88,7 +87,7 @@ const AddActivity = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Type: `Effect van activiteit "${activityTitle}"`
+                Type: `ActivityProject"`
             })
         })  
     }

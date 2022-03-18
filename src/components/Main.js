@@ -99,6 +99,7 @@ import MilestoneDetail from './ProjectManagement/MilestoneDetail';
 import OutputSettings from './Impact/OutputSettings';
 import OutputSettingsDetail from './Impact/OutputSettingsDetail';
 import AddOutput from './Impact/AddOutput';
+import Project from './ProjectManagement/Project';
 
 const Main = () => {
 
@@ -203,6 +204,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/RoadMap`}>
                     <RoadMap/>
+                </Route>
+                <Route path={`/${client}/Project`}>
+                    <Project/>
                 </Route>
                 <Route path={`/${client}/KnowledgeCentre`}>
                     <KnowLedgeCentre/>

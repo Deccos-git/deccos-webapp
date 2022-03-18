@@ -21,6 +21,7 @@ const LeftSideBar = () => {
     const channels = useFirestore("Channels")
     const impacteers = useFirestore('Impacteers')
     const admins = useFirestore('Admins')
+    const projects = useFirestore('Projects')
     const projectManagers = useFirestore('ProjectManagers')
     const compagny = useFirestore("CompagnyMeta")
 
@@ -146,18 +147,11 @@ const LeftSideBar = () => {
                     <div className="nav-title-container">
                         <h3>Projectbeheer</h3>
                     </div>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Goals`}>Doelen</NavLink>
-                    </div>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Activities`}>Activiteiten</NavLink>
-                    </div>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Milestones`}>Mijlpalen</NavLink>
-                    </div>
-                    <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Tasks/${authO.ID}`}>Taken</NavLink>
-                    </div>
+                    {projects && projects.map(project => (
+                        <div className="channel-inner-div">
+                            <NavLink activeClassName='active' to={`/${client}/Project/${project.ID}`}>{project.Title}</NavLink>
+                        </div>
+                    ))}
                 </div>
                 <div className="channel-div" style={{display: showMatches()}}>
                     <div className="nav-title-container">

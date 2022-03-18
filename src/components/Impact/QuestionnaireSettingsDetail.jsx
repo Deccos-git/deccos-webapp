@@ -6,19 +6,24 @@ import Location from "../../hooks/Location"
 import { useFirestoreID,   useFirestoreQuestionnaireFields } from "../../firebase/useFirestore";
 import { useEffect, useState } from "react"
 import printIcon from '../../images/icons/print-icon.png'
+import { useHistory } from "react-router-dom"
 
 const QuestionnaireSettingsDetail = () => {
 
     const menuState = MenuStatus()
     const route = Location()[3]
+    const history = useHistory()
 
     const questionnaires = useFirestoreID('Questionnaires', route)
 
     const QuestionnaireField = ({questionnaire}) => {
 
+        const fields = useFirestoreQuestionnaireFields(questionnaire.ID)
+        
+
         return(
             <div>
-            {questionnaire && questionnaire.Fields.map(field => (
+            {fields && fields.map(field => (
                 <Fields field={field}/>
             ))}
             </div>
@@ -26,20 +31,6 @@ const QuestionnaireSettingsDetail = () => {
     }
 
     const Fields = ({field}) => {
-
-        const fields = useFirestoreQuestionnaireFields(field)
-
-        return(
-            <div>
-                {fields && fields.map(field => (
-                    <Field field={field}/>
-                ))}
-            </div>
-        )
-
-    }
-
-    const Field = ({field}) => {
 
         const [range, setRange] = useState(0)
 
@@ -86,7 +77,6 @@ const QuestionnaireSettingsDetail = () => {
             } else {
                 return null
         }
-
     }
 
     const printQuestionnaire = () => {
@@ -106,16 +96,22 @@ const QuestionnaireSettingsDetail = () => {
                         <div key={questionnaire.ID}>
                             <h2>{questionnaire.Title}</h2>
                         </div>
-                    ))}
+                     ))}
                 </div>
                 <div className='divider'>
                     {questionnaires && questionnaires.map(questionnaire => (
-                        <QuestionnaireField questionnaire={questionnaire}/>
+                        <QuestionnaireField questionnaire={questionnaire && questionnaire}/>
                     ))}
                 </div>
                 <div id='print-questionnaire-container'>
                     <img src={printIcon} alt="" onClick={printQuestionnaire} />
                     <p onClick={printQuestionnaire}>Print vragenlijst</p>
+                </div>
+                <div>
+                    <p>Vragenlijst is in te vullen op</p>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                    <a href='https://deccos.nl/Questionnaires/${questionnaire.ID}'>https://deccos.nl/Questionnaires/{questionnaire.ID}</a>
+                    ))}
                 </div>
             </div>
         </div>

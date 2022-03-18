@@ -37,6 +37,7 @@ import festiveIcon from '../../images/icons/festive-icon.png'
 import preconditionsIcon from '../../images/icons/preconditions-icon.png'
 import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
 import impactIcon from '../../images/icons/impact-icon.png'
+import MemberGraph from "../MemberGraph";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -309,36 +310,41 @@ const ImpactProgress = () => {
 
         const users = useFirestoreUsersApproved(false)
 
+        console.log(instrument.Output.Output)
+
         const resultArray = []
 
         if(instrument.Output.Output === 'Aantal leden van de community'){
             const members = users.length 
 
-            resultArray.push({
-                Title: 'Leden',
-                Amount: members
-            })
-        }
-
-        if(instrument.Output.Output === 'Aantal matches'){
+            return(
+                <>
+                    <MemberGraph/>
+                </>
+            )
+        } else if(instrument.Output.Output === 'Aantal matches'){
             const members = users.length 
 
             resultArray.push({
                 Title: 'Matches',
                 Amount: members
             })
-        }
 
-        return (
-            <div>
-                {resultArray && resultArray.map(result => (
-                    <div className='internal-results-container'>
-                        <h5>Resultaten</h5>
-                        <p>{result.Amount}</p>
-                    </div>
-                ))}
-            </div>
-        )
+            return (
+                <div>
+                    {resultArray && resultArray.map(result => (
+                        <div className='internal-results-container'>
+                            <h5>Resultaten</h5>
+                            <p>{result.Amount}</p>
+                        </div>
+                    ))}
+                </div>
+            )
+        } else {
+            return(
+                <></>
+            )
+        }
     }
 
     return (

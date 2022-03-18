@@ -23,6 +23,7 @@ const LeftSideBarFullScreen = () => {
     const groups = useFirestore("Groups")
     const channels = useFirestore("Channels")
     const impacteers = useFirestore('Impacteers')
+    const projects = useFirestore('Projects')
     const admins = useFirestore('Admins')
     const compagny = useFirestore("CompagnyMeta")
     const projectManagers = useFirestore('ProjectManagers')
@@ -155,18 +156,11 @@ const LeftSideBarFullScreen = () => {
                     <div className="nav-title-container">
                         <h3>Projectbeheer</h3>
                     </div>
-                    <div className="channel-inner-div">
-                        <Link to={`/${client}/Goals`} onClick={changeMenuStatus}>Doelen</Link>
-                    </div>
-                    <div className="channel-inner-div">
-                        <Link to={`/${client}/Activities`} onClick={changeMenuStatus}>Activiteiten</Link>
-                    </div>
-                    <div className="channel-inner-div">
-                        <Link to={`/${client}/Milestones`} onClick={changeMenuStatus}>Mijlpalen</Link>
-                    </div>
-                    <div className="channel-inner-div">
-                        <Link to={`/${client}/Tasks/${authO.ID}`} onClick={changeMenuStatus}>Taken</Link>
-                    </div>
+                    {projects && projects.map(project => (
+                        <div className="channel-inner-div">
+                            <Link to={`/${client}/Project/${project.ID}`} onClick={changeMenuStatus}>{project.Title}</Link>
+                        </div>
+                    ))}
                 </div>
                 <div className="channel-div" style={{display: showMatches()}}>
                     <div className="nav-title-container">
