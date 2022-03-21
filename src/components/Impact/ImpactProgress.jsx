@@ -18,7 +18,7 @@ import {
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
-import { db } from "../../firebase/config";
+import { db, timestamp } from "../../firebase/config";
 import worldIcon from '../../images/icons/world-icon.png'
 import worldIcon2 from '../../images/icons/world-icon2.png'
 import milestoneIcon from '../../images/icons/milestone-icon.png'
@@ -40,6 +40,7 @@ import impactIcon from '../../images/icons/impact-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
+import uuid from "react-uuid";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
