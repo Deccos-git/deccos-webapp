@@ -33,8 +33,7 @@ const Activities = () => {
             </div>
             <div className='card-container'>
                 {activities && activities.map(activity => (
-                    <div 
-                    className="goal-list card" key={activity.ID}>
+                    <div className="goal-list card" key={activity.ID}>
                         <img className="goal-card-banner" src={activity.Banner} alt="" />
                         <div className="goalcard-body-div">
                             <h2>{activity.Activity}</h2>

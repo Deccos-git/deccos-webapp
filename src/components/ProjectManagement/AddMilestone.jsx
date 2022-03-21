@@ -23,6 +23,7 @@ const AddMilestone = () => {
   const [outputTitle, setOutputTitle] = useState(null)
   const [title, setTitle] = useState('')
   const [headerPhoto, setHeaderPhoto] = useState('')
+  const [activityID, setActivityID] = useState('')
 
   const menuState = MenuStatus()
   const history = useHistory()
@@ -40,9 +41,11 @@ const AddMilestone = () => {
   const outputHandler = (e) => {
     const outputID = e.target.options[e.target.selectedIndex].dataset.id 
     const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
+    const activityID = e.target.options[e.target.selectedIndex].dataset.activityid
 
     setOutputID(outputID)
     setOutputTitle(outputTitle)
+    setActivityID(activityID)
   }
 
   const titleHandler = (e) => {
@@ -65,6 +68,7 @@ const AddMilestone = () => {
       Timestamp: timestamp,
       Output: outputTitle,
       OutputID: outputID,
+      ActivityID: activityID,
       Title: title,
     })
     .then(() => {
@@ -120,7 +124,7 @@ const AddMilestone = () => {
                 <select name="" id="" onChange={outputHandler}>
                   <option value="">-- Selecteer een output --</option>
                   {outputs && outputs.map(output => (
-                    <option data-id={output.ID} data-title={output.Title} key={output.ID}>{output.Title}</option>
+                    <option data-id={output.ID} data-title={output.Title} data-activityid={output.ActivityID} key={output.ID}>{output.Title}</option>
                   ))}
                 </select>
               </div>

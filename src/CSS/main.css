@@ -1787,12 +1787,6 @@
         border-radius: 0px;
     }
 
-    .messagebar-group-container {
-        z-index: 10;
-        width: 100%;
-        background-color: white;
-    }
-
     .notification-card {
         width: 80%;
     }

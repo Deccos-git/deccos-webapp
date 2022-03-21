@@ -11,27 +11,50 @@ import userIcon from '../../images/icons/user-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
 import settingsIcon from '../../images/icons/settings-icon.png'
+import typeIcon from '../../images/icons/type-icon.png'
+import resultsIcon from '../../images/icons/results-icon.png'
+import festiveIcon from '../../images/icons/festive-icon.png'
+import outputIcon from '../../images/icons/output-icon.png'
 import Modal from 'react-modal';
 import { useState, useEffect, useContext  } from 'react'
-import { useFirestoreID, useFirestoreMessages, useFirestore , useFirestoreMilestoneSteps, useFirestoreTasks} from "../../firebase/useFirestore"
+import { useFirestoreID, 
+    useFirestoreOutputs, 
+    useFirestore, 
+    useFirestoreMilestoneSteps, 
+    useFirestoreTasks, 
+    useFirestoreImpactInstrumentsActivity,
+    useFirestoreMilestonesActivity,
+    useFirestoreGroupsActivity
+} from "../../firebase/useFirestore"
 import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
 import { db, timestamp } from "../../firebase/config.js"
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
+import Calendar from "../Calender";
+import ButtonClicked from "../../hooks/ButtonClicked";
+import ChatScreen from "../Community/ChatScreen";
+import ManualResultsGraph from "../Impact/ManualResultsGraph";
 
 const Project = () => {
     const [authO] = useContext(Auth)
 
     const [tabTasks, setTabTasks] = useState('active-tab')
-    const [outputTab, setOutputTab] = useState('not-active-tab')
+    const [tabInstruments, setTabInstruments] = useState('not-active-tab')
+    const [tabMilestones, setTabMilestones] = useState('not-active-tab')
+    const [tabAgenda, setTabAgenda] = useState('not-active-tab')
+    const [tabGroup, setTabGroup] = useState('not-active-tab')
     const [tasksDisplay, setTasksDisplay] = useState('block')
-    const [outputsDisplay, setOutputsDisplay] = useState('none')
+    const [instrumentsDisplay, setInstrumentsDisplay] = useState('none')
+    const [milestonesDisplay, setMilestonesDisplay] = useState('none')
+    const [agendaDisplay, setAgendaDisplay] = useState('none')
+    const [groupDisplay, setGroupDisplay] = useState('none')
 
     const menuState = MenuStatus()
     const route = Location()[3]
     const history = useHistory();
     Modal.setAppElement('#root');
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric'};
 
     const modalStyles = {
         content: {
@@ -47,6 +70,7 @@ const Project = () => {
       };
 
     const projects = useFirestoreID('Projects', route)
+    const tasks = useFirestoreTasks(route)
 
     const ActivityMeta = ({project}) => {
         const activities = useFirestoreID('Activities', project.ActivityID)
@@ -79,7 +103,6 @@ const Project = () => {
 
         const projectManagers = useFirestore('ProjectManagers')
         const banners = useFirestore('Banners')
-        const tasks = useFirestoreTasks(route)
 
         useEffect(() => {
             banners && banners.forEach(banner => {
@@ -303,18 +326,294 @@ const Project = () => {
         )
     }
 
-    const showTasks = () => {
-        setTasksDisplay('block')
-        setOutputsDisplay('none')
-        setTabTasks('active-tab')
-        setOutputTab('not-active-tab')
+    const Instruments = ({project}) => {
+        const [result, setResult] = useState(0)
+
+        const instruments = useFirestoreImpactInstrumentsActivity(project.ActivityID)
+
+        const resultHandler = (e) => {
+            const result = e.target.value 
+
+            setResult(result)
+        }
+
+        const saveResult = (e) => {
+
+            ButtonClicked(e, 'Opgeslagen')
+
+            const id = e.target.dataset.id
+
+            db.collection('Results')
+            .doc()
+            .set({
+                Compagny: client,
+                ID: uuid(),
+                Result: result,
+                Timestamp: timestamp,
+                InstrumentID: id,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+            })
+        }
+
+        const Measures = ({instrument}) => {
+
+            if(instrument.Output.Datatype === 'Handmatig genereren'){
+                 return(
+                     <div>
+                         <div className='activity-meta-title-container'>
+                            <img src={resultsIcon} alt="" />
+                            <h3>Resultaat</h3>
+                        </div>
+                        <div>
+                            <ManualResultsGraph instrument={instrument}/>
+                        </div>
+                        <div className='activity-meta-title-container'>
+                            <img src={plusIcon} alt="" />
+                            <h3>Toevoegen</h3>
+                        </div>
+                         <input type="number" onChange={resultHandler} />
+                         <div className='button-userrole-container'>
+                            <button className='button-simple' data-id={instrument.ID} onClick={saveResult}>Opslaan</button>
+                         </div>
+                     </div>
+                 )
+            } else if(instrument.Output.Datatype === 'Vragenlijst'){
+                return(
+                    <div>
+                        <div className='activity-meta-title-container'>
+                            <img src={resultsIcon} alt="" />
+                            <h3>Resultaat van vragenlijst</h3>
+                        </div>
+                    </div>
+                )
+            } 
+            else {
+                return(
+                    <div>
+                       
+                    </div>
+                )
+            }
+        }
+
+        return(
+            <div style={{display: instrumentsDisplay}}>
+                {instruments && instruments.map(instrument => (
+                    <div className='instrument-card'>
+                        <h2>{instrument.Output.Output}</h2>
+                        <div className='activity-meta-title-container'>
+                            <img src={outputIcon} alt="" />
+                            <h3>Output</h3>
+                        </div>
+                        <p>{instrument.OutputTitle}</p>
+                        <div className='activity-meta-title-container'>
+                            <img src={typeIcon} alt="" />
+                            <h3>Type</h3>
+                        </div>
+                        <p>{instrument.Output.Datatype}</p>
+                        <Measures instrument={instrument}/>
+                    </div>
+                ))}
+            </div>
+        )
     }
 
-    const showOutputs= () => {
+    const Milestones = ({project}) => {
+        const [color, setColor] = useState('')
+        const [headerPhoto, setHeaderPhoto] = useState('')
+
+        const colors = useFirestore('Colors')
+        const banners = useFirestore('Banners')  
+
+        useEffect(() => {
+            colors && colors.forEach(color => {
+                const background = color.Background 
+    
+                setColor(background)
+            })
+    
+        },[colors])
+
+        useEffect(() => {
+            banners && banners.forEach(banner => {
+                const header = banner.NewGoal
+                setHeaderPhoto(header)
+            })
+          }, [banners])
+
+        const milestones = useFirestoreMilestonesActivity(project.ActivityID) 
+
+        const MilestoneSteps = ({milestone}) => {
+
+            const steps = useFirestoreMilestoneSteps(milestone.ID)
+   
+            return(
+                <div id='milestone-container-milestone-detail'>
+                {steps && steps.map(step => (
+                   <div className='add-milestone-container' style={{backgroundColor: color}}>
+                       <h4>{step.MilestoneTitle}</h4>
+                       <img src={festiveIcon} alt="" />
+                       <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                   </div>
+                ))}
+                </div>
+            )
+       }
+
+       const saveMilestone= (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
+        const milestoneID = e.target.dataset.id
+        const milestoneTitle = e.target.dataset.title
+
+        db.collection('MilestoneSteps')
+        .doc()
+        .set({
+            Compagny: client,
+            Timestamp: timestamp,
+            MilestoneID: milestoneID,
+            MilestoneTitle: milestoneTitle,
+            ID: uuid()
+        })
+        .then(() => {
+            db.collection("AllActivity")
+            .doc()
+            .set({
+                Title: `${milestoneTitle}`,
+                Type: "NewMilestoneStep",
+                Compagny: client,
+                Timestamp: timestamp,
+                ID: uuid(),
+                Description: "heeft een nieuwe mijlpaal bereikt!",
+                ButtonText: "Bekijk mijlpaal",
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Banner: headerPhoto,
+                Link: `MilestoneDetail/${milestoneID}`
+            }) 
+        })
+
+    }
+   
+
+        return(
+            <div style={{display: milestonesDisplay}}>
+                {milestones && milestones.map(milestone => (
+                    <div className='instrument-card'>
+                        <h2>{milestone.Title}</h2>
+                        <div className='task-detail-inner-container'>
+                            <div>
+                                <h3>Gecreerd op</h3>
+                                <p>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                            </div>
+                            <div>
+                                <h3>Mijlpalen</h3>
+                                <MilestoneSteps milestone={milestone}/>
+                            </div>
+                            <div>
+                                <h3>Mijlpaal toevoegen</h3>
+                                <div className='add-milestone-container' style={{backgroundColor: color}}>
+                                    <h4>{milestone.Title}</h4>
+                                    <img src={festiveIcon} alt="" />
+                                    <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )
+    }
+
+    const Group = ({project}) => {
+
+        const groups = useFirestoreGroupsActivity(project.ActivityID)
+        
+        return(
+            <div style={{display: groupDisplay}} className='project-group-container'>
+                {groups && groups.map(group => (
+                    <ChatScreen group={group}/>
+                ))}
+            </div>
+        )
+    }
+
+    const Agenda = () => {
+
+        return(
+            <div style={{display: agendaDisplay}} className='project-group-container'>
+                <Calendar events={tasks}/>
+            </div>
+        )
+    }
+
+    const showTasks = () => {
+        setTasksDisplay('block')
+        setInstrumentsDisplay('none')
+        setMilestonesDisplay('none')
+        setAgendaDisplay('none')
+        setGroupDisplay('none')
+        setTabTasks('active-tab')
+        setTabMilestones('non-active-tab')
+        setTabGroup('non-active-tab')
+        setTabAgenda('non-active-tab')
+        setTabInstruments('not-active-tab')
+    }
+
+    const showInstruments= () => {
+        setInstrumentsDisplay('block')
         setTasksDisplay('none')
-        setOutputsDisplay('flex')
+        setMilestonesDisplay('none')
+        setAgendaDisplay('none')
+        setGroupDisplay('none')
         setTabTasks('not-active-tab')
-        setOutputTab('active-tab')
+        setTabMilestones('not-active-tab')
+        setTabGroup('not-active-tab')
+        setTabAgenda('not-active-tab')
+        setTabInstruments('active-tab')
+    }
+
+    const showMilestones= () => {
+        setMilestonesDisplay('block')
+        setTasksDisplay('none')
+        setInstrumentsDisplay('none')
+        setAgendaDisplay('none')
+        setGroupDisplay('none')
+        setTabTasks('not-active-tab')
+        setTabMilestones('active-tab')
+        setTabGroup('not-active-tab')
+        setTabAgenda('not-active-tab')
+        setTabInstruments('not-active-tab')
+    }
+
+    const showAgenda= () => {
+        setAgendaDisplay('block')
+        setTasksDisplay('none')
+        setInstrumentsDisplay('none')
+        setMilestonesDisplay('none')
+        setGroupDisplay('none')
+        setTabTasks('not-active-tab')
+        setTabMilestones('not-active-tab')
+        setTabGroup('not-active-tab')
+        setTabAgenda('active-tab')
+        setTabInstruments('not-active-tab')
+    }
+
+    const showGroup= () => {
+        setGroupDisplay('flex')
+        setTasksDisplay('none')
+        setInstrumentsDisplay('none')
+        setMilestonesDisplay('none')
+        setAgendaDisplay('none')
+        setTabTasks('not-active-tab')
+        setTabMilestones('not-active-tab')
+        setTabGroup('active-tab')
+        setTabAgenda('not-active-tab')
+        setTabInstruments('not-active-tab')
     }
 
   return (
@@ -329,13 +628,17 @@ const Project = () => {
                     <ActivityMeta project={project}/>
                     <div className='group-navigation-container'>
                         <p className={tabTasks} onClick={showTasks} >Taken</p>
-                        <p className={outputTab} onClick={showOutputs}>Meetinstrumenten</p>
-                        <p className={outputTab} onClick={showOutputs}>Mijlpalen</p>
-                        <p className={outputTab} onClick={showOutputs}>Agenda</p>
-                        <p className={outputTab} onClick={showOutputs}>Groep</p>
+                        <p className={tabInstruments} onClick={showInstruments}>Meetinstrumenten</p>
+                        <p className={tabMilestones} onClick={showMilestones}>Mijlpalen</p>
+                        <p className={tabAgenda} onClick={showAgenda}>Agenda</p>
+                        <p className={tabGroup} onClick={showGroup}>Groep</p>
                     </div>
                 </div>
                 <Tasks project={project}/>
+                <Instruments project={project}/>
+                <Milestones project={project}/>
+                <Agenda project={project}/>
+                <Group project={project}/>
                 </>
             ))}
 

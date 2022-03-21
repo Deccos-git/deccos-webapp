@@ -1,14 +1,15 @@
 import { Line } from 'react-chartjs-2'
 import { useState, useEffect } from 'react'
-import { useFirestoreUsers} from '../firebase/useFirestore'
+import { useFirestoreResults} from '../../firebase/useFirestore'
 
-const MemberGraph = () => {
-    const [labelUsers, setLabelUsers] = useState('')
-    const [dataUsers, setDataUsers] = useState('')
+const ManualResultsGraph = ({instrument}) => {
+
+    const [label, setLabel] = useState('')
+    const [data, setData] = useState('')
 
     const options = { month: 'long'};
 
-    const users = useFirestoreUsers(false)
+    const dataset = useFirestoreResults(instrument.ID)
 
     const groupBy = (array, property) => {
         return array.reduce((acc, obj) => {
@@ -23,21 +24,21 @@ const MemberGraph = () => {
 
     useEffect(() => {
 
-        const usersArray = []
+        const dataArray = []
 
-        users && users.forEach(user => {
+        dataset && dataset.forEach(data => {
 
-            const month = user.Timestamp.toDate().toLocaleDateString("nl-NL", options)
+            const month = data.Timestamp.toDate().toLocaleDateString("nl-NL", options)
 
-            const userObject = {
+            const dataObject = {
                 Month: month,
-                ID: user.ID
+                ID: data.ID
             }
 
-            usersArray.push(userObject)
+            dataArray.push(dataObject)
         })
 
-        const array = Object.entries(groupBy(usersArray, 'Month')) 
+        const array = Object.entries(groupBy(dataArray, 'Month')) 
 
         const monthArray = []
         const countArray = []
@@ -52,22 +53,20 @@ const MemberGraph = () => {
 
         })
 
-        setLabelUsers(monthArray)
-        setDataUsers(countArray)
+        setLabel(monthArray)
+        setData(countArray)
 
-    },[users])
-
+    },[dataset])
 
   return (
-    <div>
-        <h2>Leden</h2>
-            <div>
+     <div>
+        <div>
             <Line data={{
-                    labels: labelUsers,
+                    labels: label,
                     datasets: [
                         {
-                            label: 'Aantal leden',
-                            data: dataUsers,
+                            label: 'Aantal',
+                            data: data,
                             fill: false,
                             backgroundColor: 'green',
                             borderColor: 'green',
@@ -92,4 +91,4 @@ const MemberGraph = () => {
   )
 }
 
-export default MemberGraph
+export default ManualResultsGraph

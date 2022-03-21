@@ -258,6 +258,29 @@ const useFirestoreChats = (id) => {
     return docs
 };
 
+const useFirestoreGroupsActivity = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Groups")
+        .where("Compagny", "==", client)
+        .where("ActivityID", "==", id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreChatsGroups = (collection, auth ) => {
 
     const [docs, setDocs] = useState("")
@@ -980,6 +1003,29 @@ const useFirestoreImpactInstruments = (id) => {
     return docs
 };
 
+const useFirestoreImpactInstrumentsActivity = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('ImpactInstruments')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreOutputQuestionnaireFields = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1049,6 +1095,29 @@ const useFirestoreMilestones = (id) => {
     return docs
 };
 
+const useFirestoreMilestonesActivity = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Milestones')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMilestoneSteps = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1093,6 +1162,29 @@ const useFirestoreSDGs = (collection) => {
     return docs
 };
 
+const useFirestoreResults = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Results")
+        .where('Compagny', '==', client)
+        .where('InstrumentID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -1105,6 +1197,7 @@ export {
     useFirestoreChats,
     useFirestoreChatsGroups,
     useFirestoreGroupsAuth,
+    useFirestoreGroupsActivity,
     useFirestoreNotifications,
     useFirestoreChannelItems,
     useFirestoreContributions,
@@ -1137,9 +1230,12 @@ export {
     useFirestoreMatchRoadmaps,
     useFirestoreMatchTagsType,
     useFirestoreImpactInstruments,
+    useFirestoreImpactInstrumentsActivity,
     useFirestoreOutputQuestionnaireFields,
     useFirestoreOutputs,
     useFirestoreMilestones,
+    useFirestoreMilestonesActivity,
     useFirestoreMilestoneSteps,
-    useFirestoreSDGs
+    useFirestoreSDGs,
+    useFirestoreResults
 }

@@ -4,6 +4,15 @@ import { client } from '../hooks/Client';
 import { useFirestore } from '../firebase/useFirestore';
 import { useState , useEffect, useContext} from 'react';
 import { Auth } from '../StateManagment/Auth';
+import activityIcon from '../images/icons/activity-icon.png'
+import groupIcon from '../images/icons/group-icon.png'
+import dashboardIcon from '../images/icons/dashboard-icon.png'
+import channelIcon from '../images/icons/channel-icon.png'
+import startIcon from '../images/icons/start-icon.png'
+import allActivityIcon from '../images/icons/all-activity-icon.png'
+import networkIcon from '../images/icons/network-icon.png'
+import personIcon from '../images/icons/person-icon.png'
+import twoPersonIcon from '../images/icons/two-person-icon.png'
 
 const LeftSideBar = () => {
     const [authO] = useContext(Auth)
@@ -118,9 +127,18 @@ const LeftSideBar = () => {
                 <div className="channel-div" style={{display: showWelcome()}}>
                     <h3>Welkom</h3>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Start`} >Start hier</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/Introductions`} >Stel je voor</NavLink>
-                        <NavLink activeClassName='active' to={`/${client}/AllActivity`} >Alle activiteit</NavLink>
+                        <div className='activity-meta-title-container'>
+                            <img src={startIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Start`} >Start hier</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container'>
+                            <img src={networkIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Introductions`} >Stel je voor</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container'>
+                            <img src={allActivityIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/AllActivity`} >Alle activiteit</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="channel-div" style={{display: showChannels()}}>
@@ -129,7 +147,10 @@ const LeftSideBar = () => {
                     </div>
                     {channels && channels.map(channel => (
                         <div className="channel-inner-div" key={channel.ID}>
-                            <NavLink activeClassName='active' to={`/${client}/${channel.Link}/${channel.ID}`}>{channel.Name}</NavLink>
+                            <div className='activity-meta-title-container'>
+                                <img src={channelIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/${channel.Link}/${channel.ID}`}>{channel.Name}</NavLink>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -138,8 +159,11 @@ const LeftSideBar = () => {
                         <h3>Groepen</h3>
                     </div>
                     {groups && groups.map(group => (
-                        <div className="channel-inner-div" key={group.ID}>
-                            <NavLink activeClassName='active' to={`/${client}/GroupLanding/${group.ID}`}>{group.Room}</NavLink>
+                        <div className="channel-inner-div" key={group.ID} style={{display: group.Type === 'General' ? 'block' : 'none'}}>
+                            <div className='activity-meta-title-container'>
+                                <img src={groupIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/GroupLanding/${group.ID}`}>{group.Room}</NavLink>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -149,7 +173,10 @@ const LeftSideBar = () => {
                     </div>
                     {projects && projects.map(project => (
                         <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/Project/${project.ID}`}>{project.Title}</NavLink>
+                            <div className='activity-meta-title-container'>
+                                <img src={activityIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Project/${project.ID}`}>{project.Title}</NavLink>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -158,10 +185,16 @@ const LeftSideBar = () => {
                         <h3>Matching</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/MatchItems`}>Match items</NavLink>
+                        <div className='activity-meta-title-container'>
+                            <img src={personIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/MatchItems`}>Match items</NavLink>
+                        </div>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Matches`}>Matches</NavLink>
+                        <div className='activity-meta-title-container'>
+                            <img src={twoPersonIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Matches`}>Matches</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="channel-div" style={{display: showImpact()}}>
@@ -169,7 +202,10 @@ const LeftSideBar = () => {
                         <h3>Impact</h3>
                     </div>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        </div>
                     </div>
                     {/* <div className="channel-inner-div">
                         <NavLink activeClassName='active' to={`/${client}/Activities`}>Mijlpalen</NavLink>

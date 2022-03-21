@@ -22,6 +22,7 @@ const AddInstrument = () => {
     const [dataType, setDataType] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [outputData, setOutputData] = useState('')
+    const [activityID, setActivityID] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
@@ -33,6 +34,7 @@ const AddInstrument = () => {
         outputs && outputs.forEach(output => {
             setOutputTitle(output.Title)
             setOutputData(output)
+            setActivityID(output.ActivityID)
         })
 
     },[outputs])
@@ -130,7 +132,8 @@ const AddInstrument = () => {
                 User: authO.UserName,
                 UserPhoto: authO.Photo,
                 UserID: authO.ID,
-                Output: output
+                Output: output,
+                ActivityID: activityID
             })
 
         })

@@ -37,7 +37,9 @@ import festiveIcon from '../../images/icons/festive-icon.png'
 import preconditionsIcon from '../../images/icons/preconditions-icon.png'
 import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
 import impactIcon from '../../images/icons/impact-icon.png'
+import resultsIcon from '../../images/icons/results-icon.png'
 import MemberGraph from "../MemberGraph";
+import ManualResultsGraph from "../Impact/ManualResultsGraph";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -310,7 +312,7 @@ const ImpactProgress = () => {
 
         const users = useFirestoreUsersApproved(false)
 
-        console.log(instrument.Output.Output)
+        console.log(instrument.Output.Datatype)
 
         const resultArray = []
 
@@ -334,13 +336,36 @@ const ImpactProgress = () => {
                 <div>
                     {resultArray && resultArray.map(result => (
                         <div className='internal-results-container'>
-                            <h5>Resultaten</h5>
+                            <div className='activity-meta-title-container'>
+                                <img src={resultsIcon} alt="" />
+                                <h5>Resultaat</h5>
+                            </div>
                             <p>{result.Amount}</p>
                         </div>
                     ))}
                 </div>
             )
-        } else {
+        } else if(instrument.Output.Datatype = 'Handmatig genereren'){
+            return(
+                <div className='internal-results-container'>
+                    <div className='activity-meta-title-container'>
+                        <img src={resultsIcon} alt="" />
+                        <h5>Resultaat</h5>
+                    </div>
+                    <ManualResultsGraph instrument={instrument}/>
+                </div>
+            )
+        } else if(instrument.Output.Datatype = 'Vragenlijst'){
+            return(
+                <div className='internal-results-container'>
+                    <div className='activity-meta-title-container'>
+                        <img src={resultsIcon} alt="" />
+                        <h5>Resultaat</h5>
+                    </div>
+                </div>
+            )
+        }
+         else {
             return(
                 <></>
             )

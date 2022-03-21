@@ -89,7 +89,24 @@ const AddActivity = () => {
                 UserID: authO.ID,
                 Type: `ActivityProject"`
             })
-        })  
+        })
+        .then(() => {
+            db.collection("Groups")
+            .doc()
+            .set({
+                ID: uuid(),
+                Admin: authO.ID,
+                Room: activityTitle,
+                MemberList: [
+                    authO.ID
+                ],
+                Timestamp: timestamp,
+                Compagny: client,
+                ActivityID: id,
+                Messages: 0,
+                Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
+            })
+        })
     }
 
     const deleteActivity = (e) => {

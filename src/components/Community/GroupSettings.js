@@ -72,6 +72,7 @@ const GroupSettings = () => {
             ID: id,
             Admin: authO.ID,
             Room: groupTitle,
+            Type: 'General',
             MemberList: [
                 authO.ID
             ],

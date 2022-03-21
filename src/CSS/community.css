@@ -575,4 +575,14 @@
     .message-detail-container{
         margin-left: 0px;
     }
+
+    .messagebar-group-container {
+        z-index: 10;
+        width: 100% !important;
+        background-color: white;
+    }
+
+    .messagebar-group-inner-container {
+        margin-bottom: 0px;
+    }
 }
