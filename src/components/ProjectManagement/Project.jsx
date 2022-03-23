@@ -35,6 +35,7 @@ import Calendar from "../Calender";
 import ButtonClicked from "../../hooks/ButtonClicked";
 import ChatScreen from "../Community/ChatScreen";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
+import eventIcon from '../../images/icons/event-icon.png'
 
 const Project = () => {
     const [authO] = useContext(Auth)
@@ -415,7 +416,7 @@ const Project = () => {
             return(
                 <div>
                     {questionnaires && questionnaires.map(questionnaire => (
-                        <div id='questionnaire-results-container'>
+                        <div className='questionnaire-results-container'>
                             <p>Aantal responses</p>
                             <p>{questionnaire.Responses}</p>
                             <p>Bekijk analyse</p>
@@ -429,17 +430,17 @@ const Project = () => {
             <div className='card-container' style={{display: instrumentsDisplay}}>
                 {instruments && instruments.map(instrument => (
                     <div className='instrument-card'>
-                        <h2>{instrument.Output.Output}</h2>
+                        <h2>{instrument.Output.Output} ({datatype(instrument)})</h2>
                         <div className='activity-meta-title-container'>
                             <img src={outputIcon} alt="" />
                             <h3>Output</h3>
                         </div>
-                        <p>{instrument.OutputTitle}</p>
+                        <p className='questionnaire-results-container'>{instrument.OutputTitle}</p>
                         <div className='activity-meta-title-container'>
                             <img src={typeIcon} alt="" />
                             <h3>Type</h3>
                         </div>
-                        <p>{datatype(instrument)}</p>
+                        <p className='questionnaire-results-container'>{datatype(instrument)}</p>
                         <Measures instrument={instrument}/>
                     </div>
                 ))}
@@ -532,21 +533,33 @@ const Project = () => {
                     <div className='instrument-card'>
                         <h2>{milestone.Title}</h2>
                         <div className='task-detail-inner-container'>
-                            <div>
+                            <div className='activity-meta-title-container'>
+                                <img src={resultsIcon} alt="" />
                                 <h3>Meetinstrument</h3>
-                                <p>{milestone.Instrument}</p>
+                            </div>
+                            <p className='questionnaire-results-container'>{milestone.Instrument}</p>
+                            <div>
+                                <div className='activity-meta-title-container'>
+                                    <img src={eventIcon} alt="" />
+                                    <h3>Gecreerd op</h3>
+                                </div>
+                                <p className='questionnaire-results-container'>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
                             </div>
                             <div>
-                                <h3>Gecreerd op</h3>
-                                <p>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                                <div className='activity-meta-title-container'>
+                                    <img src={festiveIcon} alt="" />
+                                    <h3>Mijlpalen</h3>
+                                </div>
+                                <div className='questionnaire-results-container'>
+                                    <MilestoneSteps milestone={milestone}/>
+                                </div>
                             </div>
                             <div>
-                                <h3>Mijlpalen</h3>
-                                <MilestoneSteps milestone={milestone}/>
-                            </div>
-                            <div>
-                                <h3>Mijlpaal toevoegen</h3>
-                                <div className='add-milestone-container' style={{backgroundColor: color}}>
+                                <div className='activity-meta-title-container'>
+                                    <img src={plusIcon} alt="" />
+                                    <h3>Mijlpaal toevoegen</h3>
+                                </div>
+                                <div className='add-milestone-container questionnaire-results-container' style={{backgroundColor: color}}>
                                     <h4>{milestone.Title}</h4>
                                     <img src={festiveIcon} alt="" />
                                     <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
@@ -588,9 +601,9 @@ const Project = () => {
         setAgendaDisplay('none')
         setGroupDisplay('none')
         setTabTasks('active-tab')
-        setTabMilestones('non-active-tab')
-        setTabGroup('non-active-tab')
-        setTabAgenda('non-active-tab')
+        setTabMilestones('not-active-tab')
+        setTabGroup('not-active-tab')
+        setTabAgenda('not-active-tab')
         setTabInstruments('not-active-tab')
     }
 

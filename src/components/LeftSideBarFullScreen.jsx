@@ -154,7 +154,7 @@ const LeftSideBarFullScreen = () => {
                 </div>
                 <div className="channel-div" style={{display: showProjectManagement()}}>
                     <div className="nav-title-container">
-                        <h3>Projectbeheer</h3>
+                        <h3>Activiteitenbeheer</h3>
                     </div>
                     {projects && projects.map(project => (
                         <div className="channel-inner-div">
