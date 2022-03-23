@@ -4,6 +4,7 @@ import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
 import { 
     useFirestore, 
+    useFirestoreID,
     useFirestoreActivities, 
     useFirestoreTasksGoals, 
     useFirestoreTasksCompleteGoals, 
@@ -13,7 +14,9 @@ import {
     useFirestoreImpactInstruments,
     useFirestoreUsersApproved,
     useFirestoreMilestones,
-    useFirestoreMilestoneSteps
+    useFirestoreMilestoneSteps,
+    useFirestoreQuestionnaireFields,
+    useFirestoreQuestionnairesResponses
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -247,6 +250,15 @@ const ImpactProgress = () => {
 
     const Instruments = ({output}) => {
         const instruments = useFirestoreImpactInstruments(output.ID) 
+
+        const datatype = (instrument) => {
+
+            if(instrument.Output.Datatype === 'Manual'){
+                return "Handmatig"
+            } else if(instrument.Output.Datatype === 'Questionnairy'){
+                return 'Vragenlijst'
+            }
+        }
         
         return(
             <div className='output-instrument-inner-container'>
@@ -257,7 +269,7 @@ const ImpactProgress = () => {
                 <div className='output-seeting-effect'>
                     {instruments && instruments.map(instrument => (
                         <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
-                            <p data-id={instrument.ID}>{instrument.Output.Output} ({instrument.Output.Datatype})</p>
+                            <p data-id={instrument.ID}>{instrument.Output.Output} ({datatype(instrument)})</p>
                             <ResultsInternal instrument={instrument}/>
                         </div>
                     ))}
@@ -311,42 +323,37 @@ const ImpactProgress = () => {
 
     const ResultsInternal = ({instrument}) => {
 
-        const users = useFirestoreUsersApproved(false)
+        const matchesArray = []
 
-        console.log(instrument.Output.Datatype)
-
-        const resultArray = []
-
-        if(instrument.Output.Output === 'Aantal leden van de community'){
-            const members = users.length 
+        if(instrument.Output.Datatype === 'Members'){
 
             return(
                 <>
                     <MemberGraph/>
                 </>
             )
-        } else if(instrument.Output.Output === 'Aantal matches'){
-            const members = users.length 
+        } else if(instrument.Output.Datatype === 'Matches'){
 
-            resultArray.push({
+            matchesArray.push({
                 Title: 'Matches',
-                Amount: members
+                Amount: 1
             })
 
             return (
                 <div>
-                    {resultArray && resultArray.map(result => (
+                    {matchesArray && matchesArray.map(match => (
                         <div className='internal-results-container'>
                             <div className='activity-meta-title-container'>
                                 <img src={resultsIcon} alt="" />
                                 <h5>Resultaat</h5>
                             </div>
-                            <p>{result.Amount}</p>
+                            <p>{match.Amount}</p>
                         </div>
                     ))}
                 </div>
             )
-        } else if(instrument.Output.Datatype = 'Handmatig genereren'){
+        } else if(instrument.Output.Datatype === 'Manual'){
+
             return(
                 <div className='internal-results-container'>
                     <div className='activity-meta-title-container'>
@@ -356,13 +363,15 @@ const ImpactProgress = () => {
                     <ManualResultsGraph instrument={instrument}/>
                 </div>
             )
-        } else if(instrument.Output.Datatype = 'Vragenlijst'){
+        } else if(instrument.Output.Datatype === 'Questionnairy'){
+
             return(
                 <div className='internal-results-container'>
                     <div className='activity-meta-title-container'>
                         <img src={resultsIcon} alt="" />
                         <h5>Resultaat</h5>
                     </div>
+                    <QuestionnaireResults instrument={instrument}/>
                 </div>
             )
         }
@@ -371,6 +380,23 @@ const ImpactProgress = () => {
                 <></>
             )
         }
+    }
+
+    const QuestionnaireResults = ({instrument}) => {
+
+        const questionnaires = useFirestoreID('Questionnaires', instrument.Output.ID) 
+
+        return(
+            <div>
+                {questionnaires && questionnaires.map(questionnaire => (
+                    <div id='questionnaire-results-container'>
+                        <p>Aantal responses</p>
+                        <p>{questionnaire.Responses}</p>
+                        <p>Bekijk analyse</p>
+                    </div>
+                ))}
+            </div>
+        )
     }
 
     return (

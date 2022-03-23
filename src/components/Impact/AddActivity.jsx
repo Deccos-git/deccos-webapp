@@ -104,6 +104,7 @@ const AddActivity = () => {
                 Compagny: client,
                 ActivityID: id,
                 Messages: 0,
+                Type: 'ProjectGroup',
                 Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
             })
         })
@@ -155,8 +156,7 @@ const AddActivity = () => {
                 })
             })
         })
-    }
-
+    }  
 
     return (
         <div className="main">

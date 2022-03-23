@@ -10,9 +10,13 @@ import dashboardIcon from '../images/icons/dashboard-icon.png'
 import channelIcon from '../images/icons/channel-icon.png'
 import startIcon from '../images/icons/start-icon.png'
 import allActivityIcon from '../images/icons/all-activity-icon.png'
-import networkIcon from '../images/icons/network-icon.png'
+import eventIcon from '../images/icons/event-icon.png'
 import personIcon from '../images/icons/person-icon.png'
 import twoPersonIcon from '../images/icons/two-person-icon.png'
+import chatIcon from '../images/icons/chat-icon3.png'
+import newsIcon from '../images/icons/news-icon.png'
+import articleIcon from '../images/icons/article-icon.png'
+
 
 const LeftSideBar = () => {
     const [authO] = useContext(Auth)
@@ -121,6 +125,27 @@ const LeftSideBar = () => {
         }
     }
 
+    const ChannelIcon = ({channel}) => {
+
+        if(channel.Name === 'Events'){
+            return(
+                <img src={eventIcon} alt="" />
+            )
+        } else if(channel.Name === 'News'){
+            return(
+                <img src={newsIcon} alt="" />
+            )
+        } else if(channel.Name === 'Kenniscentrum'){
+            return(
+                <img src={articleIcon} alt="" />
+            )
+        } else {
+            return(
+                <img src={channelIcon} alt="" />
+            )
+        }
+    }
+
     return (
         <div className="left-sidebar-container">
             <div className="left-side-bar">
@@ -132,7 +157,7 @@ const LeftSideBar = () => {
                             <NavLink activeClassName='active' to={`/${client}/Start`} >Start hier</NavLink>
                         </div>
                         <div className='activity-meta-title-container'>
-                            <img src={networkIcon} alt="" />
+                            <img src={chatIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Introductions`} >Stel je voor</NavLink>
                         </div>
                         <div className='activity-meta-title-container'>
@@ -148,7 +173,7 @@ const LeftSideBar = () => {
                     {channels && channels.map(channel => (
                         <div className="channel-inner-div" key={channel.ID}>
                             <div className='activity-meta-title-container'>
-                                <img src={channelIcon} alt="" />
+                                <ChannelIcon channel={channel}/>
                                 <NavLink activeClassName='active' to={`/${client}/${channel.Link}/${channel.ID}`}>{channel.Name}</NavLink>
                             </div>
                         </div>

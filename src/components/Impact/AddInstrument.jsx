@@ -108,11 +108,11 @@ const AddInstrument = () => {
         const totalArray = []
 
         if(matchesSwitch === true){
-            totalArray.push({Output:'Aantal matches', Datatype: 'Automatisch gegenereerd'})
+            totalArray.push({Output:'Aantal matches', Datatype: 'Matches'})
         }
 
         if(membersSwitch === true){
-            totalArray.push({Output:'Aantal leden van de community', Datatype: 'Automatisch gegenereerd'})
+            totalArray.push({Output:'Aantal leden van de community', Datatype: 'Members'})
         }
 
         if(outputArray.length > 0){
@@ -141,7 +141,7 @@ const AddInstrument = () => {
 
     const addIndicator = (e) => {
 
-        setOutputArray([...outputArray, {Output:output, Datatype: 'Handmatig genereren', ID: uuid()}])
+        setOutputArray([...outputArray, {Output:output, Datatype: 'Manual', ID: uuid()}])
   
       }
     
@@ -160,7 +160,7 @@ const AddInstrument = () => {
         const questionnaireID = e.target.options[e.target.selectedIndex].value
         const questionnaireTitle = e.target.options[e.target.selectedIndex].dataset.title
 
-        setOutputArray([...outputArray, {Output:questionnaireTitle, Datatype: 'Vragenlijst', ID: questionnaireID}])
+        setOutputArray([...outputArray, {Output:questionnaireTitle, Datatype: 'Questionnairy', ID: questionnaireID}])
     }
 
   return (

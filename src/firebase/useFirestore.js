@@ -895,7 +895,7 @@ const useFirestoreQuestionnairesResponses = (id) => {
     useEffect(() => {
         const unsub = db.collection('QuestionnairesResponses')
         .where('Compagny', '==', client)
-        .where('QuestionnaireID', '==', id)
+        .where('FieldID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {

@@ -15,7 +15,7 @@ const Group = () => {
     const [authO] = useContext(Auth)
     const [authID, setAuthID] = useState(null)
     const [channelDisplay, setChannelDisplay] = useState('none')
-    const [chatDisply, setChatDisplay] = useState('flex')
+    const [chatDisplay, setChatDisplay] = useState('flex')
     const [tabChat, setTabChat] = useState('active-tab')
     const [channelChat, setChannelTab] = useState('not-active-tab')
 
@@ -73,8 +73,10 @@ const Group = () => {
                             <p className={channelChat} onClick={showChannel}>Kanaal</p>
                         </div>
                     </div>
-                    <ChatScreen group={group}/>
-                    <div style={{display: channelDisplay}}>
+                    <div className='tab-container' style={{display: chatDisplay}}>
+                        <ChatScreen group={group}/>
+                    </div>
+                    <div className='tab-container' style={{display: channelDisplay}}>
                         <GroupChannel />
                     </div>
                 </div>

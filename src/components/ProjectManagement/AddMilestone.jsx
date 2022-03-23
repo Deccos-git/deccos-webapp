@@ -20,7 +20,8 @@ const AddMilestone = () => {
   const [authO] = useContext(Auth)
 
   const [outputID, setOutputID] = useState(null)
-  const [outputTitle, setOutputTitle] = useState(null)
+  const [instrumentTitle, setInstrumentTitle] = useState(null)
+  const [instrumentID, setInstrumentID] = useState('')
   const [title, setTitle] = useState('')
   const [headerPhoto, setHeaderPhoto] = useState('')
   const [activityID, setActivityID] = useState('')
@@ -28,7 +29,7 @@ const AddMilestone = () => {
   const menuState = MenuStatus()
   const history = useHistory()
 
-  const outputs = useFirestore('Outputs')
+  const instruments = useFirestore('ImpactInstruments')
   const banners = useFirestore('Banners')
 
   useEffect(() => {
@@ -39,13 +40,15 @@ const AddMilestone = () => {
   }, [banners])
 
   const outputHandler = (e) => {
-    const outputID = e.target.options[e.target.selectedIndex].dataset.id 
-    const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
+    const instrumentTitle = e.target.options[e.target.selectedIndex].dataset.title
     const activityID = e.target.options[e.target.selectedIndex].dataset.activityid
+    const outputID = e.target.options[e.target.selectedIndex].dataset.outputid
+    const instrumentID = e.target.options[e.target.selectedIndex].dataset.id
 
     setOutputID(outputID)
-    setOutputTitle(outputTitle)
+    setInstrumentTitle(instrumentTitle)
     setActivityID(activityID)
+    setInstrumentID(instrumentID)
   }
 
   const titleHandler = (e) => {
@@ -66,45 +69,40 @@ const AddMilestone = () => {
       ID: id,
       Compagny: client,
       Timestamp: timestamp,
-      Output: outputTitle,
+      Instrument: instrumentTitle,
       OutputID: outputID,
+      InstrumentID: instrumentID,
       ActivityID: activityID,
       Title: title,
     })
     .then(() => {
-      db.collection("AllActivity")
-      .doc()
-      .set({
-          Title: title,
-          Type: "NewMilestone",
-          Compagny: client,
-          Timestamp: timestamp,
-          ID: id,
-          Description: "heeft een nieuwe mijlpaal toegevoegd:",
-          ButtonText: "Bekijk mijlpaal",
-          User: authO.UserName,
-          UserPhoto: authO.Photo,
-          UserID: authO.ID,
-          Banner: headerPhoto,
-          Link: `MilestoneDetail/${id}`
-      }) 
-  })
-  .then(() => {
-      db.collection("Search")
-      .doc()
-      .set({
-          Name: title,
-          Compagny: client,
-          Type: 'Mijlpaal',
-          Link: `MilestoneDetail/${id}`
-      })
-  })
-
-  }
-
-  const nextStep = () => {
-
-    history.push(`/${client}/TaskSettings`)
+        db.collection("AllActivity")
+        .doc()
+        .set({
+            Title: title,
+            Type: "NewMilestone",
+            Compagny: client,
+            Timestamp: timestamp,
+            ID: id,
+            Description: "heeft een nieuwe mijlpaal toegevoegd:",
+            ButtonText: "Bekijk mijlpaal",
+            User: authO.UserName,
+            UserPhoto: authO.Photo,
+            UserID: authO.ID,
+            Banner: headerPhoto,
+            Link: `MilestoneDetail/${id}`
+        }) 
+    })
+    .then(() => {
+        db.collection("Search")
+        .doc()
+        .set({
+            Name: title,
+            Compagny: client,
+            Type: 'Mijlpaal',
+            Link: `MilestoneDetail/${id}`
+        })
+    })
 
   }
 
@@ -120,11 +118,11 @@ const AddMilestone = () => {
             </div>
             <div className='divider'>
               <div>
-                <h2>Selecteer een output<sup>*</sup></h2>
+                <h2>Selecteer een instrument<sup>*</sup></h2>
                 <select name="" id="" onChange={outputHandler}>
-                  <option value="">-- Selecteer een output --</option>
-                  {outputs && outputs.map(output => (
-                    <option data-id={output.ID} data-title={output.Title} data-activityid={output.ActivityID} key={output.ID}>{output.Title}</option>
+                  <option value="">-- Selecteer een instrument --</option>
+                  {instruments && instruments.map(instrument => (
+                    <option data-id={instrument.ID} data-title={instrument.Output.Output} data-outputid={instrument.OutputID} data-activityid={instrument.ActivityID} key={instrument.ID}>{instrument.Output.Output}</option>
                   ))}
                 </select>
               </div>
@@ -136,10 +134,6 @@ const AddMilestone = () => {
             <div>
               <button onClick={saveMilestone}>Opslaan</button>
             </div>
-        </div>
-        <div className='next-step-impact'>
-            <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
-            <h3 onClick={nextStep}>Volgende stap: taken toevoegen</h3>
         </div>
     </div>
     <RightSideBar />

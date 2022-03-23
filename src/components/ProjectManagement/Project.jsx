@@ -359,7 +359,7 @@ const Project = () => {
 
         const Measures = ({instrument}) => {
 
-            if(instrument.Output.Datatype === 'Handmatig genereren'){
+            if(instrument.Output.Datatype === 'Manual'){
                  return(
                      <div>
                          <div className='activity-meta-title-container'>
@@ -371,7 +371,7 @@ const Project = () => {
                         </div>
                         <div className='activity-meta-title-container'>
                             <img src={plusIcon} alt="" />
-                            <h3>Toevoegen</h3>
+                            <h3>Nieuw resultaat</h3>
                         </div>
                          <input type="number" onChange={resultHandler} />
                          <div className='button-userrole-container'>
@@ -379,13 +379,14 @@ const Project = () => {
                          </div>
                      </div>
                  )
-            } else if(instrument.Output.Datatype === 'Vragenlijst'){
+            } else if(instrument.Output.Datatype === 'Questionnairy'){
                 return(
                     <div>
                         <div className='activity-meta-title-container'>
                             <img src={resultsIcon} alt="" />
                             <h3>Resultaat van vragenlijst</h3>
                         </div>
+                        <QuestionnaireResults instrument={instrument}/>
                     </div>
                 )
             } 
@@ -398,8 +399,34 @@ const Project = () => {
             }
         }
 
+        const datatype = (instrument) => {
+
+            if(instrument.Output.Datatype === 'Manual'){
+                return "Handmatig"
+            } else if(instrument.Output.Datatype === 'Questionnairy'){
+                return 'Vragenlijst'
+            }
+        }
+
+        const QuestionnaireResults = ({instrument}) => {
+
+            const questionnaires = useFirestoreID('Questionnaires', instrument.Output.ID) 
+    
+            return(
+                <div>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                        <div id='questionnaire-results-container'>
+                            <p>Aantal responses</p>
+                            <p>{questionnaire.Responses}</p>
+                            <p>Bekijk analyse</p>
+                        </div>
+                    ))}
+                </div>
+            )
+        }
+
         return(
-            <div style={{display: instrumentsDisplay}}>
+            <div className='card-container' style={{display: instrumentsDisplay}}>
                 {instruments && instruments.map(instrument => (
                     <div className='instrument-card'>
                         <h2>{instrument.Output.Output}</h2>
@@ -412,7 +439,7 @@ const Project = () => {
                             <img src={typeIcon} alt="" />
                             <h3>Type</h3>
                         </div>
-                        <p>{instrument.Output.Datatype}</p>
+                        <p>{datatype(instrument)}</p>
                         <Measures instrument={instrument}/>
                     </div>
                 ))}
@@ -462,7 +489,7 @@ const Project = () => {
             )
        }
 
-       const saveMilestone= (e) => {
+       const saveMilestone = (e) => {
 
         ButtonClicked(e, 'Opgeslagen')
 
@@ -499,13 +526,16 @@ const Project = () => {
 
     }
    
-
         return(
-            <div style={{display: milestonesDisplay}}>
+            <div className='card-container' style={{display: milestonesDisplay}}>
                 {milestones && milestones.map(milestone => (
                     <div className='instrument-card'>
                         <h2>{milestone.Title}</h2>
                         <div className='task-detail-inner-container'>
+                            <div>
+                                <h3>Meetinstrument</h3>
+                                <p>{milestone.Instrument}</p>
+                            </div>
                             <div>
                                 <h3>Gecreerd op</h3>
                                 <p>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
