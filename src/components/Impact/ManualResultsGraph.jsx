@@ -1,4 +1,11 @@
-import { Line } from 'react-chartjs-2'
+import {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip
+  } from "recharts";
 import { useState, useEffect } from 'react'
 import { useFirestoreResults} from '../../firebase/useFirestore'
 
@@ -31,63 +38,35 @@ const ManualResultsGraph = ({instrument}) => {
             const month = data.Timestamp.toDate().toLocaleDateString("nl-NL", options)
 
             const dataObject = {
-                Month: month,
-                ID: data.ID
+                Maand: month,
+                Resultaat: data.Result
             }
 
             dataArray.push(dataObject)
         })
 
-        const array = Object.entries(groupBy(dataArray, 'Month')) 
-
-        const monthArray = []
-        const countArray = []
-
-        array && array.forEach(arr => {
-
-            const month = arr[0]
-            const count = arr[1].length
-
-            monthArray.push(month)
-            countArray.push(count)
-
-        })
-
-        setLabel(monthArray)
-        setData(countArray)
+       setData(dataArray)
 
     },[dataset])
 
   return (
-     <div>
-        <div>
-            <Line data={{
-                    labels: label,
-                    datasets: [
-                        {
-                            label: 'Aantal',
-                            data: data,
-                            fill: false,
-                            backgroundColor: 'green',
-                            borderColor: 'green',
-                        },
-                    ],
-                    options: {
-                        scales: {
-                            yAxis: [
-                            {
-                                ticks: {
-                                beginAtZero: true,
-                                stepSize: 100
-                                },
-                            },
-                            ],
-                        },
-                    } 
-                }}
-            /> 
-        </div>
-    </div>
+    <AreaChart
+    width={500}
+    height={200}
+    data={data}
+    margin={{
+      top: 10,
+      right: 30,
+      left: 0,
+      bottom: 0
+    }}
+      >
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="Maand" />
+    <YAxis />
+    <Tooltip />
+    <Area type="monotone" dataKey="Resultaat" stroke="#f48183" fill="#f48183" />
+  </AreaChart>
   )
 }
 

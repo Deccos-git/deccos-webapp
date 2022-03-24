@@ -391,7 +391,7 @@ const ImpactProgress = () => {
                 {questionnaires && questionnaires.map(questionnaire => (
                     <div className='questionnaire-results-container'>
                         <p>Aantal responses</p>
-                        <p>{questionnaire.Responses}</p>
+                        <p>{questionnaire.Responses ? questionnaire.Responses : 0}</p>
                         <p>Bekijk analyse</p>
                     </div>
                 ))}

@@ -131,17 +131,17 @@ const LeftSideBar = () => {
             return(
                 <img src={eventIcon} alt="" />
             )
-        } else if(channel.Name === 'News'){
+        } else if(channel.Name === 'Nieuws'){
             return(
                 <img src={newsIcon} alt="" />
             )
         } else if(channel.Name === 'Kenniscentrum'){
             return(
-                <img src={articleIcon} alt="" />
+                <img src={channelIcon} alt="" />
             )
         } else {
             return(
-                <img src={channelIcon} alt="" />
+                <img src={articleIcon} alt="" />
             )
         }
     }
