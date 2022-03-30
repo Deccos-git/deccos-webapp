@@ -774,6 +774,53 @@ const useFirestoreTasksCompleteGoals = (id) => {
     return docs
 };
 
+const useFirestoreTasksActivities = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreTasksCompleteActivities = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Tasks')
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
+        .where('Completed', '==', true)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMyTasks = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1220,6 +1267,8 @@ export {
     useFirestoreTasksComplete,
     useFirestoreTasksGoals,
     useFirestoreTasksCompleteGoals,
+    useFirestoreTasksActivities,
+    useFirestoreTasksCompleteActivities,
     useFirestoreMyTasks,
     useFirestoreMyEvents,
     useFirestoreMyLikes,

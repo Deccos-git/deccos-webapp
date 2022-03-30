@@ -10,6 +10,8 @@ import {
     useFirestoreTasksCompleteGoals, 
     useFirestoreTasks, 
     useFirestoreTasksComplete, 
+    useFirestoreTasksActivities, 
+    useFirestoreTasksCompleteActivities, 
     useFirestoreOutputs,
     useFirestoreImpactInstruments,
     useFirestoreUsersApproved,
@@ -184,6 +186,11 @@ const ImpactProgress = () => {
                             </div>
                             <p>{activity.Impact}</p>
                         </div>
+                        <div className='goal-meta-title-container'>
+                                <img src={impactIcon} alt="" />
+                                <h3>Voortgang</h3>
+                            </div>
+                            <ProgressionBarActivity activity={activity}/>
                         <div>
                             <Outputs activity={activity}/>
                         </div>
@@ -297,8 +304,8 @@ const ImpactProgress = () => {
 
     const ProgressionBarActivity = ({activity}) => {
 
-        const tasks = useFirestoreTasks(activity.ID)
-        const tasksCompleted = useFirestoreTasksComplete(activity.ID)
+        const tasks = useFirestoreTasksActivities(activity.ID)
+        const tasksCompleted = useFirestoreTasksCompleteActivities(activity.ID)
 
         const completedArray = []
         const totalArray = []
@@ -311,13 +318,19 @@ const ImpactProgress = () => {
             completedArray.push(task)
         })
 
-        const onePercentage = totalArray.length !== 0 ? totalArray.length/100 : 0
-        const completed = completedArray.length !== 0 ? completedArray.length : 1
-
-        const average = onePercentage*completed
+        const task = () => {
+            if(completedArray.length != 1){
+                return 'taken'
+            } else {
+                return 'taak'
+            }
+        }
 
         return(
-            <div className='progressionbar-completed' style={{width: `${average}%`}}></div>
+            <div>
+                <p className='output-seeting-effect'>{completedArray.length} {task()} afgerond van de {totalArray.length} taken</p>
+            </div>
+            // <div className='progressionbar-completed' style={{width: `${average}%`}}></div>
         )
     }
 
