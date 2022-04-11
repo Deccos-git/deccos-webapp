@@ -99,6 +99,8 @@ const TaskDetail = () => {
                     </div>
         } else if(priority === undefined){
             return null
+        } else if(priority === ''){
+            return null
         }
     }
 
@@ -142,10 +144,6 @@ const TaskDetail = () => {
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
-            <div className="previous-message-container" onClick={backToOverview}>
-                <img src={ArrowLeftIcon} alt="" />
-                <p>Taak overzicht</p>
-            </div>
             <div className='page-header task-detail-header'>
                 <input id='input-task-edit-title' type="text" defaultValue={task} onChange={titleHandler}/>
                 {tasks && tasks.map(task => (

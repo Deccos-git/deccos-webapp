@@ -13,33 +13,34 @@ const Impacthub = () => {
 
     const [ID, setID] = useState('') 
     const [banner, setBanner] = useState("")
-    const [loader, setLoader] = useState("")
     const [docid, setDocid] = useState('')
+    const [name, setName] = useState('')
 
     const menuState = MenuStatus()
 
     const compagnies = useFirestore('CompagnyMeta')
-    const questionnaires = useFirestore('Questionnaires')
 
     useEffect(() => {
       compagnies && compagnies.forEach(compagny => {
           const ID = compagny.ID 
           const docid = compagny.docid
           const banner = compagny.ImpactBanner
+          const name = compagny.Compagny
 
           setID(ID)
           setDocid(docid)
           setBanner(banner)
+          setName(name)
       })
     }, [compagnies]);
     
-    const ToggleSwitch = ({questionnaire}) => {
+    const ToggleSwitch = ({}) => {
         return (
-          <div className="container">
+          <div>
             <div className="toggle-switch">
               <input type="checkbox" className="checkbox"
-                     name={questionnaire.Title} id={questionnaire.Title} data-docid={questionnaire.docid} onChange={toggleQuestionnaire} />
-              <label className="label" htmlFor={questionnaire.Title}>
+                     name={name} id={name} data-docid={docid} onChange={toggle} />
+              <label className="label" htmlFor={name}>
                 <span className="inner"/>
                 <span className="switch"/>
               </label>
@@ -48,15 +49,15 @@ const Impacthub = () => {
         );
       };
 
-    const toggleQuestionnaire = (e) => {
+    const toggle = (e) => {
 
         const check = e.target.checked
         const docid = e.target.dataset.docid
 
-        db.collection('Questionnaires')
+        db.collection('CompagnyMeta')
         .doc(docid)
         .update({
-            Public: check
+            Impacthub: check
         })
 
     }
@@ -122,18 +123,7 @@ const Impacthub = () => {
                 </div>
                 <div className='divider'>
                     <h2>Deel impactdashboard op impacthub</h2>
-                </div>
-                <div className='divider'>
-                    <h2>Deel mijlpalen op impacthub</h2>
-                </div>
-                <div className='divider'>
-                    <h2>Deel vragenlijsten op impacthub</h2>
-                    {questionnaires && questionnaires.map(questionnaire => (
-                        <div className='functionality-container' key={questionnaire.ID}>
-                           <p>{questionnaire.Title}</p>
-                           <ToggleSwitch questionnaire={questionnaire}/>
-                        </div>
-                    ))}
+                    <ToggleSwitch/>
                 </div>
                 <div>
                     <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impacthub</button></a>

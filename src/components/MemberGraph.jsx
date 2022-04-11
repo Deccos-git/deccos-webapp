@@ -1,93 +1,62 @@
-import { Line } from 'react-chartjs-2'
+import {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip
+  } from "recharts";
 import { useState, useEffect } from 'react'
 import { useFirestoreUsers} from '../firebase/useFirestore'
 
 const MemberGraph = () => {
-    const [labelUsers, setLabelUsers] = useState('')
-    const [dataUsers, setDataUsers] = useState('')
+    const [data, setData] = useState('')
 
-    const options = { month: 'long'};
+    const options = { month: 'numeric', day: 'numeric', year: 'numeric'};
 
-    const users = useFirestoreUsers(false)
-
-    const groupBy = (array, property) => {
-        return array.reduce((acc, obj) => {
-          let key = obj[property]
-          if (!acc[key]) {
-            acc[key] = []
-          }
-          acc[key].push(obj)
-          return acc
-        }, {})
-      }
+    const dataset = useFirestoreUsers(false)
 
     useEffect(() => {
 
-        const usersArray = []
+        const dataArray = []
 
-        users && users.forEach(user => {
+        dataset && dataset.forEach(data => {
 
-            const month = user.Timestamp.toDate().toLocaleDateString("nl-NL", options)
+            const month = data.Timestamp.toDate().toLocaleDateString("nl-NL", options)
 
-            const userObject = {
-                Month: month,
-                ID: user.ID
+            const dataObject = {
+                Maand: month,
+                Resultaat: data.Result
             }
 
-            usersArray.push(userObject)
+            dataArray.push(dataObject)
         })
 
-        const array = Object.entries(groupBy(usersArray, 'Month')) 
+       setData(dataArray)
 
-        const monthArray = []
-        const countArray = []
+    },[dataset])
 
-        array && array.forEach(arr => {
-
-            const month = arr[0]
-            const count = arr[1].length
-
-            monthArray.push(month)
-            countArray.push(count)
-
-        })
-
-        setLabelUsers(monthArray)
-        setDataUsers(countArray)
-
-    },[users])
 
 
   return (
     <div>
-        <h2>Leden</h2>
-            <div>
-            <Line data={{
-                    labels: labelUsers,
-                    datasets: [
-                        {
-                            label: 'Aantal leden',
-                            data: dataUsers,
-                            fill: false,
-                            backgroundColor: 'green',
-                            borderColor: 'green',
-                        },
-                    ],
-                    options: {
-                        scales: {
-                            yAxis: [
-                            {
-                                ticks: {
-                                beginAtZero: true,
-                                stepSize: 100
-                                },
-                            },
-                            ],
-                        },
-                    } 
-                }}
-            /> 
-        </div>
+        <AreaChart
+            width={500}
+            height={200}
+            data={data}
+            margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0
+            }}
+            >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Maand" />
+            <YAxis />
+            <Tooltip />
+            <Area type="monotone" dataKey="Resultaat" stroke="#f48183" fill="#f48183" />
+        </AreaChart>
     </div>
   )
 }

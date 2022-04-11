@@ -9,7 +9,7 @@ export const AuthProvider = (props) => {
 
     const getUserID = async () => {
 
-        await  auth.onAuthStateChanged(User =>{
+        auth.onAuthStateChanged(User =>{
             if(User){
                 const unsub = db.collection("Users")
                 .where("Compagny", "array-contains", client)

@@ -18,7 +18,8 @@ import {
     useFirestoreMilestones,
     useFirestoreMilestoneSteps,
     useFirestoreQuestionnaireFields,
-    useFirestoreQuestionnairesResponses
+    useFirestoreQuestionnairesResponses,
+    useFirestoreResults
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -43,6 +44,7 @@ import preconditionsIcon from '../../images/icons/preconditions-icon.png'
 import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
 import impactIcon from '../../images/icons/impact-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
+import progressIcon from '../../images/icons/progress-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
@@ -187,7 +189,7 @@ const ImpactProgress = () => {
                             <p>{activity.Impact}</p>
                         </div>
                         <div className='goal-meta-title-container'>
-                                <img src={impactIcon} alt="" />
+                                <img src={progressIcon} alt="" />
                                 <h3>Voortgang</h3>
                             </div>
                             <ProgressionBarActivity activity={activity}/>
@@ -248,6 +250,7 @@ const ImpactProgress = () => {
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
                         <h5>{milestone.Title}</h5>
+                        <MilestoneProgress milestone={milestone}/>
                         <MilestoneSteps milestone={milestone}/>
                     </div>
                 ))}
@@ -264,6 +267,8 @@ const ImpactProgress = () => {
                 return "Handmatig"
             } else if(instrument.Output.Datatype === 'Questionnairy'){
                 return 'Vragenlijst'
+            } else if(instrument.Output.Datatype === 'Members'){
+                return 'Automatisch'
             }
         }
         
@@ -302,6 +307,24 @@ const ImpactProgress = () => {
         )
    }
 
+   const MilestoneProgress = ({milestone}) => {
+       
+        const results = useFirestoreResults(milestone.InstrumentID)
+
+        const goal = milestone.Number
+
+    return(
+        <div>
+            <div>
+                <p>Huidig: {results.length}</p>
+            </div>
+            <div>
+                <p>Doel: {goal}</p>
+            </div>
+        </div>
+    )
+   }
+
     const ProgressionBarActivity = ({activity}) => {
 
         const tasks = useFirestoreTasksActivities(activity.ID)
@@ -330,7 +353,6 @@ const ImpactProgress = () => {
             <div>
                 <p className='output-seeting-effect'>{completedArray.length} {task()} afgerond van de {totalArray.length} taken</p>
             </div>
-            // <div className='progressionbar-completed' style={{width: `${average}%`}}></div>
         )
     }
 

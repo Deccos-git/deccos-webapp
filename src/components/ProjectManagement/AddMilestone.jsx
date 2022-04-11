@@ -23,6 +23,7 @@ const AddMilestone = () => {
   const [instrumentTitle, setInstrumentTitle] = useState(null)
   const [instrumentID, setInstrumentID] = useState('')
   const [title, setTitle] = useState('')
+  const [number, setNumber] = useState(0)
   const [headerPhoto, setHeaderPhoto] = useState('')
   const [activityID, setActivityID] = useState('')
 
@@ -57,6 +58,12 @@ const AddMilestone = () => {
     setTitle(title)
   }
 
+  const numberHandler = (e) => {
+    const number = e.target.value 
+
+    setNumber(number)
+  }
+
   const saveMilestone = (e) => {
 
     ButtonClicked(e, 'Opgeslagen')
@@ -74,6 +81,7 @@ const AddMilestone = () => {
       InstrumentID: instrumentID,
       ActivityID: activityID,
       Title: title,
+      Number: number
     })
     .then(() => {
         db.collection("AllActivity")
@@ -130,6 +138,10 @@ const AddMilestone = () => {
             <div className='divider'>
               <h2>Geef de mijlpaal een titel</h2>
               <input type="text" onChange={titleHandler} />
+            </div>
+            <div className='divider'>
+              <h2>Geef de mijlpaal een aantal</h2>
+              <input type="number" onChange={numberHandler} />
             </div>
             <div>
               <button onClick={saveMilestone}>Opslaan</button>

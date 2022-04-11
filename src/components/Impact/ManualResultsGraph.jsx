@@ -11,23 +11,11 @@ import { useFirestoreResults} from '../../firebase/useFirestore'
 
 const ManualResultsGraph = ({instrument}) => {
 
-    const [label, setLabel] = useState('')
     const [data, setData] = useState('')
 
-    const options = { month: 'long'};
+    const options = { month: 'numeric', day: 'numeric', year: 'numeric'};
 
     const dataset = useFirestoreResults(instrument.ID)
-
-    const groupBy = (array, property) => {
-        return array.reduce((acc, obj) => {
-          let key = obj[property]
-          if (!acc[key]) {
-            acc[key] = []
-          }
-          acc[key].push(obj)
-          return acc
-        }, {})
-      }
 
     useEffect(() => {
 

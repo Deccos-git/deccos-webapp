@@ -24,7 +24,8 @@ import { useFirestoreID,
     useFirestoreTasks, 
     useFirestoreImpactInstrumentsActivity,
     useFirestoreMilestonesActivity,
-    useFirestoreGroupsActivity
+    useFirestoreGroupsActivity,
+    useFirestoreResults
 } from "../../firebase/useFirestore"
 import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
@@ -36,6 +37,9 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 import ChatScreen from "../Community/ChatScreen";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import eventIcon from '../../images/icons/event-icon.png'
+import duplicateIcon from '../../images/icons/duplicate-icon.png'
+import progressIcon from '../../images/icons/progress-icon.png'
+import MemberGraph from "../MemberGraph";
 
 const Project = () => {
     const [authO] = useContext(Auth)
@@ -101,9 +105,11 @@ const Project = () => {
         const [userEmail, setUserEmail] = useState('')
         const [priority, setPriority] = useState('')
         const [headerPhoto, setHeaderPhoto] = useState('')
+        const [instrumentID, setInstrumentID] = useState("")
 
         const projectManagers = useFirestore('ProjectManagers')
         const banners = useFirestore('Banners')
+        const results = useFirestoreResults(instrumentID)
 
         useEffect(() => {
             banners && banners.forEach(banner => {
@@ -112,98 +118,98 @@ const Project = () => {
             })
         }, [banners])
 
-        const addTask = () => {
-            setModalOpen(true)
+        // const addTask = () => {
+        //     setModalOpen(true)
 
-        }
+        // }
 
-        const taskHandler = (e) => {
+        // const taskHandler = (e) => {
 
-            const title = e.target.value 
+        //     const title = e.target.value 
     
-            setTaskTitle(title)
+        //     setTaskTitle(title)
     
-        }
+        // }
     
-        const priorityHandler = (e) => {
+        // const priorityHandler = (e) => {
     
-            const priority = e.target.options[e.target.selectedIndex].value 
+        //     const priority = e.target.options[e.target.selectedIndex].value 
     
-            setPriority(priority)
+        //     setPriority(priority)
     
-        }
+        // }
     
-        const dateHandler = (e) => {
-            const date = e.target.value 
+        // const dateHandler = (e) => {
+        //     const date = e.target.value 
     
-            setDate(date)
-        }
+        //     setDate(date)
+        // }
     
-        const userHandler = (e) => {
-            const id = e.target.options[e.target.selectedIndex].dataset.id
-            const photo = e.target.options[e.target.selectedIndex].dataset.photo
-            const username = e.target.options[e.target.selectedIndex].dataset.name
-            const email = e.target.options[e.target.selectedIndex].dataset.email
+        // const userHandler = (e) => {
+        //     const id = e.target.options[e.target.selectedIndex].dataset.id
+        //     const photo = e.target.options[e.target.selectedIndex].dataset.photo
+        //     const username = e.target.options[e.target.selectedIndex].dataset.name
+        //     const email = e.target.options[e.target.selectedIndex].dataset.email
     
-            setUserID(id)
-            setUserName(username)
-            setUserPhoto(photo)
-            setUserEmail(email)
+        //     setUserID(id)
+        //     setUserName(username)
+        //     setUserPhoto(photo)
+        //     setUserEmail(email)
     
-        }
+        // }
 
-        const saveTask = (e) => {
+        // const saveTask = (e) => {
 
-            e.target.innerText = 'Opgeslagen'
-            e.target.style.color = '#959595'
+        //     e.target.innerText = 'Opgeslagen'
+        //     e.target.style.color = '#959595'
     
-            setTimeout(() => {
-                e.target.innerText = 'Opslaan'
-                e.target.style.color = 'green'
-            }, 10000);
+        //     setTimeout(() => {
+        //         e.target.innerText = 'Opslaan'
+        //         e.target.style.color = 'green'
+        //     }, 10000);
     
-            const ID = uuid()
+        //     const ID = uuid()
     
-            db.collection('Tasks')
-            .doc()
-            .set({
-                ProjectID: project.ID,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Task: taskTitle,
-                Title: taskTitle,
-                Date: date,
-                AppointedID: userID,
-                AppointedName: userName,
-                AppointedPhoto: userPhoto,
-                AppointedEmail: userEmail,
-                Completed: false,
-                Icon: completeIcon,
-                Type: 'Task',
-                Priority: priority
-            })
-            .then(() => {
-                db.collection("Search")
-                .doc()
-                .set({
-                    Name: taskTitle,
-                    Compagny: client,
-                    Type: 'Taak',
-                    Link: `TasksDetail/${ID}`
-                })
-            })
-            .then(() => {
-                closeModal()
-            })
-        }
+        //     db.collection('Tasks')
+        //     .doc()
+        //     .set({
+        //         ProjectID: project.ID,
+        //         ID: uuid(),
+        //         Compagny: client,
+        //         Timestamp: timestamp,
+        //         User: authO.UserName,
+        //         UserPhoto: authO.Photo,
+        //         UserID: authO.ID,
+        //         Task: taskTitle,
+        //         Title: taskTitle,
+        //         Date: date,
+        //         AppointedID: userID,
+        //         AppointedName: userName,
+        //         AppointedPhoto: userPhoto,
+        //         AppointedEmail: userEmail,
+        //         Completed: false,
+        //         Icon: completeIcon,
+        //         Type: 'Task',
+        //         Priority: priority
+        //     })
+        //     .then(() => {
+        //         db.collection("Search")
+        //         .doc()
+        //         .set({
+        //             Name: taskTitle,
+        //             Compagny: client,
+        //             Type: 'Taak',
+        //             Link: `TasksDetail/${ID}`
+        //         })
+        //     })
+        //     .then(() => {
+        //         closeModal()
+        //     })
+        // }
 
-        const closeModal = () => {
-            setModalOpen(false);
-        }
+        // const closeModal = () => {
+        //     setModalOpen(false);
+        // }
 
         const deleteTask = (e) => {
             const id = e.target.dataset.id 
@@ -220,10 +226,23 @@ const Project = () => {
     
         }
 
+        const totalResults = () => {
+
+            const total = results.length 
+
+            return total
+        }
+
+
         const taskCompleted = (e) => {
 
             const docid = e.target.dataset.docid 
             const completed = e.target.dataset.completed
+            const id = e.target.dataset.instrumentid 
+
+            setInstrumentID(id)
+
+            console.log(totalResults())
     
             if(completed === 'false'){
                 db.collection('Tasks')
@@ -232,6 +251,20 @@ const Project = () => {
                     Completed: true,
                     BackgroundColor: '#b2d7bb',
                     Icon: deleteTaskIcon
+                })
+                .then(() => {
+                    db.collection('Results')
+                    .doc()
+                    .set({
+                        Compagny: client,
+                        ID: uuid(),
+                        Result: 1,
+                        Timestamp: timestamp,
+                        InstrumentID: id,
+                        User: authO.UserName,
+                        UserPhoto: authO.Photo,
+                        UserID: authO.ID,
+                    })
                 })
             } else if (completed === 'true'){
                 db.collection('Tasks')
@@ -269,23 +302,73 @@ const Project = () => {
             }
         }
 
+        const duplicateTask = (e) => {
+
+            const taskTitle = e.target.dataset.task 
+            const date = e.target.dataset.date 
+            const userID = e.target.dataset.appointedid 
+            const userName = e.target.dataset.appointedname
+            const userPhoto = e.target.dataset.appointedphoto 
+            const userEmail = e.target.dataset.appointedemail
+            const priority = e.target.dataset.priority
+            const activityID = e.target.dataset.activityid 
+            const outputID = e.target.dataset.outputid 
+            const instrumentID = e.target.dataset.instrumentid
+
+            db.collection('Tasks')
+            .doc()
+            .set({
+                ProjectID: project.ID,
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                User: authO.UserName,
+                UserPhoto: authO.Photo,
+                UserID: authO.ID,
+                Task: taskTitle,
+                Date: date,
+                AppointedID: userID,
+                AppointedName: userName,
+                AppointedPhoto: userPhoto,
+                AppointedEmail: userEmail,
+                Completed: false,
+                Icon: completeIcon,
+                Type: 'Task',
+                Priority: priority,
+                ActivityID: activityID,
+                OutputID: outputID,
+                InstrumentID: instrumentID
+            })
+        }
+
         return (
             <>
                 <div className='task-overview-container add-task-container' style={{display: tasksDisplay}}>
-                    <div className='task-inner-container' onClick={addTask}>
-                        <img id='add-task-icon' src={plusIcon} alt="" />
-                        <p>Taak toevoegen</p>
-                    </div>
                     {tasks && tasks.map(task => (
                     <div className='task-overview-container' key={task.ID}>
                         <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
                             <div className='task-inner-container'>
-                                <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
+                                <img src={task.Icon} data-docid={task.docid} data-instrumentid={task.InstrumentID} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
                                 <p className='task-description'>{task.Task}</p>
                                 <TaskPriority task={task}/>
                                 <div className='appointed-container'>
                                     <img className='task-appointed-photo' onClick={linkProfile} src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} alt=""/>
                                 </div>
+                                <img 
+                                    src={duplicateIcon} 
+                                    alt="" 
+                                    data-task={task.Task} 
+                                    data-date={task.Date} 
+                                    data-priority={task.Priority} 
+                                    data-appointedid={task.AppointedID} 
+                                    data-appointedemail={task.AppointedEmail} 
+                                    data-appointedphoto={task.AppointedPhoto} 
+                                    data-appointedname={task.AppointedName}
+                                    data-activityid={task.ActivityID}
+                                    data-outputid={task.OutputID}
+                                    data-instrumentid={task.InstrumentID}
+                                    onClick={duplicateTask} 
+                                />
                                 <img src={settingsIcon} alt="" data-id={task.ID} onClick={taskLink}/>
                                 <img src={deleteIcon} alt="" data-id={task.docid} onClick={deleteTask}/>
                             </div>
@@ -293,7 +376,7 @@ const Project = () => {
                     </div>
                 ))}
                 </div>
-                <Modal
+                {/* <Modal
                     isOpen={modalOpen}
                     onRequestClose={closeModal}
                     style={modalStyles}
@@ -322,41 +405,14 @@ const Project = () => {
                         </select>
                     <button className='button-simple' onClick={saveTask}>Opslaan</button>
                 </div>
-                </Modal>
+                </Modal> */}
             </>
         )
     }
 
     const Instruments = ({project}) => {
-        const [result, setResult] = useState(0)
 
         const instruments = useFirestoreImpactInstrumentsActivity(project.ActivityID)
-
-        const resultHandler = (e) => {
-            const result = e.target.value 
-
-            setResult(result)
-        }
-
-        const saveResult = (e) => {
-
-            ButtonClicked(e, 'Opgeslagen')
-
-            const id = e.target.dataset.id
-
-            db.collection('Results')
-            .doc()
-            .set({
-                Compagny: client,
-                ID: uuid(),
-                Result: result,
-                Timestamp: timestamp,
-                InstrumentID: id,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-            })
-        }
 
         const Measures = ({instrument}) => {
 
@@ -370,14 +426,6 @@ const Project = () => {
                         <div>
                             <ManualResultsGraph instrument={instrument}/>
                         </div>
-                        <div className='activity-meta-title-container'>
-                            <img src={plusIcon} alt="" />
-                            <h3>Nieuw resultaat</h3>
-                        </div>
-                         <input type="number" onChange={resultHandler} />
-                         <div className='button-userrole-container'>
-                            <button className='button-simple' data-id={instrument.ID} onClick={saveResult}>Opslaan</button>
-                         </div>
                      </div>
                  )
             } else if(instrument.Output.Datatype === 'Questionnairy'){
@@ -388,6 +436,16 @@ const Project = () => {
                             <h3>Resultaat van vragenlijst</h3>
                         </div>
                         <QuestionnaireResults instrument={instrument}/>
+                    </div>
+                )
+            } else if(instrument.Output.Datatype === 'Members'){
+                return(
+                    <div>
+                        <div className='activity-meta-title-container'>
+                            <img src={resultsIcon} alt="" />
+                            <h3>Resultaat</h3>
+                        </div>
+                        <MemberGraph/>
                     </div>
                 )
             } 
@@ -406,6 +464,8 @@ const Project = () => {
                 return "Handmatig"
             } else if(instrument.Output.Datatype === 'Questionnairy'){
                 return 'Vragenlijst'
+            } else if(instrument.Output.Datatype === 'Members'){
+                return 'Automatisch'
             }
         }
 
@@ -526,6 +586,35 @@ const Project = () => {
         })
 
     }
+
+    const MilestoneProgress = ({instrument}) => {
+        const [goal, setGoal] = useState(0)
+
+        const results = useFirestoreResults(instrument)
+
+        useEffect(() => {
+            milestones && milestones.forEach(milestone => {
+
+                setGoal(milestone.Number)
+
+            })
+        },[milestones])
+
+        console.log(goal)
+
+
+        return(
+            <div>
+                <div>
+                    <p>Huidig: {results.length}</p>
+                </div>
+                <div>
+                    <p>Doel: {goal}</p>
+                </div>
+
+            </div>
+        )
+    }
    
         return(
             <div className='card-container' style={{display: milestonesDisplay}}>
@@ -540,29 +629,18 @@ const Project = () => {
                             <p className='questionnaire-results-container'>{milestone.Instrument}</p>
                             <div>
                                 <div className='activity-meta-title-container'>
-                                    <img src={eventIcon} alt="" />
-                                    <h3>Gecreerd op</h3>
+                                    <img src={progressIcon} alt="" />
+                                    <h3>Voortgang</h3>
                                 </div>
-                                <p className='questionnaire-results-container'>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                                <MilestoneProgress instrument={milestone.InstrumentID}/>
                             </div>
                             <div>
                                 <div className='activity-meta-title-container'>
                                     <img src={festiveIcon} alt="" />
-                                    <h3>Mijlpalen</h3>
+                                    <h3>Behaalde mijlpalen</h3>
                                 </div>
                                 <div className='questionnaire-results-container'>
                                     <MilestoneSteps milestone={milestone}/>
-                                </div>
-                            </div>
-                            <div>
-                                <div className='activity-meta-title-container'>
-                                    <img src={plusIcon} alt="" />
-                                    <h3>Mijlpaal toevoegen</h3>
-                                </div>
-                                <div className='add-milestone-container questionnaire-results-container' style={{backgroundColor: color}}>
-                                    <h4>{milestone.Title}</h4>
-                                    <img src={festiveIcon} alt="" />
-                                    <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
                                 </div>
                             </div>
                         </div>

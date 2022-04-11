@@ -688,6 +688,7 @@ const useFirestoreTasks = (id) => {
         const unsub = db.collection('Tasks')
         .where('Compagny', '==', client)
         .where('ProjectID', '==', id)
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -886,6 +887,27 @@ const useFirestoreMyLikes = (type, id) => {
         return () => unsub();
 
     }, [type, id])  
+
+    return docs
+};
+
+const useFirestoreQuestionnaires = (coll) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(coll)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [coll])  
 
     return docs
 };
@@ -1217,6 +1239,30 @@ const useFirestoreResults = (id) => {
         const unsub = db.collection("Results")
         .where('Compagny', '==', client)
         .where('InstrumentID', '==', id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreProjects = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Projects")
+        .where('Compagny', '==', client)
+        .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1272,6 +1318,7 @@ export {
     useFirestoreMyTasks,
     useFirestoreMyEvents,
     useFirestoreMyLikes,
+    useFirestoreQuestionnaires,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
     useFirestoreQuestionnaireAnalysis,
@@ -1286,5 +1333,6 @@ export {
     useFirestoreMilestonesActivity,
     useFirestoreMilestoneSteps,
     useFirestoreSDGs,
-    useFirestoreResults
+    useFirestoreResults,
+    useFirestoreProjects
 }
