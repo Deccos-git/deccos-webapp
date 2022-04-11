@@ -81,7 +81,7 @@ const AddMilestone = () => {
       InstrumentID: instrumentID,
       ActivityID: activityID,
       Title: title,
-      Number: number
+      Number: parseInt(number)
     })
     .then(() => {
         db.collection("AllActivity")

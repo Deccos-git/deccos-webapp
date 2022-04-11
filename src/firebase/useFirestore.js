@@ -1187,14 +1187,15 @@ const useFirestoreMilestonesActivity = (id) => {
     return docs
 };
 
-const useFirestoreMilestoneSteps = (id) => {
+const useFirestoreMilestonesInstrument = (id) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
-        const unsub = db.collection('MilestoneSteps')
+        const unsub = db.collection('Milestones')
         .where('Compagny', '==', client)
-        .where('MilestoneID', '==', id)
+        .where('InstrumentID', '==', id)
+        .where('Succes', '==', false)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1331,7 +1332,7 @@ export {
     useFirestoreOutputs,
     useFirestoreMilestones,
     useFirestoreMilestonesActivity,
-    useFirestoreMilestoneSteps,
+    useFirestoreMilestonesInstrument,
     useFirestoreSDGs,
     useFirestoreResults,
     useFirestoreProjects

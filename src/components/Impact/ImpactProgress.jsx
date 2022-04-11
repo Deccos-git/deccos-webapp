@@ -16,7 +16,6 @@ import {
     useFirestoreImpactInstruments,
     useFirestoreUsersApproved,
     useFirestoreMilestones,
-    useFirestoreMilestoneSteps,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
     useFirestoreResults
@@ -251,7 +250,6 @@ const ImpactProgress = () => {
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
                         <h5>{milestone.Title}</h5>
                         <MilestoneProgress milestone={milestone}/>
-                        <MilestoneSteps milestone={milestone}/>
                     </div>
                 ))}
             </div>
@@ -281,7 +279,12 @@ const ImpactProgress = () => {
                 <div className='output-seeting-effect'>
                     {instruments && instruments.map(instrument => (
                         <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
-                            <p data-id={instrument.ID}>{instrument.Output.Output} ({datatype(instrument)})</p>
+                            <p data-id={instrument.ID}>{instrument.Output.Output}</p>
+                            <div className='activity-meta-title-container'>
+                                <img src={resultsIcon} alt="" />
+                                <h5>Type</h5>
+                            </div>
+                            {datatype(instrument)}
                             <ResultsInternal instrument={instrument}/>
                         </div>
                     ))}
@@ -289,23 +292,6 @@ const ImpactProgress = () => {
             </div>
         )
     }
-
-    const MilestoneSteps = ({milestone}) => {
-
-        const steps = useFirestoreMilestoneSteps(milestone.ID)
-
-        return(
-            <div id='milestone-container-milestone-detail'>
-            {steps && steps.map(step => (
-               <div className='dashboard-milestone-step-container'>
-                   <p> + {step.MilestoneTitle}</p>
-                   <img src={festiveIcon} alt="" />
-                   <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-               </div>
-            ))}
-            </div>
-        )
-   }
 
    const MilestoneProgress = ({milestone}) => {
        

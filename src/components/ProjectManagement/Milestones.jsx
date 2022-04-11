@@ -2,7 +2,7 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import {useFirestore, useFirestoreTasks, useFirestoreTasksComplete, useFirestoreMilestoneSteps} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreTasks, useFirestoreTasksComplete} from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
 import { useState, useEffect, useContext  } from 'react'
@@ -38,21 +38,6 @@ const Milestones = () => {
         )
     }
 
-    const MilestoneSteps = ({milestone}) => {
-
-        const steps = useFirestoreMilestoneSteps(milestone.ID)
-
-        return(
-            <div>
-                <div className='activity-meta-title-container amount-container'>
-                    <img src={festiveIcon} alt="" />
-                    <p>Mijlpalen</p>
-                </div>
-                <p>Aantal: {steps.length}</p>
-            </div>
-        )
-   }
-
   return (
      <div className="main">
         <LeftSideBar />
@@ -72,7 +57,6 @@ const Milestones = () => {
                             </div>
                             <p className='activity-meta-title-description'><Progression milestone={milestone}/></p>
                         </div>
-                        <MilestoneSteps milestone={milestone}/>
                         <img src={settingsIcon} alt="" data-id={milestone.ID} onClick={milestoneLink}/>
                     </div>
                 </div>

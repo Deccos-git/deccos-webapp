@@ -20,12 +20,12 @@ import { useState, useEffect, useContext  } from 'react'
 import { useFirestoreID, 
     useFirestoreOutputs, 
     useFirestore, 
-    useFirestoreMilestoneSteps, 
     useFirestoreTasks, 
     useFirestoreImpactInstrumentsActivity,
     useFirestoreMilestonesActivity,
     useFirestoreGroupsActivity,
-    useFirestoreResults
+    useFirestoreResults,
+    useFirestoreMilestonesInstrument
 } from "../../firebase/useFirestore"
 import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
@@ -106,10 +106,13 @@ const Project = () => {
         const [priority, setPriority] = useState('')
         const [headerPhoto, setHeaderPhoto] = useState('')
         const [instrumentID, setInstrumentID] = useState("")
+        const [milestoneGoal, setMilestoneGoal] = useState('')
+        const [milestoneDocid, setMilestoneDocid] = useState('')
 
         const projectManagers = useFirestore('ProjectManagers')
         const banners = useFirestore('Banners')
         const results = useFirestoreResults(instrumentID)
+        const milestones = useFirestoreMilestonesInstrument(instrumentID)
 
         useEffect(() => {
             banners && banners.forEach(banner => {
@@ -117,6 +120,14 @@ const Project = () => {
                 setHeaderPhoto(header)
             })
         }, [banners])
+
+        useEffect(() => {
+            milestones && milestones.forEach(milestone => {
+                setMilestoneGoal(milestone.Number)
+                setMilestoneDocid(milestone.docid)
+            })
+        }, [milestones])
+        
 
         // const addTask = () => {
         //     setModalOpen(true)
@@ -233,6 +244,14 @@ const Project = () => {
             return total
         }
 
+        const milestoneStatus = () => {
+
+            const goal = milestoneGoal
+
+            return goal
+
+        }
+
 
         const taskCompleted = (e) => {
 
@@ -243,38 +262,48 @@ const Project = () => {
             setInstrumentID(id)
 
             console.log(totalResults())
+            console.log(milestoneStatus())
+
+            if(totalResults() === milestoneStatus()){
+
+                db.collection('Milestones')
+                .doc(milestoneDocid)
+                .update({
+                    Succes: true
+                })
+            }
     
-            if(completed === 'false'){
-                db.collection('Tasks')
-                .doc(docid)
-                .update({
-                    Completed: true,
-                    BackgroundColor: '#b2d7bb',
-                    Icon: deleteTaskIcon
-                })
-                .then(() => {
-                    db.collection('Results')
-                    .doc()
-                    .set({
-                        Compagny: client,
-                        ID: uuid(),
-                        Result: 1,
-                        Timestamp: timestamp,
-                        InstrumentID: id,
-                        User: authO.UserName,
-                        UserPhoto: authO.Photo,
-                        UserID: authO.ID,
-                    })
-                })
-            } else if (completed === 'true'){
-                db.collection('Tasks')
-                .doc(docid)
-                .update({
-                    Completed: false,
-                    BackgroundColor: 'white',
-                    Icon: completeIcon
-                })
-            }   
+            // if(completed === 'false'){
+            //     db.collection('Tasks')
+            //     .doc(docid)
+            //     .update({
+            //         Completed: true,
+            //         BackgroundColor: '#b2d7bb',
+            //         Icon: deleteTaskIcon
+            //     })
+            //     .then(() => {
+            //         db.collection('Results')
+            //         .doc()
+            //         .set({
+            //             Compagny: client,
+            //             ID: uuid(),
+            //             Result: 1,
+            //             Timestamp: timestamp,
+            //             InstrumentID: id,
+            //             User: authO.UserName,
+            //             UserPhoto: authO.Photo,
+            //             UserID: authO.ID,
+            //         })
+            //     })
+            // } else if (completed === 'true'){
+            //     db.collection('Tasks')
+            //     .doc(docid)
+            //     .update({
+            //         Completed: false,
+            //         BackgroundColor: 'white',
+            //         Icon: completeIcon
+            //     })
+            // }   
         }
 
         const linkProfile = (e) => {
@@ -511,9 +540,11 @@ const Project = () => {
     const Milestones = ({project}) => {
         const [color, setColor] = useState('')
         const [headerPhoto, setHeaderPhoto] = useState('')
+        const [succes, setSucces] = useState(false)
 
         const colors = useFirestore('Colors')
-        const banners = useFirestore('Banners')  
+        const banners = useFirestore('Banners')
+        const milestones = useFirestoreMilestonesActivity(project.ActivityID)   
 
         useEffect(() => {
             colors && colors.forEach(color => {
@@ -531,90 +562,38 @@ const Project = () => {
             })
           }, [banners])
 
-        const milestones = useFirestoreMilestonesActivity(project.ActivityID) 
+        const MilestoneProgress = ({instrument}) => {
+            const [goal, setGoal] = useState(0)
 
-        const MilestoneSteps = ({milestone}) => {
+            const results = useFirestoreResults(instrument)
 
-            const steps = useFirestoreMilestoneSteps(milestone.ID)
-   
+            useEffect(() => {
+                milestones && milestones.forEach(milestone => {
+
+                    setGoal(milestone.Number)
+                    setSucces(milestone.Succes)
+
+                })
+             },[milestones])
+
+             const succesColor = () => {
+                 if(succes === true){
+                     return '#b2d7bb'
+                 }
+             }
+
             return(
-                <div id='milestone-container-milestone-detail'>
-                {steps && steps.map(step => (
-                   <div className='add-milestone-container' style={{backgroundColor: color}}>
-                       <h4>{step.MilestoneTitle}</h4>
-                       <img src={festiveIcon} alt="" />
-                       <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                   </div>
-                ))}
+                <div style={{backgroundColor: succesColor()}}>
+                    <div>
+                        <p>Huidig: {results.length}</p>
+                    </div>
+                    <div>
+                        <p>Doel: {goal}</p>
+                    </div>
+
                 </div>
             )
-       }
-
-       const saveMilestone = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
-        const milestoneID = e.target.dataset.id
-        const milestoneTitle = e.target.dataset.title
-
-        db.collection('MilestoneSteps')
-        .doc()
-        .set({
-            Compagny: client,
-            Timestamp: timestamp,
-            MilestoneID: milestoneID,
-            MilestoneTitle: milestoneTitle,
-            ID: uuid()
-        })
-        .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: `${milestoneTitle}`,
-                Type: "NewMilestoneStep",
-                Compagny: client,
-                Timestamp: timestamp,
-                ID: uuid(),
-                Description: "heeft een nieuwe mijlpaal bereikt!",
-                ButtonText: "Bekijk mijlpaal",
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Banner: headerPhoto,
-                Link: `MilestoneDetail/${milestoneID}`
-            }) 
-        })
-
-    }
-
-    const MilestoneProgress = ({instrument}) => {
-        const [goal, setGoal] = useState(0)
-
-        const results = useFirestoreResults(instrument)
-
-        useEffect(() => {
-            milestones && milestones.forEach(milestone => {
-
-                setGoal(milestone.Number)
-
-            })
-        },[milestones])
-
-        console.log(goal)
-
-
-        return(
-            <div>
-                <div>
-                    <p>Huidig: {results.length}</p>
-                </div>
-                <div>
-                    <p>Doel: {goal}</p>
-                </div>
-
-            </div>
-        )
-    }
+        }
    
         return(
             <div className='card-container' style={{display: milestonesDisplay}}>
@@ -633,15 +612,6 @@ const Project = () => {
                                     <h3>Voortgang</h3>
                                 </div>
                                 <MilestoneProgress instrument={milestone.InstrumentID}/>
-                            </div>
-                            <div>
-                                <div className='activity-meta-title-container'>
-                                    <img src={festiveIcon} alt="" />
-                                    <h3>Behaalde mijlpalen</h3>
-                                </div>
-                                <div className='questionnaire-results-container'>
-                                    <MilestoneSteps milestone={milestone}/>
-                                </div>
                             </div>
                         </div>
                     </div>

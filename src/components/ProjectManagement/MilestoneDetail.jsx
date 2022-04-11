@@ -2,7 +2,7 @@ import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreMessages, useFirestore , useFirestoreMilestoneSteps} from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreMessages, useFirestore} from "../../firebase/useFirestore"
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
@@ -84,60 +84,6 @@ const MilestoneDetail = () => {
         })
     }
 
-    const saveMilestone= (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
-        const milestoneID = e.target.dataset.id
-        const milestoneTitle = e.target.dataset.title
-
-        db.collection('MilestoneSteps')
-        .doc()
-        .set({
-            Compagny: client,
-            Timestamp: timestamp,
-            MilestoneID: milestoneID,
-            MilestoneTitle: milestoneTitle,
-            ID: uuid()
-        })
-        .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: `${milestoneTitle}`,
-                Type: "NewMilestoneStep",
-                Compagny: client,
-                Timestamp: timestamp,
-                ID: uuid(),
-                Description: "heeft een nieuwe mijlpaal bereikt!",
-                ButtonText: "Bekijk mijlpaal",
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Banner: headerPhoto,
-                Link: `MilestoneDetail/${milestoneID}`
-            }) 
-        })
-
-    }
-
-    const MilestoneSteps = ({milestone}) => {
-
-         const steps = useFirestoreMilestoneSteps(milestone.ID)
-
-         return(
-             <div id='milestone-container-milestone-detail'>
-             {steps && steps.map(step => (
-                <div className='add-milestone-container' style={{backgroundColor: color}}>
-                    <h4>{step.MilestoneTitle}</h4>
-                    <img src={festiveIcon} alt="" />
-                    <p>{step.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                </div>
-             ))}
-             </div>
-         )
-    }
-
     return (
          <div className="main">
         <LeftSideBar />
@@ -155,18 +101,6 @@ const MilestoneDetail = () => {
                         <div>
                             <h3>Gecreerd op</h3>
                             <p>{milestone.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                        </div>
-                        <div>
-                            <h3>Mijlpalen</h3>
-                            <MilestoneSteps milestone={milestone}/>
-                        </div>
-                        <div>
-                            <h3>Mijlpaal toevoegen</h3>
-                            <div className='add-milestone-container' style={{backgroundColor: color}}>
-                                <h4>{milestone.Title}</h4>
-                                <img src={festiveIcon} alt="" />
-                                <button data-id={milestone.ID} data-title={milestone.Title} onClick={saveMilestone}>Toevoegen</button>
-                            </div>
                         </div>
                     </div>
                 </div>
