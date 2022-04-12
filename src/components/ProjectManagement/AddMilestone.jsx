@@ -26,12 +26,17 @@ const AddMilestone = () => {
   const [number, setNumber] = useState(0)
   const [headerPhoto, setHeaderPhoto] = useState('')
   const [activityID, setActivityID] = useState('')
+  const [compagnyLogo, setCompagnyLogo] = useState('')
+  const [compagnyBanner, setCompagnyBanner] = useState('')
+  const [compagnyName, setCompagnyName] = useState('')
+  const [compagnyID, setCompagnyID] = useState('')
 
   const menuState = MenuStatus()
   const history = useHistory()
 
   const instruments = useFirestore('ImpactInstruments')
   const banners = useFirestore('Banners')
+  const compagnies = useFirestore('CompagnyMeta')
 
   useEffect(() => {
     banners && banners.forEach(banner => {
@@ -39,6 +44,16 @@ const AddMilestone = () => {
         setHeaderPhoto(header)
     })
   }, [banners])
+
+  useEffect(() => {
+    compagnies && compagnies.forEach(compagny => {
+      setCompagnyLogo(compagny.Logo)
+      setCompagnyBanner(compagny.ImpactBanner)
+      setCompagnyName(compagny.CommunityName)
+      setCompagnyID(compagny.ID)
+    })
+
+  },[compagnies])
 
   const outputHandler = (e) => {
     const instrumentTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -81,7 +96,12 @@ const AddMilestone = () => {
       InstrumentID: instrumentID,
       ActivityID: activityID,
       Title: title,
-      Number: parseInt(number)
+      Number: parseInt(number),
+      Succes: false,
+      Logo: compagnyLogo,
+      Banner: compagnyBanner,
+      CompagnyName: compagnyName,
+      CompagnyID: compagnyID
     })
     .then(() => {
         db.collection("AllActivity")

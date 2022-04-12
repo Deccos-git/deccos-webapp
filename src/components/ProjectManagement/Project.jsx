@@ -576,21 +576,28 @@ const Project = () => {
                 })
              },[milestones])
 
+            const width = results.length*100/goal
+
+            const percentage = `${width}%`
+
              const succesColor = () => {
-                 if(succes === true){
-                     return '#b2d7bb'
-                 }
+                if(succes === true){
+                    return '#00cd00'
+                } else {
+                    return '#63cadc'
+                }
              }
 
             return(
-                <div style={{backgroundColor: succesColor()}}>
-                    <div>
-                        <p>Huidig: {results.length}</p>
-                    </div>
-                    <div>
+                <div className='milestone-progress-container'>
+                    <div className='percentage-container'>
+                        <p>Huidig: {results.length} ({width}%)</p>
                         <p>Doel: {goal}</p>
                     </div>
-
+                    
+                    <div className='progressbar-outer-bar'>
+                        <div className='progressbar-progress' style={{width: percentage, backgroundColor: succesColor()}}></div>
+                    </div>
                 </div>
             )
         }

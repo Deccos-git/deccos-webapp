@@ -44,6 +44,7 @@ import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
 import impactIcon from '../../images/icons/impact-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
 import progressIcon from '../../images/icons/progress-icon.png'
+import typeIcon from '../../images/icons/type-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
@@ -281,10 +282,10 @@ const ImpactProgress = () => {
                         <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
                             <p data-id={instrument.ID}>{instrument.Output.Output}</p>
                             <div className='activity-meta-title-container'>
-                                <img src={resultsIcon} alt="" />
+                                <img src={typeIcon} alt="" />
                                 <h5>Type</h5>
                             </div>
-                            {datatype(instrument)}
+                            <p className='output-seeting-effect'>{datatype(instrument)}</p>
                             <ResultsInternal instrument={instrument}/>
                         </div>
                     ))}
@@ -299,16 +300,42 @@ const ImpactProgress = () => {
 
         const goal = milestone.Number
 
+        const width = results.length*100/goal
+
+        const percentage = `${width}%`
+
+        const checkSucces = () => {
+            db.collection('Milestones')
+            .doc(milestone.docid)
+            .update({
+                Succes: true
+            })
+        }
+
+        const succes = () => {
+
+            if(results.length >= goal){
+                checkSucces()
+                return '#00cd00'
+            } else {
+                return '#63cadc'
+            }
+        }
+
     return(
-        <div>
-            <div>
-                <p>Huidig: {results.length}</p>
-            </div>
-            <div>
+        <div className='milestone-progress-container'>
+            <div className='percentage-container'>
+                <p>Huidig: {results.length} ({width}%)</p>
                 <p>Doel: {goal}</p>
             </div>
+            
+            <div className='progressbar-outer-bar'>
+                <div className='progressbar-progress' style={{width: percentage, backgroundColor: succes()}}></div>
+            </div>
+
         </div>
-    )
+        
+        )
    }
 
     const ProgressionBarActivity = ({activity}) => {
