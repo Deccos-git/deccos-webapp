@@ -19,6 +19,7 @@ const Impacthub = () => {
     const menuState = MenuStatus()
 
     const compagnies = useFirestore('CompagnyMeta')
+    const followers = useFirestore("FollowsImpacthub")
 
     useEffect(() => {
       compagnies && compagnies.forEach(compagny => {
@@ -124,6 +125,28 @@ const Impacthub = () => {
                 <div className='divider'>
                     <h2>Deel impactdashboard op impacthub</h2>
                     <ToggleSwitch/>
+                </div>
+                <div className='divider'>
+                    <h2>Volgers op Impacthub</h2>
+                    <p>Totaal: {followers.length}</p>
+                    <div>
+                        {followers && followers.map(follower => (
+                            <div className='list-container'>
+                                <div className='list-inner-container'>
+                                    <div className='title-container'>
+                                        <p>NAAM</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p>{follower.User}</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        ))}
+
+                    </div>
+
                 </div>
                 <div>
                     <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impacthub</button></a>

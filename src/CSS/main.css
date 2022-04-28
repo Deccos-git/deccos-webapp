@@ -1541,15 +1541,6 @@
       list-style-type: none;
   }
 
-  .list-inner-container{
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      text-align: left;
-      width: 90%;
-  }
-
   .card-inner-container{
     padding: 20px;
     display: flex;

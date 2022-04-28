@@ -99,6 +99,8 @@ import MilestoneDetail from './ProjectManagement/MilestoneDetail';
 import OutputSettings from './Impact/OutputSettings';
 import OutputSettingsDetail from './Impact/OutputSettingsDetail';
 import AddOutput from './Impact/AddOutput';
+import SROI from './Impact/SROI';
+import AddSROI from './Impact/AddSROI';
 import Project from './ProjectManagement/Project';
 
 const Main = () => {
@@ -234,6 +236,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ImpactProgress`}>
                     <ImpactProgress/>
+                </Route>
+                <Route path={`/${client}/SROI`}>
+                    <SROI/>
+                </Route>
+                <Route path={`/${client}/AddSROI`}>
+                    <AddSROI/>
                 </Route>
                 <Route path={`/${client}/Impacthub`}>
                     <Impacthub/>

@@ -18,7 +18,8 @@ import {
     useFirestoreMilestones,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
-    useFirestoreResults
+    useFirestoreResults,
+    useFirestoreSROIs
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -227,6 +228,13 @@ const ImpactProgress = () => {
                             <p className='output-seeting-effect'>{output.Effect}</p>
                         </div>
                         <div className='dashboard-instruments-container'>
+                            <div className='activity-meta-title-container'>
+                                <img src={effectIcon} alt="" />
+                                <h4>SROI</h4>
+                            </div>
+                            <p className='output-seeting-effect'><SROI output={output}/></p>
+                        </div>
+                        <div className='dashboard-instruments-container'>
                             <Instruments output={output}/>
                         </div>
                         <Milestones output={output}/>
@@ -234,6 +242,22 @@ const ImpactProgress = () => {
                 ))}
                 
             </div>
+        )
+    }
+
+    const SROI = ({output}) => {
+
+        const SROIs = useFirestoreSROIs(output.ID)
+
+        return(
+            <>
+                {SROIs && SROIs.map(SROI => (
+                    <div>
+                        <p><b>{SROI.Title}</b></p>
+                        <p>€{SROI.Value} per {SROI.Output.toLowerCase()}</p>
+                    </div>
+                ))}
+            </>  
         )
     }
 
@@ -259,6 +283,8 @@ const ImpactProgress = () => {
 
     const Instruments = ({output}) => {
         const instruments = useFirestoreImpactInstruments(output.ID) 
+
+        const SROI = output.SROI
 
         const datatype = (instrument) => {
 
@@ -286,7 +312,7 @@ const ImpactProgress = () => {
                                 <h5>Type</h5>
                             </div>
                             <p className='output-seeting-effect'>{datatype(instrument)}</p>
-                            <ResultsInternal instrument={instrument}/>
+                            <Results instrument={instrument} SROI={SROI}/>
                         </div>
                     ))}
                 </div>
@@ -369,7 +395,10 @@ const ImpactProgress = () => {
         )
     }
 
-    const ResultsInternal = ({instrument}) => {
+    const Results = ({instrument, SROI}) => {
+
+        const dataset = useFirestoreResults(instrument.ID)
+        const totalSROI = dataset.length*SROI
 
         const matchesArray = []
 
@@ -403,6 +432,7 @@ const ImpactProgress = () => {
         } else if(instrument.Output.Datatype === 'Manual'){
 
             return(
+                <>
                 <div className='internal-results-container'>
                     <div className='activity-meta-title-container'>
                         <img src={resultsIcon} alt="" />
@@ -410,6 +440,14 @@ const ImpactProgress = () => {
                     </div>
                     <ManualResultsGraph instrument={instrument}/>
                 </div>
+                <div className='internal-results-container'>
+                    <div className='activity-meta-title-container'>
+                        <img src={resultsIcon} alt="" />
+                        <h5>Totale SROI</h5>
+                    </div>
+                    <p className='output-seeting-effect'>{dataset.length} x €{SROI} = €{totalSROI}</p>
+                </div>
+                </>
             )
         } else if(instrument.Output.Datatype === 'Questionnairy'){
 

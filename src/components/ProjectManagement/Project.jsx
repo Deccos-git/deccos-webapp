@@ -273,37 +273,37 @@ const Project = () => {
                 })
             }
     
-            // if(completed === 'false'){
-            //     db.collection('Tasks')
-            //     .doc(docid)
-            //     .update({
-            //         Completed: true,
-            //         BackgroundColor: '#b2d7bb',
-            //         Icon: deleteTaskIcon
-            //     })
-            //     .then(() => {
-            //         db.collection('Results')
-            //         .doc()
-            //         .set({
-            //             Compagny: client,
-            //             ID: uuid(),
-            //             Result: 1,
-            //             Timestamp: timestamp,
-            //             InstrumentID: id,
-            //             User: authO.UserName,
-            //             UserPhoto: authO.Photo,
-            //             UserID: authO.ID,
-            //         })
-            //     })
-            // } else if (completed === 'true'){
-            //     db.collection('Tasks')
-            //     .doc(docid)
-            //     .update({
-            //         Completed: false,
-            //         BackgroundColor: 'white',
-            //         Icon: completeIcon
-            //     })
-            // }   
+            if(completed === 'false'){
+                db.collection('Tasks')
+                .doc(docid)
+                .update({
+                    Completed: true,
+                    BackgroundColor: '#b2d7bb',
+                    Icon: deleteTaskIcon
+                })
+                .then(() => {
+                    db.collection('Results')
+                    .doc()
+                    .set({
+                        Compagny: client,
+                        ID: uuid(),
+                        Result: 1,
+                        Timestamp: timestamp,
+                        InstrumentID: id,
+                        User: authO.UserName,
+                        UserPhoto: authO.Photo,
+                        UserID: authO.ID,
+                    })
+                })
+            } else if (completed === 'true'){
+                db.collection('Tasks')
+                .doc(docid)
+                .update({
+                    Completed: false,
+                    BackgroundColor: 'white',
+                    Icon: completeIcon
+                })
+            }   
         }
 
         const linkProfile = (e) => {

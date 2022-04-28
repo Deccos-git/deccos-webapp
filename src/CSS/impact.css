@@ -334,6 +334,21 @@
 #impact-banner{
     width: 100%;
     border-radius: 5px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.title-container{
+    border-bottom: lightgray solid 1px;
+    width: 100%;
+}
+
+.title-container p{
+    font-weight: bold;
+}
+
+.list-inner-container{
+    width: 100%;
 }
 
 .internal-results-container{

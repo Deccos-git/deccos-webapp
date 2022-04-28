@@ -170,7 +170,7 @@ const RegisterUser = () => {
             from: 'info@deccos.nl',
             replyTo: 'info@deccos.nl',
             message: {
-            subject: `Iemand heeft zich aangemald voor ${communityName}`,
+            subject: `Iemand heeft zich aangemeld voor ${communityName}`,
             html: `
                 Iemand heeft zich aangemeld voor jullie community. <br><br>
 

@@ -327,6 +327,7 @@ const LeftSideBarAuthProfile = () => {
                         <Link to={`/${client}/OutputSettings`} onClick={changeMenuStatus}>Outputs</Link>
                         <Link to={`/${client}/Instruments`} onClick={changeMenuStatus}>Meetinstrumenten</Link>
                         <Link to={`/${client}/MilestoneSettings`} onClick={changeMenuStatus}>Mijlpalen</Link>
+                        <Link to={`/${client}/SROI`} onClick={changeMenuStatus}>SROI</Link>
                         <Link to={`/${client}/QuestionnaireSettings`} onClick={changeMenuStatus}>Vragenlijsten</Link>
                         <Link to={`/${client}/Stakeholders`} onClick={changeMenuStatus}>Stakeholders</Link>
                         <Link to={`/${client}/Impacthub`} onClick={changeMenuStatus}>Impacthub</Link>

@@ -1279,6 +1279,29 @@ const useFirestoreProjects = (id) => {
     return docs
 };
 
+const useFirestoreSROIs = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("SROIs")
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -1335,5 +1358,6 @@ export {
     useFirestoreMilestonesInstrument,
     useFirestoreSDGs,
     useFirestoreResults,
-    useFirestoreProjects
+    useFirestoreProjects,
+    useFirestoreSROIs
 }
