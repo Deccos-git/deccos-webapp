@@ -173,7 +173,7 @@ const Profile = () => {
                         <div className='divider'>
                             {userCompagnies > 0}{
                                 <>
-                                    <h2>Mijn online omgevingen</h2>
+                                    <h2>Mijn organisaties</h2>
                                     <div>
                                         {userCompagnies && userCompagnies.map(compagny => (
                                             <div className='user-compagnies-container'>

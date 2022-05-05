@@ -49,6 +49,7 @@ import typeIcon from '../../images/icons/type-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
+import sroiIcon from '../../images/icons/sroi-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -87,9 +88,6 @@ const ImpactProgress = () => {
             <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
             <div id='impact-progress-goal-container' className='divider'>
                 <h2>{goal.Title}</h2>
-                {/* <div className='progressionbar-outer-bar'>
-                    <ProgressionBarGoal goal={goal}/>
-                </div> */}
                 <div id='goal-meta-container'>
                     <div className='goal-meta-inner-container'>
                         <div className='goal-meta-title-container'>
@@ -229,7 +227,7 @@ const ImpactProgress = () => {
                         </div>
                         <div className='dashboard-instruments-container'>
                             <div className='activity-meta-title-container'>
-                                <img src={effectIcon} alt="" />
+                                <img src={sroiIcon} alt="" />
                                 <h4>SROI</h4>
                             </div>
                             <p className='output-seeting-effect'><SROI output={output}/></p>
@@ -497,7 +495,6 @@ const ImpactProgress = () => {
                     <Goals/>
                 </div>   
             </div>
-            <RightSideBar />
         </div>
     )
 }

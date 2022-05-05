@@ -338,9 +338,43 @@
     object-fit: cover;
 }
 
+.settings-icon{
+    margin: 0px 10px 0px auto;
+    cursor: pointer;
+}
+
 .title-container{
     border-bottom: lightgray solid 1px;
     width: 100%;
+}
+
+.wizard-sub-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.wizard-detail-icons{
+    height: 30px !important;
+    width: 30px !important;
+}
+
+.step-container{
+    display: flex;
+    align-items: center;
+}
+
+.step-container img{
+    width: 15px;
+    height: 10px;
+    margin: 10px;
+}
+
+.text-section{
+    border-radius: 5px;
+    padding: 20px;
+    margin-left: 30px;
 }
 
 .title-container p{

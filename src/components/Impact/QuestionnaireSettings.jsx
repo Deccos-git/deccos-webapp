@@ -1,5 +1,5 @@
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
 import { client } from "../../hooks/Client"
@@ -96,8 +96,8 @@ const QuestionnaireSettings = () => {
 
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="settings-inner-container">
                 <div className="divider card-header">

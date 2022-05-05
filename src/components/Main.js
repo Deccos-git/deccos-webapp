@@ -102,6 +102,8 @@ import AddOutput from './Impact/AddOutput';
 import SROI from './Impact/SROI';
 import AddSROI from './Impact/AddSROI';
 import Project from './ProjectManagement/Project';
+import Introduction from './Wizard/Introduction'
+import GoalTitle from './Wizard/GoalTitle';
 
 const Main = () => {
 
@@ -121,7 +123,7 @@ const Main = () => {
                     <NotApproved/>
                 </Route>
                 <Route exact path={`/${client}/`}>
-                    <AllActivity/>
+                    <ImpactProgress/>
                 </Route>
                 <Route path={`/${client}/AllActivity`}>
                     <AllActivity/>
@@ -398,6 +400,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/GoalSettingsDetail`}>
                     <GoalSettingsDetail />
+                </Route>
+                <Route path={`/${client}/Introduction`}>
+                    <Introduction />
+                </Route>
+                <Route path={`/${client}/GoalTitle`}>
+                    <GoalTitle />
                 </Route>
             </Switch>
         </div>

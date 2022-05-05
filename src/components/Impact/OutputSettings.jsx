@@ -1,6 +1,6 @@
 import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
 import { Link } from "react-router-dom";
 import { client } from "../../hooks/Client"
@@ -89,8 +89,8 @@ const OutputSettings = () => {
 
   return (
      <div className="main">
-    <LeftSideBarAuthProfile />
-    <LeftSideBarAuthProfileFullScreen/>
+    <LeftSideBar />
+    <LeftSideBarFullScreen/>
     <div className="profile profile-auth-profile" style={{display: menuState}}>
         <div className="settings-inner-container">
             <div className="divider card-header">

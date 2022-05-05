@@ -2,6 +2,8 @@
 import {ReactComponent as NotificationIcon} from '../../images/icons/notifications-icon.svg'
 import {ReactComponent as ChatIcon} from '../../images/icons/chat-icon.svg'
 import {ReactComponent as SearchIcon}  from '../../images/icons/search-icon.svg'
+import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { useFirestoreNotifications, useFirestoreNewMessagesChatGroups } from '../../firebase/useFirestore';
@@ -119,17 +121,49 @@ const Iconbar = () => {
                 }  
                 onClick={showMessages}/>
             </div>
-            <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
-                <SearchIcon 
-                style={
-                    {
-                        width: '19px',
-                        height: '19px',
-                        fill: colors.TopBarIconsColor,
-                        marginBottom: '-7px'
-                    }
-                }  />
-            </Link>
+            <div className="icon-container">
+                <Link to={`/${client}/Introduction`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                    <MagicIcon 
+                    style={
+                        {
+                            width: '19px',
+                            height: '19px',
+                            fill: colors.TopBarIconsColor,
+                            marginBottom: '-7px',
+                            marginLeft: '5px',
+                            marginRight: '5px'
+                        }
+                    }  />
+                </Link>
+            </div>
+            <div className="icon-container">
+                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                    <SearchIcon 
+                    style={
+                        {
+                            width: '19px',
+                            height: '19px',
+                            fill: colors.TopBarIconsColor,
+                            marginBottom: '-7px',
+                            marginLeft: '5px',
+                            marginRight: '5px'
+                        }
+                    }  />
+                </Link>
+            </div>
+            <div className="icon-container">
+                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                    <QuestionIcon 
+                    style={
+                        {
+                            width: '19px',
+                            height: '19px',
+                            fill: colors.TopBarIconsColor,
+                            marginBottom: '-7px'
+                        }
+                    }  />
+                </Link>
+            </div>
         </div>
     )
 }

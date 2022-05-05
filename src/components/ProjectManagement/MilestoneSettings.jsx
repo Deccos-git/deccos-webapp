@@ -1,6 +1,6 @@
 import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen";
 import MenuStatus from "../../hooks/MenuStatus";
 import { db } from "../../firebase/config.js"
 import { useState, useEffect } from "react";
@@ -39,8 +39,8 @@ const MilestoneSettings = () => {
 
   return (
     <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="card-header">
                 <h1>Mijlpalen</h1>

@@ -3,6 +3,7 @@ import { client } from '../../hooks/Client';
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
+import { auth } from "../../firebase/config";
 
 
 const ProfilePhoto = () => {
@@ -15,7 +16,13 @@ const ProfilePhoto = () => {
 
     return (
         <div className="profile-photo">
-            <Link onClick={changeMenuStatus} to={`/${client}/Profile`}><img src={authO.Photo} alt="" /></Link>
+            <Link onClick={changeMenuStatus} to={`/${client}/Profile`}>
+                <div id='photo-container-topbar'>
+                    <img src={authO.Photo} alt="" />
+                    <p>{authO.ForName}</p>
+                </div>
+                
+                </Link>
         </div>
     )
 }

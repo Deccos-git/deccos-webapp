@@ -1,5 +1,5 @@
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import RightSideBar from "../rightSideBar/RightSideBar"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
@@ -54,8 +54,8 @@ const Stakeholders = () => {
 
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="divider card-header">
                 <h1>Stakeholders</h1>

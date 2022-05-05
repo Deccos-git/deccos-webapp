@@ -1,6 +1,5 @@
-import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen";
 import MenuStatus from "../../hooks/MenuStatus";
 import { db } from "../../firebase/config.js"
 import { useState, useEffect } from "react";
@@ -110,12 +109,12 @@ const Impacthub = () => {
     
     return (
        <div className="main">
-            <LeftSideBarAuthProfile />
-            <LeftSideBarAuthProfileFullScreen/>
+            <LeftSideBar />
+            <LeftSideBarFullScreen/>
             <div className="profile profile-auth-profile" style={{display: menuState}}>
                 <div className="card-header">
-                    <h1>Impacthub</h1>
-                    <p>Verander de instellingen voor de impacthub</p>
+                    <h1>Impactclub</h1>
+                    <p>Verander de instellingen voor de impactclub</p>
                 </div>
                 <div className='divider'>
                     <h2>Upload een banner</h2>
@@ -123,11 +122,11 @@ const Impacthub = () => {
                     <input className="input-classic" onChange={bannerHandler} type="file" />
                 </div>
                 <div className='divider'>
-                    <h2>Deel impactdashboard op impacthub</h2>
+                    <h2>Deel impactdashboard op impactclub</h2>
                     <ToggleSwitch/>
                 </div>
                 <div className='divider'>
-                    <h2>Volgers op Impacthub</h2>
+                    <h2>Volgers op Impactclub</h2>
                     <p>Totaal: {followers.length}</p>
                     <div>
                         {followers && followers.map(follower => (
@@ -149,11 +148,10 @@ const Impacthub = () => {
 
                 </div>
                 <div>
-                    <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impacthub</button></a>
+                    <a href={`https://deccos.nl/Impacthub/OrganisationDetail/${ID}`}><button>Naar impactclub</button></a>
                    
                 </div>
             </div>
-            <RightSideBar />
         </div>
     )
 }

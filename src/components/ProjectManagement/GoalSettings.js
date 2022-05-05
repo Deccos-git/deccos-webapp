@@ -1,9 +1,8 @@
 import {useFirestore} from "../../firebase/useFirestore"
 import { Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile"
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "../rightSideBar/RightSideBar";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import settingsIcon from '../../images/icons/settings-icon.png'
 import { db } from "../../firebase/config";
@@ -18,7 +17,7 @@ const GoalSettings = () => {
     const history = useHistory();
     const menuState = MenuStatus()
 
-    const goalSettings = (e) => {
+    const goalLink = (e) => {
 
         const id = e.target.dataset.id
 
@@ -28,32 +27,26 @@ const GoalSettings = () => {
 
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="settings-inner-container">
-                <div className="divider card-header">
-                    <h1>Doelen</h1>
-                    <p>Pas de instellingen aan de doelen aan</p>
+            <LeftSideBar/>
+            <LeftSideBarFullScreen/>
+            <div className="main-container" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Impactdoelen</h1>
                 </div>
-                <div className="divider">
-                    <h3>Doel toevoegen</h3>
-                    <Link to={`/${client}/AddGoal`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
-                </div>
-                <div className="divider">
-                    <h3>Community doelen</h3>
+                <div className="card-container" >
                     {goals && goals.map(goal => (
-                        <div className="channel-container">
-                            <p>{goal.Title}</p>
-                            <div className="icon-container">
-                                <img src={settingsIcon} data-id={goal.ID} onClick={goalSettings} />
+                        <div className="card">
+                            <img className="goal-card-banner" src={goal.Banner} alt="" />
+                            <div className="goalcard-body-div">
+                                <h2>{goal.Title}</h2>
+                            </div>
+                            <div className="button-container">
+                                <button className="goal-card-button" data-id={goal.ID} onClick={goalLink}>Bekijk</button>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
-        <RightSideBar />
         </div>
     )
 }
