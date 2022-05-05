@@ -348,6 +348,45 @@
     width: 100%;
 }
 
+.problem-analysis-card{
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.central-problem-card{
+    padding-bottom: 30px;
+}
+
+.central-problem-card button{
+    margin-top: 20px;
+}
+
+#central-problem{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.problem-analysis-card-title-container{
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.problem-analysis-card-title-container p{
+    font-weight: bold;
+}
+
+.problem-analysis-card-title-container img{
+    height: 25px;
+    width: 25px;
+    margin-left: auto;
+    margin-right: 0px;
+    cursor: pointer;
+}
+
 .wizard-sub-nav{
     display: flex;
     justify-content: space-between;
@@ -363,6 +402,7 @@
 .step-container{
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .step-container img{

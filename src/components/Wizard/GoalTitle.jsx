@@ -18,6 +18,7 @@ import { client } from '../../hooks/Client';
 import uuid from 'react-uuid';
 import { useHistory } from "react-router-dom";
 import { Auth } from '../../StateManagment/Auth';
+import { NavLink, Link } from "react-router-dom";
 
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
@@ -135,17 +136,21 @@ const GoalTitle = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Impact doelen stellen</h1>
+                <h1>Impactdoelen</h1>
                 <div className='wizard-sub-nav'>
-                    <div className='step-container'>
-                        <img src={arrowLeft} alt="" />
-                        <p>Stakeholders</p>
-                    </div>
-                    <p>3 van de 12</p>
-                    <div className='step-container'>
-                        <p>Doelen plannen</p>
-                        <img src={arrowRight} alt="" />
-                    </div>
+                    <NavLink to={`/${client}/Stakeholders`} >
+                        <div className='step-container'>
+                            <img src={arrowLeft} alt="" />
+                            <p>Stakeholders</p>
+                        </div>
+                    </NavLink>  
+                    <p>4 van de 12</p>
+                    <NavLink to={`/${client}/GoalPlanning`} >
+                        <div className='step-container'>
+                            <p>Doelen plannen</p>
+                            <img src={arrowRight} alt="" />
+                        </div>
+                    </NavLink>
                 </div>
             </div>
             <div className='profile profile-auth-profile'>

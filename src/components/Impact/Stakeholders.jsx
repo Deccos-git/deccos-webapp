@@ -1,88 +1,108 @@
-import LeftSideBar from "../LeftSideBar";
+import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
-import RightSideBar from "../rightSideBar/RightSideBar"
-import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestore } from "../../firebase/useFirestore"
-import { db, timestamp } from "../../firebase/config.js"
+import arrowLeft from '../../images/icons/arrow-left-icon.png'
+import arrowRight from '../../images/icons/arrow-right-icon.png'
+import capIcon from '../../images/icons/cap-icon.png'
+import rocketIcon from '../../images/icons/rocket-icon.png'
+import bulbIcon from '../../images/icons/bulb-icon.png'
+import feetIcon from '../../images/icons/feet-icon.png'
+import { useFirestore } from "../../firebase/useFirestore";
+import { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
-import { useState } from "react";
-import { client } from "../../hooks/Client";
-import deleteIcon from '../../images/icons/delete-icon.png'
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import { client } from '../../hooks/Client';
+import { NavLink, Link } from "react-router-dom";
 
 const Stakeholders = () => {
-    const [email, setEmail] = useState('')
-    const [name, setName] = useState('')
+    const [color, setColor] = useState('')
 
-    const menuState = MenuStatus()
-    const route = Location()[3]
+    const history = useHistory()
+    const menuState = MenuStatus() 
+    const id = uuid()
+    
+    const colors = useFirestore('Colors')
 
-    const stakeholders = useFirestore("Stakeholders")
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
 
-    const nameHandler = (e) => {
-        const name = e.target.value
-
-        setName(name)
-    }
-
-    const emailHandler = (e) => {
-        const email = e.target.value
-
-        setEmail(email)
-    }
-
-    const addStakeholder = () => {
-
-        db.collection("Stakeholders")
-        .doc()
-        .set({
-            Compagny: client,
-            Timestamp: timestamp,
-            ID: uuid(),
-            Name: name,
-            Email: email
+            setColor(background)
         })
-    }
 
-    const deleteStakeholders = (e) => {
-        const id = e.target.dataset.id 
+    },[colors])
 
-        db.collection('Stakeholders')
-        .doc(id)
-        .delete()
-    }
 
     return (
         <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="divider card-header">
+        <div className="main-container" style={{display: menuState}}>
+            <div className="page-header">
                 <h1>Stakeholders</h1>
-                <p>Pas de instellingen van je stakeholders aan</p>
-            </div>
-            <div className='divider'>
-                <h3>Stakeholders</h3>
-            {stakeholders && stakeholders.map(stakeholder => (
-                <div className='stakeholder-container'>
-                    <p>{stakeholder.Name}</p>
-                    <p>{stakeholder.Email}</p>
-                    <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-id={stakeholder.docid} onClick={deleteStakeholders}/>
+                <div className='wizard-sub-nav'>
+                    <NavLink to={`/${client}/ProblemAnalysis`} >
+                        <div className='step-container'>
+                            <img src={arrowLeft} alt="" />
+                            <p>Probleemanalyse</p>
+                        </div>
+                    </NavLink>  
+                    <p>3 van de 12</p>
+                    <NavLink to={`/${client}/GoalTitle`} >
+                        <div className='step-container'>
+                            <p>Impactdoelen</p>
+                            <img src={arrowRight} alt="" />
+                        </div>
+                    </NavLink>
                 </div>
-            ))}
             </div>
-            <div className='divider'>
-                        <h3>Voeg een stakeholder toe</h3>
-                        <p>Naam</p>
-                        <input type="text" placeholder='Vul hier de naam van de stakeholder in' onChange={nameHandler}/>
-                        <p>Email</p>
-                        <input type="email" placeholder='Vul hier het emailadres van de stakeholder in' onChange={emailHandler}/>
-                        <button className='button-simple' onClick={addStakeholder}>Toevoegen</button>
+            <div className='profile profile-auth-profile'>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={capIcon} alt="" />
+                        <h3>Uitleg</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p>Specifiek, meetbaar, acceptabel, realistisch</p>
+                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders helpt een mooi plaatje om het belang van jullie doel over te brengen. Een plaatje zegt meer dan 1000 woorden, toch?</p>
                     </div>
-            
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={rocketIcon} alt="" />
+                        <h3>Aan de slag</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                       <p>text</p>
+                    </div>
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={bulbIcon} alt="" />
+                        <h3>Tips</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <ol>
+                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={feetIcon} alt="" />
+                        <h3>Volgende stap</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
+                        <button>Volgende stap</button>
+                    </div>
+                </div>
+            </div> 
         </div>
-        <RightSideBar />
-        </div>
+    </div>
     )
 }
 

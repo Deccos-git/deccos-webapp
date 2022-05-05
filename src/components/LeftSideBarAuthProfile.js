@@ -13,7 +13,6 @@ const LeftSideBarAuthProfile = () => {
     const [authO] = useContext(Auth)
     const [showNotification, setShowNotification] = useState("")
     const [admin, setAdmin] = useState(false)
-    const [superAdmin, setSuperAdmin] = useState(false)
     const [notificationsUsers, setNotificationsUsers] = useState(0)
     const [notificationsGroups, setNotificationsGroups] = useState(0)
 
@@ -26,25 +25,6 @@ const LeftSideBarAuthProfile = () => {
             }
         })
     }, [admins])
-
-    useEffect(() => {
-            if(authO.ID === '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
-                setSuperAdmin(true)
-            }
-    }, [admins])
-
-    const Superadmin = () => {
-        if(superAdmin){
-            return <div>
-                        <h3>Super Admin</h3>
-                        <div className="channel-inner-div">
-                            <NavLink to={`/${client}/NewClient`}>Nieuwe klant</NavLink>
-                        </div>
-                    </div>
-        } else {
-            return null
-        }
-    }
 
     let notificationsTotal = notificationsUsers + notificationsGroups
 
@@ -130,7 +110,6 @@ const LeftSideBarAuthProfile = () => {
                             <p>Home</p>
                         </div>
                     </NavLink>
-                    <Superadmin/>
                     <Admin/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">

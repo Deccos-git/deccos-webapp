@@ -138,6 +138,19 @@ const Iconbar = () => {
             </div>
             <div className="icon-container">
                 <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                    <QuestionIcon 
+                    style={
+                        {
+                            width: '19px',
+                            height: '19px',
+                            fill: colors.TopBarIconsColor,
+                            marginBottom: '-7px'
+                        }
+                    }  />
+                </Link>
+            </div>
+            <div className="icon-container">
+                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
                     <SearchIcon 
                     style={
                         {
@@ -147,19 +160,6 @@ const Iconbar = () => {
                             marginBottom: '-7px',
                             marginLeft: '5px',
                             marginRight: '5px'
-                        }
-                    }  />
-                </Link>
-            </div>
-            <div className="icon-container">
-                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
-                    <QuestionIcon 
-                    style={
-                        {
-                            width: '19px',
-                            height: '19px',
-                            fill: colors.TopBarIconsColor,
-                            marginBottom: '-7px'
                         }
                     }  />
                 </Link>

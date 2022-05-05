@@ -1,6 +1,7 @@
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
+import arrowLeft from '../../images/icons/arrow-left-icon.png'
 import arrowRight from '../../images/icons/arrow-right-icon.png'
 import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
@@ -8,19 +9,21 @@ import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
 import { useFirestore } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
-import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
+import { useHistory } from "react-router-dom";
+import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
-import { useHistory } from "react-router-dom"
 import { NavLink, Link } from "react-router-dom";
 
-const Introduction = () => {
+const Explainer = () => {
+
     const [color, setColor] = useState('')
 
-    const colors = useFirestore('Colors')
-
-    const menuState = MenuStatus() 
     const history = useHistory()
+    const menuState = MenuStatus() 
+    const id = uuid()
+    
+    const colors = useFirestore('Colors')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -37,11 +40,18 @@ const Introduction = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Deccos Impact Guide</h1>
+                <h1>Wat is impactmanagement?</h1>
                 <div className='wizard-sub-nav'>
-                    <NavLink to={`/${client}/Explainer`} >
+                    <NavLink to={`/${client}/Introduction`} >
                         <div className='step-container'>
-                            <p>Wat is impact management?</p>
+                            <img src={arrowLeft} alt="" />
+                            <p>Deccos Impact Guide</p>
+                        </div>
+                    </NavLink>  
+                    <p>1 van de 12</p>
+                    <NavLink to={`/${client}/ProblemAnalysis`} >
+                        <div className='step-container'>
+                            <p>Probleemanalyse</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>
@@ -54,15 +64,8 @@ const Introduction = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>Welkom bij de Deccos Impact Guide. Deze guide is gemaakt om je te ondersteuning in het vormgeven 
-                            van je impactmanagement.</b></p>
-                        <p>  
-                            Meetbare impact is de bestaansreden van een sociale organisatie. Daarom is impactmanangement is 
-                            net belangrijk voor een sociale organisatie als bijvoorbeeld de boekhouding. Je hoeft het niet in een 100% goed te doen,
-                            maar het is goed om er gewoon mee te beginnen. De Deccos Impact Wizard helpt je daarmee.</p>
-                        <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het 
-                            <MagicIcon style={{width: '19px', height: '19px'}}/> icon in de bovenbalk (onderbalk op mobiel)
-                            om weer terug te komen in de guide.</p>
+                        <p>Specifiek, meetbaar, acceptabel, realistisch</p>
+                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders helpt een mooi plaatje om het belang van jullie doel over te brengen. Een plaatje zegt meer dan 1000 woorden, toch?</p>
                     </div>
                 </div>
                 <div>
@@ -71,12 +74,7 @@ const Introduction = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <ol>
-                            <li><NavLink to={`/${client}/Explainer`} >Wat is impactmanagement?</NavLink></li>
-                            <li><NavLink to={`/${client}/AllActivity`} >Probleemanalyse</NavLink></li>
-                            <li><NavLink to={`/${client}/AllActivity`} >Stakeholders</NavLink></li>
-                            <li><NavLink to={`/${client}/GoalTitle`} >Impactdoelen</NavLink></li>
-                        </ol>
+                       <p>text</p>
                     </div>
                 </div>
                 <div>
@@ -98,14 +96,14 @@ const Introduction = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
+                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
                         <button>Volgende stap</button>
                     </div>
                 </div>
             </div> 
         </div>
     </div>
-)
+  )
 }
 
-export default Introduction
+export default Explainer

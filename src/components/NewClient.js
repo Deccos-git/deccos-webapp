@@ -191,6 +191,19 @@ const NewClient = () => {
             })
         })
         .then(() => {
+            db.collection('ProblemAnalysis')
+            .doc()
+            .set({
+                CentralProblem: '',
+                DirectConsequences: [],
+                IndirectConsequences: [],
+                DirectCauses: [],
+                IndirectCauses: [],
+                ID: uuid(),
+                Compagny: compagnyName
+            })
+        })
+        .then(() => {
             history.push(`/${compagnyName}`) 
         })
 

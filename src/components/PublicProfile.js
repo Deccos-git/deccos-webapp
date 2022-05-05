@@ -185,7 +185,7 @@ const PublicProfile = () => {
                 <LeftSideBarFullScreen/>
                 {profiles && profiles.map(profile => (
                     <div className="profile public-profile-container" key={profile.ID} style={{display: menuState}}>
-                        <div className="divider ">
+                        <div>
                             <img className="public-profile-photo" src={profile.Photo} alt="" />  
                             <h1>{profile.UserName}</h1>
                             <div className='like-icon-container-profile'>
@@ -200,25 +200,6 @@ const PublicProfile = () => {
                             </div>
                             <div className="button-container-public-profile">
                                 <button onClick={startChat}>Chatten</button>
-                            </div>
-                        </div>
-                        <div id='about-me-container'>
-                            <h2>Over mij</h2>
-                            <div className="about-me-inner-container">
-                                {introductions && introductions.map(introduction => (
-                                    <div className="about-me-section" key={introduction.ID}>
-                                        <h3>Lid sinds</h3>
-                                        <p>{profile.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
-                                        <h3>Introductie</h3>
-                                        <p>{introduction.Body}</p>
-                                        {aboutMes && aboutMes.map(aboutMe => (
-                                            <div key={aboutMe.ID}>
-                                                <h3>{aboutMe.Title}</h3>
-                                                <p>{aboutMe.Value}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))}
                             </div>
                         </div>
                     </div>
