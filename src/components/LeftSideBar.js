@@ -45,7 +45,7 @@ const LeftSideBar = () => {
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={problemIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/ProblemAnalysis`}>Probleemanalyse</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ProblemAnalysisDetail`}>Probleemanalyse</NavLink>
                         </div>
                     </div>
                     <div className="channel-inner-div">

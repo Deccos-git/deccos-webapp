@@ -61,6 +61,7 @@ import Project from './ProjectManagement/Project';
 import Introduction from './Wizard/Introduction'
 import GoalTitle from './Wizard/GoalTitle';
 import ProblemAnalysis from './Impact/ProblemAnalysis';
+import ProblemAnalysisDetail from './Impact/ProblemAnalyseDetail';
 import Explainer from './Wizard/Explainer';
 import PublicProfile from './PublicProfile'
 
@@ -239,6 +240,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ProblemAnalysis`}>
                     <ProblemAnalysis />
+                </Route>
+                <Route path={`/${client}/ProblemAnalysisDetail`}>
+                    <ProblemAnalysisDetail />
                 </Route>
                 <Route path={`/${client}/Explainer`}>
                     <Explainer />

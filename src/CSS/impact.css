@@ -351,12 +351,56 @@
 .problem-analysis-card{
     background-color: white;
     border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
+    padding: 20px;
+    margin: 10px 0px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.edit-icon-header-container{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit-icon-header-container img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.problem-analysis-card li{
+    margin-bottom: 5px;
+}
+
+.problemanalysis-arrow-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.problemanalysis-arrow-container img{
+    height: 30px;
 }
 
 .central-problem-card{
     padding-bottom: 30px;
+}
+
+.central-problem-card p{
+    text-align: center;
+}
+
+.problem-list-inner-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+.problem-list-inner-container img{
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: 0px;
+    cursor: pointer;
 }
 
 .central-problem-card button{

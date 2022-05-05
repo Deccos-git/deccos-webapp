@@ -8,6 +8,7 @@ import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
 import plusIcon from '../../images/icons/plus-icon.png'
+import arrowUpIcon from '../../images/icons/arrow-up-icon-white.png'
 import { useFirestore } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -19,6 +20,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
 import Modal from 'react-modal';
 import firebase from 'firebase'
+import deleteIcon from '../../images/icons/delete-icon.png'
 
 const ProblemAnalysis = () => {
     const [color, setColor] = useState('')
@@ -113,6 +115,9 @@ const ProblemAnalysis = () => {
         .update({
             DirectCauses: firebase.firestore.FieldValue.arrayUnion(directCause)
         })
+        .then(() => {
+            setModalDirectCauseOpen(false)
+        })
     }
 
     const saveIndirectCause = (e) => {
@@ -124,6 +129,9 @@ const ProblemAnalysis = () => {
         .doc(docid)
         .update({
             IndirectCauses: firebase.firestore.FieldValue.arrayUnion(indirectCause)
+        })
+        .then(() => {
+            setModalIndirectCauseOpen(false)
         })
     }
 
@@ -137,6 +145,9 @@ const ProblemAnalysis = () => {
         .update({
             DirectConsequences: firebase.firestore.FieldValue.arrayUnion(directConsequence)
         })
+        .then(() => {
+            setModalDirectConsequencesOpen(false)
+        })
     }
 
     const saveIndirectConsequence = (e) => {
@@ -148,6 +159,9 @@ const ProblemAnalysis = () => {
         .doc(docid)
         .update({
             IndirectConsequences: firebase.firestore.FieldValue.arrayUnion(indirectConsequence)
+        })
+        .then(() => {
+            setModalIndirectConsequencesOpen(false)
         })
     }
 
@@ -166,6 +180,54 @@ const ProblemAnalysis = () => {
 
     const closeDirectConsequencesModal = () => {
         setModalDirectConsequencesOpen(false);
+    }
+
+    const deleteindirectConsequence = (e) => {
+
+        const docid = e.target.dataset.docid
+        const value = e.target.dataset.value
+
+        db.collection('ProblemAnalysis')
+        .doc(docid)
+        .update({
+            IndirectConsequences: firebase.firestore.FieldValue.arrayRemove(value)
+        })
+    }
+
+    const deletedirectConsequence = (e) => {
+
+        const docid = e.target.dataset.docid
+        const value = e.target.dataset.value
+
+        db.collection('ProblemAnalysis')
+        .doc(docid)
+        .update({
+            DirectConsequences: firebase.firestore.FieldValue.arrayRemove(value)
+        })
+    }
+
+    const deleteDirectCause = (e) => {
+
+        const docid = e.target.dataset.docid
+        const value = e.target.dataset.value
+
+        db.collection('ProblemAnalysis')
+        .doc(docid)
+        .update({
+            DirectCause: firebase.firestore.FieldValue.arrayRemove(value)
+        })
+    }
+
+    const deleteIndirectCause = (e) => {
+
+        const docid = e.target.dataset.docid
+        const value = e.target.dataset.value
+
+        db.collection('ProblemAnalysis')
+        .doc(docid)
+        .update({
+            IndirectCause: firebase.firestore.FieldValue.arrayRemove(value)
+        })
     }
 
 
@@ -233,10 +295,19 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.IndirectConsequences && problem.IndirectConsequences.map(indirectconsequence => (
-                                        <li>{indirectconsequence}</li>
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {indirectconsequence}
+                                                <img src={deleteIcon} data-value={indirectconsequence}  data-docid={problem.docid} onClick={deleteindirectConsequence} />
+                                            </div>
+                                        </li>
+
                                     ))}
                                 </ol>
                             </div>
+                        </div>
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowUpIcon} alt="" />
                         </div>
                         <Modal
                         isOpen={modalDirectConsequencesOpen}
@@ -259,15 +330,26 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.DirectConsequences && problem.DirectConsequences.map(directconsequence => (
-                                        <li>{directconsequence}</li>
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {directconsequence}
+                                                <img src={deleteIcon} data-value={directconsequence}  data-docid={problem.docid} onClick={deletedirectConsequence} />
+                                            </div>
+                                        </li>
                                     ))}
                                 </ol>
                             </div>
+                        </div>
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowUpIcon} alt="" />
                         </div>
                         <div className='problem-analysis-card central-problem-card'>
                             <p id='central-problem'>Centrale probleem</p>
                             <input type="text" defaultValue={problem.CentralProblem} placeholder='Noteer hier het centrale probleem' onChange={centralProblemHandler} />
                             <button className='button-simple' data-docid={problem.docid} onClick={saveCentralProblem}>Opslaan</button>
+                        </div>
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowUpIcon} alt="" />
                         </div>
                         <Modal
                         isOpen={modalDirectCauseOpen}
@@ -290,10 +372,18 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.DirectCauses && problem.DirectCauses.map(directcause => (
-                                        <li>{directcause}</li>
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {directcause}
+                                                <img src={deleteIcon} data-value={directcause}  data-docid={problem.docid} onClick={deleteDirectCause} />
+                                            </div>
+                                        </li>
                                     ))}
                                 </ol>
                             </div>
+                        </div>
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowUpIcon} alt="" />
                         </div>
                         <Modal
                         isOpen={modalIndirectCauseOpen}
@@ -316,7 +406,12 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.IndirectCauses && problem.IndirectCauses.map(indirectcause => (
-                                        <li>{indirectcause}</li>
+                                    <li>
+                                        <div className='problem-list-inner-container'>
+                                            {indirectcause}
+                                            <img src={deleteIcon} data-value={indirectcause}  data-docid={problem.docid} onClick={deleteIndirectCause} />
+                                        </div>
+                                    </li>
                                     ))}
                                 </ol>
                             </div>
