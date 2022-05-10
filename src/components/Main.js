@@ -37,6 +37,7 @@ import QuestionnaireSettings from './Impact/QuestionnaireSettings';
 import AddQuestionnaire from './Impact/AddQuestionnaire';
 import SendQuestionnaire from './Impact/SendQuestionnaire';
 import Stakeholders from './Impact/Stakeholders';
+import StakeholderAnalysis from './Wizard/StakeholderAnalysis';
 import ImpactIndicators from './Impact/ImpactIndicators';
 import ImpactProgress from './Impact/ImpactProgress';
 import QuestionnaireAnalysis from './Impact/QuestionnaireAnalysis';
@@ -64,6 +65,13 @@ import ProblemAnalysis from './Impact/ProblemAnalysis';
 import ProblemAnalysisDetail from './Impact/ProblemAnalyseDetail';
 import Explainer from './Wizard/Explainer';
 import PublicProfile from './PublicProfile'
+import Targetgroup from './Wizard/Targetgroup';
+import ImpactTargetgroup from './Wizard/ImpactTargetgroup';
+import ImpactSociety from './Wizard/ImpactSociety';
+import SDGs from './Wizard/SDGs';
+import Assumptions from './Wizard/Assumptions';
+import Conditions from './Wizard/Conditions';
+import AddActivity from './Impact/AddActivity';
 
 const Main = () => {
 
@@ -196,6 +204,9 @@ const Main = () => {
                 <Route path={`/${client}/Stakeholders`}>
                     <Stakeholders/>
                 </Route>
+                <Route path={`/${client}/StakeholderAnalysis`}>
+                    <StakeholderAnalysis/>
+                </Route>
                 <Route path={`/${client}/SendQuestionnaire`}>
                     <SendQuestionnaire/>
                 </Route>
@@ -249,6 +260,27 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/PublicProfile`}>
                     <PublicProfile />
+                </Route>
+                <Route path={`/${client}/Targetgroup`}>
+                    <Targetgroup />
+                </Route>
+                <Route path={`/${client}/ImpactTargetgroup`}>
+                    <ImpactTargetgroup />
+                </Route>
+                <Route path={`/${client}/ImpactSociety`}>
+                    <ImpactSociety />
+                </Route>
+                <Route path={`/${client}/SDGs`}>
+                    <SDGs />
+                </Route>
+                <Route path={`/${client}/Assumptions`}>
+                    <Assumptions />
+                </Route>
+                <Route path={`/${client}/Conditions`}>
+                    <Conditions />
+                </Route>
+                <Route path={`/${client}/AddActivity`}>
+                    <AddActivity />
                 </Route>
             </Switch>
         </div>

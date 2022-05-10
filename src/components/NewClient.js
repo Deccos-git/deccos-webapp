@@ -204,6 +204,15 @@ const NewClient = () => {
             })
         })
         .then(() => {
+            db.collection('Stakeholders')
+            .doc()
+            .set({
+                ID: uuid(),
+                Compagny: compagnyName,
+                Name: ''
+            })
+        })
+        .then(() => {
             history.push(`/${compagnyName}`) 
         })
 

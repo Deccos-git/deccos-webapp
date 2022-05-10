@@ -303,7 +303,7 @@
 }
 
 .ReactModal__Overlay{
-    z-index: 2;
+    z-index: 5;
 }
 
 .tox .tox-editor-container {

@@ -1302,6 +1302,75 @@ const useFirestoreSROIs = (id) => {
     return docs
 };
 
+const useFirestoreSDGsSelected = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("SDGsSelected")
+        .where('Compagny', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreAssumptions = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Assumptions")
+        .where('Compagny', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreConditions = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Conditions")
+        .where('Compagny', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 export { 
     useFirestore, 
@@ -1359,5 +1428,8 @@ export {
     useFirestoreSDGs,
     useFirestoreResults,
     useFirestoreProjects,
-    useFirestoreSROIs
+    useFirestoreSROIs,
+    useFirestoreSDGsSelected,
+    useFirestoreAssumptions,
+    useFirestoreConditions
 }

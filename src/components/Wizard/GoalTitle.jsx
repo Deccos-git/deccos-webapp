@@ -19,6 +19,11 @@ import uuid from 'react-uuid';
 import { useHistory } from "react-router-dom";
 import { Auth } from '../../StateManagment/Auth';
 import { NavLink, Link } from "react-router-dom";
+import deleteIcon from '../../images/icons/delete-icon.png'
+import plusButton from '../../images/icons/plus-icon.png'
+import cancelIcon from '../../images/icons/cancel-icon.png'
+import imageIcon from '../../images/icons/image-icon.png'
+import Modal from 'react-modal';
 
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
@@ -28,8 +33,22 @@ const GoalTitle = () => {
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
+    const [modalOpen, setModalOpen] = useState(false);
 
     const colors = useFirestore('Colors')
+    const goals = useFirestore('Goals')
+    Modal.setAppElement('#root');
+
+    const modalStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
 
     const history = useHistory()
     const menuState = MenuStatus() 
@@ -45,14 +64,22 @@ const GoalTitle = () => {
     },[colors])
 
     const titleHandler = (e) => {
+
         const title = e.target.value
-        setTitle(title)
+        const docid = e.target.dataset.docid
+        
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Title: title
+        })
     }
 
     const bannerHandler = (e) => {
         setLoader(spinnerRipple)
 
         const photo = e.target.files[0]
+        const docid = e.target.dataset.docid
 
         const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
         const uploadTask = storageRef.put(photo)
@@ -75,57 +102,62 @@ const GoalTitle = () => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             console.log('File available at', downloadURL);
 
-            setBanner(downloadURL)
-            setLoader(downloadURL)
+            saveBanner(docid, downloadURL)
 
                 })
             })
         })
+        .then(() => {
+            closeModal()
+        })
     }
 
-    const saveGoal = (e) => {
+    const saveBanner = (docid, downloadURL) => {
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Banner: downloadURL
+        })
+    }
 
-        ButtonClicked(e, 'Opgeslagen')
+    const closeModal = () => {
+        setModalOpen(false);
+      }
+
+    const addGoal = () => {
 
         db.collection("Goals")
         .doc()
         .set({
-            Title: title,
+            Title: '',
             Compagny: client,
             Timestamp: timestamp,
             ID: id,
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: banner
+            Banner: '',
+            Targetgroup: '',
         })
-        .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: title,
-                Type: "NewGoal",
-                Compagny: client,
-                Timestamp: timestamp,
-                ID: id,
-                Description: "heeft een nieuw doel toegevoegd:",
-                ButtonText: "Bekijk doel",
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Banner: headerPhoto,
-                Link: `GoalDetail/${id}`
-            }) 
-        })
-        .then(() => {
-            db.collection("Search")
-            .doc()
-            .set({
-                Name: title,
-                Compagny: client,
-                Type: 'Doel',
-                Link: `GoalDetail/${id}`
-            })
+    }
+
+    const deleteGoal = (e) => {
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .delete()
+
+    }
+
+    const deleteBanner = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Goals")
+        .doc(docid)
+        .update({
+            Banner: ''
         })
     }
 
@@ -138,16 +170,16 @@ const GoalTitle = () => {
             <div className="page-header">
                 <h1>Impactdoelen</h1>
                 <div className='wizard-sub-nav'>
-                    <NavLink to={`/${client}/Stakeholders`} >
+                    <NavLink to={`/${client}/StakeholderAnalysis`} >
                         <div className='step-container'>
                             <img src={arrowLeft} alt="" />
                             <p>Stakeholders</p>
                         </div>
                     </NavLink>  
                     <p>4 van de 12</p>
-                    <NavLink to={`/${client}/GoalPlanning`} >
+                    <NavLink to={`/${client}/Targetgroup`} >
                         <div className='step-container'>
-                            <p>Doelen plannen</p>
+                            <p>Doelgroep bepalen</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>
@@ -161,7 +193,11 @@ const GoalTitle = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders helpt een mooi plaatje om het belang van jullie doel over te brengen. Een plaatje zegt meer dan 1000 woorden, toch?</p>
+                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
+                            Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
+                            helpt een mooi plaatje om het belang van jullie doel over te brengen. 
+                            Een plaatje zegt meer dan 1000 woorden, toch? 
+                            <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
                     </div>
                 </div>
                 <div>
@@ -170,17 +206,41 @@ const GoalTitle = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <div>
-                            <p>Voeg een nieuw doel toe of pas een bestaand doel aan</p>
-                            <select name="" id=""></select>
+                        <div className='list-container'>
+                            <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addGoal} alt="" />
+                            </div>
+                            <div className='list-top-row-container'>
+                                <p>BANNER</p>
+                                <p>TITEL</p>
+                                <p>ACTIE</p>
+                            </div>
+                            {goals && goals.map(goal => (
+                                <>
+                                    <Modal
+                                    isOpen={modalOpen}
+                                    onRequestClose={closeModal}
+                                    style={modalStyles}
+                                    contentLabel="Upload banner"
+                                    >
+                                    <div className='add-image-container'>
+                                        <img src={imageIcon} alt="" />
+                                        <p>Upload een plaatje</p>
+                                        <input data-docid={goal.docid} onChange={bannerHandler} type="file" />
+                                    </div>
+                                    </Modal>
+                                    <div className='list-row-container'>
+                                        <div className='list-banner-container'>
+                                            <img className='cancel-icon' data-docid={goal.docid} src={cancelIcon} alt="" onClick={deleteBanner} />
+                                            <img src={imageIcon} alt="" onClick={() => setModalOpen(true)} />
+                                            <img className='goal-banner-list' src={goal.Banner} alt="" />
+                                        </div>
+                                        <textarea contentEditable type="text" data-docid={goal.docid} defaultValue={goal.Title} placeholder='Titel' onChange={titleHandler} />
+                                        <img data-docid={goal.docid} onClick={deleteGoal} src={deleteIcon} alt="" />
+                                    </div>  
+                                </>  
+                            ))}
                         </div>
-                        <p>Geef je doel een titel</p>
-                        <input className="input-classic" type="text" placeholder="Schrijf hier de titel" onChange={titleHandler} />
-                        <p>Voeg een plaatje toe</p>
-                        <input className="input-classic" onChange={bannerHandler} type="file" />
-                        <div className="spinner-container">
-                            <img src={loader} alt="" />
-                        </div> 
                     </div>
                 </div>
                 <div>
@@ -190,7 +250,7 @@ const GoalTitle = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
-                        <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. Hier vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                        <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
                     </div>
                 </div>
                 <div>

@@ -44,7 +44,7 @@ h5{
 p{
   font-family: 'Poppins', sans-serif;
   color: #959595;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.5px;
   text-align: left;
@@ -53,7 +53,7 @@ p{
 div{
   font-family: 'Poppins', sans-serif;
   color: #959595;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   letter-spacing: 0.5px;
   text-align: left;
@@ -62,8 +62,8 @@ div{
 a{
   font-family: 'Poppins', sans-serif;
   color: #959595;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: bold;
   letter-spacing: 0.5px;
   text-decoration: none;
 }
@@ -75,7 +75,7 @@ ul{
 li{
   font-family: 'Poppins', sans-serif;
   color: #959595;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.5px;
 }
@@ -162,8 +162,10 @@ input{
 select{
   padding: 5px;
   border: 1px solid lightgray;
-  border-radius: 3px;
+  border-radius: 5px;
   color: gray;
+  font-size: 15px;
+  max-width: 80%;
 }
 
 label{
@@ -173,6 +175,7 @@ label{
 
 textarea{
   padding: 15px;
+  font-size: 15px;
   border-radius: 5px;
   border: 1px solid lightgray;
   font-family: 'Poppins', sans-serif;
@@ -285,9 +288,9 @@ textarea ::placeholder{
 }
 
 .active{
-  background-color: lightgray;
-  padding: 3px 3px 3px 0px;
-  border-radius: 3px;
+  background-color: white;
+  padding: 3px 5px 3px 5px;
+  border-radius: 5px;
   color: #2F2C41;
 }
 

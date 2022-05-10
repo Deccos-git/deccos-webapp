@@ -19,7 +19,8 @@ import {
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
     useFirestoreResults,
-    useFirestoreSROIs
+    useFirestoreSROIs,
+    useFirestoreSDGsSelected
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -94,9 +95,7 @@ const ImpactProgress = () => {
                             <img src={worldIcon} alt="" />
                             <h3>SDGs</h3>
                         </div>
-                        {goal.SDG && goal.SDG.map(sdg => (
-                            <p>{sdg}</p>
-                        ))}
+                        <SDGS goal={goal}/>
                     </div>
                     <div className='goal-meta-inner-container'>
                         <div className='goal-meta-title-container'>
@@ -139,6 +138,18 @@ const ImpactProgress = () => {
             </div>
             ))}
         </>
+        )
+    }
+
+    const SDGS = ({goal}) => {
+        const SDGs = useFirestoreSDGsSelected(goal.ID)
+
+        return(
+            <ul>
+                {SDGs && SDGs.map(sdg => (
+                   <li>{sdg.SDG}</li>
+                ))}
+            </ul>
         )
     }
 

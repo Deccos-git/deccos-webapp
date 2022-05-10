@@ -38,7 +38,7 @@ const Introduction = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
                 <h1>Deccos Impact Guide</h1>
-                <div className='wizard-sub-nav'>
+                <div className='wizard-sub-nav-introduction'>
                     <NavLink to={`/${client}/Explainer`} >
                         <div className='step-container'>
                             <p>Wat is impact management?</p>
@@ -73,9 +73,16 @@ const Introduction = () => {
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
                             <li><NavLink to={`/${client}/Explainer`} >Wat is impactmanagement?</NavLink></li>
-                            <li><NavLink to={`/${client}/AllActivity`} >Probleemanalyse</NavLink></li>
-                            <li><NavLink to={`/${client}/AllActivity`} >Stakeholders</NavLink></li>
+                            <li><NavLink to={`/${client}/ProblemAnalysis`} >Probleemanalyse</NavLink></li>
+                            <li><NavLink to={`/${client}/StakeholderAnalysis`} >Stakeholders</NavLink></li>
                             <li><NavLink to={`/${client}/GoalTitle`} >Impactdoelen</NavLink></li>
+                            <li><NavLink to={`/${client}/Targetgroup`} >Doelgroep bepalen </NavLink></li>
+                            <li><NavLink to={`/${client}/ImpactTargetgroup`} >Impact op doelgroep</NavLink></li>
+                            <li><NavLink to={`/${client}/ImpactSociety`} >Impact op maatschappij</NavLink></li>
+                            <li><NavLink to={`/${client}/SDGs`} >Bijdrage aan SDG's</NavLink></li>
+                            <li><NavLink to={`/${client}/Assumptions`} >Aannames</NavLink></li>
+                            <li><NavLink to={`/${client}/Conditions`} >Externe factoren</NavLink></li>
+                            <li><NavLink to={`/${client}/AddActivity`} >Activiteiten</NavLink></li>
                         </ol>
                     </div>
                 </div>
@@ -89,6 +96,7 @@ const Introduction = () => {
                             <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
                                 Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
                                 bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>

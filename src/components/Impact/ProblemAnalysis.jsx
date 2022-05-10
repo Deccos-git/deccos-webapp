@@ -247,7 +247,7 @@ const ProblemAnalysis = () => {
                     </div>
                 </NavLink>  
                 <p>2 van de 12</p>
-                <NavLink to={`/${client}/Stakeholders`} >
+                <NavLink to={`/${client}/StakeholderAnalysis`} >
                     <div className='step-container'>
                         <p>Stakeholders</p>
                         <img src={arrowRight} alt="" />

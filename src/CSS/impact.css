@@ -320,7 +320,7 @@
 }
 
 .dashboard-internal-results-container{
-    padding: 5px;
+    padding: 20px;
     border-radius: 5px;
     margin-bottom: 10px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
@@ -370,6 +370,96 @@
 
 .problem-analysis-card li{
     margin-bottom: 5px;
+}
+
+.list-container{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.list-top-row-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.list-top-row-container p{
+    font-weight: bold;
+}
+
+.list-top-row-container img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.list-row-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid lightgray;
+}
+
+.wizard-sub-nav-introduction{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.list-row-container img{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.button-container-align-left{
+    margin-top: 20px;
+}
+
+.cancel-icon{
+    align-self: flex-end;
+    margin: 0px -5px -10px 0px;
+    z-index: 4;
+}
+.list-banner-container{
+    display: flex;
+    flex-direction: column;
+    border: 1px dotted #0084FF;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.list-row-container input{
+    width: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.goal-banner-list{
+    height: auto !important;
+    width: 100px !important;
+}
+
+.list-row-container textarea{
+    width: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.list-row-container select{
+    width: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.list-container-stakeholder-management-page{
+    width: 100%;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    border: none;
 }
 
 .problemanalysis-arrow-container{

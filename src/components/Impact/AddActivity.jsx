@@ -1,6 +1,5 @@
-import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen";
 import MenuStatus from "../../hooks/MenuStatus";
 import {useFirestore} from "../../firebase/useFirestore"
 import { useState, useEffect, useContext } from 'react'
@@ -15,21 +14,57 @@ import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
 import ButtonClicked from "../../hooks/ButtonClicked";
+import arrowLeft from '../../images/icons/arrow-left-icon.png'
+import arrowRight from '../../images/icons/arrow-right-icon.png'
+import capIcon from '../../images/icons/cap-icon.png'
+import rocketIcon from '../../images/icons/rocket-icon.png'
+import bulbIcon from '../../images/icons/bulb-icon.png'
+import feetIcon from '../../images/icons/feet-icon.png'
+import { NavLink, Link } from "react-router-dom";
+import Modal from 'react-modal';
+import plusButton from '../../images/icons/plus-icon.png'
+import cancelIcon from '../../images/icons/cancel-icon.png'
+import imageIcon from '../../images/icons/image-icon.png'
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
 
+    const [color, setColor] = useState('')
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
     const [impact, setImpact] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
+    const [modalOpen, setModalOpen] = useState(false);
 
     const menuState = MenuStatus()
     const history = useHistory()
+    Modal.setAppElement('#root');
+
+    const modalStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
 
     const goals = useFirestore("Goals")
+    const colors = useFirestore('Colors')
+    const activities = useFirestore('Activities')
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
 
     const goalHandler = (e) => {
         const goalTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -45,12 +80,6 @@ const AddActivity = () => {
 
         setActivityTitle(title)
 
-    }
-
-    const impactHandler = (e) => {
-        const impact = e.target.value
-
-        setImpact(impact)
     }
 
     const saveActivity = (e) => {
@@ -69,7 +98,7 @@ const AddActivity = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Impact: impact,
+            Impact: '',
             Goal: goalTitle,
             GoalID: goalID,
             Progression: 0,
@@ -108,6 +137,9 @@ const AddActivity = () => {
                 Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
             })
         })
+        .then(() => {
+            closeModal()
+        })
     }
 
     const deleteActivity = (e) => {
@@ -116,12 +148,6 @@ const AddActivity = () => {
         db.collection('Activities')
         .doc(docid)
         .delete()
-    }
-
-    const nextStep = () => {
-
-        history.push(`/${client}/MilestoneSettings`)
-
     }
 
     const bannerHandler = (e) => {
@@ -158,43 +184,136 @@ const AddActivity = () => {
         })
     }  
 
+    const deleteBanner = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection("Activities")
+        .doc(docid)
+        .update({
+            Banner: ''
+        })
+    }
+
+    const closeModal = () => {
+        setModalOpen(false);
+      }
+
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="settings-inner-container">
-                <div className="divider card-header">
-                    <h1>Activiteit toevoegen</h1>
+            <LeftSideBar />
+            <LeftSideBarFullScreen/>
+            <div className="main-container" style={{display: menuState}}>
+                <div className="page-header">
+                    <h1>Activiteiten</h1>
+                    <div className='wizard-sub-nav'>
+                        <NavLink to={`/${client}/Conditions`} >
+                            <div className='step-container'>
+                                <img src={arrowLeft} alt="" />
+                                <p>Externe factoren</p>
+                            </div>
+                        </NavLink>  
+                        <p>11 van de 12</p>
+                        <NavLink to={`/${client}/ImpactActivity`} >
+                            <div className='step-container'>
+                                <p>Impact van activiteit</p>
+                                <img src={arrowRight} alt="" />
+                            </div>
+                        </NavLink>
+                    </div>
                 </div>
-                <div className='divider'>
+                <div className='profile profile-auth-profile'>
+                <div>
+                <div className='activity-meta-title-container'>
+                    <img src={capIcon} alt="" />
+                    <h3>Uitleg</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
+                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
+                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
+                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
+                        Een plaatje zegt meer dan 1000 woorden, toch? 
+                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={rocketIcon} alt="" />
+                    <h3>Aan de slag</h3>
+                </div> 
+                <Modal
+                    isOpen={modalOpen}
+                    onRequestClose={closeModal}
+                    style={modalStyles}
+                    contentLabel="Upload banner"
+                    >
+                    <div className='add-image-container'>
                         <h4>Selecteer een doel</h4>
-                        <select name="" id="" onChange={goalHandler}>
-                            <option value="">-- Selecteer een doel --</option>
-                            {goals && goals.map(goal => (
-                                <option value="" key={goal.ID} data-id={goal.ID} data-title={goal.Title}>{goal.Title}</option>
-                            ))}
-                        </select>
-                        <h4>Beschrijf activiteit</h4>
-                        <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
-                        <h4>Wat is het beoogde impact van deze activiteit</h4>
-                        <textarea name="" id="" cols="30" rows="10" onChange={impactHandler}></textarea>
+                            <select name="" id="" onChange={goalHandler}>
+                                <option value="">-- Selecteer een doel --</option>
+                                {goals && goals.map(goal => (
+                                    <option value="" key={goal.ID} data-id={goal.ID} data-title={goal.Title}>{goal.Title}</option>
+                                ))}
+                            </select>
+                            <h4>Beschrijf activiteit</h4>
+                            <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
+                        <h4>Voeg een bannerfoto toe</h4>
+                        <input className="input-classic" onChange={bannerHandler} type="file" />
+                        <div className="spinner-container">
+                            <img src={loader} alt="" />
+                        </div> 
+                        <button onClick={saveActivity}>Opslaan</button>
+                    </div>
+                </Modal>
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='list-container'>
+                        <div className='list-top-row-container'>
+                                <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
+                        </div>
+                        <div className='list-top-row-container'>
+                            <p>BANNER</p>
+                            <p>ACTIVITEIT</p>
+                            <p>DOEL</p>
+                            <p>ACTIE</p>
+                        </div>
+                        {activities && activities.map(activity => (
+                            <div className='list-row-container'>
+                                <div className='list-banner-container'>
+                                    <img className='cancel-icon' data-docid={activity.docid} src={cancelIcon} alt="" onClick={deleteBanner} />
+                                    <img src={imageIcon} alt="" onClick={() => setModalOpen(true)} />
+                                    <img className='goal-banner-list' src={activity.Banner} alt="" />
+                                </div>
+                                <textarea contentEditable type="text" data-docid={activity.docid} defaultValue={activity.Activity} placeholder='Titel' onChange={activityHandler} />
+                                <p>{activity.Goal}</p>
+                                <img data-docid={activity.docid} onClick={deleteActivity} src={deleteIcon} alt="" />
+                            </div>  
+                        ))}
+                    </div>
                 </div>
-                <div className="divider">
-                    <h4>Voeg een bannerfoto toe</h4>
-                    <input className="input-classic" onChange={bannerHandler} type="file" />
-                    <div className="spinner-container">
-                        <img src={loader} alt="" />
-                    </div> 
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={bulbIcon} alt="" />
+                    <h3>Tips</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
+                    <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
                 </div>
-                <button onClick={saveActivity}>Opslaan</button>
             </div>
-            <div className='next-step-impact'>
-                <img src={ArrowRightIcon} alt="" onClick={nextStep}/>
-                <h3 onClick={nextStep}>Volgende stap: mijlpalen toevoegen</h3>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={feetIcon} alt="" />
+                    <h3>Volgende stap</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>In de volgende stap ga je de impactdoelen plannen in de tijd.</p>
+                    <button>Volgende stap</button>
+                </div>
             </div>
-        </div>
-        <RightSideBar />
+            </div>
+            </div>
         </div>
     )
 }
