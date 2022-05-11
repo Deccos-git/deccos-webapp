@@ -25,7 +25,7 @@ const AddSROI = () => {
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [color, setColor] = useState('')
-    const [setAmount, setSetAmount] = useState(0)
+    const [amount, setAmount] = useState(0)
     const [total, setTotal] = useState(0)
 
     const menuState = MenuStatus()
@@ -54,7 +54,11 @@ const AddSROI = () => {
         setOutputTitle(outputTitle)
     }
 
-    const SROIHandler = () => {
+    const SROISetHandler = (e) => {
+
+        const amount = e.target.options[e.target.selectedIndex].dataset.amount 
+
+        setAmount(amount)
         
     }
 
@@ -99,7 +103,7 @@ const AddSROI = () => {
                     </div>
                 </NavLink>  
                 <p>14 van de 12</p>
-                <NavLink to={`/${client}/MeausureOutputs`} >
+                <NavLink to={`/${client}/MeasureOutput`} >
                     <div className='step-container'>
                         <p>Outputs bijhouden</p>
                         <img src={arrowRight} alt="" />
@@ -136,38 +140,38 @@ const AddSROI = () => {
                 ))}
             </select>
             <div style={{display: outputID ? 'block' : 'none'}}>
-                    <p><b>2. Beheer je SROI</b></p>
-                    <div className='list-container'>
-                        <div className='list-top-row-container'>
-                                <img src={plusButton} alt="" onClick={addSROI}/>
-                        </div>
-                        <div className='list-top-row-container'>
-                            <p>TYPE</p>
-                            <p>DEADWEIGHT</p>
-                            <p>ATTRUBUTIE</p>
-                            <p>TIJDSHORIZON</p>
-                            <p>BEDRAG</p>
-                            <p>TOTAAL</p>
-                            <p>ACTIE</p>
-                        </div>
-                        {SROIs && SROIs.map(SROI => (
-                            <div className='list-row-container'>
-                                <select name="" id="">
-                                    <option value="">-- Selecteer een SROI type --</option>
-                                    {SROISets && SROISets.map(set => (
-                                        <option value={set.Type}>{set.Type}</option>
-                                    ))}
-                                </select>
-                               <input type="text" placeholder='Vul deadweight in' />
-                               <input type="text" placeholder='Vul attributie in' />
-                               <input type="text" placeholder='Vul tijdshorizon in' />
-                               <p>{setAmount}</p>
-                               <p>{total}</p>
-                                <img data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
-                            </div>  
-                        ))}
+                <p><b>2. Beheer je SROI</b></p>
+                <div className='list-container'>
+                    <div className='list-top-row-container'>
+                            <img src={plusButton} alt="" onClick={addSROI}/>
                     </div>
+                    <div className='list-top-row-container'>
+                        <p>TYPE</p>
+                        <p>DEADWEIGHT</p>
+                        <p>ATTRUBUTIE</p>
+                        <p>TIJDSHORIZON</p>
+                        <p>BEDRAG</p>
+                        <p>TOTAAL</p>
+                        <p>ACTIE</p>
+                    </div>
+                    {SROIs && SROIs.map(SROI => (
+                        <div className='list-row-container'>
+                            <select name="" id="" onChange={SROISetHandler}>
+                                <option value="">-- Selecteer een SROI type --</option>
+                                {SROISets && SROISets.map(set => (
+                                    <option data-amount={set.Amount} value={set.Type}>{set.Type}</option>
+                                ))}
+                            </select>
+                            <input type="text" placeholder='Vul deadweight in' />
+                            <input type="text" placeholder='Vul attributie in' />
+                            <input type="text" placeholder='Vul tijdshorizon in' />
+                            <p>{amount}</p>
+                            <p>{total}</p>
+                            <img data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
+                        </div>  
+                    ))}
                 </div>
+            </div>
         </div>
         </div>
             <div>

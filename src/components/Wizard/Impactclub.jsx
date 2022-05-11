@@ -14,16 +14,24 @@ import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
+import spinnerRipple from '../../images/spinner-ripple.svg'
+import firebase from 'firebase'
+import { bucket, db } from '../../firebase/config';
 
-const Explainer = () => {
+const Impactclub = () => {
 
     const [color, setColor] = useState('')
+    const [ID, setID] = useState('') 
+    const [banner, setBanner] = useState("")
+    const [docid, setDocid] = useState('')
+    const [name, setName] = useState('')
 
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
     
     const colors = useFirestore('Colors')
+    const compagnies = useFirestore('CompagnyMeta')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -34,13 +42,98 @@ const Explainer = () => {
 
     },[colors])
 
+    useEffect(() => {
+        compagnies && compagnies.forEach(compagny => {
+            const ID = compagny.ID 
+            const docid = compagny.docid
+            const banner = compagny.ImpactBanner
+            const name = compagny.Compagny
+  
+            setID(ID)
+            setDocid(docid)
+            setBanner(banner)
+            setName(name)
+        })
+      }, [compagnies]);
+
+      const ToggleSwitch = ({}) => {
+        return (
+          <div>
+            <div className="toggle-switch">
+              <input type="checkbox" className="checkbox"
+                     name={name} id={name} data-docid={docid} onChange={toggle} />
+              <label className="label" htmlFor={name}>
+                <span className="inner"/>
+                <span className="switch"/>
+              </label>
+            </div>
+          </div>
+        );
+      };
+
+    const toggle = (e) => {
+
+        const check = e.target.checked
+        const docid = e.target.dataset.docid
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            Impacthub: check
+        })
+
+    }
+
+    const bannerHandler = (e) => {
+        setBanner(spinnerRipple)
+
+        const photo = e.target.files[0]
+
+        const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
+        const uploadTask = storageRef.put(photo)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setBanner(downloadURL)
+            saveImpactBanner(downloadURL)
+
+                })
+            })
+        })
+    }
+
+    const saveImpactBanner = (downloadURL) => {
+
+        db.collection('CompagnyMeta')
+        .doc(docid)
+        .update({
+            ImpactBanner: downloadURL
+        })
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Wat is impactmanagement?</h1>
+                <h1>Impactclub</h1>
                 <div className='wizard-sub-nav'>
                     <NavLink to={`/${client}/Introduction`} >
                         <div className='step-container'>
@@ -64,42 +157,6 @@ const Explainer = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>
-                            Het bestaandrecht van een sociale onderneming is de maatschappelijke impact die wordt gerealiseerd. 
-                            Hoe maak je die impact meetbaar? Dat is de centrale vraag waar je aan de hand van impactmanagement 
-                            een antwoord op formuleerd.
-                        </b></p>
-                        <p>
-                            Zoals de naam al aangeeft is impactmanagement geen eenmalige taak. Het is een doorgaand proces 
-                            van plannen, meten, analyseren en leren.
-                        </p>
-                        <p>Impactmanagement is niet iets dat in één keer perfect hoeft te zijn. Het is een proces waarin je 
-                            kunt groeien en telkens nieuwe stappen kunt zetten.
-                        </p>
-                        <p>
-                            Wanneer impactmanagement een onderdeel van je bedrijfsvoering is krijg je een groeiend inzicht 
-                            in waar het in jouw sociale ondernemeing om draaid: meetbare maatschappelijke impact.
-                        </p>
-                        <p>Binnen Deccos bestaat impactmanagement uit vier delen:</p>
-                        <ul>
-                            <li>De context</li>
-                            <li>Het veranderpad (Theory Of Change)</li>
-                            <li>Het meetplan</li>
-                            <li>Communiceren</li>
-                        </ul>
-                        <p>Binnen de context onderzoek je wat precies de aard is van het maatschappelijke probleem 
-                            dat je op wilt lossen. Vervolgens beschrijf je wie de belangrijke betrokkenen zijn (je stakeholders).
-                            Daarna formuleer je jouw impactdoelen.
-                        </p>
-                        <p>Aan de hand van het veranderpad (Theory Of Change) werk je uit hoe je jullie 
-                            bedrijfsactiviteiten in kunt zetten om de impact doelen te realiseren.
-                        </p>
-                        <p>Het veranderpad is de basis voor het meetplan. In het meetplan werk je uit of de 
-                            activiteiten daadwerkelijk tot de gewenste impact leiden. De impact wordt meetbaar gemaakt. 
-                            De eerste stap is het bijhouden van de outputs. De tweede stap is het meten van de effecten. 
-                            Dit doe je aan d ehand van bijvoorbeeld een vragenlijst of interviews.
-                        </p>
-                        <p>Het communiceren van je impact doe je in de Deccos Impactclub. Nodig stakeholders uit om je impact realtime te volgen.</p>
                     </div>
                 </div>
                 <div>
@@ -108,8 +165,9 @@ const Explainer = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                       <p>Een goede impactstrategie begint met een heldere probleemanalyse.</p>
-                       <button>Aan de slag</button>
+                        <p>Upload een banner voor je impactclub account</p>
+                        <img id='impact-banner' src={banner} alt="" />
+                        <input className="input-classic" onChange={bannerHandler} type="file" />
                     </div>
                 </div>
                 <div>
@@ -141,4 +199,4 @@ const Explainer = () => {
   )
 }
 
-export default Explainer
+export default Impactclub

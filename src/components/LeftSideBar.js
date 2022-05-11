@@ -18,6 +18,7 @@ import festiveIcon from '../images/icons/festive-icon.png'
 import taskIcon from '../images/icons/task-icon.png'
 import calendarIcon from '../images/icons/calendar-icon.png'
 import timelineIcon from '../images/icons/timeline-icon.png'
+import researchIcon from '../images/icons/research-icon.png'
 
 const LeftSideBar = () => {
 
@@ -137,6 +138,12 @@ const LeftSideBar = () => {
                 <div className="channel-div">
                     <div className="nav-title-container">
                         <h3>Meten</h3>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={researchIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Instruments`}>Onderzoeken</NavLink>
+                        </div>
                     </div>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>

@@ -262,8 +262,20 @@ const ProblemAnalysis = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Zorg ervoor dat je formulerening concreet zijn. </p>
-                    <p>Betrek je stakeholders bij het verfijnen van je probleemanalyse.</p>
+                    <p><b>Als sociale organisatie wil je een maatschappelijk probleem oplossen.</b></p>
+                    <p>Aangezien dit maatschappelijke probleem zo essentieel is voor jullie organisatie is het 
+                        belangrijk om het prbleem helder voor ogen te hebben. Een heldere probleemanalyse geeft 
+                        inzicht in het betsaansrecht van je organisatie en geeft richting aan je inhoudelijke bedrijfskeuzes.
+                    </p>
+                    <p>
+                        Om het maatschappelijke probleem inzichtelijk te krijgen beginnen met het formuleren van het 
+                        centrale probleem. Hierbij is het belangrijk om concreet te zijn. Probeer de 'wie, wat, 
+                        waar en wanneer'vragen zo veel mogelijk in je crntrale probleem mee te nemen.  '
+                    </p>
+                    <p>
+                        Wanneer het centrale probleem us geformuleerd noteren we wat de directe en indirecte oorzaken 
+                        en gevolgen zijn van het probleem.
+                    </p>
                 </div>
             </div>
             <div>

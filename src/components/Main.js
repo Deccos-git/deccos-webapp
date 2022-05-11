@@ -74,6 +74,9 @@ import Conditions from './Wizard/Conditions';
 import AddActivity from './Impact/AddActivity';
 import ImpactActivity from './Wizard/ImpactActivity';
 import OutputEffects from './Wizard/OutputEffects';
+import MeasureOutput from './Wizard/MeasureOutput';
+import Impactclub from './Wizard/Impactclub'
+import Projectmanagement from './Wizard/Projectmanagement';
 
 const Main = () => {
 
@@ -289,6 +292,15 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/OutputEffects`}>
                     <OutputEffects />
+                </Route>
+                <Route path={`/${client}/MeasureOutput`}>
+                    <MeasureOutput />
+                </Route>
+                <Route path={`/${client}/Impactclub`}>
+                    <Impactclub />
+                </Route>
+                <Route path={`/${client}/Projectmanagement`}>
+                    <Projectmanagement/>
                 </Route>
             </Switch>
         </div>

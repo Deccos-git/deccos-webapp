@@ -1,6 +1,5 @@
-import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar"
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
 import {useFirestore, useFirestoreActivities} from "../../firebase/useFirestore"
 import { useState, useEffect, useContext } from 'react'
@@ -10,15 +9,20 @@ import { db, timestamp } from "../../firebase/config.js"
 import { client } from "../../hooks/Client"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import { useHistory } from "react-router-dom";
-import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
-import spinnerRipple from '../../images/spinner-ripple.svg'
-import firebase from 'firebase'
-import { bucket } from '../../firebase/config';
+import arrowLeft from '../../images/icons/arrow-left-icon.png'
+import arrowRight from '../../images/icons/arrow-right-icon.png'
+import capIcon from '../../images/icons/cap-icon.png'
+import rocketIcon from '../../images/icons/rocket-icon.png'
+import bulbIcon from '../../images/icons/bulb-icon.png'
+import feetIcon from '../../images/icons/feet-icon.png'
 import ButtonClicked from "../../hooks/ButtonClicked";
+import { NavLink, Link } from "react-router-dom";
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 
 const AddMilestone = () => {
   const [authO] = useContext(Auth)
 
+  const [color, setColor] = useState('')
   const [outputID, setOutputID] = useState(null)
   const [instrumentTitle, setInstrumentTitle] = useState(null)
   const [instrumentID, setInstrumentID] = useState('')
@@ -37,6 +41,17 @@ const AddMilestone = () => {
   const instruments = useFirestore('ImpactInstruments')
   const banners = useFirestore('Banners')
   const compagnies = useFirestore('CompagnyMeta')
+  const colors = useFirestore('Colors')
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
+
 
   useEffect(() => {
     banners && banners.forEach(banner => {
@@ -137,14 +152,42 @@ const AddMilestone = () => {
 
   return (
     <div className="main">
-    <LeftSideBarAuthProfile />
-    <LeftSideBarAuthProfileFullScreen/>
-    <div className="profile profile-auth-profile" style={{display: menuState}}>
-        <div className="settings-inner-container">
-            <div className="divider card-header">
-                <h1>Mijlpaal toevoegen</h1>
+    <LeftSideBar />
+    <LeftSideBarFullScreen/>
+    <div className="main-container" style={{display: menuState}}>
+        <div className="page-header">
+            <h1>Mijlpalen</h1>
+            <div className='wizard-sub-nav'>
+                <NavLink to={`/${client}/ResearchAnalysis`} >
+                    <div className='step-container'>
+                        <img src={arrowLeft} alt="" />
+                        <p>Onderzoeksanalyse</p>
+                    </div>
+                </NavLink>  
+                <p>20 van de 22</p>
+                <NavLink to={`/${client}/Projectmanagement`} >
+                    <div className='step-container'>
+                        <p>Projectbeheer</p>
+                        <img src={arrowRight} alt="" />
+                    </div>
+                </NavLink>
             </div>
-            <div className='divider'>
+        </div>
+        <div className='profile profile-auth-profile'>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={capIcon} alt="" />
+                    <h3>Uitleg</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={rocketIcon} alt="" />
+                    <h3>Aan de slag</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
               <div>
                 <h2>Selecteer een instrument<sup>*</sup></h2>
                 <select name="" id="" onChange={outputHandler}>
@@ -154,21 +197,45 @@ const AddMilestone = () => {
                   ))}
                 </select>
               </div>
-            </div>
-            <div className='divider'>
-              <h2>Geef de mijlpaal een titel</h2>
-              <input type="text" onChange={titleHandler} />
-            </div>
-            <div className='divider'>
-              <h2>Geef de mijlpaal een aantal</h2>
-              <input type="number" onChange={numberHandler} />
-            </div>
-            <div>
-              <button onClick={saveMilestone}>Opslaan</button>
-            </div>
+              <div className='divider'>
+                <h2>Geef de mijlpaal een titel</h2>
+                <input type="text" onChange={titleHandler} />
+              </div>
+              <div className='divider'>
+                <h2>Geef de mijlpaal een aantal</h2>
+                <input type="number" onChange={numberHandler} />
+              </div>
+              <div>
+                <button onClick={saveMilestone}>Opslaan</button>
+              </div>
+              </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={bulbIcon} alt="" />
+                        <h3>Tips</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <ol>
+                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={feetIcon} alt="" />
+                        <h3>Volgende stap</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
+                        <button>Volgende stap</button>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div>
-    <RightSideBar />
+
     </div>
   )
 }

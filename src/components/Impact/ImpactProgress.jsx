@@ -311,12 +311,10 @@ const ImpactProgress = () => {
 
         const datatype = (instrument) => {
 
-            if(instrument.Output.Datatype === 'Manual'){
+            if(instrument.Type === 'Manual'){
                 return "Handmatig"
-            } else if(instrument.Output.Datatype === 'Questionnairy'){
+            } else if(instrument.Type === 'Questionnairy'){
                 return 'Vragenlijst'
-            } else if(instrument.Output.Datatype === 'Members'){
-                return 'Automatisch'
             }
         }
         
@@ -329,7 +327,7 @@ const ImpactProgress = () => {
                 <div className='output-seeting-effect'>
                     {instruments && instruments.map(instrument => (
                         <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
-                            <p data-id={instrument.ID}>{instrument.Output.Output}</p>
+                            <p data-id={instrument.ID}>{instrument.Title}</p>
                             <div className='activity-meta-title-container'>
                                 <img src={typeIcon} alt="" />
                                 <h5>Type</h5>
@@ -423,36 +421,7 @@ const ImpactProgress = () => {
         const dataset = useFirestoreResults(instrument.ID)
         const totalSROI = dataset.length*SROI
 
-        const matchesArray = []
-
-        if(instrument.Output.Datatype === 'Members'){
-
-            return(
-                <>
-                    <MemberGraph/>
-                </>
-            )
-        } else if(instrument.Output.Datatype === 'Matches'){
-
-            matchesArray.push({
-                Title: 'Matches',
-                Amount: 1
-            })
-
-            return (
-                <div>
-                    {matchesArray && matchesArray.map(match => (
-                        <div className='internal-results-container'>
-                            <div className='activity-meta-title-container'>
-                                <img src={resultsIcon} alt="" />
-                                <h5>Resultaat</h5>
-                            </div>
-                            <p>{match.Amount}</p>
-                        </div>
-                    ))}
-                </div>
-            )
-        } else if(instrument.Output.Datatype === 'Manual'){
+      if(instrument.Type === 'Manual'){
 
             return(
                 <>
@@ -472,7 +441,7 @@ const ImpactProgress = () => {
                 </div>
                 </>
             )
-        } else if(instrument.Output.Datatype === 'Questionnairy'){
+        } else if(instrument.Type === 'Questionnairy'){
 
             return(
                 <div className='internal-results-container'>

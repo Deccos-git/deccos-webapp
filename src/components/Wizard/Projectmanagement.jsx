@@ -15,13 +15,11 @@ import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
 
-const Explainer = () => {
+const Projectmanagement = () => {
 
     const [color, setColor] = useState('')
-
-    const history = useHistory()
+   
     const menuState = MenuStatus() 
-    const id = uuid()
     
     const colors = useFirestore('Colors')
 
@@ -40,18 +38,18 @@ const Explainer = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Wat is impactmanagement?</h1>
+                <h1>Projectmanagement</h1>
                 <div className='wizard-sub-nav'>
                     <NavLink to={`/${client}/Introduction`} >
                         <div className='step-container'>
                             <img src={arrowLeft} alt="" />
-                            <p>Deccos Impact Guide</p>
+                            <p>Mijlpalen</p>
                         </div>
                     </NavLink>  
                     <p>1 van de 12</p>
-                    <NavLink to={`/${client}/ProblemAnalysis`} >
+                    <NavLink to={`/${client}/Impactclub`} >
                         <div className='step-container'>
-                            <p>Probleemanalyse</p>
+                            <p>Impactclub</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>
@@ -64,42 +62,6 @@ const Explainer = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>
-                            Het bestaandrecht van een sociale onderneming is de maatschappelijke impact die wordt gerealiseerd. 
-                            Hoe maak je die impact meetbaar? Dat is de centrale vraag waar je aan de hand van impactmanagement 
-                            een antwoord op formuleerd.
-                        </b></p>
-                        <p>
-                            Zoals de naam al aangeeft is impactmanagement geen eenmalige taak. Het is een doorgaand proces 
-                            van plannen, meten, analyseren en leren.
-                        </p>
-                        <p>Impactmanagement is niet iets dat in één keer perfect hoeft te zijn. Het is een proces waarin je 
-                            kunt groeien en telkens nieuwe stappen kunt zetten.
-                        </p>
-                        <p>
-                            Wanneer impactmanagement een onderdeel van je bedrijfsvoering is krijg je een groeiend inzicht 
-                            in waar het in jouw sociale ondernemeing om draaid: meetbare maatschappelijke impact.
-                        </p>
-                        <p>Binnen Deccos bestaat impactmanagement uit vier delen:</p>
-                        <ul>
-                            <li>De context</li>
-                            <li>Het veranderpad (Theory Of Change)</li>
-                            <li>Het meetplan</li>
-                            <li>Communiceren</li>
-                        </ul>
-                        <p>Binnen de context onderzoek je wat precies de aard is van het maatschappelijke probleem 
-                            dat je op wilt lossen. Vervolgens beschrijf je wie de belangrijke betrokkenen zijn (je stakeholders).
-                            Daarna formuleer je jouw impactdoelen.
-                        </p>
-                        <p>Aan de hand van het veranderpad (Theory Of Change) werk je uit hoe je jullie 
-                            bedrijfsactiviteiten in kunt zetten om de impact doelen te realiseren.
-                        </p>
-                        <p>Het veranderpad is de basis voor het meetplan. In het meetplan werk je uit of de 
-                            activiteiten daadwerkelijk tot de gewenste impact leiden. De impact wordt meetbaar gemaakt. 
-                            De eerste stap is het bijhouden van de outputs. De tweede stap is het meten van de effecten. 
-                            Dit doe je aan d ehand van bijvoorbeeld een vragenlijst of interviews.
-                        </p>
-                        <p>Het communiceren van je impact doe je in de Deccos Impactclub. Nodig stakeholders uit om je impact realtime te volgen.</p>
                     </div>
                 </div>
                 <div>
@@ -108,8 +70,7 @@ const Explainer = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                       <p>Een goede impactstrategie begint met een heldere probleemanalyse.</p>
-                       <button>Aan de slag</button>
+                        
                     </div>
                 </div>
                 <div>
@@ -141,4 +102,4 @@ const Explainer = () => {
   )
 }
 
-export default Explainer
+export default Projectmanagement

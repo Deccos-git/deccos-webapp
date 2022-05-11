@@ -71,22 +71,53 @@ const Introduction = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <ol>
-                            <li><NavLink to={`/${client}/Explainer`} >Wat is impactmanagement?</NavLink></li>
-                            <li><NavLink to={`/${client}/ProblemAnalysis`} >Probleemanalyse</NavLink></li>
-                            <li><NavLink to={`/${client}/StakeholderAnalysis`} >Stakeholders</NavLink></li>
-                            <li><NavLink to={`/${client}/GoalTitle`} >Impactdoelen</NavLink></li>
-                            <li><NavLink to={`/${client}/Targetgroup`} >Doelgroep bepalen </NavLink></li>
-                            <li><NavLink to={`/${client}/ImpactTargetgroup`} >Impact op doelgroep</NavLink></li>
-                            <li><NavLink to={`/${client}/ImpactSociety`} >Impact op maatschappij</NavLink></li>
-                            <li><NavLink to={`/${client}/SDGs`} >Bijdrage aan SDG's</NavLink></li>
-                            <li><NavLink to={`/${client}/Assumptions`} >Aannames</NavLink></li>
-                            <li><NavLink to={`/${client}/Conditions`} >Externe factoren</NavLink></li>
-                            <li><NavLink to={`/${client}/AddActivity`} >Activiteiten</NavLink></li>
-                            <li><NavLink to={`/${client}/ImpactActivity`} >Impact van activiteit</NavLink></li>
-                            <li><NavLink to={`/${client}/AddOuput`} >Outputs</NavLink></li>
-                            <li><NavLink to={`/${client}/OutputEffects`} >Effecten van output</NavLink></li>
-                        </ol>
+                        <div className='wizard-introduction-menu-card'>
+                            <p><b>Context</b></p>
+                            <div className='wizard-introduction-menu-container'>
+                                <NavLink to={`/${client}/Explainer`} >1. Wat is impactmanagement?</NavLink>
+                                <NavLink to={`/${client}/ProblemAnalysis`} >2. Probleemanalyse</NavLink>
+                                <NavLink to={`/${client}/StakeholderAnalysis`} >3. Stakeholders</NavLink>
+                                <NavLink to={`/${client}/GoalTitle`} >4. Impactdoelen</NavLink>
+                                <NavLink to={`/${client}/Targetgroup`} >5. Doelgroep bepalen </NavLink>
+                            </div>
+                        </div>
+                        <div className='wizard-introduction-menu-card'>
+                            <p><b>Verandertheorie (Theory Of Change)</b></p>
+                            <div className='wizard-introduction-menu-container'>
+                                <NavLink to={`/${client}/ImpactTargetgroup`} >6. Impact op doelgroep</NavLink>
+                                <NavLink to={`/${client}/ImpactSociety`} >7. Impact op maatschappij</NavLink>
+                                <NavLink to={`/${client}/SDGs`} >8. Bijdrage aan SDG's</NavLink>
+                                <NavLink to={`/${client}/Assumptions`} >9. Aannames</NavLink>
+                                <NavLink to={`/${client}/Conditions`} >10. Externe factoren</NavLink>
+                                <NavLink to={`/${client}/AddActivity`} >11. Activiteiten</NavLink>
+                                <NavLink to={`/${client}/ImpactActivity`} >12. Impact van activiteit</NavLink>
+                                <NavLink to={`/${client}/AddOuput`} >13. Outputs</NavLink>
+                                <NavLink to={`/${client}/OutputEffects`} >14. Effecten van output</NavLink>
+                            </div>
+                        </div>
+                        <div className='wizard-introduction-menu-card'>
+                            <p><b>SROI</b></p>
+                            <div className='wizard-introduction-menu-container'>
+                                <NavLink to={`/${client}/AddSROI`} >15. SROI</NavLink> 
+                            </div>                  
+                        </div>
+                        <div className='wizard-introduction-menu-card'>
+                            <p><b>Meten</b></p>
+                            <div className='wizard-introduction-menu-container'>
+                                <NavLink to={`/${client}/MeasureOutput`} >16. Output bijhouden</NavLink>
+                                <NavLink to={`/${client}/MeasureOutput`} >17. Vragenlijsten</NavLink>
+                                <NavLink to={`/${client}/MeasureOutput`} >18. Onderzoek opzetten</NavLink>
+                                <NavLink to={`/${client}/MeasureOutput`} >19. Onderzoeksanalyse</NavLink>
+                                <NavLink to={`/${client}/AddMilestone`} >20. Mijlpalen</NavLink>
+                                <NavLink to={`/${client}/Projectmanagement`} >21. Projectbeheer</NavLink>
+                            </div>
+                        </div>
+                        <div className='wizard-introduction-menu-card'>
+                            <p><b>Communiceren</b></p>
+                            <div className='wizard-introduction-menu-container'>
+                                <NavLink to={`/${client}/Impactclub`} >22. Impactclub</NavLink>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>
