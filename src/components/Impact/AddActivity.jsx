@@ -77,8 +77,13 @@ const AddActivity = () => {
     const activityHandler = (e) => {
 
         const title = e.target.value 
+        const docid = e.target.dataset.docid
 
-        setActivityTitle(title)
+        db.collection('Activities')
+        .doc(docid)
+        .update({
+            Activity: title
+        })
 
     }
 
@@ -103,39 +108,6 @@ const AddActivity = () => {
             GoalID: goalID,
             Progression: 0,
             Banner: banner,
-        })
-        .then(() => {
-            db.collection('Projects')
-            .doc()
-            .set({
-                Title: activityTitle,
-                ActivityID: id,
-                ID: uuid(),
-                Compagny: client,
-                Timestamp: timestamp,
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Type: `ActivityProject"`
-            })
-        })
-        .then(() => {
-            db.collection("Groups")
-            .doc()
-            .set({
-                ID: uuid(),
-                Admin: authO.ID,
-                Room: activityTitle,
-                MemberList: [
-                    authO.ID
-                ],
-                Timestamp: timestamp,
-                Compagny: client,
-                ActivityID: id,
-                Messages: 0,
-                Type: 'ProjectGroup',
-                Banner: "https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/GroupBanners%2FHero-III.jpg?alt=media&token=6464f58e-6aa7-4522-9bb6-3b8c723496d7"
-            })
         })
         .then(() => {
             closeModal()
@@ -223,21 +195,21 @@ const AddActivity = () => {
                     </div>
                 </div>
                 <div className='profile profile-auth-profile'>
+                    <div>
+                        <div className='activity-meta-title-container'>
+                            <img src={capIcon} alt="" />
+                            <h3>Uitleg</h3>
+                        </div> 
+                        <div className='text-section' style={{backgroundColor: color}}>
+                            <p>Specifiek, meetbaar, acceptabel, realistisch</p>
+                            <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
+                                Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
+                                helpt een mooi plaatje om het belang van jullie doel over te brengen. 
+                                Een plaatje zegt meer dan 1000 woorden, toch? 
+                                <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                        </div>
+                    </div>
                 <div>
-                <div className='activity-meta-title-container'>
-                    <img src={capIcon} alt="" />
-                    <h3>Uitleg</h3>
-                </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
-                </div>
-            </div>
-            <div>
                 <div className='activity-meta-title-container'>
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>

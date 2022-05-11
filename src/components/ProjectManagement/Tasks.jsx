@@ -1,6 +1,5 @@
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
-import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
 import { useFirestore, useFirestoreMyTasks } from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
@@ -17,13 +16,7 @@ import Calendar from "../Calender";
 import settingsIcon from '../../images/icons/settings-icon.png'
 
 const Tasks = () => {
-    const [allTasksDisplay, setAllTasksDisplay] = useState('flex')
-    const [myTasksDisplay, setMyTasksDisplay] = useState('none')
-    const [calendarDisplay, setCalendarDisplay] = useState('none')
-    const [allTasksTab, setAllTasksTab] = useState('active-tab')
-    const [myTasksTab, setMyTasksTab] = useState('not-active-tab')
-    const [calendarTab, setCalendarTab] = useState('not-active-tab')
-    const [milestoneFilter, setMilestoneFilter] = useState('')
+    const [activityFilter, setActivityFilter] = useState('')
     const [priorityFilter, setPriorityFilter] = useState('')
     const [completedFilter, setCompletedFilter] = useState('')
     const [appointedFilter, setAppointedFilter] = useState('')
@@ -35,7 +28,7 @@ const Tasks = () => {
     const route = Location()[3]
 
     const tasks = useFirestore("Tasks")
-    const milestones = useFirestore('Milestones')
+    const activities = useFirestore('Activities')
     const projectManagers = useFirestore('ProjectManagers')
 
     const allTasks = () => {
@@ -53,9 +46,9 @@ const Tasks = () => {
                 Task: task.Task,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Milestone: task.Milestone,
+                Activity: task.Activity,
                 Priority: task.Priority,
-                Tags:[task.Milestone, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
+                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
             }
 
             taskArray.push(taskObject)
@@ -80,9 +73,9 @@ const Tasks = () => {
                 Task: task.Task,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Milestone: task.Milestone,
+                Activity: task.Activity,
                 Priority: task.Priority,
-                Tags:[task.Milestone, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
+                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
             }
 
             taskArray.push(taskObject)
@@ -130,20 +123,6 @@ const Tasks = () => {
         history.push(`/${client}/PublicProfile/${id}`)
     }
 
-    const showAllTasks = () => {
-        setAllTasksDisplay('block')
-        setCalendarDisplay('none')
-        setAllTasksTab('active-tab')
-        setCalendarTab('not-active-tab')
-    }
-
-    const showCalendar = () => {
-        setAllTasksDisplay('none')
-        setCalendarDisplay('flex')
-        setAllTasksTab('not-active-tab')
-        setCalendarTab('active-tab')
-    }
-
     const TaskPriority = ({task}) => {
 
         if(task.Priority === 'urgent-important'){
@@ -171,11 +150,11 @@ const Tasks = () => {
 
     }
 
-    const milestoneFilterHandler = (e) => {
+    const activityFilterHandler = (e) => {
 
-        const milestone = e.target.options[e.target.selectedIndex].value
+        const activity = e.target.options[e.target.selectedIndex].value
 
-        setMilestoneFilter(milestone)
+        setActivityFilter(activity)
         
     }
 
@@ -197,7 +176,7 @@ const Tasks = () => {
 
     const filter = () => {
 
-        const filterArray = [milestoneFilter, priorityFilter, completedFilter, appointedFilter]
+        const filterArray = [activityFilter, priorityFilter, completedFilter, appointedFilter]
 
         const newArray = []
 
@@ -235,10 +214,6 @@ const Tasks = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className='chat-header'>
                 <h1>Taken</h1>
-                <div className='group-navigation-container'>
-                    <p className={allTasksTab} onClick={showAllTasks}>Lijst</p>
-                    <p className={calendarTab} onClick={showCalendar}>Agenda</p>
-                </div>
             </div>
             <div id='task-filter-container'>
                 <div className='task-filter-inner-container'>
@@ -252,11 +227,11 @@ const Tasks = () => {
 
                 </div>
                 <div className='task-filter-inner-container'>
-                    <h3>Mijlpaal</h3>
-                    <select name="" id="" data-categorie={'milestones'} onChange={milestoneFilterHandler}>
+                    <h3>Activiteit</h3>
+                    <select name="" id="" data-categorie={'activities'} onChange={activityFilterHandler}>
                         <option value='All'>-- alle -- </option>
-                        {milestones && milestones.map(milestone => (
-                            <option value={milestone.Title} data-categorie={'milestones'} key={milestone.ID}>{milestone.Title}</option>
+                        {activities && activities.map(activity => (
+                            <option value={activity.Activity} data-categorie={'activities'} key={activity.ID}>{activity.Activity}</option>
                         ))}
                     </select>
                 </div>
@@ -290,7 +265,7 @@ const Tasks = () => {
                     </div>
                 </div>
                 {tasksOverview && tasksOverview.map(task => (
-                    <div className='task-overview-container' key={task.ID} style={{display: allTasksDisplay}}>
+                    <div className='task-overview-container' key={task.ID}>
                         <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
                             <div className='task-inner-container'>
                                 <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
@@ -305,12 +280,8 @@ const Tasks = () => {
                         </div>
                     </div>
                 ))}
-                <div className='task-calendar-container' style={{display: calendarDisplay}}>
-                    <Calendar events={tasks}/>
-                </div>
             </div>
         </div>
-        <RightSideBar/>
         </div>
     )
 }

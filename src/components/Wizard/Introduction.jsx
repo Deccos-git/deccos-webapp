@@ -83,6 +83,9 @@ const Introduction = () => {
                             <li><NavLink to={`/${client}/Assumptions`} >Aannames</NavLink></li>
                             <li><NavLink to={`/${client}/Conditions`} >Externe factoren</NavLink></li>
                             <li><NavLink to={`/${client}/AddActivity`} >Activiteiten</NavLink></li>
+                            <li><NavLink to={`/${client}/ImpactActivity`} >Impact van activiteit</NavLink></li>
+                            <li><NavLink to={`/${client}/AddOuput`} >Outputs</NavLink></li>
+                            <li><NavLink to={`/${client}/OutputEffects`} >Effecten van output</NavLink></li>
                         </ol>
                     </div>
                 </div>

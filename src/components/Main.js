@@ -72,6 +72,8 @@ import SDGs from './Wizard/SDGs';
 import Assumptions from './Wizard/Assumptions';
 import Conditions from './Wizard/Conditions';
 import AddActivity from './Impact/AddActivity';
+import ImpactActivity from './Wizard/ImpactActivity';
+import OutputEffects from './Wizard/OutputEffects';
 
 const Main = () => {
 
@@ -281,6 +283,12 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/AddActivity`}>
                     <AddActivity />
+                </Route>
+                <Route path={`/${client}/ImpactActivity`}>
+                    <ImpactActivity />
+                </Route>
+                <Route path={`/${client}/OutputEffects`}>
+                    <OutputEffects />
                 </Route>
             </Switch>
         </div>

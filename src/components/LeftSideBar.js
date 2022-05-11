@@ -17,6 +17,7 @@ import listIcon from '../images/icons/list-icon.png'
 import festiveIcon from '../images/icons/festive-icon.png'
 import taskIcon from '../images/icons/task-icon.png'
 import calendarIcon from '../images/icons/calendar-icon.png'
+import timelineIcon from '../images/icons/timeline-icon.png'
 
 const LeftSideBar = () => {
 
@@ -53,6 +54,12 @@ const LeftSideBar = () => {
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={calendarIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Activities`}>Agenda</NavLink>
+                        </div>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={timelineIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Activities`}>Planning</NavLink>
                         </div>
                     </div>

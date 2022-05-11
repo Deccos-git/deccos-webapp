@@ -8,8 +8,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
-import { useFirestore, useFirestoreOutputs } from "../../firebase/useFirestore";
-import AddQuestionnaire from "./AddQuestionnaire";
+import { useFirestore, useFirestoreOutputEffects } from "../../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import arrowLeft from '../../images/icons/arrow-left-icon.png'
 import arrowRight from '../../images/icons/arrow-right-icon.png'
@@ -21,15 +20,15 @@ import { NavLink, Link } from "react-router-dom";
 import plusButton from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
 
-const AddOutput = () => {
-    const [activityID, setActivityID] = useState(null)
-    const [activityTitle, setActivityTitle] = useState('')
+const OutputEffects = () => {
+    const [outputID, setOutputID] = useState(null)
+    const [outputTitle, setOutputTitle] = useState('')
     const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
 
-    const activities = useFirestore('Activities')
-    const outputs = useFirestoreOutputs(activityID && activityID)
+    const outputs = useFirestore('Outputs')
+    const effects = useFirestoreOutputEffects(outputID)
     const colors = useFirestore('Colors')
 
     useEffect(() => {
@@ -41,45 +40,44 @@ const AddOutput = () => {
 
     },[colors])
 
-    const activityHandler = (e) => {
-        const activityID = e.target.options[e.target.selectedIndex].dataset.id
-        const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
+    const outputHandler = (e) => {
+        const outputID = e.target.options[e.target.selectedIndex].dataset.id
+        const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
 
-        setActivityID(activityID)
-        setActivityTitle(activityTitle)
+        setOutputID(outputID)
+        setOutputTitle(outputTitle)
     }
 
-    const outputHandler = (e) => {
-        const title = e.target.value 
+    const effectHandler = (e) => {
+        const effect = e.target.value 
         const docid = e.target.dataset.docid
 
-        db.collection('Outputs')
+        db.collection('OutputEffects')
         .doc(docid)
         .update({
-            Title: title
+            Effect: effect
         })
     }
 
-    const addOutput = (e) => {
+    const addEffect = (e) => {
     
-
-        db.collection('Outputs')
+        db.collection('OutputEffects')
         .doc()
         .set({
             ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
-            Activity: activityTitle,
-            ActivityID: activityID,
-            Title: '',
+            Output: outputTitle,
+            OutputID: outputID,
+            Effect: '',
         })
     }
 
-    const deleteOutput = (e) => {
+    const deleteEffect = (e) => {
 
         const docid = e.target.dataset.docid
 
-        db.collection('Outputs')
+        db.collection('OutputEffects')
         .doc(docid)
         .delete()
 
@@ -92,18 +90,18 @@ const AddOutput = () => {
     <LeftSideBarFullScreen/>
     <div className="main-container" style={{display: menuState}}>
         <div className="page-header">
-            <h1>Outputs</h1>
+            <h1>Effecten van output</h1>
             <div className='wizard-sub-nav'>
-                <NavLink to={`/${client}/ImpactActivity`} >
+                <NavLink to={`/${client}/Outputs`} >
                     <div className='step-container'>
                         <img src={arrowLeft} alt="" />
-                        <p>Impact van activiteit</p>
+                        <p>Outputs</p>
                     </div>
                 </NavLink>  
-                <p>12 van de 12</p>
-                <NavLink to={`/${client}/OutputEffects`} >
+                <p>13 van de 12</p>
+                <NavLink to={`/${client}/AddSROI`} >
                     <div className='step-container'>
-                        <p>Effecten van output</p>
+                        <p>SROI</p>
                         <img src={arrowRight} alt="" />
                     </div>
                 </NavLink>
@@ -131,28 +129,28 @@ const AddOutput = () => {
         </div> 
         <div className='text-section' style={{backgroundColor: color}}>
             <div>
-                <p><b>1. Selecteer de activiteit waar je de output aan wilt koppelen</b></p>
-                <select name="" id="" onChange={activityHandler}>
-                    <option data-id={''} data-title={''} value="">-- Selecteer een activiteit --</option>
-                {activities && activities.map(activity => (
-                    <option data-docid={activity.docid} data-id={activity.ID} data-title={activity.Activity}>{activity.Activity}</option>
+                <p><b>1. Selecteer de output waar je het effect aan wilt koppelen</b></p>
+                <select name="" id="" onChange={outputHandler}>
+                    <option data-id={''} data-title={''} value="">-- Selecteer een output --</option>
+                {outputs && outputs.map(output => (
+                    <option data-docid={output.docid} data-id={output.ID} data-title={output.Title}>{output.Title} (Activiteit: {output.Activity})</option>
                 ))}
                 </select>
-            </div >
-                <div style={{display: activityID ? 'block' : 'none'}}>
-                    <p><b>2. Beheer je outputs</b></p>
+            </div>
+                <div style={{display: outputID ? 'block' : 'none'}}>
+                    <p><b>2. Beheer je effecten</b></p>
                     <div className='list-container'>
                         <div className='list-top-row-container'>
-                                <img src={plusButton} alt="" onClick={addOutput}/>
+                                <img src={plusButton} alt="" onClick={addEffect}/>
                         </div>
                         <div className='list-top-row-container'>
-                            <p>OUTPUT</p>
+                            <p>EFFECT</p>
                             <p>ACTIE</p>
                         </div>
-                        {outputs && outputs.map(output => (
+                        {effects && effects.map(effect => (
                             <div className='list-row-container'>
-                                <input type="text" data-docid={output.docid} defaultValue={output.Title} placeholder='Output' onChange={outputHandler} />
-                                <img data-docid={output.docid} onClick={deleteOutput} src={deleteIcon} alt="" />
+                                <input type="text" data-docid={effect.docid} defaultValue={effect.Effect} placeholder='Effect' onChange={effectHandler} />
+                                <img data-docid={effect.docid} onClick={deleteEffect} src={deleteIcon} alt="" />
                             </div>  
                         ))}
                     </div>
@@ -185,4 +183,4 @@ const AddOutput = () => {
   )
 }
 
-export default AddOutput
+export default OutputEffects

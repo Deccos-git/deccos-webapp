@@ -1371,6 +1371,51 @@ const useFirestoreConditions = (id) => {
     return docs
 };
 
+const useFirestoreOutputEffects = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("OutputEffects")
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreSROISets = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("SROISets")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+
 
 export { 
     useFirestore, 
@@ -1431,5 +1476,7 @@ export {
     useFirestoreSROIs,
     useFirestoreSDGsSelected,
     useFirestoreAssumptions,
-    useFirestoreConditions
+    useFirestoreConditions,
+    useFirestoreOutputEffects,
+    useFirestoreSROISets
 }

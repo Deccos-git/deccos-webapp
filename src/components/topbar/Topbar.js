@@ -39,7 +39,7 @@ const Topbar = () => {
 
     const homeLink = () => {
 
-        history.push(`/${client}/AllActivity`)
+        history.push(`/${client}/ImpactProgress`)
 
     }
 

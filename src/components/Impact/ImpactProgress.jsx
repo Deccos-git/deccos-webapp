@@ -20,7 +20,8 @@ import {
     useFirestoreQuestionnairesResponses,
     useFirestoreResults,
     useFirestoreSROIs,
-    useFirestoreSDGsSelected
+    useFirestoreSDGsSelected,
+    useFirestoreOutputEffects
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -234,7 +235,7 @@ const ImpactProgress = () => {
                                 <img src={effectIcon} alt="" />
                                 <h4>Effect</h4>
                             </div>
-                            <p className='output-seeting-effect'>{output.Effect}</p>
+                            <Effects output={output}/>
                         </div>
                         <div className='dashboard-instruments-container'>
                             <div className='activity-meta-title-container'>
@@ -251,6 +252,19 @@ const ImpactProgress = () => {
                 ))}
                 
             </div>
+        )
+    }
+
+    const Effects = ({output}) => {
+
+        const effects = useFirestoreOutputEffects(output.ID)
+
+        return(
+            <ul>
+            {effects && effects.map(effect => (
+                <li>{effect.Effect}</li>
+            ))}
+            </ul>
         )
     }
 
