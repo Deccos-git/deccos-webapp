@@ -1,16 +1,23 @@
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "../rightSideBar/RightSideBar"
+import LeftSideBar from "../LeftSideBar"
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestore } from "../../firebase/useFirestore"
 import { useState, useEffect } from 'react';
 import { db, timestamp } from "../../firebase/config";
 import { client } from "../../hooks/Client";
 import uuid from 'react-uuid';
 import ButtonClicked from "../../hooks/ButtonClicked";
+import arrowLeft from '../../images/icons/arrow-left-icon.png'
+import capIcon from '../../images/icons/cap-icon.png'
+import rocketIcon from '../../images/icons/rocket-icon.png'
+import bulbIcon from '../../images/icons/bulb-icon.png'
+import feetIcon from '../../images/icons/feet-icon.png'
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import { NavLink, Link } from "react-router-dom";
 
 const AddQuestionnaire = () => {
+    const [color, setColor] = useState('')
     const [title, setTitle ] = useState('Titel van vragenlijst')
     const [docid, setDocid ] = useState('')
     const [showParagraph, setShowParagraph] = useState('block')
@@ -27,6 +34,16 @@ const AddQuestionnaire = () => {
 
     const questionnares = useFirestoreID('Questionnaires', route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)
+    const colors = useFirestore('Colors')
+
+    useEffect(() => {
+        colors && colors.forEach(color => {
+            const background = color.Background 
+
+            setColor(background)
+        })
+
+    },[colors])
 
     useEffect(() => {
         questionnares && questionnares.forEach(questionnare => {
@@ -184,65 +201,112 @@ const AddQuestionnaire = () => {
 
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="settings-inner-container">
-                <div className="divider card-header-add-questionnaire">
-                    <input type="text" className='editable-text-input' value={title} onChange={titleHandler}/>
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
+        <div className="main-container" style={{display: menuState}}>
+            <div className="page-header">
+                <h1>Vragenlijst creëeren</h1>
+                <div className='wizard-sub-nav-introduction'>
+                    <NavLink to={`/${client}/Questionnaires`} >
+                        <div className='step-container'>
+                            <p>Vragenlijsten</p>
+                            <img src={arrowLeft} alt="" />
+                        </div>
+                    </NavLink>
                 </div>
-                <div className="divider">
-                    <h2>Vraag toevoegen</h2>
-                    <select name="" id="" onChange={typeHandler}>
-                        <option value="paragraph">Textvraag</option>
-                        <option value="scale">Schaalvraag</option>
-                    </select>
-                    <div className='question-type-display-container'>
-                        <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
-                        <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
-                            <p id='questionnaire-field-text'>Text antwoord</p>
-                        </div>
-                        <div className='questionnaire-field-scale-container' style={{display: showScale}}>
-                            <div className='select-scale-container'>
-                                <select name="" id="" onChange={reachStartHandler}>
-                                    <option value="0">0</option>
-                                    <option value="1" selected>1</option>
-                                </select>
-                                <input type="text" placeholder='Voeg label toe' onChange={reachStartLabelHandler} />
-                            </div>
-                            <p id='scale-reach-symbol'>t/m</p>
-                            <div className='select-scale-container'>
-                                <select name="" id="" onChange={reachEndHandler}>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                                <input type="text" placeholder='Voeg label toe' onChange={reachEndLabelHandler} />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button className='button-simple' onClick={addField}>Toevoegen</button>
+            </div>
+            <div className='profile profile-auth-profile'>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={capIcon} alt="" />
+                        <h3>Uitleg</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
                     </div>
                 </div>
                 <div>
-                    <h2>Vragenlijst</h2>
-                    {questionnaireFields && questionnaireFields.map(field => (
-                        <div>
-                            <QuestionnaireField field={field}/>
+                    <div className='activity-meta-title-container'>
+                        <img src={rocketIcon} alt="" />
+                        <h3>Aan de slag</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>Titel</b></p>
+                        <input type="text" placeholder='Titel' defaultValue={title} onChange={titleHandler} />
+                        <p><b>Vraag toevoegen</b></p>
+                        <select name="" id="" onChange={typeHandler}>
+                            <option value="paragraph">Textvraag</option>
+                            <option value="scale">Schaalvraag</option>
+                        </select>
+                        <div className='question-type-display-container'>
+                            <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
+                            <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
+                                <p id='questionnaire-field-text'>Text antwoord</p>
+                            </div>
+                            <div className='questionnaire-field-scale-container' style={{display: showScale}}>
+                                <div className='select-scale-container'>
+                                    <select name="" id="" onChange={reachStartHandler}>
+                                        <option value="0">0</option>
+                                        <option value="1" selected>1</option>
+                                    </select>
+                                    <input type="text" placeholder='Voeg label toe' onChange={reachStartLabelHandler} />
+                                </div>
+                                <p id='scale-reach-symbol'>t/m</p>
+                                <div className='select-scale-container'>
+                                    <select name="" id="" onChange={reachEndHandler}>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5" selected>5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                    <input type="text" placeholder='Voeg label toe' onChange={reachEndLabelHandler} />
+                                </div>
+                            </div>
                         </div>
-                    ))}
+                        <div>
+                            <button className='button-simple' onClick={addField}>Toevoegen</button>
+                        </div>
+                        <div>
+                            <p><b>Vragen</b></p>
+                            {questionnaireFields && questionnaireFields.map(field => (
+                                <div>
+                                    <QuestionnaireField field={field}/>
+                                </div>
+                            ))}
 
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <RightSideBar />
+                    <div>
+                        <div className='activity-meta-title-container'>
+                            <img src={bulbIcon} alt="" />
+                            <h3>Tips</h3>
+                        </div> 
+                        <div className='text-section' style={{backgroundColor: color}}>
+                            <ol>
+                                <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                    Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
+                                    bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                                <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='activity-meta-title-container'>
+                            <img src={feetIcon} alt="" />
+                            <h3>Volgende stap</h3>
+                        </div> 
+                        <div className='text-section' style={{backgroundColor: color}}>
+                            <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
+                            <button>Volgende stap</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
     )
 }

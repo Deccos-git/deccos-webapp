@@ -123,7 +123,7 @@ const MeasureOutput = () => {
                         </div>
                     </NavLink>  
                     <p>16 van de 12</p>
-                    <NavLink to={`/${client}/Question`} >
+                    <NavLink to={`/${client}/Questionnaires`} >
                         <div className='step-container'>
                             <p>Vragenlijsten</p>
                             <img src={arrowRight} alt="" />

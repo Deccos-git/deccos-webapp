@@ -91,19 +91,14 @@ const LeftSideBar = () => {
                     </div>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
-                            <img src={goalIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Goals`}>Impactdoelen</NavLink>
+                            <img src={personIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
                         </div>
-                    </div>
-                </div>
-                <div className="channel-div">
-                    <div className="nav-title-container">
-                        <h3>Stakeholders</h3>
                     </div>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
-                            <img src={personIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
+                            <img src={goalIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Goals`}>Impactdoelen</NavLink>
                         </div>
                     </div>
                 </div>

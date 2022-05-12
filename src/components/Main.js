@@ -77,6 +77,9 @@ import OutputEffects from './Wizard/OutputEffects';
 import MeasureOutput from './Wizard/MeasureOutput';
 import Impactclub from './Wizard/Impactclub'
 import Projectmanagement from './Wizard/Projectmanagement';
+import Questionnaires from './Wizard/Questionnaires';
+import Research from './Wizard/Research';
+import ResearchAnalyses from './Wizard/ResearchAnalyses';
 
 const Main = () => {
 
@@ -301,6 +304,15 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/Projectmanagement`}>
                     <Projectmanagement/>
+                </Route>
+                <Route path={`/${client}/Questionnaires`}>
+                    <Questionnaires/>
+                </Route>
+                <Route path={`/${client}/Research`}>
+                    <Research/>
+                </Route>
+                <Route path={`/${client}/ResearchAnalyses`}>
+                    <ResearchAnalyses/>
                 </Route>
             </Switch>
         </div>

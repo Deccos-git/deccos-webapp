@@ -14,16 +14,14 @@ import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
-import spinnerRipple from '../../images/spinner-ripple.svg'
-import firebase from 'firebase'
-import { bucket, db } from '../../firebase/config';
+import penIcon from '../../images/icons/pen-icon.png'
+import deleteIcon from '../../images/icons/delete-icon.png'
+import plusButton from '../../images/icons/plus-icon.png'
+import { db, timestamp } from "../../firebase/config.js"
 
-const Impactclub = () => {
+const Questionnaires = () => {
 
     const [color, setColor] = useState('')
-    const [ID, setID] = useState('') 
-    const [banner, setBanner] = useState("")
-    const [docid, setDocid] = useState('')
     const [name, setName] = useState('')
 
     const history = useHistory()
@@ -31,7 +29,9 @@ const Impactclub = () => {
     const id = uuid()
     
     const colors = useFirestore('Colors')
-    const compagnies = useFirestore('CompagnyMeta')
+    const questionnaires = useFirestore('Questionnaires')
+    const researchedQuestionnaires = useFirestore('ResearchedQuestionnnaires')
+    const compagny = useFirestore('CompagnyMeta')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -43,87 +43,36 @@ const Impactclub = () => {
     },[colors])
 
     useEffect(() => {
-        compagnies && compagnies.forEach(compagny => {
-            const ID = compagny.ID 
-            const docid = compagny.docid
-            const banner = compagny.ImpactBanner
-            const name = compagny.Compagny
-  
-            setID(ID)
-            setDocid(docid)
-            setBanner(banner)
-            setName(name)
+        compagny && compagny.forEach(comp => {
+            setName(comp.CommunityName)
         })
-      }, [compagnies]);
+    })
 
-      const ToggleSwitch = ({}) => {
-        return (
-          <div>
-            <div className="toggle-switch">
-              <input type="checkbox" className="checkbox"
-                     name={name} id={name} data-docid={docid} onChange={toggle} />
-              <label className="label" htmlFor={name}>
-                <span className="inner"/>
-                <span className="switch"/>
-              </label>
-            </div>
-          </div>
-        );
-      };
-
-    const toggle = (e) => {
-
-        const check = e.target.checked
+    const deleteQuestionnaire = (e) => {
         const docid = e.target.dataset.docid
 
-        db.collection('CompagnyMeta')
+        db.collection('Questionnaires')
         .doc(docid)
-        .update({
-            Impacthub: check
-        })
-
+        .delete()
     }
 
-    const bannerHandler = (e) => {
-        setBanner(spinnerRipple)
+    const viewQuestionnaire = (e) => {
 
-        const photo = e.target.files[0]
+        const id = e.target.dataset.id
 
-        const storageRef = bucket.ref("/ProfilePhotos/" + photo.name);
-        const uploadTask = storageRef.put(photo)
-
-        uploadTask.then(() => {
-          
-            uploadTask.on('state_changed', snapshot => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED:
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING:
-                console.log('Upload is running');
-                break;
-            }
-            }, (err) => {
-                alert(err)
-            }, () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('File available at', downloadURL);
-
-            setBanner(downloadURL)
-            saveImpactBanner(downloadURL)
-
-                })
-            })
-        })
+        history.push(`/${client}/AddQuestionnaire/${id}`)
     }
 
-    const saveImpactBanner = (downloadURL) => {
-
-        db.collection('CompagnyMeta')
-        .doc(docid)
-        .update({
-            ImpactBanner: downloadURL
+    const addQuestionnaire = () => {
+        db.collection('Questionnaires')
+        .doc()
+        .set({
+            ID: id,
+            Timestamp: timestamp,
+            Compagny: client,
+        })
+        .then(() => {
+            history.push(`/${client}/AddQuestionnaire/${id}`)
         })
     }
 
@@ -133,18 +82,18 @@ const Impactclub = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Impactclub</h1>
+                <h1>Vragenlijsten</h1>
                 <div className='wizard-sub-nav'>
-                    <NavLink to={`/${client}/Projectmanagement`} >
+                    <NavLink to={`/${client}/MeasureOutput`} >
                         <div className='step-container'>
                             <img src={arrowLeft} alt="" />
-                            <p>Projectbeheer</p>
+                            <p>Output bijhouden</p>
                         </div>
                     </NavLink>  
                     <p>1 van de 12</p>
-                    <NavLink to={`/${client}/Introduction`} >
+                    <NavLink to={`/${client}/Research`} >
                         <div className='step-container'>
-                            <p>Welkom bij de Deccos Impact Guide</p>
+                            <p>Onderzoek opzetten</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>
@@ -156,8 +105,8 @@ const Impactclub = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
-                    </div>
+                <div className='text-section' style={{backgroundColor: color}}>
+                   
                 </div>
                 <div>
                     <div className='activity-meta-title-container'>
@@ -165,9 +114,39 @@ const Impactclub = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Upload een banner voor je impactclub account</p>
-                        <img id='impact-banner' src={banner} alt="" />
-                        <input className="input-classic" onChange={bannerHandler} type="file" />
+                        <p><b>Vragenlijsten van {name}</b></p>
+                        <div className='list-container'>
+                            <div className='list-top-row-container'>
+                                    <img src={plusButton} alt="" onClick={addQuestionnaire}/>
+                            </div>
+                            <div className='list-top-row-container'>
+                                <p>TITEL</p>
+                                <p>BEKIJK</p>
+                                <p>VERWIJDER</p>
+                            </div>
+                            {questionnaires && questionnaires.map(questionnaire => (
+                                <div className='list-row-container'>
+                                    <p>{questionnaire.Title}</p>
+                                    <img data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                    <img data-docid={questionnaire.docid} onClick={deleteQuestionnaire} src={deleteIcon} alt="" />
+                                </div>  
+                            ))}
+                        </div>
+                        <p><b>Bestaande vragenlijsten</b></p>
+                        <div className='list-container'>
+                            <div className='list-top-row-container'>
+                                <p>TITEL</p>
+                                <p>DOEL</p>
+                                <p>BEKIJK</p>
+                            </div>
+                            {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
+                                <div className='list-row-container'>
+                                    <p>{questionnaire.Title}</p>
+                                    <img data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                </div>  
+                            ))}
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <div>
@@ -199,4 +178,4 @@ const Impactclub = () => {
   )
 }
 
-export default Impactclub
+export default Questionnaires

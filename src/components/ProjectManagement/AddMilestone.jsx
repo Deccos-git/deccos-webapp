@@ -193,7 +193,7 @@ const AddMilestone = () => {
                 <select name="" id="" onChange={outputHandler}>
                   <option value="">-- Selecteer een instrument --</option>
                   {instruments && instruments.map(instrument => (
-                    <option data-id={instrument.ID} data-title={instrument.Output.Output} data-outputid={instrument.OutputID} data-activityid={instrument.ActivityID} key={instrument.ID}>{instrument.Output.Output}</option>
+                    <option data-id={instrument.ID} data-title={instrument.Title} data-outputid={instrument.OutputID} data-activityid={instrument.ActivityID} key={instrument.ID}>{instrument.Title}</option>
                   ))}
                 </select>
               </div>

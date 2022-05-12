@@ -105,9 +105,9 @@ const Introduction = () => {
                             <p><b>Meten</b></p>
                             <div className='wizard-introduction-menu-container'>
                                 <NavLink to={`/${client}/MeasureOutput`} >16. Output bijhouden</NavLink>
-                                <NavLink to={`/${client}/MeasureOutput`} >17. Vragenlijsten</NavLink>
-                                <NavLink to={`/${client}/MeasureOutput`} >18. Onderzoek opzetten</NavLink>
-                                <NavLink to={`/${client}/MeasureOutput`} >19. Onderzoeksanalyse</NavLink>
+                                <NavLink to={`/${client}/Questionnaires`} >17. Vragenlijsten</NavLink>
+                                <NavLink to={`/${client}/Research`} >18. Onderzoek opzetten</NavLink>
+                                <NavLink to={`/${client}/ResearchAnalyses`} >19. Onderzoeksanalyse</NavLink>
                                 <NavLink to={`/${client}/AddMilestone`} >20. Mijlpalen</NavLink>
                                 <NavLink to={`/${client}/Projectmanagement`} >21. Projectbeheer</NavLink>
                             </div>

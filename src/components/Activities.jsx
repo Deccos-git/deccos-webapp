@@ -1,6 +1,5 @@
 import LeftSideBar from "./LeftSideBar";
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
 import {useFirestore} from "../firebase/useFirestore"
 import { client } from "../hooks/Client"
@@ -45,8 +44,7 @@ const Activities = () => {
                 ))}
             </div>
         </div>
-        <RightSideBar />
-        </div>
+    </div>
     )
 }
 
