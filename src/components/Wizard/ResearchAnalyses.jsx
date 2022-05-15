@@ -47,9 +47,9 @@ const ResearchAnalysis = () => {
                         </div>
                     </NavLink>
                     <p>1 van de 12</p>
-                    <NavLink to={`/${client}/AddMilestone`} >
+                    <NavLink to={`/${client}/Projectmanagement`} >
                         <div className='step-container'>
-                            <p>Mijlpalen</p>
+                            <p>Projectbeheer</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>

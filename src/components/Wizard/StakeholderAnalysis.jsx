@@ -164,32 +164,42 @@ const StakeholderAnalysis = () => {
                                 <div className='list-top-row-container'>
                                       <img src={plusButton} onClick={addStakeholder} alt="" />
                                 </div>
-                                <div className='list-top-row-container'>
-                                    <p>CATEGORIE</p>
-                                    <p>ORGANISATIE</p>
-                                    <p>CONTACTPERSOON</p>
-                                    <p>ACTIE</p>
+                                <div className='table-container'>
+                                    <table>
+                                        <tr>
+                                            <th>CATEGORIE</th>
+                                            <th>ORGANISATIE</th>
+                                            <th>CONTACTPERSOON</th>
+                                            <th>ACTIE</th>
+                                        </tr>
+                                        {stakeholders && stakeholders.map(stakeholder => (
+                                            <tr>
+                                            <td>
+                                                <select name="" id="" data-docid={stakeholder.docid} defaultValue={stakeholder.Categorie} onChange={categorieHandler}>
+                                                    <option value="" style={{color: '#d3d3d3'}}> -- Categorie --</option>
+                                                    <option value="Doelgroep">Doelgroep</option>
+                                                    <option value="Financier">Financier</option>
+                                                    <option value="Investeerder">Investeerder</option>
+                                                    <option value="Gemeente">Gemeente</option>
+                                                    <option value="Provincie">Provincie</option>
+                                                    <option value="Rijk">Rijk</option>
+                                                    <option value="Klant">Klant</option>
+                                                    <option value="Netwerk">Netwerk</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Organisation} placeholder='Organisatie' onChange={organisationHandler} />
+                                            </td>
+                                            <td>
+                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Name} placeholder='Naam' onChange={nameHandler} />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={stakeholder.docid} onClick={deleteStakeholder} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                        ))}
+                                    </table>
                                 </div>
-                                {stakeholders && stakeholders.map(stakeholder => (
-                                    <>
-                                        <div className='list-row-container'>
-                                            <select name="" id="" data-docid={stakeholder.docid} defaultValue={stakeholder.Categorie} onChange={categorieHandler}>
-                                                <option value="" style={{color: '#d3d3d3'}}> -- Categorie --</option>
-                                                <option value="Doelgroep">Doelgroep</option>
-                                                <option value="Financier">Financier</option>
-                                                <option value="Investeerder">Investeerder</option>
-                                                <option value="Gemeente">Gemeente</option>
-                                                <option value="Provincie">Provincie</option>
-                                                <option value="Rijk">Rijk</option>
-                                                <option value="Klant">Klant</option>
-                                                <option value="Netwerk">Netwerk</option>
-                                            </select>
-                                            <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Organisation} placeholder='Organisatie' onChange={organisationHandler} />
-                                            <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Name} placeholder='Naam' onChange={nameHandler} />
-                                            <img data-docid={stakeholder.docid} onClick={deleteStakeholder} src={deleteIcon} alt="" />
-                                        </div>  
-                                    </>  
-                                ))}
                             </div>
                         </div>
                        

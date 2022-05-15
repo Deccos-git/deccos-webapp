@@ -157,6 +157,7 @@ input{
   box-shadow: none;
   width: 90%;
   margin-top: 20px;
+  font-size: 15px;
 }
 
 select{
@@ -301,6 +302,50 @@ textarea ::placeholder{
   font-size: 30px;
   color: #2F2C41
 }
+
+.table-container{
+  width: 100%;
+  overflow-x: auto;
+}
+
+table{
+  width: 100%;
+}
+
+table th {
+  padding: 10px;
+  text-align: left;
+  background-color: #cdcdcd;
+  color: white;
+}
+
+td{
+  margin-right: 10px;
+  padding-left: 10px;
+}
+
+.table-delete-icon{
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+table input{
+  border: none;
+  box-shadow: none;
+  margin: 0px 10px;
+  background: transparent;
+}
+
+table select{
+  border: none;
+  background:transparent;
+}
+
+table tr:nth-child(even){background-color: #f2f2f2;}
+
+table tr:hover {background-color: #ddd;}
 
 @media only screen and (max-width: 1024px){
 

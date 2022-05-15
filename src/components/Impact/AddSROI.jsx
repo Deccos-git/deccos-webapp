@@ -57,8 +57,15 @@ const AddSROI = () => {
     const SROISetHandler = (e) => {
 
         const amount = e.target.options[e.target.selectedIndex].dataset.amount 
+        const docid = e.target.options[e.target.selectedIndex].dataset.docid 
+        const type = e.target.options[e.target.selectedIndex].value
 
-        setAmount(amount)
+        db.collection('SROIs')
+        .doc(docid)
+        .update({
+            Type: type,
+            Amount: amount
+        })
         
     }
 
@@ -76,9 +83,54 @@ const AddSROI = () => {
             Timestamp: timestamp,
             Output: outputTitle,
             OutputID: outputID,
-            SROI: ''
+            Type: '',
+            Amount: 0,
+            Deadweight: 0.75,
+            Attribution: 0.75,
+            Timehorizon: 2.5
         })
     }
+
+    const deadweightHandler = (e) => {
+
+        const docid = e.target.dataset.docid 
+        const deadweight = e.target.value 
+
+        db.collection('SROIs')
+        .doc(docid)
+        .update({
+            Deadweight: deadweight 
+        })
+
+    }
+
+    const attributionHandler = (e) => {
+
+        const docid = e.target.dataset.docid 
+        const attribution = e.target.value 
+
+        db.collection('SROIs')
+        .doc(docid)
+        .update({
+            Attribution: attribution
+        })
+
+    }
+
+
+    const timehorizonHandler = (e) => {
+
+        const docid = e.target.dataset.docid 
+        const timehorizon = e.target.value 
+
+        db.collection('SROIs')
+        .doc(docid)
+        .update({
+            Timehorizon: timehorizon
+        })
+
+    }
+
 
     const deleteSROI = (e) => {
         const docid = e.target.dataset.docid
@@ -105,7 +157,7 @@ const AddSROI = () => {
                 <p>14 van de 12</p>
                 <NavLink to={`/${client}/MeasureOutput`} >
                     <div className='step-container'>
-                        <p>Outputs bijhouden</p>
+                        <p>Outputs doelen stellen</p>
                         <img src={arrowRight} alt="" />
                     </div>
                 </NavLink>
@@ -118,12 +170,11 @@ const AddSROI = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>Deadweight</b></p>
+                    <p><b>Attributie</b></p>
+                    <p><b>Tijdshorizon</b></p>
+                    <p><b>Bedrag</b></p>
+                    <p><b>Totaal</b></p>
                 </div>
             </div>
         <div>
@@ -145,31 +196,49 @@ const AddSROI = () => {
                     <div className='list-top-row-container'>
                             <img src={plusButton} alt="" onClick={addSROI}/>
                     </div>
-                    <div className='list-top-row-container'>
-                        <p>TYPE</p>
-                        <p>DEADWEIGHT</p>
-                        <p>ATTRUBUTIE</p>
-                        <p>TIJDSHORIZON</p>
-                        <p>BEDRAG</p>
-                        <p>TOTAAL</p>
-                        <p>ACTIE</p>
+                    <div className='table-container'>
+                        <table>
+                            <tr>
+                                <th>TYPE</th>
+                                <th>DEADWEIGHT (%)</th>
+                                <th>ATTRUBUTIE (%)</th>
+                                <th>TIJDSHORIZON (jaren)</th>
+                                <th>BEDRAG (€)</th>
+                                <th>TOTAAL (€)</th>
+                                <th>ACTIE</th>
+                            </tr>
+                            {SROIs && SROIs.map(SROI => (
+                            <tr>
+                                <td>
+                                <select name="" id="" defaultValue={SROI.Type} onChange={SROISetHandler}>
+                                    <option value="">-- Selecteer een SROI type --</option>
+                                    {SROISets && SROISets.map(set => (
+                                        <option data-docid={SROI.docid} data-amount={set.Amount} value={set.Type}>{set.Type}</option>
+                                    ))}
+                                </select>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder='Deadweight' defaultValue={SROI.Deadweight} data-docid={SROI.docid} onChange={deadweightHandler} />
+                                </td>
+                                <td>
+                                    <input type="text" placeholder='Attributie' defaultValue={SROI.Attribution} data-docid={SROI.docid} onChange={attributionHandler} />
+                                </td>
+                                <td>
+                                    <input type="text" placeholder='Tijdshorizon' defaultValue={SROI.Timehorizon} data-docid={SROI.docid} onChange={timehorizonHandler} />
+                                </td>
+                                <td>
+                                    <p defaultValue={SROI.Amount}>€{SROI.Amount}</p>
+                                </td>
+                                <td>
+                                    <p>€{SROI.Amount*SROI.Deadweight*SROI.Attribution*SROI.Timehorizon}</p>  
+                                </td>
+                                <td>
+                                    <img className='table-delete-icon' data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
+                                </td>
+                            </tr>
+                        ))}
+                        </table>
                     </div>
-                    {SROIs && SROIs.map(SROI => (
-                        <div className='list-row-container'>
-                            <select name="" id="" onChange={SROISetHandler}>
-                                <option value="">-- Selecteer een SROI type --</option>
-                                {SROISets && SROISets.map(set => (
-                                    <option data-amount={set.Amount} value={set.Type}>{set.Type}</option>
-                                ))}
-                            </select>
-                            <input type="text" placeholder='Vul deadweight in' />
-                            <input type="text" placeholder='Vul attributie in' />
-                            <input type="text" placeholder='Vul tijdshorizon in' />
-                            <p>{amount}</p>
-                            <p>{total}</p>
-                            <img data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
-                        </div>  
-                    ))}
                 </div>
             </div>
         </div>

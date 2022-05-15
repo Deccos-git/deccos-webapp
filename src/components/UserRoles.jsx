@@ -1,5 +1,6 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
+import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreUsers, useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
@@ -91,7 +92,7 @@ const UserRoles = () => {
                 <div className="settings-inner-container">
                     <div className="divider card-header">
                         <h1>Gebruikersrollen</h1>
-                        <p>Pas de gebruikersrollen van je online omgeving aan</p>
+                        <p>Pas de gebruikersrollen aan</p>
                     </div>
                     <div className="divider">
                         <h2>Admin</h2>
@@ -123,6 +124,7 @@ const UserRoles = () => {
                     </div>
                 </div>
             </div>
+            <RightSideBar />
         </div>
     )
 }

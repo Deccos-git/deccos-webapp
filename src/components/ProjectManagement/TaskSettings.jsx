@@ -1,8 +1,7 @@
-import RightSideBar from "../rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "../LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScreen";
+import LeftSideBar from "../LeftSideBar";
+import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
-import {useFirestore, useFirestoreUsers} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreUsersApproved} from "../../firebase/useFirestore"
 import { useState, useEffect, useContext } from 'react'
 import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
@@ -18,12 +17,12 @@ const TaskSettings = () => {
 
     const tasks = useFirestore("Tasks")
     const banners = useFirestore('Banners')
-    const projectManagers = useFirestore('ProjectManagers')
-    const milestones = useFirestore('Milestones')
+    const users = useFirestoreUsersApproved(false)
+    const outputs = useFirestore('Outputs')
 
 
-    const [milestoneTitle, setMilestoneTitle] = useState('')
-    const [milestoneID, setMilestoneID] = useState('')
+    const [outputTitle, setOutputTitle] = useState('')
+    const [outputID, setOutputID] = useState('')
     const [activityID, setActivityID] = useState('')
     const [taskTitle, setTaskTitle] = useState('')
     const [date, setDate] = useState('')
@@ -41,12 +40,12 @@ const TaskSettings = () => {
         })
     }, [banners])
 
-    const milestoneHandler = (e) => {
-        const milestoneTitle = e.target.options[e.target.selectedIndex].dataset.title
-        const milestoneID = e.target.options[e.target.selectedIndex].dataset.id
+    const outputHandler = (e) => {
+        const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
+        const outputID = e.target.options[e.target.selectedIndex].dataset.id
 
-        setMilestoneTitle(milestoneTitle)
-        setMilestoneID(milestoneID)
+        setOutputTitle(outputTitle)
+        setOutputID(outputID)
     }
 
     const taskHandler = (e) => {
@@ -99,8 +98,8 @@ const TaskSettings = () => {
         db.collection('Tasks')
         .doc()
         .set({
-            Milestone: milestoneTitle,
-            MilestoneID: milestoneID,
+            Output: outputTitle,
+            OutputID: outputID,
             ID: ID,
             Compagny: client,
             Timestamp: timestamp,
@@ -129,51 +128,23 @@ const TaskSettings = () => {
                 Link: `TasksDetail/${ID}`
             })
         })
-        .then(() => {
-            db.collection("AllActivity")
-            .doc()
-            .set({
-                Title: taskTitle,
-                Type: "NewTask",
-                Compagny: client,
-                Timestamp: timestamp,
-                ID: uuid(),
-                Description: "heeft een nieuwe taak toegevoegd:",
-                ButtonText: "Bekijk taak",
-                User: authO.UserName,
-                UserPhoto: authO.Photo,
-                UserID: authO.ID,
-                Banner: headerPhoto,
-                Link: `TaskDetail/${ID}`
-            }) 
-        })
-    }
-
-    const deleteTask = (e) => {
-        const docid = e.target.dataset.docid
-
-        db.collection('Tasks')
-        .doc(docid)
-        .delete()
     }
 
     return (
         <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
         <div className="profile profile-auth-profile" style={{display: menuState}}>
             <div className="settings-inner-container">
                 <div className="divider card-header">
-                    <h1>Taken</h1>
-                    <p>Pas de instellingen aan de taken aan</p>
+                    <h1>Taak toevoegen</h1>
                 </div>
                 <div className='divider'>
-                    <h2>Taak toevoegen</h2>
-                    <h4>Selecteer een mijlpaal</h4>
-                    <select name="" id="" onChange={milestoneHandler}>
-                        <option value="">-- Selecteer een mijlpaal --</option>
-                        {milestones && milestones.map(milestone => (
-                            <option value="" key={milestone.ID} data-id={milestone.ID} data-title={milestone.Title}>{milestone.Title}</option>
+                    <h4>Selecteer een output</h4>
+                    <select name="" id="" onChange={outputHandler}>
+                        <option value="">-- Selecteer een output --</option>
+                        {outputs && outputs.map(output => (
+                            <option value="" key={output.ID} data-id={output.ID} data-title={output.Title}>{output.Title} (Activiteit: {output.Activity})</option>
                         ))}
                     </select>
                     <h3>Prioriteit</h3>
@@ -191,25 +162,15 @@ const TaskSettings = () => {
                     <h3>Taak toewijzen aan</h3>
                         <select className="userrole-select" name="" id="" onChange={userHandler}>
                             <option value="">--- Selecteer ---</option>
-                            {projectManagers&& projectManagers.map(user => (
-                                <option key={user.UserID} data-id={user.UserID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                            {users && users.map(user => (
+                                <option key={user.UserID} data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
                             ))}
                         </select>
                     <button className='button-simple' onClick={saveTask}>Opslaan</button>
                 </div>
-                <div className='divider'>
-                    <h2>Taken</h2>
-                    {tasks && tasks.map(task => (
-                        <div className='channel-container'>
-                            <p>{task.Task}</p>
-                            <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={task.docid} onClick={deleteTask}/>
-                        </div>
-                    ))}
-                </div>
             </div>
         </div>
-        <RightSideBar />
-        </div>
+    </div>
     )
 }
 

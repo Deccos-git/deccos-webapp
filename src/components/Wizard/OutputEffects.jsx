@@ -92,7 +92,7 @@ const OutputEffects = () => {
         <div className="page-header">
             <h1>Effecten van output</h1>
             <div className='wizard-sub-nav'>
-                <NavLink to={`/${client}/Outputs`} >
+                <NavLink to={`/${client}/AddOutput`} >
                     <div className='step-container'>
                         <img src={arrowLeft} alt="" />
                         <p>Outputs</p>

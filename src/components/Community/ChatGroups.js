@@ -1,6 +1,5 @@
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
-import RightSideBar from "../rightSideBar/RightSideBar"
 import { useFirestoreChatsGroups, useFirestoreGroupsAuth } from "../../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { db } from '../../firebase/config';
@@ -172,8 +171,6 @@ const ChatGroups = () => {
         
     }, [chats])
 
-    console.log(chatSummary)
-
     const ChatsAuth = () => {
          return (
              chatSummary && chatSummary.chats.map(chat => (
@@ -252,7 +249,6 @@ const ChatGroups = () => {
             .where("ParentID", "==", groupID)
             .get()
             .then(querySnapshot => {
-                console.log(querySnapshot.docs.length)
               totalMessages = querySnapshot.docs.length
             })
     
@@ -330,8 +326,6 @@ const ChatGroups = () => {
 
                 if(!read.includes(route)){
 
-                    console.log(doc)
-
                         db.collection('Messages')
                         .doc(doc.id)
                         .update({
@@ -364,7 +358,6 @@ const ChatGroups = () => {
                             <GroupsAuth/>
                     </div>
                 </div>
-                <RightSideBar />
             </div>
     )
 }

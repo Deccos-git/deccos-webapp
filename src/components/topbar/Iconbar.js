@@ -137,7 +137,7 @@ const Iconbar = () => {
                 </Link>
             </div>
             <div className="icon-container">
-                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                <Link to={`/${client}/Support`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
                     <QuestionIcon 
                     style={
                         {

@@ -407,10 +407,23 @@
     font-weight: bold;
 }
 
+.output-card-container{
+    width: 95% !important;
+}
+
+.impactclub-banner-container img{
+    width: 85%;
+}
+
+.milestone-card-container{
+    width: 95%;
+}
+
 .list-top-row-container img{
     width: 20px;
     height: 20px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 .list-row-container{

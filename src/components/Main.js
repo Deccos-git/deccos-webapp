@@ -80,6 +80,11 @@ import Projectmanagement from './Wizard/Projectmanagement';
 import Questionnaires from './Wizard/Questionnaires';
 import Research from './Wizard/Research';
 import ResearchAnalyses from './Wizard/ResearchAnalyses';
+import Support from './Support';
+import Agenda from './ProjectManagement/Agenda';
+import ImpactGroup from './Wizard/ImpactGroup';
+import Planning from './Wizard/Planning';
+import ResearchSettings from './Wizard/ResearchSettings';
 
 const Main = () => {
 
@@ -313,6 +318,21 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ResearchAnalyses`}>
                     <ResearchAnalyses/>
+                </Route>
+                <Route path={`/${client}/Support`}>
+                    <Support/>
+                </Route>
+                <Route path={`/${client}/Agenda`}>
+                    <Agenda/>
+                </Route>
+                <Route path={`/${client}/ImpactGroup`}>
+                    <ImpactGroup/>
+                </Route>
+                <Route path={`/${client}/Planning`}>
+                    <Planning/>
+                </Route>
+                <Route path={`/${client}/ResearchSettings`}>
+                    <ResearchSettings/>
                 </Route>
             </Switch>
         </div>

@@ -48,6 +48,7 @@ import impactIcon from '../../images/icons/impact-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
 import progressIcon from '../../images/icons/progress-icon.png'
 import typeIcon from '../../images/icons/type-icon.png'
+import growIcon from '../../images/icons/grow-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
@@ -291,8 +292,8 @@ const ImpactProgress = () => {
         return(
             <div className='dashboard-instruments-container'>
                 <div className='activity-meta-title-container'>
-                    <img src={festiveIcon} alt="" />
-                    <h4>Mijlpalen</h4>
+                    <img src={growIcon} alt="" />
+                    <h4>Doelen</h4>
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
@@ -343,7 +344,7 @@ const ImpactProgress = () => {
 
    const MilestoneProgress = ({milestone}) => {
        
-        const results = useFirestoreResults(milestone.InstrumentID)
+        const results = useFirestoreResults(milestone.OutputID)
 
         const goal = milestone.Number
 

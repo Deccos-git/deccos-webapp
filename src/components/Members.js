@@ -74,7 +74,7 @@ const Members = () => {
                 <div className="profile profile-auth-profile" style={{display: menuState}}>
                     <div className="card-header">
                         <h1>Leden</h1>
-                        <p>Bekijk alle {memberCount} leden van {communityName}</p>
+                        <p>Beheer de leden ({memberCount}) van {communityName}</p>
                     </div>
                     {docs && docs.map(doc => (
                     <div id="members-container" key={doc.ID}>

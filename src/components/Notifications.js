@@ -1,6 +1,5 @@
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreNotifications } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
@@ -72,7 +71,6 @@ const Notifications = () => {
                         </div>
                     ))}
                 </div>
-                <RightSideBar />
             </div>
     )
 }

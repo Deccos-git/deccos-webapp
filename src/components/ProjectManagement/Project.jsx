@@ -627,9 +627,9 @@ const Project = () => {
         )
     }
 
-    const Group = ({project}) => {
+    const Group = () => {
 
-        const groups = useFirestoreGroupsActivity(project.ActivityID)
+        const groups = useFirestore('Groups')
         
         return(
             <div style={{display: groupDisplay}} className='project-group-container'>

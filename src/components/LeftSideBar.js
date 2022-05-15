@@ -19,10 +19,13 @@ import taskIcon from '../images/icons/task-icon.png'
 import calendarIcon from '../images/icons/calendar-icon.png'
 import timelineIcon from '../images/icons/timeline-icon.png'
 import researchIcon from '../images/icons/research-icon.png'
+import meetingIcon from '../images/icons/meeting-icon.png'
+import growIcon from '../images/icons/grow-icon.png'
 
 const LeftSideBar = () => {
 
-    const projects = useFirestore('Projects')
+    const groups = useFirestore('Groups')
+
 
     return (
         <div className="left-sidebar-container">
@@ -55,27 +58,27 @@ const LeftSideBar = () => {
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={calendarIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Activities`}>Agenda</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/Agenda`}>Agenda</NavLink>
                         </div>
                     </div>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={timelineIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Activities`}>Planning</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/Planning`}>Planning</NavLink>
                         </div>
                     </div>
-                    {/* {projects && projects.map(project => (
-                        <div className="channel-inner-div">
-                            <div className='activity-meta-title-container'>
-                                <img src={activityIcon} alt="" />
-                                <NavLink activeClassName='active' to={`/${client}/Project/${project.ID}`}>{project.Title}</NavLink>
-                            </div>
-                        </div>
-                    ))} */}
                      <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
-                            <img src={festiveIcon} alt="" />
+                            <img src={growIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Mijlpalen</NavLink>
+                        </div>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={meetingIcon} alt="" />
+                            {groups && groups.map(group => (
+                                <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Impact HQ</NavLink>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -137,13 +140,7 @@ const LeftSideBar = () => {
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={researchIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Instruments`}>Onderzoeken</NavLink>
-                        </div>
-                    </div>
-                    <div className="channel-inner-div">
-                        <div className='activity-meta-title-container'>
-                            <img src={measureIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Instruments`}>Meetinstrumenten</NavLink>
+                            <NavLink activeClassName='active' to={`/${client}/ResearchSettings`}>Onderzoeken</NavLink>
                         </div>
                     </div>
                     <div className="channel-inner-div">

@@ -91,7 +91,7 @@ const Introduction = () => {
                                 <NavLink to={`/${client}/Conditions`} >10. Externe factoren</NavLink>
                                 <NavLink to={`/${client}/AddActivity`} >11. Activiteiten</NavLink>
                                 <NavLink to={`/${client}/ImpactActivity`} >12. Impact van activiteit</NavLink>
-                                <NavLink to={`/${client}/AddOuput`} >13. Outputs</NavLink>
+                                <NavLink to={`/${client}/AddOutput`} >13. Outputs</NavLink>
                                 <NavLink to={`/${client}/OutputEffects`} >14. Effecten van output</NavLink>
                             </div>
                         </div>
@@ -104,18 +104,17 @@ const Introduction = () => {
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Meten</b></p>
                             <div className='wizard-introduction-menu-container'>
-                                <NavLink to={`/${client}/MeasureOutput`} >16. Output bijhouden</NavLink>
+                                <NavLink to={`/${client}/MeasureOutput`} >16. Mijlpalen stellen</NavLink>
                                 <NavLink to={`/${client}/Questionnaires`} >17. Vragenlijsten</NavLink>
                                 <NavLink to={`/${client}/Research`} >18. Onderzoek opzetten</NavLink>
                                 <NavLink to={`/${client}/ResearchAnalyses`} >19. Onderzoeksanalyse</NavLink>
-                                <NavLink to={`/${client}/AddMilestone`} >20. Mijlpalen</NavLink>
-                                <NavLink to={`/${client}/Projectmanagement`} >21. Projectbeheer</NavLink>
+                                <NavLink to={`/${client}/Projectmanagement`} >20. Projectbeheer</NavLink>
                             </div>
                         </div>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Communiceren</b></p>
                             <div className='wizard-introduction-menu-container'>
-                                <NavLink to={`/${client}/Impactclub`} >22. Impactclub</NavLink>
+                                <NavLink to={`/${client}/Impactclub`} >21. Impactclub</NavLink>
                             </div>
                         </div>
                     </div>

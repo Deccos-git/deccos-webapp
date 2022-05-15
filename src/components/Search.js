@@ -1,7 +1,6 @@
 import {useFirestore} from "../firebase/useFirestore"
 import LeftSideBar from "./LeftSideBar"
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -71,17 +70,8 @@ const Search = () => {
                             <a href={item.Link}><button>Bekijk</button></a>
                         </div>
                     ))}
-                {/* <InstantSearch indexName="Deccos" searchClient={searchClient}>
-                    <div className="right-panel">
-                        <SearchBox translations={{
-                            placeholder: 'Zoek hier...',
-                        }} />
-                        <Hits hitComponent={Hit} />
-                    </div>
-                </InstantSearch> */}
                 </div>
             </div>
-            <RightSideBar />
         </div>
     )
 }

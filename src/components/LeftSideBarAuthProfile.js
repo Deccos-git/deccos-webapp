@@ -7,6 +7,11 @@ import { Auth } from '../StateManagment/Auth';
 import { useState } from 'react';
 import { db } from '../firebase/config';
 import {useFirestore} from "../firebase/useFirestore"
+import HomeIcon from '../images/icons/home-icon.png'
+import SettingsIcon from '../images/icons/settings-icon.png'
+import GroupIcon from '../images/icons/group-icon.png'
+import UserIcon from '../images/icons/user-icon.png'
+import RoleIcon from '../images/icons/rol-icon.png'
 
 
 const LeftSideBarAuthProfile = () => {
@@ -86,9 +91,18 @@ const LeftSideBarAuthProfile = () => {
             return <div>
                         <h3>Admin</h3>
                         <div className="channel-inner-div">
-                            <NavLink activeClassName='active' to={`/${client}/Settings`}>Algemeen</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/Members`}>Leden</NavLink>
-                            <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
+                            <div className='activity-meta-title-container'>
+                                <img src={SettingsIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Settings`}>Algemeen</NavLink>
+                            </div>
+                            <div className='activity-meta-title-container'>
+                                <img src={GroupIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Members`}>Leden</NavLink>
+                            </div>
+                            <div className='activity-meta-title-container'>
+                                <img src={RoleIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/UserRoles`}>Gebruikersrollen</NavLink>
+                            </div>
                         </div>
                     </div>
         } else {
@@ -100,16 +114,19 @@ const LeftSideBarAuthProfile = () => {
         <div className="left-side-bar-container">
             <div className="left-side-bar">
                 <div className="channel-div">
-                    <NavLink activeClassName='active' to={`/${client}/AllActivity`}>
+                    <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>
                         <div className="back-to-community-container">
-                            <img src={ArrowLeftIcon} alt="" />
+                            <img src={HomeIcon} alt="" />
                             <p>Home</p>
                         </div>
                     </NavLink>
                     <Admin/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
-                        <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>
+                    <div className='activity-meta-title-container'>
+                            <img src={UserIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Profile`}>Account instellingen</NavLink>
+                        </div>
                     </div>
                 </div>
             </div>

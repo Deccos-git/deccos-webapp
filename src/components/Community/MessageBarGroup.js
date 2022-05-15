@@ -58,8 +58,6 @@ const MessageBarGroup = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             Email: authO.Email,
-            Members: members,
-            Thread: [],
             Channel: 'Chat',
             Read: [authO.ID],
             UserID: authO.ID

@@ -4,18 +4,20 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useFirestore, useFirestoreMyTasks } from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
-import { db } from "../../firebase/config";
+import { db, timestamp } from "../../firebase/config";
 import completeIcon from '../../images/icons/complete-icon.png'
 import userIcon from '../../images/icons/user-icon.png'
 import deleteTaskIcon from '../../images/icons/delete-task-icon.png'
 import plusIcon from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
-import Location from "../../hooks/Location"
 import { useContext, useState, useEffect } from 'react';
-import Calendar from "../Calender";
 import settingsIcon from '../../images/icons/settings-icon.png'
+import uuid from 'react-uuid';
+import { Auth } from '../../StateManagment/Auth';
 
 const Tasks = () => {
+    const [authO] = useContext(Auth)
+
     const [activityFilter, setActivityFilter] = useState('')
     const [priorityFilter, setPriorityFilter] = useState('')
     const [completedFilter, setCompletedFilter] = useState('')
@@ -25,7 +27,6 @@ const Tasks = () => {
 
     const menuState = MenuStatus()
     const history = useHistory();
-    const route = Location()[3]
 
     const tasks = useFirestore("Tasks")
     const activities = useFirestore('Activities')
@@ -43,12 +44,13 @@ const Tasks = () => {
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
                 Icon: task.Icon,
-                Task: task.Task,
+                Task: task.Title,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Activity: task.Activity,
+                Activity: task.ActivityTitle,
+                OutputID: task.OutputID,
                 Priority: task.Priority,
-                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
+                Tags:[task.ActivityTitle, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
             }
 
             taskArray.push(taskObject)
@@ -70,12 +72,13 @@ const Tasks = () => {
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
                 Icon: task.Icon,
-                Task: task.Task,
+                Task: task.Title,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
-                Activity: task.Activity,
+                Activity: task.ActivityTitle,
+                OutputID: task.OutputID,
                 Priority: task.Priority,
-                Tags:[task.Activity, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
+                Tags:[task.ActivityTitle, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
             }
 
             taskArray.push(taskObject)
@@ -97,6 +100,7 @@ const Tasks = () => {
 
         const docid = e.target.dataset.docid 
         const completed = e.target.dataset.completed
+        const outputID = e.target.dataset.outputid
 
         if(completed === 'false'){
             db.collection('Tasks')
@@ -105,6 +109,20 @@ const Tasks = () => {
                 Completed: true,
                 BackgroundColor: '#b2d7bb',
                 Icon: deleteTaskIcon
+            })
+            .then(() => {
+                db.collection('Results')
+                .doc()
+                .set({
+                    Compagny: client,
+                    ID: uuid(),
+                    Result: 1,
+                    Timestamp: timestamp,
+                    OutputID: outputID,
+                    User: authO.UserName,
+                    UserPhoto: authO.Photo,
+                    UserID: authO.ID,
+                })
             })
         } else if (completed === 'true'){
             db.collection('Tasks')
@@ -212,7 +230,7 @@ const Tasks = () => {
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
-            <div className='chat-header'>
+            <div className='page-header'>
                 <h1>Taken</h1>
             </div>
             <div id='task-filter-container'>
@@ -268,7 +286,7 @@ const Tasks = () => {
                     <div className='task-overview-container' key={task.ID}>
                         <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
                             <div className='task-inner-container'>
-                                <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
+                                <img src={task.Icon} data-docid={task.docid} data-outputid={task.OutputID} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
                                 <p className='task-description'>{task.Task}</p>
                                 <TaskPriority task={task}/>
                                 <div className='appointed-container'>

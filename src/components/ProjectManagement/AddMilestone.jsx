@@ -158,7 +158,7 @@ const AddMilestone = () => {
         <div className="page-header">
             <h1>Mijlpalen</h1>
             <div className='wizard-sub-nav'>
-                <NavLink to={`/${client}/ResearchAnalysis`} >
+                <NavLink to={`/${client}/ResearchAnalyses`} >
                     <div className='step-container'>
                         <img src={arrowLeft} alt="" />
                         <p>Onderzoeksanalyse</p>
@@ -189,23 +189,19 @@ const AddMilestone = () => {
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
               <div>
-                <h2>Selecteer een instrument<sup>*</sup></h2>
+                <p><b>Selecteer een output</b></p>
                 <select name="" id="" onChange={outputHandler}>
-                  <option value="">-- Selecteer een instrument --</option>
+                  <option value="">-- Selecteer een output --</option>
                   {instruments && instruments.map(instrument => (
                     <option data-id={instrument.ID} data-title={instrument.Title} data-outputid={instrument.OutputID} data-activityid={instrument.ActivityID} key={instrument.ID}>{instrument.Title}</option>
                   ))}
                 </select>
               </div>
-              <div className='divider'>
-                <h2>Geef de mijlpaal een titel</h2>
-                <input type="text" onChange={titleHandler} />
-              </div>
-              <div className='divider'>
-                <h2>Geef de mijlpaal een aantal</h2>
-                <input type="number" onChange={numberHandler} />
-              </div>
-              <div>
+              <p><b>Geef de mijlpaal een titel</b></p>
+              <input type="text" onChange={titleHandler} />
+              <p><b>Geef de mijlpaal een aantal</b></p>
+              <input type="number" onChange={numberHandler} />
+              <div className=''>
                 <button onClick={saveMilestone}>Opslaan</button>
               </div>
               </div>

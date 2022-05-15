@@ -1,8 +1,7 @@
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
-import RightSideBar from "../rightSideBar/RightSideBar"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreMessages, } from "../../firebase/useFirestore"
+import { useFirestoreUsersApproved, useFirestoreID, useFirestoreMessages, } from "../../firebase/useFirestore"
 import { useState, useEffect } from 'react'
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
@@ -25,12 +24,13 @@ const TaskDetail = () => {
     const history = useHistory();
 
     const tasks = useFirestoreID('Tasks', route)
-    const reactions = useFirestoreMessages("Messages", route )
+    const reactions = useFirestoreMessages("Messages", route)
+    const users = useFirestoreUsersApproved(false)
 
     useEffect(() => {
 
         tasks && tasks.forEach(task => {
-            setTask(task.Task)
+            setTask(task.Title)
             setCompleted(task.Completed)
             setTaskID(task.ActivityID)
             setTaskDocid(task.docid)
@@ -52,14 +52,6 @@ const TaskDetail = () => {
     }
 
     const appointedLink = (e) => {
-
-        const id = e.target.dataset.id
-
-        history.push(`/${client}/PublicProfile/${id}`)
-
-    }
-
-    const userLink = (e) => {
 
         const id = e.target.dataset.id
 
@@ -109,34 +101,51 @@ const TaskDetail = () => {
         const priority = e.target.options[e.target.selectedIndex].value 
         const id = e.target.dataset.id
 
-        savePriority(priority, id)
-
-    }
-
-    const savePriority = (priority, id) => {
-
         db.collection('Tasks')
         .doc(id)
         .update({
             Priority: priority
         })
-    } 
+
+    }
 
     const titleHandler = (e) => {
         const title = e.target.value
 
-        saveTitle(title)
+        db.collection('Tasks')
+        .doc(taskDocid)
+        .update({
+            Title: title
+        })
 
     }
 
-    const saveTitle = (title, id) => {
+    const deadlineHandler = (e) => {
+        const deadline = e.target.value
 
         db.collection('Tasks')
         .doc(taskDocid)
         .update({
-            Task: title,
-            Title: title
+            Deadline: deadline
         })
+
+    }
+
+    const appointedHandler = (e) => {
+        const appointed = e.target.options[e.target.selectedIndex].value 
+        const appointedID = e.target.options[e.target.selectedIndex].dataset.id
+        const appointedPhoto = e.target.options[e.target.selectedIndex].dataset.photo
+        const appointedEmail = e.target.options[e.target.selectedIndex].dataset.email
+
+        db.collection('Tasks')
+        .doc(taskDocid)
+        .update({
+            AppointedName: appointed,
+            AppointedID: appointedID,
+            AppointedPhoto: appointedPhoto,
+            ApppointedEmail: appointedEmail
+        })
+
     }
 
     return (
@@ -145,7 +154,7 @@ const TaskDetail = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className='page-header task-detail-header'>
-                <input id='input-task-edit-title' type="text" defaultValue={task} onChange={titleHandler}/>
+                <h1>{task}</h1>
                 {tasks && tasks.map(task => (
                 <div className='task-detail-container'>
                     <div className='task-detail-inner-container'>
@@ -155,7 +164,7 @@ const TaskDetail = () => {
                         </div>
                         <div className='pointer'>
                             <h3>Activiteit</h3>
-                            <p data-id={task.ActivityID} onClick={activityLink}>{task.Activity}</p>
+                            <p data-id={task.ActivityID} onClick={activityLink}>{task.ActivityTitle}</p>
                         </div>
                         <div>
                             <h3>Prioriteit</h3>
@@ -170,22 +179,17 @@ const TaskDetail = () => {
                         </div>
                         <div>
                             <h3>Vervaldatum</h3>
+                            <input type="date" defaultValue={task.Deadline} onChange={deadlineHandler} />
                             <p>{task.Date}</p>
                         </div>
                         <div>
                             <h3>Toegewezen aan</h3>
-                            <div className='task-detail-user-container'>
-                                <img src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} onClick={appointedLink} alt=""/>
-                                <p data-id={task.AppointedID} onClick={appointedLink}>{task.AppointedName}</p>
-                            </div>
-                            
-                        </div>
-                        <div>
-                            <h3>Gecreerd door</h3>
-                            <div className='task-detail-user-container'>
-                                <img src={task.UserPhoto} data-id={task.UserID} onClick={userLink} alt=""/>
-                                <p data-id={task.UserID} onClick={userLink}>{task.User}</p>
-                            </div>
+                            <select name="" id="" defaultValue={task.AppointedName} onChange={appointedHandler}>
+                                <option value="">-- Selecteer gebruiker --</option>
+                                {users && users.map(user => (
+                                    <option data-id={user.ID} data-photo={user.Photo} data-email={user.Email} value={user.UserName}>{user.UserName}</option>
+                                ))}
+                            </select>
                         </div>
                         <div>
                             <h3>Gecreerd op</h3>
@@ -203,8 +207,7 @@ const TaskDetail = () => {
                 ))}
             </div>
         </div>
-        <RightSideBar />
-        </div>
+    </div>
     )
 }
 

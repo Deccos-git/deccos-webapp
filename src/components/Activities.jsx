@@ -5,6 +5,8 @@ import {useFirestore} from "../firebase/useFirestore"
 import { client } from "../hooks/Client"
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react'
+import penIcon from '../images/icons/pen-icon.png'
+import { NavLink, Link } from "react-router-dom";
 
 const Activities = () => {
     const [progression, setProgression] = useState(0)
@@ -29,6 +31,11 @@ const Activities = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className='page-header'>
                 <h1>Activiteiten</h1>
+                <div className='edit-icon-header-container'>
+                    <NavLink activeClassName='active' to={`/${client}/AddActivity`}>
+                        <img src={penIcon} alt="" />
+                    </NavLink>
+                </div>
             </div>
             <div className='card-container'>
                 {activities && activities.map(activity => (

@@ -40,10 +40,10 @@ const Projectmanagement = () => {
             <div className="page-header">
                 <h1>Projectmanagement</h1>
                 <div className='wizard-sub-nav'>
-                    <NavLink to={`/${client}/Introduction`} >
+                    <NavLink to={`/${client}/ResearchAnalyses`} >
                         <div className='step-container'>
                             <img src={arrowLeft} alt="" />
-                            <p>Mijlpalen</p>
+                            <p>Onderzoeksanalyse</p>
                         </div>
                     </NavLink>  
                     <p>1 van de 12</p>

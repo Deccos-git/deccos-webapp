@@ -1,4 +1,3 @@
-import RightSideBar from "../rightSideBar/RightSideBar"
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
@@ -6,127 +5,127 @@ import { Link } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
-import {useFirestore, useFirestoreImpactInstruments} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreMilestones, useFirestoreResults} from "../../firebase/useFirestore"
 import settingsIcon from '../../images/icons/settings-icon.png'
 import { db } from "../../firebase/config.js"
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import measureIcon from '../../images/icons/measure-icon.png'
-import effectIcon from '../../images/icons/traject-icon.png'
+import growIcon from '../../images/icons/grow-icon.png'
+import researchIcon from '../../images/icons/research-icon.png'
+import resultsIcon from '../../images/icons/results-icon.png'
+import activityIcon from '../../images/icons/activity-icon.png'
+import penIcon from '../../images/icons/pen-icon.png'
+import { NavLink } from "react-router-dom";
 
 const OutputSettings = () => {
-    const [color, setColor] = useState('')
-
+    const [outputID, setOutputID] = useState('')
     const menuState = MenuStatus()
     const history = useHistory()
 
     const outputs = useFirestore('Outputs')
-    const colors = useFirestore('Colors')
+    const milestones = useFirestoreMilestones(outputID) 
 
     useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
+        outputs && outputs.forEach(output => {
+            setOutputID(output.ID)
         })
+    },[outputs])
 
-    },[colors])
+    const MilestoneProgess = ({milestone}) => {
+        const [succes, setSucces] = useState(false)
 
-    const Instruments = ({output}) => {
-        const instruments = useFirestoreImpactInstruments(output.ID) 
-        
+        const [goal, setGoal] = useState(0)
+
+        const results = useFirestoreResults(milestone.OutputID)
+
+        console.log(results)
+
+        useEffect(() => {
+            milestones && milestones.forEach(milestone => {
+
+                setGoal(milestone.Number)
+                setSucces(milestone.Succes)
+
+            })
+         },[milestones])
+
+        const width = results.length*100/goal
+
+        const percentage = `${width}%`
+
+         const succesColor = () => {
+            if(succes === true){
+                return '#00cd00'
+            } else {
+                return '#63cadc'
+            }
+         }
+
         return(
-            <div className='output-instrument-container'>
-                {instruments && instruments.map(instrument => (
-                    <div>
-                        <p data-id={instrument.ID} onClick={instrumentDetailLink}>{instrument.Output.Output} ({instrument.Output.Datatype})</p>
-                    </div>
-                ))}
-                <img className='add-instrument-button' src={plusIcon} data-id={output.ID} alt="" onClick={addInstrument} />
+            <div className='milestone-progress-container'>
+                <div className='percentage-container'>
+                    <p>Huidig: {results.length} ({width}%)</p>
+                    <p>Doel: {goal}</p>
+                </div>
+                
+                <div className='progressbar-outer-bar'>
+                    <div className='progressbar-progress' style={{width: percentage, backgroundColor: succesColor()}}></div>
+                </div>
             </div>
         )
     }
 
-    const addInstrument = (e) => {
-
-        const ID = e.target.dataset.id
-
-        history.push(`/${client}/AddInstrument/${ID}`)
-
-    }
-
-    const instrumentDetailLink = (e) => {
-
-        const ID = e.target.dataset.id
-
-        history.push(`/${client}/InstrumentDetail/${ID}`)
-    }
-
-    const fieldDetailLink = (e) => {
-        const ID = e.target.dataset.id
-
-        history.push(`/${client}/QuestionnaireFieldDetail/${ID}`)
-    }
-
-
-    const outputLink = (e) => {
-
-        const ID = e.target.dataset.id
-
-        history.push(`/${client}/OutputSettingsDetail/${ID}`)
-
-    }
-
-    const deleteOutput = (e) => {
-
-        const docid = e.target.dataset.docid
-
-        db.collection('Outputs')
-        .doc(docid)
-        .delete()
-
-    }
-
   return (
-     <div className="main">
-    <LeftSideBar />
-    <LeftSideBarFullScreen/>
-    <div className="profile profile-auth-profile" style={{display: menuState}}>
-        <div className="settings-inner-container">
-            <div className="divider card-header">
+    <div className="main">
+        <LeftSideBar />
+        <LeftSideBarFullScreen/>
+        <div className="card-overview" style={{display: menuState}}>
+            <div className="page-header">
                 <h1>Outputs</h1>
+                <div className='edit-icon-header-container'>
+                    <NavLink activeClassName='active' to={`/${client}/AddOutput`}>
+                        <img src={penIcon} alt="" />
+                    </NavLink>
+                </div>
             </div>
-        </div>
-        <div className='divider'>
-            <h2>Output toevoegen</h2>
-            <Link to={`/${client}/AddOutput`} ><img id="plus-icon-goal-settings" src={plusIcon} alt="" /></Link>
-        </div>
-        <div className='divider'>
-            <h2>Outputs</h2>
+            <div className='card-container'>
             {outputs && outputs.map(output => (
-            <div id="output-container" key={output.ID} style={{backgroundColor: color}}>
-                <h3><b>{output.Title}</b></h3>
-                <div className='goal-meta-title-container'>
-                    <img src={effectIcon} alt="" />
-                    <h4>Effect</h4>
-                </div>
-                <p className='output-seeting-effect'>{output.Effect}</p>
-                <div className='goal-meta-title-container'>
-                    <img src={measureIcon} alt="" />
-                    <h4>Meetinstrumenten</h4>
-                </div>
-                <div>
-                    <Instruments output={output}/>
-                </div>
-                <div className='icon-container-activities'>
-                    <img src={settingsIcon} alt="" className="userrole-users-delete-button" data-id={output.ID} onClick={outputLink}/>
-                    <img src={deleteIcon} alt="" className="userrole-users-delete-button" data-docid={output.docid} onClick={deleteOutput} />
-                </div>
+                    <div className='instrument-card output-card-container'>
+                        <h2>{output.Title}</h2>
+                        <div className='task-detail-inner-container'>
+                        <div className='activity-meta-title-container'>
+                                <img src={activityIcon} alt="" />
+                                <h3>Activiteit</h3>
+                            </div>
+                            <p className='questionnaire-results-container'>{output.Activity}</p>
+                            <div className='activity-meta-title-container'>
+                                <img src={resultsIcon} alt="" />
+                                <h3>Effect</h3>
+                            </div>
+                            <p className='questionnaire-results-container'>{output.Effect}</p>
+                            <div>
+                                <div className='activity-meta-title-container'>
+                                    <img src={growIcon} alt="" />
+                                    <h3>Mijlpalen</h3>
+                                </div>
+                                {milestones && milestones.map(milestone => (
+                                    <MilestoneProgess milestone={milestone}/>
+                                ))}
+                            </div>
+                            <div>
+                                <div className='activity-meta-title-container'>
+                                    <img src={researchIcon} alt="" />
+                                    <h3>Onderzoeken</h3>
+                                </div>
+                               <ul>
+                                   
+                               </ul>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-            ))}
         </div>
-    </div>
-    <RightSideBar />
     </div>
   )
 }

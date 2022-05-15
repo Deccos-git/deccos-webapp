@@ -1211,6 +1211,29 @@ const useFirestoreMilestonesInstrument = (id) => {
     return docs
 };
 
+const useFirestoreMilestonesOutput = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Milestones')
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreSDGs = (collection) => {
 
     const [docs, setDocs] = useState("")
@@ -1239,7 +1262,7 @@ const useFirestoreResults = (id) => {
     useEffect(() => {
         const unsub = db.collection("Results")
         .where('Compagny', '==', client)
-        .where('InstrumentID', '==', id)
+        .where('OutputID', '==', id)
         .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1470,6 +1493,7 @@ export {
     useFirestoreMilestones,
     useFirestoreMilestonesActivity,
     useFirestoreMilestonesInstrument,
+    useFirestoreMilestonesOutput,
     useFirestoreSDGs,
     useFirestoreResults,
     useFirestoreProjects,

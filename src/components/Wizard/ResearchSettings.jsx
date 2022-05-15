@@ -10,12 +10,10 @@ import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 
-const QuestionnaireSettings = () => {
+const ResearchSettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
-
-    const questionnaires = useFirestore('Questionnaires')
 
   return (
     <div className="main">
@@ -23,30 +21,19 @@ const QuestionnaireSettings = () => {
     <LeftSideBarFullScreen/>
     <div className="main-container" style={{display: menuState}}>
         <div className='page-header'>
-            <h1>Vragenlijsten</h1>
+            <h1>Onderzoeken</h1>
                 <div className='edit-icon-header-container'>
-                    <NavLink activeClassName='active' to={`/${client}/Questionnaires`}>
+                    <NavLink activeClassName='active' to={`/${client}/Research`}>
                         <img src={penIcon} alt="" />
                     </NavLink>
                 </div>
         </div>
-        <div className='card-container'>
-            <div className='table-container'>
-                <table>
-                    <tr>
-                        <th>TITEL</th>
-                    </tr>
-                    {questionnaires && questionnaires.map(questionnaire => (
-                        <tr>
-                            <td>{questionnaire.Title}</td>
-                        </tr>
-                    ))}
-                </table>
-            </div>
+        <div className='card-container milestone-card-container'>
+    
         </div>
     </div>
 </div>
   )
 }
 
-export default QuestionnaireSettings
+export default ResearchSettings

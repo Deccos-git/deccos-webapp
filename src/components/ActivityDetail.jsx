@@ -1,151 +1,74 @@
 import LeftSideBar from "./LeftSideBar";
 import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
-import RightSideBar from "./rightSideBar/RightSideBar"
 import MenuStatus from "../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreTasks, useFirestoreTasksComplete } from "../firebase/useFirestore"
+import { useFirestoreID, useFirestoreOutputs } from "../firebase/useFirestore"
 import Location from "../hooks/Location"
 import { useState, useEffect } from 'react'
-import completeIcon from '../images/icons/complete-icon.png'
-import clockIcon from '../images/icons/clock-icon.png'
-import hourglassIcon from '../images/icons/hourglass-icon.png'
-import deleteTaskIcon from '../images/icons/delete-task-icon.png'
-import { useHistory } from "react-router-dom";
+import { motion } from "framer-motion"
+import penIcon from '../images/icons/pen-icon.png'
+import outputIcon from '../images/icons/output-icon.png'
+import worldIcon from '../images/icons/world-icon.png'
+import goalIcon from '../images/icons/milestone-icon.png'
+import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
-import { db } from "../firebase/config";
 
 const ActivityDetail = () => {
-    const [activity, setActivity] = useState(null)
-    const [activityDocid, setActivityDocid] = useState('')
-    const [effectShort, setEffectShort] = useState('')
-    const [effectLong, setEffectLong] = useState('')
-    const [progression, setProgression] = useState(0)
+    const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
-    const history = useHistory();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const history = useHistory()
 
-    const tasks = useFirestoreTasks(route)
-    const completedTasks = useFirestoreTasksComplete(route)
     const activities = useFirestoreID('Activities', route)
+    const outputs = useFirestoreOutputs(route)
 
     useEffect(() => {
 
         activities && activities.forEach(activity => {
-            setActivity(activity.Activity)
-            setActivityDocid(activity.docid)
-            setEffectShort(activity.EffectShort)
-            setEffectLong(activity.EffectLong)
+            setTitle(activity.Activity)
         })
     }, [activities])
 
-    useEffect(() => {
-            const progress = 100/tasks.length*completedTasks.length
-            setProgression(progress) 
-    }, [completedTasks])
-
-    console.log(progression)
-
-    const updateProgressActivity = () => {
-        if(activityDocid != ''){
-            db.collection('Activities')
-            .doc(activityDocid)
-            .update({
-                Progression: progression
-            })
-        }
-    } 
-       
-    const taskCompleted = (e) => {
-
-        const docid = e.target.dataset.docid 
-        const completed = e.target.dataset.completed
-
-        if(completed === 'false'){
-            db.collection('Tasks')
-            .doc(docid)
-            .update({
-                Completed: true,
-                BackgroundColor: '#b2d7bb',
-                Icon: deleteTaskIcon
-            })
-            .then(() => {
-                setTimeout(() => {
-                    updateProgressActivity()
-                }, 1000) 
-            })
-        } else if (completed === 'true'){
-            db.collection('Tasks')
-            .doc(docid)
-            .update({
-                Completed: false,
-                BackgroundColor: 'white',
-                Icon: completeIcon
-            })
-            .then(() => {
-                setTimeout(() => {
-                    updateProgressActivity()
-                }, 1000) 
-            })
-        }   
-    }
-
-    const taskLink = (e) => {
-        const id = e.target.dataset.id
-
-        history.push(`/${client}/TaskDetail/${id}`)
-
-    }
-
-    const ProgressionBar = () => {
-        return(
-        <div className='progression-container'>
-            <p>Voortgang {Math.trunc(progression)}%</p>
-            <div className='progressionbar-outer-bar'>
-                <div className='progressionbar-completed' style={{width: `${progression}%`}}></div>
-            </div>
-        </div>
-        )
-    }
-
-    return (
-        <div className="main">
+  return (
+    <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
-        <div className="main-container" style={{display: menuState}}>
-            <div className='page-header page-container-activities'>
-                <h1>{activity}</h1>
-                <div className='activity-detail-effects-container'>
-                    <div className='effect-title-container'>
-                        <img src={clockIcon} alt=""/>
-                        <h3>Kortetermijn effect</h3>
-                    </div>
-                    <p>{effectShort}</p>
-                    <div className='effect-title-container'>
-                        <img src={hourglassIcon} alt=""/>
-                        <h3>Lange termijn effect</h3>
-                    </div>        
-                    <p>{effectLong}</p>
-                </div>
-                
-            </div>
-            <ProgressionBar/>
-            <h2>Taken</h2>
-            {tasks && tasks.map(task => (
-                <div className='task-outer-container' key={task.ID}>
-                    <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
-                        <div className='task-inner-container'>
-                            <img src={task.Icon} data-docid={task.docid} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
-                            <p>{task.Task}</p>
-                            <button className='button-simple button-activity-detail' data-id={task.ID} onClick={taskLink}>Details</button>
+        <div className="card-overview goal-detail-container" style={{display: menuState}}>
+            {activities && activities.map(activity => (
+                <motion.div className="article" key={activity.ID}>
+                    <img src={activity.Banner} alt="" className='goal-detail-banner' />
+                    <div className="list-inner-container">
+                        <div className='activity-meta-title-container'>
+                            <h2>{activity.Activity}</h2>
                         </div>
+                        <div className='activity-meta-title-container'>
+                            <img src={goalIcon} alt="" />
+                            <h3>Doel</h3>
+                        </div>
+                        <p className='output-seeting-effect'>{activity.Goal}</p>
+                        <div className='activity-meta-title-container'>
+                            <img src={worldIcon} alt="" />
+                            <h3>Impact</h3>
+                        </div>
+                        <p className='output-seeting-effect'>{activity.Impact}</p>
+                        <div className='activity-meta-title-container'>
+                            <img src={outputIcon} alt="" />
+                            <h3>Outputs</h3>
+                        </div>
+                        <ul className='output-seeting-effect'>
+                            {outputs && outputs.map(output => (
+                                <li>{output.Title}</li>
+                            ))}
+                        </ul>
                     </div>
-                </div>
-            ))}
-            
-        </div>
-        <RightSideBar />
-        </div>
-    )
+                    <p>{activity.Timestamp.toDate().toLocaleDateString("nl-NL", options)}</p>
+                </motion.div>
+                ))
+            }
+            </div>
+    </div>
+  )
 }
 
 export default ActivityDetail
