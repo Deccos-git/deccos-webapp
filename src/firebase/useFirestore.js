@@ -1438,6 +1438,30 @@ const useFirestoreSROISets = (id) => {
     return docs
 };
 
+const useFirestoreMeasureMoments = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("MeasureMoments")
+        .where('Compagny', '==', client)
+        .where('ResearchID', '==', id)
+        .orderBy("Timestamp", "asc")
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 
 export { 
@@ -1502,5 +1526,6 @@ export {
     useFirestoreAssumptions,
     useFirestoreConditions,
     useFirestoreOutputEffects,
-    useFirestoreSROISets
+    useFirestoreSROISets,
+    useFirestoreMeasureMoments
 }

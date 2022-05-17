@@ -107,7 +107,7 @@ const Tasks = () => {
             .doc(docid)
             .update({
                 Completed: true,
-                BackgroundColor: '#b2d7bb',
+                BackgroundColor: '#63cadc',
                 Icon: deleteTaskIcon
             })
             .then(() => {
@@ -226,7 +226,7 @@ const Tasks = () => {
     }
 
     return (
-        <div className="main">
+    <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
@@ -300,7 +300,7 @@ const Tasks = () => {
                 ))}
             </div>
         </div>
-        </div>
+    </div>
     )
 }
 

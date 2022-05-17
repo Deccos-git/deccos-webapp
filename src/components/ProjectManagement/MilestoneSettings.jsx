@@ -1,16 +1,15 @@
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen";
 import MenuStatus from "../../hooks/MenuStatus";
-import { db } from "../../firebase/config.js"
 import { useState, useEffect } from "react";
 import {useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
 import progressIcon from '../../images/icons/progress-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
 import { useHistory } from "react-router-dom";
-import plusIcon from '../../images/icons/plus-icon.png'
-import { Link } from "react-router-dom";
 import activityIcon from '../../images/icons/activity-icon.png'
+import penIcon from '../../images/icons/pen-icon.png'
+import { NavLink } from "react-router-dom";
 
 const MilestoneSettings = () => {
     const [color, setColor] = useState('')
@@ -76,6 +75,11 @@ const MilestoneSettings = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className='page-header'>
                 <h1>Mijlpalen</h1>
+                <div className='edit-icon-header-container'>
+                    <NavLink activeClassName='active' to={`/${client}/MeasureOutput`}>
+                        <img src={penIcon} alt="" />
+                    </NavLink>
+                </div>
             </div>
             <div className='card-container milestone-card-container'>
             {milestones && milestones.map(milestone => (

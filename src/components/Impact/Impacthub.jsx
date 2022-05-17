@@ -5,17 +5,44 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
+import groupIcon from '../../images/icons/group-icon.png'
 import { useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
+import { useState, useEffect, useContext } from 'react'
 
 const Impacthub = () => {
+    const [ID, setID] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
 
     const compagnies = useFirestore('CompagnyMeta')
+    const followers = useFirestore("FollowsImpacthub")
+
+    useEffect(() => {
+        compagnies && compagnies.forEach(comp => {
+            setID(comp.ID)
+        })
+    },[compagnies])
+
+    const compagnyLink = () => {
+
+        history.push(``)
+    }
+
+    console.log(followers.length)
+
+    const showFollowers = () => {
+        if(followers.length === 0){
+            return 'block'
+        } else {
+            return 'none'
+        }
+    }
+
+    
 
   return (
     <div className="main">
@@ -30,13 +57,37 @@ const Impacthub = () => {
                     </NavLink>
                 </div>
         </div>
-        <div className='card-container milestone-card-container'>
+        <div className='profile profile-auth-profile'>
             {compagnies && compagnies.map(comp => (
                 <div className='impactclub-banner-container'>
                     <img src={comp.ImpactBanner} alt="" />
                 </div>
             ))}
-    
+            <div className='goal-meta-inner-container'>
+                <div className='goal-meta-title-container'>
+                    <img src={groupIcon} alt="" />
+                    <h3>Volgers</h3>
+                </div>
+                <div className='list-container table-container-impactclub'>
+                    <table>
+                        <tr>
+                            <th>NAAM</th>
+                        </tr>
+                        <tr style={{display: showFollowers()}}>
+                            <td>Nog geen volgers</td>
+                        </tr>
+                        {followers && followers.map(follower => (
+                        <tr>
+                            <td>{follower.User}</td>
+                        </tr>                               
+                    ))}
+                    </table>
+                </div>
+            </div>
+            <div className='button-container button-container-impactclub'>
+                <button onClick={compagnyLink}>Bekijk profiel</button>
+                <a href={`https://deccos.nl/OrganisationDetail/${client}/${ID}`}></a>
+            </div>
         </div>
     </div>
 </div>

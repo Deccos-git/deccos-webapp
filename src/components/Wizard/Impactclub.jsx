@@ -157,6 +157,7 @@ const Impactclub = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
+                        <p>De Deccos Impactclub is een online platform waar je jullie impact in real time kunt delen met stakeholders en andere geïnteresseerden.</p>
                     </div>
                 </div>
                 <div>
@@ -165,7 +166,7 @@ const Impactclub = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Upload een banner voor je impactclub account</p>
+                        <p><b>Upload een banner voor je impactclub account</b></p>
                         <img id='impact-banner' src={banner} alt="" />
                         <input className="input-classic" onChange={bannerHandler} type="file" />
                     </div>

@@ -212,7 +212,7 @@ const MeasureOutput = () => {
                     <input type="number" onChange={numberHandler} />
                     <p><b>Bepaal een deadline</b></p>
                     <input type="date" onChange={deadlineHandler} />
-                    <div className=''>
+                    <div className='button-container-margin-top'>
                         <button onClick={addMilestone}>Opslaan</button>
                     </div>
                 </Modal>

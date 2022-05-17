@@ -89,7 +89,7 @@ import ResearchSettings from './Wizard/ResearchSettings';
 const Main = () => {
 
     return (
-        <div className="main">
+        <>
             <Switch>
                 <Route path={`/${client}/Login`}>
                     <Login/>
@@ -335,7 +335,7 @@ const Main = () => {
                     <ResearchSettings/>
                 </Route>
             </Switch>
-        </div>
+        </>
     )
 }
 

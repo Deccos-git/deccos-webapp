@@ -30,7 +30,7 @@ const QuestionnaireSettings = () => {
                     </NavLink>
                 </div>
         </div>
-        <div className='card-container'>
+        <div className='profile profile-auth-profile'>
             <div className='table-container'>
                 <table>
                     <tr>

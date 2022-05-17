@@ -79,7 +79,7 @@ const OutputSettings = () => {
     <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
-        <div className="card-overview" style={{display: menuState}}>
+        <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
                 <h1>Outputs</h1>
                 <div className='edit-icon-header-container'>

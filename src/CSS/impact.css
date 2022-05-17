@@ -403,6 +403,31 @@
     width: 100%;
 }
 
+.add-item-button{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.measure-moments-inner-container{
+    border: 2px dotted lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.measure-moments-container-research-main-page{
+    margin-left: 30px;
+}
+
+.table-container-impactclub{
+    margin: 20px 0px 0px 30px;
+}
+
+.button-container-impactclub{
+    margin-top: 30px;
+}
+
 .list-top-row-container p{
     font-weight: bold;
 }
@@ -412,7 +437,7 @@
 }
 
 .impactclub-banner-container img{
-    width: 85%;
+    width: 100%;
 }
 
 .milestone-card-container{
