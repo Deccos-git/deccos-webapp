@@ -192,8 +192,19 @@ const GoalTitle = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
+                        <p><b>De impact doelen zijn de reden waarvoor jij en je team ‘s 
+                            ochtends uit bed komen om aan je sociale onderneming te werken.
+                        </b></p>
+                        <p>
+                            Alhoewel het vaak over grote maatschappelijke onderwerpen gaat is het belangrijk om 
+                            concreet te blijven en de doelen zo dicht mogelijk binnen jullie eigen invloedssfeer te houden.
+                        </p>
+                        <ul>
+                            <li>Is het doel concreet?</li>
+                            <li>Is het doel meetbaar en hebben jullie hier een directe invloed op?</li>
+                            <li>Is het doel realistische en haalbaar?</li>
+                        </ul>
+                        <p>Om je impact dashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
                             Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
                             helpt een mooi plaatje om het belang van jullie doel over te brengen. 
                             Een plaatje zegt meer dan 1000 woorden, toch? 

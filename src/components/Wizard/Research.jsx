@@ -227,6 +227,13 @@ const Research = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>
+                        Aan de hand van onderzoek kun je meetbare meetmomenten aan elkaar koppelen en de 
+                        resultaten met elkaar vergelijken.
+                        </b></p>
+                        <p>
+                        Zo krijg je een beeld over de ontwikkeling van je impact over een bepaalde periode.
+                        </p>
                     </div>
                 </div>
                 <div>

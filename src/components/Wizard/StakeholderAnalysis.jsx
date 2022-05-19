@@ -137,11 +137,11 @@ const StakeholderAnalysis = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Impactmanagement is niet iets dat je in isolatie kunt doen. Om echt een helder beeld te krijgen 
-                            van je probleemanalyse, je doelstellingen en vrijwel alle andere aspecten van het impactmanagement 
+                        <p>Impact management is niet iets dat je in isolatie kunt doen. Om echt een helder beeld te krijgen 
+                            van je probleemanalyse, je doelstellingen en vrijwel alle andere aspecten van het impact management 
                             proces is het belangrijk om je stakeholders te betrekken.</p>
-                        <p>Stakeholders zijn de mensen en organisaties die direct beinvloed worden door de activiteiten van 
-                            jouw sociale organisaties. Die invloed kan zowel posotief als negatief zijn.</p>
+                        <p>Stakeholders zijn de mensen en organisaties die direct beïnvloed worden door de activiteiten van 
+                            jouw sociale organisaties. Die invloed kan zowel positief als negatief zijn.</p>
                         <p>Voorbeelden van stakeholders zijn:</p>
                         <ul>
                             <li>Jouw doelgroep</li>
@@ -149,7 +149,7 @@ const StakeholderAnalysis = () => {
                             <li>Gemeenten en andere overheden</li>
                             <li>Klanten</li>
                         </ul>
-                        <p>Deccos maakt het mogelijk om jouw stakeholders op een eenvoudige manier te betrekken bij je impactmanagement.</p>
+                        <p>Deccos maakt het mogelijk om jouw stakeholders op een eenvoudige manier te betrekken bij je impact management.</p>
                     </div>
                 </div>
                 <div>

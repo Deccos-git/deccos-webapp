@@ -195,8 +195,9 @@ const MeasureOutput = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                        <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders helpt een mooi plaatje om het belang van jullie doel over te brengen. Een plaatje zegt meer dan 1000 woorden, toch?</p>
+                        <p>Mijlpalen zijn doelen die een stip aan de horizon geven. Voor jezelf en je team 
+                            geeft dit een mooi vergezicht en voor je stakeholders geeft dit een beeld 
+                            van jullie ambities en voortgang.</p>
                     </div>
                 </div>
                 <Modal

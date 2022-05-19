@@ -62,6 +62,13 @@ const Projectmanagement = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>
+                        Wanneer je mijlpalen creëert en/of een onderzoek aanmaakt worden er 
+                        automatisch taken en een tijdspad gecreëerd. Zo houd je altijd het overzicht over je impact management.
+                        </b></p>
+                        <p>
+                        In het Impact HQ kun je met je team chatten en worden automatisch de laatste updates gedeeld.
+                        </p>
                     </div>
                 </div>
                 <div>

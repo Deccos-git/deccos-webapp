@@ -157,7 +157,13 @@ const Impactclub = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>De Deccos Impactclub is een online platform waar je jullie impact in real time kunt delen met stakeholders en andere geïnteresseerden.</p>
+                        <p><b>
+                        De Deccos Impactclub is een online platform waar je impact automatisch en 
+                        real-time gedeeld kan worden met stakeholders en andere geïnteresseerden.
+                        </b></p>
+                        <p>
+                        Doordat er een real-time kopie van jullie impact dashboard wordt gedeeld zijn jullie volledig transparant over jullie impact doelen en voortgang.
+                        </p>
                     </div>
                 </div>
                 <div>

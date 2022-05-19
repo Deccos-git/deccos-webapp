@@ -93,12 +93,19 @@ const Targetgroup = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>Je doelgroep is de stakeholders op wie je het meest directe invloed hebt.</b></p>
+                    <p>
+                    De doelgroep is in een later stadium van het impact management proces het onderwerp van je impact 
+                    onderzoek. Het is dus belangrijk om helder te hebben wie je doelgroep is. Soms is dat rechttoe rechtaan, 
+                    zoals bij een organisatie die nieuwkomers helpt. Soms is dat echter minder voor de hand liggend, zoals 
+                    wanneer je bijvoorbeeld ondersteunende diensten levert aan bedrijven die mensen met een afstand 
+                    tot de arbeidsmarkt ondersteunen. Je doelgroep is dan de bedrijven en niet de mensen met een afstand 
+                    tot de arbeidsmarkt.
+                    </p>
+                    <p>
+                    Als je gaat onderzoeken wat je impact is ga je de effecten bijhouden die je activiteiten hebben op je doelgroep. 
+                    Je doelgroep is de groep mensen of bedrijven waar je je activiteiten aan aanbiedt. 
+                    </p>
                 </div>
             </div>
             <div>

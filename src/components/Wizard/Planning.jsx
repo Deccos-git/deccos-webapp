@@ -1,14 +1,64 @@
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestore } from "../../firebase/useFirestore"
-import { useState } from "react";
+import { useFirestore, useFirestoreMeasureMoments } from "../../firebase/useFirestore"
+import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import { client } from '../../hooks/Client';
+import { db, timestamp } from "../../firebase/config.js"
 
 const Planning = () => {
+    const [periods, setPeriods] = useState([[]])
 
     const menuState = MenuStatus()
     const researches = useFirestore('Research')
+
+    console.log(periods)
+
+    useEffect(() => {
+
+      const array = []
+
+      researches && researches.forEach( research => {
+
+        let startDate = new Date(2022, 1, 1)
+        let endDate = new Date(2022, 31, 12)
+
+
+        const researches = [
+          research.ID,
+          research.Title,
+          null,
+          startDate,
+          endDate,
+          null,
+          null,
+          null,
+        ]
+
+        array.push(researches)
+
+        const unsub = db.collection("MeasureMoments")
+        .where('Compagny', '==', client)
+        .where('ResearchID', '==', research.ID)
+        .orderBy("Moment", "asc")
+        .onSnapshot(querySnapshot => {
+          const docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push(doc.data().Moment)
+            })
+
+            startDate = new Date(docArray[0])
+            endDate = new Date(docArray[1])
+
+        })
+        
+        return () => unsub();
+      })
+
+      setPeriods(array)
+
+    },[researches])
 
     const columns = [
       { type: "string", label: "Task ID" },
@@ -23,69 +73,46 @@ const Planning = () => {
     
     const rows = [
       [
-        "Research",
-        "Find sources",
+        "2014Spring",
+        "Spring 2014",
         null,
-        new Date(2015, 0, 1),
-        new Date(2015, 0, 5),
+        new Date(2014, 2, 22),
+        new Date(2014, 5, 20),
         null,
-        100,
+        null,
         null,
       ],
       [
-        "Write",
-        "Write paper",
-        "write",
+        "2014Summer",
+        "Summer 2014",
         null,
-        new Date(2015, 0, 9),
-        3 * 24 * 60 * 60 * 1000,
-        25,
-        "Research,Outline",
+        new Date(2014, 5, 21),
+        new Date(2014, 8, 20),
+        null,
+        null,
+        null,
       ],
       [
-        "Cite",
-        "Create bibliography",
-        "write",
+        "2014Autumn",
+        "Autumn 2014",
         null,
-        new Date(2015, 0, 7),
-        1 * 24 * 60 * 60 * 1000,
-        20,
-        "Research",
-      ],
-      [
-        "Complete",
-        "Hand in paper",
-        "complete",
+        new Date(2014, 8, 21),
+        new Date(2014, 11, 20),
         null,
-        new Date(2015, 0, 10),
-        1 * 24 * 60 * 60 * 1000,
-        0,
-        "Cite,Write",
-      ],
-      [
-        "Outline",
-        "Outline paper",
-        "write",
         null,
-        new Date(2015, 0, 6),
-        1 * 24 * 60 * 60 * 1000,
-        100,
-        "Research",
+        null,
       ],
     ];
-    const data = [columns, rows];
 
-    const options = {
-      gantt: {
-        criticalPathEnabled: false,
-        innerGridHorizLine: {
-          stroke: "#ffe0b2",
-          strokeWidth: 2,
-        },
-        innerGridTrack: { fill: "#fff3e0" },
-        innerGridDarkTrack: { fill: "#ffcc80" },
-      },
-    };
+    
+  const data = [columns, ...periods];
+
+  const options = {
+    height: 200,
+    gantt: {
+      trackHeight: 30,
+    },
+  };
    
   return (
     <div className="main">
@@ -95,12 +122,13 @@ const Planning = () => {
             <div className='page-header'>
                 <h1>Planning</h1>
             </div>
-            <div>
+            <div style={{width: '85%'}}>
             <Chart
-            chartType="Gantt"
-            data={data}
-            width="100%"
-            height="800px"
+              chartType="Gantt"
+              width="100%"
+              height="auto"
+              data={data}
+              options={options}
             />
             </div>
         </div>  

@@ -108,12 +108,8 @@ const ImpactTargetgroup = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>Welke positieve effect wil je dat je activiteiten hebben op je doelgroep?</b></p>
+                    <p>Probeer deze positieve impact te formuleren vanuit het oogpunt van je doelgroep.</p>
                 </div>
             </div>
             <div>
@@ -131,7 +127,7 @@ const ImpactTargetgroup = () => {
                     </select>
                     <p>Doelgroep: {displayTargetgroup()}</p>
                     <p><b>2. Formuleer de impact op de doelgroep</b></p>
-                    <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact} onChange={impactHandler} />
+                    <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact} onChange={impactHandler} />
                     <div className='button-container-align-left'>
                         <button onClick={saveImpactTargetgroup}>Opslaan</button>
                     </div>

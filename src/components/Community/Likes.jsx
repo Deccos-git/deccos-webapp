@@ -4,14 +4,10 @@ import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScree
 import RightSideBar from "../rightSideBar/RightSideBar"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { Line } from 'react-chartjs-2'
-import { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client";
 
 const Likes = () => {
-    const [label, setLabel] = useState('')
-    const [data, setData] = useState('')
 
     const route = Location()[3]
     const menuState = MenuStatus()
@@ -28,25 +24,6 @@ const Likes = () => {
         history.push(`/${client}/MessageDetail/${id}`)
 
     }
-
-    // useEffect(() => {
-
-    //     const monthArray = []
-    //     const countArray = []
-
-    //     likes && likes.forEach(like => {
-    //         const month = like.Month 
-    //         const count = like.Contributions
-
-    //         monthArray.push(month)
-    //         countArray.push(count)
-    
-    //     })
-
-    //     setLabel(monthArray)
-    //     setData(countArray)
-    // }, [likes])
-
     
     return (
         <div className="main">
@@ -76,33 +53,6 @@ const Likes = () => {
                         </div>
                     ))}
                 </div>
-            {/* <div className='divider'> 
-                    <div>
-                        <Line data={{
-                                labels: label,
-                                datasets: [
-                                {
-                                    label: 'Aantal likes',
-                                    data: data,
-                                    fill: false,
-                                    backgroundColor: 'green',
-                                    borderColor: 'green',
-                                },
-                                ],
-                        }} 
-                        options={{
-                            scales: {
-                                yAxes: [
-                                {
-                                    ticks: {
-                                    beginAtZero: true,
-                                    },
-                                },
-                                ],
-                            },
-                        }} />
-                    </div>
-                 </div> */}
             </div>
             <RightSideBar />
         </div>

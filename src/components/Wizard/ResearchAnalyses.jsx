@@ -62,6 +62,7 @@ const ResearchAnalysis = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>Nadat er onderzoek is afgerond kun je het gaan analyseren.</b></p>
                     </div>
                 </div>
                 <div>

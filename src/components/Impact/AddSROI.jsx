@@ -157,7 +157,7 @@ const AddSROI = () => {
                 <p>14 van de 12</p>
                 <NavLink to={`/${client}/MeasureOutput`} >
                     <div className='step-container'>
-                        <p>Outputs doelen stellen</p>
+                        <p>Mijlpalen stellen</p>
                         <img src={arrowRight} alt="" />
                     </div>
                 </NavLink>

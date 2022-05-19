@@ -122,12 +122,17 @@ const Conditions = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>De meeste sociale organisaties bevinden zich in een dynamische omgeving die constant in beweging is.</b></p>
+                    <p>Naast de activiteiten van jouw sociale organisatie zijn er vaak nog andere factoren die 
+                        invloed hebben op een positieve of negatieve impact op je doelgroep.</p>
+                    <p>
+                    Het geeft inzicht om deze externe factoren in beeld te hebben. Dan kun je beter inschatten welke positieve 
+                    impact je op je eigen conto bij kunt schrijven en welke stromingen je tegenwerken om je 
+                    impact doel(en) te bereiken.
+                    </p>
+                    <p>
+                    Enables en disables.
+                    </p>
                 </div>
             </div>
             <div>

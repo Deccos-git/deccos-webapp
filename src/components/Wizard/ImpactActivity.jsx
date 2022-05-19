@@ -93,12 +93,11 @@ const ImpactActivity = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>Wat is de concrete en meetbare impact die de activiteiten hebben op jouw doelgroep.</b></p>
+                    <p>
+                    Bekijk de impact door de ogen van je doelgroep. Welke positieve bijdrage heeft een specifieke 
+                    activiteit die niet zou zijn ontstaan als jouw activiteit niet had plaatsgevonden?
+                    </p>
                 </div>
             </div>
             <div>

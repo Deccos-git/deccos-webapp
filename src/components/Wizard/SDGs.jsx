@@ -122,12 +122,17 @@ const SDGs = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>
+                    De SDG’s staan voor de Social Development Goals. Dit zijn 17 ambitieuze maatschappelijke doelen die 
+                    door de Verenigde Naties (VN) ten doel zijn gesteld voor 2030.
+                    </b></p>
+                    <p>De SDG’s zijn een mooie manier om je maatschappelijke impact in een breder kader te plaatsen 
+                        en je te verbinden met andere sociale organisaties die soortgelijke impact nastreven.
+                    </p>
+                    <p>
+                    Nadat je de SDG’s hebt geselecteerd die bij jouw organisatie passen kun je in de impactclub 
+                    zien welke organisaties eveneens een bijdrage willen zijn aan deze SDG’s.
+                    </p>
                 </div>
             </div>
             <div>
@@ -136,7 +141,7 @@ const SDGs = () => {
                     <h3>Aan de slag</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>1. Selecteer het doel waar je de impact op de maatschappij aan wilt koppelen</b></p>
+                    <p><b>1. Selecteer het doel waar je de SDG's aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
                     {goals && goals.map(goal => (

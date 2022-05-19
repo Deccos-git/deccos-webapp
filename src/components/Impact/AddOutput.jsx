@@ -116,12 +116,18 @@ const AddOutput = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                    <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                        Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                        helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                        Een plaatje zegt meer dan 1000 woorden, toch? 
-                        <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <p><b>Je output zijn de meetbare eenheden die door de activiteiten worden voortgebracht.</b></p>
+
+                    <p>Denk aan:</p>
+                    <ul>
+                        <li>Aantal klanten</li>
+                        <li>Aantal deelnemers aan workshops</li>
+                        <li>Aantal verkochte producten</li>
+                        <li>Aantal geplante bomen</li>
+                        <li>Opgeruimd aantal kilo’s plastic</li>
+                    </ul>
+
+                    <p>Een output is tastbaar en concreet. Ze zijn zo concreet dat je er mee kunt rekenen.</p>
                 </div>
             </div>
         <div>

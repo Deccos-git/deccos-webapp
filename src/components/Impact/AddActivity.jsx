@@ -201,12 +201,13 @@ const AddActivity = () => {
                             <h3>Uitleg</h3>
                         </div> 
                         <div className='text-section' style={{backgroundColor: color}}>
-                            <p>Specifiek, meetbaar, acceptabel, realistisch</p>
-                            <p>Om je impactdashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
-                                Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
-                                helpt een mooi plaatje om het belang van jullie doel over te brengen. 
-                                Een plaatje zegt meer dan 1000 woorden, toch? 
-                                <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                            <p><b>Welke concrete activiteiten zet jouw sociale organisatie in om jullie impact 
+                                doelen te verwezenlijken?
+                            </b></p>
+                            <p>Diensten of producten die jouw organisatie aanbiedt aan jouw doelgroep.</p>
+                            <p>
+                            Om je impact dashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij de activiteit. Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders helpt een mooi plaatje om het belang van jullie activiteit over te brengen. Hier vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.
+                            </p>
                         </div>
                     </div>
                 <div>
