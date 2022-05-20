@@ -293,7 +293,7 @@ const ImpactProgress = () => {
             <div className='dashboard-instruments-container'>
                 <div className='activity-meta-title-container'>
                     <img src={growIcon} alt="" />
-                    <h4>Doelen</h4>
+                    <h4>Mijlpalen</h4>
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>

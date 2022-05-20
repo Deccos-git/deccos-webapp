@@ -262,18 +262,34 @@ const ProblemAnalysis = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>Als sociale organisatie wil je een maatschappelijk probleem oplossen.</b></p>
-                    <p>Aangezien dit maatschappelijke probleem zo essentieel is voor een sociale organisatie is het 
+                    <p><b>Het eerste aspect van je impact management is de probleemanalyse.</b></p>
+                    <p>Als sociale organisatie wil je een maatschappelijk probleem oplossen. 
+                        Aangezien dit maatschappelijke probleem zo essentieel is voor een sociale organisatie is het 
                         belangrijk om het probleem helder voor ogen te hebben. Dat geeft inzicht in de aard van het 
-                        probleem en geeft richting aan je organisatie.
+                        probleem en geeft richting de oplossing die jullie als organisatie willen aandragen.
                     </p>
                     <p>
                         Om het maatschappelijke probleem inzichtelijk te krijgen beginnen we met formuleren van het 
-                        centrale probleem. Het is belangrijk om daar concreet in te zijn. Wie, waar, wanneer en hoe?
+                        centrale probleem. Het is belangrijk om daar concreet in te zijn: 
                     </p>
+                    <ul>
+                        <li>Wie heeft het probleem?</li>
+                        <li>Wat is het probleem precies?</li>
+                        <li>Waar vindt het probleem plaats?</li>
+                        <li>Wanneer vindt het probleem plaats?</li>
+                        <li>Etc.</li>
+                    </ul>
                     <p>
                         Wanneer het centrale probleem is geformuleerd onderzoeken we wat de directe en indirecte oorzaken 
                         en gevolgen zijn van het probleem.
+                    </p>
+                    <p>
+                        De directe oorzaken hebben een rechtstreekse invloed op het centrale probleem. 
+                        De indirecte oorzaken zorgen ervoor dat de directe oorzaken zijn ontstaan. 
+                    </p>
+                    <p>
+                        De directe gevolgen worden rechtstreeks door het centrale probleem veroorzaakt. 
+                        De indirecte gevolgen zijn een consequentie van de indirecte gevolgen.
                     </p>
                 </div>
             </div>

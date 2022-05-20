@@ -122,7 +122,15 @@ const Assumptions = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>De aannames zijn de voorwaarden waaraan moet worden voldaan om je impact doel te bereiken.</p>
+                    <p><b>
+                    De aannames zijn de zaken die noodzakelijk zijn om je impact doel te bereiken, 
+                    maar waarvan je slechts aanneemt dat ze kloppen.
+                    </b></p>
+                    <p>
+                    Het geeft helderheid om inzicht te hebben in je aannames, omdat dit je een completer beeld geeft 
+                    van de verschillende aspecten van je veranderplan en je een richting geeft om op te kijken wanneer er 
+                    minder impact wordt behaald dat jullie wensen.
+                    </p>
                 </div>
             </div>
             <div>

@@ -14,6 +14,11 @@ import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
+import taskIcon from '../../images/icons/task-icon.png'
+import calendarIcon from '../../images/icons/calendar-icon.png'
+import timelineIcon from '../../images/icons/timeline-icon.png'
+import meetingIcon from '../../images/icons/meeting-icon.png'
+import growIcon from '../../images/icons/grow-icon.png'
 
 const Projectmanagement = () => {
 
@@ -22,6 +27,7 @@ const Projectmanagement = () => {
     const menuState = MenuStatus() 
     
     const colors = useFirestore('Colors')
+    const groups = useFirestore('Groups')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -38,7 +44,7 @@ const Projectmanagement = () => {
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Projectmanagement</h1>
+                <h1>Projectbeheer</h1>
                 <div className='wizard-sub-nav'>
                     <NavLink to={`/${client}/ResearchAnalyses`} >
                         <div className='step-container'>
@@ -62,10 +68,52 @@ const Projectmanagement = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>
+                        <p><b>In het menu vind je het item 'Projectbeheer'. </b></p>
+                        <p>
                         Wanneer je mijlpalen creëert en/of een onderzoek aanmaakt worden er 
                         automatisch taken en een tijdspad gecreëerd. Zo houd je altijd het overzicht over je impact management.
-                        </b></p>
+                        </p>
+                        <p>
+                        Het projectmanagement bestaat uit een viertal elementen:
+                        </p>
+                        <div className='activity-meta-title-container'>
+                            <img src={taskIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Tasks`}>Taken</NavLink>
+                        </div>
+                        <p>
+                        Wanneer er mijlpalen worden gesteld worden deze doelen automatisch vertaald naar taken die je als team 
+                        kunnen afvinken. Afgevinkte taken worden gebruikt om de outputs en de mijlpalen bij te houden.
+                        </p>
+                        <p>
+                        Ook onderzoeken worden automatisch vertaald naar taken.
+                        </p>
+                        <div className='activity-meta-title-container'>
+                            <img src={calendarIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Agenda`}>Agenda</NavLink>
+                        </div>
+                        <p>
+                        Wanneer een deadline wordt toegevoegd aan de taken komen deze n de agenda te staan.
+                        </p>
+                        <div className='activity-meta-title-container'>
+                            <img src={timelineIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Planning`}>Planning</NavLink>
+                        </div>
+                        <p>De onderzoeken worden automatisch in de planning te staan zodat je overzicht houdt 
+                            over het tijdspad van de onderzoeken</p>
+                        <div className='activity-meta-title-container'>
+                            <img src={growIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Mijlpalen</NavLink>
+                        </div>
+                        <p>
+                            Hier vind je de voortgang op de mijlpalen die jullie hebben gesteld. Wanneer er een output taak 
+                            wordt afgevinkt in taken worden de mijlpalen automatisch geupdate.
+                        </p>
+                        <div className='activity-meta-title-container'>
+                            <img src={meetingIcon} alt="" />
+                            {groups && groups.map(group => (
+                                <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>ImpactHQ</NavLink>
+                            ))}
+                        </div>
                         <p>
                         In het Impact HQ kun je met je team chatten en worden automatisch de laatste updates gedeeld.
                         </p>
@@ -77,7 +125,28 @@ const Projectmanagement = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        
+                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                            <img src={taskIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Tasks`}>Bekijk taken</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                            <img src={calendarIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Agenda`}>Bekijk agenda</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                            <img src={timelineIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Planning`}>Bekijk planning</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                            <img src={growIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Bekijk mijlpalen</NavLink>
+                        </div>
+                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                            <img src={meetingIcon} alt="" />
+                            {groups && groups.map(group => (
+                                <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Bekijk impactHQ</NavLink>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div>

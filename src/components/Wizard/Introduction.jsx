@@ -57,9 +57,16 @@ const Introduction = () => {
                         <p><b>Welkom bij de Deccos Impact Guide. Deze guide is gemaakt om je te ondersteuning in het vormgeven 
                             van je impactmanagement.</b></p>
                         <p>  
-                            Meetbare impact is de bestaansreden van een sociale organisatie. Daarom is impactmanangement is 
-                            net belangrijk voor een sociale organisatie als bijvoorbeeld de boekhouding. Je hoeft het niet in een 100% goed te doen,
-                            maar het is goed om er gewoon mee te beginnen. De Deccos Impact Wizard helpt je daarmee.</p>
+                            Meetbare impact is de bestaansreden van een sociale organisatie. Daarom is impactmanangement 
+                            net belangrijk voor een sociale organisatie als bijvoorbeeld de boekhouding.
+                            Wanneer je impact management integreert in je bedrijfsvoering kun je beter sturen 
+                            op de impact die je wilt maken en kun je die impact helderder communiceren naar je stakeholders.
+                        </p>
+                        <p>
+                            Je hoeft het niet in een 100% goed te doen,
+                            maar het is goed om er gewoon mee te beginnen. De Deccos Impact Wizard helpt je daarmee.
+                        </p>
+                            
                         <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het 
                             <MagicIcon style={{width: '19px', height: '19px'}}/> icon in de bovenbalk (onderbalk op mobiel)
                             om weer terug te komen in de guide.</p>

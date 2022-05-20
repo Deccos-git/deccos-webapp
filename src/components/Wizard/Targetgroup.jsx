@@ -93,7 +93,7 @@ const Targetgroup = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>Je doelgroep is de stakeholders op wie je het meest directe invloed hebt.</b></p>
+                    <p><b>Je doelgroep is de stakeholder op wie je het meest directe invloed hebt.</b></p>
                     <p>
                     De doelgroep is in een later stadium van het impact management proces het onderwerp van je impact 
                     onderzoek. Het is dus belangrijk om helder te hebben wie je doelgroep is. Soms is dat rechttoe rechtaan, 
@@ -104,7 +104,7 @@ const Targetgroup = () => {
                     </p>
                     <p>
                     Als je gaat onderzoeken wat je impact is ga je de effecten bijhouden die je activiteiten hebben op je doelgroep. 
-                    Je doelgroep is de groep mensen of bedrijven waar je je activiteiten aan aanbiedt. 
+                    Je doelgroep is de groep mensen of bedrijven waar je je activiteiten (diensten en/of producten) aan aanbiedt. 
                     </p>
                 </div>
             </div>

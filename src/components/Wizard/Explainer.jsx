@@ -70,8 +70,10 @@ const Explainer = () => {
                             een antwoord op formuleerd.
                         </b></p>
                         <p>
-                            Zoals de naam al aangeeft is impactmanagement geen eenmalige taak. Het is een doorgaand proces 
-                            van plannen, meten, analyseren en leren.
+                            Zoals het woord management al doet vermoeden is impact management geen eenmalige taak. Het is een doorgaand proces 
+                            van plannen, meten, analyseren en leren. Je start met leggen van een fundament, maar dit is geen statisch, 
+                            onveranderlijk document. Naarmate de tijd vordert zullen je opgedane ervaringen zijn weerslag hebben op 
+                            alle aspecten van je impact management. Je zult schrappen en verfijnen, toevoegen en aanpassen. 
                         </p>
                         <p>Impactmanagement is niet iets dat in één keer perfect hoeft te zijn. Het is een proces waarin je 
                             kunt groeien en telkens nieuwe stappen kunt zetten.
@@ -99,7 +101,10 @@ const Explainer = () => {
                             De eerste stap is het bijhouden van de outputs. De tweede stap is het meten van de effecten. 
                             Dit doe je aan d ehand van bijvoorbeeld een vragenlijst of interviews.
                         </p>
-                        <p>Het communiceren van je impact doe je in de Deccos Impactclub. Nodig stakeholders uit om je impact realtime te volgen.</p>
+                        <p>Het communiceren van je impact doe je in de Deccos Impactclub. In de Impactclub kun je je 
+                            stakeholders uitnodigen om je impact realtime te volgen. Zo kunnen je stakeholders altijd 
+                            op de hoogte blijven van jullie real-time voortgang en ambities.
+                        </p>
                     </div>
                 </div>
                 <div>

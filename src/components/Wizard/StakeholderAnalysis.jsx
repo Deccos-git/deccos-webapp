@@ -149,7 +149,9 @@ const StakeholderAnalysis = () => {
                             <li>Gemeenten en andere overheden</li>
                             <li>Klanten</li>
                         </ul>
-                        <p>Deccos maakt het mogelijk om jouw stakeholders op een eenvoudige manier te betrekken bij je impact management.</p>
+                        <p>Wanneer je een helder beeld hebt van je stakeholders weet je wie door jouw organisatie 
+                            beïnvloed worden (positief en negatief) en welke mensen en organisaties relevant 
+                            zijn om op de hoogte te houden van jullie impact voortgang.</p>
                     </div>
                 </div>
                 <div>

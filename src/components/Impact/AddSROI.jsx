@@ -170,11 +170,21 @@ const AddSROI = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>Deadweight</b></p>
-                    <p><b>Attributie</b></p>
-                    <p><b>Tijdshorizon</b></p>
-                    <p><b>Bedrag</b></p>
-                    <p><b>Totaal</b></p>
+                   <p><b>
+                        SROI staat voor Social Return On Investment. Dit is een methodiek om jullie impact financieel door te rekenen. 
+                    </b></p>
+                    <p>
+                        SROI is niet voor iedere activiteit relevant. Soms moeten er zoveel aannames worden 
+                        gedaan om een specifiek soort impact financieel door te rekenen dat het weinig toegevoegde waarde heeft.
+                    </p>
+                    <p>
+                        Omdat het maken van een SROI berekening een vak apart is heeft Deccos een groeiend aantal voor 
+                        uitgerekende SROI waardes toegevoegd als uitgangspunt. Bij het berekenen hiervan zijn aannames gedaan. 
+                        Deze zijn hier te vinden onder onze open source meetinstrumenten.
+                    </p>
+                    <p>
+                        Naast de doorgerekende SROI waardes zijn er een aantal die per activiteit verschillen en die nog moeten worden ingevuld.
+                    </p>
                 </div>
             </div>
         <div>

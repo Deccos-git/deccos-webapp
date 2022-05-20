@@ -114,9 +114,12 @@ const OutputEffects = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>Wat zijn de directe effecten die volgen op je outputs?</b></p>
-                    <p>Deze directe effecten werken uiteindelijk door in de impact van je activiteit.</p>
-                    <p>De effecten kunnen zowel positief als negatief zijn.</p>
+                    <p><b>Wat zijn de concrete en meetbare effecten die jullie doelgroep ervaart 
+                        aan de hand van jullie activiteiten?
+                    </b></p>
+                    <p>Deze directe effecten werken uiteindelijk door in de impact van je activiteit. 
+                        De effecten kunnen zowel positief als negatief zijn.
+                    </p>
                 </div>
             </div>
         <div>

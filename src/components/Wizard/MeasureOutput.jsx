@@ -195,9 +195,24 @@ const MeasureOutput = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Mijlpalen zijn doelen die een stip aan de horizon geven. Voor jezelf en je team 
+                        <p><b>Mijlpalen zijn doelen die een stip aan de horizon geven.</b></p>
+                        <p>Voor jezelf en je team 
                             geeft dit een mooi vergezicht en voor je stakeholders geeft dit een beeld 
-                            van jullie ambities en voortgang.</p>
+                            van jullie ambities en voortgang.
+                        </p>
+                        <p>
+                            Mijlpalen zijn aantalen outputs. Ze zijn dus zo concreet dat je ermee kunt rekenen.
+                        </p>
+                        <p>Wanneer je een mijlpaal toevoegd kies je een naam voor de mijlpaal en een aantal. 
+                            Bij het invullen van de naam noteer je het doel voor jullie outputs in woorden. Bijvoorbeeld:</p>
+                        <ul>
+                            <li>Tien klanten</li>
+                            <li>Tien deelnemers aan training</li>
+                            <li>Honderd kg opgeruimd platsic</li>
+                            <li>Vijftig verkochte producten</li>
+                        </ul>
+                        <p>Bij het invullen van het aantal noteer je het nummer dat je in de naam hebt genoemd. 
+                            Zo weet de software waar het mee moet rekenenen.</p>
                     </div>
                 </div>
                 <Modal

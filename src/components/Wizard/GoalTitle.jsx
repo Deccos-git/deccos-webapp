@@ -208,7 +208,7 @@ const GoalTitle = () => {
                             Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
                             helpt een mooi plaatje om het belang van jullie doel over te brengen. 
                             Een plaatje zegt meer dan 1000 woorden, toch? 
-                            <a href="https://www.pexels.com/nl-nl/"> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                            <a href="https://www.pexels.com/nl-nl/" target='_blank'> Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
                     </div>
                 </div>
                 <div>

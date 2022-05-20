@@ -93,7 +93,16 @@ const ImpactSociety = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Wanneer de impact op de doelgroep is verwezenlijkt, welke impact heeft dat dan op de maatschappij in zijn geheel?</p>
+                    <p><b>
+                        Wanneer de impact op de doelgroep is verwezenlijkt, welke impact heeft dat dan op de maatschappij in zijn geheel?
+                    </b></p>
+                    <p>
+                        Bij het bepalen van jullie impact op de maatschappij is het minder relevant dat de impact concreet en meetbaar zijn. 
+                        Het gaat vaak om bredere maatschappelijke effecten.
+                    </p>
+                    <p>
+                        Let er op dat je impact om de maatschappij binnen de context van het geselecteerde impact doel houdt.
+                    </p>
                 </div>
             </div>
             <div>

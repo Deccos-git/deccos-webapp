@@ -130,9 +130,6 @@ const Conditions = () => {
                     impact je op je eigen conto bij kunt schrijven en welke stromingen je tegenwerken om je 
                     impact doel(en) te bereiken.
                     </p>
-                    <p>
-                    Enables en disables.
-                    </p>
                 </div>
             </div>
             <div>
