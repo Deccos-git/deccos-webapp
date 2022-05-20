@@ -144,7 +144,7 @@ const Impactclub = () => {
                     <p>1 van de 12</p>
                     <NavLink to={`/${client}/Introduction`} >
                         <div className='step-container'>
-                            <p>Welkom bij de Deccos Impact Guide</p>
+                            <p>Deccos Impact Guide</p>
                             <img src={arrowRight} alt="" />
                         </div>
                     </NavLink>

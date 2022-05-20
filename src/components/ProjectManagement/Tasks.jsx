@@ -22,7 +22,6 @@ const Tasks = () => {
     const [priorityFilter, setPriorityFilter] = useState('')
     const [completedFilter, setCompletedFilter] = useState('')
     const [appointedFilter, setAppointedFilter] = useState('')
-
     const [tasksOverview, setTasksOverview] = useState([])
 
     const menuState = MenuStatus()

@@ -87,7 +87,7 @@ const Questionnaires = () => {
                     <NavLink to={`/${client}/MeasureOutput`} >
                         <div className='step-container'>
                             <img src={arrowLeft} alt="" />
-                            <p>Output doelen stellen</p>
+                            <p>Mijlpalen stellen</p>
                         </div>
                     </NavLink>  
                     <p>1 van de 12</p>

@@ -1,6 +1,5 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreUsers, useFirestore } from "../firebase/useFirestore";
 import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
@@ -88,9 +87,9 @@ const UserRoles = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile profile-auth-profile" style={{display: menuState}}>
-                <div className="settings-inner-container">
-                    <div className="divider card-header">
+            <div className="main-container" style={{display: menuState}}>
+                <div className="profile-inner-container">
+                    <div className=" divider card-header">
                         <h1>Gebruikersrollen</h1>
                         <p>Pas de gebruikersrollen aan</p>
                     </div>
@@ -124,7 +123,6 @@ const UserRoles = () => {
                     </div>
                 </div>
             </div>
-            <RightSideBar />
         </div>
     )
 }

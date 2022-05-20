@@ -94,12 +94,12 @@ const Projectmanagement = () => {
                         <p>
                         Wanneer een deadline wordt toegevoegd aan de taken komen deze n de agenda te staan.
                         </p>
-                        <div className='activity-meta-title-container'>
+                        {/* <div className='activity-meta-title-container'>
                             <img src={timelineIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Planning`}>Planning</NavLink>
                         </div>
                         <p>De onderzoeken worden automatisch in de planning te staan zodat je overzicht houdt 
-                            over het tijdspad van de onderzoeken</p>
+                            over het tijdspad van de onderzoeken</p> */}
                         <div className='activity-meta-title-container'>
                             <img src={growIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Mijlpalen</NavLink>
@@ -133,10 +133,10 @@ const Projectmanagement = () => {
                             <img src={calendarIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Agenda`}>Bekijk agenda</NavLink>
                         </div>
-                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                        {/* <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
                             <img src={timelineIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Planning`}>Bekijk planning</NavLink>
-                        </div>
+                        </div> */}
                         <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
                             <img src={growIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Bekijk mijlpalen</NavLink>

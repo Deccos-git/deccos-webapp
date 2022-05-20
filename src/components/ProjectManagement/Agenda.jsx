@@ -2,10 +2,15 @@ import Calendar from "../Calender"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
+import { useFirestoreTimestamp } from "../../firebase/useFirestore"
 
 const Agenda = () => {
 
     const menuState = MenuStatus() 
+
+    const tasks = useFirestoreTimestamp('Tasks', 'desc')
+
+    console.log(tasks)
     
   return (
     <div className="main">
@@ -15,7 +20,7 @@ const Agenda = () => {
             <div className="page-header">
                 <h1>Agenda</h1>
             </div>
-            <Calendar/>
+            <Calendar events={tasks}/>
         </div>
     </div>
   )

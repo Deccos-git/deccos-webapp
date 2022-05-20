@@ -21,6 +21,8 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 import researchIcon from '../../images/icons/research-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import { db, timestamp } from "../../firebase/config.js"
+import completeIcon from '../../images/icons/complete-icon.png'
+import resultsIcon from '../../images/icons/results-icon.png'
 
 const Research = () => {
     const [color, setColor] = useState('')
@@ -29,7 +31,13 @@ const Research = () => {
     const [activityID, setActivityID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
+    const [momentModalOpen, setMomentModalOpen] = useState(false);
     const [title, setTitle] = useState('')
+    const [momentTitle, setMomentTitle] = useState('')
+    const [momentDeadline, setMomentDeadline] = useState('')
+    const [researchTitle, setResearchTitle] = useState('')
+    const [researchID, setResearchID] = useState('')
+    const [questionnaireID, setQuestionnaireID] = useState('')
 
     const menuState = MenuStatus() 
     const history = useHistory()
@@ -49,6 +57,7 @@ const Research = () => {
     const outputs = useFirestore('Outputs')
     const colors = useFirestore('Colors')
     const researches = useFirestore('Research')
+    const questionnaires = useFirestore('Questionnaires')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -113,10 +122,23 @@ const Research = () => {
         setModalOpen(false);
       }
 
-    const addMoment = (e) => {
+      const closeMomentModal = () => {
 
-        const researchID = e.target.dataset.researchid
-        const researchTitle = e.target.dataset.researchtitle
+        setMomentModalOpen(false);
+      }
+
+    const openMomentModal = (e) => {
+
+        const researchTitle = e.target.dataset.researchtitle 
+        const researchid = e.target.dataset.researchid 
+
+        setResearchID(researchid)
+        setResearchTitle(researchTitle)
+
+       setMomentModalOpen(true)
+    }
+
+    const addMoment = (e) => {
 
         db.collection('MeasureMoments')
         .doc()
@@ -125,13 +147,40 @@ const Research = () => {
             OutputTitle: outputTitle,
             ResearchID: researchID,
             ResearchTitle: researchTitle,
-            Moment: '',
-            Title: 'Titel',
+            Moment: momentDeadline,
+            Title: momentTitle,
             ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
             ActivityID: activityID,
             Activity: activityTitle,
+            QuestionnaireID: questionnaireID
+        })
+        .then(() => {
+            db.collection('Tasks')
+            .doc()
+            .set({
+                ID: uuid(),
+                Compagny: client,
+                Timestamp: timestamp,
+                Title: momentTitle,
+                AppointedID: '',
+                AppointedName: '',
+                AppointedPhoto: '',
+                AppointedEmail: '',
+                Completed: false,
+                Icon: completeIcon,
+                Type: 'Task',
+                Deadline: momentDeadline,
+                Priority: '',
+                OutputID: outputID,
+                OutputTitle: outputTitle,
+                ActivityID: activityID,
+                ActivityTitle: activityTitle
+            })
+        })
+        .then(() => {
+            closeMomentModal()
         })
     }
 
@@ -144,24 +193,42 @@ const Research = () => {
                 {moments && moments.map(moment => (
                     <div className='measure-moments-inner-container'>
                         <div>
-                            <p>Titel</p>
-                            <input type="text" defaultValue={moment.Title} data-docid={moment.docid} onChange={momentTitleHandler} />
+                            <p><b>Titel</b></p>
+                            <input type="text" defaultValue={moment.Title} data-docid={moment.docid} onChange={changeMomentTitleHandler} />
                         </div>
                         <div>
-                            <p>Meetmoment</p>
-                            <input type="date" defaultValue={moment.Moment} data-docid={moment.docid} onChange={momentDateHandler} />
+                            <p><b>Meetmoment</b></p>
+                            <input type="date" defaultValue={moment.Moment} data-docid={moment.docid} onChange={changeMomentDateHandler} />
                         </div>
                         <div>
-                            <p>Actie</p>
-                            <img className='table-delete-icon' data-docid={moment.docid} onClick={deleteMoment} src={deleteIcon} alt="" />
+                            <p><b>Vragenlijst</b></p>
+                            <select name="" id="" data-docid={moment.docid} defaultValue={moment.QuestionnaireID} onChange={changeQuestioinnaireHandler}>
+                                <option value="">-- Selecteer een vragenlijst --</option>
+                                {questionnaires && questionnaires.map(questionnaire => (
+                                    <option value={questionnaire.ID}>{questionnaire.Title}</option>
+                                ))}
+                            </select>
                         </div>
+                        <p className='delete-text' onClick={deleteMoment}>Verwijder</p>
                     </div>
                 ))}
             </div>
         )
     }
 
-    const momentTitleHandler = (e) => {
+    const changeQuestioinnaireHandler = (e) => {
+
+        const questionnaireID = e.target.options[e.target.selectedIndex].value
+        const docid = e.target.dataset.docid
+
+        db.collection('MeasureMoments')
+        .doc(docid)
+        .update({
+            QuestionnaireID: questionnaireID
+        })
+    }
+
+    const changeMomentTitleHandler = (e) => {
         const title = e.target.value
         const docid = e.target.dataset.docid
 
@@ -173,7 +240,7 @@ const Research = () => {
 
     }
 
-    const momentDateHandler = (e) => {
+    const changeMomentDateHandler = (e) => {
         const date = e.target.value
         const docid = e.target.dataset.docid
 
@@ -192,6 +259,29 @@ const Research = () => {
         .doc(docid)
         .delete()
 
+    }
+
+    const momentTitleHandler = (e) => {
+
+        const title = e.target.value 
+
+        setMomentTitle(title)
+
+    }
+
+    const momentDeadlineHandler = (e) => {
+
+        const deadline = e.target.value 
+
+        setMomentDeadline(deadline)
+
+    }
+
+    const questioinnaireHandler = (e) => {
+
+        const questionnaireID = e.target.options[e.target.selectedIndex].value
+
+        setQuestionnaireID(questionnaireID)
     }
 
     
@@ -259,7 +349,7 @@ const Research = () => {
                                             <input type="text" defaultValue={research.Title} />
                                         </td>
                                         <td>
-                                            <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={addMoment} alt="" />
+                                            <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={openMomentModal} alt="" />
                                             <MeasureMoments research={research}/>
                                         </td>
                                         <td>
@@ -316,6 +406,34 @@ const Research = () => {
             <input type="text" onChange={titleHandler} />
             <div className='button-container-margin-top'>
                 <button onClick={addResearch}>Opslaan</button>
+            </div>
+        </Modal>
+        <Modal
+            isOpen={momentModalOpen}
+            onRequestClose={closeMomentModal}
+            style={modalStyles}
+            contentLabel="Upload banner"
+            >
+            <img src={resultsIcon} alt="" />
+            <div>
+                <p>Geef het meetmoment een titel</p>
+                <input type="text" placeholder='Schrijf hier de titel van het meetmoment' onChange={momentTitleHandler} />
+            </div>
+            <div>
+                <p>Geef het meetmoment een deadline</p>
+                <input type="date" onChange={momentDeadlineHandler} />
+            </div>
+            <div>
+                <p>Selecteer een vragenlijst</p>
+                <select name="" id="" onChange={questioinnaireHandler}>
+                    <option value="">-- Selecteer een vragenlijst --</option>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                        <option value={questionnaire.ID}>{questionnaire.Title}</option>
+                    ))}
+                </select>
+            </div>
+            <div className='button-container-margin-top'>
+                <button onClick={addMoment}>Opslaan</button>
             </div>
         </Modal>
     </div>

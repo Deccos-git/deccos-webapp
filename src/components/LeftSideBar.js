@@ -61,12 +61,12 @@ const LeftSideBar = () => {
                             <NavLink activeClassName='active' to={`/${client}/Agenda`}>Agenda</NavLink>
                         </div>
                     </div>
-                    <div className="channel-inner-div">
+                    {/* <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={timelineIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/Planning`}>Planning</NavLink>
                         </div>
-                    </div>
+                    </div> */}
                      <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={growIcon} alt="" />

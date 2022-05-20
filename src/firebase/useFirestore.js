@@ -304,30 +304,6 @@ const useFirestoreChatsGroups = (collection, auth ) => {
     return docs
 };
 
-const useFirestoreGroupsAuth = ( auth ) => {
-
-    const [docs, setDocs] = useState("")
-
-    useEffect(() => {
-        const unsub = db.collection('Subscriptions')
-        .where("Compagny", "==", client)
-        .where('Type', '==', 'Group')
-        .where("UserID", "==", auth)
-        .onSnapshot(querySnapshot => {
-            let docArray = []
-            querySnapshot.forEach(doc => {
-                docArray.push({...doc.data(), docid: doc.id})
-            })
-            setDocs(docArray)
-        })
-        
-        return () => unsub();
-
-    }, [auth])  
-
-    return docs
-};
-
 
 const useFirestoreNotifications = (collection, id  ) => {
 
@@ -891,12 +867,12 @@ const useFirestoreMyLikes = (type, id) => {
     return docs
 };
 
-const useFirestoreQuestionnaires = (coll) => {
+const useFirestoreQuestionnaires = () => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
-        const unsub = db.collection(coll)
+        const unsub = db.collection('Questionnaires')
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -907,7 +883,7 @@ const useFirestoreQuestionnaires = (coll) => {
         
         return () => unsub();
 
-    }, [coll])  
+    }, [])  
 
     return docs
 };
@@ -1438,6 +1414,29 @@ const useFirestoreSROISets = (id) => {
     return docs
 };
 
+const useFirestoreResearch = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Research")
+        .where('Compagny', '==', client)
+        .where('OutputID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMeasureMoments = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1474,7 +1473,6 @@ export {
     useFirestoreMessages,
     useFirestoreChats,
     useFirestoreChatsGroups,
-    useFirestoreGroupsAuth,
     useFirestoreGroupsActivity,
     useFirestoreNotifications,
     useFirestoreChannelItems,
@@ -1527,5 +1525,6 @@ export {
     useFirestoreConditions,
     useFirestoreOutputEffects,
     useFirestoreSROISets,
-    useFirestoreMeasureMoments
+    useFirestoreMeasureMoments,
+    useFirestoreResearch
 }

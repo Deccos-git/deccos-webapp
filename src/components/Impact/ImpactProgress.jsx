@@ -8,20 +8,16 @@ import {
     useFirestoreActivities, 
     useFirestoreTasksGoals, 
     useFirestoreTasksCompleteGoals, 
-    useFirestoreTasks, 
-    useFirestoreTasksComplete, 
-    useFirestoreTasksActivities, 
-    useFirestoreTasksCompleteActivities, 
     useFirestoreOutputs,
-    useFirestoreImpactInstruments,
-    useFirestoreUsersApproved,
     useFirestoreMilestones,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
     useFirestoreResults,
     useFirestoreSROIs,
     useFirestoreSDGsSelected,
-    useFirestoreOutputEffects
+    useFirestoreOutputEffects,
+    useFirestoreResearch,
+    useFirestoreMeasureMoments
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -53,6 +49,7 @@ import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
 import sroiIcon from '../../images/icons/sroi-icon.png'
+import researchIcon from '../../images/icons/research-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -199,19 +196,8 @@ const ImpactProgress = () => {
                                 <h3>Impact</h3>
                             </div>
                             <p>{activity.Impact}</p>
-                        </div>
-                        <div className='goal-meta-title-container'>
-                                <img src={progressIcon} alt="" />
-                                <h3>Voortgang</h3>
-                            </div>
-                            <ProgressionBarActivity activity={activity}/>
-                        <div>
                             <Outputs activity={activity}/>
                         </div>
-                        {/* <div className='progressionbar-outer-bar'>
-                            <ProgressionBarActivity activity={activity}/>
-                            <div className='progressionbar-completed' style={{width: `${activity.Progress}%`}}></div>
-                        </div> */}
                     </div>
                 ))}
                 </div>
@@ -234,20 +220,14 @@ const ImpactProgress = () => {
                         <div className='dashboard-instruments-container'>
                             <div className='activity-meta-title-container'>
                                 <img src={effectIcon} alt="" />
-                                <h4>Effect</h4>
+                                <h3>Effect</h3>
                             </div>
                             <Effects output={output}/>
                         </div>
                         <div className='dashboard-instruments-container'>
-                            <div className='activity-meta-title-container'>
-                                <img src={sroiIcon} alt="" />
-                                <h4>SROI</h4>
-                            </div>
-                            <p className='output-seeting-effect'><SROI output={output}/></p>
+                            <ManualResults output={output}/>
                         </div>
-                        <div className='dashboard-instruments-container'>
-                            <Instruments output={output}/>
-                        </div>
+                        <Research output={output}/>
                         <Milestones output={output}/>
                     </div>
                 ))}
@@ -269,20 +249,45 @@ const ImpactProgress = () => {
         )
     }
 
-    const SROI = ({output}) => {
+    const Research = ({output}) => {
 
-        const SROIs = useFirestoreSROIs(output.ID)
+        const researches = useFirestoreResearch(output.ID) 
 
         return(
-            <>
-                {SROIs && SROIs.map(SROI => (
-                    <div>
-                        <p><b>{SROI.Title}</b></p>
-                        <p>€{SROI.Value} per {SROI.Output.toLowerCase()}</p>
+            <div className='dashboard-instruments-container'>
+                 <div className='activity-meta-title-container'>
+                    <img src={researchIcon} alt="" />
+                    <h3>Onderzoeken</h3>
+                </div>
+                {researches && researches.map(research => (
+                    <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
+                        <h4>{research.Title}</h4>
+                        <div className='activity-meta-title-container'>
+                            <img src={resultsIcon} alt="" />
+                            <h5>Meetmomenten</h5>
+                        </div>
+                        <MeasureMoments research={research}/>
                     </div>
                 ))}
-            </>  
+            </div>
         )
+    }
+
+    const MeasureMoments = ({research}) => {
+
+        const moments = useFirestoreMeasureMoments(research.ID)
+
+        return(
+            <div>
+                {moments && moments.map(moment => (
+                    <div>
+                        <p><b>{moment.Title}</b> op {moment.Moment}</p>
+                    </div>
+                    
+                ))}
+            </div>
+        )
+
     }
 
     const Milestones = ({output}) => {
@@ -293,11 +298,11 @@ const ImpactProgress = () => {
             <div className='dashboard-instruments-container'>
                 <div className='activity-meta-title-container'>
                     <img src={growIcon} alt="" />
-                    <h4>Mijlpalen</h4>
+                    <h3>Mijlpalen</h3>
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
-                        <h5>{milestone.Title}</h5>
+                        <h4>{milestone.Title}</h4>
                         <MilestoneProgress milestone={milestone}/>
                     </div>
                 ))}
@@ -305,40 +310,12 @@ const ImpactProgress = () => {
         )
     }
 
-    const Instruments = ({output}) => {
-        const instruments = useFirestoreImpactInstruments(output.ID) 
+    const ManualResults =({output}) => {
 
-        const SROI = output.SROI
+        const SROIs = useFirestoreSROIs(output.ID)
 
-        const datatype = (instrument) => {
-
-            if(instrument.Type === 'Manual'){
-                return "Handmatig"
-            } else if(instrument.Type === 'Questionnairy'){
-                return 'Vragenlijst'
-            }
-        }
-        
-        return(
-            <div className='output-instrument-inner-container'>
-                <div className='activity-meta-title-container'>
-                    <img src={measureIcon} alt="" />
-                    <h4>Meetinstrumenten</h4>
-                </div>
-                <div className='output-seeting-effect'>
-                    {instruments && instruments.map(instrument => (
-                        <div className='dashboard-internal-results-container' style={{backgroundColor: color}}>
-                            <p data-id={instrument.ID}>{instrument.Title}</p>
-                            <div className='activity-meta-title-container'>
-                                <img src={typeIcon} alt="" />
-                                <h5>Type</h5>
-                            </div>
-                            <p className='output-seeting-effect'>{datatype(instrument)}</p>
-                            <Results instrument={instrument} SROI={SROI}/>
-                        </div>
-                    ))}
-                </div>
-            </div>
+        return (
+            <Results output={output} SROIs={SROIs}/>
         )
     }
 
@@ -386,79 +363,36 @@ const ImpactProgress = () => {
         )
    }
 
-    const ProgressionBarActivity = ({activity}) => {
 
-        const tasks = useFirestoreTasksActivities(activity.ID)
-        const tasksCompleted = useFirestoreTasksCompleteActivities(activity.ID)
+    const Results = ({output, SROIs}) => {
+        const [totalSROI, setTotalSROI] = useState(0)
 
-        const completedArray = []
-        const totalArray = []
+        const dataset = useFirestoreResults(output.ID)
 
-        tasks && tasks.forEach(task => {
-            totalArray.push(task)
+        useEffect(() => {
+            SROIs && SROIs.forEach(sroi => {
+                setTotalSROI(sroi.Amount)
+            })
         })
-
-        tasksCompleted && tasksCompleted.forEach(task => {
-            completedArray.push(task)
-        })
-
-        const task = () => {
-            if(completedArray.length != 1){
-                return 'taken'
-            } else {
-                return 'taak'
-            }
-        }
 
         return(
-            <div>
-                <p className='output-seeting-effect'>{completedArray.length} {task()} afgerond van de {totalArray.length} taken</p>
+            <>
+            <div className='internal-results-container'>
+                <div className='activity-meta-title-container'>
+                    <img src={resultsIcon} alt="" />
+                    <h3>Output resultaten</h3>
+                </div>
+                <ManualResultsGraph output={output}/>
             </div>
+            <div className='internal-results-container'>
+                <div className='activity-meta-title-container'>
+                    <img src={sroiIcon} alt="" />
+                    <h3>SROI</h3>
+                </div>
+                <p className='output-seeting-effect'>{dataset.length} x €{totalSROI} = €{dataset.length*totalSROI}</p>
+            </div>
+            </>
         )
-    }
-
-    const Results = ({instrument, SROI}) => {
-
-        const dataset = useFirestoreResults(instrument.ID)
-        const totalSROI = dataset.length*SROI
-
-      if(instrument.Type === 'Manual'){
-
-            return(
-                <>
-                <div className='internal-results-container'>
-                    <div className='activity-meta-title-container'>
-                        <img src={resultsIcon} alt="" />
-                        <h5>Resultaat</h5>
-                    </div>
-                    <ManualResultsGraph instrument={instrument}/>
-                </div>
-                <div className='internal-results-container'>
-                    <div className='activity-meta-title-container'>
-                        <img src={resultsIcon} alt="" />
-                        <h5>Totale SROI</h5>
-                    </div>
-                    <p className='output-seeting-effect'>{dataset.length} x €{SROI} = €{totalSROI}</p>
-                </div>
-                </>
-            )
-        } else if(instrument.Type === 'Questionnairy'){
-
-            return(
-                <div className='internal-results-container'>
-                    <div className='activity-meta-title-container'>
-                        <img src={resultsIcon} alt="" />
-                        <h5>Resultaat</h5>
-                    </div>
-                    <QuestionnaireResults instrument={instrument}/>
-                </div>
-            )
-        }
-         else {
-            return(
-                <></>
-            )
-        }
     }
 
     const QuestionnaireResults = ({instrument}) => {

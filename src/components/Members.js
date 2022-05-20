@@ -1,6 +1,5 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
-import RightSideBar from "./rightSideBar/RightSideBar"
 import { useFirestoreUsersApproved, useFirestore } from "./../firebase/useFirestore";
 import { useHistory } from "react-router-dom";
 import { client } from '../hooks/Client';
@@ -71,20 +70,21 @@ const Members = () => {
             <div className="main">
                 <LeftSideBarAuthProfile />
                 <LeftSideBarAuthProfileFullScreen/>
-                <div className="profile profile-auth-profile" style={{display: menuState}}>
-                    <div className="card-header">
-                        <h1>Leden</h1>
-                        <p>Beheer de leden ({memberCount}) van {communityName}</p>
+                <div className="main-container" style={{display: menuState}}>
+                    <div className="profile-inner-container">
+                        <div className="card-header">
+                            <h1>Leden</h1>
+                            <p>Beheer de leden ({memberCount}) van {communityName}</p>
+                        </div>
+                        {docs && docs.map(doc => (
+                        <div id="members-container" key={doc.ID}>
+                            <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
+                            <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
+                            <img src={deleteIcon} alt="" style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser} />
+                        </div>
+                        ))}
                     </div>
-                    {docs && docs.map(doc => (
-                    <div id="members-container" key={doc.ID}>
-                        <img src={doc.Photo} alt="" id={doc.ID} onClick={updateRoute} />
-                        <h3 id={doc.ID} onClick={updateRoute}>{doc.UserName}</h3>
-                        <img src={deleteIcon} alt="" style={{display: showDeleteButton}} className="userrole-users-delete-button" data-id={doc.docid} onClick={deleteUser} />
-                    </div>
-                      ))}
                 </div>
-                <RightSideBar />
             </div>
     )
 }

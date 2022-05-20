@@ -87,6 +87,7 @@ li{
 .main{
   display: inline-grid;
   grid-template-columns: auto auto;
+  min-height: 100vh;
 }
 
 button{
@@ -349,6 +350,10 @@ table tr:nth-child(even){background-color: #f2f2f2;}
 table tr:hover {background-color: #ddd;}
 
 @media only screen and (max-width: 1024px){
+
+  .main-container {
+    width: 100vw;
+  }
 
   textarea{
     font-size: 16px;

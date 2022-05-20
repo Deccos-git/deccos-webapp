@@ -1,4 +1,3 @@
-import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { db, bucket } from "../firebase/config.js"
@@ -147,15 +146,15 @@ const Settings = () => {
         <div className="main" style={{backgroundColor:backgroundColor}}>
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-            <div className="profile profile-auth-profile" style={{display: menuState}}>
+            <div className="main-container" style={{display: menuState}}>
                 {compagny && compagny.map(comp => (
-                <div className="settings-inner-container" key={comp.ID}>
-                    <div className="card-header">
+                <div className="profile-inner-container" key={comp.ID}>
+                    <div className="divider card-header">
                         <h1>Algemeen</h1>
                         <p>Verander de algemene instellingen van {comp.CommunityName}</p>
                     </div>
                     <div className="divider">
-                        <h2>Community naam aanpassen</h2>
+                        <h2>Bedrijfsnaam aanpassen</h2>
                         <input className="input-classic" type="text" defaultValue={comp.CommunityName} onChange={communityNameHandler} />
                         <div className="button-container button-container-top">
                             <button className="button-simple" data-id={comp.docid} onClick={saveName}>Opslaan</button>
@@ -184,7 +183,7 @@ const Settings = () => {
                                 </div>
                             </div>
                             <div className='color-container'>
-                                <h5>Topbar icons</h5>
+                                <h5>Topbar iconen</h5>
                                 <input className="input-color" type="color" defaultValue={topbarIconsColor} onChange={topbarIconsColorHandler} />
                                 <div className="button-container-colors">
                                     <button className="button-simple" onClick={saveTopbarIconsColor}>Opslaan</button>
@@ -195,7 +194,6 @@ const Settings = () => {
                 </div>
                 ))}
             </div>
-            <RightSideBar />
         </div>
     )
 }

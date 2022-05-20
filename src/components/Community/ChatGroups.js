@@ -15,9 +15,11 @@ const ChatGroups = () => {
     const [groupSummary, setGroupSummary] = useState("")
     const route = Location()[3]
 
-    const groups = useFirestoreGroupsAuth(route)
+    const groups = useFirestoreChatsGroups("Groups", route)
     const history = useHistory()
     const chats = useFirestoreChatsGroups("Chats", route)
+
+    console.log(groups)
 
     const menuState = MenuStatus()
 
@@ -264,15 +266,15 @@ const ChatGroups = () => {
         for(const group of groups){
             const groupsArray = []
     
-            const newMessages = await newGroupMessages(group.SubID)
-            const totalMessages = await totalGroupMessages(group.SubID)
+            const newMessages = await newGroupMessages(group.ID)
+            const totalMessages = await totalGroupMessages(group.ID)
 
 
             const groupObject = {
-                room: group.SubName,
+                room: group.Room,
                 messages: totalMessages,
                 newMessages: newMessages,
-                ID: group.SubID
+                ID: group.ID
             }
 
             groupsArray.push(
@@ -296,7 +298,7 @@ const ChatGroups = () => {
         return (
             groupSummary && groupSummary.groups.map(group => (
                 group.map(gr => (
-                    <div className="chats-overview-container divider" key={gr.ID}>
+                    <div className="chats-overview-container" key={gr.ID}>
                     <div className="chatpartner-meta-container" data-id={gr.ID} name={gr.ID}>
                         <div className="chatpartner-container">
                             <img src={groupIcon} alt="" data-id={gr.ID} onClick={updateRouteGroup} />
@@ -335,7 +337,7 @@ const ChatGroups = () => {
                 })
             })
             .then(() => {
-                history.push(`/${client}/Group/${id}`)
+                history.push(`/${client}/ImpactGroup/${id}`)
             })   
     }
 
@@ -350,12 +352,12 @@ const ChatGroups = () => {
                         <h1>Chats en groepen</h1>
                     </div>
                     <div className="article" >
-                        <h2>Chats</h2>
-                            <div className="chats-overview-container">
-                                <ChatsAuth/>
-                            </div>
                         <h2>Groepen</h2>
                             <GroupsAuth/>
+                        <h2>Chats</h2>
+                        <div className="chats-overview-container">
+                            <ChatsAuth/>
+                        </div>
                     </div>
                 </div>
             </div>

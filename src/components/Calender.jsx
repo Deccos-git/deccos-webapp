@@ -96,7 +96,7 @@ const Calendar = ({events}) => {
 
         const event = (day, vnt) => {
 
-                if(day.format('YYYY-MM-DD') === vnt.Date){
+                if(day.format('YYYY-MM-DD') === vnt.Deadline){
                     return(
                     <div key={vnt.ID}>
                         <p className='calendar-event-container' data-id={vnt.ID} data-type={vnt.Type} onClick={eventLink}>{vnt.Title}</p>

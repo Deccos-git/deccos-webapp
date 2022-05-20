@@ -1,4 +1,3 @@
-import RightSideBar from "./rightSideBar/RightSideBar"
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { db, bucket, auth } from "../firebase/config.js"
@@ -141,7 +140,7 @@ const Profile = () => {
         <div className="main">
             <LeftSideBarAuthProfile />
             <LeftSideBarAuthProfileFullScreen/>
-                <div className="profile profile-auth-profile" style={{display: menuState}}>
+                <div className="main-container" style={{display: menuState}}>
                     <div className="profile-inner-container">
                         <div className="card-header">
                             <h1>Account instellingen</h1>
@@ -191,7 +190,6 @@ const Profile = () => {
                         </div >
                     </div>
                 </div>
-            <RightSideBar />
         </div>
     )
 }

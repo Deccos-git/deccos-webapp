@@ -9,13 +9,13 @@ import {
 import { useState, useEffect } from 'react'
 import { useFirestoreResults} from '../../firebase/useFirestore'
 
-const ManualResultsGraph = ({instrument}) => {
+const ManualResultsGraph = ({output}) => {
 
     const [data, setData] = useState('')
 
     const options = { month: 'numeric', day: 'numeric', year: 'numeric'};
 
-    const dataset = useFirestoreResults(instrument.ID)
+    const dataset = useFirestoreResults(output.ID)
 
     useEffect(() => {
 

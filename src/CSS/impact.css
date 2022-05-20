@@ -403,6 +403,12 @@
     width: 100%;
 }
 
+.delete-text{
+    font-size: 12px;
+    color: red;
+    cursor: pointer;
+}
+
 .add-item-button{
     width: 25px;
     height: 25px;
@@ -414,6 +420,7 @@
     padding: 10px;
     border-radius: 5px;
     margin: 5px;
+    background-color: white;
 }
 
 .wizard-projectmanagement-link-container{
