@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import { useContext, useState, useEffect } from 'react';
 import Colors from "../hooks/Colors";
 import ButtonClicked from "../hooks/ButtonClicked";
+import deccosLogo from '../images/deccos-logo.png'
 
 const MultipleAccounts = () => {
     const [name, setName] = useState('')
@@ -14,11 +15,11 @@ const MultipleAccounts = () => {
     const [userID, setUserID] = useState('')
     const [logo, setLogo] = useState('')
     const [website, setWebsite] = useState('')
-    const [communityName, setCommunityName] = useState('')
+    const [compagny, setCompagny] = useState('')
 
-    const compagnies = useFirestore("CompagnyMeta")
     
     const colors = Colors()
+    const history = useHistory();
 
     auth.onAuthStateChanged(User => {
         if(User){
@@ -30,10 +31,12 @@ const MultipleAccounts = () => {
             querySnapshot.forEach(doc => {
                 const name = doc.data().UserName
                 const ID = doc.data().ID
+                const compagny = doc.data().Compagny
 
                 setName(name)
                 setUserDocID(doc.id)
                 setUserID(ID)
+                setCompagny(compagny)
             })
             })
         } else if (User === null) {
@@ -41,41 +44,29 @@ const MultipleAccounts = () => {
         }
         })
 
-    useEffect(() => {
+        console.log(compagny)
 
-        compagnies && compagnies.forEach(doc => {
-            setLogo(doc.Logo)
-            setWebsite(doc.Website)
-            setCommunityName(doc.CommunityName)
-        })
+    const selectCompagny = () => {
 
-    },[compagnies])
+        
 
-    const registerUser = (e) => {
+        if(compagny.length === 0){
+            history.push(`/${compagny[0]}/ImpactProgress`)
+        } else {
 
-        ButtonClicked(e, 'Aangemeld')
+        }
 
-        db.collection("Users")
-        .doc(userDocID)
-        .update({
-            Compagny: firebase.firestore.FieldValue.arrayUnion(client)
-        })
-        .then(() => {
-            window.location.reload()
-        })
-      }
+    }
 
     return (
         <div>
             <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
-                <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
+                <a href={`${website}`}><img src={deccosLogo} className="top-bar-logo" alt="logo" /></a>
             </header>
-            <div className="main" style={{backgroundColor: colors.BackgroundColor}}>
+            <div style={{backgroundColor: colors.BackgroundColor}}>
                 <div className="approval-message-container">
                     <h2>Hoi {name}</h2>
-                    <h1>Welkom bij {communityName}</h1>
-                    <h2>Wil je lid worden van onze online omgeving?</h2>
-                    <button onClick={registerUser}>Aanmelden</button>
+                    {selectCompagny()}
                 </div>
             </div>
         </div>

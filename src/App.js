@@ -57,8 +57,10 @@ function App() {
     })
   }, [])
 
+  console.log(online, client)
+
     const AuthRedirect = () => {
-      if(online === false && client != 'NewClient'){
+      if(online === false && client != 'NewClient' && client != '' ){
         return <LoginRegister/>
       } else if (online === true && approved === true && compagny.includes(client) && client != '') {
         
@@ -78,7 +80,7 @@ function App() {
         )
       } else if (online === true && approved === false && compagny.includes(client) && client != ''){
         return <NotApproved/>
-      } else if (online === true && !compagny.includes(client) && client != ''){
+      } else if (online === true && client === ''){
         return (
         <AuthProvider>
           <MultipleAccounts authO={authO}/>
@@ -91,8 +93,8 @@ function App() {
             <Footer/>
           </>
         )
-      } else {
-        return null
+      } else if(online === false && client != 'NewClient' && client === '' ){
+        return <LoginRegister/>
       }
     }
 

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useFirestore } from "../firebase/useFirestore"
 import NewUserIcon from '../images/icons/new-user-icon.png'
 import DoorIcon2 from '../images/icons/door-icon-2.png'
+import deccosLogo from '../images/deccos-logo.png'
 import Colors from "../hooks/Colors";
 
 const LoginRegister = () => {
@@ -40,26 +41,24 @@ const LoginRegister = () => {
     return (
         <div>
         <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
-            <a href={`${website}`}><img src={logo} className="top-bar-logo" alt="logo" /></a>
+            <a href={`${website}`}><img src={deccosLogo} className="top-bar-logo" alt="logo" /></a>
         </header>
         <div className="main-login-register" style={{backgroundColor: colors.BackgroundColor}}>
-             <div className="left-side-bar-login-register">
-                <div className="channel-div-login-register">
-                    <div className="channel-inner-div-login-register">
-                        <div className='login-register-container' onClick={loginHandler}>
-                            <img src={DoorIcon2} alt=""/>
-                            <p>Login</p>
-                        </div>
-                        <div className='login-register-container' onClick={registerHandler}>
-                            <img src={NewUserIcon} alt=""/>
-                            <p>Account maken</p>
-                        </div>
+            <div className="channel-div-login-register">
+                <div className="channel-inner-div-login-register">
+                    <div className='login-register-container' onClick={loginHandler}>
+                        <img src={DoorIcon2} alt=""/>
+                        <p>Login</p>
+                    </div>
+                    <div className='login-register-container' onClick={registerHandler}>
+                        <img src={NewUserIcon} alt=""/>
+                        <p>Account maken</p>
                     </div>
                 </div>
             </div>
             <FormToggle />
         </div>
-        </div>
+    </div>
     )
 }
 

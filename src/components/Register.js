@@ -262,9 +262,9 @@ const RegisterUser = () => {
     }
 
     return (
-        <div className="main">
+        <div>
             <div className="login-container">
-                <h2>Account maken</h2>
+                <h1>Account maken</h1>
                 <form>
                     <p>Voornaam*</p>
                     <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />
