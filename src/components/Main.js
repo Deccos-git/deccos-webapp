@@ -85,12 +85,16 @@ import Agenda from './ProjectManagement/Agenda';
 import ImpactGroup from './Wizard/ImpactGroup';
 import Planning from './Wizard/Planning';
 import ResearchSettings from './Wizard/ResearchSettings';
+import NewClient from './NewClient';
 
 const Main = () => {
 
     return (
         <>
             <Switch>
+                <Route path={`/NewClient`}>
+                    <NewClient/>
+                </Route>
                 <Route path={`/${client}/Login`}>
                     <Login/>
                 </Route>
@@ -102,9 +106,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/NotApproved`}>
                     <NotApproved/>
-                </Route>
-                <Route exact path={`/${client}/`}>
-                    <ImpactProgress/>
                 </Route>
                 <Route path={`/${client}/AllActivity`}>
                     <AllActivity/>

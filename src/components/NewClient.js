@@ -1,6 +1,3 @@
-import RightSideBar from "./rightSideBar/RightSideBar"
-import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
-import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { useState } from 'react';
 import { auth, db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
@@ -8,36 +5,29 @@ import { bucket } from '../firebase/config';
 import firebase from 'firebase'
 import spinnerRipple from '../images/spinner-ripple.svg'
 import { useHistory } from "react-router-dom";
-import MenuStatus from "../hooks/MenuStatus";
-import { client } from "../hooks/Client";
+import ButtonClicked from "../hooks/ButtonClicked";
+import dummyPhoto from '../images/Design/dummy-photo.jpeg'
+import dummyLogo from '../images/dummy-logo.png'
+import deccosLogo from '../images/deccos-logo.png'
 
 const NewClient = () => {
-    const [compagnyName, setCompagnyName] = useState("")
     const [communityName, setCommunityName] = useState("")
-    const [website, setWebsite] = useState("")
-    const [logo, setLogo] = useState("")
+    const [logo, setLogo] = useState(dummyLogo)
     const [loader, setLoader] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [passwordRepeat, setPasswordRepeat] = useState("")
+    const [forname, setForname] = useState("")
+    const [surname, setSurname] = useState("")
+    const [photo, setPhoto] = useState(dummyPhoto)
 
     const history = useHistory();
     const id = uuid()
-    const menuState = MenuStatus()
 
-    const compagnyNameHandler = (e) => {
-
-        const name = e.target.value 
-        setCompagnyName(name)
-
-    }
 
     const communityNameHandler = (e) => {
         const name = e.target.value 
         setCommunityName(name)
-
-    }
-
-    const websiteHandler = (e) => {
-        const website = e.target.value 
-        setWebsite(website)
 
     }
 
@@ -77,90 +67,53 @@ const NewClient = () => {
         })
     }
 
+    const fornameHandler = (e) => {
+        const forname = e.target.value
+
+        setForname(forname)
+    }
+
+    const surnameHandler = (e) => {
+        const surname = e.target.value
+
+        setSurname(surname)
+    }
+
+    const emailHandler = (e) => {
+        const email = e.target.value
+
+        setEmail(email)
+    }
+
+    const passwordHandler = (e) => {
+        const password = e.target.value
+
+        setPassword(password)
+    }
+
+    const passwordRepeatHandler = (e) => {
+        const passwordRepeat = e.target.value
+
+        setPasswordRepeat(passwordRepeat)
+    }
+
     const saveNewClient = (e) => {
-        e.preventDefault()
 
         db.collection("CompagnyMeta")
         .doc()
         .set({
-           Compagny: compagnyName,
+           Compagny: communityName.toLocaleLowerCase(),
            CommunityName: communityName, 
            Logo: logo,
            ID: id,
-           Groups: true,
-           Channels: true,
-           Welcome: true,
-           Impact: false,
-           ProjectManagement: false,
-           Match: false,
            VerificationMethode: "Admin",
-           Website: website,
-           Rules: [],
            Timestamp: timestamp,
-           WelcomeHeader: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/Hero-III.jpg?alt=media&token=71ffc2d8-b90a-4497-aaf2-2206f619712d',
-           WelcomeText: `Welkom bij ${communityName}`,
-           Categories: [
-               "-- Selecteer een categorie --"
-           ]
-        })
-        .then(() => {
-            db.collection("Banners")
-            .doc()
-            .set({
-                Compagny: compagnyName,
-                NewEvent: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-events.png?alt=media&token=6a539d0e-0c5c-45e3-9899-bbdf1e53fe31',
-                NewGoal: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-goal.png?alt=media&token=2f349b5e-b2c9-4ca2-9588-9cdaa166e8070',
-                NewMember: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-group-register.png?alt=media&token=51023ce7-0460-4e6f-b8b4-019e74af1b35',
-                NewArticle: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-article.png?alt=media&token=d068573a-fb08-467c-99ab-c790294acd63',
-                NewIntroduction: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-goal-cutout.png?alt=media&token=822bee4f-6652-4a22-bbec-115595234aac',
-                NewGroup: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2FnewGroup.png?alt=media&token=98f836f4-e8bc-40fb-af23-fcd29263b593',
-                NewMessage: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-new-article.png?alt=media&token=d068573a-fb08-467c-99ab-c790294acd63',
-                NewNews: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-news.png?alt=media&token=da27acdd-558d-4a9f-819c-d1f12108db56',
-                NewChannelItem: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-channel.jpg?alt=media&token=e636a884-0b04-4c36-9c54-823e63770d45',
-                NewChannel: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/DefaultActivityBanners%2Fwall-channel.jpg?alt=media&token=e636a884-0b04-4c36-9c54-823e63770d45'
-            })
-        })
-        .then(() => {
-            db.collection("Channels")
-            .doc()
-            .set({
-                Compagny: compagnyName,
-                Name: "Nieuws",
-                Layout: "Post",
-                ID: uuid(),
-                Link: "News",
-                Members: []
-            })
-        })
-        .then(() => {
-            db.collection("Channels")
-            .doc()
-            .set({
-                Compagny: compagnyName,
-                Name: "Kenniscentrum",
-                Layout: "Card",
-                ID: uuid(),
-                Link: "KnowledgeCentre",
-                Members: []
-            })
-        })
-        .then(() => {
-            db.collection("Channels")
-            .doc()
-            .set({
-                Compagny: compagnyName,
-                Name: "Events",
-                Layout: "Post",
-                ID: uuid(),
-                Link: "Events",
-                Members: []
-            })
         })
         .then(() => {
             db.collection('Admins')
             .doc()
             .set({
-                Compagny: compagnyName,
+                Compagny: communityName.toLocaleLowerCase(),
                 Email: 'info@deccos.nl',
                 Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
                 UserID: '6a8bf-08c3-a1ad-d04d-231ebe51dc60',
@@ -175,19 +128,7 @@ const NewClient = () => {
                 Topbar: '#FFFFFF',
                 TopBarIcons: '#2F2C41',
                 ID: uuid(),
-                Compagny: compagnyName
-            })
-        })
-        .then(() => {
-            db.collection('Impact')
-            .doc()
-            .set({
-                Questoinnaires: false,
-                Matches: false,
-                Members: false,
-                Goals: false,
-                ID: uuid(),
-                Compagny: compagnyName
+                Compagny: communityName.toLocaleLowerCase()
             })
         })
         .then(() => {
@@ -200,7 +141,7 @@ const NewClient = () => {
                 DirectCauses: [],
                 IndirectCauses: [],
                 ID: uuid(),
-                Compagny: compagnyName
+                Compagny: communityName.toLocaleLowerCase()
             })
         })
         .then(() => {
@@ -208,54 +149,96 @@ const NewClient = () => {
             .doc()
             .set({
                 ID: uuid(),
-                Compagny: compagnyName,
+                Compagny: communityName.toLocaleLowerCase(),
                 Name: ''
             })
         })
         .then(() => {
-            history.push(`/${compagnyName}`) 
+            history.replace(`/${communityName.toLocaleLowerCase()}/Introduction`) 
         })
-
     }
 
+const registerHandler = () => {
+    
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((cred) => {
+        db.collection("Users")
+        .doc(cred.user.uid)
+        .set({
+            UserName: `${forname} ${surname}`,
+            ForName: forname,
+            SurName: surname,
+            Compagny: firebase.firestore.FieldValue.arrayUnion(communityName.toLocaleLowerCase()),
+            Timestamp: timestamp,
+            Email: email,
+            Photo: photo,
+            ID: id,
+            Approved: false,
+            Deleted: false,
+            Docid: cred.user.uid,
+        })
+    })
+    .then(() => {
+        auth.signInWithEmailAndPassword(email, password)
+        .catch(err => {
+            console.log(err)
+            if(err){
+                alert(err)
+            } else {
+                return
+            }
+        })
+    })
+    .then(() => {
+        saveNewClient()
+    })
+}
+
+
+        const checkHandler = (e) => {
+    
+            if(password === passwordRepeat){
+                ButtonClicked(e, 'Aangemaakt')
+                registerHandler()
+            } else {
+                alert('De paswoorden zijn niet gelijk')
+            }
+        }
+
     return (
-        <div className="main">
-        <LeftSideBarAuthProfile />
-        <LeftSideBarAuthProfileFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="settings-inner-container">
+        <div>
+             <header className="top-bar">
+                <img src={deccosLogo} className="top-bar-logo" alt="logo" />
+            </header>
+            <div className="new-client-container">
                 <div className="card-header">
-                    <h2>Nieuwe klant</h2>
-                    <p>Maak een nieuwe klant aan</p>
+                    <h1 id='title-new-client'>Creeer je Deccos bedrijfsaccount</h1>
+                    <p>Begin je impact managent avontuur.</p>
+                    <ul>
+                        <li>Je account blijft gratis zolang je wilt</li>
+                        <li>Bepaal zelf wanneer en of je wilt upgraden</li>
+                        <li>Je hebt geen creditcard of ander betaalgegegevens nodig</li>
+                    </ul>
                 </div>
                 <form >
-                    <div className="divider">
-                        <p>Bedrijfsnaam</p>
-                        <input onChange={compagnyNameHandler} type="text" placeholder="Schrijf hier de bedrijfsnaam" />
-                    </div>
-                    <div className="divider">
-                        <p>Community naam</p>
-                        <input onChange={communityNameHandler} type="text" placeholder="Schrijf hier de communitynaam" />
-                    </div>
-                    <div className="divider">
-                        <p>Website</p>
-                        <input onChange={websiteHandler} type="text" placeholder="Schrijf hier de communitynaam" />
-                    </div>
-                    <div className="divider">
-                        <p>Logo</p>
-                        <input type="file" onChange={logoHandler} />
-                        <div className="spinner-container">
-                            <img src={loader} alt="" />
-                        </div>
-                    </div>
-                    <div className="button-container">
-                        <button onClick={saveNewClient}>Opslaan</button>
+                    <p>Bedrijfsnaam*</p>
+                    <input onChange={communityNameHandler} type="text" placeholder="Schrijf hier de bedrijfsnaam" />
+                    <p>Voornaam*</p>
+                    <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />
+                    <p>Achternaam</p>
+                    <input onChange={surnameHandler} type="text" placeholder="Schrijf hier je achternaam" />
+                    <p>Emailadres*</p>
+                    <input onChange={emailHandler} type="email" placeholder="Schrijf hier je achternaam" />
+                    <p>Wachtwoord*</p>
+                    <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
+                    <p>Herhaal je wachtwoord*</p>
+                    <input onChange={passwordRepeatHandler} type="password" placeholder="Herhaal hier je wachtwoord" />
+                    <div className="button-container-margin-top new-client-button-container">
+                        <button onClick={checkHandler}>Aanmaken</button>
                     </div>
                 </form>
             </div>
         </div>
-        <RightSideBar />
-    </div>
     )
 }
 

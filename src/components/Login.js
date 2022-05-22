@@ -54,7 +54,7 @@ const Login = () => {
             }
         })
         .then(() => {
-            history.push(`/${client}/AllActivity`)
+            history.push(`/${client}/ImpactProgress`)
         })
     }
 

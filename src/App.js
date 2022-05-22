@@ -18,7 +18,7 @@ import Footer from './components/Footer';
 function App() {
 
   const [online, setOnline] = useState(false)
-  const [approved, setApproved] = useState(true)
+  const [approved, setApproved] = useState(false)
   const [compagny, setCompagny] = useState("")
   const [authO, setAuthO] = useState('')
 
@@ -58,9 +58,9 @@ function App() {
   }, [])
 
     const AuthRedirect = () => {
-      if(online === false){
+      if(online === false && client != 'NewClient'){
         return <LoginRegister/>
-      } else if (online === true && approved === true && compagny.includes(client)) {
+      } else if (online === true && approved === true && compagny.includes(client) && client != '') {
         
         return ( 
         <AuthProvider>
@@ -76,14 +76,23 @@ function App() {
         </MenuProvider>
         </AuthProvider>
         )
-      } else if (online === true && approved === false && compagny.includes(client)){
+      } else if (online === true && approved === false && compagny.includes(client) && client != ''){
         return <NotApproved/>
-      } else if (online === true && !compagny.includes(client)){
+      } else if (online === true && !compagny.includes(client) && client != ''){
         return (
         <AuthProvider>
           <MultipleAccounts authO={authO}/>
         </AuthProvider>
         )
+      } else if (client === 'NewClient' && online === false) {
+        return (
+          <>
+            <Main/>
+            <Footer/>
+          </>
+        )
+      } else {
+        return null
       }
     }
 

@@ -133,7 +133,6 @@ const RegisterUser = () => {
                 Timestamp: timestamp,
                 Email: email,
                 Photo: photo,
-                Channels: [],
                 ID: id,
                 Approved: false,
                 Deleted: false,
