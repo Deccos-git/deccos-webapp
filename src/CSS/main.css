@@ -647,6 +647,10 @@
     background-color: #a7bdbd26;
   }
 
+  .select-organisation{
+      cursor: pointer;
+  }
+
   .channel-div-login-register{
       margin: 20px;
   }

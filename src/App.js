@@ -83,7 +83,7 @@ function App() {
       } else if (online === true && client === ''){
         return (
         <AuthProvider>
-          <MultipleAccounts authO={authO}/>
+          <MultipleAccounts />
         </AuthProvider>
         )
       } else if (client === 'NewClient' && online === false) {
@@ -95,6 +95,8 @@ function App() {
         )
       } else if(online === false && client != 'NewClient' && client === '' ){
         return <LoginRegister/>
+      } else {
+        return null
       }
     }
 

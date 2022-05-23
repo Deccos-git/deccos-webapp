@@ -9,54 +9,56 @@ import Colors from "../hooks/Colors";
 import ButtonClicked from "../hooks/ButtonClicked";
 import deccosLogo from '../images/deccos-logo.png'
 
-const MultipleAccounts = () => {
-    const [name, setName] = useState('')
-    const [userDocID, setUserDocID] = useState('')
-    const [userID, setUserID] = useState('')
-    const [logo, setLogo] = useState('')
+const MultipleAccounts = () => {    
     const [website, setWebsite] = useState('')
-    const [compagny, setCompagny] = useState('')
+    const [name, setName] = useState('')
+    const [organisations, setOrganisations] = useState([])
 
+    useEffect(() => {
+
+        auth.onAuthStateChanged(User => {
+            if(User){
+
+                console.log(User)
+      
+              db.collection("Users")
+              .where("Email", "==", User.email)
+              .get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                  const name = doc.data().UserName
+                  const organisations = doc.data().Compagny 
+
+                  if(organisations.length === 0){
+                    history.push(`/${organisations[0]}/ImpactProgress`)
+                  } else {
+                      setOrganisations(organisations)
+                  }
+      
+                  setName(name)
+      
+                })
+              })
+            } else if (User === null) {
+              return null
+            }
+          })
+
+    },[])
     
     const colors = Colors()
     const history = useHistory();
 
-    auth.onAuthStateChanged(User => {
-        if(User){
+    const compagnyLink = (e) => {
 
-            db.collection("Users")
-            .where("Email", "==", User.email)
-            .get()
-            .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                const name = doc.data().UserName
-                const ID = doc.data().ID
-                const compagny = doc.data().Compagny
+        const org = e.target.innerText
 
-                setName(name)
-                setUserDocID(doc.id)
-                setUserID(ID)
-                setCompagny(compagny)
-            })
-            })
-        } else if (User === null) {
-            return
-        }
-        })
+        history.push(`/${org}/ImpactProgress`)
 
-        console.log(compagny)
-
-    const selectCompagny = () => {
-
-        
-
-        if(compagny.length === 0){
-            history.push(`/${compagny[0]}/ImpactProgress`)
-        } else {
-
-        }
-
+        window.location.reload()
     }
+
+    
 
     return (
         <div>
@@ -66,7 +68,12 @@ const MultipleAccounts = () => {
             <div style={{backgroundColor: colors.BackgroundColor}}>
                 <div className="approval-message-container">
                     <h2>Hoi {name}</h2>
-                    {selectCompagny()}
+                    <p><b>Selecteer je organisatie</b></p>
+                    <ul>
+                        {organisations && organisations.map(org => (
+                            <li className='select-organisation' onClick={compagnyLink}>{org}</li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>
