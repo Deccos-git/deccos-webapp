@@ -57,8 +57,6 @@ function App() {
     })
   }, [])
 
-  console.log(online, client)
-
     const AuthRedirect = () => {
       if(online === false && client != 'NewClient' && client != '' ){
         return <LoginRegister/>
@@ -93,7 +91,13 @@ function App() {
             <Footer/>
           </>
         )
-      } else if(online === false && client != 'NewClient' && client === '' ){
+      } else if (client === 'NewClient' && online === true) {
+        return (
+          <AuthProvider>
+            <MultipleAccounts />
+          </AuthProvider>
+          )
+      }else if(online === false && client != 'NewClient' && client === '' ){
         return <LoginRegister/>
       } else {
         return null

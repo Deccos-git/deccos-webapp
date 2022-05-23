@@ -95,6 +95,9 @@ const Main = () => {
                 <Route path={`/NewClient`}>
                     <NewClient/>
                 </Route>
+                <Route exact path={`/${client}`}>
+                    <ImpactProgress/>
+                </Route>
                 <Route path={`/${client}/Login`}>
                     <Login/>
                 </Route>

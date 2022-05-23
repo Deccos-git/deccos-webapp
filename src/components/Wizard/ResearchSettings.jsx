@@ -14,11 +14,14 @@ import activityIcon from '../../images/icons/activity-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
 import calendarIcon from '../../images/icons/calendar-icon.png'
 import titleIcon from '../../images/icons/title-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const ResearchSettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const premium = Premium() 
 
     const researches = useFirestore('Research')
 
@@ -60,7 +63,7 @@ const ResearchSettings = () => {
                 </NavLink>
             </div>
         </div>
-        <div className='card-container'>
+        <div className='card-container' style={{display: premium ? 'flex' : 'none'}}>
             {researches && researches.map(research => (
                 <div className='instrument-card output-card-container'>
                     <h2>{research.Title}</h2>
@@ -78,6 +81,9 @@ const ResearchSettings = () => {
                     </div>
                 </div>
             ))}
+        </div>
+        <div style={{display: premium ? 'none' : 'flex'}}>
+            <PremiumNotice/>
         </div>
     </div>
 </div>

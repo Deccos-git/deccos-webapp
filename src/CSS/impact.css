@@ -403,6 +403,13 @@
     width: 100%;
 }
 
+#agenda-calender-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .delete-text{
     font-size: 12px;
     color: red;

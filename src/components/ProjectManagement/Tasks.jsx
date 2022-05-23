@@ -14,6 +14,8 @@ import { useContext, useState, useEffect } from 'react';
 import settingsIcon from '../../images/icons/settings-icon.png'
 import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const Tasks = () => {
     const [authO] = useContext(Auth)
@@ -26,6 +28,7 @@ const Tasks = () => {
 
     const menuState = MenuStatus()
     const history = useHistory();
+    const premium = Premium()
 
     const tasks = useFirestore("Tasks")
     const activities = useFirestore('Activities')
@@ -274,7 +277,7 @@ const Tasks = () => {
                     <button onClick={filter}>Filter</button>
                 </div>
             </div>
-            <div id='tasks-outer-container'>
+            <div id='tasks-outer-container' style={{display: premium ? 'flex' : 'none'}}>
                 <div className='task-overview-container add-task-container' onClick={addTaskLink}>
                     <div className='task-inner-container'>
                         <img id='add-task-icon' src={plusIcon} alt="" />
@@ -297,6 +300,9 @@ const Tasks = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div style={{display: premium ? 'none' : 'flex'}}>
+                <PremiumNotice/>
             </div>
         </div>
     </div>

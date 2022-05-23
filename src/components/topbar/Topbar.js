@@ -9,6 +9,7 @@ import { MobileMenu } from '../../StateManagment/MobileMenu';
 import { Colors } from "../../StateManagment/Colors";
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router"
+import Premium from '../../hooks/Premium';
 
 const Topbar = () => {
     const [colors] = useContext(Colors)
@@ -18,6 +19,7 @@ const Topbar = () => {
     const docs  = useFirestore("CompagnyMeta")
 
     const history = useHistory()
+    const premium = Premium()
 
     let logo = ""
     let website = ""
@@ -48,7 +50,12 @@ const Topbar = () => {
             <div className="left-side-bar-toggle">
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>
-            <a onClick={homeLink} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
+            <div id='logo-subscription-container'>
+                <a onClick={homeLink} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
+                <div style={{display: premium ? 'block' : 'none'}}>
+                    <p>Premium</p>
+                </div>
+            </div>
             <div className="iconbar-external-container">
                 <Iconbar/>
             </div>

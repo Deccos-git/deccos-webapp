@@ -2,30 +2,33 @@ import { createContext, useState, useEffect } from "react";
 import { db } from "../firebase/config";
 import { client } from "../hooks/Client";
 
-export const Colors = createContext()
+export const Premium = createContext()
 
-export const ColorProvider = (props) => {
-    const [colors, setColors] = useState("")
+export const PremiumProvider = (props) => {
+    const [premium, setPremium] = useState("")
 
-    const getColors = () => {
+    const getPremium = () => {
 
-        const unsub = db.collection("Colors")
+        console.log(client)
+
+        const unsub = db.collection("CompagnyMeta")
                 .where("Compagny", "==", client)
                 .onSnapshot(querySnapshot => {
                     querySnapshot.forEach (doc => {
-                    setColors({...doc.data(), docid: doc.id})
+                        console.log(doc)
+                    setPremium({...doc.data(), docid: doc.id})
                 })
             })
                 return () => unsub();   
     }   
 
     useEffect(() => {
-        getColors()
+        getPremium()
     }, [])
 
     return(
-        <Colors.Provider value={[colors]}>
+        <Premium.Provider value={[premium]}>
             {props.children}
-        </Colors.Provider>
+        </Premium.Provider>
     )
 }

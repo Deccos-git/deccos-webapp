@@ -626,6 +626,62 @@
       height: 20px;
       width: 20px;
   }
+
+  #logo-subscription-container{
+      display: flex;
+      align-items: center;
+  }
+
+  #logo-subscription-container p{
+      color: rgb(99, 202, 220);
+      font-size: 12px;
+  }
+
+  .premium-notice-outer-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #premium-notice-container{
+      height: 300px;
+      border-radius: 5px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      background-color: #63cadc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #premium-notice-container h1{
+    color: white;
+  }
+
+  #premium-notice-container h2{
+    color: white;
+  }
+
+  #premium-notice-container p{
+    color: white;
+  }
+
+  #premium-notice-container button{
+    border-radius: 5px;
+    border: 1px solid #f48183;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px;
+    background-color: #f48183;
+    cursor: pointer;
+    color: white;
+  }
+
+  #premium-notice-container a{
+    margin: auto 0px 10px 0px;
+  }
   
   .ais-Hits-list{
     list-style-type: none;

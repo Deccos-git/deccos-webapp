@@ -10,6 +10,8 @@ import { useHistory } from "react-router-dom";
 import activityIcon from '../../images/icons/activity-icon.png'
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const MilestoneSettings = () => {
     const [color, setColor] = useState('')
@@ -17,6 +19,7 @@ const MilestoneSettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const premium = Premium() 
 
     const milestones = useFirestore('Milestones')
    
@@ -81,7 +84,7 @@ const MilestoneSettings = () => {
                     </NavLink>
                 </div>
             </div>
-            <div className='card-container milestone-card-container'>
+            <div className='card-container milestone-card-container' style={{display: premium ? 'flex' : 'none'}}>
             {milestones && milestones.map(milestone => (
                     <div className='instrument-card'>
                         <h2>{milestone.Title}</h2>
@@ -106,6 +109,9 @@ const MilestoneSettings = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div style={{display: premium ? 'none' : 'flex'}}>
+                <PremiumNotice/>
             </div>
         </div>
     </div>

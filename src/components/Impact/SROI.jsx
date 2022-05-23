@@ -17,11 +17,14 @@ import attributionIcon from '../../images/icons/attribution-icon.png'
 import weightIcon from '../../images/icons/weight-icon.png'
 import horizonIcon from '../../images/icons/horizon-icon.png'
 import selectedIcon from '../../images/icons/selected-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const SROI = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const premium = Premium() 
 
     const SROIs = useFirestore('SROIs')
 
@@ -54,7 +57,7 @@ const SROI = () => {
                     </NavLink>
                 </div>
         </div>
-        <div className='card-container milestone-card-container'>
+        <div className='card-container milestone-card-container' style={{display: premium ? 'flex' : 'none'}}>
         {SROIs && SROIs.map(sroi => (
                 <div className='instrument-card'>
                     <div className='task-detail-inner-container'>
@@ -92,6 +95,9 @@ const SROI = () => {
                     </div>
                 </div>
             ))}
+        </div>
+        <div style={{display: premium ? 'none' : 'flex'}}>
+            <PremiumNotice/>
         </div>
     </div>
 </div>

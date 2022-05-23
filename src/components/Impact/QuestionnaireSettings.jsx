@@ -9,11 +9,14 @@ import { useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const QuestionnaireSettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const premium = Premium() 
 
     const questionnaires = useFirestore('Questionnaires')
 
@@ -30,7 +33,7 @@ const QuestionnaireSettings = () => {
                     </NavLink>
                 </div>
         </div>
-        <div className='profile profile-auth-profile'>
+        <div className='profile profile-auth-profile' style={{display: premium ? 'flex' : 'none'}}>
             <div className='table-container'>
                 <table>
                     <tr>
@@ -43,6 +46,9 @@ const QuestionnaireSettings = () => {
                     ))}
                 </table>
             </div>
+        </div>
+        <div className='premium-notice-outer-container' style={{display: premium ? 'none' : 'flex'}}>
+            <PremiumNotice/>
         </div>
     </div>
 </div>
