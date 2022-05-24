@@ -235,7 +235,7 @@ const Tasks = () => {
             <div className='page-header'>
                 <h1>Taken</h1>
             </div>
-            <div id='task-filter-container'>
+            <div id='task-filter-container' style={{display: premium ? 'flex' : 'none'}}>
                 <div className='task-filter-inner-container'>
                     <h3>Toegewezen aan</h3>
                     <select name="" id="" onChange={appointedHandler}>

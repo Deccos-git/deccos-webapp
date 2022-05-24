@@ -27,7 +27,7 @@ const ManualResultsGraph = ({output}) => {
 
             const dataObject = {
                 Maand: month,
-                Resultaat: data.Result
+                Resultaat: dataset.indexOf(data) + 1
             }
 
             dataArray.push(dataObject)

@@ -152,16 +152,24 @@ const Assumptions = () => {
                             <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={addAssumption} alt="" />
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>Aanname</p>
-                                <p>ACTIE</p>
-                            </div>
-                            {assumptions && assumptions.map(assumption => (
-                            <div className='list-row-container'>
-                                <input type="text" defaultValue={assumption.Assumption} data-docid={assumption.docid} placeholder='Noteer hier de aanname' onChange={assumptionHandler}/>
-                                <img data-docid={assumption.docid} onClick={deleteAssumption} src={deleteIcon} alt="" />
-                            </div> 
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>AANNAME</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {assumptions && assumptions.map(assumption => (
+                                        <tr>
+                                            <td>
+                                                <input type="text" defaultValue={assumption.Assumption} data-docid={assumption.docid} placeholder='Noteer hier de aanname' onChange={assumptionHandler}/>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={assumption.docid} onClick={deleteAssumption} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
                                 ))}
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

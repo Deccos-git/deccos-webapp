@@ -131,7 +131,7 @@ const ImpactTargetgroup = () => {
                     <p><b>2. Formuleer de impact op de doelgroep</b></p>
                     <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact} onChange={impactHandler} />
                     <div className='button-container-align-left'>
-                        <button onClick={saveImpactTargetgroup}>Opslaan</button>
+                        <button className='button-simple' onClick={saveImpactTargetgroup}>Opslaan</button>
                     </div>
                 </div>
             </div>

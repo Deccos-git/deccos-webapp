@@ -151,16 +151,24 @@ const Conditions = () => {
                             <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={addCondition} alt="" />
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>EXTERNE FACTOR</p>
-                                <p>ACTIE</p>
-                            </div>
-                            {conditions && conditions.map(condition => (
-                            <div className='list-row-container'>
-                                <input type="text" defaultValue={condition.Condition} data-docid={condition.docid} placeholder='Noteer hier de externe factor' onChange={conditionHandler}/>
-                                <img data-docid={condition.docid} onClick={deleteCondition} src={deleteIcon} alt="" />
-                            </div> 
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>EXTERNE FACTOR</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {conditions && conditions.map(condition => (
+                                        <tr>
+                                            <td>
+                                                <input type="text" defaultValue={condition.Condition} data-docid={condition.docid} placeholder='Noteer hier de externe factor' onChange={conditionHandler}/>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={condition.docid} onClick={deleteCondition} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
                                 ))}
+                                 </table>
+                            </div>
                         </div>
                     </div>
                 </div>

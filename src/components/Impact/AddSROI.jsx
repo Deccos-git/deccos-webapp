@@ -20,6 +20,8 @@ import feetIcon from '../../images/icons/feet-icon.png'
 import { NavLink, Link } from "react-router-dom";
 import plusButton from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
 
 const AddSROI = () => {
     const [outputID, setOutputID] = useState('')
@@ -30,6 +32,7 @@ const AddSROI = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    const premium = Premium() 
 
     const outputs = useFirestore('Outputs')
     const SROIs = useFirestoreSROIs(outputID && outputID)
@@ -193,64 +196,69 @@ const AddSROI = () => {
             <h3>Aan de slag</h3>
         </div> 
         <div className='text-section' style={{backgroundColor: color}}>
-            <p><b>1. Selecteer de output waar je de SROI aan wilt koppelen</b></p>
-            <select name="" id="" onChange={outputHandler}>
-                <option value="">-- Selecteer een output --</option>
-                {outputs && outputs.map(output => (
-                    <option value={output.ID} data-title={output.Title} data-docid={output.docid}>{output.Title} (Activiteit: {output.Activity})</option>
-                ))}
-            </select>
-            <div style={{display: outputID ? 'block' : 'none'}}>
-                <p><b>2. Beheer je SROI</b></p>
-                <div className='list-container'>
-                    <div className='list-top-row-container'>
-                            <img src={plusButton} alt="" onClick={addSROI}/>
-                    </div>
-                    <div className='table-container'>
-                        <table>
-                            <tr>
-                                <th>TYPE</th>
-                                <th>DEADWEIGHT (%)</th>
-                                <th>ATTRUBUTIE (%)</th>
-                                <th>TIJDSHORIZON (jaren)</th>
-                                <th>BEDRAG (€)</th>
-                                <th>TOTAAL (€)</th>
-                                <th>ACTIE</th>
-                            </tr>
-                            {SROIs && SROIs.map(SROI => (
-                            <tr>
-                                <td>
-                                <select name="" id="" defaultValue={SROI.Type} onChange={SROISetHandler}>
-                                    <option value="">-- Selecteer een SROI type --</option>
-                                    {SROISets && SROISets.map(set => (
-                                        <option data-docid={SROI.docid} data-amount={set.Amount} value={set.Type}>{set.Type}</option>
-                                    ))}
-                                </select>
-                                </td>
-                                <td>
-                                    <input type="text" placeholder='Deadweight' defaultValue={SROI.Deadweight} data-docid={SROI.docid} onChange={deadweightHandler} />
-                                </td>
-                                <td>
-                                    <input type="text" placeholder='Attributie' defaultValue={SROI.Attribution} data-docid={SROI.docid} onChange={attributionHandler} />
-                                </td>
-                                <td>
-                                    <input type="text" placeholder='Tijdshorizon' defaultValue={SROI.Timehorizon} data-docid={SROI.docid} onChange={timehorizonHandler} />
-                                </td>
-                                <td>
-                                    <p defaultValue={SROI.Amount}>€{SROI.Amount}</p>
-                                </td>
-                                <td>
-                                    <p>€{SROI.Amount*SROI.Deadweight*SROI.Attribution*SROI.Timehorizon}</p>  
-                                </td>
-                                <td>
-                                    <img className='table-delete-icon' data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
-                                </td>
-                            </tr>
-                        ))}
-                        </table>
+            <div style={{display: premium ? 'block' : 'none'}}>
+                <p><b>1. Selecteer de output waar je de SROI aan wilt koppelen</b></p>
+                <select name="" id="" onChange={outputHandler}>
+                    <option value="">-- Selecteer een output --</option>
+                    {outputs && outputs.map(output => (
+                        <option value={output.ID} data-title={output.Title} data-docid={output.docid}>{output.Title} (Activiteit: {output.Activity})</option>
+                    ))}
+                </select>
+                <div style={{display: outputID ? 'block' : 'none'}}>
+                    <p><b>2. Beheer je SROI</b></p>
+                    <div className='list-container'>
+                        <div className='list-top-row-container'>
+                                <img src={plusButton} alt="" onClick={addSROI}/>
+                        </div>
+                        <div className='table-container'>
+                            <table>
+                                <tr>
+                                    <th>TYPE</th>
+                                    <th>DEADWEIGHT (%)</th>
+                                    <th>ATTRUBUTIE (%)</th>
+                                    <th>TIJDSHORIZON (jaren)</th>
+                                    <th>BEDRAG (€)</th>
+                                    <th>TOTAAL (€)</th>
+                                    <th>ACTIE</th>
+                                </tr>
+                                {SROIs && SROIs.map(SROI => (
+                                <tr>
+                                    <td>
+                                    <select name="" id="" defaultValue={SROI.Type} onChange={SROISetHandler}>
+                                        <option value="">-- Selecteer een SROI type --</option>
+                                        {SROISets && SROISets.map(set => (
+                                            <option data-docid={SROI.docid} data-amount={set.Amount} value={set.Type}>{set.Type}</option>
+                                        ))}
+                                    </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder='Deadweight' defaultValue={SROI.Deadweight} data-docid={SROI.docid} onChange={deadweightHandler} />
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder='Attributie' defaultValue={SROI.Attribution} data-docid={SROI.docid} onChange={attributionHandler} />
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder='Tijdshorizon' defaultValue={SROI.Timehorizon} data-docid={SROI.docid} onChange={timehorizonHandler} />
+                                    </td>
+                                    <td>
+                                        <p defaultValue={SROI.Amount}>€{SROI.Amount}</p>
+                                    </td>
+                                    <td>
+                                        <p>€{SROI.Amount*SROI.Deadweight*SROI.Attribution*SROI.Timehorizon}</p>  
+                                    </td>
+                                    <td>
+                                        <img className='table-delete-icon' data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />
+                                    </td>
+                                </tr>
+                            ))}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div style={{display: premium ? 'none' : 'flex'}}>
+            <PremiumNotice/>
+        </div>
         </div>
         </div>
             <div>

@@ -221,36 +221,44 @@ const GoalTitle = () => {
                             <div className='list-top-row-container'>
                                     <img src={plusButton} onClick={addGoal} alt="" />
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>BANNER</p>
-                                <p>TITEL</p>
-                                <p>ACTIE</p>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>BANNER</th>
+                                        <th>TITEL</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {goals && goals.map(goal => (
+                                        <tr>
+                                            <td>
+                                                <div className='list-banner-container'>
+                                                    <img className='cancel-icon' data-docid={goal.docid} src={cancelIcon} alt="" onClick={deleteBanner} style={{display: goal.Banner ? 'block' : 'none'}} />
+                                                    <img className='goal-banner-list default-goal-image' src={imageIcon} alt="" onClick={() => setModalOpen(true)} style={{display: goal.Banner ? 'none' : 'block'}}/>
+                                                    <img className='goal-banner-list' src={goal.Banner} alt="" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <textarea contentEditable type="text" data-docid={goal.docid} defaultValue={goal.Title} placeholder='Titel' onChange={titleHandler} />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={goal.docid} onClick={deleteGoal} src={deleteIcon} alt="" />
+                                            </td>
+                                            <Modal
+                                            isOpen={modalOpen}
+                                            onRequestClose={closeModal}
+                                            style={modalStyles}
+                                            contentLabel="Upload banner"
+                                            >
+                                            <div className='add-image-container'>
+                                                <img src={imageIcon} alt="" />
+                                                <p>Upload een plaatje</p>
+                                                <input data-docid={goal.docid} onChange={bannerHandler} type="file" />
+                                            </div>
+                                            </Modal>
+                                        </tr>  
+                                    ))}
+                                </table>
                             </div>
-                            {goals && goals.map(goal => (
-                                <>
-                                    <Modal
-                                    isOpen={modalOpen}
-                                    onRequestClose={closeModal}
-                                    style={modalStyles}
-                                    contentLabel="Upload banner"
-                                    >
-                                    <div className='add-image-container'>
-                                        <img src={imageIcon} alt="" />
-                                        <p>Upload een plaatje</p>
-                                        <input data-docid={goal.docid} onChange={bannerHandler} type="file" />
-                                    </div>
-                                    </Modal>
-                                    <div className='list-row-container'>
-                                        <div className='list-banner-container'>
-                                            <img className='cancel-icon' data-docid={goal.docid} src={cancelIcon} alt="" onClick={deleteBanner} />
-                                            <img src={imageIcon} alt="" onClick={() => setModalOpen(true)} />
-                                            <img className='goal-banner-list' src={goal.Banner} alt="" />
-                                        </div>
-                                        <textarea contentEditable type="text" data-docid={goal.docid} defaultValue={goal.Title} placeholder='Titel' onChange={titleHandler} />
-                                        <img data-docid={goal.docid} onClick={deleteGoal} src={deleteIcon} alt="" />
-                                    </div>  
-                                </>  
-                            ))}
                         </div>
                     </div>
                 </div>

@@ -124,7 +124,7 @@ const Targetgroup = () => {
                     <p><b>1. Formuleer de doelgroep</b></p>
                     <input type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={title} onChange={titleHandler} />
                     <div className='button-container-align-left'>
-                        <button onClick={saveTargetgroup}>Opslaan</button>
+                        <button className='button-simple' onClick={saveTargetgroup}>Opslaan</button>
                     </div>
                 </div>
             </div>

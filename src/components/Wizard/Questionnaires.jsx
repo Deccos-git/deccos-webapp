@@ -123,32 +123,53 @@ const Questionnaires = () => {
                             <div className='list-top-row-container'>
                                     <img src={plusButton} alt="" onClick={addQuestionnaire}/>
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>TITEL</p>
-                                <p>BEKIJK</p>
-                                <p>VERWIJDER</p>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>TITEL</th>
+                                        <th>BEKIJK</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {questionnaires && questionnaires.map(questionnaire => (
+                                        <tr>
+                                            <td>
+                                                <p>{questionnaire.Title}</p>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={questionnaire.docid} onClick={deleteQuestionnaire} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
                             </div>
-                            {questionnaires && questionnaires.map(questionnaire => (
-                                <div className='list-row-container'>
-                                    <p>{questionnaire.Title}</p>
-                                    <img data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
-                                    <img data-docid={questionnaire.docid} onClick={deleteQuestionnaire} src={deleteIcon} alt="" />
-                                </div>  
-                            ))}
                         </div>
                         <p><b>Bestaande vragenlijsten</b></p>
                         <div className='list-container'>
-                            <div className='list-top-row-container'>
-                                <p>TITEL</p>
-                                <p>DOEL</p>
-                                <p>BEKIJK</p>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>TITEL</th>
+                                        <th>DOEL</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
+                                        <tr>
+                                            <td>
+                                                <p>{questionnaire.Title}</p>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
                             </div>
-                            {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
-                                <div className='list-row-container'>
-                                    <p>{questionnaire.Title}</p>
-                                    <img data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
-                                </div>  
-                            ))}
                         </div>
                     </div>
                     </div>

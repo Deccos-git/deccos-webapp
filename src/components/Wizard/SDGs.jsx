@@ -155,21 +155,29 @@ const SDGs = () => {
                             <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={addSDG} alt="" />
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>SDG</p>
-                                <p>ACTIE</p>
-                            </div>
-                            {SDGsSelected && SDGsSelected.map(sdg => (
-                            <div className='list-row-container'>
-                                <select name="" id="" defaultValue={sdg.SDG} data-docid={sdg.docid} onChange={sdgHandler}>
-                                    <option value="">-- Selecteer een SDG --</option>
-                                    {SDGS && SDGS.map(sdg => (
-                                        <option value={sdg.SDG}>{sdg.SDG}</option>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>SDG</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {SDGsSelected && SDGsSelected.map(sdg => (
+                                        <tr>
+                                            <td>
+                                                <select name="" id="" defaultValue={sdg.SDG} data-docid={sdg.docid} onChange={sdgHandler}>
+                                                    <option value="">-- Selecteer een SDG --</option>
+                                                    {SDGS && SDGS.map(sdg => (
+                                                        <option value={sdg.SDG}>{sdg.SDG}</option>
+                                                    ))}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={sdg.docid} onClick={deleteSDG} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
                                     ))}
-                                </select>
-                                <img data-docid={sdg.docid} onClick={deleteSDG} src={deleteIcon} alt="" />
-                            </div> 
-                                ))}
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

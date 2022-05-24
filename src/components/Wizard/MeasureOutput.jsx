@@ -251,20 +251,32 @@ const MeasureOutput = () => {
                             <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
                             </div>
-                            <div className='list-top-row-container'>
-                                <p>MIJLPAAL</p>
-                                <p>AANTAL</p>
-                                <p>DEADLINE</p>
-                                <p>ACTIE</p>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>MIJLPAAL</th>
+                                        <th>AANTAL</th>
+                                        <th>DEADLINE</th>
+                                        <th>ACTIE</th>
+                                    </tr>
+                                    {milestones && milestones.map(milestone => (
+                                        <tr>
+                                            <td>
+                                                <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
+                                            </td>
+                                            <td>
+                                                <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
+                                            </td>
+                                            <td>
+                                                <input type="date" placeholder='0' defaultValue={milestone.Deadline} data-docid={milestone.docid} onChange={deadlineHandler} />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={milestone.docid} onClick={deleteMilestone} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
                             </div>
-                            {milestones && milestones.map(milestone => (
-                                <div className='list-row-container'>
-                                    <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
-                                    <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
-                                    <input type="date" placeholder='0' defaultValue={milestone.Deadline} data-docid={milestone.docid} onChange={deadlineHandler} />
-                                    <img data-docid={milestone.docid} onClick={deleteMilestone} src={deleteIcon} alt="" />
-                                </div>  
-                            ))}
                         </div>
                     </div>
                 </div>

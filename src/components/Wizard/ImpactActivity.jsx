@@ -116,7 +116,7 @@ const ImpactActivity = () => {
                     <p><b>2. Formuleer de impact</b></p>
                     <textarea type="text" placeholder='Schrijf hier de impact' defaultValue={impact} onChange={impactHandler} />
                     <div className='button-container-align-left'>
-                        <button onClick={saveImpactActivity}>Opslaan</button>
+                        <button className='button-simple' onClick={saveImpactActivity}>Opslaan</button>
                     </div>
                 </div>
             </div>

@@ -494,17 +494,22 @@
     margin-top: 20px;
 }
 
+.default-goal-image{
+    cursor: pointer;
+}
+
 .cancel-icon{
     align-self: flex-end;
-    margin: 0px -5px -10px 0px;
+    margin: 0px 30px -10px 0px;
     z-index: 4;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
 }
 .list-banner-container{
     display: flex;
     flex-direction: column;
-    border: 1px dotted #0084FF;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 0px 0px 15px 10px;
 }
 
 .list-row-container input{
@@ -515,7 +520,8 @@
 
 .goal-banner-list{
     height: auto !important;
-    width: 100px !important;
+    width: 200px !important;
+    border-radius: 5px;
 }
 
 .list-row-container textarea{

@@ -151,16 +151,24 @@ const AddOutput = () => {
                         <div className='list-top-row-container'>
                                 <img src={plusButton} alt="" onClick={addOutput}/>
                         </div>
-                        <div className='list-top-row-container'>
-                            <p>OUTPUT</p>
-                            <p>ACTIE</p>
+                        <div className='table-container'>
+                            <table>
+                                <tr>
+                                    <th>OUTPUT</th>
+                                    <th>ACTIE</th>
+                                </tr>
+                                {outputs && outputs.map(output => (
+                                    <tr>
+                                        <td>
+                                            <input type="text" data-docid={output.docid} defaultValue={output.Title} placeholder='Output' onChange={outputHandler} />
+                                        </td>
+                                        <td>
+                                            <img className='table-delete-icon' data-docid={output.docid} onClick={deleteOutput} src={deleteIcon} alt="" />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
                         </div>
-                        {outputs && outputs.map(output => (
-                            <div className='list-row-container'>
-                                <input type="text" data-docid={output.docid} defaultValue={output.Title} placeholder='Output' onChange={outputHandler} />
-                                <img data-docid={output.docid} onClick={deleteOutput} src={deleteIcon} alt="" />
-                            </div>  
-                        ))}
                     </div>
                 </div>
             </div>

@@ -143,16 +143,24 @@ const OutputEffects = () => {
                         <div className='list-top-row-container'>
                                 <img src={plusButton} alt="" onClick={addEffect}/>
                         </div>
-                        <div className='list-top-row-container'>
-                            <p>EFFECT</p>
-                            <p>ACTIE</p>
+                        <div className='table-container'>
+                            <table>
+                                <tr>
+                                    <th>EFFECT</th>
+                                    <th>ACTIE</th>
+                                </tr>
+                                {effects && effects.map(effect => (
+                                    <tr>
+                                        <td>
+                                            <input type="text" data-docid={effect.docid} defaultValue={effect.Effect} placeholder='Effect' onChange={effectHandler} />
+                                        </td>
+                                        <td>
+                                            <img className='table-delete-icon' data-docid={effect.docid} onClick={deleteEffect} src={deleteIcon} alt="" />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
                         </div>
-                        {effects && effects.map(effect => (
-                            <div className='list-row-container'>
-                                <input type="text" data-docid={effect.docid} defaultValue={effect.Effect} placeholder='Effect' onChange={effectHandler} />
-                                <img data-docid={effect.docid} onClick={deleteEffect} src={deleteIcon} alt="" />
-                            </div>  
-                        ))}
                     </div>
                 </div>
             </div>

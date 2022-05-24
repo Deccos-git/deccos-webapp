@@ -152,32 +152,6 @@ const ImpactProgress = () => {
         )
     }
 
-    const ProgressionBarGoal = ({goal}) => {
-
-        const tasks = useFirestoreTasksGoals(goal.ID)
-        const tasksCompleted = useFirestoreTasksCompleteGoals(goal.ID)
-
-        const completedArray = []
-        const totalArray = []
-
-        tasks && tasks.forEach(task => {
-            totalArray.push(task)
-        })
-
-        tasksCompleted && tasksCompleted.forEach(task => {
-            completedArray.push(task)
-        })
-
-        const onePercentage = totalArray.length !== 0 ? totalArray.length/100 : 0
-        const completed = completedArray.length !== 0 ? completedArray.length : 1
-
-        const average = onePercentage*completed
-
-        return(
-            <div className='progressionbar-completed' style={{width: `${average}%`}}></div>
-        )
-    }
-
     const Activities = ({goal}) => {
 
         const activities = useFirestoreActivities(goal.ID)
@@ -230,8 +204,7 @@ const ImpactProgress = () => {
                         <Research output={output}/>
                         <Milestones output={output}/>
                     </div>
-                ))}
-                
+                ))} 
             </div>
         )
     }

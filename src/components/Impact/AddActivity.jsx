@@ -277,24 +277,32 @@ const AddActivity = () => {
                         <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
                         </div>
-                        <div className='list-top-row-container'>
-                            <p>BANNER</p>
-                            <p>ACTIVITEIT</p>
-                            <p>DOEL</p>
-                            <p>ACTIE</p>
+                        <div className='table-container'>
+                            <table>
+                                <tr>
+                                    <th>BANNER</th>
+                                    <th>ACTIVITEIT</th>
+                                    <th>ACTIE</th>
+                                </tr>
+                                {activities && activities.map(activity => (
+                                    <tr>
+                                        <td>
+                                            <div className='list-banner-container'>
+                                                <img className='cancel-icon' data-docid={activity.docid} src={cancelIcon} alt="" onClick={deleteBanner} style={{display: activity.Banner ? 'block' : 'none'}} />
+                                                <img className='goal-banner-list default-goal-image' src={imageIcon} alt="" onClick={() => setModalOpen(true)} style={{display: activity.Banner ? 'none' : 'block'}}/>
+                                                <img className='goal-banner-list' src={activity.Banner} alt="" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <textarea contentEditable type="text" data-docid={activity.docid} defaultValue={activity.Activity} placeholder='Titel' onChange={activityHandler} />
+                                        </td>
+                                        <td>
+                                            <img className='table-delete-icon' data-docid={activity.docid} onClick={deleteActivity} src={deleteIcon} alt="" />
+                                        </td>
+                                    </tr>
+                                ))}
+                          </table>
                         </div>
-                        {activities && activities.map(activity => (
-                            <div className='list-row-container'>
-                                <div className='list-banner-container'>
-                                    <img className='cancel-icon' data-docid={activity.docid} src={cancelIcon} alt="" onClick={deleteBanner} />
-                                    <img src={imageIcon} alt="" onClick={() => setModalOpen(true)} />
-                                    <img className='goal-banner-list' src={activity.Banner} alt="" />
-                                </div>
-                                <textarea contentEditable type="text" data-docid={activity.docid} defaultValue={activity.Activity} placeholder='Titel' onChange={activityHandler} />
-                                <p>{activity.Goal}</p>
-                                <img data-docid={activity.docid} onClick={deleteActivity} src={deleteIcon} alt="" />
-                            </div>  
-                        ))}
                     </div>
                 </div>
             </div>
