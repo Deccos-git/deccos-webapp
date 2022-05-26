@@ -4,7 +4,8 @@ import {
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip
+    Tooltip,
+    ResponsiveContainer
   } from "recharts";
 import { useState, useEffect } from 'react'
 import { useFirestoreResults} from '../../firebase/useFirestore'
@@ -42,23 +43,23 @@ const ManualResultsGraph = ({output}) => {
     <div className='activity-meta-title-container' style={{display: dataset.length > 0 ? 'block' : 'none'}}>
       <img src={resultsIcon} alt="" />
       <h3>Output resultaten</h3>
-      <AreaChart
-      width={500}
-      height={200}
-      data={data}
-      margin={{
-        top: 10,
-        right: 30,
-        left: 0,
-        bottom: 0
-      }}
-        >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="Maand" />
-      <YAxis />
-      <Tooltip />
-      <Area type="monotone" dataKey="Resultaat" stroke="#f48183" fill="#f48183" />
-    </AreaChart>
+        <AreaChart
+        width={500}
+        height={200}
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0
+        }}
+          >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="Maand" />
+        <YAxis />
+        <Tooltip />
+        <Area type="monotone" dataKey="Resultaat" stroke="#f48183" fill="#f48183" />
+      </AreaChart>
   </div>
   )
 }

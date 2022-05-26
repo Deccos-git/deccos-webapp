@@ -80,6 +80,7 @@ const ImpactProgress = () => {
     },[colors])
 
     const Goals = () => {
+        
         const goals = useFirestore('Goals')
 
         return(
@@ -187,7 +188,7 @@ const ImpactProgress = () => {
         const activities = useFirestoreActivities(goal.ID)
 
         return(
-            <>
+            <div style={{display: activities.length > 0 ? 'block' : 'none'}}>
                 <h2>Activiteiten</h2>
                 <div id='activity-outer-container'>
                 {activities && activities.map(activity => (
@@ -205,7 +206,7 @@ const ImpactProgress = () => {
                     </div>
                 ))}
                 </div>
-            </>
+            </div>
         )
     }
 
@@ -371,8 +372,6 @@ const ImpactProgress = () => {
         const [totalSROI, setTotalSROI] = useState(0)
 
         const dataset = useFirestoreResults(output.ID)
-
-        console.log(output)
 
         useEffect(() => {
             SROIs && SROIs.forEach(sroi => {
