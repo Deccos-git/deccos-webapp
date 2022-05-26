@@ -31,42 +31,6 @@ const NewClient = () => {
 
     }
 
-
-    const logoHandler = (e) => {
-
-        setLoader(spinnerRipple)
-
-        const logo = e.target.files[0]
-
-        const storageRef = bucket.ref("/Logos/" + logo.name);
-        const uploadTask = storageRef.put(logo)
-
-        uploadTask.then(() => {
-          
-            uploadTask.on('state_changed', snapshot => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED:
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING:
-                console.log('Upload is running');
-                break;
-            }
-            }, (err) => {
-                alert(err)
-            }, () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('File available at', downloadURL);
-
-            setLogo(downloadURL)
-            setLoader(downloadURL)
-
-                })
-            })
-        })
-    }
-
     const fornameHandler = (e) => {
         const forname = e.target.value
 
@@ -97,17 +61,59 @@ const NewClient = () => {
         setPasswordRepeat(passwordRepeat)
     }
 
-    const saveNewClient = (e) => {
+const createUser = () => {
+    
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((cred) => {
+        db.collection("Users")
+        .doc(cred.user.uid)
+        .set({
+            UserName: `${forname} ${surname}`,
+            ForName: forname,
+            SurName: surname,
+            Compagny: firebase.firestore.FieldValue.arrayUnion(communityName.toLocaleLowerCase()),
+            Timestamp: timestamp,
+            Email: email,
+            Photo: photo,
+            ID: id,
+            Approved: true,
+            Deleted: false,
+            Docid: cred.user.uid,
+        })
+    })
+    .catch((err) => {
+        console.log(err)
+            if(err){
+                alert(err)
+            } else {
+                loginUser()
+            }
+      })
+}
+
+    const loginUser = () => {
+        auth.signInWithEmailAndPassword(email, password)
+        .catch(err => {
+            console.log(err)
+            if(err){
+                alert(err)
+            } else {
+                history.replace(`/${communityName.toLocaleLowerCase()}/Introduction`) 
+            }
+        })
+    }
+
+    const createClient = () => {
 
         db.collection("CompagnyMeta")
         .doc()
         .set({
-           Compagny: communityName.toLocaleLowerCase(),
-           CommunityName: communityName, 
-           Logo: logo,
-           ID: id,
-           VerificationMethode: "Admin",
-           Timestamp: timestamp,
+            Compagny: communityName.toLocaleLowerCase(),
+            CommunityName: communityName, 
+            Logo: logo,
+            ID: id,
+            VerificationMethode: "Admin",
+            Timestamp: timestamp,
         })
         .then(() => {
             db.collection('Admins')
@@ -121,10 +127,21 @@ const NewClient = () => {
             })
         })
         .then(() => {
+            db.collection('Admins')
+            .doc()
+            .set({
+                Compagny: communityName.toLocaleLowerCase(),
+                Email: 'info@deccos.nl',
+                Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
+                UserID: id,
+                UserName: `${forname} ${surname}`
+            })
+        })
+        .then(() => {
             db.collection('Colors')
             .doc()
             .set({
-                Background: '#dee3e8',
+                Background: '#e0f2f5',
                 Topbar: '#FFFFFF',
                 TopBarIcons: '#2F2C41',
                 ID: uuid(),
@@ -154,52 +171,17 @@ const NewClient = () => {
             })
         })
         .then(() => {
-            history.replace(`/${communityName.toLocaleLowerCase()}/Introduction`) 
+            createUser()
         })
     }
 
-const registerHandler = () => {
-    
-    auth.createUserWithEmailAndPassword(email, password)
-    .then((cred) => {
-        db.collection("Users")
-        .doc(cred.user.uid)
-        .set({
-            UserName: `${forname} ${surname}`,
-            ForName: forname,
-            SurName: surname,
-            Compagny: firebase.firestore.FieldValue.arrayUnion(communityName.toLocaleLowerCase()),
-            Timestamp: timestamp,
-            Email: email,
-            Photo: photo,
-            ID: id,
-            Approved: false,
-            Deleted: false,
-            Docid: cred.user.uid,
-        })
-    })
-    .then(() => {
-        auth.signInWithEmailAndPassword(email, password)
-        .catch(err => {
-            console.log(err)
-            if(err){
-                alert(err)
-            } else {
-                return
-            }
-        })
-    })
-    .then(() => {
-        saveNewClient()
-    })
-}
-
-
         const checkHandler = (e) => {
+
+            e.preventDefault()
     
             if(password === passwordRepeat){
                 ButtonClicked(e, 'Aangemaakt')
-                registerHandler()
+                createClient()
             } else {
                 alert('De paswoorden zijn niet gelijk')
             }
@@ -212,7 +194,7 @@ const registerHandler = () => {
             </header>
             <div className="new-client-container">
                 <div className="card-header">
-                    <h1 id='title-new-client'>Creeer je Deccos bedrijfsaccount</h1>
+                    <h1 id='title-new-client'>Creëer je Deccos bedrijfsaccount</h1>
                     <p>Begin je impact managent avontuur.</p>
                     <ul>
                         <li>Je account blijft gratis zolang je wilt</li>

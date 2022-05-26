@@ -204,7 +204,7 @@ const GoalTitle = () => {
                         <ul>
                             <li>Is het doel concreet?</li>
                             <li>Is het doel meetbaar en hebben jullie hier een directe invloed op?</li>
-                            <li>Is het doel realistische en haalbaar?</li>
+                            <li>Is het doel realistisch en haalbaar?</li>
                         </ul>
                         <p>Om je impact dashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
                             Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 

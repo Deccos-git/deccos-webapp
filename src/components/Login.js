@@ -50,17 +50,17 @@ const Login = () => {
             if(err){
                 alert(err)
             } else {
-                return
+                resumeLogin()
             }
         })
-        .then(() => {
-            if(client != ''){
-                history.push(`/${client}/ImpactProgress`)
-            } else {
-                history.push(`/MultipleAccounts`)
-            }
-           
-        })
+    }
+
+    const resumeLogin = () => {
+        if(client != ''){
+            history.push(`/${client}/Introduction`)
+        } else {
+            history.push(`/MultipleAccounts`)
+        }
     }
 
     const resetPasswordModal = () => {

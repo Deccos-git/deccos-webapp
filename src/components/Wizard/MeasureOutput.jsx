@@ -90,7 +90,7 @@ const MeasureOutput = () => {
             ID: id,
             Compagny: client,
             Timestamp: timestamp,
-            Title: title,
+            Title: 'test',
             ActivityID: activityID,
             Activity: activityTitle,
             Number: number,
@@ -265,7 +265,7 @@ const MeasureOutput = () => {
                                             <th>ACTIE</th>
                                         </tr>
                                         {milestones && milestones.map(milestone => (
-                                            <tr>
+                                            <tr key={milestone.ID}>
                                                 <td>
                                                     <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
                                                 </td>

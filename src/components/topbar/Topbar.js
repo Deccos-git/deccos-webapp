@@ -52,9 +52,6 @@ const Topbar = () => {
             </div>
             <div id='logo-subscription-container'>
                 <a onClick={homeLink} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
-                <div style={{display: premium ? 'block' : 'none'}}>
-                    <p>Premium</p>
-                </div>
             </div>
             <div className="iconbar-external-container">
                 <Iconbar/>

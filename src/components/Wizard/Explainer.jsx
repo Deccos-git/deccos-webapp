@@ -66,9 +66,9 @@ const Explainer = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <p><b>
-                            Het bestaandrecht van een sociale onderneming is de maatschappelijke impact die wordt gerealiseerd. 
+                            Het bestaansrecht van een sociale onderneming is de maatschappelijke impact die wordt gerealiseerd. 
                             Hoe maak je die impact meetbaar? Dat is de centrale vraag waar je aan de hand van impactmanagement 
-                            een antwoord op formuleerd.
+                            een antwoord op formuleert.
                         </b></p>
                         <p>
                             Zoals het woord management al doet vermoeden is impact management geen eenmalige taak. Het is een doorgaand proces 
@@ -81,7 +81,7 @@ const Explainer = () => {
                         </p>
                         <p>
                             Wanneer impactmanagement een onderdeel van je bedrijfsvoering is krijg je een groeiend inzicht 
-                            in waar het in jouw sociale ondernemeing om draaid: meetbare maatschappelijke impact.
+                            in waar het in jouw sociale ondernemeing om draait: meetbare maatschappelijke impact.
                         </p>
                         <p>Binnen Deccos bestaat impactmanagement uit vier delen:</p>
                         <ul>
@@ -100,22 +100,12 @@ const Explainer = () => {
                         <p>Het veranderpad is de basis voor het meetplan. In het meetplan werk je uit of de 
                             activiteiten daadwerkelijk tot de gewenste impact leiden. De impact wordt meetbaar gemaakt. 
                             De eerste stap is het bijhouden van de outputs. De tweede stap is het meten van de effecten. 
-                            Dit doe je aan d ehand van bijvoorbeeld een vragenlijst of interviews.
+                            Dit doe je aan de hand van bijvoorbeeld een vragenlijst of interview.
                         </p>
                         <p>Het communiceren van je impact doe je in de Deccos Impactclub. In de Impactclub kun je je 
                             stakeholders uitnodigen om je impact realtime te volgen. Zo kunnen je stakeholders altijd 
                             op de hoogte blijven van jullie real-time voortgang en ambities.
                         </p>
-                    </div>
-                </div>
-                <div>
-                    <div className='activity-meta-title-container'>
-                        <img src={rocketIcon} alt="" />
-                        <h3>Aan de slag</h3>
-                    </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
-                       <p>Een goede impactstrategie begint met een heldere probleemanalyse.</p>
-                       <NavLink to={`/${client}/ProblemAnalysis`} ><button>Aan de slag</button></NavLink>
                     </div>
                 </div>
                 <div>

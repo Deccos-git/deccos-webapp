@@ -78,7 +78,7 @@ function App() {
         )
       } else if (online === true && approved === false && compagny.includes(client) && client != ''){
         return <NotApproved/>
-      } else if (online === true && client === ''){
+      } else if (online === true && client === '' ){
         return (
         <AuthProvider>
           <MultipleAccounts />

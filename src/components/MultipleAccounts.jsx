@@ -58,7 +58,19 @@ const MultipleAccounts = () => {
         window.location.reload()
     }
 
-    
+    const checkMultoipleAccounts = () => {
+        if(organisations.length === 1){
+            console.log('test')
+            organisations && organisations.forEach(org => {
+                history.push(`/${org}/Introduction`)
+                window.location.reload()
+            })
+        } else {
+            return
+        }
+    }
+
+    checkMultoipleAccounts()
 
     return (
         <div>

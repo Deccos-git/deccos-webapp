@@ -143,6 +143,7 @@ button{
 input{
   padding: 15px;
   border-radius: 3px;
+  font-size: 15px;
   border: 1px solid lightgray;
   font-family: 'Poppins', sans-serif;
   color: gray;

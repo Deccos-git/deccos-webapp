@@ -75,8 +75,6 @@ const AddSROI = () => {
 
     const addSROI = (e) => {
 
-        ButtonClicked(e, 'Opgeslagen')
-
         const id = uuid()
 
         db.collection('SROIs')
@@ -209,7 +207,7 @@ const AddSROI = () => {
                     <p><b>2. Beheer je SROI</b></p>
                     <div className='list-container'>
                         <div className='list-top-row-container'>
-                                <img src={plusButton} alt="" onClick={addSROI}/>
+                            <img src={plusButton} alt="" onClick={addSROI}/>
                         </div>
                         <div className='table-container'>
                             <table>

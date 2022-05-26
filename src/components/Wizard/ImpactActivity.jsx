@@ -49,14 +49,6 @@ const ImpactActivity = () => {
 
         const impact = e.target.value 
 
-        setImpact(impact)
-
-    }
-
-    const saveImpactActivity = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
         db.collection('Activities')
         .doc(activityDocid)
         .update({
@@ -117,9 +109,6 @@ const ImpactActivity = () => {
                     </select>
                     <p><b>2. Formuleer de impact</b></p>
                     <textarea type="text" placeholder='Schrijf hier de impact' defaultValue={impact} onChange={impactHandler} />
-                    <div className='button-container-align-left'>
-                        <button className='button-simple' onClick={saveImpactActivity}>Opslaan</button>
-                    </div>
                 </div>
             </div>
             <div>

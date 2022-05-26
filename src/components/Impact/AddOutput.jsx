@@ -42,6 +42,8 @@ const AddOutput = () => {
 
     },[colors])
 
+    console.log(outputs)
+
     const activityHandler = (e) => {
         const activityID = e.target.options[e.target.selectedIndex].dataset.id
         const activityTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -159,7 +161,7 @@ const AddOutput = () => {
                                     <th>ACTIE</th>
                                 </tr>
                                 {outputs && outputs.map(output => (
-                                    <tr>
+                                    <tr key={output.ID}>
                                         <td>
                                             <input type="text" data-docid={output.docid} defaultValue={output.Title} placeholder='Output' onChange={outputHandler} />
                                         </td>

@@ -142,7 +142,7 @@ const StakeholderAnalysis = () => {
                             van je probleemanalyse, je doelstellingen en vrijwel alle andere aspecten van het impact management 
                             proces is het belangrijk om je stakeholders te betrekken.</p>
                         <p>Stakeholders zijn de mensen en organisaties die direct beïnvloed worden door de activiteiten van 
-                            jouw sociale organisaties. Die invloed kan zowel positief als negatief zijn.</p>
+                            jouw sociale organisatie. Die invloed kan zowel positief als negatief zijn.</p>
                         <p>Voorbeelden van stakeholders zijn:</p>
                         <ul>
                             <li>Jouw doelgroep</li>

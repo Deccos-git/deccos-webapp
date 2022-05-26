@@ -65,15 +65,7 @@ const ProblemAnalysis = () => {
 
     const centralProblemHandler = (e) => {
         const centralProblem = e.target.value 
-
-        setCentralProblem(centralProblem)
-    }
-
-    const saveCentralProblem = (e) => {
-
         const docid = e.target.dataset.docid
-
-        ButtonClicked(e, 'Opgeslagen')
 
         db.collection('ProblemAnalysis')
         .doc(docid)
@@ -267,7 +259,7 @@ const ProblemAnalysis = () => {
                     <p>Als sociale organisatie wil je een maatschappelijk probleem oplossen. 
                         Aangezien dit maatschappelijke probleem zo essentieel is voor een sociale organisatie is het 
                         belangrijk om het probleem helder voor ogen te hebben. Dat geeft inzicht in de aard van het 
-                        probleem en geeft richting de oplossing die jullie als organisatie willen aandragen.
+                        probleem en geeft richting aan de oplossing die jullie als organisatie willen aandragen.
                     </p>
                     <p>
                         Om het maatschappelijke probleem inzichtelijk te krijgen beginnen we met formuleren van het 
@@ -281,7 +273,7 @@ const ProblemAnalysis = () => {
                         <li>Etc.</li>
                     </ul>
                     <p>
-                        Wanneer het centrale probleem is geformuleerd onderzoeken we wat de directe en indirecte oorzaken 
+                        Wanneer het centrale probleem is geformuleerd onderzoek je wat de directe en indirecte oorzaken 
                         en gevolgen zijn van het probleem.
                     </p>
                     <p>
@@ -373,8 +365,7 @@ const ProblemAnalysis = () => {
                         </div>
                         <div className='problem-analysis-card central-problem-card'>
                             <p id='central-problem'>Centrale probleem</p>
-                            <input type="text" defaultValue={problem.CentralProblem} placeholder='Noteer hier het centrale probleem' onChange={centralProblemHandler} />
-                            <button className='button-simple' data-docid={problem.docid} onClick={saveCentralProblem}>Opslaan</button>
+                            <input type="text" data-docid={problem.docid} defaultValue={problem.CentralProblem} placeholder='Noteer hier het centrale probleem' onChange={centralProblemHandler} />
                         </div>
                         <div className='problemanalysis-arrow-container'>
                             <img src={arrowUpIcon} alt="" />
