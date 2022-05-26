@@ -23,6 +23,9 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import { db, timestamp } from "../../firebase/config.js"
 import completeIcon from '../../images/icons/complete-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Research = () => {
     const [color, setColor] = useState('')
@@ -41,6 +44,7 @@ const Research = () => {
 
     const menuState = MenuStatus() 
     const history = useHistory()
+    const premium = Premium() 
     Modal.setAppElement('#root');
 
     const modalStyles = {
@@ -301,7 +305,7 @@ const Research = () => {
                             <p>Vragenlijsten</p>
                         </div>
                     </NavLink>
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(18)}
                     <NavLink to={`/${client}/ResearchAnalyses`} >
                         <div className='step-container'>
                             <p>Onderzoeksanalyse</p>
@@ -332,33 +336,38 @@ const Research = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <div className='list-container'>
-                            <div className='list-top-row-container'>
-                                <img  src={plusButton} alt="" onClick={() => setModalOpen(true)} alt="" />
+                        <div style={{display: premium ? 'block' : 'none'}}>
+                            <div className='list-container'>
+                                <div className='list-top-row-container'>
+                                    <img  src={plusButton} alt="" onClick={() => setModalOpen(true)} alt="" />
+                                </div>
+                                <div className='table-container'>
+                                    <table>
+                                        <tr>
+                                            <th>ONDERZOEK</th>
+                                            <th>MEETMOMENTEN</th>
+                                            <th>ACTIE</th>
+                                        </tr>
+                                        {researches && researches.map(research => (
+                                        <tr>
+                                            <td>
+                                                <input type="text" defaultValue={research.Title} />
+                                            </td>
+                                            <td>
+                                                <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={openMomentModal} alt="" />
+                                                <MeasureMoments research={research}/>
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={research.docid} onClick={deleteResearch} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                        ))}
+                                    </table>
+                                </div>
                             </div>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>ONDERZOEK</th>
-                                        <th>MEETMOMENTEN</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {researches && researches.map(research => (
-                                    <tr>
-                                        <td>
-                                            <input type="text" defaultValue={research.Title} />
-                                        </td>
-                                        <td>
-                                            <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={openMomentModal} alt="" />
-                                            <MeasureMoments research={research}/>
-                                        </td>
-                                        <td>
-                                            <img className='table-delete-icon' data-docid={research.docid} onClick={deleteResearch} src={deleteIcon} alt="" />
-                                        </td>
-                                    </tr>
-                                    ))}
-                                </table>
-                            </div>
+                        </div>
+                        <div style={{display: premium ? 'none' : 'flex'}}>
+                            <PremiumNotice/>
                         </div>
                     </div>
                 </div>
@@ -369,9 +378,15 @@ const Research = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
                             <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
@@ -382,8 +397,8 @@ const Research = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap ga je een onderzoeksanalyse uitvoeren</p>
+                        <NavLink to={`/${client}/ResearchAnalyses`} > <button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

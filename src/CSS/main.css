@@ -635,6 +635,7 @@
   #logo-subscription-container p{
       color: rgb(99, 202, 220);
       font-size: 12px;
+      font-weight: bold;
   }
 
   .premium-notice-outer-container{

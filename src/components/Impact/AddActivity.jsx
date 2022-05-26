@@ -9,7 +9,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import { client } from "../../hooks/Client"
 import deleteIcon from '../../images/icons/delete-icon.png'
 import { useHistory } from "react-router-dom";
-import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket } from '../../firebase/config';
@@ -25,6 +25,7 @@ import Modal from 'react-modal';
 import plusButton from '../../images/icons/plus-icon.png'
 import cancelIcon from '../../images/icons/cancel-icon.png'
 import imageIcon from '../../images/icons/image-icon.png'
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
@@ -185,7 +186,7 @@ const AddActivity = () => {
                                 <p>Externe factoren</p>
                             </div>
                         </NavLink>  
-                        <p>11 van de 12</p>
+                        {ImpactGuideMenu(11)}
                         <NavLink to={`/${client}/ImpactActivity`} >
                             <div className='step-container'>
                                 <p>Impact van activiteit</p>
@@ -312,8 +313,21 @@ const AddActivity = () => {
                     <h3>Tips</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
-                    <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <ol>
+                        <li>
+                            Voeg een sprekend plaatje toe om het belang van jullie activiteit kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.
+                        </li>
+                        <li>
+                            Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                            Klik op het 
+                            <NavLink to={`/${client}/Support`} >
+                                <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                            </NavLink>
+                            icon in de 
+                            bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                        </li>
+                        <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
+                    </ol>
                 </div>
             </div>
             <div>
@@ -322,8 +336,8 @@ const AddActivity = () => {
                     <h3>Volgende stap</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>In de volgende stap ga je de impactdoelen plannen in de tijd.</p>
-                    <button>Volgende stap</button>
+                    <p>In de volgende stap ga je de impact van de activiteiten omschrijven.</p>
+                    <NavLink to={`/${client}/ImpactActivity`} ><button>Volgende stap</button></NavLink>
                 </div>
             </div>
             </div>

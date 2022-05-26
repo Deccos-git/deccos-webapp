@@ -133,9 +133,15 @@ const Introduction = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
                             <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
@@ -146,8 +152,8 @@ const Introduction = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap lees je meer over wat impact management inhoudt.</p>
+                        <NavLink to={`/${client}/Explainer`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

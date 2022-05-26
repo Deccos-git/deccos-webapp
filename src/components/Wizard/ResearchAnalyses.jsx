@@ -14,6 +14,9 @@ import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router-dom"
 import { NavLink, Link } from "react-router-dom";
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const ResearchAnalysis = () => {
     const [color, setColor] = useState('')
@@ -22,6 +25,7 @@ const ResearchAnalysis = () => {
 
     const menuState = MenuStatus() 
     const history = useHistory()
+    const premium = Premium() 
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -46,7 +50,7 @@ const ResearchAnalysis = () => {
                             <p>Onderzoeken</p>
                         </div>
                     </NavLink>
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(19)}
                     <NavLink to={`/${client}/Projectmanagement`} >
                         <div className='step-container'>
                             <p>Projectbeheer</p>
@@ -71,7 +75,12 @@ const ResearchAnalysis = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        
+                        <div style={{display: premium ? 'block' : 'none'}}>
+
+                        </div>
+                        <div style={{display: premium ? 'none' : 'flex'}}>
+                            <PremiumNotice/>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -81,9 +90,15 @@ const ResearchAnalysis = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
                             <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
@@ -94,8 +109,8 @@ const ResearchAnalysis = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap lees je meer over wat het projectbeheer van Deccos inhoudt.</p>
+                        <NavLink to={`/${client}/Projectmanagement`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

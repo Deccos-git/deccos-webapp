@@ -21,6 +21,7 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 import Modal from 'react-modal';
 import firebase from 'firebase'
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const ProblemAnalysis = () => {
     const [color, setColor] = useState('')
@@ -246,7 +247,7 @@ const ProblemAnalysis = () => {
                         <p>Wat is impact management?</p>
                     </div>
                 </NavLink>  
-                <p>2 van de 12</p>
+                {ImpactGuideMenu(2)}
                 <NavLink to={`/${client}/StakeholderAnalysis`} >
                     <div className='step-container'>
                         <p>Stakeholders</p>
@@ -455,8 +456,13 @@ const ProblemAnalysis = () => {
                 <div className='text-section' style={{backgroundColor: color}}>
                     <ol>
                         <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                            Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
+                            Klik op het 
+                            <NavLink to={`/${client}/Support`} >
+                                <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                            </NavLink>
+                            icon in de 
                             bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                        <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                     </ol>
                 </div>
             </div>
@@ -467,9 +473,7 @@ const ProblemAnalysis = () => {
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
                     <p>In de volgende stap ga je de stakeholders in kaart brengen.</p>
-                    <NavLink to={`/${client}/Stakeholders`} >
-                        <button>Volgende stap</button>
-                    </NavLink>
+                    <NavLink to={`/${client}/StakeholderAnalysis`} ><button>Volgende stap</button></NavLink>
                 </div>
             </div>
         </div> 

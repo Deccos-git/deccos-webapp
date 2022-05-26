@@ -494,6 +494,16 @@
     margin-top: 20px;
 }
 
+#impact-guide-menu-selecter select{
+    max-width: 100%;
+}
+
+#impact-guide-menu-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .default-goal-image{
     cursor: pointer;
 }

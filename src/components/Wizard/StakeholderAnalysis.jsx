@@ -18,6 +18,7 @@ import { db, timestamp } from "../../firebase/config.js"
 import firebase from 'firebase'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const StakeholderAnalysis = () => {
 
@@ -121,7 +122,7 @@ const StakeholderAnalysis = () => {
                             <p>Probleemanalyse</p>
                         </div>
                     </NavLink>  
-                    <p>3 van de 12</p>
+                    {ImpactGuideMenu(3)}
                     <NavLink to={`/${client}/GoalTitle`} >
                         <div className='step-container'>
                             <p>Impactdoelen</p>
@@ -214,10 +215,15 @@ const StakeholderAnalysis = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
+                            <li>Betrek je stakeholders bij je impact strategie</li>
                             <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
                                 bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
-                            <li><li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li></li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>
@@ -227,8 +233,8 @@ const StakeholderAnalysis = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap ga je impact doelen stellen.</p>
+                        <NavLink to={`/${client}/GoalTitle`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

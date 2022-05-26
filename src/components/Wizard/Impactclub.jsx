@@ -17,6 +17,7 @@ import { NavLink, Link } from "react-router-dom";
 import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket, db } from '../../firebase/config';
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Impactclub = () => {
 
@@ -141,7 +142,7 @@ const Impactclub = () => {
                             <p>Projectbeheer</p>
                         </div>
                     </NavLink>  
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(21)}
                     <NavLink to={`/${client}/Introduction`} >
                         <div className='step-container'>
                             <p>Deccos Impact Guide</p>
@@ -184,9 +185,16 @@ const Impactclub = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>
@@ -196,8 +204,8 @@ const Impactclub = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <p>Dit was de laatste stap van de Deccos Impact Guide. Klik op de knop hieronder om terug te gaan naar het begin van de guide.</p>
+                        <NavLink to={`/${client}/Introduction`} ><button>Terug naar begin</button></NavLink>
                     </div>
                 </div>
             </div> 

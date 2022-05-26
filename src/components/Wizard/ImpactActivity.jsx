@@ -13,6 +13,8 @@ import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
 import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const ImpactActivity = () => {
     const [color, setColor] = useState('')
@@ -77,7 +79,7 @@ const ImpactActivity = () => {
                         <p>Activiteiten</p>
                     </div>
                 </NavLink>  
-                <p>12 van de 12</p>
+                {ImpactGuideMenu(12)}
                 <NavLink to={`/${client}/AddOutput`} >
                     <div className='step-container'>
                         <p>Outputs</p>
@@ -126,8 +128,21 @@ const ImpactActivity = () => {
                     <h3>Tips</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
-                    <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <ol>
+                        <li>
+                            Zorg ervoor dat de impact op de doelgroep concreet en meetbaar is.
+                        </li>
+                        <li>
+                            Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                            Klik op het 
+                            <NavLink to={`/${client}/Support`} >
+                                <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                            </NavLink>
+                            icon in de 
+                            bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                        </li>
+                        <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
+                    </ol>
                 </div>
             </div>
             <div>
@@ -136,8 +151,8 @@ const ImpactActivity = () => {
                     <h3>Volgende stap</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>In de volgende stap ga je de impactdoelen plannen in de tijd.</p>
-                    <button>Volgende stap</button>
+                    <p>In de volgende stap ga je de outputs van de activiteiten omschrijven.</p>
+                    <NavLink to={`/${client}/AddOutput`} ><button>Volgende stap</button></NavLink>
                 </div>
             </div>
         </div> 

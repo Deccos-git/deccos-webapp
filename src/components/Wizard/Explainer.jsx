@@ -14,6 +14,7 @@ import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Explainer = () => {
 
@@ -48,7 +49,7 @@ const Explainer = () => {
                             <p>Deccos Impact Guide</p>
                         </div>
                     </NavLink>  
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(1)}
                     <NavLink to={`/${client}/ProblemAnalysis`} >
                         <div className='step-container'>
                             <p>Probleemanalyse</p>
@@ -114,7 +115,7 @@ const Explainer = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                        <p>Een goede impactstrategie begint met een heldere probleemanalyse.</p>
-                       <button>Aan de slag</button>
+                       <NavLink to={`/${client}/ProblemAnalysis`} ><button>Aan de slag</button></NavLink>
                     </div>
                 </div>
                 <div>
@@ -137,7 +138,7 @@ const Explainer = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <NavLink to={`/${client}/ProblemAnalysis`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

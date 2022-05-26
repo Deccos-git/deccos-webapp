@@ -21,6 +21,9 @@ import growIcon from '../../images/icons/grow-icon.png'
 import Modal from 'react-modal';
 import ButtonClicked from "../../hooks/ButtonClicked";
 import completeIcon from '../../images/icons/complete-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const MeasureOutput = () => {
     const [outputID, setOutputID] = useState('')
@@ -36,6 +39,7 @@ const MeasureOutput = () => {
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
+    const premium = Premium() 
     Modal.setAppElement('#root');
 
     const modalStyles = {
@@ -179,7 +183,7 @@ const MeasureOutput = () => {
                             <p>SROI</p>
                         </div>
                     </NavLink>  
-                    <p>16 van de 12</p>
+                    {ImpactGuideMenu(16)}
                     <NavLink to={`/${client}/Questionnaires`} >
                         <div className='step-container'>
                             <p>Vragenlijsten</p>
@@ -238,46 +242,51 @@ const MeasureOutput = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>1. Selecteer een output waaraan je de mijlpaal wilt koppelen</b></p>
-                    <select name="" id="" onChange={outputHandler}>
-                        <option value="">-- Selecteer een output --</option>
-                        {outputs && outputs.map(output => (
-                            <option value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
-                        ))}
-                    </select>
-                    <div style={{display: outputID ? 'block' : 'none'}}>
-                        <p><b>2. Beheer je mijlpalen </b></p>
-                        <div className='list-container'>
-                            <div className='list-top-row-container'>
-                                <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
-                            </div>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>MIJLPAAL</th>
-                                        <th>AANTAL</th>
-                                        <th>DEADLINE</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {milestones && milestones.map(milestone => (
+                    <div style={{display: premium ? 'block' : 'none'}}>
+                        <p><b>1. Selecteer een output waaraan je de mijlpaal wilt koppelen</b></p>
+                        <select name="" id="" onChange={outputHandler}>
+                            <option value="">-- Selecteer een output --</option>
+                            {outputs && outputs.map(output => (
+                                <option value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
+                            ))}
+                        </select>
+                        <div style={{display: outputID ? 'block' : 'none'}}>
+                            <p><b>2. Beheer je mijlpalen </b></p>
+                            <div className='list-container'>
+                                <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
+                                </div>
+                                <div className='table-container'>
+                                    <table>
                                         <tr>
-                                            <td>
-                                                <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
-                                            </td>
-                                            <td>
-                                                <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
-                                            </td>
-                                            <td>
-                                                <input type="date" placeholder='0' defaultValue={milestone.Deadline} data-docid={milestone.docid} onChange={deadlineHandler} />
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-docid={milestone.docid} onClick={deleteMilestone} src={deleteIcon} alt="" />
-                                            </td>
+                                            <th>MIJLPAAL</th>
+                                            <th>AANTAL</th>
+                                            <th>DEADLINE</th>
+                                            <th>ACTIE</th>
                                         </tr>
-                                    ))}
-                                </table>
+                                        {milestones && milestones.map(milestone => (
+                                            <tr>
+                                                <td>
+                                                    <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
+                                                </td>
+                                                <td>
+                                                    <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
+                                                </td>
+                                                <td>
+                                                    <input type="date" placeholder='0' defaultValue={milestone.Deadline} data-docid={milestone.docid} onChange={deadlineHandler} />
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-docid={milestone.docid} onClick={deleteMilestone} src={deleteIcon} alt="" />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div style={{display: premium ? 'none' : 'flex'}}>
+                        <PremiumNotice/>
                     </div>
                 </div>
             </div>
@@ -288,9 +297,16 @@ const MeasureOutput = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>
@@ -300,8 +316,8 @@ const MeasureOutput = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap ga je vragenlijsten toevoegen.</p>
+                        <NavLink to={`/${client}/Questionnaires`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

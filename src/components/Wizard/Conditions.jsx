@@ -15,8 +15,9 @@ import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
-import firebase from 'firebase'
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import uuid from "react-uuid";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Conditions = () => {
     const [color, setColor] = useState('')
@@ -106,7 +107,7 @@ const Conditions = () => {
                         <p>Aannames</p>
                     </div>
                 </NavLink>  
-                <p>10 van de 12</p>
+                {ImpactGuideMenu(10)}
                 <NavLink to={`/${client}/AddActivity`} >
                     <div className='step-container'>
                         <p>Activiteiten</p>
@@ -179,8 +180,18 @@ const Conditions = () => {
                     <h3>Tips</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
-                    <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                    <ol>
+                        <li>
+                            Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                            Klik op het 
+                            <NavLink to={`/${client}/Support`} >
+                                <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                            </NavLink>
+                            icon in de 
+                            bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                        </li>
+                        <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
+                    </ol>
                 </div>
             </div>
             <div>
@@ -189,8 +200,8 @@ const Conditions = () => {
                     <h3>Volgende stap</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>In de volgende stap ga je de impactdoelen plannen in de tijd.</p>
-                    <button>Volgende stap</button>
+                    <p>In de volgende stap ga je de activiteiten omschrijven die jullie organisatie uitvoert om tot meetbare impact te komen.</p>
+                    <NavLink to={`/${client}/AddActivity`} ><button>Volgende stap</button></NavLink>
                 </div>
             </div>
         </div> 

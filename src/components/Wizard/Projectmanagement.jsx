@@ -19,12 +19,16 @@ import calendarIcon from '../../images/icons/calendar-icon.png'
 import timelineIcon from '../../images/icons/timeline-icon.png'
 import meetingIcon from '../../images/icons/meeting-icon.png'
 import growIcon from '../../images/icons/grow-icon.png'
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Projectmanagement = () => {
 
     const [color, setColor] = useState('')
    
     const menuState = MenuStatus() 
+    const premium = Premium() 
     
     const colors = useFirestore('Colors')
     const groups = useFirestore('Groups')
@@ -52,7 +56,7 @@ const Projectmanagement = () => {
                             <p>Onderzoeksanalyse</p>
                         </div>
                     </NavLink>  
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(20)}
                     <NavLink to={`/${client}/Impactclub`} >
                         <div className='step-container'>
                             <p>Impactclub</p>
@@ -125,27 +129,32 @@ const Projectmanagement = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
-                            <img src={taskIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Tasks`}>Bekijk taken</NavLink>
+                        <div style={{display: premium ? 'block' : 'none'}}>
+                            <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                                <img src={taskIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Tasks`}>Bekijk taken</NavLink>
+                            </div>
+                            <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                                <img src={calendarIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Agenda`}>Bekijk agenda</NavLink>
+                            </div>
+                            {/* <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                                <img src={timelineIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Planning`}>Bekijk planning</NavLink>
+                            </div> */}
+                            <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                                <img src={growIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Bekijk mijlpalen</NavLink>
+                            </div>
+                            <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
+                                <img src={meetingIcon} alt="" />
+                                {groups && groups.map(group => (
+                                    <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Bekijk impactHQ</NavLink>
+                                ))}
+                            </div>
                         </div>
-                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
-                            <img src={calendarIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Agenda`}>Bekijk agenda</NavLink>
-                        </div>
-                        {/* <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
-                            <img src={timelineIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/Planning`}>Bekijk planning</NavLink>
-                        </div> */}
-                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
-                            <img src={growIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Bekijk mijlpalen</NavLink>
-                        </div>
-                        <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
-                            <img src={meetingIcon} alt="" />
-                            {groups && groups.map(group => (
-                                <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Bekijk impactHQ</NavLink>
-                            ))}
+                        <div style={{display: premium ? 'none' : 'flex'}}>
+                            <PremiumNotice/>
                         </div>
                     </div>
                 </div>
@@ -156,9 +165,16 @@ const Projectmanagement = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>
@@ -168,8 +184,8 @@ const Projectmanagement = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap leer je hoe je jullie meetbare impact kunt communiceren via de Deccos Impactclub.</p>
+                        <NavLink to={`/${client}/Impactclub`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

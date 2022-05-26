@@ -18,6 +18,9 @@ import penIcon from '../../images/icons/pen-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
 import { db, timestamp } from "../../firebase/config.js"
+import Premium from "../../hooks/Premium";
+import PremiumNotice from "../PremiumNotice";
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Questionnaires = () => {
 
@@ -27,6 +30,7 @@ const Questionnaires = () => {
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
+    const premium = Premium() 
     
     const colors = useFirestore('Colors')
     const questionnaires = useFirestore('Questionnaires')
@@ -90,7 +94,7 @@ const Questionnaires = () => {
                             <p>Mijlpalen stellen</p>
                         </div>
                     </NavLink>  
-                    <p>1 van de 12</p>
+                    {ImpactGuideMenu(17)}
                     <NavLink to={`/${client}/Research`} >
                         <div className='step-container'>
                             <p>Onderzoek opzetten</p>
@@ -118,58 +122,63 @@ const Questionnaires = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>Vragenlijsten van {name}</b></p>
-                        <div className='list-container'>
-                            <div className='list-top-row-container'>
-                                    <img src={plusButton} alt="" onClick={addQuestionnaire}/>
-                            </div>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>TITEL</th>
-                                        <th>BEKIJK</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {questionnaires && questionnaires.map(questionnaire => (
+                        <div style={{display: premium ? 'block' : 'none'}}>
+                            <p><b>Vragenlijsten van {name}</b></p>
+                            <div className='list-container'>
+                                <div className='list-top-row-container'>
+                                        <img src={plusButton} alt="" onClick={addQuestionnaire}/>
+                                </div>
+                                <div className='table-container'>
+                                    <table>
                                         <tr>
-                                            <td>
-                                                <p>{questionnaire.Title}</p>
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-docid={questionnaire.docid} onClick={deleteQuestionnaire} src={deleteIcon} alt="" />
-                                            </td>
+                                            <th>TITEL</th>
+                                            <th>BEKIJK</th>
+                                            <th>ACTIE</th>
                                         </tr>
-                                    ))}
-                                </table>
+                                        {questionnaires && questionnaires.map(questionnaire => (
+                                            <tr>
+                                                <td>
+                                                    <p>{questionnaire.Title}</p>
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-docid={questionnaire.docid} onClick={deleteQuestionnaire} src={deleteIcon} alt="" />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
+                            </div>
+                            <p><b>Bestaande vragenlijsten</b></p>
+                            <div className='list-container'>
+                                <div className='table-container'>
+                                    <table>
+                                        <tr>
+                                            <th>TITEL</th>
+                                            <th>DOEL</th>
+                                            <th>ACTIE</th>
+                                        </tr>
+                                        {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
+                                            <tr>
+                                                <td>
+                                                    <p>{questionnaire.Title}</p>
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <p><b>Bestaande vragenlijsten</b></p>
-                        <div className='list-container'>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>TITEL</th>
-                                        <th>DOEL</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
-                                        <tr>
-                                            <td>
-                                                <p>{questionnaire.Title}</p>
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
-                                            </td>
-                                            <td>
-
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </table>
-                            </div>
+                        <div style={{display: premium ? 'none' : 'flex'}}>
+                            <PremiumNotice/>
                         </div>
                     </div>
                     </div>
@@ -181,9 +190,16 @@ const Questionnaires = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <ol>
-                            <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
+                            <li>
+                                Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                                Klik op het 
+                                <NavLink to={`/${client}/Support`} >
+                                    <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                                </NavLink>
+                                icon in de 
+                                bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                            </li>
+                            <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
                         </ol>
                     </div>
                 </div>
@@ -193,8 +209,8 @@ const Questionnaires = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap ga je een onderzoek vormgeven.</p>
+                        <NavLink to={`/${client}/Research`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 

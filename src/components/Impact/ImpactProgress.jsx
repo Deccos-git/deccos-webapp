@@ -17,7 +17,9 @@ import {
     useFirestoreSDGsSelected,
     useFirestoreOutputEffects,
     useFirestoreResearch,
-    useFirestoreMeasureMoments
+    useFirestoreMeasureMoments,
+    useFirestoreAssumptions,
+    useFirestoreConditions
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -89,48 +91,30 @@ const ImpactProgress = () => {
             <div id='impact-progress-goal-container' className='divider'>
                 <h2>{goal.Title}</h2>
                 <div id='goal-meta-container'>
-                    <div className='goal-meta-inner-container'>
-                        <div className='goal-meta-title-container'>
-                            <img src={worldIcon} alt="" />
-                            <h3>SDGs</h3>
-                        </div>
-                        <SDGS goal={goal}/>
-                    </div>
-                    <div className='goal-meta-inner-container'>
+                    <SDGS goal={goal}/>
+                    <div className='goal-meta-inner-container' style={{display: goal.Targetgroup ? 'block' : 'none'}}>
                         <div className='goal-meta-title-container'>
                             <img src={groupIcon} alt="" />
                             <h3>Doelgroep</h3>
                         </div>
                         <p>{goal.Targetgroup}</p>
                     </div>
-                    <div className='goal-meta-inner-container'>
+                    <div className='goal-meta-inner-container' style={{display: goal.ImpactTargetgroup ? 'block' : 'none'}}>
                         <div className='goal-meta-title-container'>
                             <img src={newUserIcon} alt="" />
                             <h3>Impact op doelgroep</h3>
                         </div>
                         <p>{goal.ImpactTargetgroup}</p>
                     </div>
-                    <div className='goal-meta-inner-container'>
+                    <div className='goal-meta-inner-container' style={{display: goal.ImpactSociety ? 'block' : 'none'}}>
                         <div className='goal-meta-title-container'>
                             <img src={leafIcon} alt="" />
                             <h3>Impact maatschappij</h3>
                         </div>
                         <p>{goal.ImpactSociety}</p>
                     </div>
-                    <div className='goal-meta-inner-container'>
-                        <div className='goal-meta-title-container'>
-                            <img src={preconditionsIcon} alt="" />
-                            <h3>Randvoorwaarden</h3>
-                        </div>
-                        <p>{goal.Preconditions}</p>
-                    </div>
-                    <div className='goal-meta-inner-container'>
-                        <div className='goal-meta-title-container'>
-                            <img src={externalFactorsIcon} alt="" />
-                            <h3>Externe factoren</h3>
-                        </div>
-                        <p>{goal.ExternalFactors}</p>
-                    </div>
+                    <Assumptions goal={goal}/>
+                    <ExternalFactors goal={goal}/>
                 </div>
             </div>
             <Activities goal={goal}/>
@@ -140,15 +124,61 @@ const ImpactProgress = () => {
         )
     }
 
+    const Assumptions = ({goal}) => {
+
+        const assumptions = useFirestoreAssumptions(goal.ID)
+
+        return(
+            <div className='goal-meta-inner-container' style={{display: assumptions.length > 0 ? 'block' : 'none'}}>
+                <div className='goal-meta-title-container'>
+                    <img src={preconditionsIcon} alt="" />
+                    <h3>Randvoorwaarden</h3>
+                </div>
+                <ul>
+                    {assumptions && assumptions.map(assumption => (
+                        <li>{assumption.Assumption}</li>
+                    ))}
+                </ul>
+            </div>
+        )
+
+    }
+
+    const ExternalFactors = ({goal}) => {
+
+        const externalFactors = useFirestoreConditions(goal.ID)
+
+        return(
+            <div className='goal-meta-inner-container' style={{display: externalFactors.length > 0 ? 'block' : 'none'}}>
+                <div className='goal-meta-title-container'>
+                    <img src={externalFactorsIcon} alt="" />
+                    <h3>Externe factoren</h3>
+                </div>
+                <ul>
+                    {externalFactors && externalFactors.map(factor => (
+                        <li>{factor.Condition}</li>
+                    ))}
+                </ul>
+            </div>
+        )
+
+    }
+
     const SDGS = ({goal}) => {
         const SDGs = useFirestoreSDGsSelected(goal.ID)
 
         return(
-            <ul>
-                {SDGs && SDGs.map(sdg => (
-                   <li>{sdg.SDG}</li>
-                ))}
-            </ul>
+            <div className='goal-meta-inner-container' style={{display: SDGs.length > 0 ? 'block' : 'none'}}>
+                <div className='goal-meta-title-container'>
+                    <img src={worldIcon} alt="" />
+                    <h3>SDGs</h3>
+                </div>
+                <ul>
+                    {SDGs && SDGs.map(sdg => (
+                    <li>{sdg.SDG}</li>
+                    ))}
+                </ul>
+            </div>
         )
     }
 
@@ -164,7 +194,7 @@ const ImpactProgress = () => {
                     <div className='activity-inner-container-dashboard' key={activity.ID} style={{backgroundColor: color}}>
                         <img id='impact-dasboard-activity-banner' src={activity.Banner} alt="" />
                         <h3 id='activity-title'>{activity.Activity}</h3>
-                        <div className='goal-meta-inner-container'>
+                        <div className='goal-meta-inner-container' style={{display: activity.Impact ? 'block' : 'none'}}>
                             <div className='goal-meta-title-container'>
                                 <img src={impactIcon} alt="" />
                                 <h3>Impact</h3>
@@ -183,7 +213,7 @@ const ImpactProgress = () => {
         const outputs = useFirestoreOutputs(activity.ID)
 
         return(
-            <div>
+            <div style={{display: outputs.length > 0 ? 'block' : 'none'}}>
                 <div className='activity-meta-title-container'>
                     <img src={outputIcon} alt="" />
                     <h3>Outputs</h3>
@@ -191,13 +221,7 @@ const ImpactProgress = () => {
                 {outputs && outputs.map(output => (
                     <div className='impact-dashboard-output-container'>
                         <h3 className='output-title'>{output.Title}</h3>
-                        <div className='dashboard-instruments-container'>
-                            <div className='activity-meta-title-container'>
-                                <img src={effectIcon} alt="" />
-                                <h3>Effect</h3>
-                            </div>
-                            <Effects output={output}/>
-                        </div>
+                        <Effects output={output}/>
                         <div className='dashboard-instruments-container'>
                             <ManualResults output={output}/>
                         </div>
@@ -214,11 +238,17 @@ const ImpactProgress = () => {
         const effects = useFirestoreOutputEffects(output.ID)
 
         return(
-            <ul>
-            {effects && effects.map(effect => (
-                <li>{effect.Effect}</li>
-            ))}
-            </ul>
+            <div className='dashboard-instruments-container' style={{display: effects.length > 0 ? 'block' : 'none'}}>
+                <div className='activity-meta-title-container'>
+                    <img src={effectIcon} alt="" />
+                    <h3>Effect</h3>
+                </div>
+                <ul>
+                {effects && effects.map(effect => (
+                    <li>{effect.Effect}</li>
+                ))}
+                </ul>
+            </div>
         )
     }
 
@@ -227,7 +257,7 @@ const ImpactProgress = () => {
         const researches = useFirestoreResearch(output.ID) 
 
         return(
-            <div className='dashboard-instruments-container'>
+            <div className='dashboard-instruments-container' style={{display: researches.length > 0 ? 'block' : 'none'}}>
                  <div className='activity-meta-title-container'>
                     <img src={researchIcon} alt="" />
                     <h3>Onderzoeken</h3>
@@ -235,10 +265,6 @@ const ImpactProgress = () => {
                 {researches && researches.map(research => (
                     <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
                         <h4>{research.Title}</h4>
-                        <div className='activity-meta-title-container'>
-                            <img src={resultsIcon} alt="" />
-                            <h5>Meetmomenten</h5>
-                        </div>
                         <MeasureMoments research={research}/>
                     </div>
                 ))}
@@ -251,13 +277,17 @@ const ImpactProgress = () => {
         const moments = useFirestoreMeasureMoments(research.ID)
 
         return(
-            <div>
-                {moments && moments.map(moment => (
-                    <div>
-                        <p><b>{moment.Title}</b> op {moment.Moment}</p>
-                    </div>
-                    
-                ))}
+            <div className='activity-meta-title-container' style={{display: moments.length > 0 ? 'block' : 'none'}}>
+                <img src={resultsIcon} alt="" />
+                <h5>Meetmomenten</h5>
+                <div>
+                    {moments && moments.map(moment => (
+                        <div>
+                            <p><b>{moment.Title}</b> op {moment.Moment}</p>
+                        </div>
+                        
+                    ))}
+                </div>
             </div>
         )
 
@@ -268,7 +298,7 @@ const ImpactProgress = () => {
         const milestones = useFirestoreMilestones(output.ID) 
 
         return(
-            <div className='dashboard-instruments-container'>
+            <div className='dashboard-instruments-container' style={{display: milestones.length > 0 ? 'block' : 'none'}}>
                 <div className='activity-meta-title-container'>
                     <img src={growIcon} alt="" />
                     <h3>Mijlpalen</h3>
@@ -342,22 +372,20 @@ const ImpactProgress = () => {
 
         const dataset = useFirestoreResults(output.ID)
 
+        console.log(output)
+
         useEffect(() => {
             SROIs && SROIs.forEach(sroi => {
-                setTotalSROI(sroi.Amount)
+                setTotalSROI(sroi.Value)
             })
         })
 
         return(
             <>
             <div className='internal-results-container'>
-                <div className='activity-meta-title-container'>
-                    <img src={resultsIcon} alt="" />
-                    <h3>Output resultaten</h3>
-                </div>
                 <ManualResultsGraph output={output}/>
             </div>
-            <div className='internal-results-container'>
+            <div className='internal-results-container' style={{display: SROIs.length > 0 ? 'block' : 'none'}}>
                 <div className='activity-meta-title-container'>
                     <img src={sroiIcon} alt="" />
                     <h3>SROI</h3>

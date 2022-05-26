@@ -24,6 +24,8 @@ import plusButton from '../../images/icons/plus-icon.png'
 import cancelIcon from '../../images/icons/cancel-icon.png'
 import imageIcon from '../../images/icons/image-icon.png'
 import Modal from 'react-modal';
+import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
@@ -176,7 +178,7 @@ const GoalTitle = () => {
                             <p>Stakeholders</p>
                         </div>
                     </NavLink>  
-                    <p>4 van de 12</p>
+                    {ImpactGuideMenu(4)}
                     <NavLink to={`/${client}/Targetgroup`} >
                         <div className='step-container'>
                             <p>Doelgroep bepalen</p>
@@ -268,8 +270,24 @@ const GoalTitle = () => {
                         <h3>Tips</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>1. Kom je er niet uit of heb je behoefte aan een second opinion van een impactexpert? Twijfel niet en klik hier.</p>
-                        <p>2. Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.</p>
+                        <li>
+                            Zorg ervoor dat het doel zo concreet mogelijk is en zoveel mogelijk binnen de beïnvloedingssfeer van jullie organisatie ligt.
+                        </li>
+                        <li>
+                            Voeg een sprekend plaatje toe om het belang van jullie doel kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.
+                        </li>
+                        <li>
+                            Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
+                            Klik op het 
+                            <NavLink to={`/${client}/Support`} >
+                                <QuestionIcon style={{width: '19px', height: '19px'}}/> 
+                            </NavLink>
+                            icon in de 
+                            bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.
+                        </li>
+                        <li>
+                            Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.
+                        </li>
                     </div>
                 </div>
                 <div>
@@ -278,8 +296,8 @@ const GoalTitle = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je de impactdoelen plannen in de tijd.</p>
-                        <button>Volgende stap</button>
+                        <p>In de volgende stap ga je de doelgroepen bepalen.</p>
+                        <NavLink to={`/${client}/Targetgroup`} ><button>Volgende stap</button></NavLink>
                     </div>
                 </div>
             </div> 
