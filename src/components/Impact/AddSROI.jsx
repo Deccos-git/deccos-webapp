@@ -23,6 +23,9 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import sroiIcon from '../../images/icons/sroi-icon.png'
 
 const AddSROI = () => {
     const [outputID, setOutputID] = useState('')
@@ -287,6 +290,27 @@ const AddSROI = () => {
             </div>
         </div>
         </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p><b>Je kunt je de SROI's hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={sroiIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/SROI`}>SROI</NavLink>
+                        </div>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
                 <div className='activity-meta-title-container'>
                     <img src={bulbIcon} alt="" />

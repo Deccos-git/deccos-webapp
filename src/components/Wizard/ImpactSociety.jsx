@@ -15,6 +15,8 @@ import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import eyeIcon from '../../images/icons/eye-icon.png'
 
 const ImpactSociety = () => {
     const [color, setColor] = useState('')
@@ -121,6 +123,21 @@ const ImpactSociety = () => {
                     <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
                     <div className='button-container-align-left'>
                         <button className='button-simple' onClick={saveImpactSociety}>Opslaan</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p><b>Je kunt je impact op de maatschappij hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        </div>
                     </div>
                 </div>
             </div>

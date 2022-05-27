@@ -26,6 +26,9 @@ import plusButton from '../../images/icons/plus-icon.png'
 import cancelIcon from '../../images/icons/cancel-icon.png'
 import imageIcon from '../../images/icons/image-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import activityIcon from '../../images/icons/activity-icon.png'
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
@@ -279,6 +282,27 @@ const AddActivity = () => {
                                     </tr>
                                 ))}
                           </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p><b>Je kunt je activiteiten hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={activityIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Activities`}>Activiteiten</NavLink>
+                        </div>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
                         </div>
                     </div>
                 </div>

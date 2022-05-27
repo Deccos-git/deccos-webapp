@@ -18,6 +18,8 @@ import plusButton from '../../images/icons/plus-icon.png'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import uuid from "react-uuid";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import eyeIcon from '../../images/icons/eye-icon.png'
 
 const Conditions = () => {
     const [color, setColor] = useState('')
@@ -172,6 +174,21 @@ const Conditions = () => {
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p><b>Je kunt je aexterne factoren hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
                         </div>
                     </div>
                 </div>

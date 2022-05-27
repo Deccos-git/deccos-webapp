@@ -20,6 +20,9 @@ import { NavLink, Link } from "react-router-dom";
 import plusButton from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import outputIcon from '../../images/icons/output-icon.png'
 
 const OutputEffects = () => {
     const [outputID, setOutputID] = useState(null)
@@ -166,6 +169,27 @@ const OutputEffects = () => {
                 </div>
             </div>
         </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p><b>Je kunt je effecten van de outputs hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={outputIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/OutputSettings`}>Outputs</NavLink>
+                        </div>
+                    </div>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
                 <div className='activity-meta-title-container'>
                     <img src={bulbIcon} alt="" />

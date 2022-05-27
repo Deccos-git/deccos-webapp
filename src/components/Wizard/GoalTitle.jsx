@@ -27,6 +27,8 @@ import Modal from 'react-modal';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import goalIcon from '../../images/icons/goal-icon.png'
 
 
 const GoalTitle = () => {
@@ -272,13 +274,19 @@ const GoalTitle = () => {
                         <h3>Bekijk</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>Je kunt je doelen hier terug vinden:</p>
-                        <div>
-                            <NavLink to={`/${client}/Goals`} ><button>Bekijk</button></NavLink>
+                        <p><b>Je kunt je doelen hier terug vinden:</b></p>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={goalIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/Goals`}>Impactdoelen</NavLink>
+                            </div>
                         </div>
-                    <div className='button-container-margin-top'>
-                            <NavLink to={`/${client}/ImpactProgress`} ><button>Impactdashboard</button></NavLink>
-                    </div>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={dashboardIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>

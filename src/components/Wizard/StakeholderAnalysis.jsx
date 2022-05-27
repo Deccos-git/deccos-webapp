@@ -20,6 +20,7 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
+import personIcon from '../../images/icons/person-icon.png'
 
 const StakeholderAnalysis = () => {
 
@@ -215,8 +216,13 @@ const StakeholderAnalysis = () => {
                     <h3>Bekijk</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Je kunt je stakeholders hier terug vinden:</p>
-                    <NavLink to={`/${client}/Stakeholders`} ><button>Bekijk</button></NavLink>
+                    <p><b>Je kunt je stakeholders hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={personIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/Stakeholders`}>Stakeholders</NavLink>
+                        </div>
+                    </div>
                 </div>
             </div>
                 <div>

@@ -26,6 +26,8 @@ import resultsIcon from '../../images/icons/results-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 const Research = () => {
     const [color, setColor] = useState('')
@@ -368,6 +370,27 @@ const Research = () => {
                         </div>
                         <div style={{display: premium ? 'none' : 'flex'}}>
                             <PremiumNotice/>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={eyeIcon} alt="" />
+                        <h3>Bekijk</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>Je kunt je de onderzoeken hier terug vinden:</b></p>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={researchIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/ResearchSettings`}>Onderzoeken</NavLink>
+                            </div>
+                        </div>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={dashboardIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                            </div>
                         </div>
                     </div>
                 </div>

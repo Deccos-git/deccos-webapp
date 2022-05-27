@@ -33,16 +33,10 @@ const LeftSideBar = () => {
                 <div className="channel-div">
                     <h3>Home</h3>
                     <div className="channel-inner-div">
-                        <div className="channel-inner-div">
-                            <div className='activity-meta-title-container'>
-                                <img src={dashboardIcon} alt="" />
-                                <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
-                            </div>
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
                         </div>
-                        {/* <div className='activity-meta-title-container'>
-                            <img src={allActivityIcon} alt="" />
-                            <NavLink activeClassName='active' to={`/${client}/AllActivity`} >Alle activiteit</NavLink>
-                        </div> */}
                     </div>
                 </div>
                 <div className="channel-div">

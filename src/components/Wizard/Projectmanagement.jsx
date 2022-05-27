@@ -22,6 +22,7 @@ import growIcon from '../../images/icons/grow-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
 
 const Projectmanagement = () => {
 
@@ -125,8 +126,8 @@ const Projectmanagement = () => {
                 </div>
                 <div>
                     <div className='activity-meta-title-container'>
-                        <img src={rocketIcon} alt="" />
-                        <h3>Aan de slag</h3>
+                        <img src={eyeIcon} alt="" />
+                        <h3>Bekijk</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <div style={{display: premium ? 'block' : 'none'}}>

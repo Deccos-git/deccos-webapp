@@ -24,6 +24,8 @@ import completeIcon from '../../images/icons/complete-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 const MeasureOutput = () => {
     const [outputID, setOutputID] = useState('')
@@ -290,6 +292,27 @@ const MeasureOutput = () => {
                     </div>
                 </div>
             </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={eyeIcon} alt="" />
+                        <h3>Bekijk</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>Je kunt je de mijlpalen hier terug vinden:</b></p>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={growIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/MilestoneSettings`}>Mijlpalen</NavLink>
+                            </div>
+                        </div>
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={dashboardIcon} alt="" />
+                                <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <div className='activity-meta-title-container'>
                         <img src={bulbIcon} alt="" />

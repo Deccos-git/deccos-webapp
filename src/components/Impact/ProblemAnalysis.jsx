@@ -24,6 +24,7 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import plusButton from '../../images/icons/plus-icon.png'
+import problemIcon from '../../images/icons/problem-icon.png'
 
 const ProblemAnalysis = () => {
     const [color, setColor] = useState('')
@@ -478,8 +479,13 @@ const ProblemAnalysis = () => {
                     <h3>Bekijk</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Je kunt je probleemanalyse hier terug vinden:</p>
-                    <NavLink to={`/${client}/ProblemAnalysisDetail`} ><button>Bekijk</button></NavLink>
+                    <p><b>Je kunt je probleemanalyse hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={problemIcon} alt="" />
+                            <NavLink to={`/${client}/ProblemAnalysisDetail`}>Probleemanalyse</NavLink>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>

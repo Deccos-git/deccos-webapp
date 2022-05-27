@@ -16,6 +16,7 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
+import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 
 const ImpactTargetgroup = () => {
@@ -147,9 +148,12 @@ const ImpactTargetgroup = () => {
                     <h3>Bekijk</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>Je kunt je impact op de doelgroep hier terug vinden:</p>
-                    <div className='button-container-margin-top'>
-                        <NavLink to={`/${client}/ImpactProgress`} ><button>Impactdashboard</button></NavLink>
+                    <p><b>Je kunt je impact op de doelgroep hier terug vinden:</b></p>
+                    <div className="channel-inner-div">
+                        <div className='activity-meta-title-container'>
+                            <img src={dashboardIcon} alt="" />
+                            <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
+                        </div>
                     </div>
                 </div>
             </div>
