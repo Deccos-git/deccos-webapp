@@ -41,8 +41,10 @@ const ManualResultsGraph = ({output}) => {
 
   return (
     <div className='activity-meta-title-container' style={{display: dataset.length > 0 ? 'block' : 'none'}}>
-      <img src={resultsIcon} alt="" />
-      <h3>Output resultaten</h3>
+       <div className='activity-meta-title-container'>
+          <img src={resultsIcon} alt="" />
+          <h3>Output resultaten</h3>
+       </div>
         <AreaChart
         width={500}
         height={200}

@@ -259,7 +259,7 @@ const AddActivity = () => {
                                     <th>BANNER</th>
                                     <th>ACTIVITEIT</th>
                                     <th>DOEL</th>
-                                    <th>ACTIE</th>
+                                    <th>VERWIJDER</th>
                                 </tr>
                                 {activities && activities.map(activity => (
                                     <tr key={activity.ID}>

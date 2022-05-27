@@ -248,7 +248,7 @@ const AddSROI = () => {
                                     <th>TIJDSHORIZON (jaren)</th>
                                     <th>BEDRAG (€)</th>
                                     <th>TOTAAL (€)</th>
-                                    <th>ACTIE</th>
+                                    <th>VERWIJDER</th>
                                 </tr>
                                 {SROIs && SROIs.map(SROI => (
                                 <tr key={SROI.ID}>

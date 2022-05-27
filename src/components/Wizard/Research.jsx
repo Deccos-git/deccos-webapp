@@ -348,7 +348,7 @@ const Research = () => {
                                         <tr>
                                             <th>ONDERZOEK</th>
                                             <th>MEETMOMENTEN</th>
-                                            <th>ACTIE</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
                                         {researches && researches.map(research => (
                                         <tr key={research.ID}>

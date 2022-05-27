@@ -790,7 +790,7 @@
       min-height: 150px;
       cursor: pointer;
       border-radius: 5px;
-      border: 1px solid lightgray;
+      border-top: 1px solid lightgray;
   }
 
   .messagebar-outer-cointainer{

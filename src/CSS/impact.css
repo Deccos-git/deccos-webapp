@@ -490,9 +490,13 @@
     margin-right: 10px;
 }
 
+#introduction-guide-link-container{
+    margin: 0px 5px;
+}
+
 .empty-page-container{
     width: 85%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
 }

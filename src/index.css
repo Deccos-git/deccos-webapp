@@ -320,6 +320,7 @@ table th {
   text-align: left;
   background-color: #63cadc;
   color: white;
+  min-width: 25%;
 }
 
 td{

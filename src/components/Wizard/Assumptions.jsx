@@ -160,7 +160,7 @@ const Assumptions = () => {
                                     <table>
                                         <tr>
                                             <th>AANNAME</th>
-                                            <th>ACTIE</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
                                         {assumptions && assumptions.map(assumption => (
                                             <tr key={assumption.ID}>

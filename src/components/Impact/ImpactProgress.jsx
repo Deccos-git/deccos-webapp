@@ -56,17 +56,11 @@ import researchIcon from '../../images/icons/research-icon.png'
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
     const [goals, setGoals] = useState('')
-    const [matches, setMatches] = useState('')
-    const [members, setMembers] = useState('')
-    const [goalID, setGoalID] = useState('')
-    const [memberCount, setMemberCount] = useState('')
     const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
-    const options = { day: 'numeric', month: 'numeric', year: 'numeric'};
 
-    const matchesDB = useFirestore('Matches')
     const questionnaireAnalysis = useFirestore('QuestionnaireAnalysis')
     const colors = useFirestore('Colors')
 
@@ -82,10 +76,6 @@ const ImpactProgress = () => {
     const Goals = () => {
         
         const goals = useFirestore('Goals')
-
-        useEffect(() => [
-            setGoals(goals)
-        ],[goals])
 
         return(
             <>
@@ -430,12 +420,12 @@ const ImpactProgress = () => {
                     <h1>Impact dashboard</h1>  
                 </div>
                 <Goals/>
-                <div className='empty-page-container' style={{display: goals.length > 0 ? 'none' : 'flex'}}>
+                {/* <div className='empty-page-container' style={{display: goals.length > 0 ? 'none' : 'flex'}}>
                     <h2>Je impact dashboard is nog leeg. Begin je impact management avontuur.</h2>
                     <div className='button-container-margin-top'>
                         <button onClick={guideLink}>Starten</button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )

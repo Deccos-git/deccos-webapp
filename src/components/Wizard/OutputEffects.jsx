@@ -151,7 +151,7 @@ const OutputEffects = () => {
                             <table>
                                 <tr>
                                     <th>EFFECT</th>
-                                    <th>ACTIE</th>
+                                    <th>VERWIJDER</th>
                                 </tr>
                                 {effects && effects.map(effect => (
                                     <tr key={effect.ID}>

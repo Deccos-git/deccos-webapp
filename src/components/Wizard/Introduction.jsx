@@ -68,7 +68,8 @@ const Introduction = () => {
                         </p>
                             
                         <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het 
-                               <MagicIcon style={{width: '19px', height: '19px'}}/>    icon in de bovenbalk (onderbalk op mobiel)
+                                <NavLink to={`/${client}/Introduction`} id='introduction-guide-link-container'><MagicIcon style={{width: '19px', height: '19px'}}/></NavLink>
+                                    icon in de bovenbalk (onderbalk op mobiel)
                             om weer terug te komen in de guide.</p>
                     </div>
                 </div>

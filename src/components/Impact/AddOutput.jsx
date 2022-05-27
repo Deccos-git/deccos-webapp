@@ -161,7 +161,7 @@ const AddOutput = () => {
                             <table>
                                 <tr>
                                     <th>OUTPUT</th>
-                                    <th>ACTIE</th>
+                                    <th>VERWIJDER</th>
                                 </tr>
                                 {outputs && outputs.map(output => (
                                     <tr key={output.ID}>

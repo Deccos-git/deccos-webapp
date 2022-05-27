@@ -264,7 +264,7 @@ const MeasureOutput = () => {
                                             <th>MIJLPAAL</th>
                                             <th>AANTAL</th>
                                             <th>DEADLINE</th>
-                                            <th>ACTIE</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
                                         {milestones && milestones.map(milestone => (
                                             <tr key={milestone.ID}>

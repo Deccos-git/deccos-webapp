@@ -159,7 +159,7 @@ const Conditions = () => {
                                     <table>
                                         <tr>
                                             <th>EXTERNE FACTOR</th>
-                                            <th>ACTIE</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
                                         {conditions && conditions.map(condition => (
                                             <tr key={condition.ID}>
