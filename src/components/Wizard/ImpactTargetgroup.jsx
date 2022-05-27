@@ -110,7 +110,7 @@ const ImpactTargetgroup = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>De impact die je hoopt te hebben op je doelgroepen zijn de positieve 
+                    <p><b>De impact die je hoopt te hebben op je doelgroep zijn de positieve 
                         effecten die je met jullie activiteiten (diensten en/of producten) beoogd te hebben op je doelgroep.</b></p>
                     <p>Deze impact moet concreet en meetbaar zijn. Ook moet de impact zoveel mogelijk op jullie activiteiten 
                         kunnen worden toegeschreven.</p>

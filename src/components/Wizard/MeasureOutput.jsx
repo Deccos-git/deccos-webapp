@@ -205,18 +205,18 @@ const MeasureOutput = () => {
                             van jullie ambities en voortgang.
                         </p>
                         <p>
-                            Mijlpalen zijn aantalen outputs. Ze zijn dus zo concreet dat je ermee kunt rekenen.
+                            Mijlpalen zijn aantallen outputs. Ze zijn dus zo concreet dat je ermee kunt rekenen.
                         </p>
-                        <p>Wanneer je een mijlpaal toevoegd kies je een naam voor de mijlpaal en een aantal. 
+                        <p>Wanneer je een mijlpaal toevoegt kies je een naam voor de mijlpaal en een aantal. 
                             Bij het invullen van de naam noteer je het doel voor jullie outputs in woorden. Bijvoorbeeld:</p>
                         <ul>
                             <li>Tien klanten</li>
                             <li>Tien deelnemers aan training</li>
-                            <li>Honderd kg opgeruimd platsic</li>
+                            <li>Honderd kg opgeruimd plastic</li>
                             <li>Vijftig verkochte producten</li>
                         </ul>
                         <p>Bij het invullen van het aantal noteer je het nummer dat je in de naam hebt genoemd. 
-                            Zo weet de software waar het mee moet rekenenen.</p>
+                            Zo weet de software waar het mee moet rekenen.</p>
                     </div>
                 </div>
                 <Modal

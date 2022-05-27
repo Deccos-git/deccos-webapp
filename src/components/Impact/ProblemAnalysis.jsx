@@ -282,7 +282,7 @@ const ProblemAnalysis = () => {
                     </p>
                     <p>
                         De directe gevolgen worden rechtstreeks door het centrale probleem veroorzaakt. 
-                        De indirecte gevolgen zijn een consequentie van de indirecte gevolgen.
+                        De indirecte gevolgen zijn een consequentie van de directe gevolgen.
                     </p>
                 </div>
             </div>

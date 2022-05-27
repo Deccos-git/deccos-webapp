@@ -135,6 +135,7 @@ const SDGs = () => {
                     Nadat je de SDG’s hebt geselecteerd die bij jouw organisatie passen kun je in de impactclub 
                     zien welke organisaties eveneens een bijdrage willen zijn aan deze SDG’s.
                     </p>
+                    <p>Bekijk <a href="https://deccos.nl/SDGs">hier</a> alle SDG's</p>
                 </div>
             </div>
             <div>

@@ -110,7 +110,7 @@ const Questionnaires = () => {
                         <h3>Uitleg</h3>
                     </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                   <p><b>Vragenlijsten zijn een handig middel om je impact die je 
+                   <p><b>Vragenlijsten zijn een handig middel om de impact die je 
                        maakt op je doelgroep te achterhalen.</b></p>
                     <p>
                         Op Deccos kun je zelf een vragenlijst maken en delen of gebruik maken van bestaande vragenlijsten.

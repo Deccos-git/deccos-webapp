@@ -87,7 +87,7 @@ const ImpactActivity = () => {
                     <h3>Uitleg</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p><b>Wat is de concrete en meetbare impact die de activiteiten hebben op jouw doelgroep.</b></p>
+                    <p><b>Wat is de concrete en meetbare impact die de activiteiten hebben op jouw doelgroep?</b></p>
                     <p>
                     Bekijk de impact door de ogen van je doelgroep. Welke positieve bijdrage heeft een specifieke 
                     activiteit die niet zou zijn ontstaan als jouw activiteit niet had plaatsgevonden?

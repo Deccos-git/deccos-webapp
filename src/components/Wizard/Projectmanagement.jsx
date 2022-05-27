@@ -86,7 +86,7 @@ const Projectmanagement = () => {
                         </div>
                         <p>
                         Wanneer er mijlpalen worden gesteld worden deze doelen automatisch vertaald naar taken die je als team 
-                        kunnen afvinken. Afgevinkte taken worden gebruikt om de outputs en de mijlpalen bij te houden.
+                        kunt afvinken. Afgevinkte taken worden gebruikt om de outputs en de mijlpalen bij te houden.
                         </p>
                         <p>
                         Ook onderzoeken worden automatisch vertaald naar taken.
@@ -96,7 +96,7 @@ const Projectmanagement = () => {
                             <NavLink activeClassName='active' to={`/${client}/Agenda`}>Agenda</NavLink>
                         </div>
                         <p>
-                        Wanneer een deadline wordt toegevoegd aan de taken komen deze n de agenda te staan.
+                        Wanneer een deadline wordt toegevoegd aan de taken komen deze in de agenda te staan.
                         </p>
                         {/* <div className='activity-meta-title-container'>
                             <img src={timelineIcon} alt="" />
@@ -110,7 +110,7 @@ const Projectmanagement = () => {
                         </div>
                         <p>
                             Hier vind je de voortgang op de mijlpalen die jullie hebben gesteld. Wanneer er een output taak 
-                            wordt afgevinkt in taken worden de mijlpalen automatisch geupdate.
+                            wordt afgevinkt in 'taken' worden de mijlpalen automatisch geupdate.
                         </p>
                         <div className='activity-meta-title-container'>
                             <img src={meetingIcon} alt="" />

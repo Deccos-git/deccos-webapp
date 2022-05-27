@@ -99,7 +99,7 @@ const OutputEffects = () => {
                         <p>Outputs</p>
                     </div>
                 </NavLink>  
-                {ImpactGuideMenu(13)}
+                {ImpactGuideMenu(14)}
                 <NavLink to={`/${client}/AddSROI`} >
                     <div className='step-container'>
                         <p>SROI</p>

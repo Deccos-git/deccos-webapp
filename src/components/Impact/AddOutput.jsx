@@ -103,7 +103,7 @@ const AddOutput = () => {
                         <p>Impact van activiteit</p>
                     </div>
                 </NavLink>  
-                {ImpactGuideMenu(12)}
+                {ImpactGuideMenu(13)}
                 <NavLink to={`/${client}/OutputEffects`} >
                     <div className='step-container'>
                         <p>Effecten van output</p>

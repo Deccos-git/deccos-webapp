@@ -322,7 +322,7 @@ const Research = () => {
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
                         <p><b>
-                        Aan de hand van onderzoek kun je meetbare meetmomenten aan elkaar koppelen en de 
+                        Aan de hand van onderzoek kun je meetmomenten aan elkaar koppelen en de 
                         resultaten met elkaar vergelijken.
                         </b></p>
                         <p>
@@ -397,7 +397,7 @@ const Research = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een onderzoeksanalyse uitvoeren</p>
+                        <p>In de volgende stap ga je een onderzoeksanalyse uitvoeren:</p>
                         <NavLink to={`/${client}/ResearchAnalyses`} > <button>Volgende stap</button></NavLink>
                     </div>
                 </div>

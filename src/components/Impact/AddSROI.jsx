@@ -156,7 +156,7 @@ const AddSROI = () => {
                         <p>Effecten van output</p>
                     </div>
                 </NavLink>  
-                {ImpactGuideMenu(14)}
+                {ImpactGuideMenu(15)}
                 <NavLink to={`/${client}/MeasureOutput`} >
                     <div className='step-container'>
                         <p>Mijlpalen stellen</p>
@@ -187,6 +187,34 @@ const AddSROI = () => {
                     <p>
                         Naast de doorgerekende SROI waardes zijn er een aantal die per activiteit verschillen en die nog moeten worden ingevuld.
                     </p>
+                    <p><b>Deadweight</b></p>
+                    <p>
+                    De deadweight is een geschat percentage van de groei in impact die ook zou zijn ontstaan als 
+                    jullie organisatie zijn activiteiten überhaupt niet had aangeboden. De deadweight staat standaard 
+                    ingesteld op 75%. Dit betekent dat 25% van de verhoogde impact ook was ontstaan als jullie 
+                    activiteit niet had bestaan.
+                    </p>
+                    <p><b>Attributie</b></p>
+                    <p>
+                    De attributie is het percentage waarvan je inschat dat de impact aan jullie is toe te schrijven. 
+                    Deze staat standaard ingesteld op 75%, maar dit percentage kan naar eigen inzicht worden aangepast. 
+                    De 75% betekent dat 75% van de positieve impact die wordt bereikt kan worden toegeschreven op jullie 
+                    activiteit.
+                    </p>
+                    <p><b>Tijdshorizon</b></p>
+                    <p>
+                    De tijdshorizon is het aantal jaren waarop je inschat dat het effect van de activiteit blijft bestaan. 
+                    Deze staat standaard ingesteld op 2,5 jaar.
+                    </p>
+                    <p><b>Bedrag</b></p>
+                    <p>
+                        Dit is het bedrag per output per jaar.
+                    </p>
+                    <p><b>Totaal</b></p>
+                    <p>Dit is de accumulatie van het bedrag keer de deadweight keer de attributie keer de 
+                        tijdshorizon. Uiteindelijk wordt dit bedrag automatisch vermenigvuldigd met de output om de 
+                        totale SROI waarde te berekenen. Wanneer deze waarde wordt gedeeld door de kosten die jullie 
+                        organisatie maakt voor de betreffende activiteit krijg je de SROI ratio.</p>
                 </div>
             </div>
         <div>

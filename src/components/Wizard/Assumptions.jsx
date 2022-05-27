@@ -129,8 +129,8 @@ const Assumptions = () => {
                     </b></p>
                     <p>
                     Het geeft helderheid om inzicht te hebben in je aannames, omdat dit je een completer beeld geeft 
-                    van de verschillende aspecten van je veranderplan en je een richting geeft om op te kijken wanneer er 
-                    minder impact wordt behaald dat jullie wensen.
+                    van de verschillende aspecten van je veranderplan en je een richting geeft om naar te kijken wanneer er 
+                    minder impact wordt behaald dan jullie wensen.
                     </p>
                 </div>
             </div>
@@ -201,7 +201,7 @@ const Assumptions = () => {
                     <h3>Volgende stap</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
-                    <p>In de volgende stap ga je de externe factore omschrijven die van invloed zijn op je meetbare impact.</p>
+                    <p>In de volgende stap ga je de externe factoren omschrijven die van invloed zijn op je meetbare impact.</p>
                     <NavLink to={`/${client}/Conditions`} ><button>Volgende stap</button></NavLink>
                 </div>
             </div>

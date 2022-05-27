@@ -48,7 +48,7 @@ const Search = () => {
             <LeftSideBarFullScreen/>
             <div className="card-overview">
                 <div id='search-bar-container'>
-                    <input type="text" placeholder={`Waar zoek je naar op zoek ${authO.ForName}?`} onChange={searchInputHandler} />
+                    <input type="text" placeholder={`Waar ben je naar op zoek, ${authO.ForName}?`} onChange={searchInputHandler} />
                 </div>
                 <div id="search-container" style={{display: menuState}}>
                     {filter().map(item => (
