@@ -26,6 +26,8 @@ import imageIcon from '../../images/icons/image-icon.png'
 import Modal from 'react-modal';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+
 
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
@@ -227,11 +229,11 @@ const GoalTitle = () => {
                                 <table>
                                     <tr>
                                         <th>BANNER</th>
-                                        <th>TITEL</th>
-                                        <th>ACTIE</th>
+                                        <th>DOEL</th>
+                                        <th>VERWIJDER</th>
                                     </tr>
                                     {goals && goals.map(goal => (
-                                        <tr>
+                                        <tr key={goal.ID}>
                                             <td>
                                                 <div className='list-banner-container'>
                                                     <img className='cancel-icon' data-docid={goal.docid} src={cancelIcon} alt="" onClick={deleteBanner} style={{display: goal.Banner ? 'block' : 'none'}} />
@@ -262,6 +264,21 @@ const GoalTitle = () => {
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <div className='activity-meta-title-container'>
+                        <img src={eyeIcon} alt="" />
+                        <h3>Bekijk</h3>
+                    </div> 
+                    <div className='text-section' style={{backgroundColor: color}}>
+                        <p>Je kunt je doelen hier terug vinden:</p>
+                        <div>
+                            <NavLink to={`/${client}/Goals`} ><button>Bekijk</button></NavLink>
+                        </div>
+                    <div className='button-container-margin-top'>
+                            <NavLink to={`/${client}/ImpactProgress`} ><button>Impactdashboard</button></NavLink>
+                    </div>
                     </div>
                 </div>
                 <div>

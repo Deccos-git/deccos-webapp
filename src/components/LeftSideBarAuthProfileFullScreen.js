@@ -20,6 +20,8 @@ const LeftSideBarAuthProfile = () => {
 
     const admins = useFirestore('Admins')
 
+    console.log(menu)
+
     useEffect(() => {
         admins && admins.forEach(admin => {
             if(admin.UserID === authO.ID){
@@ -28,13 +30,10 @@ const LeftSideBarAuthProfile = () => {
         })
     }, [admins])
 
-
-
     const changeMenuStatus = () => {
         setMenu("none")
     }
 
-   
     const Admin = () => {
         if(admin){
             return <div>
@@ -61,21 +60,23 @@ const LeftSideBarAuthProfile = () => {
 
 
     return (
-        <div className="left-side-bar-container">
-            <div className="left-side-bar">
+        <div className="left-sidebar-container-mobile" style={{display: menu}}>
+            <div className="left-side-bar-full-screen">
                 <div className="channel-div">
                     <div className="channel-inner-div">
-                        <div className='activity-meta-title-container'>
-                            <img src={HomeIcon} alt="" />
-                            <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Home</Link>
-                        </div>
+                        <Link to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>
+                            <div className='activity-meta-title-container'>
+                                <img src={HomeIcon} alt="" />
+                                <p id='mobile-menu-home-link'>Home</p>
+                            </div>
+                        </Link>
                     </div>
                     <Admin/>
                     <h3>Mijn account</h3>
                     <div className="channel-inner-div">
-                    <div className='activity-meta-title-container'>
+                        <div className='activity-meta-title-container'>
                             <img src={UserIcon} alt="" />
-                            <Link activeClassName='active' to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>
+                            <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>
                         </div>
                     </div>
                 </div>

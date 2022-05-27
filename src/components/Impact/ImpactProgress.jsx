@@ -83,10 +83,14 @@ const ImpactProgress = () => {
         
         const goals = useFirestore('Goals')
 
+        useEffect(() => [
+            setGoals(goals)
+        ],[goals])
+
         return(
             <>
             {goals && goals.map(goal => (
-            <div>
+            <div className='profile profile-auth-profile'>
                 <h1>Doel</h1>
             <img id='impact-dasboard-goal-banner' src={goal.Banner} alt="" />
             <div id='impact-progress-goal-container' className='divider'>
@@ -375,7 +379,8 @@ const ImpactProgress = () => {
 
         useEffect(() => {
             SROIs && SROIs.forEach(sroi => {
-                setTotalSROI(Number(sroi.Value))
+                console.log(sroi)
+                setTotalSROI(Number(sroi.Amount))
             })
         })
 
@@ -412,6 +417,10 @@ const ImpactProgress = () => {
         )
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/Introduction`)
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -420,9 +429,13 @@ const ImpactProgress = () => {
                 <div className="page-header">
                     <h1>Impact dashboard</h1>  
                 </div>
-                <div className='profile profile-auth-profile'>
-                    <Goals/>
-                </div>   
+                <Goals/>
+                <div className='empty-page-container' style={{display: goals.length > 0 ? 'none' : 'flex'}}>
+                    <h2>Je impact dashboard is nog leeg. Begin je impact management avontuur.</h2>
+                    <div className='button-container-margin-top'>
+                        <button onClick={guideLink}>Starten</button>
+                    </div>
+                </div>
             </div>
         </div>
     )

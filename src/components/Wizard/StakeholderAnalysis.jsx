@@ -19,6 +19,7 @@ import firebase from 'firebase'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
 
 const StakeholderAnalysis = () => {
 
@@ -173,10 +174,10 @@ const StakeholderAnalysis = () => {
                                             <th>CATEGORIE</th>
                                             <th>ORGANISATIE</th>
                                             <th>CONTACTPERSOON</th>
-                                            <th>ACTIE</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
                                         {stakeholders && stakeholders.map(stakeholder => (
-                                            <tr>
+                                            <tr key={stakeholder.ID}>
                                             <td>
                                                 <select name="" id="" data-docid={stakeholder.docid} defaultValue={stakeholder.Categorie} onChange={categorieHandler}>
                                                     <option value="" style={{color: '#d3d3d3'}}> -- Categorie --</option>
@@ -208,6 +209,16 @@ const StakeholderAnalysis = () => {
                        
                     </div>
                 </div>
+                <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>Je kunt je stakeholders hier terug vinden:</p>
+                    <NavLink to={`/${client}/Stakeholders`} ><button>Bekijk</button></NavLink>
+                </div>
+            </div>
                 <div>
                     <div className='activity-meta-title-container'>
                         <img src={bulbIcon} alt="" />

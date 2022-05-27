@@ -136,7 +136,7 @@ const Questionnaires = () => {
                                             <th>ACTIE</th>
                                         </tr>
                                         {questionnaires && questionnaires.map(questionnaire => (
-                                            <tr>
+                                            <tr key={questionnaires.ID}>
                                                 <td>
                                                     <p>{questionnaire.Title}</p>
                                                 </td>
@@ -161,7 +161,7 @@ const Questionnaires = () => {
                                             <th>ACTIE</th>
                                         </tr>
                                         {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
-                                            <tr>
+                                            <tr key={questionnaire.ID}>
                                                 <td>
                                                     <p>{questionnaire.Title}</p>
                                                 </td>

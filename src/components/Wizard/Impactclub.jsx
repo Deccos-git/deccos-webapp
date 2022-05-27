@@ -173,9 +173,13 @@ const Impactclub = () => {
                         <h3>Aan de slag</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p><b>Upload een banner voor je impactclub account</b></p>
+                        <p><b>1. Upload een banner voor je impactclub account</b></p>
                         <img id='impact-banner' src={banner} alt="" />
                         <input className="input-classic" onChange={bannerHandler} type="file" />
+                        <p><b>2. Deccos Impactclub profiel</b></p>
+                        <div className='button-container-margin-top'>
+                            <a href={`https://deccos.nl/OrganisationDetail/${client}/${ID}`} target='_blank'><button>Bekijk je profiel</button></a>
+                        </div>
                     </div>
                 </div>
                 <div>

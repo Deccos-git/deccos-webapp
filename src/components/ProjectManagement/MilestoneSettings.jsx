@@ -71,6 +71,10 @@ const MilestoneSettings = () => {
         )
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/MeasureOutput`)
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -112,6 +116,12 @@ const MilestoneSettings = () => {
             </div>
             <div style={{display: premium ? 'none' : 'flex'}}>
                 <PremiumNotice/>
+            </div>
+            <div className='empty-page-container' style={{display: milestones.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+                <h2>Je hebt nog geen mijlpalen toegevoegd.</h2>
+                <div className='button-container-margin-top'>
+                    <button onClick={guideLink}>Toevoegen</button>
+                </div>
             </div>
         </div>
     </div>

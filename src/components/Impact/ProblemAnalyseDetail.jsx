@@ -6,11 +6,17 @@ import arrowDownIcon from '../../images/icons/arrow-down-icon.png'
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
+import { useHistory } from "react-router-dom";
 
 const ProblemAnalyseDetail = () => {
 
     const problemAnalysis  = useFirestore("ProblemAnalysis")
     const menuState = MenuStatus()
+    const history = useHistory()
+
+    const guideLink = () => {
+        history.push(`/${client}/ProblemAnalysis`)
+    }
 
 
   return (
@@ -28,8 +34,7 @@ const ProblemAnalyseDetail = () => {
         </div>
         <div className="card-container">
             {problemAnalysis && problemAnalysis.map(problem => (
-            <div>
-
+            <div id='problem-analysis-container'>
                 <div className='problem-analysis-card'>
                     <div className='problem-analysis-card-title-container'>
                         <h3>Achterliggende oorzaken</h3>
@@ -122,6 +127,12 @@ const ProblemAnalyseDetail = () => {
             </div>  
             ))
             }
+        </div>
+        <div className='empty-page-container' style={{display: problemAnalysis.length > 0 ? 'none' : 'flex'}}>
+            <h2>Je hebt nog geen probleemanalyse gemaakt.</h2>
+            <div className='button-container-margin-top'>
+                <button onClick={guideLink}>Maken</button>
+            </div>
         </div>
     </div>
 </div>

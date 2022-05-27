@@ -118,7 +118,7 @@ const ImpactSociety = () => {
                     ))}
                     </select>
                     <p><b>2. Formuleer de impact op de maatschappij</b></p>
-                    <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact} onChange={impactHandler} />
+                    <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
                     <div className='button-container-align-left'>
                         <button className='button-simple' onClick={saveImpactSociety}>Opslaan</button>
                     </div>

@@ -349,7 +349,7 @@ const Research = () => {
                                             <th>ACTIE</th>
                                         </tr>
                                         {researches && researches.map(research => (
-                                        <tr>
+                                        <tr key={research.ID}>
                                             <td>
                                                 <input type="text" defaultValue={research.Title} />
                                             </td>

@@ -75,6 +75,10 @@ const OutputSettings = () => {
         )
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/AddOutput`)
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -124,6 +128,12 @@ const OutputSettings = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div className='empty-page-container' style={{display: outputs.length > 0 ? 'none' : 'flex'}}>
+                <h2>Je hebt nog geen output(s) toegevoegd.</h2>
+                <div className='button-container-margin-top'>
+                    <button onClick={guideLink}>Toevoegen</button>
+                </div>
             </div>
         </div>
     </div>

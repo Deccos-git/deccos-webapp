@@ -108,7 +108,7 @@ const ImpactActivity = () => {
                     ))}
                     </select>
                     <p><b>2. Formuleer de impact</b></p>
-                    <textarea type="text" placeholder='Schrijf hier de impact' defaultValue={impact} onChange={impactHandler} />
+                    <textarea type="text" placeholder='Schrijf hier de impact' defaultValue={impact ? impact : ''} onChange={impactHandler} />
                 </div>
             </div>
             <div>

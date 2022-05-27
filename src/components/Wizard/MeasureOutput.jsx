@@ -90,7 +90,7 @@ const MeasureOutput = () => {
             ID: id,
             Compagny: client,
             Timestamp: timestamp,
-            Title: 'test',
+            Title: title,
             ActivityID: activityID,
             Activity: activityTitle,
             Number: number,

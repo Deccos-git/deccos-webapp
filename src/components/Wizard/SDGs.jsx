@@ -135,7 +135,7 @@ const SDGs = () => {
                     Nadat je de SDG’s hebt geselecteerd die bij jouw organisatie passen kun je in de impactclub 
                     zien welke organisaties eveneens een bijdrage willen zijn aan deze SDG’s.
                     </p>
-                    <p>Bekijk <a href="https://deccos.nl/SDGs">hier</a> alle SDG's</p>
+                    <p>Bekijk <a href="https://deccos.nl/SDGs">hier</a> alle SDG's.</p>
                 </div>
             </div>
             <div>
@@ -151,35 +151,37 @@ const SDGs = () => {
                         <option data-docid={goal.docid} data-sdgs={goal.SDG} data-id={goal.ID} value={goal.Title}>{goal.Title}</option>
                     ))}
                     </select>
-                    <p><b>2. Selecteer een SDG</b></p>
-                    <p>Kies welke van de 17 Social Development Goals (SDG's) van de Verenigde Naties (VN) passen bij dit doel:</p>
-                    <div>
-                        <div className='list-container' style={{display: displayList()}}>
-                            <div className='list-top-row-container'>
-                                <img src={plusButton} onClick={addSDG} alt="" />
-                            </div>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>SDG</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {SDGsSelected && SDGsSelected.map(sdg => (
+                    <div style={{display: goalID === '' ? 'none' : 'block'}}>
+                        <p><b>2. Selecteer een SDG</b></p>
+                        <p>Kies welke van de 17 Social Development Goals (SDG's) van de Verenigde Naties (VN) passen bij dit doel:</p>
+                        <div>
+                            <div className='list-container' style={{display: displayList()}}>
+                                <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addSDG} alt="" />
+                                </div>
+                                <div className='table-container'>
+                                    <table>
                                         <tr>
-                                            <td>
-                                                <select name="" id="" defaultValue={sdg.SDG} data-docid={sdg.docid} onChange={sdgHandler}>
-                                                    <option value="">-- Selecteer een SDG --</option>
-                                                    {SDGS && SDGS.map(sdg => (
-                                                        <option value={sdg.SDG}>{sdg.SDG}</option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-docid={sdg.docid} onClick={deleteSDG} src={deleteIcon} alt="" />
-                                            </td>
+                                            <th>SDG</th>
+                                            <th>VERWIJDER</th>
                                         </tr>
-                                    ))}
-                                </table>
+                                        {SDGsSelected && SDGsSelected.map(sdg => (
+                                            <tr key={sdg.ID}>
+                                                <td>
+                                                    <select name="" id="" defaultValue={sdg.SDG} data-docid={sdg.docid} onChange={sdgHandler}>
+                                                        <option value="">-- Selecteer een SDG --</option>
+                                                        {SDGS && SDGS.map(sdg => (
+                                                            <option value={sdg.SDG}>{sdg.SDG}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-docid={sdg.docid} onClick={deleteSDG} src={deleteIcon} alt="" />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

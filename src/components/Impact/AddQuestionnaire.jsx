@@ -234,7 +234,7 @@ const AddQuestionnaire = () => {
                         <input type="text" placeholder='Titel' defaultValue={title} onChange={titleHandler} />
                         <p><b>Vraag toevoegen</b></p>
                         <select name="" id="" onChange={typeHandler}>
-                            <option value="paragraph">Textvraag</option>
+                            <option value="paragraph">Tekstvraag</option>
                             <option value="scale">Schaalvraag</option>
                         </select>
                         <div className='question-type-display-container'>
@@ -271,7 +271,7 @@ const AddQuestionnaire = () => {
                             <button className='button-simple' onClick={addField}>Toevoegen</button>
                         </div>
                         <div>
-                            <p><b>Vragen</b></p>
+                            <p><b>Vragenlijst</b></p>
                             {questionnaireFields && questionnaireFields.map(field => (
                                 <div>
                                     <QuestionnaireField field={field}/>
@@ -301,8 +301,8 @@ const AddQuestionnaire = () => {
                             <h3>Volgende stap</h3>
                         </div> 
                         <div className='text-section' style={{backgroundColor: color}}>
-                            <p>In de volgende stap lees je meer over wat impactmanagement inhoudt.</p>
-                            <button>Volgende stap</button>
+                            <p>Terug naar vragenlijsten:</p>
+                            <NavLink to={`/${client}/Questionnaires`} ><button>Naar vragenlijsten</button></NavLink>
                         </div>
                     </div>
                 </div>

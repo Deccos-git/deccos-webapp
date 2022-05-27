@@ -21,7 +21,9 @@ import ButtonClicked from "../../hooks/ButtonClicked";
 import Modal from 'react-modal';
 import firebase from 'firebase'
 import deleteIcon from '../../images/icons/delete-icon.png'
+import eyeIcon from '../../images/icons/eye-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import plusButton from '../../images/icons/plus-icon.png'
 
 const ProblemAnalysis = () => {
     const [color, setColor] = useState('')
@@ -223,7 +225,20 @@ const ProblemAnalysis = () => {
         })
     }
 
+    const addProblemAnalysis = () => {
 
+        db.collection('ProblemAnalysis')
+        .doc()
+        .set({
+            CentralProblem: '',
+            DirectConsequences: [],
+            IndirectConsequences: [],
+            DirectCauses: [],
+            IndirectCauses: [],
+            ID: uuid(),
+            Compagny: client
+        })
+    }
 
   return (
     <div className="main">
@@ -292,6 +307,9 @@ const ProblemAnalysis = () => {
                     <h3>Aan de slag</h3>
                 </div> 
                 <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='list-top-row-container'>
+                            <img src={plusButton} onClick={addProblemAnalysis} alt="" />
+                    </div>
                     {problemAnalysis && problemAnalysis.map(problem => (
                     <div>
                         
@@ -452,6 +470,16 @@ const ProblemAnalysis = () => {
 
                     </div>
                     ))}
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>Je kunt je probleemanalyse hier terug vinden:</p>
+                    <NavLink to={`/${client}/ProblemAnalysisDetail`} ><button>Bekijk</button></NavLink>
                 </div>
             </div>
             <div>

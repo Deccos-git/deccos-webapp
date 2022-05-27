@@ -27,22 +27,13 @@ const Impacthub = () => {
         })
     },[compagnies])
 
-    const compagnyLink = () => {
-
-        history.push(``)
-    }
-
-    console.log(followers.length)
-
     const showFollowers = () => {
         if(followers.length === 0){
             return 'block'
         } else {
             return 'none'
         }
-    }
-
-    
+    } 
 
   return (
     <div className="main">
@@ -85,8 +76,7 @@ const Impacthub = () => {
                 </div>
             </div>
             <div className='button-container button-container-impactclub'>
-                <button onClick={compagnyLink}>Bekijk profiel</button>
-                <a href={`https://deccos.nl/OrganisationDetail/${client}/${ID}`}></a>
+                <a href={`https://deccos.nl/OrganisationDetail/${client}/${ID}`} target='_blank'><button>Bekijk profiel</button></a>
             </div>
         </div>
     </div>

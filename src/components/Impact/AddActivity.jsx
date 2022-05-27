@@ -255,10 +255,11 @@ const AddActivity = () => {
                                 <tr>
                                     <th>BANNER</th>
                                     <th>ACTIVITEIT</th>
+                                    <th>DOEL</th>
                                     <th>ACTIE</th>
                                 </tr>
                                 {activities && activities.map(activity => (
-                                    <tr>
+                                    <tr key={activity.ID}>
                                         <td>
                                             <div className='list-banner-container'>
                                                 <img className='cancel-icon' data-docid={activity.docid} src={cancelIcon} alt="" onClick={deleteBanner} style={{display: activity.Banner ? 'block' : 'none'}} />
@@ -268,6 +269,9 @@ const AddActivity = () => {
                                         </td>
                                         <td>
                                             <textarea contentEditable type="text" data-docid={activity.docid} defaultValue={activity.Activity} placeholder='Titel' onChange={activityHandler} />
+                                        </td>
+                                        <td>
+                                            <p>{activity.Goal}</p>
                                         </td>
                                         <td>
                                             <img className='table-delete-icon' data-docid={activity.docid} onClick={deleteActivity} src={deleteIcon} alt="" />

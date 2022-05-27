@@ -15,6 +15,8 @@ import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+
 
 const Targetgroup = () => {
     const [color, setColor] = useState('')
@@ -127,6 +129,18 @@ const Targetgroup = () => {
                     <input type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={title} onChange={titleHandler} />
                     <div className='button-container-align-left'>
                         <button className='button-simple' onClick={saveTargetgroup}>Opslaan</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>Je kunt je doelengroep(en) hier terug vinden:</p>
+                    <div className='button-container-margin-top'>
+                        <NavLink to={`/${client}/ImpactProgress`} ><button>Impactdashboard</button></NavLink>
                     </div>
                 </div>
             </div>

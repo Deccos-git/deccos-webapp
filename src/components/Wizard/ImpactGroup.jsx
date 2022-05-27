@@ -20,6 +20,7 @@ const ImpactGroup = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className='page-header'>
                 <h1>Impact HQ</h1>
+                <p>Chat je met je impact collega's en volg de laatste ontwikkelingen</p>
             </div>
             <div className='project-group-container' style={{display: premium ? 'flex' : 'none'}}>
                 {groups && groups.map(group => (

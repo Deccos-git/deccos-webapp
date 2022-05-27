@@ -9,17 +9,17 @@ import { MobileMenu } from '../../StateManagment/MobileMenu';
 import { Colors } from "../../StateManagment/Colors";
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router"
-import Premium from '../../hooks/Premium';
+import penIcon from '../../images/icons/pen-icon.png'
 
 const Topbar = () => {
     const [colors] = useContext(Colors)
     const [menu, setMenu] = useContext(MobileMenu)
     const [icon, setIcon] = useState(menuIcon)
+    const [settingsIcon, setSettingsIcon] = useState('none')
 
     const docs  = useFirestore("CompagnyMeta")
 
     const history = useHistory()
-    const premium = Premium()
 
     let logo = ""
     let website = ""
@@ -39,6 +39,12 @@ const Topbar = () => {
         }
     }
 
+    const settingsLink = () => {
+
+        history.push(`/${client}/Settings`)
+
+    }
+
     const homeLink = () => {
 
         history.push(`/${client}/ImpactProgress`)
@@ -51,7 +57,10 @@ const Topbar = () => {
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>
             <div id='logo-subscription-container'>
-                <a onClick={homeLink} target="_blank" ><img src={logo} className="top-bar-logo" alt="logo" /></a>
+                <div id='edit-logo-container' onMouseEnter={() => { setSettingsIcon('block')}} onMouseLeave={() => { setSettingsIcon('none')}}>
+                    <img src={logo} className="top-bar-logo" alt="logo" onClick={homeLink}/>
+                    <img id='edit-logo-button' src={penIcon} style={{display: settingsIcon}} onClick={settingsLink}/>
+                </div>
             </div>
             <div className="iconbar-external-container">
                 <Iconbar/>

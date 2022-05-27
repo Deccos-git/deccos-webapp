@@ -147,29 +147,31 @@ const Assumptions = () => {
                         <option data-docid={goal.docid} data-sdgs={goal.SDG} data-id={goal.ID} value={goal.Title}>{goal.Title}</option>
                     ))}
                     </select>
-                    <p><b>2. Beheer je aannames</b></p>
-                    <div>
-                        <div className='list-container' style={{display: displayList()}}>
-                            <div className='list-top-row-container'>
-                                <img src={plusButton} onClick={addAssumption} alt="" />
-                            </div>
-                            <div className='table-container'>
-                                <table>
-                                    <tr>
-                                        <th>AANNAME</th>
-                                        <th>ACTIE</th>
-                                    </tr>
-                                    {assumptions && assumptions.map(assumption => (
+                    <div style={{display: goalID === '' ? 'none' : 'block'}}>
+                        <p><b>2. Beheer je aannames</b></p>
+                        <div>
+                            <div className='list-container' style={{display: displayList()}}>
+                                <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addAssumption} alt="" />
+                                </div>
+                                <div className='table-container'>
+                                    <table>
                                         <tr>
-                                            <td>
-                                                <input type="text" defaultValue={assumption.Assumption} data-docid={assumption.docid} placeholder='Noteer hier de aanname' onChange={assumptionHandler}/>
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-docid={assumption.docid} onClick={deleteAssumption} src={deleteIcon} alt="" />
-                                            </td>
+                                            <th>AANNAME</th>
+                                            <th>ACTIE</th>
                                         </tr>
-                                ))}
-                                </table>
+                                        {assumptions && assumptions.map(assumption => (
+                                            <tr key={assumption.ID}>
+                                                <td>
+                                                    <input type="text" defaultValue={assumption.Assumption} data-docid={assumption.docid} placeholder='Noteer hier de aanname' onChange={assumptionHandler}/>
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-docid={assumption.docid} onClick={deleteAssumption} src={deleteIcon} alt="" />
+                                                </td>
+                                            </tr>
+                                    ))}
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

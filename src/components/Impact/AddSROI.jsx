@@ -189,8 +189,7 @@ const AddSROI = () => {
                     </p>
                     <p><b>Deadweight</b></p>
                     <p>
-                    De deadweight is een geschat percentage van de groei in impact die ook zou zijn ontstaan als 
-                    jullie organisatie zijn activiteiten überhaupt niet had aangeboden. De deadweight staat standaard 
+                    De deadweight staat standaard 
                     ingesteld op 75%. Dit betekent dat 25% van de verhoogde impact ook was ontstaan als jullie 
                     activiteit niet had bestaan.
                     </p>
@@ -249,7 +248,7 @@ const AddSROI = () => {
                                     <th>ACTIE</th>
                                 </tr>
                                 {SROIs && SROIs.map(SROI => (
-                                <tr>
+                                <tr key={SROI.ID}>
                                     <td>
                                     <select name="" id="" defaultValue={SROI.Type} onChange={SROISetHandler}>
                                         <option value="">-- Selecteer een SROI type --</option>
@@ -271,7 +270,7 @@ const AddSROI = () => {
                                         <p defaultValue={SROI.Amount}>€{SROI.Amount}</p>
                                     </td>
                                     <td>
-                                        <p>€{SROI.Amount*SROI.Deadweight*SROI.Attribution*SROI.Timehorizon}</p>  
+                                        <p>€{parseInt(SROI.Amount*SROI.Deadweight*SROI.Attribution*SROI.Timehorizon)}</p>  
                                     </td>
                                     <td>
                                         <img className='table-delete-icon' data-docid={SROI.docid} onClick={deleteSROI} src={deleteIcon} alt="" />

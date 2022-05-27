@@ -151,7 +151,7 @@ const OutputEffects = () => {
                                     <th>ACTIE</th>
                                 </tr>
                                 {effects && effects.map(effect => (
-                                    <tr>
+                                    <tr key={effect.ID}>
                                         <td>
                                             <input type="text" data-docid={effect.docid} defaultValue={effect.Effect} placeholder='Effect' onChange={effectHandler} />
                                         </td>

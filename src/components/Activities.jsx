@@ -24,6 +24,10 @@ const Activities = () => {
 
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/AddActivity`)
+    }
+
     return (
         <div className="main">
         <LeftSideBar />
@@ -49,6 +53,12 @@ const Activities = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div className='empty-page-container' style={{display: activities.length > 0 ? 'none' : 'flex'}}>
+                <h2>Je hebt nog geen activiteit(en) toegevoegd.</h2>
+                <div className='button-container-margin-top'>
+                    <button onClick={guideLink}>Toevoegen</button>
+                </div>
             </div>
         </div>
     </div>

@@ -44,6 +44,10 @@ const SROI = () => {
         )
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/AddSROI`)
+    }
+
   return (
     <div className="main">
     <LeftSideBar />
@@ -98,6 +102,12 @@ const SROI = () => {
         </div>
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
+        </div>
+        <div className='empty-page-container' style={{display: SROIs.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+            <h2>Je hebt nog geen SROI berekeningen toegevoegd.</h2>
+            <div className='button-container-margin-top'>
+                <button onClick={guideLink}>Toevoegen</button>
+            </div>
         </div>
     </div>
 </div>

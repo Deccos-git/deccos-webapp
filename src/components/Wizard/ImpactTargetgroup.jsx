@@ -15,6 +15,8 @@ import { db, timestamp } from "../../firebase/config.js"
 import ButtonClicked from "../../hooks/ButtonClicked";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import eyeIcon from '../../images/icons/eye-icon.png'
+
 
 const ImpactTargetgroup = () => {
     const [color, setColor] = useState('')
@@ -80,6 +82,8 @@ const ImpactTargetgroup = () => {
         }
     }
 
+    console.log(impact)
+
   return (
     <div className="main">
     <LeftSideBar />
@@ -131,9 +135,21 @@ const ImpactTargetgroup = () => {
                     </select>
                     <p>Doelgroep: {displayTargetgroup()}</p>
                     <p><b>2. Formuleer de impact op de doelgroep</b></p>
-                    <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact} onChange={impactHandler} />
+                    <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
                     <div className='button-container-align-left'>
                         <button className='button-simple' onClick={saveImpactTargetgroup}>Opslaan</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='activity-meta-title-container'>
+                    <img src={eyeIcon} alt="" />
+                    <h3>Bekijk</h3>
+                </div> 
+                <div className='text-section' style={{backgroundColor: color}}>
+                    <p>Je kunt je impact op de doelgroep hier terug vinden:</p>
+                    <div className='button-container-margin-top'>
+                        <NavLink to={`/${client}/ImpactProgress`} ><button>Impactdashboard</button></NavLink>
                     </div>
                 </div>
             </div>

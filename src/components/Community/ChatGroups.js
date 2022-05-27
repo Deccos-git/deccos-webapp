@@ -353,7 +353,9 @@ const ChatGroups = () => {
                     </div>
                     <div className="article" >
                         <h2>Groepen</h2>
+                        <div className="chats-overview-container">
                             <GroupsAuth/>
+                        </div>
                         <h2>Chats</h2>
                         <div className="chats-overview-container">
                             <ChatsAuth/>

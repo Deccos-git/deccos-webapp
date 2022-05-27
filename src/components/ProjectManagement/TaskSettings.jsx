@@ -134,12 +134,12 @@ const TaskSettings = () => {
         <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
-        <div className="profile profile-auth-profile" style={{display: menuState}}>
-            <div className="settings-inner-container">
-                <div className="divider card-header">
+        <div className="main-container" style={{display: menuState}}>
+            <div className="main-container">
+                <div className="page-header">
                     <h1>Taak toevoegen</h1>
                 </div>
-                <div className='divider'>
+                <div className='profile profile-auth-profile'>
                     <h4>Selecteer een output</h4>
                     <select name="" id="" onChange={outputHandler}>
                         <option value="">-- Selecteer een output --</option>
@@ -160,13 +160,15 @@ const TaskSettings = () => {
                     <h3>Vervaldatum</h3>
                     <input type="date" onChange={dateHandler} />
                     <h3>Taak toewijzen aan</h3>
-                        <select className="userrole-select" name="" id="" onChange={userHandler}>
-                            <option value="">--- Selecteer ---</option>
-                            {users && users.map(user => (
-                                <option key={user.UserID} data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
-                            ))}
-                        </select>
-                    <button className='button-simple' onClick={saveTask}>Opslaan</button>
+                    <select className="userrole-select" name="" id="" onChange={userHandler}>
+                        <option value="">--- Selecteer ---</option>
+                        {users && users.map(user => (
+                            <option key={user.UserID} data-id={user.ID} data-name={user.UserName} data-photo={user.Photo} data-email={user.Email} key={user.ID}>{user.UserName}</option>
+                        ))}
+                    </select>
+                    <div className='button-container-margin-top'>
+                        <button className='button-simple' onClick={saveTask}>Opslaan</button>
+                    </div>
                 </div>
             </div>
         </div>

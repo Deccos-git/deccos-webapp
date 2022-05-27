@@ -150,25 +150,22 @@ const createUser = () => {
             })
         })
         .then(() => {
-            db.collection('ProblemAnalysis')
-            .doc()
-            .set({
-                CentralProblem: '',
-                DirectConsequences: [],
-                IndirectConsequences: [],
-                DirectCauses: [],
-                IndirectCauses: [],
-                ID: uuid(),
-                Compagny: communityName.toLocaleLowerCase()
-            })
-        })
-        .then(() => {
             db.collection('Stakeholders')
             .doc()
             .set({
                 ID: uuid(),
                 Compagny: communityName.toLocaleLowerCase(),
                 Name: ''
+            })
+        })
+        .then(() => {
+            db.collection('Groups')
+            .doc()
+            .set({
+                ID: uuid(),
+                Compagny: communityName.toLocaleLowerCase(),
+                MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+                Room: 'Impact HQ'
             })
         })
         .then(() => {

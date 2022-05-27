@@ -50,6 +50,10 @@ const ResearchSettings = () => {
         )
     }
 
+    const guideLink = () => {
+        history.push(`/${client}/Research`)
+    }
+
   return (
     <div className="main">
     <LeftSideBar />
@@ -84,6 +88,12 @@ const ResearchSettings = () => {
         </div>
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
+        </div>
+        <div className='empty-page-container' style={{display: researches.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+            <h2>Je hebt nog geen onderzoek(en) opgezet.</h2>
+            <div className='button-container-margin-top'>
+                <button onClick={guideLink}>Opzetten</button>
+            </div>
         </div>
     </div>
 </div>

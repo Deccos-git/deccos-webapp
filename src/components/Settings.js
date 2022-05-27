@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { Colors } from "../StateManagment/Colors";
 import "../CSS/toggleSwitch.css";
+import ButtonClicked from "../hooks/ButtonClicked";
 
 const Settings = () => {
     const [colors] = useContext(Colors)
@@ -78,6 +79,8 @@ const Settings = () => {
     }
 
     const saveName = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
 
         const docid = e.target.dataset.id
         db.collection("CompagnyMeta")
