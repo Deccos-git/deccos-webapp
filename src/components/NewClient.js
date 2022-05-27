@@ -114,6 +114,7 @@ const createUser = () => {
             ID: id,
             VerificationMethode: "Admin",
             Timestamp: timestamp,
+            Impact: true
         })
         .then(() => {
             db.collection('Admins')
@@ -187,10 +188,14 @@ const createUser = () => {
             }
         }
 
+        const homeLink = () => {
+            history.replace(`/`) 
+            }
+
     return (
         <div>
              <header className="top-bar">
-                <img src={deccosLogo} className="top-bar-logo" alt="logo" />
+                <img src={deccosLogo} onClick={homeLink} className="top-bar-logo" alt="logo" />
             </header>
             <div className="new-client-container">
                 <div className="card-header">

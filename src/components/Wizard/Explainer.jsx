@@ -127,8 +127,8 @@ const Explainer = () => {
                         <h3>Volgende stap</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
-                        <p>In de volgende stap ga je een probleemanalyse maken.</p>
-                        <NavLink to={`/${client}/ProblemAnalysis`} ><button>Volgende stap</button></NavLink>
+                        <p>De eerste stap in het impact management proces is een probleemanalyse maken.</p>
+                        <NavLink to={`/${client}/ProblemAnalysis`} ><button>Aan de slag</button></NavLink>
                     </div>
                 </div>
             </div> 

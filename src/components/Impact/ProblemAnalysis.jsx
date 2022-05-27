@@ -8,7 +8,7 @@ import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
 import plusIcon from '../../images/icons/plus-icon.png'
-import arrowUpIcon from '../../images/icons/arrow-up-icon-white.png'
+import arrowDownIcon from '../../images/icons/arrow-down-icon.png'
 import { useFirestore } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -294,116 +294,8 @@ const ProblemAnalysis = () => {
                 <div className='text-section' style={{backgroundColor: color}}>
                     {problemAnalysis && problemAnalysis.map(problem => (
                     <div>
-                         <Modal
-                        isOpen={modalIndirectConsequencesOpen}
-                        onRequestClose={closeIndirectConsequencesModal}
-                        style={modalStyles}
-                        contentLabel="Voeg een verder gevolg toe"
-                        >
-                        <div className='add-image-container'>
-                            <img src={rocketIcon} alt="" />
-                            <p>Voeg een verder gevolg toe</p>
-                            <input onChange={indirectConsequenceHandler} type="text" />
-                            <button className='button-simple' data-docid={problem.docid} onClick={saveIndirectConsequence}>Opslaan</button>
-                        </div>
-                        </Modal>
-                        <div className='problem-analysis-card'>
-                            <div className='problem-analysis-card-title-container'>
-                                <p>Verdere gevolgen</p>
-                                <img src={plusIcon} alt="" onClick={() => setModalIndirectConsequencesOpen(true)} />
-                            </div>
-                            <div>
-                                <ol>
-                                    {problem.IndirectConsequences && problem.IndirectConsequences.map(indirectconsequence => (
-                                        <li>
-                                            <div className='problem-list-inner-container'>
-                                                {indirectconsequence}
-                                                <img src={deleteIcon} data-value={indirectconsequence}  data-docid={problem.docid} onClick={deleteindirectConsequence} />
-                                            </div>
-                                        </li>
-
-                                    ))}
-                                </ol>
-                            </div>
-                        </div>
-                        <div className='problemanalysis-arrow-container'>
-                            <img src={arrowUpIcon} alt="" />
-                        </div>
-                        <Modal
-                        isOpen={modalDirectConsequencesOpen}
-                        onRequestClose={closeDirectConsequencesModal}
-                        style={modalStyles}
-                        contentLabel="Voeg een direct gevolg toe"
-                        >
-                        <div className='add-image-container'>
-                            <img src={rocketIcon} alt="" />
-                            <p>Voeg een direct gevolg toe</p>
-                            <input onChange={directConsequenceHandler} type="text" />
-                            <button className='button-simple' data-docid={problem.docid} onClick={saveDirectConsequence}>Opslaan</button>
-                        </div>
-                        </Modal>
-                        <div className='problem-analysis-card'>
-                            <div className='problem-analysis-card-title-container'>
-                                <p>Directe gevolgen</p>
-                                <img src={plusIcon} alt="" onClick={() => setModalDirectConsequencesOpen(true)} />
-                            </div>
-                            <div>
-                                <ol>
-                                    {problem.DirectConsequences && problem.DirectConsequences.map(directconsequence => (
-                                        <li>
-                                            <div className='problem-list-inner-container'>
-                                                {directconsequence}
-                                                <img src={deleteIcon} data-value={directconsequence}  data-docid={problem.docid} onClick={deletedirectConsequence} />
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ol>
-                            </div>
-                        </div>
-                        <div className='problemanalysis-arrow-container'>
-                            <img src={arrowUpIcon} alt="" />
-                        </div>
-                        <div className='problem-analysis-card central-problem-card'>
-                            <p id='central-problem'>Centrale probleem</p>
-                            <input type="text" data-docid={problem.docid} defaultValue={problem.CentralProblem} placeholder='Noteer hier het centrale probleem' onChange={centralProblemHandler} />
-                        </div>
-                        <div className='problemanalysis-arrow-container'>
-                            <img src={arrowUpIcon} alt="" />
-                        </div>
-                        <Modal
-                        isOpen={modalDirectCauseOpen}
-                        onRequestClose={closeDirectCauseModal}
-                        style={modalStyles}
-                        contentLabel="Voeg een directe oorzaak toe"
-                        >
-                        <div className='add-image-container'>
-                            <img src={rocketIcon} alt="" />
-                            <p>Voeg een direct oorzaak toe</p>
-                            <input onChange={directCauseHandler} type="text" />
-                            <button className='button-simple' data-docid={problem.docid} onClick={saveDirectCause}>Opslaan</button>
-                        </div>
-                        </Modal>
-                        <div className='problem-analysis-card'>
-                            <div className='problem-analysis-card-title-container'>
-                                <p>Directe oorzaken</p>
-                                <img src={plusIcon} alt="" onClick={() => setModalDirectCauseOpen(true)}/>
-                            </div>
-                            <div>
-                                <ol>
-                                    {problem.DirectCauses && problem.DirectCauses.map(directcause => (
-                                        <li>
-                                            <div className='problem-list-inner-container'>
-                                                {directcause}
-                                                <img src={deleteIcon} data-value={directcause}  data-docid={problem.docid} onClick={deleteDirectCause} />
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ol>
-                            </div>
-                        </div>
-                        <div className='problemanalysis-arrow-container'>
-                            <img src={arrowUpIcon} alt="" />
-                        </div>
+                        
+                     
                         <Modal
                         isOpen={modalIndirectCauseOpen}
                         onRequestClose={closeIndirectCauseModal}
@@ -435,6 +327,129 @@ const ProblemAnalysis = () => {
                                 </ol>
                             </div>
                         </div>
+
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowDownIcon} alt="" />
+                        </div>
+
+                       
+                        <Modal
+                        isOpen={modalDirectCauseOpen}
+                        onRequestClose={closeDirectCauseModal}
+                        style={modalStyles}
+                        contentLabel="Voeg een directe oorzaak toe"
+                        >
+                        <div className='add-image-container'>
+                            <img src={rocketIcon} alt="" />
+                            <p>Voeg een direct oorzaak toe</p>
+                            <input onChange={directCauseHandler} type="text" />
+                            <button className='button-simple' data-docid={problem.docid} onClick={saveDirectCause}>Opslaan</button>
+                        </div>
+                        </Modal>
+                        <div className='problem-analysis-card'>
+                            <div className='problem-analysis-card-title-container'>
+                                <p>Directe oorzaken</p>
+                                <img src={plusIcon} alt="" onClick={() => setModalDirectCauseOpen(true)}/>
+                            </div>
+                            <div>
+                                <ol>
+                                    {problem.DirectCauses && problem.DirectCauses.map(directcause => (
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {directcause}
+                                                <img src={deleteIcon} data-value={directcause}  data-docid={problem.docid} onClick={deleteDirectCause} />
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowDownIcon} alt="" />
+                        </div>
+
+                        
+                        <div className='problem-analysis-card central-problem-card'>
+                            <p id='central-problem'>Centrale probleem</p>
+                            <input type="text" data-docid={problem.docid} defaultValue={problem.CentralProblem} placeholder='Noteer hier het centrale probleem' onChange={centralProblemHandler} />
+                        </div>
+
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowDownIcon} alt="" />
+                        </div>
+
+                        
+                        <Modal
+                        isOpen={modalDirectConsequencesOpen}
+                        onRequestClose={closeDirectConsequencesModal}
+                        style={modalStyles}
+                        contentLabel="Voeg een direct gevolg toe"
+                        >
+                        <div className='add-image-container'>
+                            <img src={rocketIcon} alt="" />
+                            <p>Voeg een direct gevolg toe</p>
+                            <input onChange={directConsequenceHandler} type="text" />
+                            <button className='button-simple' data-docid={problem.docid} onClick={saveDirectConsequence}>Opslaan</button>
+                        </div>
+                        </Modal>
+                        <div className='problem-analysis-card'>
+                            <div className='problem-analysis-card-title-container'>
+                                <p>Directe gevolgen</p>
+                                <img src={plusIcon} alt="" onClick={() => setModalDirectConsequencesOpen(true)} />
+                            </div>
+                            <div>
+                                <ol>
+                                    {problem.DirectConsequences && problem.DirectConsequences.map(directconsequence => (
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {directconsequence}
+                                                <img src={deleteIcon} data-value={directconsequence}  data-docid={problem.docid} onClick={deletedirectConsequence} />
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div className='problemanalysis-arrow-container'>
+                            <img src={arrowDownIcon} alt="" />
+                        </div>
+
+                        
+                        <Modal
+                        isOpen={modalIndirectConsequencesOpen}
+                        onRequestClose={closeIndirectConsequencesModal}
+                        style={modalStyles}
+                        contentLabel="Voeg een verder gevolg toe"
+                        >
+                        <div className='add-image-container'>
+                            <img src={rocketIcon} alt="" />
+                            <p>Voeg een verder gevolg toe</p>
+                            <input onChange={indirectConsequenceHandler} type="text" />
+                            <button className='button-simple' data-docid={problem.docid} onClick={saveIndirectConsequence}>Opslaan</button>
+                        </div>
+                        </Modal>
+                        <div className='problem-analysis-card'>
+                            <div className='problem-analysis-card-title-container'>
+                                <p>Verdere gevolgen</p>
+                                <img src={plusIcon} alt="" onClick={() => setModalIndirectConsequencesOpen(true)} />
+                            </div>
+                            <div>
+                                <ol>
+                                    {problem.IndirectConsequences && problem.IndirectConsequences.map(indirectconsequence => (
+                                        <li>
+                                            <div className='problem-list-inner-container'>
+                                                {indirectconsequence}
+                                                <img src={deleteIcon} data-value={indirectconsequence}  data-docid={problem.docid} onClick={deleteindirectConsequence} />
+                                            </div>
+                                        </li>
+
+                                    ))}
+                                </ol>
+                            </div>
+                        </div>
+
                     </div>
                     ))}
                 </div>

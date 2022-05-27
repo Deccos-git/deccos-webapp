@@ -375,7 +375,7 @@ const ImpactProgress = () => {
 
         useEffect(() => {
             SROIs && SROIs.forEach(sroi => {
-                setTotalSROI(sroi.Value)
+                setTotalSROI(Number(sroi.Value))
             })
         })
 
