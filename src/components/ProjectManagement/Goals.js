@@ -17,6 +17,13 @@ const Goals = () => {
         history.push(`/${client}/GoalTitle`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return docs.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -36,7 +43,7 @@ const Goals = () => {
                     ))
                     }
                 </div>
-                <div className='empty-page-container' style={{display: docs.length > 0 ? 'none' : 'flex'}}>
+                <div className='empty-page-container' style={{display: displayContent()}}>
                     <h2>Je hebt nog geen doel(en) gesteld.</h2>
                     <div className='button-container-margin-top'>
                         <button onClick={guideLink}>Aan de slag</button>

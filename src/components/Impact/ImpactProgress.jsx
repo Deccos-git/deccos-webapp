@@ -411,6 +411,13 @@ const ImpactProgress = () => {
         history.push(`/${client}/Introduction`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return goals.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -420,12 +427,12 @@ const ImpactProgress = () => {
                     <h1>Impact dashboard</h1>  
                 </div>
                 <Goals/>
-                {/* <div className='empty-page-container' style={{display: goals.length > 0 ? 'none' : 'flex'}}>
+                <div className='empty-page-container' style={{display: displayContent()}}>
                     <h2>Je impact dashboard is nog leeg. Begin je impact management avontuur.</h2>
                     <div className='button-container-margin-top'>
                         <button onClick={guideLink}>Starten</button>
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     )

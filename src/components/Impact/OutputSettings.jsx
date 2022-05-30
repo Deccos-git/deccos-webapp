@@ -79,6 +79,13 @@ const OutputSettings = () => {
         history.push(`/${client}/AddOutput`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return outputs.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -129,7 +136,7 @@ const OutputSettings = () => {
                     </div>
                 ))}
             </div>
-            <div className='empty-page-container' style={{display: outputs.length > 0 ? 'none' : 'flex'}}>
+            <div className='empty-page-container' style={{display: displayContent()}}>
                 <h2>Je hebt nog geen output(s) toegevoegd.</h2>
                 <div className='button-container-margin-top'>
                     <button onClick={guideLink}>Toevoegen</button>

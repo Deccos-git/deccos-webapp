@@ -18,6 +18,13 @@ const ProblemAnalyseDetail = () => {
         history.push(`/${client}/ProblemAnalysis`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return problemAnalysis.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
 
   return (
     <div className="main">
@@ -128,7 +135,7 @@ const ProblemAnalyseDetail = () => {
             ))
             }
         </div>
-        <div className='empty-page-container' style={{display: problemAnalysis.length > 0 ? 'none' : 'flex'}}>
+        <div className='empty-page-container' style={{display : displayContent()}}>
             <h2>Je hebt nog geen probleemanalyse gemaakt.</h2>
             <div className='button-container-margin-top'>
                 <button onClick={guideLink}>Maken</button>

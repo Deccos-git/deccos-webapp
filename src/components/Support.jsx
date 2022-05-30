@@ -45,7 +45,7 @@ const Support = () => {
                 <h1>Ondersteuning</h1>
             </div>
             <div className='article'>
-              <h2>Heb je behoefte aan ondersteuning van een van onze impactexperts?</h2>
+              <h2>Heb je behoefte aan ondersteuning van een van onze impact experts?</h2>
 
               <h3>Selecteer een onderwerp</h3>
               <select name="" id="" onChange={subjectHandler}>

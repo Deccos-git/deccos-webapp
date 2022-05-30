@@ -48,6 +48,13 @@ const SROI = () => {
         history.push(`/${client}/AddSROI`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return SROIs.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
   return (
     <div className="main">
     <LeftSideBar />
@@ -103,7 +110,7 @@ const SROI = () => {
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
         </div>
-        <div className='empty-page-container' style={{display: SROIs.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+        <div className='empty-page-container' style={{display: displayContent()}}>
             <h2>Je hebt nog geen SROI berekeningen toegevoegd.</h2>
             <div className='button-container-margin-top'>
                 <button onClick={guideLink}>Toevoegen</button>

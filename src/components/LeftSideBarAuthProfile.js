@@ -115,6 +115,7 @@ const LeftSideBarAuthProfile = () => {
             <div className="left-side-bar">
                 <div className="channel-div">
                     <div className="channel-inner-div">
+                        <h3>Home</h3>
                         <div className='activity-meta-title-container'>
                             <img src={HomeIcon} alt="" />
                             <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Home</NavLink>

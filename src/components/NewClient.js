@@ -13,7 +13,7 @@ import deccosLogo from '../images/deccos-logo.png'
 const NewClient = () => {
     const [communityName, setCommunityName] = useState("")
     const [logo, setLogo] = useState(dummyLogo)
-    const [loader, setLoader] = useState("")
+    const [loader, setLoader] = useState('none')
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeat, setPasswordRepeat] = useState("")
@@ -103,6 +103,8 @@ const createUser = () => {
         })
     }
 
+    // Don't forget to change the firestore rules if you change anything in createClient
+
     const createClient = () => {
 
         db.collection("CompagnyMeta")
@@ -126,68 +128,70 @@ const createUser = () => {
                 UserID: '6a8bf-08c3-a1ad-d04d-231ebe51dc60',
                 UserName: 'Gijs van Beusekom'
             })
-        })
-        .then(() => {
-            db.collection('Admins')
-            .doc()
-            .set({
-                Compagny: communityName.toLocaleLowerCase(),
-                Email: 'info@deccos.nl',
-                Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
-                UserID: id,
-                UserName: `${forname} ${surname}`
+            .then(() => {
+                db.collection('Admins')
+                .doc()
+                .set({
+                    Compagny: communityName.toLocaleLowerCase(),
+                    Email: 'info@deccos.nl',
+                    Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
+                    UserID: id,
+                    UserName: `${forname} ${surname}`
+                })
+                .then(() => {
+                    db.collection('Colors')
+                    .doc()
+                    .set({
+                        Background: '#83edff14',
+                        Topbar: '#FFFFFF',
+                        TopBarIcons: '#2F2C41',
+                        ID: uuid(),
+                        Compagny: communityName.toLocaleLowerCase()
+                    })
+                    .then(() => {
+                        db.collection('Stakeholders')
+                        .doc()
+                        .set({
+                            ID: uuid(),
+                            Compagny: communityName.toLocaleLowerCase(),
+                            Name: ''
+                        })
+                        .then(() => {
+                            db.collection('Groups')
+                            .doc()
+                            .set({
+                                ID: uuid(),
+                                Compagny: communityName.toLocaleLowerCase(),
+                                MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+                                Room: 'Impact HQ'
+                            })
+                            .then(() => {
+                                setTimeout(() => {
+                                    createUser()
+                                },3000)
+                            })
+                        })
+                    })
+                })
             })
-        })
-        .then(() => {
-            db.collection('Colors')
-            .doc()
-            .set({
-                Background: '#e0f2f5',
-                Topbar: '#FFFFFF',
-                TopBarIcons: '#2F2C41',
-                ID: uuid(),
-                Compagny: communityName.toLocaleLowerCase()
-            })
-        })
-        .then(() => {
-            db.collection('Stakeholders')
-            .doc()
-            .set({
-                ID: uuid(),
-                Compagny: communityName.toLocaleLowerCase(),
-                Name: ''
-            })
-        })
-        .then(() => {
-            db.collection('Groups')
-            .doc()
-            .set({
-                ID: uuid(),
-                Compagny: communityName.toLocaleLowerCase(),
-                MemberList: firebase.firestore.FieldValue.arrayUnion(id),
-                Room: 'Impact HQ'
-            })
-        })
-        .then(() => {
-            createUser()
         })
     }
 
-        const checkHandler = (e) => {
+    const checkHandler = (e) => {
 
-            e.preventDefault()
-    
-            if(password === passwordRepeat){
-                ButtonClicked(e, 'Aangemaakt')
-                createClient()
-            } else {
-                alert('De paswoorden zijn niet gelijk')
-            }
+        e.preventDefault()
+
+        if(password === passwordRepeat){
+            ButtonClicked(e, 'laden...')
+            createClient()
+        } else {
+            alert('De paswoorden zijn niet gelijk')
         }
+    }
 
-        const homeLink = () => {
-            history.replace(`/`) 
-            }
+    const homeLink = () => {
+        history.replace(`/`) 
+        }
 
     return (
         <div>

@@ -60,7 +60,6 @@ const MultipleAccounts = () => {
 
     const checkMultoipleAccounts = () => {
         if(organisations.length === 1){
-            console.log('test')
             organisations && organisations.forEach(org => {
                 history.push(`/${org}/Introduction`)
                 window.location.reload()

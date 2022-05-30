@@ -28,6 +28,13 @@ const Activities = () => {
         history.push(`/${client}/AddActivity`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return activities.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
     return (
         <div className="main">
         <LeftSideBar />
@@ -54,7 +61,7 @@ const Activities = () => {
                     </div>
                 ))}
             </div>
-            <div className='empty-page-container' style={{display: activities.length > 0 ? 'none' : 'flex'}}>
+            <div className='empty-page-container' style={{display: displayContent()}}>
                 <h2>Je hebt nog geen activiteit(en) toegevoegd.</h2>
                 <div className='button-container-margin-top'>
                     <button onClick={guideLink}>Toevoegen</button>

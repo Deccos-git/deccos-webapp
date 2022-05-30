@@ -20,7 +20,6 @@ function App() {
   const [online, setOnline] = useState(false)
   const [approved, setApproved] = useState(false)
   const [compagny, setCompagny] = useState("")
-  const [authO, setAuthO] = useState('')
 
   const colors = Colors()
 
@@ -37,9 +36,6 @@ function App() {
           querySnapshot.forEach(doc => {
             const approved = doc.data().Approved
             const compagny = doc.data().Compagny
-            const data = doc.data()
-
-            setAuthO(data)
 
             setCompagny(compagny)
 
@@ -56,6 +52,8 @@ function App() {
       }
     })
   }, [])
+
+  console.log(online, client, approved, compagny.includes(client))
 
     const AuthRedirect = () => {
       if(online === false && client != 'NewClient' && client != '' ){
@@ -103,28 +101,6 @@ function App() {
         return null
       }
     }
-
-    const updateUserOnlineInStatus = (status) => {
-      auth.onAuthStateChanged(User =>{
-        if(User){
-          db.collection("Users")
-          .doc(User.uid)
-          .update({
-            Online: status
-          })
-        }
-      })
-    }
-  
-    const checkOnlineStatus = () => {
-        if(navigator.onLine){
-          updateUserOnlineInStatus(true)
-        } else if (!navigator.onLine) {
-          updateUserOnlineInStatus(false)
-        }
-    }
-
-    checkOnlineStatus()
 
   const variants = {
     hidden: { opacity: 0 },

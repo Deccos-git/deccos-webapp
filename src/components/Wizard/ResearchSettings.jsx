@@ -54,6 +54,13 @@ const ResearchSettings = () => {
         history.push(`/${client}/Research`)
     }
 
+    const displayContent = () => {
+
+        setTimeout(() => {
+            return researches.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
   return (
     <div className="main">
     <LeftSideBar />
@@ -89,7 +96,7 @@ const ResearchSettings = () => {
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
         </div>
-        <div className='empty-page-container' style={{display: researches.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+        <div className='empty-page-container' style={{display: displayContent()}}>
             <h2>Je hebt nog geen onderzoek(en) opgezet.</h2>
             <div className='button-container-margin-top'>
                 <button onClick={guideLink}>Opzetten</button>

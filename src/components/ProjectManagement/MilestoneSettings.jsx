@@ -75,6 +75,15 @@ const MilestoneSettings = () => {
         history.push(`/${client}/MeasureOutput`)
     }
 
+    const displayContent = () => {
+
+        console.log(milestones.length > 0)
+
+        setTimeout(() => {
+            return milestones.length > 0 ? 'none' : 'flex'
+        }, 1000)
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -117,7 +126,7 @@ const MilestoneSettings = () => {
             <div style={{display: premium ? 'none' : 'flex'}}>
                 <PremiumNotice/>
             </div>
-            <div className='empty-page-container' style={{display: milestones.length > 0 ? 'none' : 'flex'}} style={{display: premium ? 'flex' : 'none'}}>
+            <div className='empty-page-container' style={{display: displayContent()}}>
                 <h2>Je hebt nog geen mijlpalen toegevoegd.</h2>
                 <div className='button-container-margin-top'>
                     <button onClick={guideLink}>Toevoegen</button>
