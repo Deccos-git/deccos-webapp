@@ -15,10 +15,11 @@ import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { NavLink, Link } from "react-router-dom";
+import deleteIcon from '../../images/icons/delete-icon.png'
 
 const AddQuestionnaire = () => {
     const [color, setColor] = useState('')
-    const [title, setTitle ] = useState('Titel van vragenlijst')
+    const [title, setTitle ] = useState('')
     const [docid, setDocid ] = useState('')
     const [showParagraph, setShowParagraph] = useState('block')
     const [showScale, setShowScale] = useState('none')
@@ -124,6 +125,11 @@ const AddQuestionnaire = () => {
 
         ButtonClicked(e, 'Toegevoegd')
 
+        setTimeout(() => {
+            e.target.innerText = 'Nog een toevoegen' 
+            e.target.style.color = 'green'
+        }, 2000)
+
         db.collection('QuestionnaireFields')
         .doc()
         .set({
@@ -146,6 +152,14 @@ const AddQuestionnaire = () => {
         const [question, setQuestion] = useState(null)
         const [range, setRange] = useState(null)
 
+        const deleteField = (e) => {
+            const docid = e.target.dataset.docid 
+
+            db.collection('QuestionnaireFields')
+            .doc(docid)
+            .delete()
+        }
+
         useEffect(() => {
 
             setQuestion(field.Question)
@@ -154,8 +168,6 @@ const AddQuestionnaire = () => {
 
         const start = field.ReachStart
         const end = field.ReachEnd
-
-        console.log(field.Type)
 
         useEffect(() => {
 
@@ -177,6 +189,9 @@ const AddQuestionnaire = () => {
                 <div className='question-type-display-container'>
                     <input type='text' value={question} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
+                    <div className='questionnaire-field-delete-icon-container'>
+                        <img className='questionnaire-field-delete-icon' src={deleteIcon} alt="" />
+                   </div>
                 </div>
             )
         } else if(field.Type === 'scale'){
@@ -192,6 +207,9 @@ const AddQuestionnaire = () => {
                            </div>
                        ))}
                        {field.ReachEndLabel}
+                   </div>
+                   <div className='questionnaire-field-delete-icon-container'>
+                        <img className='questionnaire-field-delete-icon' data-docid={field.docid} onClick={deleteField} src={deleteIcon} alt="" />
                    </div>
                 </div>
             )
@@ -245,18 +263,20 @@ const AddQuestionnaire = () => {
                             <div className='questionnaire-field-scale-container' style={{display: showScale}}>
                                 <div className='select-scale-container'>
                                     <select name="" id="" onChange={reachStartHandler}>
+                                        <option value="">-- Selecteer onderwaarde ---</option>
                                         <option value="0">0</option>
-                                        <option value="1" selected>1</option>
+                                        <option value="1">1</option>
                                     </select>
                                     <input type="text" placeholder='Voeg label toe' onChange={reachStartLabelHandler} />
                                 </div>
                                 <p id='scale-reach-symbol'>t/m</p>
                                 <div className='select-scale-container'>
                                     <select name="" id="" onChange={reachEndHandler}>
+                                        <option value="">-- Selecteer bovenwaarde --</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
-                                        <option value="5" selected>5</option>
+                                        <option value="5">5</option>
                                         <option value="6">6</option>
                                         <option value="7">7</option>
                                         <option value="8">8</option>
@@ -273,7 +293,7 @@ const AddQuestionnaire = () => {
                         <div>
                             <p><b>Vragenlijst</b></p>
                             {questionnaireFields && questionnaireFields.map(field => (
-                                <div>
+                                <div key={field.ID}>
                                     <QuestionnaireField field={field}/>
                                 </div>
                             ))}

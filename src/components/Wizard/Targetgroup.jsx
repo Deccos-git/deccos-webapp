@@ -51,14 +51,6 @@ const Targetgroup = () => {
 
         const title = e.target.value 
 
-        setTitle(title)
-
-    }
-
-    const saveTargetgroup = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
         db.collection('Goals')
         .doc(goalDocid)
         .update({
@@ -127,9 +119,6 @@ const Targetgroup = () => {
                     </select>
                     <p><b>1. Formuleer de doelgroep</b></p>
                     <input type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={title} onChange={titleHandler} />
-                    <div className='button-container-align-left'>
-                        <button className='button-simple' onClick={saveTargetgroup}>Opslaan</button>
-                    </div>
                 </div>
             </div>
             <div>

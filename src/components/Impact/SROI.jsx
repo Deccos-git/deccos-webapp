@@ -19,6 +19,7 @@ import horizonIcon from '../../images/icons/horizon-icon.png'
 import selectedIcon from '../../images/icons/selected-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const SROI = () => {
 
@@ -34,25 +35,13 @@ const SROI = () => {
 
         return(
             <div>
-                <p className='questionnaire-results-container'>
-                    <b>
-                    {results.length} (aantal {output}) x €{amount} (bedrag per persoon per jaar x deadweight x attributie x tijdshorizon) =
-                    </b>
-                </p>
-                <p className='questionnaire-results-container'>€{results.length*amount}</p>
+                <div className='sroi-total-sum-equation-container'>
+                    <p><b>{results.length} (aantal {output})</b></p>
+                    <p><b>€{amount} (bedrag per persoon per jaar x deadweight x attributie x tijdshorizon)</b></p>
+                </div>
+                <p className='questionnaire-results-container'>€{parseInt(results.length*amount)} per jaar</p>
             </div>
         )
-    }
-
-    const guideLink = () => {
-        history.push(`/${client}/AddSROI`)
-    }
-
-    const displayContent = () => {
-
-        setTimeout(() => {
-            return SROIs.length > 0 ? 'none' : 'flex'
-        }, 1000)
     }
 
   return (
@@ -110,12 +99,7 @@ const SROI = () => {
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
         </div>
-        <div className='empty-page-container' style={{display: displayContent()}}>
-            <h2>Je hebt nog geen SROI berekeningen toegevoegd.</h2>
-            <div className='button-container-margin-top'>
-                <button onClick={guideLink}>Toevoegen</button>
-            </div>
-        </div>
+        {NoContentNotice(SROIs, 'AddSROI')}
     </div>
 </div>
   )

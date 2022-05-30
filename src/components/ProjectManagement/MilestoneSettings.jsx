@@ -12,6 +12,7 @@ import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const MilestoneSettings = () => {
     const [color, setColor] = useState('')
@@ -71,19 +72,6 @@ const MilestoneSettings = () => {
         )
     }
 
-    const guideLink = () => {
-        history.push(`/${client}/MeasureOutput`)
-    }
-
-    const displayContent = () => {
-
-        console.log(milestones.length > 0)
-
-        setTimeout(() => {
-            return milestones.length > 0 ? 'none' : 'flex'
-        }, 1000)
-    }
-
   return (
     <div className="main">
         <LeftSideBar />
@@ -126,12 +114,7 @@ const MilestoneSettings = () => {
             <div style={{display: premium ? 'none' : 'flex'}}>
                 <PremiumNotice/>
             </div>
-            <div className='empty-page-container' style={{display: displayContent()}}>
-                <h2>Je hebt nog geen mijlpalen toegevoegd.</h2>
-                <div className='button-container-margin-top'>
-                    <button onClick={guideLink}>Toevoegen</button>
-                </div>
-            </div>
+            {NoContentNotice(milestones, 'MeasureOutput')}
         </div>
     </div>
   )

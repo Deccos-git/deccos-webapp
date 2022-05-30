@@ -107,7 +107,7 @@ const ImpactActivity = () => {
                     <select name="" id="" onChange={activityHandler}>
                         <option value="">-- Selecteer een activiteit --</option>
                     {activities && activities.map(activity => (
-                        <option data-docid={activity.docid} data-impact={activity.Impact} value={activity.Activity}>{activity.Activity}</option>
+                        <option key={activity.ID} data-docid={activity.docid} data-impact={activity.Impact} value={activity.Activity}>{activity.Activity}</option>
                     ))}
                     </select>
                     <p><b>2. Formuleer de impact</b></p>

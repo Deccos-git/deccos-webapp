@@ -16,6 +16,7 @@ import calendarIcon from '../../images/icons/calendar-icon.png'
 import titleIcon from '../../images/icons/title-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const ResearchSettings = () => {
 
@@ -96,12 +97,7 @@ const ResearchSettings = () => {
         <div style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
         </div>
-        <div className='empty-page-container' style={{display: displayContent()}}>
-            <h2>Je hebt nog geen onderzoek(en) opgezet.</h2>
-            <div className='button-container-margin-top'>
-                <button onClick={guideLink}>Opzetten</button>
-            </div>
-        </div>
+        {NoContentNotice(researches, 'Research')}
     </div>
 </div>
   )

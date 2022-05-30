@@ -210,7 +210,7 @@ const ProblemAnalysis = () => {
         db.collection('ProblemAnalysis')
         .doc(docid)
         .update({
-            DirectCause: firebase.firestore.FieldValue.arrayRemove(value)
+            DirectCauses: firebase.firestore.FieldValue.arrayRemove(value)
         })
     }
 
@@ -219,10 +219,12 @@ const ProblemAnalysis = () => {
         const docid = e.target.dataset.docid
         const value = e.target.dataset.value
 
+        console.log(docid, value)
+
         db.collection('ProblemAnalysis')
         .doc(docid)
         .update({
-            IndirectCause: firebase.firestore.FieldValue.arrayRemove(value)
+            IndirectCauses: firebase.firestore.FieldValue.arrayRemove(value)
         })
     }
 
@@ -312,9 +314,7 @@ const ProblemAnalysis = () => {
                             <img src={plusButton} onClick={addProblemAnalysis} alt="" />
                     </div>
                     {problemAnalysis && problemAnalysis.map(problem => (
-                    <div>
-                        
-                     
+                        <div key={problem.ID}>
                         <Modal
                         isOpen={modalIndirectCauseOpen}
                         onRequestClose={closeIndirectCauseModal}
@@ -336,7 +336,7 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.IndirectCauses && problem.IndirectCauses.map(indirectcause => (
-                                    <li>
+                                    <li key={indirectcause.ID}>
                                         <div className='problem-list-inner-container'>
                                             {indirectcause}
                                             <img src={deleteIcon} data-value={indirectcause}  data-docid={problem.docid} onClick={deleteIndirectCause} />
@@ -373,7 +373,7 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.DirectCauses && problem.DirectCauses.map(directcause => (
-                                        <li>
+                                        <li key={directcause.ID}>
                                             <div className='problem-list-inner-container'>
                                                 {directcause}
                                                 <img src={deleteIcon} data-value={directcause}  data-docid={problem.docid} onClick={deleteDirectCause} />
@@ -420,7 +420,7 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.DirectConsequences && problem.DirectConsequences.map(directconsequence => (
-                                        <li>
+                                        <li key={directconsequence.ID}>
                                             <div className='problem-list-inner-container'>
                                                 {directconsequence}
                                                 <img src={deleteIcon} data-value={directconsequence}  data-docid={problem.docid} onClick={deletedirectConsequence} />
@@ -457,7 +457,7 @@ const ProblemAnalysis = () => {
                             <div>
                                 <ol>
                                     {problem.IndirectConsequences && problem.IndirectConsequences.map(indirectconsequence => (
-                                        <li>
+                                        <li key={indirectconsequence.ID}>
                                             <div className='problem-list-inner-container'>
                                                 {indirectconsequence}
                                                 <img src={deleteIcon} data-value={indirectconsequence}  data-docid={problem.docid} onClick={deleteindirectConsequence} />

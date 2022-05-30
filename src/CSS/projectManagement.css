@@ -17,10 +17,6 @@
     align-items: center;
 }
 
-.select-scale-container select{
-    width: 50px;
-}
-
 .task-detail-container{
     background-color: white;
     width: 80%;

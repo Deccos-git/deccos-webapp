@@ -9,6 +9,7 @@ import ButtonClicked from "../hooks/ButtonClicked";
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
 import dummyLogo from '../images/dummy-logo.png'
 import deccosLogo from '../images/deccos-logo.png'
+import NoContentNotice from '../hooks/NoContentNotice';
 
 const NewClient = () => {
     const [communityName, setCommunityName] = useState("")
@@ -30,6 +31,41 @@ const NewClient = () => {
         setCommunityName(name)
 
     }
+
+    const LogoHandler = (e) => {
+
+        const logo = e.target.files[0]
+        setLogo(spinnerRipple)
+
+        const storageRef = bucket.ref("/ProfilePhotos/" + logo.name);
+        const uploadTask = storageRef.put(logo)
+
+        uploadTask.then(() => {
+          
+            uploadTask.on('state_changed', snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING:
+                console.log('Upload is running');
+                break;
+            }
+            }, (err) => {
+                alert(err)
+            }, () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('File available at', downloadURL);
+
+            setLogo(downloadURL)
+
+                })
+            })
+        })
+    }
+
+   
 
     const fornameHandler = (e) => {
         const forname = e.target.value
@@ -116,7 +152,7 @@ const createUser = () => {
             ID: id,
             VerificationMethode: "Admin",
             Timestamp: timestamp,
-            Impact: true
+            Impacthub: true
         })
         .then(() => {
             db.collection('Admins')
@@ -142,7 +178,7 @@ const createUser = () => {
                     db.collection('Colors')
                     .doc()
                     .set({
-                        Background: '#83edff14',
+                        Background: '#edf4fd',
                         Topbar: '#FFFFFF',
                         TopBarIcons: '#2F2C41',
                         ID: uuid(),
@@ -211,6 +247,11 @@ const createUser = () => {
                 <form >
                     <p>Bedrijfsnaam*</p>
                     <input onChange={communityNameHandler} type="text" placeholder="Schrijf hier de bedrijfsnaam" />
+                    <p>Logo</p>
+                    <div id='new-client-logo-container'>
+                        <img src={logo} alt="" />
+                    </div>
+                    <input className="input-classic" type="file" onChange={LogoHandler} />
                     <p>Voornaam*</p>
                     <input onChange={fornameHandler} type="text" placeholder="Schrijf hier je voornaam" />
                     <p>Achternaam</p>

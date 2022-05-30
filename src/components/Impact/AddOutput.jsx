@@ -147,7 +147,7 @@ const AddOutput = () => {
                 <select name="" id="" onChange={activityHandler}>
                     <option data-id={''} data-title={''} value="">-- Selecteer een activiteit --</option>
                 {activities && activities.map(activity => (
-                    <option data-docid={activity.docid} data-id={activity.ID} data-title={activity.Activity}>{activity.Activity}</option>
+                    <option key={activity.ID} data-docid={activity.docid} data-id={activity.ID} data-title={activity.Activity}>{activity.Activity}</option>
                 ))}
                 </select>
             </div >

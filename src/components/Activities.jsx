@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import penIcon from '../images/icons/pen-icon.png'
 import { NavLink, Link } from "react-router-dom";
+import NoContentNotice from "../hooks/NoContentNotice";
 
 const Activities = () => {
     const [progression, setProgression] = useState(0)
@@ -22,17 +23,6 @@ const Activities = () => {
 
         history.push(`/${client}/ActivityDetail/${id}`)
 
-    }
-
-    const guideLink = () => {
-        history.push(`/${client}/AddActivity`)
-    }
-
-    const displayContent = () => {
-
-        setTimeout(() => {
-            return activities.length > 0 ? 'none' : 'flex'
-        }, 1000)
     }
 
     return (
@@ -61,12 +51,7 @@ const Activities = () => {
                     </div>
                 ))}
             </div>
-            <div className='empty-page-container' style={{display: displayContent()}}>
-                <h2>Je hebt nog geen activiteit(en) toegevoegd.</h2>
-                <div className='button-container-margin-top'>
-                    <button onClick={guideLink}>Toevoegen</button>
-                </div>
-            </div>
+            {NoContentNotice(activities, 'AddActivity')}
         </div>
     </div>
     )

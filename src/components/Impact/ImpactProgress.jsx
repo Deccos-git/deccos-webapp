@@ -52,6 +52,7 @@ import ManualResultsGraph from "../Impact/ManualResultsGraph";
 import uuid from "react-uuid";
 import sroiIcon from '../../images/icons/sroi-icon.png'
 import researchIcon from '../../images/icons/research-icon.png'
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -63,6 +64,7 @@ const ImpactProgress = () => {
 
     const questionnaireAnalysis = useFirestore('QuestionnaireAnalysis')
     const colors = useFirestore('Colors')
+    const allGoals = useFirestore('Goals')
 
     useEffect(() => {
         colors && colors.forEach(color => {
@@ -384,7 +386,7 @@ const ImpactProgress = () => {
                     <img src={sroiIcon} alt="" />
                     <h3>SROI</h3>
                 </div>
-                <p className='output-seeting-effect'>{dataset.length} x €{totalSROI} = €{dataset.length*totalSROI}</p>
+                <p className='output-seeting-effect'>{dataset.length} x €{totalSROI} = €{dataset.length*totalSROI} per jaar</p>
             </div>
             </>
         )
@@ -407,17 +409,6 @@ const ImpactProgress = () => {
         )
     }
 
-    const guideLink = () => {
-        history.push(`/${client}/Introduction`)
-    }
-
-    const displayContent = () => {
-
-        setTimeout(() => {
-            return goals.length > 0 ? 'none' : 'flex'
-        }, 1000)
-    }
-
     return (
         <div className="main">
             <LeftSideBar />
@@ -427,12 +418,7 @@ const ImpactProgress = () => {
                     <h1>Impact dashboard</h1>  
                 </div>
                 <Goals/>
-                <div className='empty-page-container' style={{display: displayContent()}}>
-                    <h2>Je impact dashboard is nog leeg. Begin je impact management avontuur.</h2>
-                    <div className='button-container-margin-top'>
-                        <button onClick={guideLink}>Starten</button>
-                    </div>
-                </div>
+                {NoContentNotice(allGoals, 'Introduction')}
             </div>
         </div>
     )

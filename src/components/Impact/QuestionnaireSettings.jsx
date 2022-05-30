@@ -5,12 +5,13 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
-import { useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
+import { useFirestore, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const QuestionnaireSettings = () => {
 
@@ -19,6 +20,16 @@ const QuestionnaireSettings = () => {
     const premium = Premium() 
 
     const questionnaires = useFirestore('Questionnaires')
+
+    const FieldCount = ({questionnaire}) => {
+
+        const questionnaireFields = useFirestoreQuestionnaireFields(questionnaire.ID)
+
+        return(
+            <p>{questionnaireFields.length}</p>
+        )
+
+    }
 
   return (
     <div className="main">
@@ -38,10 +49,12 @@ const QuestionnaireSettings = () => {
                 <table>
                     <tr>
                         <th>TITEL</th>
+                        <th>VRAGEN</th>
                     </tr>
                     {questionnaires && questionnaires.map(questionnaire => (
                         <tr>
                             <td>{questionnaire.Title}</td>
+                            <td> <FieldCount questionnaire={questionnaire}/></td>
                         </tr>
                     ))}
                 </table>
@@ -50,6 +63,7 @@ const QuestionnaireSettings = () => {
         <div className='premium-notice-outer-container' style={{display: premium ? 'none' : 'flex'}}>
             <PremiumNotice/>
         </div>
+        {NoContentNotice(questionnaires, 'Questionnaires')}
     </div>
 </div>
   )

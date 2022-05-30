@@ -197,7 +197,7 @@ const Research = () => {
         return(
             <div>
                 {moments && moments.map(moment => (
-                    <div className='measure-moments-inner-container'>
+                    <div key={moment.ID} className='measure-moments-inner-container'>
                         <div>
                             <p><b>Titel</b></p>
                             <input type="text" defaultValue={moment.Title} data-docid={moment.docid} onChange={changeMomentTitleHandler} />
@@ -215,7 +215,7 @@ const Research = () => {
                                 ))}
                             </select>
                         </div>
-                        <p className='delete-text' onClick={deleteMoment}>Verwijder</p>
+                        <p className='delete-text-measure-moments' data-docid={moment.docid} onClick={deleteMoment}>Verwijder</p>
                     </div>
                 ))}
             </div>
@@ -455,7 +455,7 @@ const Research = () => {
             <img src={resultsIcon} alt="" />
             <div>
                 <p>Geef het meetmoment een titel</p>
-                <input type="text" placeholder='Schrijf hier de titel van het meetmoment' onChange={momentTitleHandler} />
+                <input type="text" placeholder='Bijvoorbeeld "Vooronderzoek"' onChange={momentTitleHandler} />
             </div>
             <div>
                 <p>Geef het meetmoment een deadline</p>

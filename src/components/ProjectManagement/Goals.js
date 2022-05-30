@@ -7,22 +7,12 @@ import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const Goals = () => {
     const docs  = useFirestoreTimestamp("Goals")
     const menuState = MenuStatus()
     const history = useHistory()
-
-    const guideLink = () => {
-        history.push(`/${client}/GoalTitle`)
-    }
-
-    const displayContent = () => {
-
-        setTimeout(() => {
-            return docs.length > 0 ? 'none' : 'flex'
-        }, 1000)
-    }
 
     return (
         <div className="main">
@@ -43,12 +33,7 @@ const Goals = () => {
                     ))
                     }
                 </div>
-                <div className='empty-page-container' style={{display: displayContent()}}>
-                    <h2>Je hebt nog geen doel(en) gesteld.</h2>
-                    <div className='button-container-margin-top'>
-                        <button onClick={guideLink}>Aan de slag</button>
-                    </div>
-                </div>
+                {NoContentNotice(docs, 'GoalTitle')}
             </div>
         </div>
     )

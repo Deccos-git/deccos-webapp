@@ -36,11 +36,10 @@ const AddActivity = () => {
     const [color, setColor] = useState('')
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
-    const [activityTitle, setActivityTitle] = useState('')
-    const [impact, setImpact] = useState('')
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
     const [modalOpen, setModalOpen] = useState(false);
+    const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
@@ -91,6 +90,12 @@ const AddActivity = () => {
 
     }
 
+    const activityModalHandler = (e) => {
+        const title = e.target.value 
+
+        setTitle(title)
+    }
+
     const saveActivity = (e) => {
 
         ButtonClicked(e, 'Opgeslagen')
@@ -100,7 +105,7 @@ const AddActivity = () => {
         db.collection('Activities')
         .doc()
         .set({
-            Activity: activityTitle,
+            Activity: title,
             ID: id,
             Compagny: client,
             Timestamp: timestamp,
@@ -232,14 +237,14 @@ const AddActivity = () => {
                     >
                     <div className='add-image-container'>
                         <h4>Selecteer een doel</h4>
-                            <select name="" id="" onChange={goalHandler}>
-                                <option value="">-- Selecteer een doel --</option>
-                                {goals && goals.map(goal => (
-                                    <option value="" key={goal.ID} data-id={goal.ID} data-title={goal.Title}>{goal.Title}</option>
-                                ))}
-                            </select>
-                            <h4>Beschrijf activiteit</h4>
-                            <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityHandler}/>
+                        <select name="" id="" onChange={goalHandler}>
+                            <option value="">-- Selecteer een doel --</option>
+                            {goals && goals.map(goal => (
+                                <option value="" key={goal.ID} data-id={goal.ID} data-title={goal.Title}>{goal.Title}</option>
+                            ))}
+                        </select>
+                        <h4>Beschrijf activiteit</h4>
+                        <input type="text" placeholder='Beschrijf hier je activiteit' onChange={activityModalHandler}/>
                         <h4>Voeg een bannerfoto toe</h4>
                         <input className="input-classic" onChange={bannerHandler} type="file" />
                         <div className="spinner-container">

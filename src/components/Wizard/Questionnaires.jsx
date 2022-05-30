@@ -7,7 +7,7 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
@@ -78,9 +78,28 @@ const Questionnaires = () => {
             Timestamp: timestamp,
             Compagny: client,
         })
-        .then(() => {
-            history.push(`/${client}/AddQuestionnaire/${id}`)
+    }
+
+    const titleHandler = (e) => {
+        const docid = e.target.dataset.docid 
+        const title = e.target.value
+
+        db.collection('Questionnaires')
+        .doc(docid)
+        .update({
+            Title: title
         })
+
+    }
+
+    const FieldCount = ({questionnaire}) => {
+
+        const questionnaireFields = useFirestoreQuestionnaireFields(questionnaire.ID)
+
+        return(
+            <p>{questionnaireFields.length}</p>
+        )
+
     }
 
   return (
@@ -135,13 +154,17 @@ const Questionnaires = () => {
                                     <table>
                                         <tr>
                                             <th>TITEL</th>
+                                            <th>VRAGEN</th>
                                             <th>BEKIJK</th>
                                             <th>VERWIJDER</th>
                                         </tr>
                                         {questionnaires && questionnaires.map(questionnaire => (
                                             <tr key={questionnaires.ID}>
                                                 <td>
-                                                    <p>{questionnaire.Title}</p>
+                                                    <input type="text" placeholder="Schrijf hier te titel" data-docid={questionnaire.docid} defaultValue={questionnaire.Title} onChange={titleHandler}/>
+                                                </td>
+                                                <td>
+                                                    <FieldCount questionnaire={questionnaire}/>
                                                 </td>
                                                 <td>
                                                     <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />

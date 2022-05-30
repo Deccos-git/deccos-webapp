@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
-import {useFirestore, useFirestoreMilestones, useFirestoreResults} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreMilestones, useFirestoreResults, useFirestoreOutputEffects, useFirestoreResearch} from "../../firebase/useFirestore"
 import settingsIcon from '../../images/icons/settings-icon.png'
 import { db } from "../../firebase/config.js"
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,7 @@ import resultsIcon from '../../images/icons/results-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
+import NoContentNotice from "../../hooks/NoContentNotice";
 
 const OutputSettings = () => {
     const [outputID, setOutputID] = useState('')
@@ -75,15 +76,34 @@ const OutputSettings = () => {
         )
     }
 
-    const guideLink = () => {
-        history.push(`/${client}/AddOutput`)
+    const Effects = ({output}) => {
+
+        const effects = useFirestoreOutputEffects(output.ID)
+
+        return(
+                <ul>
+                {effects && effects.map(effect => (
+                    <li key={effect.ID}>{effect.Effect}</li>
+                ))}
+                </ul>
+        )
     }
 
-    const displayContent = () => {
+    const Research = ({output}) => {
 
-        setTimeout(() => {
-            return outputs.length > 0 ? 'none' : 'flex'
-        }, 1000)
+        const researches = useFirestoreResearch(output.ID) 
+
+        const researchLink = () => {
+            history.push(`/${client}/ResearchSettings/`)
+        }
+
+        return(
+            <ul>
+                {researches && researches.map(research => (
+                    <li style={{cursor: 'pointer'}} onClick={researchLink}>{research.Title}</li>
+                ))}
+            </ul>
+        )
     }
 
   return (
@@ -113,7 +133,7 @@ const OutputSettings = () => {
                                 <img src={resultsIcon} alt="" />
                                 <h3>Effect</h3>
                             </div>
-                            <p className='questionnaire-results-container'>{output.Effect}</p>
+                            <Effects output={output}/>
                             <div>
                                 <div className='activity-meta-title-container'>
                                     <img src={growIcon} alt="" />
@@ -128,20 +148,13 @@ const OutputSettings = () => {
                                     <img src={researchIcon} alt="" />
                                     <h3>Onderzoeken</h3>
                                 </div>
-                               <ul>
-                                   
-                               </ul>
+                               <Research output={output}/>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className='empty-page-container' style={{display: displayContent()}}>
-                <h2>Je hebt nog geen output(s) toegevoegd.</h2>
-                <div className='button-container-margin-top'>
-                    <button onClick={guideLink}>Toevoegen</button>
-                </div>
-            </div>
+            {NoContentNotice(outputs, 'AddOutput')}
         </div>
     </div>
   )
