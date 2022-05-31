@@ -76,7 +76,7 @@ const LeftSideBarAuthProfile = () => {
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
                             <img src={UserIcon} alt="" />
-                            <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Account instellingen</Link>
+                            <Link to={`/${client}/Profile`} onClick={changeMenuStatus}>Instellingen</Link>
                         </div>
                     </div>
                 </div>

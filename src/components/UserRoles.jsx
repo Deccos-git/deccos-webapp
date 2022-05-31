@@ -24,6 +24,8 @@ const UserRoles = () => {
 
         const id = e.target.dataset.id
 
+        console.log(id)
+
         db.collection("Admins")
         .doc(id)
         .delete()

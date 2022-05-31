@@ -53,6 +53,17 @@ const AddOutput = () => {
         })
     }
 
+    const singularHandler = (e) => {
+        const singular = e.target.value 
+        const docid = e.target.dataset.docid
+
+        db.collection('Outputs')
+        .doc(docid)
+        .update({
+            Singular: singular
+        })
+    }
+
     const addOutput = (e) => {
     
 
@@ -65,6 +76,7 @@ const AddOutput = () => {
             Activity: activityTitle,
             ActivityID: activityID,
             Title: '',
+            Singular: ''
         })
     }
 
@@ -121,6 +133,18 @@ const AddOutput = () => {
                     </ul>
 
                     <p>Een output is tastbaar en concreet. Ze zijn zo concreet dat je er mee kunt rekenen.</p>
+
+                    <p>Wanneer je een output toevoegd aan een activiteit kun je een enkelvoud invullen. Dit is het enkelvoud van 
+                        de output die je hebt toegevoegd. Bijvoorbeeld: 
+                    </p>
+
+                    <ul>
+                        <li>Output: 'Klanten', Enkelvoud: 'Klant'</li>
+                        <li>Output: 'Deelnemers', Enkelvoud: 'Deelnemer'</li>
+                        <li>Output: 'Bomen', Enkelvoud: 'Boom'</li>
+                    </ul>
+
+                    <p>De enkelvoud van de output wordt gebruikt bij het aanmaken van de projecttaken. Daar kun je bij <a href={`Projectmanagement`}>stap 20: 'Projectbeheer'</a>  meer over lezen.</p>
                 </div>
             </div>
         <div>
@@ -148,12 +172,16 @@ const AddOutput = () => {
                             <table>
                                 <tr>
                                     <th>OUTPUT</th>
+                                    <th>ENKELVOUD</th>
                                     <th>VERWIJDER</th>
                                 </tr>
                                 {outputs && outputs.map(output => (
                                     <tr key={output.ID}>
                                         <td>
                                             <input type="text" data-docid={output.docid} defaultValue={output.Title} placeholder='Output' onChange={outputHandler} />
+                                        </td>
+                                        <td>
+                                            <input type="text" data-docid={output.docid} defaultValue={output.Singular} placeholder='Enkelvoud' onChange={singularHandler} />   
                                         </td>
                                         <td>
                                             <img className='table-delete-icon' data-docid={output.docid} onClick={deleteOutput} src={deleteIcon} alt="" />

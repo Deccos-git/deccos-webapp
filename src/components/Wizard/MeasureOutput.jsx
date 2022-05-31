@@ -36,6 +36,7 @@ const MeasureOutput = () => {
     const [number, setNumber] = useState('')
     const [deadline, setDeadline] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
+    const [singular, setSingular] = useState('')
 
     const history = useHistory()
     const menuState = MenuStatus() 
@@ -62,11 +63,13 @@ const MeasureOutput = () => {
         const outputTitle = e.target.options[e.target.selectedIndex].dataset.title
         const activity = e.target.options[e.target.selectedIndex].dataset.activity
         const activityID = e.target.options[e.target.selectedIndex].dataset.activityid
+        const singular = e.target.options[e.target.selectedIndex].dataset.singular
 
         setOutputID(outputID)
         setOutputTitle(outputTitle)
         setActivityID(activityID)
         setActivityTitle(activity)
+        setSingular(singular)
     }
 
     const addMilestone = (e) => {
@@ -108,13 +111,14 @@ const MeasureOutput = () => {
             ID: uuid(),
             Compagny: client,
             Timestamp: timestamp,
-            Title: `Nieuwe ${outputTitle}`,
+            Title: `Nieuwe ${singular.toLowerCase()}`,
             AppointedID: '',
             AppointedName: '',
             AppointedPhoto: '',
             AppointedEmail: '',
             Completed: false,
             Icon: completeIcon,
+            Singular: singular.toLowerCase(),
             Type: 'Task',
             Priority: '',
             OutputID: outputID,
@@ -238,7 +242,7 @@ const MeasureOutput = () => {
                         <select name="" id="" onChange={outputHandler}>
                             <option value="">-- Selecteer een output --</option>
                             {outputs && outputs.map(output => (
-                                <option value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
+                                <option value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-singular={output.Singular} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
                             ))}
                         </select>
                         <div style={{display: outputID ? 'block' : 'none'}}>

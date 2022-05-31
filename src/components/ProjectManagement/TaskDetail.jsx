@@ -153,8 +153,10 @@ const TaskDetail = () => {
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
-            <div className='page-header task-detail-header'>
+            <div className='page-header'>
                 <h1>{task}</h1>
+            </div>
+            <div className='instrument-card task-detail-card'>
                 {tasks && tasks.map(task => (
                 <div className='task-detail-container'>
                     <div className='task-detail-inner-container'>

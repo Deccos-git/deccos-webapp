@@ -9,6 +9,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
 import externalLinkIcon from '../images/icons/external-link-icon.png'
+import ButtonClicked from '../hooks/ButtonClicked'
 
 const Profile = () => {
 
@@ -118,9 +119,12 @@ const Profile = () => {
         setSurName(surName)
     }
 
-    const saveUserName = () => {
+    const saveUserName = (e) => {
+
+        ButtonClicked(e, 'Opgeslagen')
+
         db.collection("Users")
-        .doc(auth.Docid)
+        .doc(authO.Docid)
         .update({
             ForName: forName,
             SurName: surName,

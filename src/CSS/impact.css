@@ -291,6 +291,10 @@
     text-align: center;
 }
 
+.task-detail-card{
+    width: 80% !important;
+}
+
 .impact-dashboard-output-container{
     padding: 20px;
     border-radius: 5px;

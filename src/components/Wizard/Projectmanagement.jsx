@@ -64,7 +64,7 @@ const Projectmanagement = () => {
                         <p><b>In het menu vind je het item 'Projectbeheer'. </b></p>
                         <p>
                         Wanneer je mijlpalen creëert en/of een onderzoek aanmaakt worden er 
-                        automatisch taken en een tijdspad gecreëerd. Zo houd je altijd het overzicht over je impact management.
+                        automatisch taken toegevoegd. Zo houd je altijd het overzicht over je impact management.
                         </p>
                         <p>
                         Het projectmanagement bestaat uit een viertal elementen:

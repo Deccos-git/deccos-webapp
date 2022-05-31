@@ -42,6 +42,7 @@ const Tasks = () => {
 
             const taskObject = {
                 ID: task.ID,
+                Title: task.Title,
                 docid: task.docid,
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
@@ -71,6 +72,7 @@ const Tasks = () => {
             const taskObject = {
                 ID: task.ID,
                 docid: task.docid,
+                Title: task.Title,
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
                 Icon: task.Icon,
@@ -288,8 +290,9 @@ const Tasks = () => {
                     <div className='task-overview-container' key={task.ID}>
                         <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
                             <div className='task-inner-container'>
+                                {console.log(task.Title)}
                                 <img src={task.Icon} data-docid={task.docid} data-outputid={task.OutputID} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
-                                <p className='task-description'>{task.Task}</p>
+                                <p className='task-description'>{task.Title}</p>
                                 <TaskPriority task={task}/>
                                 <div className='appointed-container'>
                                     <img className='task-appointed-photo' onClick={linkProfile} src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} alt=""/>

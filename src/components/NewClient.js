@@ -160,45 +160,34 @@ const createUser = () => {
             .set({
                 Compagny: communityName.toLocaleLowerCase(),
                 Email: 'info@deccos.nl',
-                Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
-                UserID: '6a8bf-08c3-a1ad-d04d-231ebe51dc60',
-                UserName: 'Gijs van Beusekom'
+                Photo: photo,
+                UserID: id,
+                UserName: `${forname} ${surname}`
             })
             .then(() => {
-                db.collection('Admins')
+                db.collection('Stakeholders')
                 .doc()
                 .set({
+                    ID: uuid(),
                     Compagny: communityName.toLocaleLowerCase(),
-                    Email: 'info@deccos.nl',
-                    Photo: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ProfilePhotos%2Ffoto-gijs350.jpg?alt=media&token=0e8e886f-2384-4f4c-b5de-a14fa7376135',
-                    UserID: id,
-                    UserName: `${forname} ${surname}`
+                    Name: ''
                 })
                 .then(() => {
-                    db.collection('Stakeholders')
+                    db.collection('Groups')
                     .doc()
                     .set({
                         ID: uuid(),
                         Compagny: communityName.toLocaleLowerCase(),
-                        Name: ''
+                        MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+                        Room: 'Impact HQ'
                     })
                     .then(() => {
-                        db.collection('Groups')
-                        .doc()
-                        .set({
-                            ID: uuid(),
-                            Compagny: communityName.toLocaleLowerCase(),
-                            MemberList: firebase.firestore.FieldValue.arrayUnion(id),
-                            Room: 'Impact HQ'
-                        })
-                        .then(() => {
-                            sendEmail()
-                        })
-                        .then(() => {
-                            setTimeout(() => {
-                                createUser()
-                            },3000)
-                        })
+                        sendEmail()
+                    })
+                    .then(() => {
+                        setTimeout(() => {
+                            createUser()
+                        },3000)
                     })
                 })
             })
@@ -248,7 +237,7 @@ const createUser = () => {
             <div className="new-client-container">
                 <div className="card-header">
                     <h1 id='title-new-client'>Creëer je Deccos bedrijfsaccount</h1>
-                    <p>Begin je impact managent avontuur.</p>
+                    <p id='sub-title-new-client'>Begin je impact managent avontuur.</p>
                     <ul>
                         <li>Je account blijft gratis zolang je wilt</li>
                         <li>Bepaal zelf wanneer en of je wilt upgraden</li>

@@ -350,6 +350,7 @@
     align-items: center;
     justify-content: center;
     margin: 50px;
+    min-height: 100vh;
 }
 
 .approval-message-container img{
