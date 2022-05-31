@@ -895,6 +895,7 @@ const useFirestoreQuestionnaireFields = (id) => {
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
         .where('QuestionnaireID', '==', id)
+        .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1461,6 +1462,29 @@ const useFirestoreMeasureMoments = (id) => {
     return docs
 };
 
+const useFirestoreStakeholders = (categorie) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection("Stakeholders")
+        .where('Compagny', '==', client)
+        .where('Categorie', '==', categorie)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [categorie])  
+
+    return docs
+};
+
 
 
 export { 
@@ -1526,5 +1550,6 @@ export {
     useFirestoreOutputEffects,
     useFirestoreSROISets,
     useFirestoreMeasureMoments,
-    useFirestoreResearch
+    useFirestoreResearch,
+    useFirestoreStakeholders
 }

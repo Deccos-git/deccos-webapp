@@ -46,6 +46,7 @@ const Tasks = () => {
                 docid: task.docid,
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
+                Deadline: task.Deadline,
                 Icon: task.Icon,
                 Task: task.Title,
                 AppointedID: task.AppointedID,
@@ -76,6 +77,7 @@ const Tasks = () => {
                 BackgroundColor: task.BackgroundColor,
                 Completed: task.Completed,
                 Icon: task.Icon,
+                Deadline: task.Deadline,
                 Task: task.Title,
                 AppointedID: task.AppointedID,
                 AppointedPhoto: task.AppointedPhoto,
@@ -293,6 +295,7 @@ const Tasks = () => {
                                 {console.log(task.Title)}
                                 <img src={task.Icon} data-docid={task.docid} data-outputid={task.OutputID} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
                                 <p className='task-description'>{task.Title}</p>
+                                <p>{task.Deadline && task.Deadline}</p>
                                 <TaskPriority task={task}/>
                                 <div className='appointed-container'>
                                     <img className='task-appointed-photo' onClick={linkProfile} src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} alt=""/>

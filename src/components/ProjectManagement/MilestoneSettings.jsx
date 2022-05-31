@@ -79,6 +79,7 @@ const MilestoneSettings = () => {
         <div className="main-container" style={{display: menuState}}>
             <div className='page-header'>
                 <h1>Mijlpalen</h1>
+                <p>Creëer stippen aan de horinzon om naar toe te werken</p>
                 <div className='edit-icon-header-container'>
                     <NavLink activeClassName='active' to={`/${client}/MeasureOutput`}>
                         <img src={penIcon} alt="" />

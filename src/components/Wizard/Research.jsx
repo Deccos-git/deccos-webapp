@@ -28,6 +28,7 @@ import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import sendIcon from '../../images/icons/send-icon.png'
 
 const Research = () => {
     const [outputID, setOutputID] = useState('')
@@ -187,15 +188,15 @@ const Research = () => {
             <div>
                 {moments && moments.map(moment => (
                     <div key={moment.ID} className='measure-moments-inner-container'>
-                        <div>
+                        <div className='measure-moment-sub-container'>
                             <p><b>Titel</b></p>
                             <input type="text" defaultValue={moment.Title} data-docid={moment.docid} onChange={changeMomentTitleHandler} />
                         </div>
-                        <div>
+                        <div className='measure-moment-sub-container'>
                             <p><b>Meetmoment</b></p>
                             <input type="date" defaultValue={moment.Moment} data-docid={moment.docid} onChange={changeMomentDateHandler} />
                         </div>
-                        <div>
+                        <div className='measure-moment-sub-container'>
                             <p><b>Vragenlijst</b></p>
                             <select name="" id="" data-docid={moment.docid} defaultValue={moment.QuestionnaireID} onChange={changeQuestioinnaireHandler}>
                                 <option value="">-- Selecteer een vragenlijst --</option>
@@ -203,6 +204,10 @@ const Research = () => {
                                     <option value={questionnaire.ID}>{questionnaire.Title}</option>
                                 ))}
                             </select>
+                        </div>
+                        <div className='measure-moment-sub-container'>
+                            <p><b>Versturen</b></p>
+                            <img className='table-delete-icon' data-id={moment.QuestionnaireID} onClick={sendQuestionnaire} src={sendIcon} alt="" />
                         </div>
                         <p className='delete-text-measure-moments' data-docid={moment.docid} onClick={deleteMoment}>Verwijder</p>
                     </div>
@@ -279,7 +284,11 @@ const Research = () => {
         setQuestionnaireID(questionnaireID)
     }
 
-    
+    const sendQuestionnaire = (e) => {
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/SendQuestionnaire/${id}`)
+    }
 
 
   return (

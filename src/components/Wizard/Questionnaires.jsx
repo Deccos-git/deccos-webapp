@@ -134,7 +134,7 @@ const Questionnaires = () => {
                     </div> 
                     <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
-                            <p><b>Vragenlijsten van {name}</b></p>
+                            <p><b>Vragenlijsten</b></p>
                             <div className='list-container'>
                                 <div className='list-top-row-container'>
                                         <img src={plusButton} alt="" onClick={addQuestionnaire}/>
@@ -144,7 +144,7 @@ const Questionnaires = () => {
                                         <tr>
                                             <th>TITEL</th>
                                             <th>VRAGEN</th>
-                                            <th>BEKIJK</th>
+                                            <th>AANPASSEN</th>
                                             <th>VERWIJDER</th>
                                         </tr>
                                         {questionnaires && questionnaires.map(questionnaire => (
@@ -166,7 +166,7 @@ const Questionnaires = () => {
                                     </table>
                                 </div>
                             </div>
-                            <p><b>Open source vragenlijsten</b></p>
+                            {/* <p><b>Open source vragenlijsten</b></p>
                             <div className='list-container'>
                                 <div className='table-container'>
                                     <table>
@@ -190,7 +190,7 @@ const Questionnaires = () => {
                                         ))}
                                     </table>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div style={{display: premium ? 'none' : 'flex'}}>
                             <PremiumNotice/>

@@ -291,6 +291,23 @@
     text-align: center;
 }
 
+.measure-moment-sub-container p{
+    padding-bottom: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.measure-moment-sub-container{
+    height: 100px;
+}
+
+.measure-moment-sub-container select{
+    margin-left: 20px;
+}
+
+.measure-moment-sub-container img{
+    margin-left: 20px;
+}
+
 .task-detail-card{
     width: 80% !important;
 }

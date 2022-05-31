@@ -97,6 +97,18 @@ const StakeholderAnalysis = () => {
         })
     }
 
+    const emailHandler = (e) => {
+
+        const email = e.target.value
+        const docid = e.target.dataset.docid
+
+        db.collection('Stakeholders')
+        .doc(docid)
+        .update({
+            Email: email
+        })
+    }
+
 
   return (
     <div className="main">
@@ -163,6 +175,7 @@ const StakeholderAnalysis = () => {
                                             <th>CATEGORIE</th>
                                             <th>ORGANISATIE</th>
                                             <th>CONTACTPERSOON</th>
+                                            <th>EMAIL</th>
                                             <th>VERWIJDER</th>
                                         </tr>
                                         {stakeholders && stakeholders.map(stakeholder => (
@@ -185,6 +198,9 @@ const StakeholderAnalysis = () => {
                                             </td>
                                             <td>
                                                 <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Name} placeholder='Naam' onChange={nameHandler} />
+                                            </td>
+                                            <td>
+                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Email} placeholder='Email' onChange={emailHandler} />
                                             </td>
                                             <td>
                                                 <img className='table-delete-icon' data-docid={stakeholder.docid} onClick={deleteStakeholder} src={deleteIcon} alt="" />

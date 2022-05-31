@@ -240,6 +240,30 @@ const AddQuestionnaire = () => {
                         <h3>Uitleg</h3>
                     </div> 
                     <div className='text-section' style={{backgroundColor: color}}>
+                        <p><b>Een vragenlijst kan waardevol instrument om inzicht te krijgen 
+                            in de impact te maakt bij je doelgroep.
+                        </b></p>
+
+                        <p>In dit onderdeel van de Impact Guide ga je aan de slag met het maken van een vragenlijst. 
+                            Er zijn twee type vragen die je kunt gebruiken:
+                        </p>
+
+                        <ul>
+                            <li>Tekstvraag</li>
+                            <li>Schaalvraag</li>
+                        </ul>
+
+                        <p>
+                            Een <b>tekstvraag</b> geeft de respondent van de vragenlijst de mogelijkheid om uitgebreider op een vraag
+                            in te gaan. Uit een dergelijke kwalitatieve vraag kan een dieper inzicht worden opgedaan dan uit het antwoord op een schaalvraag.
+                        </p>
+
+                        <p>Een <b>schaalvraag</b> geeft de mogelijkheid om de respondenten de kans te bieden om een kwantatief antwoord
+                            te geven (uitgedrukt in een cijfer). Het voordeel van een schaalvraag is dat deze eenvoudiger zijn om te analyseren.
+                            Wanneer je er bijvoorbeeld voor kiest om een voor- en naonderzoek te doen aan de hand van een vragenlijst kunnen je de verschillende
+                            antwoorden eenvoudig vergelijken en analyseren. Het nadeel van een schaalvraag is dat je weinig nuance en diepgang krijgt uit de respons.
+                        </p>
+                        
                     </div>
                 </div>
                 <div>

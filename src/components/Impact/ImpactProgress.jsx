@@ -263,8 +263,10 @@ const ImpactProgress = () => {
 
         return(
             <div className='activity-meta-title-container' style={{display: moments.length > 0 ? 'block' : 'none'}}>
-                <img src={resultsIcon} alt="" />
-                <h5>Meetmomenten</h5>
+                <div className='activity-meta-title-container'>
+                    <img src={resultsIcon} alt="" />
+                    <h4>Meetmomenten</h4>
+                </div>
                 <div>
                     {moments && moments.map(moment => (
                         <div>
@@ -403,7 +405,8 @@ const ImpactProgress = () => {
             <LeftSideBarFullScreen/>
             <div className="main-container" style={{display: menuState}}>
                 <div className="page-header">
-                    <h1>Impact dashboard</h1>  
+                    <h1>Impact dashboard</h1>
+                    <p>Eén overzichtelijk dashboard voor je impact management avontuur</p>
                 </div>
                 <Goals/>
                 {NoContentNotice(allGoals, 'Introduction')}
