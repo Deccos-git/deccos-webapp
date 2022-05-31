@@ -22,24 +22,13 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 
 const Assumptions = () => {
-    const [color, setColor] = useState('')
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
 
     const goals = useFirestore('Goals') 
-    const colors = useFirestore('Colors')
     const SDGS = useFirestoreSDGs('SDGs')
     const assumptions = useFirestoreAssumptions(goalID)
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
         const ID = e.target.options[e.target.selectedIndex].dataset.id
@@ -124,7 +113,7 @@ const Assumptions = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>
                     De aannames zijn de zaken die noodzakelijk zijn om je impact doel te bereiken, 
                     maar waarvan je slechts aanneemt dat ze kloppen.
@@ -141,7 +130,7 @@ const Assumptions = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de aannames aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -184,7 +173,7 @@ const Assumptions = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je aannames hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -199,7 +188,7 @@ const Assumptions = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -219,7 +208,7 @@ const Assumptions = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de externe factoren omschrijven die van invloed zijn op je meetbare impact.</p>
                     <NavLink to={`/${client}/Conditions`} ><button>Volgende stap</button></NavLink>
                 </div>

@@ -25,23 +25,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 
 const Projectmanagement = () => {
-
-    const [color, setColor] = useState('')
    
     const menuState = MenuStatus() 
     const premium = Premium() 
     
-    const colors = useFirestore('Colors')
     const groups = useFirestore('Groups')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
   return (
     <div className="main">
@@ -72,7 +60,7 @@ const Projectmanagement = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>In het menu vind je het item 'Projectbeheer'. </b></p>
                         <p>
                         Wanneer je mijlpalen creëert en/of een onderzoek aanmaakt worden er 
@@ -129,7 +117,7 @@ const Projectmanagement = () => {
                         <img src={eyeIcon} alt="" />
                         <h3>Bekijk</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
                             <div className='activity-meta-title-container wizard-projectmanagement-link-container'>
                                 <img src={taskIcon} alt="" />
@@ -164,7 +152,7 @@ const Projectmanagement = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -184,7 +172,7 @@ const Projectmanagement = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap leer je hoe je jullie meetbare impact kunt communiceren via de Deccos Impactclub.</p>
                         <NavLink to={`/${client}/Impactclub`} ><button>Volgende stap</button></NavLink>
                     </div>

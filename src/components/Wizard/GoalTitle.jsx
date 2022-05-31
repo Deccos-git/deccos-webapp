@@ -34,14 +34,12 @@ import goalIcon from '../../images/icons/goal-icon.png'
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
 
-    const [color, setColor] = useState('')
     const [title, setTitle] = useState("")
     const [banner, setBanner] = useState("")
     const [loader, setLoader] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
 
-    const colors = useFirestore('Colors')
     const goals = useFirestore('Goals')
     Modal.setAppElement('#root');
 
@@ -59,15 +57,6 @@ const GoalTitle = () => {
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const titleHandler = (e) => {
 
@@ -197,7 +186,7 @@ const GoalTitle = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>De impact doelen zijn de reden waarvoor jij en je team ‘s 
                             ochtends uit bed komen om aan je sociale onderneming te werken.
                         </b></p>
@@ -222,7 +211,7 @@ const GoalTitle = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div className='list-container'>
                             <div className='list-top-row-container'>
                                     <img src={plusButton} onClick={addGoal} alt="" />
@@ -273,7 +262,7 @@ const GoalTitle = () => {
                         <img src={eyeIcon} alt="" />
                         <h3>Bekijk</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Je kunt je doelen hier terug vinden:</b></p>
                         <div className="channel-inner-div">
                             <div className='activity-meta-title-container'>
@@ -294,7 +283,7 @@ const GoalTitle = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <li>
                             Zorg ervoor dat het doel zo concreet mogelijk is en zoveel mogelijk binnen de beïnvloedingssfeer van jullie organisatie ligt.
                         </li>
@@ -320,7 +309,7 @@ const GoalTitle = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap ga je de doelgroepen bepalen.</p>
                         <NavLink to={`/${client}/Targetgroup`} ><button>Volgende stap</button></NavLink>
                     </div>

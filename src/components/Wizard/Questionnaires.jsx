@@ -27,7 +27,6 @@ import listIcon from '../../images/icons/list-icon.png'
 
 const Questionnaires = () => {
 
-    const [color, setColor] = useState('')
     const [name, setName] = useState('')
 
     const history = useHistory()
@@ -35,19 +34,9 @@ const Questionnaires = () => {
     const id = uuid()
     const premium = Premium() 
     
-    const colors = useFirestore('Colors')
     const questionnaires = useFirestore('Questionnaires')
     const researchedQuestionnaires = useFirestore('ResearchedQuestionnnaires')
     const compagny = useFirestore('CompagnyMeta')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {
@@ -131,7 +120,7 @@ const Questionnaires = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                    <p><b>Vragenlijsten zijn een handig middel om de impact die je 
                        maakt op je doelgroep te achterhalen.</b></p>
                     <p>
@@ -143,7 +132,7 @@ const Questionnaires = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
                             <p><b>Vragenlijsten van {name}</b></p>
                             <div className='list-container'>
@@ -177,7 +166,7 @@ const Questionnaires = () => {
                                     </table>
                                 </div>
                             </div>
-                            <p><b>Bestaande vragenlijsten</b></p>
+                            <p><b>Open source vragenlijsten</b></p>
                             <div className='list-container'>
                                 <div className='table-container'>
                                     <table>
@@ -214,7 +203,7 @@ const Questionnaires = () => {
                         <img src={eyeIcon} alt="" />
                         <h3>Bekijk</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Je kunt je de vragenlijsten hier terug vinden:</b></p>
                         <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -222,12 +211,6 @@ const Questionnaires = () => {
                             <NavLink activeClassName='active' to={`/${client}/QuestionnaireSettings`}>Vragenlijsten</NavLink>
                         </div>
                     </div>
-                        <div className="channel-inner-div">
-                            <div className='activity-meta-title-container'>
-                                <img src={dashboardIcon} alt="" />
-                                <NavLink activeClassName='active' to={`/${client}/ImpactProgress`}>Dashboard</NavLink>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div>
@@ -235,7 +218,7 @@ const Questionnaires = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -255,7 +238,7 @@ const Questionnaires = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap ga je een onderzoek vormgeven.</p>
                         <NavLink to={`/${client}/Research`} ><button>Volgende stap</button></NavLink>
                     </div>

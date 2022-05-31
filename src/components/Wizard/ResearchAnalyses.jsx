@@ -19,22 +19,10 @@ import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const ResearchAnalysis = () => {
-    const [color, setColor] = useState('')
-
-    const colors = useFirestore('Colors')
 
     const menuState = MenuStatus() 
     const history = useHistory()
     const premium = Premium() 
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
   return (
     <div className="main">
@@ -65,7 +53,7 @@ const ResearchAnalysis = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Nadat er onderzoek is afgerond kun je het gaan analyseren.</b></p>
                     </div>
                 </div>
@@ -74,7 +62,7 @@ const ResearchAnalysis = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
 
                         </div>
@@ -88,7 +76,7 @@ const ResearchAnalysis = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -108,7 +96,7 @@ const ResearchAnalysis = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap lees je meer over wat het projectbeheer van Deccos inhoudt.</p>
                         <NavLink to={`/${client}/Projectmanagement`} ><button>Volgende stap</button></NavLink>
                     </div>

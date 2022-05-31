@@ -19,23 +19,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 const Targetgroup = () => {
-    const [color, setColor] = useState('')
     const [goalDocid, setGoalDocid] = useState('')
     const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
     const goals = useFirestore('Goals') 
-
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
 
@@ -88,7 +76,7 @@ const Targetgroup = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je doelgroep is de stakeholder op wie je het meest directe invloed hebt.</b></p>
                     <p>
                     De doelgroep is in een later stadium van het impact management proces het onderwerp van je impact 
@@ -109,7 +97,7 @@ const Targetgroup = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de doelgroep aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -126,7 +114,7 @@ const Targetgroup = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je doelengroep(en) hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -141,7 +129,7 @@ const Targetgroup = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -161,7 +149,7 @@ const Targetgroup = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de impact die jullie organisatie maakt op de doelgroep omschrijven.</p>
                     <NavLink to={`/${client}/ImpactTargetgroup`} ><button>Volgende stap</button></NavLink>
                 </div>

@@ -22,24 +22,12 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 
 const Conditions = () => {
-    const [color, setColor] = useState('')
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
 
     const goals = useFirestore('Goals') 
-    const colors = useFirestore('Colors')
-    const SDGS = useFirestoreSDGs('SDGs')
     const conditions = useFirestoreConditions(goalID)
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
         const ID = e.target.options[e.target.selectedIndex].dataset.id
@@ -124,7 +112,7 @@ const Conditions = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>De meeste sociale organisaties bevinden zich in een dynamische omgeving die constant in beweging is.</b></p>
                     <p>Naast de activiteiten van jouw sociale organisatie zijn er vaak nog andere factoren die 
                         invloed hebben op een positieve of negatieve impact op je doelgroep.</p>
@@ -140,7 +128,7 @@ const Conditions = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de impact op de maatschappij aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -183,7 +171,7 @@ const Conditions = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je aexterne factoren hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -198,7 +186,7 @@ const Conditions = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -218,7 +206,7 @@ const Conditions = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de activiteiten omschrijven die jullie organisatie uitvoert om tot meetbare impact te komen.</p>
                     <NavLink to={`/${client}/AddActivity`} ><button>Volgende stap</button></NavLink>
                 </div>

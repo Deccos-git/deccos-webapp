@@ -11,7 +11,6 @@ import plusIcon from '../../images/icons/plus-icon.png'
 import arrowDownIcon from '../../images/icons/arrow-down-icon.png'
 import { useFirestore } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
@@ -27,8 +26,6 @@ import plusButton from '../../images/icons/plus-icon.png'
 import problemIcon from '../../images/icons/problem-icon.png'
 
 const ProblemAnalysis = () => {
-    const [color, setColor] = useState('')
-    const [centralProblem, setCentralProblem] = useState('')
     const [directCause, setDirectCause] = useState('')
     const [indirectCause, setIndirectCause] = useState([])
     const [directConsequence, setDirectConsequence] = useState([])
@@ -38,12 +35,9 @@ const ProblemAnalysis = () => {
     const [modalIndirectConsequencesOpen, setModalIndirectConsequencesOpen] = useState(false);
     const [modalDirectConsequencesOpen, setModalDirectConsequencesOpen] = useState(false);
 
-    const history = useHistory()
     const menuState = MenuStatus() 
-    const id = uuid()
     Modal.setAppElement('#root');
     
-    const colors = useFirestore('Colors')
     const problemAnalysis = useFirestore('ProblemAnalysis') 
 
     const modalStyles = {
@@ -56,15 +50,6 @@ const ProblemAnalysis = () => {
           transform: 'translate(-50%, -50%)',
         },
       };
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const centralProblemHandler = (e) => {
         const centralProblem = e.target.value 
@@ -272,7 +257,7 @@ const ProblemAnalysis = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Het eerste aspect van je impact management is de probleemanalyse.</b></p>
                     <p>Als sociale organisatie wil je een maatschappelijk probleem oplossen. 
                         Aangezien dit maatschappelijke probleem zo essentieel is voor een sociale organisatie is het 
@@ -309,7 +294,7 @@ const ProblemAnalysis = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <div className='list-top-row-container'>
                             <img src={plusButton} onClick={addProblemAnalysis} alt="" />
                     </div>
@@ -478,7 +463,7 @@ const ProblemAnalysis = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je probleemanalyse hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -493,7 +478,7 @@ const ProblemAnalysis = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
                             Klik op het 
@@ -511,7 +496,7 @@ const ProblemAnalysis = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de stakeholders in kaart brengen.</p>
                     <NavLink to={`/${client}/StakeholderAnalysis`} ><button>Volgende stap</button></NavLink>
                 </div>

@@ -23,24 +23,13 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 
 const SDGs = () => {
-    const [color, setColor] = useState('')
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
 
-    const goals = useFirestore('Goals') 
-    const colors = useFirestore('Colors')
+    const goals = useFirestore('Goals')
     const SDGS = useFirestoreSDGs('SDGs')
     const SDGsSelected = useFirestoreSDGsSelected(goalID)
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
         const ID = e.target.options[e.target.selectedIndex].dataset.id
@@ -125,7 +114,7 @@ const SDGs = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>
                     De SDG’s staan voor de Social Development Goals. Dit zijn 17 ambitieuze maatschappelijke doelen die 
                     door de Verenigde Naties (VN) ten doel zijn gesteld voor 2030.
@@ -145,7 +134,7 @@ const SDGs = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de SDG's aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -194,7 +183,7 @@ const SDGs = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je SDG's hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -209,7 +198,7 @@ const SDGs = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -229,7 +218,7 @@ const SDGs = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de aannames omschrijven die je doet bij het toe werken naar je meetbare impact.</p>
                     <NavLink to={`/${client}/Assumptions`} ><button>Volgende stap</button></NavLink>
                 </div>

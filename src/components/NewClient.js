@@ -175,37 +175,29 @@ const createUser = () => {
                     UserName: `${forname} ${surname}`
                 })
                 .then(() => {
-                    db.collection('Colors')
+                    db.collection('Stakeholders')
                     .doc()
                     .set({
-                        Background: '#edf4fd',
-                        Topbar: '#FFFFFF',
-                        TopBarIcons: '#2F2C41',
                         ID: uuid(),
-                        Compagny: communityName.toLocaleLowerCase()
+                        Compagny: communityName.toLocaleLowerCase(),
+                        Name: ''
                     })
                     .then(() => {
-                        db.collection('Stakeholders')
+                        db.collection('Groups')
                         .doc()
                         .set({
                             ID: uuid(),
                             Compagny: communityName.toLocaleLowerCase(),
-                            Name: ''
+                            MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+                            Room: 'Impact HQ'
                         })
                         .then(() => {
-                            db.collection('Groups')
-                            .doc()
-                            .set({
-                                ID: uuid(),
-                                Compagny: communityName.toLocaleLowerCase(),
-                                MemberList: firebase.firestore.FieldValue.arrayUnion(id),
-                                Room: 'Impact HQ'
-                            })
-                            .then(() => {
-                                setTimeout(() => {
-                                    createUser()
-                                },3000)
-                            })
+                            sendEmail()
+                        })
+                        .then(() => {
+                            setTimeout(() => {
+                                createUser()
+                            },3000)
                         })
                     })
                 })
@@ -227,7 +219,26 @@ const createUser = () => {
 
     const homeLink = () => {
         history.replace(`/`) 
-        }
+    }
+
+    const sendEmail = () => {
+        db.collection("Email").doc().set({
+            to: "info@deccos.nl",
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Nieuwe klant op Deccos.`,
+            html: `Nieuwe klant op Deccos: </br></br>
+    
+                Naam: ${forname} ${surname}.</br></br>
+                Email: ${email}.</br></br>
+                Bedrijf: ${communityName}.</br></br>
+                `,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: email,
+            Type: "New client"
+              }     
+          }); 
+    }
 
     return (
         <div>

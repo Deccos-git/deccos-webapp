@@ -20,23 +20,11 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
 
 const ImpactActivity = () => {
-    const [color, setColor] = useState('')
     const [activityDocid, setActivityDocid] = useState('')
     const [impact, setImpact] = useState('')
 
     const menuState = MenuStatus()
     const activities = useFirestore('Activities') 
-
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const activityHandler = (e) => {
 
@@ -89,7 +77,7 @@ const ImpactActivity = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Wat is de concrete en meetbare impact die de activiteiten hebben op jouw doelgroep?</b></p>
                     <p>
                     Bekijk de impact door de ogen van je doelgroep. Welke positieve bijdrage heeft een specifieke 
@@ -102,7 +90,7 @@ const ImpactActivity = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer de activiteit waar je de impact aan wilt koppelen</b></p>
                     <select name="" id="" onChange={activityHandler}>
                         <option value="">-- Selecteer een activiteit --</option>
@@ -119,7 +107,7 @@ const ImpactActivity = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je impact op de activiteiten hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -140,7 +128,7 @@ const ImpactActivity = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Zorg ervoor dat de impact op de doelgroep concreet en meetbaar is.
@@ -163,7 +151,7 @@ const ImpactActivity = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de outputs van de activiteiten omschrijven.</p>
                     <NavLink to={`/${client}/AddOutput`} ><button>Volgende stap</button></NavLink>
                 </div>

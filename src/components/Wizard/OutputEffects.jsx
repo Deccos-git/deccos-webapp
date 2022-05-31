@@ -27,22 +27,11 @@ import outputIcon from '../../images/icons/output-icon.png'
 const OutputEffects = () => {
     const [outputID, setOutputID] = useState(null)
     const [outputTitle, setOutputTitle] = useState('')
-    const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
 
     const outputs = useFirestore('Outputs')
     const effects = useFirestoreOutputEffects(outputID)
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const outputHandler = (e) => {
         const outputID = e.target.options[e.target.selectedIndex].dataset.id
@@ -117,7 +106,7 @@ const OutputEffects = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Wat zijn de concrete en meetbare effecten die jullie doelgroep ervaart 
                         aan de hand van jullie activiteiten?
                     </b></p>
@@ -131,7 +120,7 @@ const OutputEffects = () => {
             <img src={rocketIcon} alt="" />
             <h3>Aan de slag</h3>
         </div> 
-        <div className='text-section' style={{backgroundColor: color}}>
+        <div className='text-section'>
             <div>
                 <p><b>1. Selecteer de output waar je het effect aan wilt koppelen</b></p>
                 <select name="" id="" onChange={outputHandler}>
@@ -174,7 +163,7 @@ const OutputEffects = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je effecten van de outputs hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -195,7 +184,7 @@ const OutputEffects = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Zorg ervoor dat de effecten concreet en meetbaar zijn.
@@ -218,7 +207,7 @@ const OutputEffects = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je een Social Return on Investement (SROI) toevoegen.</p>
                     <NavLink to={`/${client}/AddSROI`} ><button>Volgende stap</button></NavLink> 
                 </div>

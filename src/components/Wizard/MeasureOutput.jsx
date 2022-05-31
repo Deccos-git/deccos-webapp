@@ -35,7 +35,6 @@ const MeasureOutput = () => {
     const [title, setTitle] = useState('')
     const [number, setNumber] = useState('')
     const [deadline, setDeadline] = useState('')
-    const [color, setColor] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
 
     const history = useHistory()
@@ -55,18 +54,8 @@ const MeasureOutput = () => {
         },
       };
     
-    const colors = useFirestore('Colors')
     const outputs = useFirestore('Outputs')
     const milestones = useFirestoreMilestonesOutput(outputID && outputID)
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const outputHandler = (e) => {
         const outputID = e.target.options[e.target.selectedIndex].value
@@ -200,7 +189,7 @@ const MeasureOutput = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Mijlpalen zijn doelen die een stip aan de horizon geven.</b></p>
                         <p>Voor jezelf en je team 
                             geeft dit een mooi vergezicht en voor je stakeholders geeft dit een beeld 
@@ -243,7 +232,7 @@ const MeasureOutput = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <div style={{display: premium ? 'block' : 'none'}}>
                         <p><b>1. Selecteer een output waaraan je de mijlpaal wilt koppelen</b></p>
                         <select name="" id="" onChange={outputHandler}>
@@ -297,7 +286,7 @@ const MeasureOutput = () => {
                         <img src={eyeIcon} alt="" />
                         <h3>Bekijk</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Je kunt je de mijlpalen hier terug vinden:</b></p>
                         <div className="channel-inner-div">
                             <div className='activity-meta-title-container'>
@@ -318,7 +307,7 @@ const MeasureOutput = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -338,7 +327,7 @@ const MeasureOutput = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap ga je vragenlijsten toevoegen.</p>
                         <NavLink to={`/${client}/Questionnaires`} ><button>Volgende stap</button></NavLink>
                     </div>

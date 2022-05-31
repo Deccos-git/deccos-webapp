@@ -6,30 +6,14 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore } from "../../firebase/useFirestore";
-import { useState, useEffect, useContext } from "react";
 import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
-import { useHistory } from "react-router-dom"
 import { NavLink, Link } from "react-router-dom";
 
 const Introduction = () => {
-    const [color, setColor] = useState('')
-
-    const colors = useFirestore('Colors')
 
     const menuState = MenuStatus() 
-    const history = useHistory()
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
   return (
     <div className="main">
@@ -53,7 +37,7 @@ const Introduction = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Welkom bij de Deccos Impact Guide. Deze guide is gemaakt om je te ondersteunen in het vormgeven 
                             van je impactmanagement.</b></p>
                         <p>  
@@ -67,9 +51,9 @@ const Introduction = () => {
                             maar het is goed om er gewoon mee te beginnen. De Deccos Impact Wizard helpt je daarmee.
                         </p>
                             
-                        <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het 
-                                <NavLink to={`/${client}/Introduction`} id='introduction-guide-link-container'><MagicIcon style={{width: '19px', height: '19px'}}/></NavLink>
-                                    icon in de bovenbalk (onderbalk op mobiel)
+                        <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het &nbsp;
+                                <MagicIcon style={{width: '19px', height: '19px'}}/>
+                                &nbsp; icon in de bovenbalk (onderbalk op mobiel)
                             om weer terug te komen in de guide.</p>
                     </div>
                 </div>
@@ -78,7 +62,7 @@ const Introduction = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Context</b></p>
                             <div className='wizard-introduction-menu-container'>
@@ -132,7 +116,7 @@ const Introduction = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -152,7 +136,7 @@ const Introduction = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap lees je meer over wat impact management inhoudt.</p>
                         <NavLink to={`/${client}/Explainer`} ><button>Volgende stap</button></NavLink>
                     </div>

@@ -260,6 +260,7 @@
     margin: 10px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     padding: 20px;
+    background-color: #83edff14;
 }
 
 #output-container{
@@ -296,6 +297,15 @@
     background-color: white;
     margin: 0px 0px 10px 30px;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+}
+
+.impact-dashboard-output-inner-container{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    margin: 0px 0px 10px 30px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    background-color: #83edff14;
 }
 
 .questionnaire-results-container{
@@ -711,6 +721,7 @@
     border-radius: 5px;
     padding: 20px;
     margin-left: 30px;
+    background-color: #83edff14;
 }
 
 .title-container p{

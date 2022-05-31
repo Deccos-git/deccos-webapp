@@ -21,11 +21,13 @@ const RegisterUser = () => {
     const [communityNameDB, setCommunityNameDB] = useState("")
     const [logoDB, setLogoDB] = useState("")
     const [adminEmail, setAdminEmail] = useState('')
+    const [impactHQ, setImpactHQ] = useState('')
 
     const id = uuid()
     const history = useHistory()
     
     const compagny = useFirestore("CompagnyMeta")
+    const groups = useFirestore('Groups')
     const admins = useFirestoreAdmins('Admins')
 
     useEffect(() => {
@@ -42,6 +44,13 @@ const RegisterUser = () => {
         })
         setAdminEmail(adminArray)
     }, [admins])
+
+    useEffect(() => {
+      groups && groups.forEach(group => {
+          setImpactHQ(group.docid)
+      })
+    }, [groups])
+    
 
     const fornameHandler = (e) => {
         const forname = e.target.value
@@ -138,27 +147,34 @@ const RegisterUser = () => {
                 Deleted: false,
                 Docid: cred.user.uid,
             })
-        })
-        .then(() => {
-            compagny && compagny.forEach(comp => {
-                if(comp.VerificationMethode === "Admin"){
-                    verificationEmailAdmin(email, forname, surname, communityNameDB, logoDB)
-                    emailToAdminAdmin(forname, surname, communityNameDB)
-                } else if(comp.VerificationMethode === "Email"){
-                    verificationEmailEmail(email, forname, surname, communityNameDB, logoDB)
-                    emailToAdminEmail(forname, surname, communityNameDB)
-                }
+            .then(() => {
+                db.collection('Groups')
+                .doc(impactHQ)
+                .update({
+                    MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+                })
+                .then(() => {
+                    compagny && compagny.forEach(comp => {
+                        if(comp.VerificationMethode === "Admin"){
+                            verificationEmailAdmin(email, forname, surname, communityNameDB, logoDB)
+                            emailToAdminAdmin(forname, surname, communityNameDB)
+                        } else if(comp.VerificationMethode === "Email"){
+                            verificationEmailEmail(email, forname, surname, communityNameDB, logoDB)
+                            emailToAdminEmail(forname, surname, communityNameDB)
+                        }
+                    })
+                    .then(() => {
+                        history.push(`/${client}/NotApproved/1`)
+                    })
+                    .catch(err => {
+                        if(err){
+                            alert(err)
+                            return
+                        }
+                        
+                    })
+                })
             })
-        })
-        .then(() => {
-            history.push(`/${client}/NotApproved/1`)
-        })
-        .catch(err => {
-            if(err){
-                alert(err)
-                return
-            }
-            
         })
     }
 

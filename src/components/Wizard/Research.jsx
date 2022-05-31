@@ -30,7 +30,6 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 const Research = () => {
-    const [color, setColor] = useState('')
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [activityID, setActivityID] = useState('')
@@ -61,18 +60,8 @@ const Research = () => {
       };
 
     const outputs = useFirestore('Outputs')
-    const colors = useFirestore('Colors')
     const researches = useFirestore('Research')
     const questionnaires = useFirestore('Questionnaires')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const outputHandler = (e) => {
         const outputID = e.target.options[e.target.selectedIndex].value
@@ -322,7 +311,7 @@ const Research = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>
                         Aan de hand van onderzoek kun je meetmomenten aan elkaar koppelen en de 
                         resultaten met elkaar vergelijken.
@@ -337,7 +326,7 @@ const Research = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
                             <div className='list-container'>
                                 <div className='list-top-row-container'>
@@ -378,7 +367,7 @@ const Research = () => {
                         <img src={eyeIcon} alt="" />
                         <h3>Bekijk</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>Je kunt je de onderzoeken hier terug vinden:</b></p>
                         <div className="channel-inner-div">
                             <div className='activity-meta-title-container'>
@@ -399,7 +388,7 @@ const Research = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -419,7 +408,7 @@ const Research = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap ga je een onderzoeksanalyse uitvoeren:</p>
                         <NavLink to={`/${client}/ResearchAnalyses`} > <button>Volgende stap</button></NavLink>
                     </div>

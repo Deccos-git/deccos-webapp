@@ -24,23 +24,11 @@ import personIcon from '../../images/icons/person-icon.png'
 
 const StakeholderAnalysis = () => {
 
-    const [color, setColor] = useState('')
-
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
     
-    const colors = useFirestore('Colors')
     const stakeholders = useFirestore('Stakeholders')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const categorieHandler = (e) => {
         const categorie = e.target.options[e.target.selectedIndex].innerText
@@ -139,7 +127,7 @@ const StakeholderAnalysis = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>Impact management is niet iets dat je in isolatie kunt doen. Om echt een helder beeld te krijgen 
                             van je probleemanalyse, je doelstellingen en vrijwel alle andere aspecten van het impact management 
                             proces is het belangrijk om je stakeholders te betrekken.</p>
@@ -162,7 +150,7 @@ const StakeholderAnalysis = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <div>
                             <p><b>2. Voeg stakeholders toe</b></p>
                             <div className='list-container'>
@@ -215,7 +203,7 @@ const StakeholderAnalysis = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section' >
                     <p><b>Je kunt je stakeholders hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -230,7 +218,7 @@ const StakeholderAnalysis = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>Betrek je stakeholders bij je impact strategie</li>
                             <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -249,7 +237,7 @@ const StakeholderAnalysis = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>In de volgende stap ga je impact doelen stellen.</p>
                         <NavLink to={`/${client}/GoalTitle`} ><button>Volgende stap</button></NavLink>
                     </div>

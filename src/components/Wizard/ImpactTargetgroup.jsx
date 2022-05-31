@@ -20,24 +20,12 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 
 
 const ImpactTargetgroup = () => {
-    const [color, setColor] = useState('')
     const [goalDocid, setGoalDocid] = useState('')
     const [targetgroup, setTargetgroup] = useState(null)
     const [impact, setImpact] = useState('')
 
     const menuState = MenuStatus()
     const goals = useFirestore('Goals') 
-
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
 
@@ -114,7 +102,7 @@ const ImpactTargetgroup = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>De impact die je hoopt te hebben op je doelgroep zijn de positieve 
                         effecten die je met jullie activiteiten (diensten en/of producten) beoogd te hebben op je doelgroep.</b></p>
                     <p>Deze impact moet concreet en meetbaar zijn. Ook moet de impact zoveel mogelijk op jullie activiteiten 
@@ -126,7 +114,7 @@ const ImpactTargetgroup = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de impact op de doelgroep aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -147,7 +135,7 @@ const ImpactTargetgroup = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je impact op de doelgroep hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -162,7 +150,7 @@ const ImpactTargetgroup = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Zorg ervoor dat de impact op de doelgroep concreet is beschreven en meetbaar is.
@@ -185,7 +173,7 @@ const ImpactTargetgroup = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de impact van jullie organisatie op de maatschappij omschrijven.</p>
                     <NavLink to={`/${client}/ImpactSociety`} ><button>Volgende stap</button></NavLink>
                 </div>

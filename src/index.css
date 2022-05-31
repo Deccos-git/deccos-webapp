@@ -82,6 +82,7 @@ li{
 
 .App, #root{
   height: 100%;
+  background-color: #83edff14;
 }
 
 .main{
@@ -93,12 +94,13 @@ li{
 button{
   padding: 5px;
   border-radius: 10px;
-  background-color: white;
-  border: 1px solid green;
-  color: green;
+  background-color: #63cadc;
+  border: 1px solid #63cadc;
+  color: white;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
   width: auto;
+  font-weight: bold;
 }
 
 .button-container-margin-top{
@@ -292,10 +294,10 @@ textarea ::placeholder{
 }
 
 .active{
-  background-color: white;
+  background-color: #63cadc;
   padding: 3px 5px 3px 5px;
   border-radius: 5px;
-  color: #2F2C41;
+  color: white;
 }
 
 .editable-text-input{

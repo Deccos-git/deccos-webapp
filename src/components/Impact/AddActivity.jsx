@@ -33,7 +33,6 @@ import activityIcon from '../../images/icons/activity-icon.png'
 const AddActivity = () => {
     const [authO] = useContext(Auth)
 
-    const [color, setColor] = useState('')
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
     const [banner, setBanner] = useState("")
@@ -57,17 +56,7 @@ const AddActivity = () => {
       };
 
     const goals = useFirestore("Goals")
-    const colors = useFirestore('Colors')
     const activities = useFirestore('Activities')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
         const goalTitle = e.target.options[e.target.selectedIndex].dataset.title
@@ -209,7 +198,7 @@ const AddActivity = () => {
                             <img src={capIcon} alt="" />
                             <h3>Uitleg</h3>
                         </div> 
-                        <div className='text-section' style={{backgroundColor: color}}>
+                        <div className='text-section'>
                             <p><b>Welke concrete activiteiten zet jouw sociale organisatie in om jullie impact 
                                 doelen te verwezenlijken?
                             </b></p>
@@ -253,7 +242,7 @@ const AddActivity = () => {
                         <button onClick={saveActivity}>Opslaan</button>
                     </div>
                 </Modal>
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <div className='list-container'>
                         <div className='list-top-row-container'>
                                 <img src={plusButton} onClick={() => setModalOpen(true)} alt="" />
@@ -296,7 +285,7 @@ const AddActivity = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je activiteiten hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -317,7 +306,7 @@ const AddActivity = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Voeg een sprekend plaatje toe om het belang van jullie activiteit kracht bij te zetten. <a href="https://www.pexels.com/nl-nl/">Hier</a> vind je een heleboel mooie plaatjes die je gratis kunt gebruiken.
@@ -340,7 +329,7 @@ const AddActivity = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de impact van de activiteiten omschrijven.</p>
                     <NavLink to={`/${client}/ImpactActivity`} ><button>Volgende stap</button></NavLink>
                 </div>

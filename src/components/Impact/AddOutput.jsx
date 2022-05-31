@@ -28,24 +28,11 @@ import outputIcon from '../../images/icons/output-icon.png'
 const AddOutput = () => {
     const [activityID, setActivityID] = useState(null)
     const [activityTitle, setActivityTitle] = useState('')
-    const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
 
     const activities = useFirestore('Activities')
     const outputs = useFirestoreOutputs(activityID && activityID)
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
-
-    console.log(outputs)
 
     const activityHandler = (e) => {
         const activityID = e.target.options[e.target.selectedIndex].dataset.id
@@ -121,7 +108,7 @@ const AddOutput = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je output zijn de meetbare eenheden die door de activiteiten worden voortgebracht.</b></p>
 
                     <p>Denk aan:</p>
@@ -141,7 +128,7 @@ const AddOutput = () => {
             <img src={rocketIcon} alt="" />
             <h3>Aan de slag</h3>
         </div> 
-        <div className='text-section' style={{backgroundColor: color}}>
+        <div className='text-section'>
             <div>
                 <p><b>1. Selecteer de activiteit waar je de output aan wilt koppelen</b></p>
                 <select name="" id="" onChange={activityHandler}>
@@ -184,7 +171,7 @@ const AddOutput = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je de outputs hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -205,7 +192,7 @@ const AddOutput = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Zorg ervoor dat de outputs zo concreet zijn dat je ermee kunt rekenen.
@@ -228,7 +215,7 @@ const AddOutput = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de effecten van de outputs omschrijven.</p>
                     <NavLink to={`/${client}/OutputEffects`} ><button>Volgende stap</button></NavLink>
                 </div>

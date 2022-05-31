@@ -59,7 +59,7 @@ const Notifications = () => {
                                     <img className="user-photo" src={notification.SenderPhoto} alt="" data-senderid={notification.SenderID} onClick={senderLink} />
                                     <p data-senderid={notification.SenderID} onClick={senderLink}>{notification.Header}</p>
                                 </div>
-                                <div className="message-container" style={{backgroundColor: color}}>
+                                <div className="message-container">
                                     <p className="notification-message" onClick={messageLink} data-route={notification.Route}>{notification.MessageBody}</p>
                                 </div>
                                 <p>{notification.SubHeader}</p>

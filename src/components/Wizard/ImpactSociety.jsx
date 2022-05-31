@@ -19,23 +19,11 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 
 const ImpactSociety = () => {
-    const [color, setColor] = useState('')
     const [goalDocid, setGoalDocid] = useState('')
     const [impact, setImpact] = useState('')
 
     const menuState = MenuStatus()
     const goals = useFirestore('Goals') 
-
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const goalHandler = (e) => {
 
@@ -96,7 +84,7 @@ const ImpactSociety = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>
                         Wanneer de impact op de doelgroep is verwezenlijkt, welke impact heeft dat dan op de maatschappij in zijn geheel?
                     </b></p>
@@ -111,7 +99,7 @@ const ImpactSociety = () => {
                     <img src={rocketIcon} alt="" />
                     <h3>Aan de slag</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>1. Selecteer het doel waar je de impact op de maatschappij aan wilt koppelen</b></p>
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
@@ -131,7 +119,7 @@ const ImpactSociety = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je impact op de maatschappij hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -146,7 +134,7 @@ const ImpactSociety = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -166,7 +154,7 @@ const ImpactSociety = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je de bijdrage van jullie organisatie aan de SDG's bepalen.</p>
                     <NavLink to={`/${client}/SDGs`} ><button>Volgende stap</button></NavLink>
                 </div>

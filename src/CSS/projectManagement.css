@@ -190,14 +190,13 @@
 
 #button-tasks-filter-container button{
     border-radius: 3px;
-    border: 1px solid lightgray;
-    color: gray;
+    color: white;
     padding: 6px;
     font-weight: bold;
 }
 
 .calendar-event-container{
-    background-color: green;
+    background-color: #63cadc;
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;

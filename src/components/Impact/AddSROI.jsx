@@ -30,7 +30,6 @@ import sroiIcon from '../../images/icons/sroi-icon.png'
 const AddSROI = () => {
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
-    const [color, setColor] = useState('')
     const [amount, setAmount] = useState(0)
     const [total, setTotal] = useState(0)
 
@@ -41,17 +40,6 @@ const AddSROI = () => {
     const outputs = useFirestore('Outputs')
     const SROIs = useFirestoreSROIs(outputID && outputID)
     const SROISets = useFirestoreSROISets()
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
-
 
     const outputHandler = (e) => {
         const outputID = e.target.options[e.target.selectedIndex].value
@@ -174,7 +162,7 @@ const AddSROI = () => {
                     <img src={capIcon} alt="" />
                     <h3>Uitleg</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                    <p><b>
                         SROI staat voor Social Return On Investment. Dit is een methodiek om jullie impact financieel door te rekenen. 
                     </b></p>
@@ -224,7 +212,7 @@ const AddSROI = () => {
             <img src={rocketIcon} alt="" />
             <h3>Aan de slag</h3>
         </div> 
-        <div className='text-section' style={{backgroundColor: color}}>
+        <div className='text-section'>
             <div style={{display: premium ? 'block' : 'none'}}>
                 <p><b>1. Selecteer de output waar je de SROI aan wilt koppelen</b></p>
                 <select name="" id="" onChange={outputHandler}>
@@ -295,7 +283,7 @@ const AddSROI = () => {
                     <img src={eyeIcon} alt="" />
                     <h3>Bekijk</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p><b>Je kunt je de SROI's hier terug vinden:</b></p>
                     <div className="channel-inner-div">
                         <div className='activity-meta-title-container'>
@@ -316,7 +304,7 @@ const AddSROI = () => {
                     <img src={bulbIcon} alt="" />
                     <h3>Tips</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <ol>
                         <li>
                             Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -336,7 +324,7 @@ const AddSROI = () => {
                     <img src={feetIcon} alt="" />
                     <h3>Volgende stap</h3>
                 </div> 
-                <div className='text-section' style={{backgroundColor: color}}>
+                <div className='text-section'>
                     <p>In de volgende stap ga je mijlpalen formuleren.</p>
                     <NavLink to={`/${client}/MeasureOutput`} ><button>Volgende stap</button></NavLink>
                 </div>

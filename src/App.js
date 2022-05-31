@@ -113,7 +113,8 @@ function App() {
     initial="hidden"
     animate="visible"
     variants={variants}
-    style={{backgroundColor: colors.BackgroundColor}}>
+    // style={{backgroundColor: colors.BackgroundColor}}
+    >
       <Router>
         <AuthRedirect />
       </Router>

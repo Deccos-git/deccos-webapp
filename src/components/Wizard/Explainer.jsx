@@ -4,36 +4,16 @@ import MenuStatus from "../../hooks/MenuStatus";
 import arrowLeft from '../../images/icons/arrow-left-icon.png'
 import arrowRight from '../../images/icons/arrow-right-icon.png'
 import capIcon from '../../images/icons/cap-icon.png'
-import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore } from "../../firebase/useFirestore";
-import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import uuid from 'react-uuid';
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Explainer = () => {
 
-    const [color, setColor] = useState('')
-
-    const history = useHistory()
     const menuState = MenuStatus() 
-    const id = uuid()
-    
-    const colors = useFirestore('Colors')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
   return (
     <div className="main">
@@ -64,7 +44,7 @@ const Explainer = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>
                             Het bestaansrecht van een sociale onderneming is de maatschappelijke impact die wordt gerealiseerd. 
                             Hoe maak je die impact meetbaar? Dat is de centrale vraag waar je aan de hand van impactmanagement 
@@ -113,7 +93,7 @@ const Explainer = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
                                 Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
@@ -126,7 +106,7 @@ const Explainer = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>De eerste stap in het impact management proces is een probleemanalyse maken.</p>
                         <NavLink to={`/${client}/ProblemAnalysis`} ><button>Aan de slag</button></NavLink>
                     </div>

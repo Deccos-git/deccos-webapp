@@ -56,24 +56,12 @@ import NoContentNotice from "../../hooks/NoContentNotice";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
-    const [goals, setGoals] = useState('')
-    const [color, setColor] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
 
     const questionnaireAnalysis = useFirestore('QuestionnaireAnalysis')
-    const colors = useFirestore('Colors')
     const allGoals = useFirestore('Goals')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     const Goals = () => {
         
@@ -188,7 +176,7 @@ const ImpactProgress = () => {
                 <h2>Activiteiten</h2>
                 <div id='activity-outer-container'>
                 {activities && activities.map(activity => (
-                    <div className='activity-inner-container-dashboard' key={activity.ID} style={{backgroundColor: color}}>
+                    <div className='activity-inner-container-dashboard' key={activity.ID}>
                         <img id='impact-dasboard-activity-banner' src={activity.Banner} alt="" />
                         <h3 id='activity-title'>{activity.Activity}</h3>
                         <div className='goal-meta-inner-container' style={{display: activity.Impact ? 'block' : 'none'}}>
@@ -260,7 +248,7 @@ const ImpactProgress = () => {
                     <h3>Onderzoeken</h3>
                 </div>
                 {researches && researches.map(research => (
-                    <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
+                    <div className='impact-dashboard-output-inner-container'>
                         <h4>{research.Title}</h4>
                         <MeasureMoments research={research}/>
                     </div>
@@ -301,7 +289,7 @@ const ImpactProgress = () => {
                     <h3>Mijlpalen</h3>
                 </div>
                 {milestones && milestones.map(milestone => (
-                    <div className='impact-dashboard-output-container' style={{backgroundColor: color}}>
+                    <div className='impact-dashboard-output-inner-container'>
                         <h4>{milestone.Title}</h4>
                         <MilestoneProgress milestone={milestone}/>
                     </div>

@@ -21,7 +21,6 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 
 const Impactclub = () => {
 
-    const [color, setColor] = useState('')
     const [ID, setID] = useState('') 
     const [banner, setBanner] = useState("")
     const [docid, setDocid] = useState('')
@@ -31,17 +30,7 @@ const Impactclub = () => {
     const menuState = MenuStatus() 
     const id = uuid()
     
-    const colors = useFirestore('Colors')
     const compagnies = useFirestore('CompagnyMeta')
-
-    useEffect(() => {
-        colors && colors.forEach(color => {
-            const background = color.Background 
-
-            setColor(background)
-        })
-
-    },[colors])
 
     useEffect(() => {
         compagnies && compagnies.forEach(compagny => {
@@ -157,7 +146,7 @@ const Impactclub = () => {
                         <img src={capIcon} alt="" />
                         <h3>Uitleg</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>
                         De Deccos Impactclub is een online platform waar je impact automatisch en 
                         real-time gedeeld kan worden met stakeholders en andere geïnteresseerden.
@@ -172,7 +161,7 @@ const Impactclub = () => {
                         <img src={rocketIcon} alt="" />
                         <h3>Aan de slag</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p><b>1. Upload een banner voor je impactclub account</b></p>
                         <img id='impact-banner' src={banner} alt="" />
                         <input className="input-classic" onChange={bannerHandler} type="file" />
@@ -187,7 +176,7 @@ const Impactclub = () => {
                         <img src={bulbIcon} alt="" />
                         <h3>Tips</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <ol>
                             <li>
                                 Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
@@ -207,7 +196,7 @@ const Impactclub = () => {
                         <img src={feetIcon} alt="" />
                         <h3>Volgende stap</h3>
                     </div> 
-                    <div className='text-section' style={{backgroundColor: color}}>
+                    <div className='text-section'>
                         <p>Dit was de laatste stap van de Deccos Impact Guide. Klik op de knop hieronder om terug te gaan naar het begin van de guide.</p>
                         <NavLink to={`/${client}/Introduction`} ><button>Terug naar begin</button></NavLink>
                     </div>
