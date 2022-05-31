@@ -58,7 +58,7 @@ const SendQuestionnaire = () => {
             Wij zouden het erg op prijs stellen als u de tijd wilt nemen om deze vragenlijst in te vullen. <br>
             Uw input geeft ons de mogelijkheid om te zien of wij op de goede weg zijn om de impact die wij willen realiseren.<br><br>
 
-            U kunt de vragenlijst <a href='https://deccos.nl/${client}/Questionnaires/${route}'>hier</a> vinden.<br>
+            U kunt de vragenlijst <a href='https://deccos.nl/Questionnaires/${route}'>hier</a> vinden.<br>
 
             Met vriendelijke groet,<br><br>
 

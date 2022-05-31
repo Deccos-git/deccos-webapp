@@ -24,6 +24,8 @@ const ResearchAnalysis = () => {
     const history = useHistory()
     const premium = Premium() 
 
+    const researches = useFirestore('Research')
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -64,7 +66,14 @@ const ResearchAnalysis = () => {
                     </div> 
                     <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
+                            <p><b>1. Selecteer een onderzoek</b></p>
 
+                            <select value="">
+                                <option value="">-- Selecteer een onderzoek --</option>
+                                {researches && researches.map(research => (
+                                    <option key={research.ID} value={research.Title}>{research.Title}</option>
+                                ))}
+                            </select>
                         </div>
                         <div style={{display: premium ? 'none' : 'flex'}}>
                             <PremiumNotice/>

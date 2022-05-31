@@ -957,6 +957,29 @@ const useFirestoreQuestionnairesResponses = (id) => {
     return docs
 };
 
+const useFirestoreQuestionnairesResponsesQuestionnaire = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('QuestionnairesResponses')
+        .where('Compagny', '==', client)
+        .where('QuestionnaireID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 const useFirestoreMatches = (id) => {
 
     const [docs, setDocs] = useState("")
@@ -1528,6 +1551,7 @@ export {
     useFirestoreQuestionnaires,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
+    useFirestoreQuestionnairesResponsesQuestionnaire,
     useFirestoreQuestionnaireAnalysis,
     useFirestoreMatches,
     useFirestoreMatchRoadmaps,
