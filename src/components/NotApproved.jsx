@@ -79,7 +79,7 @@ const NotApproved = () => {
 
     const verificationNotice = () => {
 
-        console.log(verificationMethode, route, user, online)
+        // console.log(verificationMethode, route, user, online)
 
         if(verificationMethode === "Admin" && route === '1' && user != null){ 
             return  <div>

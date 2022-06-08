@@ -4,7 +4,7 @@ import '../../CSS/topbar.css';
 import {useFirestore} from "../../firebase/useFirestore"
 import menuIcon from '../../images/icons/menu-icon.png'
 import menuOpenIcon from '../../images/icons/menu-open-icon.png'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
 import { Colors } from "../../StateManagment/Colors";
 import { client } from '../../hooks/Client';
@@ -16,18 +16,18 @@ const Topbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
     const [icon, setIcon] = useState(menuIcon)
     const [settingsIcon, setSettingsIcon] = useState('none')
+    const [logo, setLogo] = useState('')
 
     const docs  = useFirestore("CompagnyMeta")
 
     const history = useHistory()
 
-    let logo = ""
-    let website = ""
-
-    docs && docs.map(doc => {
-        logo = doc.Logo
-        website = doc.Website
-    })
+    useEffect(() => {
+        docs && docs.map(doc => {
+            console.log(doc)
+            setLogo(doc.Logo)
+        })
+    },[docs])
 
     const showLeftSideBar = () => {
         if(menu === "none"){

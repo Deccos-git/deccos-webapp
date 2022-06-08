@@ -141,12 +141,25 @@ const createUser = () => {
 
     // Don't forget to change the firestore rules if you change anything in createClient
 
-    const createClient = () => {
+    const createClient = async () => {
 
-        db.collection("CompagnyMeta")
+        const communityNameClean = communityName
+        .replace('%20', '-')
+        .replace('%20', '-')
+        .replace('%20', '-')
+        .replace('%20', '-')
+        .replace('%20', '-')
+        .replace('%c3%a9', 'e')
+        .replace('%c3%a9', 'e')
+        .replace('%C3%B6', 'o')
+        .replace('%C3%B6', 'o')
+        .trim()
+        .toLocaleLowerCase()
+    
+        await db.collection("CompagnyMeta")
         .doc()
         .set({
-            Compagny: communityName.toLocaleLowerCase(),
+            Compagny: communityNameClean,
             CommunityName: communityName, 
             Logo: logo,
             ID: id,
@@ -154,44 +167,41 @@ const createUser = () => {
             Timestamp: timestamp,
             Impacthub: true
         })
-        .then(() => {
-            db.collection('Admins')
-            .doc()
-            .set({
-                Compagny: communityName.toLocaleLowerCase(),
-                Email: 'info@deccos.nl',
-                Photo: photo,
-                UserID: id,
-                UserName: `${forname} ${surname}`
-            })
-            .then(() => {
-                db.collection('Stakeholders')
-                .doc()
-                .set({
-                    ID: uuid(),
-                    Compagny: communityName.toLocaleLowerCase(),
-                    Name: ''
-                })
-                .then(() => {
-                    db.collection('Groups')
-                    .doc()
-                    .set({
-                        ID: uuid(),
-                        Compagny: communityName.toLocaleLowerCase(),
-                        MemberList: firebase.firestore.FieldValue.arrayUnion(id),
-                        Room: 'Impact HQ'
-                    })
-                    .then(() => {
-                        sendEmail()
-                    })
-                    .then(() => {
-                        setTimeout(() => {
-                            createUser()
-                        },3000)
-                    })
-                })
-            })
+        
+        await db.collection('Admins')
+        .doc()
+        .set({
+            Compagny: communityName.toLocaleLowerCase(),
+            Email: 'info@deccos.nl',
+            Photo: photo,
+            UserID: id,
+            UserName: `${forname} ${surname}`
         })
+           
+        await db.collection('Stakeholders')
+        .doc()
+        .set({
+            ID: uuid(),
+            Compagny: communityName.toLocaleLowerCase(),
+            Name: ''
+        })
+        
+        await db.collection('Groups')
+        .doc()
+        .set({
+            ID: uuid(),
+            Compagny: communityName.toLocaleLowerCase(),
+            MemberList: firebase.firestore.FieldValue.arrayUnion(id),
+            Room: 'Impact HQ'
+        })
+        
+        sendEmail()
+                    
+                    
+        setTimeout(() => {
+            createUser()
+        },3000)
+                   
     }
 
     const checkHandler = (e) => {

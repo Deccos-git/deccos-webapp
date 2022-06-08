@@ -21,8 +21,6 @@ function App() {
   const [approved, setApproved] = useState(false)
   const [compagny, setCompagny] = useState("")
 
-  const colors = Colors()
-
   useEffect(() => {
     auth.onAuthStateChanged(User => {
       if(User){
@@ -113,7 +111,6 @@ function App() {
     initial="hidden"
     animate="visible"
     variants={variants}
-    // style={{backgroundColor: colors.BackgroundColor}}
     >
       <Router>
         <AuthRedirect />
