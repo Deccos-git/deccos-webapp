@@ -9,10 +9,10 @@ import ButtonClicked from "../hooks/ButtonClicked";
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
 import dummyLogo from '../images/dummy-logo.png'
 import deccosLogo from '../images/deccos-logo.png'
-import NoContentNotice from '../hooks/NoContentNotice';
 
 const NewClient = () => {
     const [communityName, setCommunityName] = useState("")
+    const [communityNameClean, setCommunityNameClean] = useState("")
     const [logo, setLogo] = useState(dummyLogo)
     const [loader, setLoader] = useState('none')
     const [email, setEmail] = useState("")
@@ -98,6 +98,8 @@ const NewClient = () => {
     }
 
 const createUser = () => {
+
+    const userID = uuid()
     
     auth.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
@@ -107,11 +109,11 @@ const createUser = () => {
             UserName: `${forname} ${surname}`,
             ForName: forname,
             SurName: surname,
-            Compagny: firebase.firestore.FieldValue.arrayUnion(communityName.toLocaleLowerCase()),
+            Compagny: firebase.firestore.FieldValue.arrayUnion(id),
             Timestamp: timestamp,
             Email: email,
             Photo: photo,
-            ID: id,
+            CompagnyID: userID,
             Approved: true,
             Deleted: false,
             Docid: cred.user.uid,
@@ -122,56 +124,40 @@ const createUser = () => {
             if(err){
                 alert(err)
             } else {
-                loginUser()
+                toVerification(userID)
             }
       })
 }
 
-    const loginUser = () => {
-        auth.signInWithEmailAndPassword(email, password)
-        .catch(err => {
-            console.log(err)
-            if(err){
-                alert(err)
-            } else {
-                history.replace(`/${communityName.toLocaleLowerCase()}/Introduction`) 
-            }
-        })
+    const toVerification = (userID) => {
+
+        sendVerificationEmail(userID)
+
+        history.push(`/${id}/NotApproved/1`)
+
     }
+
 
     // Don't forget to change the firestore rules if you change anything in createClient
 
     const createClient = async () => {
-
-        const communityNameClean = communityName
-        .replace('%20', '-')
-        .replace('%20', '-')
-        .replace('%20', '-')
-        .replace('%20', '-')
-        .replace('%20', '-')
-        .replace('%c3%a9', 'e')
-        .replace('%c3%a9', 'e')
-        .replace('%C3%B6', 'o')
-        .replace('%C3%B6', 'o')
-        .trim()
-        .toLocaleLowerCase()
-    
+ 
         await db.collection("CompagnyMeta")
         .doc()
         .set({
-            Compagny: communityNameClean,
+            Compagny: communityName,
             CommunityName: communityName, 
             Logo: logo,
-            ID: id,
-            VerificationMethode: "Admin",
+            CompagnyID: id,
             Timestamp: timestamp,
-            Impacthub: true
+            Impacthub: false
         })
         
         await db.collection('Admins')
         .doc()
         .set({
             Compagny: communityName.toLocaleLowerCase(),
+            CompagnyID: id,
             Email: 'info@deccos.nl',
             Photo: photo,
             UserID: id,
@@ -183,7 +169,8 @@ const createUser = () => {
         .set({
             ID: uuid(),
             Compagny: communityName.toLocaleLowerCase(),
-            Name: ''
+            Name: '',
+            CompagnyID: id,
         })
         
         await db.collection('Groups')
@@ -192,13 +179,15 @@ const createUser = () => {
             ID: uuid(),
             Compagny: communityName.toLocaleLowerCase(),
             MemberList: firebase.firestore.FieldValue.arrayUnion(id),
-            Room: 'Impact HQ'
+            Room: 'Impact HQ',
+            CompagnyID: id,
         })
         
         sendEmail()
                     
                     
         setTimeout(() => {
+            console.log('create user')
             createUser()
         },3000)
                    
@@ -220,8 +209,10 @@ const createUser = () => {
         history.replace(`/`) 
     }
 
-    const sendEmail = () => {
-        db.collection("Email").doc().set({
+    const sendEmail = async () => {
+
+        console.log('email send')
+        await db.collection("Email").doc().set({
             to: "info@deccos.nl",
             cc: "info@Deccos.nl",
             message: {
@@ -231,6 +222,31 @@ const createUser = () => {
                 Naam: ${forname} ${surname}.</br></br>
                 Email: ${email}.</br></br>
                 Bedrijf: ${communityName}.</br></br>
+                `,
+            Gebruikersnaam: `${forname} ${surname}`,
+            Emailadres: email,
+            Type: "New client"
+              }     
+          }); 
+    }
+
+    const sendVerificationEmail = async (userID) => {
+
+        console.log('verification email send')
+        await db.collection("Email").doc().set({
+            to: email,
+            cc: "info@Deccos.nl",
+            message: {
+            subject: `Verificeer je Deccos account voor ${communityName}.`,
+            html: `Hallo ${forname} ${surname}, </br></br>
+
+                Welkom bij Deccos. Via deze link kun je je account verificeren voor ${communityName}:<br><br>
+
+                Klik <a href="https://deccos.co/${id}/NotApproved/${userID}">hier</a> om je account te verificeren.<br><br>
+                
+                Vriendelijke groet, </br></br>
+                Het Deccos team </br></br>
+                <img src="${deccosLogo}" width="100px">
                 `,
             Gebruikersnaam: `${forname} ${surname}`,
             Emailadres: email,

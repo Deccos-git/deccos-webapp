@@ -17,7 +17,6 @@ const Profile = () => {
     const [forName, setForName] = useState(authO.ForName)
     const [surName, setSurName] = useState(authO.SurName)
     const [userCompagnies, setUserCompagnies] = useState(null)
-    const [userCompagnyArray, setUserCompagnyArray] = useState([])
 
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
@@ -77,7 +76,7 @@ const Profile = () => {
     const logOut = () => {
         auth.signOut()
         .then(() => {
-            history.push(`/${client}/Login`)
+            history.push(`/Login`)
         }) 
     }
 

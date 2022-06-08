@@ -54,50 +54,81 @@ function App() {
   console.log(online, client, approved, compagny.includes(client))
 
     const AuthRedirect = () => {
-      if(online === false && client != 'NewClient' && client != '' ){
+      if(client === 'NewClient'){
+        return (
+              <>
+                <Main/>
+                <Footer/>
+              </>
+            )
+      } else if (online === false){
         return <LoginRegister/>
-      } else if (online === true && approved === true && compagny.includes(client) && client != '') {
-        
-        return ( 
-        <AuthProvider>
-        <MenuProvider>
-        <ColorProvider>
-          <>
-          <Topbar />
-          <Main/>
-          <BottomBar/>
-          <Footer/>
-          </>
-        </ColorProvider>
-        </MenuProvider>
-        </AuthProvider>
-        )
-      } else if (online === true && approved === false && compagny.includes(client) && client != ''){
-        return <NotApproved/>
-      } else if (online === true && client === '' ){
-        return (
-        <AuthProvider>
-          <MultipleAccounts />
-        </AuthProvider>
-        )
-      } else if (client === 'NewClient' && online === false) {
-        return (
-          <>
-            <Main/>
-            <Footer/>
-          </>
-        )
-      } else if (client === 'NewClient' && online === true) {
-        return (
-          <AuthProvider>
-            <MultipleAccounts />
-          </AuthProvider>
-          )
-      }else if(online === false && client != 'NewClient' && client === '' ){
-        return <LoginRegister/>
-      } else {
-        return null
+      } else if (online === true && client != ''){
+           return ( 
+            <AuthProvider>
+            <MenuProvider>
+            <ColorProvider>
+              <>
+              <Topbar />
+              <Main/>
+              <BottomBar/>
+              <Footer/>
+              </>
+            </ColorProvider>
+            </MenuProvider>
+            </AuthProvider>
+            )
+      } else if (online === true && client === ''){
+          return (
+              <AuthProvider>
+                <MultipleAccounts />
+              </AuthProvider>
+              )
       }
+      // if(online === false && client != 'NewClient'){
+      //   return <LoginRegister/>
+      // } else if (online === true && approved === true && compagny.includes(client)) {
+        
+      //   return ( 
+      //   <AuthProvider>
+      //   <MenuProvider>
+      //   <ColorProvider>
+      //     <>
+      //     <Topbar />
+      //     <Main/>
+      //     <BottomBar/>
+      //     <Footer/>
+      //     </>
+      //   </ColorProvider>
+      //   </MenuProvider>
+      //   </AuthProvider>
+      //   )
+      // } else if (online === true && approved === false && compagny.includes(client) ){
+      //   return <NotApproved/>
+      // } else if (online === true && client === '' && approved === true ){
+      //   return (
+      //   <AuthProvider>
+      //     <MultipleAccounts />
+      //   </AuthProvider>
+      //   )
+      // } else if (client === 'NewClient' && online === false) {
+      //   return (
+      //     <>
+      //       <Main/>
+      //       <Footer/>
+      //     </>
+      //   )
+      // } else if (client === 'NewClient' && online === true) {
+      //   return (
+      //     <AuthProvider>
+      //       <MultipleAccounts />
+      //     </AuthProvider>
+      //     )
+      // }else if(online === false && client != 'NewClient' && client === '' ){
+      //   return <LoginRegister/>
+      // } else {
+      //   return null
+      // }
     }
 
   const variants = {

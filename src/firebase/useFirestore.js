@@ -8,7 +8,7 @@ const useFirestore = (collection) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -30,7 +30,7 @@ const useFirestoreID = (collection, id) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("ID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -53,7 +53,7 @@ const useFirestoreTimestamp = (collection) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -146,7 +146,7 @@ const useFirestoreMessages = (collection, id  ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("ParentID", "==", id)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
@@ -170,7 +170,7 @@ const useFirestoreNewMessagesChatGroups = ( id ) => {
 
     useEffect(() => {
         const unsub = db.collection('Messages')
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("Channel", "==", 'Chat')
         .where("Members", "array-contains", id)
         .onSnapshot(querySnapshot => {
@@ -194,7 +194,7 @@ const useFirestoreMyMessages = (collection, id) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("UserID", "==", id)
         .where("Public", "==", true)
         .onSnapshot(querySnapshot => {
@@ -218,7 +218,7 @@ const useFirestoreMessagesParentID = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Messages')
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("ParentID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -241,7 +241,7 @@ const useFirestoreChats = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Chats")
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("Room", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -264,7 +264,7 @@ const useFirestoreGroupsActivity = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Groups")
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("ActivityID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -287,7 +287,7 @@ const useFirestoreChatsGroups = (collection, auth ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("MemberList", "array-contains", auth)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -312,7 +312,7 @@ const useFirestoreNotifications = (collection, id  ) => {
     useEffect(() => {
         const unsub = db.collection(collection)
         .orderBy("Timestamp", "desc")
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("RecieverID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -335,7 +335,7 @@ const useFirestoreNewNotifications = (collection, auth, status) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("RecieverID", "==", auth)
         .where("Read", "==", status)
         .onSnapshot(querySnapshot => {
@@ -359,7 +359,7 @@ const useFirestoreChannelItems = (collection, id  ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("ChannelID", "==", id)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
@@ -383,7 +383,7 @@ const useFirestoreContributions = (collection, type, id ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where(type, "==", id)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
@@ -407,7 +407,7 @@ const useFirestoreIntroductions = (collection, id ) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("AuthID", "==", id)
         .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
@@ -454,7 +454,7 @@ const useFirestoreProfileFields = () => {
 
     useEffect(() => {
         const unsub = db.collection("ProfileFields")
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("Template", "==", true)
         .orderBy("Position", "desc")
         .onSnapshot(querySnapshot => {
@@ -478,7 +478,7 @@ const useFirestoreProfileFieldsUser = () => {
 
     useEffect(() => {
         const unsub = db.collection("ProfileFields")
-        .where("Compagny", "==", client)
+        .where("CompagnyID", "==", client)
         .where("Template", "==", false)
         .orderBy("Position", "desc")
         .onSnapshot(querySnapshot => {
@@ -502,7 +502,7 @@ const useFirestoreAboutMe = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("AboutMe")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where("UserID", "==", id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -526,7 +526,7 @@ const useFirestoreActivities = (goal) => {
     useEffect(() => {
         const unsub = db.collection("Activities")
         .where("GoalID", "==", goal)
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -549,7 +549,7 @@ const useFirestoreChannelName = (name) => {
     useEffect(() => {
         const unsub = db.collection("Channels")
         .where("Name", "==", name)
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -571,7 +571,7 @@ const useFirestoreAdmins = (collection) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -593,7 +593,7 @@ const useFirestoreSubscriptions = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Subscriptions')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('UserID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -616,7 +616,7 @@ const useFirestoreSubscriptionsChannelGroup = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Subscriptions')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('SubID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -639,7 +639,7 @@ const useFirestoreSubscriptionsNotApproved = (collection) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('Approved', '==', false)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -662,7 +662,7 @@ const useFirestoreTasks = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ProjectID', '==', id)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
@@ -686,7 +686,7 @@ const useFirestoreTasksComplete = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ProjectID', '==', id)
         .where('Completed', '==', true)
         .onSnapshot(querySnapshot => {
@@ -710,7 +710,7 @@ const useFirestoreTasksGoals = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('GoalID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -733,7 +733,7 @@ const useFirestoreTasksCompleteGoals = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('GoalID', '==', id)
         .where('Completed', '==', true)
         .onSnapshot(querySnapshot => {
@@ -757,7 +757,7 @@ const useFirestoreTasksActivities = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -780,7 +780,7 @@ const useFirestoreTasksCompleteActivities = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .where('Completed', '==', true)
         .onSnapshot(querySnapshot => {
@@ -804,7 +804,7 @@ const useFirestoreMyTasks = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Tasks')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('AppointedID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -827,7 +827,7 @@ const useFirestoreMyEvents = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('EventSignups')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('UserID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -850,7 +850,7 @@ const useFirestoreMyLikes = (type, id) => {
 
     useEffect(() => {
         const unsub = db.collection('Likes')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where(type, '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -917,7 +917,7 @@ const useFirestoreQuestionnaireAnalysis = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('QuestionnaireAnalysis')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('QuestionnaireID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -940,7 +940,7 @@ const useFirestoreQuestionnairesResponses = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('QuestionnairesResponses')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('FieldID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -963,7 +963,7 @@ const useFirestoreQuestionnairesResponsesQuestionnaire = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('QuestionnairesResponses')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('QuestionnaireID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -986,7 +986,7 @@ const useFirestoreMatches = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Matches')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('Match', 'array-contains', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1009,7 +1009,7 @@ const useFirestoreMatchRoadmaps = () => {
 
     useEffect(() => {
         const unsub = db.collection('MatchRoadmaps')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .orderBy("Position", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1032,7 +1032,7 @@ const useFirestoreMatchTagsType = (type) => {
 
     useEffect(() => {
         const unsub = db.collection('MatchTags')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('Type', '==', type)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1055,7 +1055,7 @@ const useFirestoreImpactInstruments = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('ImpactInstruments')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1078,7 +1078,7 @@ const useFirestoreImpactInstrumentsActivity = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('ImpactInstruments')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1101,7 +1101,7 @@ const useFirestoreOutputQuestionnaireFields = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1124,7 +1124,7 @@ const useFirestoreOutputs = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Outputs')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1147,7 +1147,7 @@ const useFirestoreMilestones = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Milestones')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1170,7 +1170,7 @@ const useFirestoreMilestonesActivity = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Milestones')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1193,7 +1193,7 @@ const useFirestoreMilestonesInstrument = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Milestones')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('InstrumentID', '==', id)
         .where('Succes', '==', false)
         .onSnapshot(querySnapshot => {
@@ -1217,7 +1217,7 @@ const useFirestoreMilestonesOutput = (id) => {
 
     useEffect(() => {
         const unsub = db.collection('Milestones')
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1261,7 +1261,7 @@ const useFirestoreResults = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Results")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
@@ -1285,7 +1285,7 @@ const useFirestoreProjects = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Projects")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ActivityID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1308,7 +1308,7 @@ const useFirestoreSROIs = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("SROIs")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1331,7 +1331,7 @@ const useFirestoreSDGsSelected = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("SDGsSelected")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('GoalID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1354,7 +1354,7 @@ const useFirestoreAssumptions = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Assumptions")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('GoalID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1377,7 +1377,7 @@ const useFirestoreConditions = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Conditions")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('GoalID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1400,7 +1400,7 @@ const useFirestoreOutputEffects = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("OutputEffects")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1444,7 +1444,7 @@ const useFirestoreResearch = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("Research")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('OutputID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
@@ -1467,7 +1467,7 @@ const useFirestoreMeasureMoments = (id) => {
 
     useEffect(() => {
         const unsub = db.collection("MeasureMoments")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('ResearchID', '==', id)
         .orderBy("Timestamp", "asc")
         .onSnapshot(querySnapshot => {
@@ -1491,7 +1491,7 @@ const useFirestoreStakeholders = (categorie) => {
 
     useEffect(() => {
         const unsub = db.collection("Stakeholders")
-        .where('Compagny', '==', client)
+        .where('CompagnyID', '==', client)
         .where('Categorie', '==', categorie)
         .onSnapshot(querySnapshot => {
             let docArray = []

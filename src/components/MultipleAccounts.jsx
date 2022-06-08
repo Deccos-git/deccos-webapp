@@ -10,8 +10,6 @@ import ButtonClicked from "../hooks/ButtonClicked";
 import deccosLogo from '../images/deccos-logo.png'
 
 const MultipleAccounts = () => {    
-    const [website, setWebsite] = useState('')
-    const [name, setName] = useState('')
     const [organisations, setOrganisations] = useState([])
 
     useEffect(() => {
@@ -29,18 +27,12 @@ const MultipleAccounts = () => {
                   const name = doc.data().UserName
                   const organisations = doc.data().Compagny 
 
-                  if(organisations.length === 0){
-                    history.push(`/${organisations[0]}/ImpactProgress`)
-                  } else {
-                      setOrganisations(organisations)
-                  }
-      
-                  setName(name)
-      
+                    history.push(`/${organisations[0]}`)
+                 
                 })
               })
             } else if (User === null) {
-              return null
+              return history.push(`/Login`)
             }
           })
 
@@ -49,44 +41,9 @@ const MultipleAccounts = () => {
     const colors = Colors()
     const history = useHistory();
 
-    const compagnyLink = (e) => {
-
-        const org = e.target.innerText
-
-        history.push(`/${org}/ImpactProgress`)
-
-        window.location.reload()
-    }
-
-    const checkMultoipleAccounts = () => {
-        if(organisations.length === 1){
-            organisations && organisations.forEach(org => {
-                history.push(`/${org}/Introduction`)
-                window.location.reload()
-            })
-        } else {
-            return
-        }
-    }
-
-    checkMultoipleAccounts()
 
     return (
         <div>
-            <header className="top-bar" style={{backgroundColor: colors.TopBarColor}}>
-                <a href={`${website}`}><img src={deccosLogo} className="top-bar-logo" alt="logo" /></a>
-            </header>
-            <div style={{backgroundColor: colors.BackgroundColor}}>
-                <div className="approval-message-container">
-                    <h2>Hoi {name}</h2>
-                    <p><b>Selecteer je organisatie</b></p>
-                    <ul>
-                        {organisations && organisations.map(org => (
-                            <li className='select-organisation' onClick={compagnyLink}>{org}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
         </div>
     )
 }
