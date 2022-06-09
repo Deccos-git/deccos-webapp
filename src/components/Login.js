@@ -71,7 +71,7 @@ const Login = () => {
                             history.push(`/NotApproved/${id}`)
                             window.location.reload()
                         } else if(approved === true){
-                            history.push(`/${organisations[0]}`)
+                            history.push(`/${organisations[0]}/Introduction`)
                             window.location.reload()
                         }  
                     })

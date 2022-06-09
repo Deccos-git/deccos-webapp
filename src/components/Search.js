@@ -40,13 +40,11 @@ const Search = () => {
         return itemArray
     }
 
-    console.log(authO)
-
     return (
         <div className="main">
             <LeftSideBar />
             <LeftSideBarFullScreen/>
-            <div className="card-overview">
+            <div className="main-container">
                 <div id='search-bar-container'>
                     <input type="text" placeholder={`Waar ben je naar op zoek, ${authO.ForName}?`} onChange={searchInputHandler} />
                 </div>
