@@ -10,6 +10,9 @@ import { Colors } from "../../StateManagment/Colors";
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router"
 import penIcon from '../../images/icons/pen-icon.png'
+import dummyPhoto from '../../images/Design/dummy-photo.jpeg'
+import dummyLogo from '../../images/dummy-logo.png'
+import deccosLogo from '../../images/deccos-logo.png'
 
 const Topbar = () => {
     const [colors] = useContext(Colors)
@@ -17,14 +20,31 @@ const Topbar = () => {
     const [icon, setIcon] = useState(menuIcon)
     const [settingsIcon, setSettingsIcon] = useState('none')
     const [logo, setLogo] = useState('')
+    const [display, setDisplay] = useState('block')
+    const [displayDeccosLogo, setDisplayDeccosLogo] = useState('none')
 
     const docs  = useFirestore("CompagnyMeta")
 
     const history = useHistory()
 
+    const displayLogo = () => {
+
+        if(client === '' || client === 'NewClient' || client === 'NotApproved'){
+            setLogo(deccosLogo)
+            setDisplay('none')
+            setDisplayDeccosLogo('block')
+        } else{
+            return
+        }
+
+    }
+
+    useEffect(() => {
+        displayLogo()
+    },[])
+
     useEffect(() => {
         docs && docs.map(doc => {
-            console.log(doc)
             setLogo(doc.Logo)
         })
     },[docs])
@@ -56,16 +76,21 @@ const Topbar = () => {
             <div className="left-side-bar-toggle">
                 <img src={icon} alt="" onClick={showLeftSideBar} />
             </div>
-            <div id='logo-subscription-container'>
+            <div id='logo-subscription-container' style={{display: display}}>
                 <div id='edit-logo-container' onMouseEnter={() => { setSettingsIcon('block')}} onMouseLeave={() => { setSettingsIcon('none')}}>
                     <img src={logo} className="top-bar-logo" alt="logo" onClick={homeLink}/>
                     <img id='edit-logo-button' src={penIcon} style={{display: settingsIcon}} onClick={settingsLink}/>
                 </div>
             </div>
-            <div className="iconbar-external-container">
+            <div id='logo-subscription-container' style={{display: displayDeccosLogo}}>
+                <a href="https://deccos.nl/"><img src={logo} className="top-bar-logo" alt="logo"/></a>
+            </div>
+            <div style={{display: display}}>
                 <Iconbar/>
             </div>
-            <ProfilePhoto />
+            <div style={{display: display}}>
+                <ProfilePhoto />
+            </div>
         </header>
     )
 }

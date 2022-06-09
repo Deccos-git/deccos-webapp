@@ -61,6 +61,7 @@ const Assumptions = () => {
             ID: uuid(),
             Timestamp: timestamp,
             Compagny: client,
+            CompagnyID: client,
             GoalID: goalID
         })
 

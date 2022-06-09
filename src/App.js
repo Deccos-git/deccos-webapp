@@ -17,120 +17,6 @@ import Footer from './components/Footer';
 
 function App() {
 
-  const [online, setOnline] = useState(false)
-  const [approved, setApproved] = useState(false)
-  const [compagny, setCompagny] = useState("")
-
-  useEffect(() => {
-    auth.onAuthStateChanged(User => {
-      if(User){
-        setOnline(true)
-
-        db.collection("Users")
-        .where("Compagny", "array-contains", client)
-        .where("Email", "==", User.email)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            const approved = doc.data().Approved
-            const compagny = doc.data().Compagny
-
-            setCompagny(compagny)
-
-            if(approved === false && compagny.includes(client)){
-              setApproved(false)
-              
-            } else if (approved === true && compagny.includes(client)){
-              setApproved(true)
-            } 
-          })
-        })
-      } else if (User === null) {
-        setOnline(false)
-      }
-    })
-  }, [])
-
-  console.log(online, client, approved, compagny.includes(client))
-
-    const AuthRedirect = () => {
-      if(client === 'NewClient'){
-        return (
-              <>
-                <Main/>
-                <Footer/>
-              </>
-            )
-      } else if (online === false){
-        return <LoginRegister/>
-      } else if (online === true && client != ''){
-           return ( 
-            <AuthProvider>
-            <MenuProvider>
-            <ColorProvider>
-              <>
-              <Topbar />
-              <Main/>
-              <BottomBar/>
-              <Footer/>
-              </>
-            </ColorProvider>
-            </MenuProvider>
-            </AuthProvider>
-            )
-      } else if (online === true && client === ''){
-          return (
-              <AuthProvider>
-                <MultipleAccounts />
-              </AuthProvider>
-              )
-      }
-      // if(online === false && client != 'NewClient'){
-      //   return <LoginRegister/>
-      // } else if (online === true && approved === true && compagny.includes(client)) {
-        
-      //   return ( 
-      //   <AuthProvider>
-      //   <MenuProvider>
-      //   <ColorProvider>
-      //     <>
-      //     <Topbar />
-      //     <Main/>
-      //     <BottomBar/>
-      //     <Footer/>
-      //     </>
-      //   </ColorProvider>
-      //   </MenuProvider>
-      //   </AuthProvider>
-      //   )
-      // } else if (online === true && approved === false && compagny.includes(client) ){
-      //   return <NotApproved/>
-      // } else if (online === true && client === '' && approved === true ){
-      //   return (
-      //   <AuthProvider>
-      //     <MultipleAccounts />
-      //   </AuthProvider>
-      //   )
-      // } else if (client === 'NewClient' && online === false) {
-      //   return (
-      //     <>
-      //       <Main/>
-      //       <Footer/>
-      //     </>
-      //   )
-      // } else if (client === 'NewClient' && online === true) {
-      //   return (
-      //     <AuthProvider>
-      //       <MultipleAccounts />
-      //     </AuthProvider>
-      //     )
-      // }else if(online === false && client != 'NewClient' && client === '' ){
-      //   return <LoginRegister/>
-      // } else {
-      //   return null
-      // }
-    }
-
   const variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -144,7 +30,18 @@ function App() {
     variants={variants}
     >
       <Router>
-        <AuthRedirect />
+        <AuthProvider>
+          <MenuProvider>
+            <ColorProvider>
+              <>
+                <Topbar />
+                <Main/>
+                <BottomBar/>
+                <Footer/>
+              </>
+            </ColorProvider>
+          </MenuProvider>
+        </AuthProvider>
       </Router>
     </motion.div>
   );

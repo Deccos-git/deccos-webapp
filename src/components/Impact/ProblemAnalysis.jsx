@@ -224,7 +224,8 @@ const ProblemAnalysis = () => {
             DirectCauses: [],
             IndirectCauses: [],
             ID: uuid(),
-            Compagny: client
+            Compagny: client,
+            CompagnyID: client
         })
     }
 

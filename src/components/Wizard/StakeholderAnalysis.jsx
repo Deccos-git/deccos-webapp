@@ -69,6 +69,7 @@ const StakeholderAnalysis = () => {
             Name: '',
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
         })
     }

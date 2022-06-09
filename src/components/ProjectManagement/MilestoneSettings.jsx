@@ -15,22 +15,13 @@ import PremiumNotice from "../PremiumNotice";
 import NoContentNotice from "../../hooks/NoContentNotice";
 
 const MilestoneSettings = () => {
-    const [color, setColor] = useState('')
     const [succes, setSucces] = useState(false)
 
     const menuState = MenuStatus()
-    const history = useHistory()
     const premium = Premium() 
 
     const milestones = useFirestore('Milestones')
    
-    const milestoneLink = (e) => {
-
-        const ID = e.target.dataset.id
-
-        history.push(`/${client}/MilstoneDetail/${ID}`)
-
-    }
 
     const MilestoneProgress = ({output}) => {
         const [goal, setGoal] = useState(0)

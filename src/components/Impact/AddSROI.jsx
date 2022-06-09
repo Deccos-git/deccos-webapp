@@ -73,6 +73,7 @@ const AddSROI = () => {
         .set({
             ID: id,
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Output: outputTitle,
             OutputID: outputID,

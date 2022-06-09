@@ -121,6 +121,7 @@ const Tasks = () => {
                 .doc()
                 .set({
                     Compagny: client,
+                    CompagnyID: client,
                     ID: uuid(),
                     Result: 1,
                     Timestamp: timestamp,

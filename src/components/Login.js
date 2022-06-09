@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { client } from '../hooks/Client';
 import { auth, db } from '../firebase/config';
 import { useHistory } from "react-router-dom";
@@ -46,22 +46,45 @@ const Login = () => {
 
         auth.signInWithEmailAndPassword(email, password)
         .catch(err => {
-            console.log(err)
             if(err){
                 alert(err)
             } else {
-                resumeLogin()
+                automaticRedirect()
             }
         })
     }
 
-    const resumeLogin = () => {
-        if(client != ''){
-            history.push(`/${client}/Introduction`)
-        } else {
-            history.push(`/MultipleAccounts`)
-        }
+    const automaticRedirect = () => {
+
+        auth.onAuthStateChanged(User => {
+            if(User){
+                db.collection("Users")
+                .where("Email", "==", User.email)
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        const id = doc.data().ID
+                        const organisations = doc.data().Compagny 
+                        const approved = doc.data().Approved
+
+                        if(approved === false){
+                            history.push(`/NotApproved/${id}`)
+                            window.location.reload()
+                        } else if(approved === true){
+                            history.push(`/${organisations[0]}`)
+                            window.location.reload()
+                        }  
+                    })
+                })
+            } else if (User === null) {
+                return 
+            }
+        })
     }
+
+    useEffect(() => {
+        automaticRedirect()
+    },[])
 
     const resetPasswordModal = () => {
 

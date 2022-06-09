@@ -76,7 +76,8 @@ const Profile = () => {
     const logOut = () => {
         auth.signOut()
         .then(() => {
-            history.push(`/Login`)
+            history.push(`/`)
+            window.location.reload()
         }) 
     }
 

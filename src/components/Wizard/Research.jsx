@@ -104,6 +104,7 @@ const Research = () => {
             OutputTitle: outputTitle,
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Title: title,
             ActivityID: activityID,
@@ -147,6 +148,7 @@ const Research = () => {
             Title: momentTitle,
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             ActivityID: activityID,
             Activity: activityTitle,
@@ -158,6 +160,7 @@ const Research = () => {
             .set({
                 ID: uuid(),
                 Compagny: client,
+                CompagnyID: client,
                 Timestamp: timestamp,
                 Title: momentTitle,
                 AppointedID: '',

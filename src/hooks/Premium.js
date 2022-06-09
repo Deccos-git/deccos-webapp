@@ -8,7 +8,7 @@ const Premium = () => {
     const getPremium = () => {
 
         const unsub = db.collection("CompagnyMeta")
-                .where("Compagny", "==", client)
+                .where("CompagnyID", "==", client)
                 .onSnapshot(querySnapshot => {
                     querySnapshot.forEach (doc => {
                         const premium = doc.data().Premium

@@ -66,6 +66,7 @@ const Questionnaires = () => {
             ID: id,
             Timestamp: timestamp,
             Compagny: client,
+            CompagnyID: client,
         })
     }
 

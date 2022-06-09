@@ -83,6 +83,7 @@ const MeasureOutput = () => {
             OutputTitle: outputTitle,
             ID: id,
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Title: title,
             ActivityID: activityID,
@@ -110,6 +111,7 @@ const MeasureOutput = () => {
         .set({
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Title: `Nieuwe ${singular.toLowerCase()}`,
             AppointedID: '',

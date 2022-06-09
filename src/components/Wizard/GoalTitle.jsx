@@ -126,6 +126,7 @@ const GoalTitle = () => {
         .set({
             Title: '',
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             ID: id,
             User: authO.UserName,

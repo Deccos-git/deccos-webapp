@@ -156,6 +156,14 @@
     margin-right: 20px;
 }
 
+.login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    min-height: 80vh;
+  }
+
 #sub-title-new-client{
     color: #f48183;
 }
@@ -1644,11 +1652,6 @@
     z-index: 2;
     background-color: white;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 2px 1px -1px rgb(0 0 0 / 12%);
-}
-
-.iconbar-external-container{
-    display: flex;
-    justify-content: space-between;
 }
 
 .group-outer-container{

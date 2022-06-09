@@ -18,6 +18,8 @@ const Iconbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
     const [authO] = useContext(Auth)
 
+    console.log(authO)
+
     const colors = Colors()
     let ID = ""
 
@@ -29,8 +31,8 @@ const Iconbar = () => {
         ID = authO.ID
     }
 
-    const newMessages = useFirestoreNewMessagesChatGroups(ID)
-    const newNotifications = useFirestoreNotifications("Notifications", ID)
+    const newMessages = useFirestoreNewMessagesChatGroups(ID && ID)
+    const newNotifications = useFirestoreNotifications("Notifications", ID && ID)
     const history = useHistory()
 
     const notificationsArray = []

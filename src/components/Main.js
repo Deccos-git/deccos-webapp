@@ -92,8 +92,14 @@ const Main = () => {
     return (
         <>
             <Switch>
+                <Route exact path={`/`}>
+                    <Login/>
+                </Route>
                 <Route path={`/NewClient`}>
                     <NewClient/>
+                </Route>
+                <Route path={`/NotApproved`}>
+                    <NotApproved/>
                 </Route>
                 <Route exact path={`/${client}`}>
                     <ImpactProgress/>
@@ -106,9 +112,6 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ProfileSettings`}>
                     <ProfileSettings/>
-                </Route>
-                <Route path={`/${client}/NotApproved`}>
-                    <NotApproved/>
                 </Route>
                 <Route path={`/${client}/AllActivity`}>
                     <AllActivity/>

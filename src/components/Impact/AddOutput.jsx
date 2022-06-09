@@ -72,6 +72,7 @@ const AddOutput = () => {
         .set({
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Activity: activityTitle,
             ActivityID: activityID,

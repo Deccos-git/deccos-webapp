@@ -7,12 +7,14 @@ import spinnerRipple from '../images/spinner-ripple.svg'
 import { useHistory } from "react-router-dom";
 import ButtonClicked from "../hooks/ButtonClicked";
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
+import checkIcon from '../images/icons/check-icon.png'
 import dummyLogo from '../images/dummy-logo.png'
 import deccosLogo from '../images/deccos-logo.png'
+import Modal from 'react-modal';
 
 const NewClient = () => {
     const [communityName, setCommunityName] = useState("")
-    const [communityNameClean, setCommunityNameClean] = useState("")
+    const [modalOpen, setModalOpen] = useState(false);
     const [logo, setLogo] = useState(dummyLogo)
     const [loader, setLoader] = useState('none')
     const [email, setEmail] = useState("")
@@ -21,9 +23,22 @@ const NewClient = () => {
     const [forname, setForname] = useState("")
     const [surname, setSurname] = useState("")
     const [photo, setPhoto] = useState(dummyPhoto)
+    const [error, setError] = useState(false)
 
     const history = useHistory();
     const id = uuid()
+    Modal.setAppElement('#root');
+
+    const modalStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
 
 
     const communityNameHandler = (e) => {
@@ -112,31 +127,21 @@ const createUser = () => {
             Compagny: firebase.firestore.FieldValue.arrayUnion(id),
             Timestamp: timestamp,
             Email: email,
+            ID: userID,
             Photo: photo,
-            CompagnyID: userID,
-            Approved: true,
+            Approved: false,
             Deleted: false,
             Docid: cred.user.uid,
         })
     })
-    .catch((err) => {
-        console.log(err)
-            if(err){
-                alert(err)
-            } else {
-                toVerification(userID)
-            }
-      })
-}
-
-    const toVerification = (userID) => {
-
+    .then(() => {
         sendVerificationEmail(userID)
-
-        history.push(`/${id}/NotApproved/1`)
-
-    }
-
+        setModalOpen(true)
+    })
+    .catch((err) => {
+        alert(err)
+    })
+}
 
     // Don't forget to change the firestore rules if you change anything in createClient
 
@@ -205,16 +210,12 @@ const createUser = () => {
         }
     }
 
-    const homeLink = () => {
-        history.replace(`/`) 
-    }
-
     const sendEmail = async () => {
 
         console.log('email send')
         await db.collection("Email").doc().set({
             to: "info@deccos.nl",
-            cc: "info@Deccos.nl",
+            cc: "info@deccos.nl",
             message: {
             subject: `Nieuwe klant op Deccos.`,
             html: `Nieuwe klant op Deccos: </br></br>
@@ -237,12 +238,12 @@ const createUser = () => {
             to: email,
             cc: "info@Deccos.nl",
             message: {
-            subject: `Verificeer je Deccos account voor ${communityName}.`,
+            subject: `Verificeer je Deccos account.`,
             html: `Hallo ${forname} ${surname}, </br></br>
 
-                Welkom bij Deccos. Via deze link kun je je account verificeren voor ${communityName}:<br><br>
+                Welkom bij Deccos. Via deze link kun je je account verificeren:<br><br>
 
-                Klik <a href="https://deccos.co/${id}/NotApproved/${userID}">hier</a> om je account te verificeren.<br><br>
+                Klik <a href="https://deccos.co/NotApproved/${userID}">hier</a> om je account te verificeren.<br><br>
                 
                 Vriendelijke groet, </br></br>
                 Het Deccos team </br></br>
@@ -255,11 +256,16 @@ const createUser = () => {
           }); 
     }
 
+    const closeModal = () => {
+        setModalOpen(false);
+      }
+
+    const closeVerificationModal = () => {
+        window.location.href = 'https://deccos.nl'; 
+    }
+
     return (
         <div>
-             <header className="top-bar">
-                <img src={deccosLogo} onClick={homeLink} className="top-bar-logo" alt="logo" />
-            </header>
             <div className="new-client-container">
                 <div className="card-header">
                     <h1 id='title-new-client'>Creëer je Deccos bedrijfsaccount</h1>
@@ -293,6 +299,20 @@ const createUser = () => {
                     </div>
                 </form>
             </div>
+            <Modal
+            isOpen={modalOpen}
+            onRequestClose={closeModal}
+            style={modalStyles}
+            contentLabel="Upload banner"
+            >
+            <img src={checkIcon} alt="" />
+            <p><b>Je account is succelvol aangemaakt!</b></p>
+            <p>Voordat je aan de slag kan moet je account worden geverifieerd. </p>
+            <p>Er is een verificatie email gestuurd naar {email}.</p>
+            <div className='button-container-margin-top'>
+                <button onClick={closeVerificationModal}>Sluiten</button>
+            </div>
+            </Modal>
         </div>
     )
 }

@@ -97,6 +97,7 @@ const AddActivity = () => {
             Activity: title,
             ID: id,
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             User: authO.UserName,
             UserPhoto: authO.Photo,

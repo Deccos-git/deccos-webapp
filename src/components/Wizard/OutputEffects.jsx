@@ -59,6 +59,7 @@ const OutputEffects = () => {
         .set({
             ID: uuid(),
             Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             Output: outputTitle,
             OutputID: outputID,

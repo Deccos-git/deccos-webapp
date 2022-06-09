@@ -341,8 +341,6 @@ const ChatGroups = () => {
             })   
     }
 
-    
-
     return (
             <div className="main">
                 <LeftSideBar />

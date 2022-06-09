@@ -93,6 +93,28 @@ const useFirestoreUser = (userID) => {
     return docs
 };
 
+const useFirestoreUserNotApproved = (userID) => {
+
+    const [docs, setDocs] = useState("")
+    
+    const docArray = []
+    useEffect(() => {
+        db.collection("Users")
+        .where("ID", "==", userID)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        setDocs(docArray)
+
+    }, [userID])  
+
+    return docs
+};
+
 const useFirestoreUsers = (state) => {
 
     const [docs, setDocs] = useState("")
@@ -1514,7 +1536,8 @@ export {
     useFirestore, 
     useFirestoreID, 
     useFirestoreTimestamp, 
-    useFirestoreUser, 
+    useFirestoreUser,
+    useFirestoreUserNotApproved, 
     useFirestoreUsers, 
     useFirestoreUsersApproved,
     useFirestoreMessages,
