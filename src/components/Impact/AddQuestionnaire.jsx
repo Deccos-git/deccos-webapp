@@ -16,6 +16,7 @@ import feetIcon from '../../images/icons/feet-icon.png'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { NavLink, Link } from "react-router-dom";
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddQuestionnaire = () => {
     const [color, setColor] = useState('')
@@ -32,6 +33,7 @@ const AddQuestionnaire = () => {
 
     const menuState = MenuStatus()
     const route = Location()[3]
+    ScrollToTop()
 
     const questionnares = useFirestoreID('Questionnaires', route)
     const questionnaireFields = useFirestoreQuestionnaireFields(route)

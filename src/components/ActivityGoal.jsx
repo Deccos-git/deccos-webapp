@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import Location from "../hooks/Location"
 import ArrowLeftIcon from '../images/icons/arrow-left-icon.png'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const ActivitieGoal = () => {
     const [progression, setProgression] = useState(0)
@@ -16,6 +17,7 @@ const ActivitieGoal = () => {
     const menuState = MenuStatus()
     const history = useHistory();
     const route = Location()[3]
+    ScrollToTop()
 
     const activities = useFirestoreActivities(route)  
     const goals = useFirestoreID('Goals', route) 

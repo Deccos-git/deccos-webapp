@@ -11,6 +11,7 @@ import worldIcon from '../images/icons/world-icon.png'
 import goalIcon from '../images/icons/milestone-icon.png'
 import { useHistory } from "react-router-dom"
 import { client } from "../hooks/Client"
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const ActivityDetail = () => {
     const [title, setTitle] = useState('')
@@ -19,6 +20,7 @@ const ActivityDetail = () => {
     const route = Location()[3]
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory()
+    ScrollToTop()
 
     const activities = useFirestoreID('Activities', route)
     const outputs = useFirestoreOutputs(route)

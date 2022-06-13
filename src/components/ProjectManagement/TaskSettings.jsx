@@ -9,11 +9,13 @@ import { db, timestamp } from "../../firebase/config.js"
 import { client } from "../../hooks/Client"
 import completeIcon from '../../images/icons/complete-icon.png'
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const TaskSettings = () => {
     const [authO] = useContext(Auth)
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const tasks = useFirestore("Tasks")
     const banners = useFirestore('Banners')

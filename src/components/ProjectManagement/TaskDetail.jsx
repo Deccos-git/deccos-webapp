@@ -11,6 +11,7 @@ import { db } from "../../firebase/config";
 import userIcon from '../../images/icons/user-icon.png'
 import Reaction from "../Community/Reaction"
 import MessageBar from "../Community/MessageBar"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const TaskDetail = () => {
     const [task, setTask] = useState(null)
@@ -22,6 +23,7 @@ const TaskDetail = () => {
     const route = Location()[3]
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const history = useHistory();
+    ScrollToTop()
 
     const tasks = useFirestoreID('Tasks', route)
     const reactions = useFirestoreMessages("Messages", route)

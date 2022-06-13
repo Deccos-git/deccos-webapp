@@ -10,10 +10,12 @@ import newUserIcon from '../../images/icons/new-user-icon.png'
 import groupIcon from '../../images/icons/group-icon.png'
 import preconditionsIcon from '../../images/icons/preconditions-icon.png'
 import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GoalDetail = () => {
     const route = Location()[3]
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const docs = useFirestoreID("Goals", route)
 

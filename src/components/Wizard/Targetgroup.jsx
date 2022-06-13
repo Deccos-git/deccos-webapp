@@ -17,12 +17,15 @@ import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Targetgroup = () => {
     const [goalDocid, setGoalDocid] = useState('')
     const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
+    
     const goals = useFirestore('Goals') 
 
     const goalHandler = (e) => {

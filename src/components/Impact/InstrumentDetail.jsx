@@ -4,10 +4,12 @@ import LeftSideBarAuthProfileFullScreen from "../LeftSideBarAuthProfileFullScree
 import MenuStatus from "../../hooks/MenuStatus";
 import { Link } from "react-router-dom";
 import { client } from "../../hooks/Client"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const InstrumentDetail = () => {
 
     const menuState = MenuStatus()
+    ScrollToTop()
     
   return (
     <div className="main">

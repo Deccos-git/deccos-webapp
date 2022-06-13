@@ -16,6 +16,7 @@ import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 import Modal from 'react-modal';
 import TinyMCE from './TinyMCE'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddNews = () => {
     const [authO] = useContext(Auth)
@@ -32,6 +33,7 @@ const AddNews = () => {
 
     const menuState = MenuStatus()
     const id = uuid()
+    ScrollToTop()
 
     // Set channel ID to state
 

@@ -11,12 +11,14 @@ import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Impacthub = () => {
     const [ID, setID] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const compagnies = useFirestore('CompagnyMeta')
     const followers = useFirestore("FollowsImpacthub")

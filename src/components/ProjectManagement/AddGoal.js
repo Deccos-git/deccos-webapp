@@ -16,6 +16,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom";
 import ArrowRightIcon from '../../images/icons/arrow-right-icon.png'
 import ButtonClicked from "../../hooks/ButtonClicked.jsx";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddGoal = () => {
     const [authO] = useContext(Auth)
@@ -34,6 +35,7 @@ const AddGoal = () => {
     const id = uuid()
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
     
     const banners = useFirestore('Banners')
     const sdgs = useFirestoreSDGs('SDGs')

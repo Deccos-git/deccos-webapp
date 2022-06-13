@@ -9,6 +9,7 @@ import { db } from "../../firebase/config";
 import plusIcon from '../../images/icons/plus-icon.png'
 import { useHistory } from "react-router-dom";
 import MenuStatus from "../../hooks/MenuStatus";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GoalSettings = () => {
 
@@ -16,6 +17,8 @@ const GoalSettings = () => {
 
     const history = useHistory();
     const menuState = MenuStatus()
+    ScrollToTop()
+    
 
     const goalLink = (e) => {
 

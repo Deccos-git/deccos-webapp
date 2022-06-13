@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom"
 import Location from "../../hooks/Location"
 import Reaction from "./Reaction"
 import ButtonClicked from "../../hooks/ButtonClicked"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Introductions = () => {
     const [authO] = useContext(Auth)
@@ -24,11 +25,10 @@ const Introductions = () => {
     const menuState = MenuStatus()
     const location = useLocation()
     const route = Location()[2]
+    ScrollToTop()
 
     const banners = useFirestore('Banners')
     const messages  = useFirestoreMessages("Messages", route)
-
-    console.log(messages)
 
     useEffect(() => {
         banners && banners.forEach(banner => {

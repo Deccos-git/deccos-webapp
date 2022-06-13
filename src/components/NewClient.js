@@ -11,6 +11,7 @@ import checkIcon from '../images/icons/check-icon.png'
 import dummyLogo from '../images/dummy-logo.png'
 import deccosLogo from '../images/deccos-logo.png'
 import Modal from 'react-modal';
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const NewClient = () => {
     const [communityName, setCommunityName] = useState("")
@@ -27,6 +28,7 @@ const NewClient = () => {
 
     const history = useHistory();
     const id = uuid()
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {
@@ -155,7 +157,8 @@ const createUser = () => {
             Logo: logo,
             CompagnyID: id,
             Timestamp: timestamp,
-            Impacthub: false
+            Impacthub: true,
+            ImpactBanner: 'https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ImpactHeaderDefault.png?alt=media&token=5d11c139-431d-4c66-84d1-23878e3ad460'
         })
         
         await db.collection('Admins')
@@ -289,7 +292,7 @@ const createUser = () => {
                     <p>Achternaam</p>
                     <input onChange={surnameHandler} type="text" placeholder="Schrijf hier je achternaam" />
                     <p>Emailadres*</p>
-                    <input onChange={emailHandler} type="email" placeholder="Schrijf hier je achternaam" />
+                    <input onChange={emailHandler} type="email" placeholder="Schrijf hier je emailadres" />
                     <p>Wachtwoord*</p>
                     <input onChange={passwordHandler} type="password" placeholder="Schrijf hier je wachtwoord" />
                     <p>Herhaal je wachtwoord*</p>

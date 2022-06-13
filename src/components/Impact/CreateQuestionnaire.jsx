@@ -11,12 +11,14 @@ import sendIcon from '../../images/icons/send-icon.png'
 import editIcon from '../../images/icons/edit-icon.png'
 import { useState } from 'react';
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const CreateQuestionnaire = () => {
     const [fields, setFields] = useState([])
     const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const questionnaireFields = useFirestore('QuestionnaireFields')
 

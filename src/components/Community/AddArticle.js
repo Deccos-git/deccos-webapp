@@ -15,6 +15,7 @@ import spinnerRipple from '../../images/spinner-ripple.svg'
 import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
 import TinyMCE from './TinyMCE'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddArticle = () => {
     const [authO] = useContext(Auth)
@@ -35,6 +36,7 @@ const AddArticle = () => {
     const channels = useFirestore("Channels")
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
 
     // Set banner image in state

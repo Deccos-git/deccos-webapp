@@ -10,10 +10,13 @@ import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Introduction = () => {
 
     const menuState = MenuStatus() 
+
+    ScrollToTop()
 
   return (
     <div className="main">

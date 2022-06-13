@@ -8,12 +8,14 @@ import { useState, useEffect } from 'react'
 import penIcon from '../images/icons/pen-icon.png'
 import { NavLink, Link } from "react-router-dom";
 import NoContentNotice from "../hooks/NoContentNotice";
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Activities = () => {
     const [progression, setProgression] = useState(0)
 
     const menuState = MenuStatus()
     const history = useHistory();
+    ScrollToTop()
 
     const activities = useFirestore("Activities")    
 

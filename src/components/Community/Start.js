@@ -6,6 +6,7 @@ import RightSideBar from "../rightSideBar/RightSideBar"
 import { useContext } from "react"
 import { Auth } from '../../StateManagment/Auth';
 import MenuStatus from "../../hooks/MenuStatus";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Start = () => {
     const [authO] = useContext(Auth)
@@ -15,6 +16,7 @@ const Start = () => {
 
     const username = authO.ForName
 
+    ScrollToTop()
     const variants = {
         hidden: { opacity: 0 },
         visible: { opacity: 1 },

@@ -8,6 +8,7 @@ import Reaction from "./Reaction";
 import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ChannelDetail = () => {
     const route = Location()[3]
@@ -17,6 +18,7 @@ const ChannelDetail = () => {
     const messages  = useFirestoreMessages("Messages", route)
 
     const history = useHistory()
+    ScrollToTop()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
     const profileLink = (e) => {

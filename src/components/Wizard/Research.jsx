@@ -29,6 +29,7 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import sendIcon from '../../images/icons/send-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Research = () => {
     const [outputID, setOutputID] = useState('')
@@ -47,6 +48,7 @@ const Research = () => {
     const menuState = MenuStatus() 
     const history = useHistory()
     const premium = Premium() 
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {

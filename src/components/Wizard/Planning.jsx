@@ -6,12 +6,14 @@ import { useFirestore, useFirestoreMeasureMoments } from "../../firebase/useFire
 import { useState, useEffect } from "react";
 import { client } from '../../hooks/Client';
 import { db, timestamp } from "../../firebase/config.js"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Planning = () => {
 
   const researches = useFirestore('Research')
 
   const menuState = MenuStatus() 
+  ScrollToTop()
 
 
     const year = dayjs().year()

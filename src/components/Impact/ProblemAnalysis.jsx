@@ -24,6 +24,7 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import plusButton from '../../images/icons/plus-icon.png'
 import problemIcon from '../../images/icons/problem-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ProblemAnalysis = () => {
     const [directCause, setDirectCause] = useState('')
@@ -36,6 +37,7 @@ const ProblemAnalysis = () => {
     const [modalDirectConsequencesOpen, setModalDirectConsequencesOpen] = useState(false);
 
     const menuState = MenuStatus() 
+    ScrollToTop()
     Modal.setAppElement('#root');
     
     const problemAnalysis = useFirestore('ProblemAnalysis') 
@@ -59,6 +61,9 @@ const ProblemAnalysis = () => {
         .doc(docid)
         .update({
             CentralProblem: centralProblem
+        })
+        .then(() => {
+           
         })
     }
 

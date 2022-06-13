@@ -10,11 +10,13 @@ import {useFirestore} from "../../firebase/useFirestore"
 import { useHistory } from "react-router-dom";
 import { db } from "../../firebase/config.js"
 import settingsIcon from '../../images/icons/settings-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Instruments = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const instruments = useFirestore('ImpactInstruments')
 

@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom"
 import GetLink from '../../hooks/GetLink'
 import deleteIcon from '../../images/icons/delete-icon.png'
 import settingsIcon from '../../images/icons/settings-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ChatRoom = () => {
     const [showSendMail, setShowSendMail] = useState("none")
@@ -22,6 +23,7 @@ const ChatRoom = () => {
     const [authO] = useContext(Auth)
     const route = Location()[3]
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const chats = useFirestoreID("Chats", route)
     const messages = useFirestoreMessages("Messages", route)

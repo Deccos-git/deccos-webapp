@@ -13,12 +13,14 @@ import { NavLink } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const MilestoneSettings = () => {
     const [succes, setSucces] = useState(false)
 
     const menuState = MenuStatus()
     const premium = Premium() 
+    ScrollToTop()
 
     const milestones = useFirestore('Milestones')
    

@@ -8,6 +8,7 @@ import { bucket } from '../firebase/config';
 import spinnerRipple from '../images/spinner-ripple.svg'
 import dummyPhoto from '../images/Design/dummy-photo.jpeg'
 import { useHistory } from "react-router-dom"
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const RegisterUser = () => {
 
@@ -25,6 +26,7 @@ const RegisterUser = () => {
 
     const id = uuid()
     const history = useHistory()
+    ScrollToTop()
     
     const compagny = useFirestore("CompagnyMeta")
     const groups = useFirestore('Groups')

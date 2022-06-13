@@ -85,7 +85,7 @@ const Topbar = () => {
             <div id='logo-subscription-container' style={{display: displayDeccosLogo}}>
                 <a href="https://deccos.nl/"><img src={logo} className="top-bar-logo" alt="logo"/></a>
             </div>
-            <div style={{display: display}}>
+            <div style={{display: display}} className='icon-bar-big-screen'>
                 <Iconbar/>
             </div>
             <div style={{display: display}}>

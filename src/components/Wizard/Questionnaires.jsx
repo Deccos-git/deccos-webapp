@@ -24,6 +24,7 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import listIcon from '../../images/icons/list-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Questionnaires = () => {
 
@@ -33,6 +34,7 @@ const Questionnaires = () => {
     const menuState = MenuStatus() 
     const id = uuid()
     const premium = Premium() 
+    ScrollToTop()
     
     const questionnaires = useFirestore('Questionnaires')
     const researchedQuestionnaires = useFirestore('ResearchedQuestionnnaires')

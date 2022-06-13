@@ -13,6 +13,7 @@ import { db, timestamp } from "../firebase/config";
 import uuid from 'react-uuid';
 import { client } from "../hooks/Client";
 import { useState, useEffect } from "react";
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const ProfileSettings = () => {
     const [title, setTitle] = useState("")
@@ -24,6 +25,7 @@ const ProfileSettings = () => {
     const profileFields = useFirestoreProfileFields()
     const menuState = MenuStatus()
     const id = uuid()
+    ScrollToTop()
 
     // Determine position of profilefields
 

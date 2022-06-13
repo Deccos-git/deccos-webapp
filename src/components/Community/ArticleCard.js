@@ -3,9 +3,11 @@ import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion"
 import firebase from 'firebase';
 import { db, timestamp } from "../../firebase/config.js"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ArticleCard = ({doc}) => {
     const history = useHistory();
+    ScrollToTop()
 
     const variants = {
         hidden: { opacity: 0 },

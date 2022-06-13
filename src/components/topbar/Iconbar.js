@@ -1,9 +1,9 @@
-
-import {ReactComponent as NotificationIcon} from '../../images/icons/notifications-icon.svg'
-import {ReactComponent as ChatIcon} from '../../images/icons/chat-icon.svg'
-import {ReactComponent as SearchIcon}  from '../../images/icons/search-icon.svg'
-import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
-import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import savedIcon from '../../images/icons/saved-icon.png'
+import questionIcon from '../../images/icons/question-icon.png'
+import searchIcon from '../../images/icons/search-icon.png'
+import magicIcon from '../../images/icons/magic-icon.png'
+import chatIcon from '../../images/icons/chat-icon.png'
+import notificationIcon from '../../images/icons/notification-icon.png'
 import { client } from '../../hooks/Client';
 import { Link } from "react-router-dom";
 import { useFirestoreNotifications, useFirestoreNewMessagesChatGroups } from '../../firebase/useFirestore';
@@ -12,27 +12,22 @@ import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
+import { SavedIcon } from '../../StateManagment/SavedIcon'
 import Colors from "../../hooks/Colors";
 
 const Iconbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
+    // const [saved, setSaved] = useContext(SavedIcon)
     const [authO] = useContext(Auth)
 
-    console.log(authO)
-
     const colors = Colors()
-    let ID = ""
 
     const changeMenuStatus = () => {
         setMenu("none")
     }
 
-    if(typeof(authO) != "string" || authO.ID != undefined){
-        ID = authO.ID
-    }
-
-    const newMessages = useFirestoreNewMessagesChatGroups(ID && ID)
-    const newNotifications = useFirestoreNotifications("Notifications", ID && ID)
+    const newMessages = useFirestoreNewMessagesChatGroups(authO && authO)
+    const newNotifications = useFirestoreNotifications("Notifications", authO && authO)
     const history = useHistory()
 
     const notificationsArray = []
@@ -57,7 +52,7 @@ const Iconbar = () => {
 
     newMessages && newMessages.forEach(message => {
 
-        if(!message.Read.includes(ID)){
+        if(!message.Read.includes(authO)){
             newMessageArray.push(message)
         } 
     })
@@ -100,72 +95,31 @@ const Iconbar = () => {
         <div className="icon-bar">
             <div className="icon-container">
                 <p id={notificationStatus} className="notification-counter" onClick={showNotifications} >{notificationsArray.length}</p>
-                <NotificationIcon 
-                style={
-                    {
-                        width: '19px',
-                        height: '19px',
-                        fill: colors.TopBarIconsColor
-                    }
-                }  
-                onClick={showNotifications}/>
+                <img src={notificationIcon} alt="notification icon" onClick={showNotifications} />
             </div>
             <div className="icon-container">
                 <p id={messageStatus} className="notification-counter" onClick={showMessages}>{newMessageArray.length}</p>
-                <ChatIcon 
-                style={
-                    {
-                        width: '19px',
-                        height: '19px',
-                        margin: '10px',
-                        fill: colors.TopBarIconsColor
-                    }
-                }  
-                onClick={showMessages}/>
+                <img src={chatIcon} alt="chat icon" onClick={showMessages} />
             </div>
             <div className="icon-container">
-                <Link to={`/${client}/Introduction`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
-                    <MagicIcon 
-                    style={
-                        {
-                            width: '19px',
-                            height: '19px',
-                            fill: colors.TopBarIconsColor,
-                            marginBottom: '-7px',
-                            marginLeft: '5px',
-                            marginRight: '5px'
-                        }
-                    }  />
+                <Link to={`/${client}/Introduction`} onClick={changeMenuStatus}>
+                    <img src={magicIcon} alt="magic icon" />
                 </Link>
             </div>
             <div className="icon-container">
                 <Link to={`/${client}/Support`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
-                    <QuestionIcon 
-                    style={
-                        {
-                            width: '19px',
-                            height: '19px',
-                            fill: colors.TopBarIconsColor,
-                            marginBottom: '-7px'
-                        }
-                    }  />
+                    <img src={questionIcon} alt="question icon" />
                 </Link>
             </div>
             <div className="icon-container">
                 <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
-                    <SearchIcon 
-                    style={
-                        {
-                            width: '19px',
-                            height: '19px',
-                            fill: colors.TopBarIconsColor,
-                            marginBottom: '-7px',
-                            marginLeft: '5px',
-                            marginRight: '5px'
-                        }
-                    }  />
+                   <img src={searchIcon} alt="search icon" />
                 </Link>
             </div>
+            {/* <div className="icon-container saved-container">
+                <img src={savedIcon} alt="saved icon" />
+                <p>Opgeslagen</p>
+            </div> */}
         </div>
     )
 }

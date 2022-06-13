@@ -9,8 +9,6 @@ export const PremiumProvider = (props) => {
 
     const getPremium = () => {
 
-        console.log(client)
-
         const unsub = db.collection("CompagnyMeta")
                 .where("Compagny", "==", client)
                 .onSnapshot(querySnapshot => {

@@ -4,10 +4,12 @@ import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import houseIcon from '../../images/icons/house-icon.png'
 import uuid from 'react-uuid'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GoalCard = ({doc}) => {
 
     const history = useHistory();
+    ScrollToTop()
 
     const variants = {
         hidden: { opacity: 0 },

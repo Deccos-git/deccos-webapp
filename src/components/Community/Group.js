@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom"
 import GroupChannel from './GroupChannel'
 import { client } from '../../hooks/Client';
 import ChatScreen from "./ChatScreen"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Group = () => {
     const [authO] = useContext(Auth)
@@ -22,6 +23,7 @@ const Group = () => {
     const menuState = MenuStatus()
     const route = Location()[3]
     const history = useHistory()
+    ScrollToTop()
     
     const groups = useFirestoreID("Groups", route)
     const subscriptions = useFirestoreSubscriptions(authID)

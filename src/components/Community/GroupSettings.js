@@ -11,6 +11,7 @@ import { Auth } from '../../StateManagment/Auth';
 import { useHistory } from "react-router-dom";
 import MenuStatus from "../../hooks/MenuStatus";
 import plusIcon from '../../images/icons/plus-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GroupSettings = () => {
     const [authO] = useContext(Auth)
@@ -27,6 +28,7 @@ const GroupSettings = () => {
     
     const history = useHistory();
     const menuState = MenuStatus()
+    ScrollToTop()
    
     const id = uuid()
 

@@ -40,6 +40,7 @@ import eventIcon from '../../images/icons/event-icon.png'
 import duplicateIcon from '../../images/icons/duplicate-icon.png'
 import progressIcon from '../../images/icons/progress-icon.png'
 import MemberGraph from "../MemberGraph";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Project = () => {
     const [authO] = useContext(Auth)
@@ -58,6 +59,7 @@ const Project = () => {
     const menuState = MenuStatus()
     const route = Location()[3]
     const history = useHistory();
+    ScrollToTop()
     Modal.setAppElement('#root');
     const options = { day: 'numeric', month: 'numeric', year: 'numeric'};
 

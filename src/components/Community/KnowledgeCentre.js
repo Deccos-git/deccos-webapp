@@ -5,12 +5,14 @@ import ArticleCard from './ArticleCard';
 import { useFirestore} from '../../firebase/useFirestore.js';
 import { motion } from "framer-motion"
 import MenuStatus from "../../hooks/MenuStatus";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const KnowledgeCentre = () => {
 
     const docs = useFirestore("KnowledgeCentre")
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     return (
         <div className="main">

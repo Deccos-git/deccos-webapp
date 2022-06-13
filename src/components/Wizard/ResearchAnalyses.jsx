@@ -17,12 +17,14 @@ import { NavLink, Link } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ResearchAnalysis = () => {
 
     const menuState = MenuStatus() 
     const history = useHistory()
     const premium = Premium() 
+    ScrollToTop()
 
     const researches = useFirestore('Research')
 

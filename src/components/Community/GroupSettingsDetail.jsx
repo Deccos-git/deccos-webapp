@@ -11,6 +11,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { db, timestamp } from "../../firebase/config.js"
 import uuid from 'react-uuid';
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GroupSettingsDetail = () => {
     const [title, setTitle] = useState("")
@@ -28,6 +29,7 @@ const GroupSettingsDetail = () => {
     const menuState = MenuStatus()
     const history = useHistory()
     const id = uuid()
+    ScrollToTop()
 
     const groups = useFirestoreID("Groups", route)
     const users = useFirestoreUsers(false)

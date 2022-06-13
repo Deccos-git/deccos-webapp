@@ -7,12 +7,14 @@ import { useFirestoreID,   useFirestoreQuestionnaireFields } from "../../firebas
 import { useEffect, useState } from "react"
 import printIcon from '../../images/icons/print-icon.png'
 import { useHistory } from "react-router-dom"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const QuestionnaireSettingsDetail = () => {
 
     const menuState = MenuStatus()
     const route = Location()[3]
     const history = useHistory()
+    ScrollToTop()
 
     const questionnaires = useFirestoreID('Questionnaires', route)
 

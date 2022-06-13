@@ -16,6 +16,7 @@ import spinnerRipple from '../../images/spinner-ripple.svg'
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
 import TinyMCE from './TinyMCE'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddChannelItem = () => {
     const [authO] = useContext(Auth)
@@ -34,6 +35,7 @@ const AddChannelItem = () => {
     const id = uuid()
     const history = useHistory()
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const variants = {
         hidden: { opacity: 0 },

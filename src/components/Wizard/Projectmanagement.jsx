@@ -23,11 +23,13 @@ import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Projectmanagement = () => {
    
     const menuState = MenuStatus() 
     const premium = Premium() 
+    ScrollToTop()
     
     const groups = useFirestore('Groups')
 

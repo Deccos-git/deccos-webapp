@@ -29,6 +29,7 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
@@ -42,6 +43,7 @@ const AddActivity = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {

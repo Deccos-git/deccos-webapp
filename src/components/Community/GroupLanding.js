@@ -10,6 +10,7 @@ import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
 import uuid from 'react-uuid';
 import MenuStatus from "../../hooks/MenuStatus";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GroupLanding = () => {
     const [authO] = useContext(Auth)
@@ -25,6 +26,7 @@ const GroupLanding = () => {
     const [communityNameDB, setCommunityNameDB] = useState("")
 
     const route = Location()[3]
+    ScrollToTop()
 
     const groups = useFirestoreID("Groups", route)
     const subscriptions = useFirestoreSubscriptions(authID)

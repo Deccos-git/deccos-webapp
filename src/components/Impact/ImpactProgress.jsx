@@ -53,12 +53,14 @@ import uuid from "react-uuid";
 import sroiIcon from '../../images/icons/sroi-icon.png'
 import researchIcon from '../../images/icons/research-icon.png'
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const questionnaireAnalysis = useFirestore('QuestionnaireAnalysis')
     const allGoals = useFirestore('Goals')

@@ -11,6 +11,7 @@ import { db } from "../../firebase/config"
 import { useHistory } from "react-router-dom"
 import MessageBarGroup from "./MessageBarGroup"
 import deleteIcon from '../../images/icons/delete-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ChatScreen = ({group}) => {
     const [authO] = useContext(Auth)
@@ -23,6 +24,7 @@ const ChatScreen = ({group}) => {
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
     const route = Location()[3]
     const history = useHistory()
+    ScrollToTop()
 
     const messages = useFirestoreMessages("Messages", route)
     const members = useFirestoreSubscriptionsChannelGroup(route)

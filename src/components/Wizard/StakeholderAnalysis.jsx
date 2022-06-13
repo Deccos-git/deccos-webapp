@@ -21,12 +21,14 @@ import plusButton from '../../images/icons/plus-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import personIcon from '../../images/icons/person-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const StakeholderAnalysis = () => {
 
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
+    ScrollToTop()
     
     const stakeholders = useFirestore('Stakeholders')
 

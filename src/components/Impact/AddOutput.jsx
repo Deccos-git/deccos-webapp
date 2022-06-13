@@ -24,12 +24,14 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddOutput = () => {
     const [activityID, setActivityID] = useState(null)
     const [activityTitle, setActivityTitle] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const activities = useFirestore('Activities')
     const outputs = useFirestoreOutputs(activityID && activityID)

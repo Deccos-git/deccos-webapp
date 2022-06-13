@@ -18,6 +18,7 @@ import spinnerRipple from '../../images/spinner-ripple.svg'
 import firebase from 'firebase'
 import { bucket, db } from '../../firebase/config';
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Impactclub = () => {
 
@@ -29,6 +30,7 @@ const Impactclub = () => {
     const history = useHistory()
     const menuState = MenuStatus() 
     const id = uuid()
+    ScrollToTop()
     
     const compagnies = useFirestore('CompagnyMeta')
 

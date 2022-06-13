@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { db, timestamp } from '../../firebase/config';
 import MenuStatus from "../../hooks/MenuStatus";
 import firebase from 'firebase';
-
+import ScrollToTop from "../../hooks/ScrollToTop";
 import Calendar from "../Calender";
 
 const Events = () => {
@@ -24,6 +24,7 @@ const Events = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const detailRouter = (e) => {
 

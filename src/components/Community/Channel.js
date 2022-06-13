@@ -10,6 +10,7 @@ import { useState, useContext, useEffect } from 'react';
 import { auth, db, timestamp } from '../../firebase/config';
 import MenuStatus from "../../hooks/MenuStatus";
 import firebase from 'firebase';
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Channel = () => {
 
@@ -20,6 +21,7 @@ const Channel = () => {
 
 
     const history = useHistory()
+    ScrollToTop()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const variants = {
         hidden: { opacity: 0 },

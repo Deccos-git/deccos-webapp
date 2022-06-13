@@ -20,11 +20,13 @@ import uuid from "react-uuid";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Conditions = () => {
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const goals = useFirestore('Goals') 
     const conditions = useFirestoreConditions(goalID)

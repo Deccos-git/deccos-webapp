@@ -7,12 +7,13 @@ import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Stakeholders = () => {
     const menuState = MenuStatus()
-    const stakeholders = useFirestore('Stakeholders')
+    ScrollToTop()
 
-    console.log(stakeholders)
+    const stakeholders = useFirestore('Stakeholders')
 
     return (
         <div className="main">

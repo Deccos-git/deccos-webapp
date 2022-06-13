@@ -18,12 +18,15 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ImpactActivity = () => {
     const [activityDocid, setActivityDocid] = useState('')
     const [impact, setImpact] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
+    
     const activities = useFirestore('Activities') 
 
     const activityHandler = (e) => {

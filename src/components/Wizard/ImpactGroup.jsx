@@ -5,11 +5,13 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useFirestore } from "../../firebase/useFirestore"
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ImpactGroup = () => {
 
     const menuState = MenuStatus()
     const premium = Premium() 
+    ScrollToTop()
 
     const groups = useFirestore('Groups')
 

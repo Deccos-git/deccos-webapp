@@ -8,12 +8,14 @@ import { NavLink } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Goals = () => {
     const docs  = useFirestoreTimestamp("Goals")
     const menuState = MenuStatus()
     const history = useHistory()
-
+    ScrollToTop()
+    
     return (
         <div className="main">
             <LeftSideBar />

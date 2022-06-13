@@ -5,11 +5,13 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useFirestoreTimestamp } from "../../firebase/useFirestore"
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Agenda = () => {
 
     const menuState = MenuStatus()
     const premium = Premium() 
+    ScrollToTop()
 
     const tasks = useFirestoreTimestamp('Tasks', 'desc')
     

@@ -12,12 +12,14 @@ import { NavLink } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const QuestionnaireSettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
     const premium = Premium() 
+    ScrollToTop()
 
     const questionnaires = useFirestore('Questionnaires')
 

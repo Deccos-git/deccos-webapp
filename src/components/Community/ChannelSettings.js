@@ -12,6 +12,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useState, useEffect, useContext } from "react";
 import ButtonClicked from "../../hooks/ButtonClicked";
 import { Auth } from '../../StateManagment/Auth';
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ChannelSettings = () => {
     const [authO] = useContext(Auth)
@@ -24,6 +25,7 @@ const ChannelSettings = () => {
     const authors = useFirestore('Authors')
 
     const uid = uuid()
+    ScrollToTop()
     const history = useHistory()
     const menuState = MenuStatus()
 

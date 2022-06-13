@@ -9,6 +9,7 @@ import { client } from "../hooks/Client"
 import { db, timestamp } from "../firebase/config"
 import Modal from 'react-modal';
 import sendIcon from '../images/icons/send-icon.png'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Support = () => {
   const [authO] = useContext(Auth)
@@ -18,6 +19,7 @@ const Support = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
     const menuState = MenuStatus()
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {

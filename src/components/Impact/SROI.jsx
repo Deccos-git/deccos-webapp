@@ -20,12 +20,14 @@ import selectedIcon from '../../images/icons/selected-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const SROI = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
     const premium = Premium() 
+    ScrollToTop()
 
     const SROIs = useFirestore('SROIs')
 

@@ -5,6 +5,7 @@ import { auth, db, timestamp } from '../../firebase/config';
 import { client } from '../../hooks/Client';
 import firebase from 'firebase';
 import Location from "../../hooks/Location"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GroupChannel = () => {
 
@@ -13,6 +14,7 @@ const GroupChannel = () => {
     const items = useFirestoreChannelItems("ChannelItems", route)
 
     const history = useHistory()
+    ScrollToTop()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const variants = {
         hidden: { opacity: 0 },

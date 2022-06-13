@@ -11,6 +11,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import firebase from 'firebase';
 import Location from "../../hooks/Location"
 import uuid from 'react-uuid';
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const News = () => {
     const [memberStatus, setMemberStatus] = useState('Abonneren')
@@ -22,6 +23,7 @@ const News = () => {
     const menuState = MenuStatus()
     const route = Location()[3]
     const id = uuid()
+    ScrollToTop()
     
     const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
 

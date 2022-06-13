@@ -13,11 +13,13 @@ import settingsIcon from '../images/icons/settings-icon.png'
 import { useHistory } from "react-router-dom";
 import plusIcon from '../images/icons/plus-icon.png'
 import { Link } from "react-router-dom";
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const ActivitySettings = () => {
 
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const activities = useFirestore('Activities')
 

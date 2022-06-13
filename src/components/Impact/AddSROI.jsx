@@ -26,6 +26,7 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import sroiIcon from '../../images/icons/sroi-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddSROI = () => {
     const [outputID, setOutputID] = useState('')
@@ -36,6 +37,7 @@ const AddSROI = () => {
     const menuState = MenuStatus()
     const history = useHistory()
     const premium = Premium() 
+    ScrollToTop()
 
     const outputs = useFirestore('Outputs')
     const SROIs = useFirestoreSROIs(outputID && outputID)

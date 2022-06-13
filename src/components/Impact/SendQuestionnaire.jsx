@@ -19,6 +19,7 @@ import listIcon from '../../images/icons/list-icon.png'
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const SendQuestionnaire = () => {
     const route = Location()[3]
@@ -30,6 +31,7 @@ const SendQuestionnaire = () => {
 
     const menuState = MenuStatus()
     const editorRef = useRef(null);
+    ScrollToTop()
 
     const admins = useFirestore("Admins")
     const stakeholders = useFirestoreStakeholders(categorie)

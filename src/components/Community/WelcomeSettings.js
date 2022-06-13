@@ -10,9 +10,11 @@ import { bucket } from '../../firebase/config';
 import { useFirestore } from "../../firebase/useFirestore";
 import { client } from "../../hooks/Client";
 import MenuStatus from "../../hooks/MenuStatus";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const WelcomeSettings = () => {
     const menuState = MenuStatus()
+    ScrollToTop()
 
     useEffect(() => {
         db.collection("CompagnyMeta")

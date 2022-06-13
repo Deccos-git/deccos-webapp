@@ -8,6 +8,7 @@ import { useState, useContext, useEffect } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { Auth } from '../StateManagment/Auth';
 import deleteIcon from '../images/icons/delete-icon.png'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Members = () => {
     const [authO] = useContext(Auth)
@@ -21,6 +22,7 @@ const Members = () => {
 
     const history = useHistory()
     const menuState = MenuStatus()
+    ScrollToTop()
     
     const updateRoute = (e) => {
 

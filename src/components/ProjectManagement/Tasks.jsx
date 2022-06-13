@@ -16,6 +16,7 @@ import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Tasks = () => {
     const [authO] = useContext(Auth)
@@ -29,6 +30,7 @@ const Tasks = () => {
     const menuState = MenuStatus()
     const history = useHistory();
     const premium = Premium()
+    ScrollToTop()
 
     const tasks = useFirestore("Tasks")
     const activities = useFirestore('Activities')

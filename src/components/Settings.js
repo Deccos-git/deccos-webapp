@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import "../CSS/toggleSwitch.css";
 import ButtonClicked from "../hooks/ButtonClicked";
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Settings = () => {
     const [docid, setDocid] = useState('')
@@ -15,6 +16,7 @@ const Settings = () => {
     const compagny = useFirestore("CompagnyMeta")
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     useEffect(() => {
         compagny && compagny.forEach(comp => {

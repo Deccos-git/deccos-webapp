@@ -17,11 +17,13 @@ import activityIcon from '../../images/icons/activity-icon.png'
 import penIcon from '../../images/icons/pen-icon.png'
 import { NavLink } from "react-router-dom";
 import NoContentNotice from "../../hooks/NoContentNotice";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const OutputSettings = () => {
     const [outputID, setOutputID] = useState('')
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const outputs = useFirestore('Outputs')
     const milestones = useFirestoreMilestones(outputID) 

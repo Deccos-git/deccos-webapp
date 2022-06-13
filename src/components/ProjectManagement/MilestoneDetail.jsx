@@ -16,6 +16,7 @@ import uuid from 'react-uuid';
 import { db, timestamp } from "../../firebase/config.js"
 import { useState, useEffect, useContext  } from 'react'
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const MilestoneDetail = () => {
     const [authO] = useContext(Auth)
@@ -30,6 +31,7 @@ const MilestoneDetail = () => {
     const route = Location()[3]
     const options = { day: 'numeric', month: 'numeric', year: 'numeric'};
     const history = useHistory();
+    ScrollToTop()
 
     const milestones = useFirestoreID('Milestones', route)
     const reactions = useFirestoreMessages("Messages", route )

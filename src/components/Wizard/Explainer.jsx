@@ -10,10 +10,12 @@ import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.
 import { client } from '../../hooks/Client';
 import { NavLink } from "react-router-dom";
 import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Explainer = () => {
 
     const menuState = MenuStatus() 
+    ScrollToTop()
 
   return (
     <div className="main">

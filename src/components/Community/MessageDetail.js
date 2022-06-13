@@ -17,6 +17,7 @@ import { useState, useContext, useEffect } from "react"
 import { Auth } from '../../StateManagment/Auth';
 import uuid from 'react-uuid';
 import firebase from "firebase"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const MessageDetail = () => {
     const [authO] = useContext(Auth)
@@ -35,6 +36,7 @@ const MessageDetail = () => {
     const history = useHistory()
     const menuState = MenuStatus()
     const id = uuid()
+    ScrollToTop()
 
     useEffect(() => {
         impacteers && impacteers.forEach(impacteer => {

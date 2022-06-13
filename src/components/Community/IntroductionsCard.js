@@ -5,6 +5,7 @@ import ReactionBar from './ReactionBar'
 import { useFirestoreMessages } from '../../firebase/useFirestore';
 import { db } from '../../firebase/config';
 import { useState, useEffect } from 'react';
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const IntroductionsCard = () => {
 

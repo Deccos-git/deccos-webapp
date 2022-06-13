@@ -10,6 +10,7 @@ import { Auth } from '../StateManagment/Auth';
 import firebase from "firebase";
 import { client } from "../hooks/Client";
 import uuid from 'react-uuid';
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const AboutMe = () => {
     const [authO] = useContext(Auth)
@@ -22,6 +23,7 @@ const AboutMe = () => {
     const introductions = useFirestoreIntroductions("Introductions", route)
     const aboutMe = useFirestoreAboutMe(route)
     const id = uuid()
+    ScrollToTop()
 
     const saveField = (e) => {
         const value = e.target.parentElement.previousSibling.firstElementChild.firstElementChild.nextElementSibling.value

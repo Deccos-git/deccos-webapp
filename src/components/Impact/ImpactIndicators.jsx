@@ -5,6 +5,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { db } from "../../firebase/config.js"
 import { useState, useEffect } from "react";
 import {useFirestore} from "../../firebase/useFirestore"
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ImpactIndicators = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -14,6 +15,7 @@ const ImpactIndicators = () => {
     const [docid, setDocid] = useState('')
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const impact= useFirestore("Impact")
 

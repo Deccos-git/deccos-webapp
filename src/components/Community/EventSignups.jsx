@@ -6,6 +6,7 @@ import { useFirestoreID} from "../../firebase/useFirestore";
 import Location from "../../hooks/Location"
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const EventSignups = () => {
 
@@ -16,6 +17,7 @@ const EventSignups = () => {
 
     const signups = useFirestoreID('EventSignups', route)
     const events = useFirestoreID('Events', route)
+    ScrollToTop()
 
     const userLink = (e) => {
 

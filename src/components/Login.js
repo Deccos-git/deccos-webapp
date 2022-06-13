@@ -4,6 +4,7 @@ import { auth, db } from '../firebase/config';
 import { useHistory } from "react-router-dom";
 import Modal from 'react-modal';
 import ButtonClicked from '../hooks/ButtonClicked'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Login = () => {
 
@@ -15,6 +16,7 @@ const Login = () => {
     const [succesReset, setSuccesReset] = useState('')
 
     const history = useHistory();
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {

@@ -7,6 +7,7 @@ import Location from "../../hooks/Location"
 import Reaction from "./Reaction"
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router-dom";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const ArticleDetail = () => {
     const route = Location()[3]
@@ -16,6 +17,7 @@ const ArticleDetail = () => {
 
     const history = useHistory();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    ScrollToTop()
 
     const profileLink = (e) => {
         const id = e.target.dataset.id

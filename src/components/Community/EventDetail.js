@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom"
 import { client } from "../../hooks/Client"
 import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
-
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const EventDetail = () => {
     const [authO] = useContext(Auth)
@@ -30,6 +30,7 @@ const EventDetail = () => {
     const route = Location()[3]
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const events = useFirestoreID("Events", route)
     const messages  = useFirestoreMessages("Messages", route)

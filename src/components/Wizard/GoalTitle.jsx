@@ -29,18 +29,19 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import goalIcon from '../../images/icons/goal-icon.png'
-
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const GoalTitle = () => {
     const [authO] = useContext(Auth)
 
     const [title, setTitle] = useState("")
-    const [banner, setBanner] = useState("")
+    const [banner, setBanner] = useState("https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/ImpactHeaderDefault.png?alt=media&token=5d11c139-431d-4c66-84d1-23878e3ad460")
     const [loader, setLoader] = useState("")
     const [headerPhoto, setHeaderPhoto] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
 
     const goals = useFirestore('Goals')
+    ScrollToTop()
     Modal.setAppElement('#root');
 
     const modalStyles = {

@@ -12,10 +12,12 @@ import completeIcon from '../../images/icons/complete-icon.png'
 import eventIcon from '../../images/icons/event-icon.png'
 import tasklistIcon from '../../images/icons/task-list-icon.png'
 import festiveIcon from '../../images/icons/festive-icon.png'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const Milestones = () => {
     const menuState = MenuStatus()
     const history = useHistory();
+    ScrollToTop()
 
     const milestones = useFirestore("Milestones")  
     

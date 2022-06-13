@@ -18,6 +18,7 @@ import feetIcon from '../../images/icons/feet-icon.png'
 import ButtonClicked from "../../hooks/ButtonClicked";
 import { NavLink, Link } from "react-router-dom";
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddMilestone = () => {
   const [authO] = useContext(Auth)
@@ -37,6 +38,7 @@ const AddMilestone = () => {
 
   const menuState = MenuStatus()
   const history = useHistory()
+  ScrollToTop()
 
   const instruments = useFirestore('ImpactInstruments')
   const banners = useFirestore('Banners')

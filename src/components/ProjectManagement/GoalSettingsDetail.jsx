@@ -12,6 +12,7 @@ import { bucket } from "../../firebase/config";
 import firebase from "firebase";
 import MenuStatus from "../../hooks/MenuStatus";
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 
 const GoalSettingsDetail = () => {
@@ -29,6 +30,7 @@ const GoalSettingsDetail = () => {
     const route = Location()[3]
     const menuState = MenuStatus()
     const history = useHistory()
+    ScrollToTop()
 
     const goals = useFirestoreID("Goals", route)
     const sdgs = useFirestoreSDGs('SDGs')

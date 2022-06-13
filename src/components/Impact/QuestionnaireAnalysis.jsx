@@ -10,6 +10,7 @@ import { useFirestoreID, useFirestoreQuestionnairesResponses, useFirestoreQuesti
 import { useState, useEffect } from 'react';
 import Location from "../../hooks/Location"
 import ButtonClicked from "../../hooks/ButtonClicked";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const QuestionnaireAnalysis = () => {
     const [questionnaireTitle, setQuestionnaireTitle] = useState('')
@@ -19,6 +20,7 @@ const QuestionnaireAnalysis = () => {
     const id = uuid()
     const route = Location()[3]
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    ScrollToTop()
 
     const questionnaires = useFirestoreID('Questionnaires', route)
     const responses = useFirestoreQuestionnairesResponses(route)

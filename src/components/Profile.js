@@ -10,6 +10,7 @@ import { Auth } from '../StateManagment/Auth';
 import MenuStatus from "../hooks/MenuStatus";
 import externalLinkIcon from '../images/icons/external-link-icon.png'
 import ButtonClicked from '../hooks/ButtonClicked'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Profile = () => {
 
@@ -21,6 +22,7 @@ const Profile = () => {
     const docs = useFirestore("CompagnyMeta")
     const history = useHistory()
     const menuState = MenuStatus()
+    ScrollToTop()
 
     useEffect(() => {
       const compagnies = authO.Compagny 

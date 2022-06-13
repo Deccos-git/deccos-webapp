@@ -11,6 +11,7 @@ import uuid from 'react-uuid';
 import { Auth } from '../../StateManagment/Auth';
 import Location from "../../hooks/Location"
 import { useFirestoreID, useFirestoreQuestionnaires, useFirestoreProjects } from "../../firebase/useFirestore";
+import ScrollToTop from "../../hooks/ScrollToTop";
 
 const AddInstrument = () => {
     const [authO] = useContext(Auth)
@@ -27,6 +28,7 @@ const AddInstrument = () => {
 
     const menuState = MenuStatus()
     const route = Location()[3]
+    ScrollToTop()
 
     const outputs = useFirestoreID('Outputs', route ? route : '')
     const questionnaires = useFirestoreQuestionnaires('Questionnaires')

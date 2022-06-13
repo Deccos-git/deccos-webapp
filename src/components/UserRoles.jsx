@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import MenuStatus from "../hooks/MenuStatus";
 import { client } from '../hooks/Client';
 import deleteIcon from '../images/icons/delete-icon.png'
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const UserRoles = () => {
     const [adminID, setAdminID] = useState("")
@@ -19,6 +20,7 @@ const UserRoles = () => {
     const admins = useFirestore('Admins')
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const deleteAdmin = (e) => {
 
