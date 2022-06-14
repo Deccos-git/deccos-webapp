@@ -13,14 +13,11 @@ import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
 import { SavedIcon } from '../../StateManagment/SavedIcon'
-import Colors from "../../hooks/Colors";
 
 const Iconbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
-    // const [saved, setSaved] = useContext(SavedIcon)
+    const [saved, setSaved] = useContext(SavedIcon)
     const [authO] = useContext(Auth)
-
-    const colors = Colors()
 
     const changeMenuStatus = () => {
         setMenu("none")
@@ -107,19 +104,19 @@ const Iconbar = () => {
                 </Link>
             </div>
             <div className="icon-container">
-                <Link to={`/${client}/Support`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                <Link to={`/${client}/Support`} onClick={changeMenuStatus}>
                     <img src={questionIcon} alt="question icon" />
                 </Link>
             </div>
             <div className="icon-container">
-                <Link to={`/${client}/Search`} style={{fill: colors.IconbarColor}} onClick={changeMenuStatus}>
+                <Link to={`/${client}/Search`} onClick={changeMenuStatus}>
                    <img src={searchIcon} alt="search icon" />
                 </Link>
             </div>
-            {/* <div className="icon-container saved-container">
+            <div className="icon-container saved-container" style={{display: saved}}>
                 <img src={savedIcon} alt="saved icon" />
                 <p>Opgeslagen</p>
-            </div> */}
+            </div>
         </div>
     )
 }

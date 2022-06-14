@@ -51,7 +51,7 @@ const Introduction = () => {
                         </p>
                         <p>
                             Je hoeft het niet in een keer 100% goed te doen,
-                            maar het is goed om er gewoon mee te beginnen. De Deccos Impact Wizard helpt je daarmee.
+                            maar het is goed om er gewoon mee te beginnen. De Deccos Impact Guide helpt je daarmee.
                         </p>
                             
                         <p>Ben je het overzicht kwijt of wil je weer een volgende stap zetten? Klik op het &nbsp;

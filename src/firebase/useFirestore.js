@@ -1530,6 +1530,29 @@ const useFirestoreStakeholders = (categorie) => {
     return docs
 };
 
+const useFirestoreProblemAnalyses = (channel, id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection(channel)
+        .where('CompagnyID', '==', client)
+        .where('CentralProblemID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [channel, id])  
+
+    return docs
+};
+
 
 
 export { 
@@ -1598,5 +1621,6 @@ export {
     useFirestoreSROISets,
     useFirestoreMeasureMoments,
     useFirestoreResearch,
-    useFirestoreStakeholders
+    useFirestoreStakeholders,
+    useFirestoreProblemAnalyses
 }

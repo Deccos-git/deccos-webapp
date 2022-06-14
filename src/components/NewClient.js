@@ -250,7 +250,6 @@ const createUser = () => {
                 
                 Vriendelijke groet, </br></br>
                 Het Deccos team </br></br>
-                <img src="${deccosLogo}" width="100px">
                 `,
             Gebruikersnaam: `${forname} ${surname}`,
             Emailadres: email,

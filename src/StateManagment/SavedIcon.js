@@ -5,6 +5,10 @@ export const SavedIcon = createContext()
 export const SavedProvider = (props) => {
     const [saved, setSaved] = useState("none")
 
+    setTimeout(() => {
+        setSaved('none')
+    },4000)
+
     return(
         <SavedIcon.Provider value={[saved, setSaved]}>
             {props.children}

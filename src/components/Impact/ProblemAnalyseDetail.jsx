@@ -1,4 +1,4 @@
-import {useFirestore} from "../../firebase/useFirestore"
+import {useFirestore, useFirestoreProblemAnalyses} from "../../firebase/useFirestore"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
@@ -9,13 +9,27 @@ import { client } from '../../hooks/Client';
 import { useHistory } from "react-router-dom";
 import NoContentNotice from "../../hooks/NoContentNotice";
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { useState, useEffect } from "react";
 
 const ProblemAnalyseDetail = () => {
+    const [centralProblemID, setCentralProblemID] = useState('')
 
-    const problemAnalysis  = useFirestore("ProblemAnalysis")
     const menuState = MenuStatus()
     const history = useHistory()
     ScrollToTop()
+
+    const centralProblem = useFirestore('CentralProblem')
+    const directCauses = useFirestoreProblemAnalyses('DirectCauses', centralProblemID && centralProblemID)
+    const indirectCauses = useFirestoreProblemAnalyses('IndirectCauses', centralProblemID && centralProblemID)
+    const indirectConsequences = useFirestoreProblemAnalyses('IndirectConsequences', centralProblemID && centralProblemID)
+    const directConsequences = useFirestoreProblemAnalyses('DirectConsequences', centralProblemID && centralProblemID)
+
+    useEffect(() => {
+      centralProblem && centralProblem.forEach(problem => {
+          setCentralProblemID(problem.ID)
+      })
+    }, [centralProblem])
+    
 
   return (
     <div className="main">
@@ -31,7 +45,7 @@ const ProblemAnalyseDetail = () => {
             </div>
         </div>
         <div className="card-container">
-            {problemAnalysis && problemAnalysis.map(problem => (
+
             <div id='problem-analysis-container'>
                 <div className='problem-analysis-card'>
                     <div className='problem-analysis-card-title-container'>
@@ -39,10 +53,10 @@ const ProblemAnalyseDetail = () => {
                     </div>
                     <div>
                         <ol>
-                            {problem.IndirectCauses && problem.IndirectCauses.map(indirectcause => (
+                            {indirectCauses && indirectCauses.map(indirectcause => (
                             <li>
                                 <div className='problem-list-inner-container'>
-                                    {indirectcause}
+                                    {indirectcause.IndirectCause}
                                 </div>
                             </li>
                             ))}
@@ -60,10 +74,10 @@ const ProblemAnalyseDetail = () => {
                     </div>
                     <div>
                         <ol>
-                            {problem.DirectCauses && problem.DirectCauses.map(directcause => (
+                            {directCauses && directCauses.map(directcause => (
                                 <li>
                                     <div className='problem-list-inner-container'>
-                                        {directcause}
+                                        {directcause.DirectCause}
                                     </div>
                                 </li>
                             ))}
@@ -77,7 +91,7 @@ const ProblemAnalyseDetail = () => {
 
                 <div className='problem-analysis-card central-problem-card'>
                     <h2 id='central-problem'>Centrale probleem</h2>
-                    <p>{problem.CentralProblem}</p>
+                    <p>{centralProblem}</p>
                 </div>
 
                 <div className='problemanalysis-arrow-container'>
@@ -90,7 +104,7 @@ const ProblemAnalyseDetail = () => {
                     </div>
                     <div>
                         <ol>
-                            {problem.DirectConsequences && problem.DirectConsequences.map(directconsequence => (
+                            {directConsequences && directConsequences.map(directconsequence => (
                                 <li>
                                     <div className='problem-list-inner-container'>
                                         {directconsequence}
@@ -111,7 +125,7 @@ const ProblemAnalyseDetail = () => {
                     </div>
                     <div>
                         <ol>
-                            {problem.IndirectConsequences && problem.IndirectConsequences.map(indirectconsequence => (
+                            {indirectConsequences && indirectConsequences.map(indirectconsequence => (
                                 <li>
                                     <div className='problem-list-inner-container'>
                                         {indirectconsequence}
@@ -123,10 +137,8 @@ const ProblemAnalyseDetail = () => {
                 </div>
 
             </div>  
-            ))
-            }
         </div>
-        {NoContentNotice(problemAnalysis, 'ProblemAnalysis')}
+        {NoContentNotice(centralProblem, 'ProblemAnalysis')}
     </div>
 </div>
   )

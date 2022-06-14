@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import {AuthProvider} from './StateManagment/Auth';
 import { MenuProvider } from './StateManagment/MobileMenu';
 import { ColorProvider } from './StateManagment/Colors';
+import { SavedProvider } from './StateManagment/SavedIcon';
 import NotApproved from './components/NotApproved'
 import { client } from './hooks/Client';
 import MultipleAccounts from './components/MultipleAccounts';
@@ -32,14 +33,14 @@ function App() {
       <Router>
         <AuthProvider>
           <MenuProvider>
-            <ColorProvider>
+            <SavedProvider>
               <>
                 <Topbar />
                 <Main/>
                 <BottomBar/>
                 <Footer/>
               </>
-            </ColorProvider>
+            </SavedProvider>
           </MenuProvider>
         </AuthProvider>
       </Router>

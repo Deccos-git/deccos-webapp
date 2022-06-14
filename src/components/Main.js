@@ -86,6 +86,7 @@ import ImpactGroup from './Wizard/ImpactGroup';
 import Planning from './Wizard/Planning';
 import ResearchSettings from './Wizard/ResearchSettings';
 import NewClient from './NewClient';
+import { Test } from './Test';
 
 const Main = () => {
 
@@ -94,6 +95,9 @@ const Main = () => {
             <Switch>
                 <Route exact path={`/`}>
                     <Login/>
+                </Route>
+                <Route path={`/${client}/Test`}>
+                    <Test/>
                 </Route>
                 <Route path={`/NewClient`}>
                     <NewClient/>

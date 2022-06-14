@@ -15,6 +15,9 @@
     margin-left: 10px;
 }
 
+.saved-container p{
+    color: #47acc3;
+}
 #impact-questionnaire-icon-container{
     margin-left: auto;
     margin-right: 10px;
@@ -675,7 +678,7 @@
 
 .problem-list-inner-container{
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .problem-list-inner-container img{
