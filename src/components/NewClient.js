@@ -147,6 +147,8 @@ const createUser = () => {
 
     // Don't forget to change the firestore rules if you change anything in createClient
 
+    const centralProblemID = uuid()
+
     const createClient = async () => {
  
         await db.collection("CompagnyMeta")
@@ -189,6 +191,55 @@ const createUser = () => {
             MemberList: firebase.firestore.FieldValue.arrayUnion(id),
             Room: 'Impact HQ',
             CompagnyID: id,
+        })
+
+        await db.collection('CentralProblem')
+        .doc()
+        .set({
+            ID: centralProblemID,
+            CentralProblem: '',
+            CompagnyID: id,
+            Timestamp: timestamp
+        })
+
+        await db.collection('DirectCauses')
+        .doc()
+        .set({
+            CentralProblemID: centralProblemID,
+            CompagnyID: id,
+            Timestamp: timestamp,
+            DirectCause: '',
+            ID: uuid()
+        })
+
+         await db.collection('IndirectCauses')
+        .doc()
+        .set({
+            CentralProblemID: centralProblemID,
+            CompagnyID: id,
+            Timestamp: timestamp,
+            IndirectCause: '',
+            ID: uuid()
+        })
+
+        await db.collection('DirectConsequences')
+        .doc()
+        .set({
+            CentralProblemID: centralProblemID,
+            CompagnyID: id,
+            Timestamp: timestamp,
+            DirectConsequence: '',
+            ID: uuid()
+        })
+
+        await db.collection('IndirectConsequences')
+        .doc()
+        .set({
+            CentralProblemID: centralProblemID,
+            CompagnyID: id,
+            Timestamp: timestamp,
+            IndirectConsequence: '',
+            ID: uuid()
         })
         
         sendEmail()

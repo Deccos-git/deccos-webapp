@@ -18,9 +18,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
-
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const ImpactTargetgroup = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalDocid, setGoalDocid] = useState('')
     const [targetgroup, setTargetgroup] = useState(null)
     const [impact, setImpact] = useState('')
@@ -46,19 +48,14 @@ const ImpactTargetgroup = () => {
 
         const impact = e.target.value 
 
-        setImpact(impact)
-
-    }
-
-    const saveImpactTargetgroup = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
         db.collection('Goals')
         .doc(goalDocid)
         .update({
             ImpactTargetgroup: impact
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -74,7 +71,6 @@ const ImpactTargetgroup = () => {
         }
     }
 
-    console.log(impact)
 
   return (
     <div className="main">
@@ -128,9 +124,6 @@ const ImpactTargetgroup = () => {
                     <p>Doelgroep: {displayTargetgroup()}</p>
                     <p><b>2. Formuleer de impact op de doelgroep</b></p>
                     <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
-                    <div className='button-container-align-left'>
-                        <button className='button-simple' onClick={saveImpactTargetgroup}>Opslaan</button>
-                    </div>
                 </div>
             </div>
             <div>

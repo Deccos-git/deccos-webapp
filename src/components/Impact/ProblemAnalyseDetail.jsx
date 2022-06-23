@@ -3,7 +3,7 @@ import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
 import arrowDownIcon from '../../images/icons/arrow-down-icon.png'
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
 import { useHistory } from "react-router-dom";
@@ -91,7 +91,9 @@ const ProblemAnalyseDetail = () => {
 
                 <div className='problem-analysis-card central-problem-card'>
                     <h2 id='central-problem'>Centrale probleem</h2>
-                    <p>{centralProblem}</p>
+                    {centralProblem && centralProblem.map(problem => (
+                        <p>{problem.CentralProblem}</p>
+                    ))}
                 </div>
 
                 <div className='problemanalysis-arrow-container'>
@@ -107,7 +109,7 @@ const ProblemAnalyseDetail = () => {
                             {directConsequences && directConsequences.map(directconsequence => (
                                 <li>
                                     <div className='problem-list-inner-container'>
-                                        {directconsequence}
+                                        {directconsequence.DirectConsequence}
                                     </div>
                                 </li>
                             ))}
@@ -128,7 +130,7 @@ const ProblemAnalyseDetail = () => {
                             {indirectConsequences && indirectConsequences.map(indirectconsequence => (
                                 <li>
                                     <div className='problem-list-inner-container'>
-                                        {indirectconsequence}
+                                        {indirectconsequence.IndirectConsequence}
                                     </div>
                                 </li>
                             ))}

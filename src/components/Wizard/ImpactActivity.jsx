@@ -19,8 +19,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const ImpactActivity = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [activityDocid, setActivityDocid] = useState('')
     const [impact, setImpact] = useState('')
 
@@ -48,6 +51,9 @@ const ImpactActivity = () => {
         .update({
             Impact: impact
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

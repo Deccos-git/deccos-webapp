@@ -22,8 +22,10 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import personIcon from '../../images/icons/person-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const StakeholderAnalysis = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
 
     const history = useHistory()
     const menuState = MenuStatus() 
@@ -41,6 +43,9 @@ const StakeholderAnalysis = () => {
         .update({
             Categorie: categorie
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const activityHandler = (e) => {
@@ -86,6 +91,9 @@ const StakeholderAnalysis = () => {
         .update({
             Organisation: organisation
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const nameHandler = (e) => {
@@ -98,6 +106,9 @@ const StakeholderAnalysis = () => {
         .update({
             Name: name
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const emailHandler = (e) => {
@@ -110,6 +121,9 @@ const StakeholderAnalysis = () => {
         .update({
             Email: email
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
 

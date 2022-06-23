@@ -27,8 +27,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const MeasureOutput = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [activityID, setActivityID] = useState('')
@@ -135,16 +138,32 @@ const MeasureOutput = () => {
     const titleHandler = (e) => {
 
         const title = e.target.value 
+        const docid = e.target.dataset.docid
         
-        setTitle(title)
+         db.collection('Milestones')
+        .doc(docid)
+        .update({
+            Title: title
+        })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
     const numberHandler = (e) => {
 
         const number = e.target.value 
+        const docid = e.target.dataset.docid
         
-        setNumber(number)
+        db.collection('Milestones')
+       .doc(docid)
+       .update({
+           Number: number
+       })
+       .then(() => {
+           setSaved('flex')
+        })
 
     }
 
@@ -152,7 +171,16 @@ const MeasureOutput = () => {
 
         const deadline = e.target.value 
         
-        setDeadline(deadline)
+        const docid = e.target.dataset.docid
+        
+        db.collection('Milestones')
+       .doc(docid)
+       .update({
+           Deadline: deadline
+       })
+       .then(() => {
+           setSaved('flex')
+        })
 
     }
 

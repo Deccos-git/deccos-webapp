@@ -14,7 +14,7 @@ import growIcon from '../../images/icons/grow-icon.png'
 import researchIcon from '../../images/icons/research-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
 import NoContentNotice from "../../hooks/NoContentNotice";
 import ScrollToTop from "../../hooks/ScrollToTop";

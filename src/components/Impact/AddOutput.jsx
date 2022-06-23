@@ -25,8 +25,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const AddOutput = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [activityID, setActivityID] = useState(null)
     const [activityTitle, setActivityTitle] = useState('')
 
@@ -53,6 +56,9 @@ const AddOutput = () => {
         .update({
             Title: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const singularHandler = (e) => {
@@ -64,10 +70,12 @@ const AddOutput = () => {
         .update({
             Singular: singular
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const addOutput = (e) => {
-    
 
         db.collection('Outputs')
         .doc()

@@ -8,7 +8,7 @@ import plusIcon from '../../images/icons/plus-icon.png'
 import groupIcon from '../../images/icons/group-icon.png'
 import { useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react'
 import ScrollToTop from "../../hooks/ScrollToTop";

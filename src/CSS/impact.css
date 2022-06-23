@@ -311,6 +311,15 @@
     margin-left: 20px;
 }
 
+.measure-moment-sub-container h5{
+    margin-left: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #616161;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
 .task-detail-card{
     width: 80% !important;
 }
@@ -415,9 +424,26 @@
 }
 
 .edit-icon-header-container img{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.activity-detail-banner{
+    width: 100%;
+}
+
+.back-container{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.back-container img{
     width: 20px;
     height: 20px;
-    cursor: pointer;
+    margin-right: 10px;
 }
 
 .problem-analysis-card li{
@@ -433,8 +459,12 @@
 .list-top-row-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
+}
+
+.list-top-row-container p{
+    margin-left: 10px;
+    margin-top: 5px;
+    cursor: pointer;
 }
 
 #new-client-logo-container img{
@@ -497,10 +527,6 @@
 
 .button-container-impactclub{
     margin-top: 30px;
-}
-
-.list-top-row-container p{
-    font-weight: bold;
 }
 
 .output-card-container{

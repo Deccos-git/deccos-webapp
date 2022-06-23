@@ -25,8 +25,10 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import listIcon from '../../images/icons/list-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const Questionnaires = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
 
     const [name, setName] = useState('')
 
@@ -81,6 +83,9 @@ const Questionnaires = () => {
         .update({
             Title: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -144,12 +149,14 @@ const Questionnaires = () => {
                                 </div>
                                 <div className='table-container'>
                                     <table>
-                                        <tr>
-                                            <th>TITEL</th>
-                                            <th>VRAGEN</th>
-                                            <th>AANPASSEN</th>
-                                            <th>VERWIJDER</th>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th>TITEL</th>
+                                                <th>VRAGEN</th>
+                                                <th>AANPASSEN</th>
+                                                <th>VERWIJDER</th>
+                                            </tr>
+                                        </thead>
                                         {questionnaires && questionnaires.map(questionnaire => (
                                             <tr key={questionnaires.ID}>
                                                 <td>

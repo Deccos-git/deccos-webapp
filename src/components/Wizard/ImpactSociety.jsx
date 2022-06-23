@@ -18,8 +18,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const ImpactSociety = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalDocid, setGoalDocid] = useState('')
     const [impact, setImpact] = useState('')
 
@@ -42,19 +45,14 @@ const ImpactSociety = () => {
 
         const impact = e.target.value 
 
-        setImpact(impact)
-
-    }
-
-    const saveImpactSociety = (e) => {
-
-        ButtonClicked(e, 'Opgeslagen')
-
         db.collection('Goals')
         .doc(goalDocid)
         .update({
             ImpactSociety: impact
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -112,9 +110,6 @@ const ImpactSociety = () => {
                     </select>
                     <p><b>2. Formuleer de impact op de maatschappij</b></p>
                     <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
-                    <div className='button-container-align-left'>
-                        <button className='button-simple' onClick={saveImpactSociety}>Opslaan</button>
-                    </div>
                 </div>
             </div>
             <div>

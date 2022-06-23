@@ -18,8 +18,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const Targetgroup = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalDocid, setGoalDocid] = useState('')
     const [title, setTitle] = useState('')
 
@@ -47,6 +50,9 @@ const Targetgroup = () => {
         .update({
             Targetgroup: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

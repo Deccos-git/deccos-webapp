@@ -1,10 +1,12 @@
-.top-bar{
+#top-bar-container{
   height: 60px;
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
-  padding-top: 5px;
+}
+
+.top-bar{
   background-color: white;
   display: flex;
   align-items: center;
@@ -80,4 +82,17 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+#saved-bar{
+  display: flex;
+  background-color: green;
+  justify-content: center;
+  align-items: center;
+}
+
+#saved-bar p{
+  color: white;
+  margin: 0px;
+  font-size: 12px;
 }

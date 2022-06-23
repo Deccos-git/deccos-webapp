@@ -1,7 +1,7 @@
 import LeftSideBarAuthProfile from "./LeftSideBarAuthProfile";
 import LeftSideBarAuthProfileFullScreen from "./LeftSideBarAuthProfileFullScreen";
 import { db, bucket, auth } from "../firebase/config.js"
-import {useFirestore } from "../firebase/useFirestore"
+import {useFirestore, useFirestoreCompagny } from "../firebase/useFirestore"
 import firebase from 'firebase'
 import { useHistory } from "react-router";
 import { client } from '../hooks/Client';
@@ -142,6 +142,22 @@ const Profile = () => {
         window.location.reload()
     }
 
+    const UserCompagnies = ({comp}) => {
+
+        const compagnyNames = useFirestoreCompagny(comp)
+
+        return(
+            <>
+                {compagnyNames && compagnyNames.map(name => (
+                    <div className='user-compagnies-container' key={name.ID}>
+                        <p id='user-compagny' data-compagny={name.CompagnyID} onClick={linkUserCompagny} >{name.CommunityName}</p>
+                        <img src={externalLinkIcon} alt="" data-compagny={name.CompagnyID} onClick={linkUserCompagny} />
+                    </div>
+                ))}
+            </>
+        )
+    }
+
     return (
         <div className="main">
             <LeftSideBarAuthProfile />
@@ -181,10 +197,7 @@ const Profile = () => {
                                     <h2>Mijn organisaties</h2>
                                     <div>
                                         {userCompagnies && userCompagnies.map(compagny => (
-                                            <div className='user-compagnies-container'>
-                                                <p id='user-compagny' data-compagny={compagny} onClick={linkUserCompagny} >{compagny}</p>
-                                                <img src={externalLinkIcon} alt="" data-compagny={compagny} onClick={linkUserCompagny} />
-                                            </div>
+                                            <UserCompagnies comp={compagny}/>
                                         ))}
                                     </div>
                                 </>

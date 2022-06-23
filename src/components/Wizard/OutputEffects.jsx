@@ -24,8 +24,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const OutputEffects = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [outputID, setOutputID] = useState(null)
     const [outputTitle, setOutputTitle] = useState('')
 
@@ -52,6 +55,9 @@ const OutputEffects = () => {
         .update({
             Effect: effect
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const addEffect = (e) => {

@@ -3,7 +3,7 @@ import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
 import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestore } from "../../firebase/useFirestore"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { db, timestamp } from "../../firebase/config";
 import { client } from "../../hooks/Client";
 import uuid from 'react-uuid';
@@ -17,8 +17,11 @@ import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.
 import { NavLink, Link } from "react-router-dom";
 import deleteIcon from '../../images/icons/delete-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const AddQuestionnaire = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [color, setColor] = useState('')
     const [title, setTitle ] = useState('')
     const [docid, setDocid ] = useState('')
@@ -66,6 +69,9 @@ const AddQuestionnaire = () => {
         .update({
             Title: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const typeHandler = (e) => {
@@ -151,7 +157,6 @@ const AddQuestionnaire = () => {
 
     const QuestionnaireField = ({field}) => {
 
-        const [question, setQuestion] = useState(null)
         const [range, setRange] = useState(null)
 
         const deleteField = (e) => {
@@ -161,12 +166,6 @@ const AddQuestionnaire = () => {
             .doc(docid)
             .delete()
         }
-
-        useEffect(() => {
-
-            setQuestion(field.Question)
-    
-        }, [field])
 
         const start = field.ReachStart
         const end = field.ReachEnd
@@ -184,12 +183,25 @@ const AddQuestionnaire = () => {
         }
 
         }, [field])
-        
+
+        const questionTitleHandler = (e) => {
+            const title = e.target.value 
+            const docid = e.target.dataset.docid 
+    
+            db.collection('QuestionnaireFields')
+            .doc(docid)
+            .update({
+                Question: title
+            })
+            .then(() => {
+                setSaved('flex')
+             })
+        }
 
         if(field.Type === 'paragraph'){
             return(
                 <div className='question-type-display-container'>
-                    <input type='text' value={question} />
+                    <input type='text' data-docid={field.docid} defaultValue={field.Question} onChange={questionTitleHandler} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
                     <div className='questionnaire-field-delete-icon-container'>
                         <img className='questionnaire-field-delete-icon' src={deleteIcon} alt="" />
@@ -199,7 +211,7 @@ const AddQuestionnaire = () => {
         } else if(field.Type === 'scale'){
             return(
                 <div className='question-type-display-container'>
-                   <input type='text' value={question} />
+                   <input type='text' data-docid={field.docid} defaultValue={field.Question} onChange={questionTitleHandler} />
                    <div id='scale-container'>
                        {field.ReachStartLable}
                        {range && range.map(btn => (
@@ -282,7 +294,7 @@ const AddQuestionnaire = () => {
                             <option value="scale">Schaalvraag</option>
                         </select>
                         <div className='question-type-display-container'>
-                            <input type="text" id='questionnaire-question' placeholder='Naamloze vraag' onChange={questionHandler} />
+                            <input type="text" id='questionnaire-question' placeholder='Noteer hier de vraag' onChange={questionHandler} />
                             <div className='questionnaire-field-text-container' style={{display: showParagraph}}>
                                 <p id='questionnaire-field-text'>Text antwoord</p>
                             </div>

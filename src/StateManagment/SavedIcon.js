@@ -7,7 +7,7 @@ export const SavedProvider = (props) => {
 
     setTimeout(() => {
         setSaved('none')
-    },4000)
+    },3000)
 
     return(
         <SavedIcon.Provider value={[saved, setSaved]}>

@@ -27,8 +27,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import sroiIcon from '../../images/icons/sroi-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const AddSROI = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [amount, setAmount] = useState(0)
@@ -63,6 +66,9 @@ const AddSROI = () => {
             Type: type,
             Amount: amount
         })
+        .then(() => {
+            setSaved('flex')
+         })
         
     }
 
@@ -97,6 +103,9 @@ const AddSROI = () => {
         .update({
             Deadweight: deadweight 
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -110,6 +119,9 @@ const AddSROI = () => {
         .update({
             Attribution: attribution
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -124,6 +136,9 @@ const AddSROI = () => {
         .update({
             Timehorizon: timehorizon
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

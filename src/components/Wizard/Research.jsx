@@ -30,8 +30,11 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import sendIcon from '../../images/icons/send-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const Research = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [outputID, setOutputID] = useState('')
     const [outputTitle, setOutputTitle] = useState('')
     const [activityID, setActivityID] = useState('')
@@ -154,7 +157,8 @@ const Research = () => {
             Timestamp: timestamp,
             ActivityID: activityID,
             Activity: activityTitle,
-            QuestionnaireID: questionnaireID
+            QuestionnaireID: questionnaireID,
+            Responses: 0
         })
         .then(() => {
             db.collection('Tasks')
@@ -201,18 +205,13 @@ const Research = () => {
                             <p><b>Meetmoment</b></p>
                             <input type="date" defaultValue={moment.Moment} data-docid={moment.docid} onChange={changeMomentDateHandler} />
                         </div>
-                        <div className='measure-moment-sub-container'>
-                            <p><b>Vragenlijst</b></p>
-                            <select name="" id="" data-docid={moment.docid} defaultValue={moment.QuestionnaireID} onChange={changeQuestioinnaireHandler}>
-                                <option value="">-- Selecteer een vragenlijst --</option>
-                                {questionnaires && questionnaires.map(questionnaire => (
-                                    <option value={questionnaire.ID}>{questionnaire.Title}</option>
-                                ))}
-                            </select>
+                        <div className='measure-moment-sub-container' style={{display: research.QuestionnaireID ? 'block' : 'none'}}>
+                            <p><b>Aantal reacties</b></p>
+                            <h5>{moment.Responses}</h5>
                         </div>
-                        <div className='measure-moment-sub-container'>
-                            <p><b>Versturen</b></p>
-                            <img className='table-delete-icon' data-id={moment.QuestionnaireID} onClick={sendQuestionnaire} src={sendIcon} alt="" />
+                        <div className='measure-moment-sub-container' style={{display: research.QuestionnaireID ? 'block' : 'none'}}>
+                            <p><b>Link naar vragenlijst</b></p>
+                            <h5>{`https://deccos.nl/Questionnaires/${research.QuestionnaireID}/${moment.ID}/${research.ID}`}</h5>
                         </div>
                         <p className='delete-text-measure-moments' data-docid={moment.docid} onClick={deleteMoment}>Verwijder</p>
                     </div>
@@ -224,13 +223,19 @@ const Research = () => {
     const changeQuestioinnaireHandler = (e) => {
 
         const questionnaireID = e.target.options[e.target.selectedIndex].value
+        const questionnaireTitle = e.target.options[e.target.selectedIndex].dataset.title
         const docid = e.target.dataset.docid
 
-        db.collection('MeasureMoments')
+        db.collection('Research')
         .doc(docid)
         .update({
-            QuestionnaireID: questionnaireID
+            QuestionnaireID: questionnaireID,
+            QuestionnaireTitle: questionnaireTitle
+
         })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
     const changeMomentTitleHandler = (e) => {
@@ -242,6 +247,9 @@ const Research = () => {
         .update({
             Title: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -254,6 +262,9 @@ const Research = () => {
         .update({
             Moment: date
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
@@ -289,10 +300,18 @@ const Research = () => {
         setQuestionnaireID(questionnaireID)
     }
 
-    const sendQuestionnaire = (e) => {
-        const id = e.target.dataset.id
+    const changeResearchTitle = (e) => {
+        const docid = e.target.dataset.docid
+        const title = e.target.value
 
-        history.push(`/${client}/SendQuestionnaire/${id}`)
+        db.collection('Research')
+        .doc(docid)
+        .update({
+            Title: title
+        })
+        .then(() => {
+            setSaved('flex')
+         })
     }
 
 
@@ -345,21 +364,37 @@ const Research = () => {
                             <div className='list-container'>
                                 <div className='list-top-row-container'>
                                     <img  src={plusButton} alt="" onClick={() => setModalOpen(true)} alt="" />
+                                    <p onClick={() => setModalOpen(true)}>Nieuw onderzoek</p>
                                 </div>
                                 <div className='table-container'>
                                     <table>
                                         <tr>
                                             <th>ONDERZOEK</th>
+                                            <th>MEETINSTRUMENT</th>
                                             <th>MEETMOMENTEN</th>
                                             <th>VERWIJDER</th>
                                         </tr>
                                         {researches && researches.map(research => (
                                         <tr key={research.ID}>
                                             <td>
-                                                <input type="text" defaultValue={research.Title} />
+                                                <input type="text" data-docid={research.docid} defaultValue={research.Title} onChange={changeResearchTitle} />
                                             </td>
                                             <td>
-                                                <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={openMomentModal} alt="" />
+                                                <div className='measure-moment-sub-container'>
+                                                    <p><b>Vragenlijst</b></p>
+                                                    <select name="" id="" data-docid={research.docid} defaultValue={research.QuestionnaireTitle} onChange={changeQuestioinnaireHandler}>
+                                                        <option value="">-- Selecteer een vragenlijst --</option>
+                                                        {questionnaires && questionnaires.map(questionnaire => (
+                                                            <option value={questionnaire.ID} data-title={questionnaire.Title} >{questionnaire.Title}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className='list-top-row-container'>
+                                                    <img className='add-item-button' src={plusButton} alt="" data-researchid={research.ID} data-researchtitle={research.Title} onClick={openMomentModal} alt="" />
+                                                    <p onClick={openMomentModal}>Nieuw meetmoment</p>
+                                                </div>
                                                 <MeasureMoments research={research}/>
                                             </td>
                                             <td>

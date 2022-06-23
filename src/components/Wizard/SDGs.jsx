@@ -22,8 +22,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const SDGs = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
@@ -50,6 +53,9 @@ const SDGs = () => {
         .update({
             SDG: sdg
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

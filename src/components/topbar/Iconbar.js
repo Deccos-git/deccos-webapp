@@ -12,11 +12,10 @@ import { useHistory } from "react-router-dom";
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
-import { SavedIcon } from '../../StateManagment/SavedIcon'
 
 const Iconbar = () => {
     const [menu, setMenu] = useContext(MobileMenu)
-    const [saved, setSaved] = useContext(SavedIcon)
+
     const [authO] = useContext(Auth)
 
     const changeMenuStatus = () => {
@@ -112,10 +111,6 @@ const Iconbar = () => {
                 <Link to={`/${client}/Search`} onClick={changeMenuStatus}>
                    <img src={searchIcon} alt="search icon" />
                 </Link>
-            </div>
-            <div className="icon-container saved-container" style={{display: saved}}>
-                <img src={savedIcon} alt="saved icon" />
-                <p>Opgeslagen</p>
             </div>
         </div>
     )

@@ -3,44 +3,40 @@ import LeftSideBarFullScreen from "./LeftSideBarFullScreen"
 import MenuStatus from "../hooks/MenuStatus";
 import { useFirestoreID, useFirestoreOutputs } from "../firebase/useFirestore"
 import Location from "../hooks/Location"
-import { useState, useEffect } from 'react'
+import { client } from "../hooks/Client"
 import { motion } from "framer-motion"
-import penIcon from '../images/icons/pen-icon.png'
+import arrowLeftIcon from '../images/icons/arrow-left-icon.png'
 import outputIcon from '../images/icons/output-icon.png'
 import worldIcon from '../images/icons/world-icon.png'
 import goalIcon from '../images/icons/milestone-icon.png'
-import { useHistory } from "react-router-dom"
-import { client } from "../hooks/Client"
+import { NavLink } from "react-router-dom";
 import ScrollToTop from "../hooks/ScrollToTop";
 
 const ActivityDetail = () => {
-    const [title, setTitle] = useState('')
 
     const menuState = MenuStatus()
     const route = Location()[3]
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const history = useHistory()
     ScrollToTop()
 
     const activities = useFirestoreID('Activities', route)
     const outputs = useFirestoreOutputs(route)
 
-    useEffect(() => {
-
-        activities && activities.forEach(activity => {
-            setTitle(activity.Activity)
-        })
-    }, [activities])
-
   return (
     <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
-        <div className="card-overview goal-detail-container" style={{display: menuState}}>
+        <div className="main-container" style={{display: menuState}}>
+            <NavLink to={`/${client}/Activities`} >
+                <div className='back-container'>
+                    <img src={arrowLeftIcon} alt="pijl naar links" />
+                    <p>Alle activiteiten</p>
+                </div>
+            </NavLink>
             {activities && activities.map(activity => (
                 <motion.div className="article" key={activity.ID}>
-                    <img src={activity.Banner} alt="" className='goal-detail-banner' />
                     <div className="list-inner-container">
+                        <img className='activity-detail-banner' src={activity.Banner} alt="banner image of activity" />
                         <div className='activity-meta-title-container'>
                             <h2>{activity.Activity}</h2>
                         </div>

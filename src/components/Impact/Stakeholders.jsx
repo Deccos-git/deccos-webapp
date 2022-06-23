@@ -3,7 +3,7 @@ import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
 import arrowUpIcon from '../../images/icons/arrow-up-icon-white.png'
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
 import NoContentNotice from "../../hooks/NoContentNotice";

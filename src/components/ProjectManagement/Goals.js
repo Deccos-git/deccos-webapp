@@ -3,7 +3,7 @@ import {useFirestoreTimestamp} from "../../firebase/useFirestore"
 import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";

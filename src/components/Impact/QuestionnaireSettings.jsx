@@ -7,7 +7,7 @@ import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
 import { useFirestore, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";

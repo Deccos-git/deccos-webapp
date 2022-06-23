@@ -21,8 +21,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const Conditions = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
@@ -48,6 +51,9 @@ const Conditions = () => {
         .update({
             Condition: condition
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

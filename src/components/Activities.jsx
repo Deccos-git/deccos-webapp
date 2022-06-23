@@ -5,7 +5,7 @@ import {useFirestore} from "../firebase/useFirestore"
 import { client } from "../hooks/Client"
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react'
-import penIcon from '../images/icons/pen-icon.png'
+import penIcon from '../images/icons/pen-icon-white.png'
 import { NavLink, Link } from "react-router-dom";
 import NoContentNotice from "../hooks/NoContentNotice";
 import ScrollToTop from "../hooks/ScrollToTop";

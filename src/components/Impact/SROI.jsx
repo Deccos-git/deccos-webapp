@@ -10,7 +10,7 @@ import { useFirestore, useFirestoreResults } from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
 import resultsIcon from '../../images/icons/results-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
-import penIcon from '../../images/icons/pen-icon.png'
+import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
 import sroiIcon from '../../images/icons/sroi-icon.png'
 import attributionIcon from '../../images/icons/attribution-icon.png'

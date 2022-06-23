@@ -956,7 +956,7 @@ const useFirestoreQuestionnaireAnalysis = (id) => {
     return docs
 };
 
-const useFirestoreQuestionnairesResponses = (id) => {
+const useFirestoreQuestionnairesResponses = (id, moment) => {
 
     const [docs, setDocs] = useState("")
 
@@ -964,6 +964,30 @@ const useFirestoreQuestionnairesResponses = (id) => {
         const unsub = db.collection('QuestionnairesResponses')
         .where('CompagnyID', '==', client)
         .where('FieldID', '==', id)
+        .where('MomentID', '==', moment)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id, moment])  
+
+    return docs
+};
+
+const useFirestoreQuestionnairesResponsesMoments = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('QuestionnairesResponses')
+        .where('CompagnyID', '==', client)
+        .where('MomentID', '==', id)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -979,14 +1003,16 @@ const useFirestoreQuestionnairesResponses = (id) => {
     return docs
 };
 
-const useFirestoreQuestionnairesResponsesQuestionnaire = (id) => {
+
+const useFirestoreQuestionnairesResponsesResearch = (id, field) => {
 
     const [docs, setDocs] = useState("")
 
     useEffect(() => {
         const unsub = db.collection('QuestionnairesResponses')
         .where('CompagnyID', '==', client)
-        .where('QuestionnaireID', '==', id)
+        .where('ResearchID', '==', id)
+        .where('FieldID', '==', field)
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -997,7 +1023,7 @@ const useFirestoreQuestionnairesResponsesQuestionnaire = (id) => {
         
         return () => unsub();
 
-    }, [id])  
+    }, [id, field])  
 
     return docs
 };
@@ -1491,7 +1517,7 @@ const useFirestoreMeasureMoments = (id) => {
         const unsub = db.collection("MeasureMoments")
         .where('CompagnyID', '==', client)
         .where('ResearchID', '==', id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
@@ -1553,6 +1579,28 @@ const useFirestoreProblemAnalyses = (channel, id) => {
     return docs
 };
 
+const useFirestoreCompagny = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('CompagnyMeta')
+        .where('CompagnyID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 
 export { 
@@ -1597,7 +1645,8 @@ export {
     useFirestoreQuestionnaires,
     useFirestoreQuestionnaireFields,
     useFirestoreQuestionnairesResponses,
-    useFirestoreQuestionnairesResponsesQuestionnaire,
+    useFirestoreQuestionnairesResponsesMoments,
+    useFirestoreQuestionnairesResponsesResearch,
     useFirestoreQuestionnaireAnalysis,
     useFirestoreMatches,
     useFirestoreMatchRoadmaps,
@@ -1622,5 +1671,6 @@ export {
     useFirestoreMeasureMoments,
     useFirestoreResearch,
     useFirestoreStakeholders,
-    useFirestoreProblemAnalyses
+    useFirestoreProblemAnalyses,
+    useFirestoreCompagny
 }

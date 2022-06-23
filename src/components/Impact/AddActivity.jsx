@@ -30,13 +30,15 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import activityIcon from '../../images/icons/activity-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const AddActivity = () => {
     const [authO] = useContext(Auth)
+    const [saved, setSaved] = useContext(SavedIcon)
 
     const [goalTitle, setGoalTitle] = useState('')
     const [goalID, setGoalID] = useState('')
-    const [banner, setBanner] = useState("")
+    const [banner, setBanner] = useState("https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/defaultBannerActivity.png?alt=media&token=bb8383b8-a788-4210-a433-f51a2175b9f1")
     const [loader, setLoader] = useState("")
     const [modalOpen, setModalOpen] = useState(false);
     const [title, setTitle] = useState('')
@@ -78,6 +80,9 @@ const AddActivity = () => {
         .update({
             Activity: title
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 

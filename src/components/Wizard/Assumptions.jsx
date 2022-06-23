@@ -21,8 +21,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
+import { SavedIcon } from "../../StateManagment/SavedIcon";
 
 const Assumptions = () => {
+    const [saved, setSaved] = useContext(SavedIcon)
+
     const [goalID, setGoalID] = useState('')
 
     const menuState = MenuStatus()
@@ -49,6 +52,9 @@ const Assumptions = () => {
         .update({
             Assumption: assumption
         })
+        .then(() => {
+            setSaved('flex')
+         })
 
     }
 
