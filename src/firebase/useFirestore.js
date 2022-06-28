@@ -1601,6 +1601,51 @@ const useFirestoreCompagny = (id) => {
     return docs
 };
 
+const useFirestoreOpenSourceQuestionnnaires = () => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('OpenSourceQuestionnaires')
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [])  
+
+    return docs
+};
+
+const useFirestoreOpenSourceQuestionnnairesID = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('OpenSourceQuestionnaires')
+        .where('ID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+
+
 
 
 export { 
@@ -1672,5 +1717,7 @@ export {
     useFirestoreResearch,
     useFirestoreStakeholders,
     useFirestoreProblemAnalyses,
-    useFirestoreCompagny
+    useFirestoreCompagny,
+    useFirestoreOpenSourceQuestionnnaires,
+    useFirestoreOpenSourceQuestionnnairesID
 }

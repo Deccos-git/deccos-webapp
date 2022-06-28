@@ -499,15 +499,6 @@ const Research = () => {
                 <p>Geef het meetmoment een deadline</p>
                 <input type="date" onChange={momentDeadlineHandler} />
             </div>
-            <div>
-                <p>Selecteer een vragenlijst</p>
-                <select name="" id="" onChange={questioinnaireHandler}>
-                    <option value="">-- Selecteer een vragenlijst --</option>
-                    {questionnaires && questionnaires.map(questionnaire => (
-                        <option value={questionnaire.ID}>{questionnaire.Title}</option>
-                    ))}
-                </select>
-            </div>
             <div className='button-container-margin-top'>
                 <button onClick={addMoment}>Opslaan</button>
             </div>

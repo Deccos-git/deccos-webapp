@@ -39,6 +39,8 @@ const ManualResultsGraph = ({output}) => {
 
     },[dataset])
 
+    console.log(data)
+
   return (
     <div className='activity-meta-title-container' style={{display: dataset.length > 0 ? 'block' : 'none'}}>
        <div className='activity-meta-title-container'>

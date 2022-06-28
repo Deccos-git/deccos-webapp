@@ -3,8 +3,6 @@ import { client } from '../../hooks/Client';
 import { useContext } from 'react';
 import { Auth } from '../../StateManagment/Auth';
 import { MobileMenu } from '../../StateManagment/MobileMenu';
-import { auth } from "../../firebase/config";
-
 
 const ProfilePhoto = () => {
     const [authO] = useContext(Auth)

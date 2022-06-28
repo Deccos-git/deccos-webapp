@@ -119,7 +119,7 @@ const ImpactProgress = () => {
             <div className='goal-meta-inner-container' style={{display: assumptions.length > 0 ? 'block' : 'none'}}>
                 <div className='goal-meta-title-container'>
                     <img src={preconditionsIcon} alt="" />
-                    <h3>Randvoorwaarden</h3>
+                    <h3>Aannames</h3>
                 </div>
                 <ul>
                     {assumptions && assumptions.map(assumption => (
@@ -294,7 +294,7 @@ const ImpactProgress = () => {
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-inner-container'>
-                        <h4>{milestone.Title}</h4>
+                        <h4>Aantal {milestone.Title}</h4>
                         <MilestoneProgress milestone={milestone}/>
                     </div>
                 ))}

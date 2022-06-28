@@ -87,6 +87,8 @@ import Planning from './Wizard/Planning';
 import ResearchSettings from './Wizard/ResearchSettings';
 import NewClient from './NewClient';
 import { Test } from './Test';
+import AddOpenSourceQuestionnaire from './Impact/AddOpenSourceQuestionnaire';
+import Home from './Home';
 
 const Main = () => {
 
@@ -106,7 +108,10 @@ const Main = () => {
                     <NotApproved/>
                 </Route>
                 <Route exact path={`/${client}`}>
-                    <ImpactProgress/>
+                    <Home/>
+                </Route>
+                <Route path={`/${client}/Home`}>
+                    <Home/>
                 </Route>
                 <Route path={`/${client}/Login`}>
                     <Login/>
@@ -344,6 +349,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/ResearchSettings`}>
                     <ResearchSettings/>
+                </Route>
+                <Route path={`/${client}/AddOpenSourceQuestionnaire`}>
+                    <AddOpenSourceQuestionnaire/>
                 </Route>
             </Switch>
         </>

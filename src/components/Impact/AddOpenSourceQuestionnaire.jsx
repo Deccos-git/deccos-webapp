@@ -2,7 +2,7 @@ import LeftSideBar from "../LeftSideBar"
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import Location from "../../hooks/Location"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestore } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreQuestionnaireFields, useFirestoreOpenSourceQuestionnnairesID } from "../../firebase/useFirestore"
 import { useState, useEffect, useContext } from 'react';
 import { db, timestamp } from "../../firebase/config";
 import { client } from "../../hooks/Client";
@@ -19,7 +19,7 @@ import deleteIcon from '../../images/icons/delete-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
 import { SavedIcon } from "../../StateManagment/SavedIcon";
 
-const AddQuestionnaire = () => {
+const AddOpenSourceQuestionnaire = () => {
     const [saved, setSaved] = useContext(SavedIcon)
 
     const [title, setTitle ] = useState('')
@@ -37,8 +37,9 @@ const AddQuestionnaire = () => {
     const route = Location()[3]
     ScrollToTop()
 
-    const questionnares = useFirestoreID('Questionnaires', route)
-    const questionnaireFields = useFirestoreQuestionnaireFields(route)
+    const questionnares = useFirestoreOpenSourceQuestionnnairesID(route && route)
+    const questionnaireFields = useFirestoreQuestionnaireFields(route && route)
+
 
     useEffect(() => {
         questionnares && questionnares.forEach(questionnare => {
@@ -47,13 +48,15 @@ const AddQuestionnaire = () => {
         })
     }, [questionnares])
 
+    console.log(docid)
+
     const titleHandler = (e) => {
 
         const title = e.target.value 
 
         setTitle(title)
 
-        db.collection('Questionnaires')
+        db.collection('OpenSourceQuestionnaires')
         .doc(docid)
         .update({
             Title: title
@@ -220,13 +223,13 @@ const AddQuestionnaire = () => {
 
     }
 
-    return (
-        <div className="main">
+  return (
+    <div className="main">
         <LeftSideBar />
         <LeftSideBarFullScreen/>
         <div className="main-container" style={{display: menuState}}>
             <div className="page-header">
-                <h1>Vragenlijst creëeren</h1>
+                <h1>Open Source vragenlijst creëeren</h1>
                 <div className='wizard-sub-nav-introduction'>
                     <NavLink to={`/${client}/Questionnaires`} >
                         <div className='step-container'>
@@ -238,42 +241,6 @@ const AddQuestionnaire = () => {
             </div>
             <div className='profile profile-auth-profile'>
                 <div>
-                    <div className='activity-meta-title-container'>
-                        <img src={capIcon} alt="" />
-                        <h3>Uitleg</h3>
-                    </div> 
-                    <div className='text-section' >
-                        <p><b>Een vragenlijst kan waardevol instrument om inzicht te krijgen 
-                            in de impact te maakt bij je doelgroep.
-                        </b></p>
-
-                        <p>In dit onderdeel van de Impact Guide ga je aan de slag met het maken van een vragenlijst. 
-                            Er zijn twee type vragen die je kunt gebruiken:
-                        </p>
-
-                        <ul>
-                            <li>Tekstvraag</li>
-                            <li>Schaalvraag</li>
-                        </ul>
-
-                        <p>
-                            Een <b>tekstvraag</b> geeft de respondent van de vragenlijst de mogelijkheid om uitgebreider op een vraag
-                            in te gaan. Uit een dergelijke kwalitatieve vraag kan een dieper inzicht worden opgedaan dan uit het antwoord op een schaalvraag.
-                        </p>
-
-                        <p>Een <b>schaalvraag</b> geeft de mogelijkheid om de respondenten de kans te bieden om een kwantatief antwoord
-                            te geven (uitgedrukt in een cijfer). Het voordeel van een schaalvraag is dat deze eenvoudiger zijn om te analyseren.
-                            Wanneer je er bijvoorbeeld voor kiest om een voor- en naonderzoek te doen aan de hand van een vragenlijst kunnen je de verschillende
-                            antwoorden eenvoudig vergelijken en analyseren. Het nadeel van een schaalvraag is dat je weinig nuance en diepgang krijgt uit de respons.
-                        </p>
-                        
-                    </div>
-                </div>
-                <div>
-                    <div className='activity-meta-title-container'>
-                        <img src={rocketIcon} alt="" />
-                        <h3>Aan de slag</h3>
-                    </div> 
                     <div className='text-section'>
                         <p><b>Titel</b></p>
                         <input type="text" placeholder='Titel' defaultValue={title} onChange={titleHandler} />
@@ -328,34 +295,10 @@ const AddQuestionnaire = () => {
                         </div>
                     </div>
                 </div>
-                    <div>
-                        <div className='activity-meta-title-container'>
-                            <img src={bulbIcon} alt="" />
-                            <h3>Tips</h3>
-                        </div> 
-                        <div className='text-section'>
-                            <ol>
-                                <li>Kom je er niet uit of heb je behoefte aan ondersteuning van een impactexpert? 
-                                    Klik op het <QuestionIcon style={{width: '19px', height: '19px'}}/> icon in de 
-                                    bovenbalk (onderbalk op mobiel) voor alle ondersteuningsmogelijkheden.</li>
-                                <li>Benieuwd naar de impact van andere sociale MKB'ers? Neem eens een kijkje in de <a href="https://deccos.nl/Milestones">Deccos Impactclub</a>.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div>
-                        <div className='activity-meta-title-container'>
-                            <img src={feetIcon} alt="" />
-                            <h3>Volgende stap</h3>
-                        </div> 
-                        <div className='text-section'>
-                            <p>Terug naar vragenlijsten:</p>
-                            <NavLink to={`/${client}/Questionnaires`} ><button>Naar vragenlijsten</button></NavLink>
-                        </div>
-                    </div>
                 </div>
             </div> 
         </div>
-    )
+  )
 }
 
-export default AddQuestionnaire
+export default AddOpenSourceQuestionnaire

@@ -36,7 +36,6 @@ const MeasureOutput = () => {
     const [outputTitle, setOutputTitle] = useState('')
     const [activityID, setActivityID] = useState('')
     const [activityTitle, setActivityTitle] = useState('')
-    const [title, setTitle] = useState('')
     const [number, setNumber] = useState('')
     const [deadline, setDeadline] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
@@ -90,7 +89,7 @@ const MeasureOutput = () => {
             Compagny: client,
             CompagnyID: client,
             Timestamp: timestamp,
-            Title: title,
+            Title: outputTitle,
             ActivityID: activityID,
             Activity: activityTitle,
             Number: number,
@@ -110,6 +109,8 @@ const MeasureOutput = () => {
     }
 
     const createTasks = () => {
+
+        console.log(singular)
 
         db.collection('Tasks')
         .doc()
@@ -133,38 +134,31 @@ const MeasureOutput = () => {
             ActivityID: activityID,
             ActivityTitle: activityTitle
         })
-    }
-
-    const titleHandler = (e) => {
-
-        const title = e.target.value 
-        const docid = e.target.dataset.docid
-        
-         db.collection('Milestones')
-        .doc(docid)
-        .update({
-            Title: title
-        })
         .then(() => {
-            setSaved('flex')
-         })
-
+            console.log('task created')
+        })
     }
+
 
     const numberHandler = (e) => {
 
         const number = e.target.value 
         const docid = e.target.dataset.docid
-        
-        db.collection('Milestones')
-       .doc(docid)
-       .update({
-           Number: number
-       })
-       .then(() => {
-           setSaved('flex')
-        })
 
+        setNumber(number)
+
+        if(docid === undefined){
+            return
+        } else {
+            db.collection('Milestones')
+            .doc(docid)
+            .update({
+                Number: number
+            })
+            .then(() => {
+                setSaved('flex')
+             })
+        }
     }
 
     const deadlineHandler = (e) => {
@@ -172,15 +166,21 @@ const MeasureOutput = () => {
         const deadline = e.target.value 
         
         const docid = e.target.dataset.docid
-        
-        db.collection('Milestones')
-       .doc(docid)
-       .update({
-           Deadline: deadline
-       })
-       .then(() => {
-           setSaved('flex')
-        })
+
+        setDeadline(deadline)
+
+        if(docid === undefined){
+            return
+        } else {
+            db.collection('Milestones')
+            .doc(docid)
+            .update({
+                Deadline: deadline
+            })
+            .then(() => {
+                setSaved('flex')
+             })
+        }
 
     }
 
@@ -253,8 +253,6 @@ const MeasureOutput = () => {
                     contentLabel="Upload banner"
                     >
                     <img src={growIcon} alt="" />
-                    <p><b>Geef de mijlpaal een titel</b></p>
-                    <input type="text" onChange={titleHandler} />
                     <p><b>Geef de mijlpaal een aantal</b></p>
                     <input type="number" onChange={numberHandler} />
                     <p><b>Bepaal een deadline</b></p>
@@ -286,7 +284,7 @@ const MeasureOutput = () => {
                                 <div className='table-container'>
                                     <table>
                                         <tr>
-                                            <th>MIJLPAAL</th>
+                                            <th>OUTPUT</th>
                                             <th>AANTAL</th>
                                             <th>DEADLINE</th>
                                             <th>VERWIJDER</th>
@@ -294,7 +292,7 @@ const MeasureOutput = () => {
                                         {milestones && milestones.map(milestone => (
                                             <tr key={milestone.ID}>
                                                 <td>
-                                                    <input type="text" placeholder='Titel' defaultValue={milestone.Title} data-docid={milestone.docid} onChange={titleHandler}/>
+                                                    <p>{milestone.OutputTitle}</p>
                                                 </td>
                                                 <td>
                                                     <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />

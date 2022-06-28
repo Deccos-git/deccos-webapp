@@ -21,7 +21,7 @@ import listIcon from '../images/icons/list-icon.png'
 import festiveIcon from '../images/icons/festive-icon.png'
 import taskIcon from '../images/icons/task-icon.png'
 import calendarIcon from '../images/icons/calendar-icon.png'
-import timelineIcon from '../images/icons/timeline-icon.png'
+import homeIcon from '../images/icons/home-icon.png'
 import researchIcon from '../images/icons/research-icon.png'
 import meetingIcon from '../images/icons/meeting-icon.png'
 import growIcon from '../images/icons/grow-icon.png'
@@ -43,6 +43,12 @@ const LeftSideBarFullScreen = () => {
             <div className="channel-div">
                     <h3>Home</h3>
                     <div className="channel-inner-div">
+                        <div className="channel-inner-div">
+                            <div className='activity-meta-title-container'>
+                                <img src={homeIcon} alt="" />
+                                <Link activeClassName='active' to={`/${client}/Home`} onClick={changeMenuStatus}>Home</Link>
+                            </div>
+                        </div>
                         <div className="channel-inner-div">
                             <div className='activity-meta-title-container'>
                                 <img src={dashboardIcon} alt="" />

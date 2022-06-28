@@ -7,7 +7,7 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore, useFirestoreQuestionnaireFields } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreQuestionnaireFields, useFirestoreOpenSourceQuestionnnaires } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
@@ -26,9 +26,30 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import listIcon from '../../images/icons/list-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
 import { SavedIcon } from "../../StateManagment/SavedIcon";
+import { Auth } from '../../StateManagment/Auth';
+import { MobileMenu } from '../../StateManagment/MobileMenu';
+import Modal from 'react-modal';
 
 const Questionnaires = () => {
     const [saved, setSaved] = useContext(SavedIcon)
+    const [admin, setAdmin] = useState('none')
+    const [authO] = useContext(Auth)
+    const [modalOpen, setModalOpen] = useState(false);
+    const [openSourceTitle, setOpenSourceTitle] = useState('')
+    const [openSourceShortHand, setOpenSourceShortHand] = useState('')
+    const [openSourceCategory, setOpenSourceCategory] = useState('')
+    const [openSourceTargetGroup, setOpenSourceTargetGroup] = useState('')
+    const [openSourceEvidenceBased, setOpenSourceEvidenceBased] = useState('')
+    const [openSourceAuthor, setOpenSourceAuthor] = useState('')
+    const [openSourceLink, setOpenSourceLink] = useState('')
+
+    useEffect(() => {
+        if(authO.ID == '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
+            setAdmin('flex')
+        } else {
+            setAdmin('none')
+        }
+    }, [authO])
 
     const [name, setName] = useState('')
 
@@ -37,9 +58,21 @@ const Questionnaires = () => {
     const id = uuid()
     const premium = Premium() 
     ScrollToTop()
+    Modal.setAppElement('#root');
+
+    const modalStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
     
     const questionnaires = useFirestore('Questionnaires')
-    const researchedQuestionnaires = useFirestore('ResearchedQuestionnnaires')
+    const openSourceQuestionnaires = useFirestoreOpenSourceQuestionnnaires()
     const compagny = useFirestore('CompagnyMeta')
 
     useEffect(() => {
@@ -99,6 +132,92 @@ const Questionnaires = () => {
 
     }
 
+    const addOpenSourceQuestionnaire = () => {
+
+        db.collection('OpenSourceQuestionnaires')
+        .doc()
+        .set({
+            ID: uuid(),
+            Timestamp: timestamp,
+            Title: openSourceTitle,
+            Shorthand: openSourceShortHand,
+            Category: openSourceCategory,
+            TargetGroup: openSourceTargetGroup,
+            EvidenceBased: openSourceEvidenceBased,
+            Author: openSourceAuthor,
+            Link: openSourceLink,
+
+        })
+        .then(setModalOpen(false))
+    }
+
+    const openSourceQuestionnaireLink = () => {
+        history.push(`/${client}/AddOpenSourceQuestionnaire`)
+    }
+
+    const openSourceTitleHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceTitle(value)
+
+    }
+
+    const openSourceShortHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceShortHand(value)
+
+    }
+
+    const openSourceCategoryHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceCategory(value)
+
+    }
+
+    const openSourceTargetGroupHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceTargetGroup(value)
+
+    }
+
+    const openSourceEvidenceBasedHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceEvidenceBased(value)
+
+    }
+
+    const openSourceAuthorHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceAuthor(value)
+
+    }
+
+    const openSourceLinkHandHandler = (e) => {
+
+        const value = e.target.value 
+
+        setOpenSourceLink(value)
+
+    }
+
+    const viewOpenSourceQuestionnaire = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/AddOpenSourceQuestionnaire/${id}`)
+    }
+
   return (
     <div className="main">
         <LeftSideBar />
@@ -142,7 +261,7 @@ const Questionnaires = () => {
                     </div> 
                     <div className='text-section'>
                         <div style={{display: premium ? 'block' : 'none'}}>
-                            <p><b>Vragenlijsten</b></p>
+                            <p><b>Vragenlijsten van {name}</b></p>
                             <div className='list-container'>
                                 <div className='list-top-row-container'>
                                         <img src={plusButton} alt="" onClick={addQuestionnaire}/>
@@ -176,31 +295,58 @@ const Questionnaires = () => {
                                     </table>
                                 </div>
                             </div>
-                            {/* <p><b>Open source vragenlijsten</b></p>
+                            <p><b>Open source vragenlijsten</b></p>
                             <div className='list-container'>
+                                <div className='list-top-row-container'>
+                                    <img src={plusButton} alt="plus icon" onClick={() => setModalOpen(true)} style={{display: admin}} />
+                                </div>
                                 <div className='table-container'>
                                     <table>
                                         <tr>
                                             <th>TITEL</th>
-                                            <th>DOEL</th>
+                                            <th>AFKORTING</th>
+                                            <th>CATEGORIE</th>
+                                            <th>DOELGROEP</th>
+                                            <th>EVIDENCE BASED</th>
+                                            <th>AUTHOR</th>
+                                            <th>BEKIJK</th>
                                             <th>TOEVOEGEN</th>
+                                            <th style={{display: admin}} >AANPASSEN</th>
                                         </tr>
-                                        {researchedQuestionnaires && researchedQuestionnaires.map(questionnaire => (
+                                        {openSourceQuestionnaires && openSourceQuestionnaires.map(questionnaire => (
                                             <tr key={questionnaire.ID}>
                                                 <td>
-                                                    <p>{questionnaire.Title}</p>
+                                                    <a href={questionnaire.Link} target='_blank'><p>{questionnaire.Title}</p></a>
                                                 </td>
                                                 <td>
-                                                    <img className='table-delete-icon' data-id={questionnaire.ID} onClick={viewQuestionnaire} src={penIcon} alt="" />
+                                                    <p>{questionnaire.Shorthand}</p>
                                                 </td>
                                                 <td>
-
+                                                    <p>{questionnaire.Category}</p>
+                                                </td>
+                                                <td>
+                                                    <p>{questionnaire.TargetGroup}</p>
+                                                </td>
+                                                <td>
+                                                    <p>{questionnaire.EvidenceBased}</p>
+                                                </td>
+                                                <td>
+                                                    <p>{questionnaire.Author}</p>
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' src={eyeIcon} alt="eye icon" />
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' src={plusButton} alt="plus icon" />
+                                                </td>
+                                                <td className='open-source-pen-icon-container' style={{display: admin}}>
+                                                    <img className='table-delete-icon' className='table-delete-icon' data-id={questionnaire.ID} onClick={viewOpenSourceQuestionnaire} src={penIcon} alt="" />
                                                 </td>
                                             </tr>
                                         ))}
                                     </table>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                         <div style={{display: premium ? 'none' : 'flex'}}>
                             <PremiumNotice/>
@@ -255,6 +401,31 @@ const Questionnaires = () => {
                 </div>
             </div> 
         </div>
+        <Modal
+            isOpen={modalOpen}
+            onRequestClose={() => setModalOpen(false)}
+            style={modalStyles}
+            contentLabel="Add open source questionnaire"
+            >
+            <div className='add-image-container'>
+                <h4>Voeg een open source vragenlijst toe</h4>
+                <h4>Titel</h4>
+                <input type="text" placeholder='Beschrijf hier de titel' onChange={openSourceTitleHandler}/>
+                <h4>Afkorting</h4>
+                <input type="text" placeholder='Beschrijf hier de afkorting' onChange={openSourceShortHandHandler}/>
+                <h4>Categorie</h4>
+                <input type="text" placeholder='Beschrijf hier de categorie' onChange={openSourceCategoryHandHandler}/>
+                <h4>Doelgroep</h4>
+                <input type="text" placeholder='Beschrijf hier de doelgroep' onChange={openSourceTargetGroupHandHandler}/>
+                <h4>Evidence based</h4>
+                <input type="text" placeholder='Beschrijf hier de mate van evidence based' onChange={openSourceEvidenceBasedHandHandler}/>
+                <h4>Auteur</h4>
+                <input type="text" placeholder='Beschrijf hier de auteur' onChange={openSourceAuthorHandHandler}/>
+                <h4>Link</h4>
+                <input type="text" placeholder='Beschrijf hier de link' onChange={openSourceLinkHandHandler}/>
+                <button onClick={addOpenSourceQuestionnaire}>Opslaan</button>
+            </div>
+        </Modal>
     </div>
   )
 }

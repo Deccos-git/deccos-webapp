@@ -21,6 +21,7 @@ import ScrollToTop from "../../hooks/ScrollToTop";
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
 import { db } from "../../firebase/config";
+import ResearchResultsGraph from "../Impact/ResearchResultsGraph";
 
 const ResearchAnalysis = () => {
     const [researchID, setResearchID] = useState('') 
@@ -73,7 +74,87 @@ const ResearchAnalysis = () => {
     }
 
     const Difference = ({field}) => {
-        const [total, setTotal] = useState(0)
+
+        // Group function
+
+        const groupBy = (array, property) => {
+            return array.reduce((acc, obj) => {
+              let key = obj[property]
+              if (!acc[key]) {
+                acc[key] = []
+              }
+              acc[key].push(obj)
+              return acc
+            }, {})
+          }  
+          
+        // Get results from DB
+
+        const results = useFirestoreQuestionnairesResponsesResearch(researchID, field.ID)
+
+        // Get an object with momentID and score of the results in an array
+
+        const resultsArray = []
+
+        results && results.forEach(result => {
+            const resultsObject = {
+                Input: parseInt(result.Input),
+                MomentID: result.MomentID,
+            }
+
+            resultsArray.push(resultsObject)
+        })
+
+        // Group the results array by momentID
+
+        const array = Object.entries(groupBy(resultsArray, 'MomentID')) 
+
+        // Get the average score in an array
+
+        const totalArray = []
+
+        array && array.forEach(arr => {
+
+            console.log(arr)
+
+            const sumArray = []
+
+            arr[1] && arr[1].forEach(a => {
+                sumArray.push(Math.round(a.Input * 10) / 10)
+            })
+
+            console.log(sumArray)
+
+            const sum = array.length > 0 ? sumArray.reduce((partialSum, a) => partialSum + a, 0) : 0
+
+            const total = sum/arr[1].length
+
+            totalArray.push(total)
+
+        })
+
+        console.log(totalArray)
+
+        // Get the difference between the average scores in an array
+
+        totalArray && totalArray.reduce(
+            (partialSum, a) => {
+
+                const difference = partialSum 
+
+                console.log(difference)
+        },totalArray[0])
+
+        // Add the differences to get the total difference between the measure moments
+
+        const sum = 'sum'
+
+        return(
+            <div>{sum}</div>
+        )
+    }
+
+    const Development = ({field}) => {
 
         const groupBy = (array, property) => {
             return array.reduce((acc, obj) => {
@@ -115,16 +196,19 @@ const ResearchAnalysis = () => {
 
             const total = sum/arr[1].length
 
-            totalArray.push(total)
+            const totalObject = {
+                Title: arr[0],
+                AvgScore: total
+            }
+
+            totalArray.push(totalObject)
 
         })
 
-        console.log(totalArray)
-
-        const sum = totalArray[1] - totalArray[0]
-
         return(
-            <div>{sum}</div>
+            <div>
+                <ResearchResultsGraph results={totalArray}/>
+            </div>
         )
     }
 
@@ -187,10 +271,13 @@ const ResearchAnalysis = () => {
                         </div>
                         <div>
                             <p><b>2. Analyse</b></p>
-                            <p>Vragenlijst:</p>
+                            <div id='questionnaire-title-container'>
+                                <p id='questionnaire-title-container-key'> <i>Vragenlijst:</i> </p>
                                 {selectedResearch && selectedResearch.map(research => (
                                     <p>{research.QuestionnaireTitle}</p>
                                 ))}
+                            </div>
+                            
                             <div className='table-container'>
                                     <table>
                                         <tr>
@@ -198,6 +285,7 @@ const ResearchAnalysis = () => {
                                             {measureMoments && measureMoments.map(moment => (
                                                 <th>{moment.Title.toUpperCase()}</th>
                                             ))}
+                                            <th>ONTWIKKELING</th>
                                             <th>VERSCHIL</th>
                                         </tr>
                                         {fields && fields.map(field => (
@@ -210,6 +298,9 @@ const ResearchAnalysis = () => {
                                                         <Results moment={moment} field={field}/>
                                                     </td>
                                                 ))}
+                                                <td>
+                                                    <Development field={field}/>
+                                                </td>
                                                 <td>
                                                     <Difference field={field}/>
                                                 </td>
