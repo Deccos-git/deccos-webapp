@@ -458,6 +458,15 @@
     margin: 20px;
 }
 
+.complete-step {
+    color: green;
+    margin: 0px;
+}
+
+.home-steps-sub-step{
+    margin-left: 30px;
+}
+
 .home-step-detail-container{
     display: flex;
     align-items: center;
@@ -489,10 +498,6 @@
 }
 
 .overview-step-detail-container{
-    padding: 10px;
-}
-
-.overview-step-detail-container p{
     padding: 10px;
 }
 
