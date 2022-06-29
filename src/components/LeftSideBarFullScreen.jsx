@@ -55,10 +55,6 @@ const LeftSideBarFullScreen = () => {
                                 <Link activeClassName='active' to={`/${client}/ImpactProgress`} onClick={changeMenuStatus}>Dashboard</Link>
                             </div>
                         </div>
-                        {/* <div className='activity-meta-title-container'>
-                            <img src={allActivityIcon} alt="" />
-                            <Link activeClassName='active' to={`/${client}/AllActivity`} >Alle activiteit</Link>
-                        </div> */}
                     </div>
                 </div>
                 <div className="channel-div">
@@ -93,7 +89,7 @@ const LeftSideBarFullScreen = () => {
                         <div className='activity-meta-title-container'>
                             <img src={meetingIcon} alt="" />
                             {groups && groups.map(group => (
-                                <Link activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`} onClick={changeMenuStatus}>Impact HQ</Link>
+                                <Link key={group.ID} activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`} onClick={changeMenuStatus}>Impact HQ</Link>
                             ))}
                         </div>
                     </div>

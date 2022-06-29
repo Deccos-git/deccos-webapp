@@ -385,7 +385,7 @@ const Research = () => {
                                                     <select name="" id="" data-docid={research.docid} defaultValue={research.QuestionnaireTitle} onChange={changeQuestioinnaireHandler}>
                                                         <option value="">-- Selecteer een vragenlijst --</option>
                                                         {questionnaires && questionnaires.map(questionnaire => (
-                                                            <option value={questionnaire.ID} data-title={questionnaire.Title} >{questionnaire.Title}</option>
+                                                            <option key={questionnaire.ID} value={questionnaire.ID} data-title={questionnaire.Title} >{questionnaire.Title}</option>
                                                         ))}
                                                     </select>
                                                 </div>

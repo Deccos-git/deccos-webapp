@@ -180,6 +180,7 @@ select{
   color: #616161;
   font-size: 15px;
   max-width: 80%;
+  font-family: 'Poppins', sans-serif;
 }
 
 label{
@@ -316,6 +317,7 @@ textarea ::placeholder{
 
 table{
   width: 100%;
+  background-color: white;
 }
 
 table th {

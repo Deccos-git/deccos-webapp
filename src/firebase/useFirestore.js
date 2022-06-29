@@ -1644,6 +1644,29 @@ const useFirestoreOpenSourceQuestionnnairesID = (id) => {
     return docs
 };
 
+const useFirestoreConclusions = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('Conclusions')
+        .where('CompagnyID', '==', client)
+        .where('ResearchID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
 
 
 
@@ -1719,5 +1742,6 @@ export {
     useFirestoreProblemAnalyses,
     useFirestoreCompagny,
     useFirestoreOpenSourceQuestionnnaires,
-    useFirestoreOpenSourceQuestionnnairesID
+    useFirestoreOpenSourceQuestionnnairesID,
+    useFirestoreConclusions
 }

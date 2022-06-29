@@ -36,6 +36,9 @@ const Stakeholders = () => {
                                 <th>CATEGORIE</th>
                                 <th>ORGANISATIE</th>
                                 <th>CONTACTPERSOON</th>
+                                <th>WIJZE VAN DIALOOH</th>
+                                <th>FREQUENTIE</th>
+                                <th>GESPREKSONDERWERP</th>
                             </tr>
                             {stakeholders && stakeholders.map(stakeholder => (
                                 <tr key={stakeholder.ID}>
@@ -47,6 +50,15 @@ const Stakeholders = () => {
                                     </td>
                                     <td>
                                         <p>{stakeholder.Name}</p>
+                                    </td>
+                                    <td>
+                                        <p>{stakeholder.Dialog}</p>
+                                    </td>
+                                    <td>
+                                        <p>{stakeholder.Frequention}</p>
+                                    </td>
+                                    <td>
+                                        <p>{stakeholder.Subject}</p>
                                     </td>
                                 </tr>
                             ))}

@@ -7,11 +7,12 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore, useFirestoreID, useFirestoreMeasureMoments, useFirestoreQuestionnaireFields, useFirestoreQuestionnairesResponsesResearch, useFirestoreQuestionnairesResponses } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreID, useFirestoreMeasureMoments, useFirestoreQuestionnaireFields, useFirestoreQuestionnairesResponsesResearch, useFirestoreQuestionnairesResponses, useFirestoreConclusions } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import {ReactComponent as MagicIcon}  from '../../images/icons/magic-icon.svg'
 import {ReactComponent as QuestionIcon}  from '../../images/icons/question-icon.svg'
 import { client } from '../../hooks/Client';
+import uuid from 'react-uuid';
 import { useHistory } from "react-router-dom"
 import { NavLink, Link } from "react-router-dom";
 import Premium from "../../hooks/Premium";
@@ -20,11 +21,11 @@ import ImpactGuideMenu from "../../hooks/ImpactGuideMenu";
 import ScrollToTop from "../../hooks/ScrollToTop";
 import deleteIcon from '../../images/icons/delete-icon.png'
 import plusButton from '../../images/icons/plus-icon.png'
-import { db } from "../../firebase/config";
+import { db, timestamp } from "../../firebase/config";
 import ResearchResultsGraph from "../Impact/ResearchResultsGraph";
 
 const ResearchAnalysis = () => {
-    const [researchID, setResearchID] = useState('') 
+    const [researchID, setResearchID] = useState(null) 
     const [questionnaireID, setQuestionnaireID] = useState('')
 
     const menuState = MenuStatus() 
@@ -36,7 +37,7 @@ const ResearchAnalysis = () => {
     const selectedResearch = useFirestoreID('Research', researchID && researchID)
     const measureMoments = useFirestoreMeasureMoments(researchID && researchID)
     const fields = useFirestoreQuestionnaireFields(questionnaireID && questionnaireID)
-    const researchConclusions = ''
+    const researchConclusions = useFirestoreConclusions(researchID && researchID)
 
     const researchHandler = (e) => {
         const id = e.target.options[e.target.selectedIndex].dataset.id 
@@ -100,6 +101,7 @@ const ResearchAnalysis = () => {
             const resultsObject = {
                 Input: parseInt(result.Input),
                 MomentID: result.MomentID,
+                Timestamp: result.Timestamp
             }
 
             resultsArray.push(resultsObject)
@@ -109,21 +111,19 @@ const ResearchAnalysis = () => {
 
         const array = Object.entries(groupBy(resultsArray, 'MomentID')) 
 
+        console.log(array)
+
         // Get the average score in an array
 
         const totalArray = []
 
         array && array.forEach(arr => {
 
-            console.log(arr)
-
             const sumArray = []
 
             arr[1] && arr[1].forEach(a => {
                 sumArray.push(Math.round(a.Input * 10) / 10)
             })
-
-            console.log(sumArray)
 
             const sum = array.length > 0 ? sumArray.reduce((partialSum, a) => partialSum + a, 0) : 0
 
@@ -133,24 +133,15 @@ const ResearchAnalysis = () => {
 
         })
 
-        console.log(totalArray)
+        // Get the difference between the first and last average score
 
-        // Get the difference between the average scores in an array
+        const firstNumber = totalArray[totalArray.indexOf(totalArray[0])]
+        const lastNumber = totalArray[totalArray.length-1]
 
-        totalArray && totalArray.reduce(
-            (partialSum, a) => {
-
-                const difference = partialSum 
-
-                console.log(difference)
-        },totalArray[0])
-
-        // Add the differences to get the total difference between the measure moments
-
-        const sum = 'sum'
+        const difference = lastNumber - firstNumber
 
         return(
-            <div>{sum}</div>
+            <div>{Math.round(difference * 10) / 10}</div>
         )
     }
 
@@ -215,10 +206,46 @@ const ResearchAnalysis = () => {
 
     const deleteConclusion = (e) => {
         const docid = e.target.dataset.docid
+
+        db.collection('Conclusions')
+        .doc(docid)
+        .delete()
     }
 
-    const titleHandler = (e) => {
+    const conclusionHandler = (e) => {
         const title = e.target.value
+        const docid = e.target.dataset.docid
+
+        db.collection('Conclusions')
+        .doc(docid)
+        .update({
+            Conclusion: title,
+        })
+    }
+
+    const addConclusion = () => {
+
+        db.collection('Conclusions')
+        .doc()
+        .set({
+            CompagnyID: client,
+            Conclusion: '',
+            Timestamp: timestamp,
+            ResearchID: researchID,
+            ID: uuid()
+        })
+        
+    }
+
+    const typehandler = (e) => {
+        const type= e.target.options[e.target.selectedIndex].value
+        const docid = e.target.dataset.docid
+
+        db.collection('Conclusions')
+        .doc(docid)
+        .update({
+            Type: type,
+        })
     }
 
   return (
@@ -274,10 +301,9 @@ const ResearchAnalysis = () => {
                             <div id='questionnaire-title-container'>
                                 <p id='questionnaire-title-container-key'> <i>Vragenlijst:</i> </p>
                                 {selectedResearch && selectedResearch.map(research => (
-                                    <p>{research.QuestionnaireTitle}</p>
+                                    <p key={research.ID}>{research.QuestionnaireTitle}</p>
                                 ))}
                             </div>
-                            
                             <div className='table-container'>
                                     <table>
                                         <tr>
@@ -309,18 +335,29 @@ const ResearchAnalysis = () => {
                                     </table>
                                 </div>
                             </div>
-                        {/* <div>
+                        <div style={{display: researchID ? 'block' : 'none'}}>
                             <p><b>3. Conclusies</b></p>
                             <div className='table-container'>
+                                <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addConclusion} alt="" />
+                                </div>
                                 <table>
                                     <tr>
                                         <th>CONCLUSIE</th>
+                                        <th>TYPE</th>
                                         <th>VERWIJDER</th>
                                     </tr>
                                     {researchConclusions && researchConclusions.map(conclusion => (
                                         <tr key={conclusion.ID}>
                                         <td>
-                                            <input type="text" data-docid={conclusion.docid} defaultValue={conclusion.Title} placeholder='Conclusie' onChange={titleHandler} />
+                                            <input type="text" data-docid={conclusion.docid} defaultValue={conclusion.Conclusion} placeholder='Conclusie' onChange={conclusionHandler} />
+                                        </td>
+                                        <td>
+                                            <select name="" id="" data-docid={conclusion.docid} defaultValue={conclusion.Type} onChange={typehandler}>
+                                                <option value="">-- Selecteer een type --</option>
+                                                <option value="Learningpoint">Verbeterpunt</option>
+                                                <option value="Plus">Pluspunt</option>
+                                            </select>
                                         </td>
                                         <td>
                                             <img className='table-delete-icon' data-docid={conclusion.docid} onClick={deleteConclusion} src={deleteIcon} alt="" />
@@ -329,7 +366,7 @@ const ResearchAnalysis = () => {
                                     ))}
                                 </table>
                             </div>
-                        </div> */}
+                        </div>
                         <div style={{display: premium ? 'none' : 'flex'}}>
                             <PremiumNotice/>
                         </div>

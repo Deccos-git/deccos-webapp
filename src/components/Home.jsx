@@ -203,12 +203,8 @@ const Home = () => {
     addToProgress(conclusions, 'conclusions')
     addToProgress(impactBannerFilled, 'impactBanner')
 
-    console.log(currentProgressArray)
-
     const currentProgress = currentProgressArray.length
     const totalProgress = 24 - currentProgress 
-
-    console.log(totalProgress)
 
     const data = [
         { id: "1", name: "L1", value: totalProgress },
@@ -389,7 +385,7 @@ const Home = () => {
                                     <p>Onderzoek opzetten</p>
                                 </div>
                             </NavLink>
-                            <NavLink to={`/${client}/ResearchAnalyses`} className={conclusions.length > 0 ? 'complete-step' : 'non-complete-step'}>
+                            <NavLink to={`/${client}/ResearchAnalyses`}>
                                 <div className={conclusions.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
                                     <h3>19</h3>
                                     <p>Onderzoeksanalyse</p>

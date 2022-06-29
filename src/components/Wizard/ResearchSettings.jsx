@@ -5,7 +5,7 @@ import MenuStatus from "../../hooks/MenuStatus";
 import { useHistory } from "react-router-dom";
 import { client } from "../../hooks/Client"
 import plusIcon from '../../images/icons/plus-icon.png'
-import { useFirestore, useFirestoreMeasureMoments} from "../../firebase/useFirestore"
+import { useFirestore, useFirestoreMeasureMoments, useFirestoreConclusions} from "../../firebase/useFirestore"
 import { db } from "../../firebase/config.js"
 import penIcon from '../../images/icons/pen-icon-white.png'
 import { NavLink } from "react-router-dom";
@@ -14,6 +14,7 @@ import activityIcon from '../../images/icons/activity-icon.png'
 import outputIcon from '../../images/icons/output-icon.png'
 import calendarIcon from '../../images/icons/calendar-icon.png'
 import titleIcon from '../../images/icons/title-icon.png'
+import checkIcon from '../../images/icons/check-icon.png'
 import Premium from "../../hooks/Premium";
 import PremiumNotice from "../PremiumNotice";
 import NoContentNotice from "../../hooks/NoContentNotice";
@@ -32,6 +33,15 @@ const ResearchSettings = () => {
     const MeasureMoments = ({research}) => {
 
         const moments = useFirestoreMeasureMoments(research.ID)
+        const conclusions = useFirestoreConclusions(research.ID)
+
+        const conclusionType = (conclusion) => {
+            if(conclusion.Type == 'Plus'){
+                return 'Pluspunt'
+            } else if (conclusion.Type == 'Learningpoint'){
+                return 'Verbeterpunt'
+            }
+        }
 
         return(
             <div>
@@ -47,21 +57,28 @@ const ResearchSettings = () => {
                             <h4>Meetmoment</h4>
                         </div>
                         <p className='questionnaire-results-container'>{moment.Moment}</p>
+                        <div className='activity-meta-title-container' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
+                            <img src={checkIcon} alt="" />
+                            <h4>Conclusies</h4>
+                        </div>
+                        <div className='table-container output-seeting-effect' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
+                            <table className='table-impact-dashboard'>
+                                <tr>
+                                    <th>CONCLUSIE</th>
+                                    <th>TYPE</th>
+                                </tr>
+                                {conclusions && conclusions.map(conclusion => (
+                                    <tr>
+                                        <td>{conclusion.Conclusion}</td>
+                                        <td>{conclusionType(conclusion)}</td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </div>
                     </div>
                 ))}
             </div>
         )
-    }
-
-    const guideLink = () => {
-        history.push(`/${client}/Research`)
-    }
-
-    const displayContent = () => {
-
-        setTimeout(() => {
-            return researches.length > 0 ? 'none' : 'flex'
-        }, 1000)
     }
 
   return (

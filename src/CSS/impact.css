@@ -451,6 +451,10 @@
     margin-bottom: 5px;
 }
 
+.table-impact-dashboard{
+    width: 90% !important;
+}
+
 #progress-container{
     display: flex;
     flex-direction: column;
@@ -464,6 +468,10 @@
     margin: 0px;
     background-color: green;
     margin: 20px;
+}
+
+.recharts-text{
+    font-size: 15px;
 }
 
 .complete-step p{
@@ -782,7 +790,7 @@
 }
 
 .list-container-stakeholder-management-page{
-    width: 100%;
+    width: 94%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     border: none;
 }

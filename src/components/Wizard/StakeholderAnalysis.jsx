@@ -111,20 +111,51 @@ const StakeholderAnalysis = () => {
          })
     }
 
-    const emailHandler = (e) => {
+    const dialogHandler = (e) => {
 
-        const email = e.target.value
+        const dialog = e.target.value
         const docid = e.target.dataset.docid
 
         db.collection('Stakeholders')
         .doc(docid)
         .update({
-            Email: email
+            Dialog: dialog
         })
         .then(() => {
             setSaved('flex')
          })
     }
+
+    const frequentionHandler = (e) => {
+
+        const frequention = e.target.value
+        const docid = e.target.dataset.docid
+
+        db.collection('Stakeholders')
+        .doc(docid)
+        .update({
+            Frequention: frequention
+        })
+        .then(() => {
+            setSaved('flex')
+         })
+    }
+
+    const subjectHandler = (e) => {
+
+        const subject = e.target.value
+        const docid = e.target.dataset.docid
+
+        db.collection('Stakeholders')
+        .doc(docid)
+        .update({
+            Subject: subject
+        })
+        .then(() => {
+            setSaved('flex')
+         })
+    }
+
 
 
   return (
@@ -192,37 +223,45 @@ const StakeholderAnalysis = () => {
                                             <th>CATEGORIE</th>
                                             <th>ORGANISATIE</th>
                                             <th>CONTACTPERSOON</th>
-                                            <th>EMAIL</th>
-                                            <th>VERWIJDER</th>
+                                            <th>WIJZE VAN DIALOOH</th>
+                                            <th>FREQUENTIE</th>
+                                            <th>GESPREKSONDERWERP</th>
+                                            <th>DELETE</th>
                                         </tr>
                                         {stakeholders && stakeholders.map(stakeholder => (
                                             <tr key={stakeholder.ID}>
-                                            <td>
-                                                <select name="" id="" data-docid={stakeholder.docid} defaultValue={stakeholder.Categorie} onChange={categorieHandler}>
-                                                    <option value="" style={{color: '#d3d3d3'}}> -- Categorie --</option>
-                                                    <option value="Doelgroep">Doelgroep</option>
-                                                    <option value="Financier">Financier</option>
-                                                    <option value="Investeerder">Investeerder</option>
-                                                    <option value="Gemeente">Gemeente</option>
-                                                    <option value="Provincie">Provincie</option>
-                                                    <option value="Rijk">Rijk</option>
-                                                    <option value="Klant">Klant</option>
-                                                    <option value="Netwerk">Netwerk</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Organisation} placeholder='Organisatie' onChange={organisationHandler} />
-                                            </td>
-                                            <td>
-                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Name} placeholder='Naam' onChange={nameHandler} />
-                                            </td>
-                                            <td>
-                                                <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Email} placeholder='Email' onChange={emailHandler} />
-                                            </td>
-                                            <td>
-                                                <img className='table-delete-icon' data-docid={stakeholder.docid} onClick={deleteStakeholder} src={deleteIcon} alt="" />
-                                            </td>
-                                        </tr>
+                                                <td>
+                                                    <select name="" id="" data-docid={stakeholder.docid} defaultValue={stakeholder.Categorie} onChange={categorieHandler}>
+                                                        <option value="" style={{color: '#d3d3d3'}}> -- Categorie --</option>
+                                                        <option value="Doelgroep">Doelgroep</option>
+                                                        <option value="Financier">Financier</option>
+                                                        <option value="Investeerder">Investeerder</option>
+                                                        <option value="Gemeente">Gemeente</option>
+                                                        <option value="Provincie">Provincie</option>
+                                                        <option value="Rijk">Rijk</option>
+                                                        <option value="Klant">Klant</option>
+                                                        <option value="Netwerk">Netwerk</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Organisation} placeholder='Organisatie' onChange={organisationHandler} />
+                                                </td>
+                                                <td>
+                                                    <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Name} placeholder='Contactpersoon' onChange={nameHandler} />
+                                                </td>
+                                                <td>
+                                                    <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Dialog} placeholder='Wijze van dialoog' onChange={dialogHandler} />
+                                                </td>
+                                                <td>
+                                                    <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Frequention} placeholder='Frequentie' onChange={frequentionHandler} />
+                                                </td>
+                                                <td>
+                                                    <input type="text" data-docid={stakeholder.docid} defaultValue={stakeholder.Subject} placeholder='Gespreksonderwerp' onChange={subjectHandler} />
+                                                </td>
+                                                <td>
+                                                    <img className='table-delete-icon' data-docid={stakeholder.docid} onClick={deleteStakeholder} src={deleteIcon} alt="" />
+                                                </td>
+                                            </tr>
                                         ))}
                                     </table>
                                 </div>

@@ -75,7 +75,7 @@ const LeftSideBar = () => {
                         <div className='activity-meta-title-container'>
                             <img src={meetingIcon} alt="" />
                             {groups && groups.map(group => (
-                                <NavLink activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Impact HQ</NavLink>
+                                <NavLink key={group.ID} activeClassName='active' to={`/${client}/ImpactGroup/${group.ID}`}>Impact HQ</NavLink>
                             ))}
                         </div>
                     </div>

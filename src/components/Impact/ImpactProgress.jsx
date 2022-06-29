@@ -19,7 +19,8 @@ import {
     useFirestoreResearch,
     useFirestoreMeasureMoments,
     useFirestoreAssumptions,
-    useFirestoreConditions
+    useFirestoreConditions,
+    useFirestoreConclusions
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -44,8 +45,8 @@ import preconditionsIcon from '../../images/icons/preconditions-icon.png'
 import externalFactorsIcon from '../../images/icons/external-factors-icon.png'
 import impactIcon from '../../images/icons/impact-icon.png'
 import resultsIcon from '../../images/icons/results-icon.png'
-import progressIcon from '../../images/icons/progress-icon.png'
-import typeIcon from '../../images/icons/type-icon.png'
+import checkIcon from '../../images/icons/check-icon.png'
+import calendarIcon from '../../images/icons/calendar-icon.png'
 import growIcon from '../../images/icons/grow-icon.png'
 import MemberGraph from "../MemberGraph";
 import ManualResultsGraph from "../Impact/ManualResultsGraph";
@@ -250,10 +251,13 @@ const ImpactProgress = () => {
                     <h3>Onderzoeken</h3>
                 </div>
                 {researches && researches.map(research => (
-                    <div className='impact-dashboard-output-inner-container'>
-                        <h4>{research.Title}</h4>
-                        <MeasureMoments research={research}/>
-                    </div>
+                    <>
+                        <div className='impact-dashboard-output-inner-container'>
+                            <h4>{research.Title}</h4>
+                            <MeasureMoments research={research}/>
+                            <Conclusions research={research}/>
+                        </div>
+                    </>
                 ))}
             </div>
         )
@@ -266,20 +270,62 @@ const ImpactProgress = () => {
         return(
             <div className='activity-meta-title-container' style={{display: moments.length > 0 ? 'block' : 'none'}}>
                 <div className='activity-meta-title-container'>
-                    <img src={resultsIcon} alt="" />
+                    <img src={calendarIcon} alt="" />
                     <h4>Meetmomenten</h4>
                 </div>
-                <div>
-                    {moments && moments.map(moment => (
-                        <div>
-                            <p><b>{moment.Title}</b> op {moment.Moment}</p>
-                        </div>
-                        
-                    ))}
-                </div>
+                <div className='table-container output-seeting-effect'>
+                    <table className='table-impact-dashboard'>
+                        <tr>
+                            <th>MEETMOMENT</th>
+                            <th>DATUM</th>
+                        </tr>
+                        {moments && moments.map(moment => (
+                            <tr>
+                                <td>{moment.Title}</td>
+                                <td>{moment.Moment}</td>
+                            </tr>
+                        ))}
+                    </table>
+                </div>   
             </div>
         )
 
+    }
+
+    const Conclusions = ({research}) => {
+
+        const conclusions = useFirestoreConclusions(research.ID)
+
+        const conclusionType = (conclusion) => {
+            if(conclusion.Type == 'Plus'){
+                return 'Pluspunt'
+            } else if (conclusion.Type == 'Learningpoint'){
+                return 'Verbeterpunt'
+            }
+        }
+
+        return(
+            <div className='activity-meta-title-container' style={{display: conclusions.length > 0 ? 'block' : 'none'}}>
+                <div className='activity-meta-title-container'>
+                    <img src={checkIcon} alt="" />
+                    <h4>Conclusies</h4>
+                </div>
+                <div className='table-container output-seeting-effect'>
+                    <table className='table-impact-dashboard'>
+                        <tr>
+                            <th>CONCLUSIE</th>
+                            <th>TYPE</th>
+                        </tr>
+                        {conclusions && conclusions.map(conclusion => (
+                            <tr>
+                                <td>{conclusion.Conclusion}</td>
+                                <td>{conclusionType(conclusion)}</td>
+                            </tr>
+                        ))}
+                    </table>
+                </div>   
+            </div>
+        )
     }
 
     const Milestones = ({output}) => {
@@ -294,7 +340,7 @@ const ImpactProgress = () => {
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-inner-container'>
-                        <h4>Aantal {milestone.Title}</h4>
+                        <h4>Aantal {milestone.Title.toLowerCase()}</h4>
                         <MilestoneProgress milestone={milestone}/>
                     </div>
                 ))}

@@ -123,7 +123,7 @@ const OutputSettings = () => {
             </div>
             <div className='card-container'>
             {outputs && outputs.map(output => (
-                    <div className='instrument-card output-card-container'>
+                    <div key={output.ID} className='instrument-card output-card-container'>
                         <h2>{output.Title}</h2>
                         <div className='task-detail-inner-container'>
                         <div className='activity-meta-title-container'>

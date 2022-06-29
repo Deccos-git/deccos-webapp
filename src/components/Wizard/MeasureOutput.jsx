@@ -272,7 +272,7 @@ const MeasureOutput = () => {
                         <select name="" id="" onChange={outputHandler}>
                             <option value="">-- Selecteer een output --</option>
                             {outputs && outputs.map(output => (
-                                <option value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-singular={output.Singular} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
+                                <option key={output.ID} value={output.ID} data-title={output.Title} data-docid={output.docid} data-activity={output.Activity} data-singular={output.Singular} data-activityid={output.ActivityID}>{output.Title} (Activiteit: {output.Activity})</option>
                             ))}
                         </select>
                         <div style={{display: outputID ? 'block' : 'none'}}>
