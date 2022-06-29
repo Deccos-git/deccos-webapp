@@ -379,7 +379,8 @@
 
 .wizard-introduction-menu-container{
     display: flex;
-    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     margin-left: 20px;
 }
 
@@ -456,15 +457,51 @@
     align-items: center;
     justify-content: center;
     margin: 20px;
+    padding: 30px 0px 30px 0px;
 }
 
 .complete-step {
-    color: green;
     margin: 0px;
+    background-color: green;
+    margin: 20px;
+}
+
+.complete-step p{
+    color: white;
+    text-align: center;
+}
+
+.complete-step h3{
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+.incomplete-step {
+    margin: 0px;
+    background-color: lightgray;
+    margin: 20px;
+}
+
+.incomplete-step p{
+    text-align: center;
+}
+
+.incomplete-step h3{
+    text-align: center;
+    font-size: 25px;
 }
 
 .home-steps-sub-step{
     margin-left: 30px;
+}
+
+.home-step-card{
+    height: 200px;
+    width: 150px;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .home-step-detail-container{
@@ -495,10 +532,11 @@
     width: 83%;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
     background-color: white;
+    margin: 20px 0px 50px 0px;
 }
 
 .overview-step-detail-container{
-    padding: 10px;
+    padding: 30px;
 }
 
 #questionnaire-title-container{

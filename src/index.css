@@ -80,6 +80,14 @@ li{
   letter-spacing: 0.5px;
 }
 
+text{
+  font-family: 'Poppins', sans-serif;
+  color: #616161;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
 .App, #root{
   height: 100%;
   background-color: #cbf6fd14;

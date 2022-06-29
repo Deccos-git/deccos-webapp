@@ -8,6 +8,7 @@ import completeIcon from '../images/icons/complete-icon.png'
 import { client } from '../hooks/Client';
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ScrollToTop from "../hooks/ScrollToTop";
 
 const Home = () => {
     const [centralProblemFilled, setCentralProblemFilled] = useState(false)
@@ -25,6 +26,7 @@ const Home = () => {
     const [impactBannerFilled, setImpactBannerFilled] = useState(false)
 
     const menuState = MenuStatus()
+    ScrollToTop()
 
     const profile = useFirestore('CompagnyMeta')
     const indirectCauses = useFirestore('IndirectCauses')
@@ -229,8 +231,8 @@ const Home = () => {
                 <div id='home-progress-bar-container'>
                     <PieChart width={250} height={250}>
                         <text
-                        x={25}
-                        y={25}
+                        x={130}
+                        y={130}
                         textAnchor="middle"
                         dominantBaseline="middle"
                         >
@@ -261,56 +263,149 @@ const Home = () => {
                    <div>
                         <p><b>Eerste stap</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <p className={profile ? 'complete-step' : 'non-complete-step'}>1. Bedrijfsprofiel aanmaken</p>
+                            <div className={profile ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                <h3>1</h3>
+                                <p>Bedrijfsprofiel aanmaken</p>
+                            </div>
                         </div>
                    </div>
                    <div>
                         <p><b>Context</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={problemAnalysisComplete() ? 'complete-step' : 'non-complete-step'}>2. Probleemanalyse</NavLink>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={indirectCauseFilled ? 'complete-step home-steps-sub-step' : 'non-complete-step home-steps-sub-step'}>2a. Achterliggende oorzaken</NavLink>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={directCauseFilled ? 'complete-step home-steps-sub-step' : 'non-complete-step home-steps-sub-step'}>2b. Directe oorzaken</NavLink>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={centralProblemFilled ? 'complete-step home-steps-sub-step' : 'non-complete-step home-steps-sub-step'}>2c. Centraal probleem</NavLink>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={directConsequencesFilled ? 'complete-step home-steps-sub-step' : 'non-complete-step home-steps-sub-step'}>2d. Directe gevolgen</NavLink>
-                            <NavLink to={`/${client}/ProblemAnalysis`} className={indirectConsequencesFilled ? 'complete-step home-steps-sub-step' : 'non-complete-step home-steps-sub-step'}>2e. Verdere gevolgen</NavLink>
-                            <NavLink to={`/${client}/StakeholderAnalysis`} className={stakeholdersFilled ? 'complete-step' : 'non-complete-step'}>3. Stakeholders</NavLink>
-                            <NavLink to={`/${client}/GoalTitle`} className={goals.length > 0 ? 'complete-step' : 'non-complete-step'}>4. Impactdoelen</NavLink>
-                            <NavLink to={`/${client}/Targetgroup`} className={targetgroupFilled ? 'complete-step' : 'non-complete-step'}>5. Doelgroep bepalen </NavLink>
+                            <NavLink to={`/${client}/ProblemAnalysis`}>
+                                <div className={problemAnalysisComplete() ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>2</h3>
+                                    <p>Probleemanalyse</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/StakeholderAnalysis`}>
+                                <div className={stakeholdersFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>3</h3>
+                                    <p>Stakeholders</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/GoalTitle`}>
+                                <div className={goals.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>4</h3>
+                                    <p>Impactdoelen</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/Targetgroup`}>
+                                <div className={targetgroupFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>5</h3>
+                                    <p>Doelgroep</p>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                     <div>
                         <p><b>Verandertheorie (Theory Of Change)</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <NavLink to={`/${client}/ImpactTargetgroup`} className={impactTargetgroupFilled ? 'complete-step' : 'non-complete-step'}>6. Impact op doelgroep</NavLink>
-                            <NavLink to={`/${client}/ImpactSociety`} className={impactSocietyFilled ? 'complete-step' : 'non-complete-step'}>7. Impact op maatschappij</NavLink>
-                            <NavLink to={`/${client}/SDGs`} className={sdgs.length > 0 ? 'complete-step' : 'non-complete-step'}>8. Bijdrage aan SDG's</NavLink>
-                            <NavLink to={`/${client}/Assumptions`} className={assumptions.length > 0 ? 'complete-step' : 'non-complete-step'}>9. Aannames</NavLink>
-                            <NavLink to={`/${client}/Conditions`} className={conditions.length > 0 ? 'complete-step' : 'non-complete-step'}>10. Externe factoren</NavLink>
-                            <NavLink to={`/${client}/AddActivity`} className={activities.length > 0 ? 'complete-step' : 'non-complete-step'}>11. Activiteiten</NavLink>
-                            <NavLink to={`/${client}/ImpactActivity`} className={activityImpactFilled ? 'complete-step' : 'non-complete-step'}>12. Impact van activiteit</NavLink>
-                            <NavLink to={`/${client}/AddOutput`} className={outputs.length > 0 ? 'complete-step' : 'non-complete-step'}>13. Outputs</NavLink>
-                            <NavLink to={`/${client}/OutputEffects`} className={outputEffects.length > 0 ? 'complete-step' : 'non-complete-step'}>14. Effecten van output</NavLink>
+                            <NavLink to={`/${client}/ImpactTargetgroup`}>
+                                <div className={impactTargetgroupFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>6</h3>
+                                    <p>Impact op doelgroep</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/ImpactSociety`}>
+                                <div className={impactSocietyFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>7</h3>
+                                    <p>Impact op maatschappij</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/SDGs`}>
+                                <div className={sdgs.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>8</h3>
+                                    <p>Bijdrage aan SDG's</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/Assumptions`}>
+                                <div className={assumptions.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>9</h3>
+                                    <p>Aannames</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/Conditions`}>
+                                <div className={conditions.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>10</h3>
+                                    <p>Externe factoren</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/AddActivity`}>
+                                <div className={activities.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>11</h3>
+                                    <p>Activiteiten</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/ImpactActivity`}>
+                                <div className={activityImpactFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>12</h3>
+                                    <p>Impact van activiteiten</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/AddOutput`}>
+                                <div className={outputs.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>13</h3>
+                                    <p>Outputs</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/OutputEffects`}>
+                                <div className={outputEffects.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>14</h3>
+                                    <p>Effecten van outputs</p>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                     <div>
                         <p><b>SROI</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <NavLink to={`/${client}/AddSROI`} className={sroi.length > 0 ? 'complete-step' : 'non-complete-step'} >15. SROI</NavLink> 
+                            <NavLink to={`/${client}/AddSROI`}>
+                                <div className={sroi.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>15</h3>
+                                    <p>SROI</p>
+                                </div>
+                            </NavLink> 
                         </div>                  
                     </div>
                     <div>
                         <p><b>Meten</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <NavLink to={`/${client}/MeasureOutput`} className={milestones.length > 0 ? 'complete-step' : 'non-complete-step'} >16. Mijlpalen stellen</NavLink>
-                            <NavLink to={`/${client}/Questionnaires`} className={questionnaires.length > 0 ? 'complete-step' : 'non-complete-step'}>17. Vragenlijsten</NavLink>
-                            <NavLink to={`/${client}/Research`} className={research.length > 0 ? 'complete-step' : 'non-complete-step'}>18. Onderzoek opzetten</NavLink>
-                            <NavLink to={`/${client}/ResearchAnalyses`} className={conclusions.length > 0 ? 'complete-step' : 'non-complete-step'}>19. Onderzoeksanalyse</NavLink>
+                            <NavLink to={`/${client}/MeasureOutput`}>
+                                <div className={milestones.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>16</h3>
+                                    <p>Mijlpalen stellen</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/Questionnaires`}>
+                                <div className={questionnaires.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>17</h3>
+                                    <p>Vragenlijsten</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/Research`}>
+                                <div className={research.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>18</h3>
+                                    <p>Onderzoek opzetten</p>
+                                </div>
+                            </NavLink>
+                            <NavLink to={`/${client}/ResearchAnalyses`} className={conclusions.length > 0 ? 'complete-step' : 'non-complete-step'}>
+                                <div className={conclusions.length > 0 ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>19</h3>
+                                    <p>Onderzoeksanalyse</p>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                     <div>
                         <p><b>Communiceren</b></p>
                         <div className='wizard-introduction-menu-container'>
-                            <NavLink to={`/${client}/Impactclub`} className={impactBannerFilled ? 'complete-step' : 'non-complete-step'}>20. Impactclub</NavLink>
+                            <NavLink to={`/${client}/Impactclub`}>
+                                <div className={impactBannerFilled ? 'complete-step home-step-card' : 'incomplete-step home-step-card'}>
+                                    <h3>20</h3>
+                                    <p>Impactclub</p>
+                                </div>
+                            </NavLink>
                         </div>
                     </div>
                </div>
