@@ -68,7 +68,7 @@ const Introduction = () => {
                     <div className='text-section'>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Context</b></p>
-                            <div className='wizard-introduction-menu-container'>
+                            <div className='wizard-introduction-menu-container column'>
                                 <NavLink to={`/${client}/Explainer`} >1. Wat is impactmanagement?</NavLink>
                                 <NavLink to={`/${client}/ProblemAnalysis`} >2. Probleemanalyse</NavLink>
                                 <NavLink to={`/${client}/StakeholderAnalysis`} >3. Stakeholders</NavLink>
@@ -78,7 +78,7 @@ const Introduction = () => {
                         </div>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Verandertheorie (Theory Of Change)</b></p>
-                            <div className='wizard-introduction-menu-container'>
+                            <div className='wizard-introduction-menu-container column'>
                                 <NavLink to={`/${client}/ImpactTargetgroup`} >6. Impact op doelgroep</NavLink>
                                 <NavLink to={`/${client}/ImpactSociety`} >7. Impact op maatschappij</NavLink>
                                 <NavLink to={`/${client}/SDGs`} >8. Bijdrage aan SDG's</NavLink>
@@ -92,13 +92,13 @@ const Introduction = () => {
                         </div>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>SROI</b></p>
-                            <div className='wizard-introduction-menu-container'>
+                            <div className='wizard-introduction-menu-container column'>
                                 <NavLink to={`/${client}/AddSROI`} >15. SROI</NavLink> 
                             </div>                  
                         </div>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Meten</b></p>
-                            <div className='wizard-introduction-menu-container'>
+                            <div className='wizard-introduction-menu-container column'>
                                 <NavLink to={`/${client}/MeasureOutput`} >16. Mijlpalen stellen</NavLink>
                                 <NavLink to={`/${client}/Questionnaires`} >17. Vragenlijsten</NavLink>
                                 <NavLink to={`/${client}/Research`} >18. Onderzoek opzetten</NavLink>
@@ -108,7 +108,7 @@ const Introduction = () => {
                         </div>
                         <div className='wizard-introduction-menu-card'>
                             <p><b>Communiceren</b></p>
-                            <div className='wizard-introduction-menu-container'>
+                            <div className='wizard-introduction-menu-container column'>
                                 <NavLink to={`/${client}/Impactclub`} >21. Impactclub</NavLink>
                             </div>
                         </div>

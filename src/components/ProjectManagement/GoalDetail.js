@@ -1,4 +1,4 @@
-import { useFirestoreID } from "../../firebase/useFirestore"
+import { useFirestoreID, useFirestoreImpactTargetgroup, useFirestoreImpactSociety } from "../../firebase/useFirestore"
 import { motion } from "framer-motion"
 import worldIcon from '../../images/icons/world-icon.png'
 import LeftSideBar from "../LeftSideBar"
@@ -21,6 +21,32 @@ const GoalDetail = () => {
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
+    const ImpactTargetgroup = ({doc}) => {
+
+        const impactTargetgroup = useFirestoreImpactTargetgroup(doc.ID && doc.ID)
+
+        return(
+            <ul>
+                {impactTargetgroup && impactTargetgroup.map(impact => (
+                    <li>{impact.ImpactTargetgroup}</li>
+                ))}
+            </ul>
+        )
+    }
+
+    const ImpactSociety = ({doc}) => {
+
+        const impactSociety = useFirestoreImpactSociety(doc.ID && doc.ID)
+
+        return(
+            <ul>
+                {impactSociety && impactSociety.map(impact => (
+                    <li>{impact.ImpactSociety}</li>
+                ))}
+            </ul>
+        )
+    }
+
     return (
         <div className="main">
             <LeftSideBar />
@@ -42,19 +68,21 @@ const GoalDetail = () => {
                             <img src={newUserIcon} alt="" />
                             <h3>Impact op doelgroep</h3>
                         </div>
-                        <p className='output-seeting-effect'>{doc.ImpactTargetgroup}</p>
+                        <ImpactTargetgroup doc={doc}/>
                          <div className='activity-meta-title-container'>
                             <img src={leafIcon} alt="" />
                             <h3>Impact op maatschappij</h3>
                         </div>
-                        <p className='output-seeting-effect'>{doc.ImpactSociety}</p>
+                        <ImpactSociety doc={doc}/>
                         <div className='activity-meta-title-container'>
                             <img src={worldIcon} alt="" />
                             <h3>Bijdrage aan SDG's</h3>
                         </div>
+                        <ul>
                         {doc.SDG && doc.SDG.map(sdg => (
-                            <p className='output-seeting-effect'>{sdg}</p>
+                            <li>{sdg}</li>
                         ))}
+                        </ul>
                         <div className='goal-meta-title-container'>
                             <img src={preconditionsIcon} alt="" />
                             <h3>Randvoorwaarden</h3>

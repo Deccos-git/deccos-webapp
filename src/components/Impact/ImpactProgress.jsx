@@ -20,7 +20,9 @@ import {
     useFirestoreMeasureMoments,
     useFirestoreAssumptions,
     useFirestoreConditions,
-    useFirestoreConclusions
+    useFirestoreConclusions,
+    useFirestoreImpactTargetgroup,
+    useFirestoreImpactSociety
 } from "../../firebase/useFirestore";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
@@ -92,14 +94,14 @@ const ImpactProgress = () => {
                             <img src={newUserIcon} alt="" />
                             <h3>Impact op doelgroep</h3>
                         </div>
-                        <p>{goal.ImpactTargetgroup}</p>
+                        <ImpactTargetgroup goal={goal}/>
                     </div>
                     <div className='goal-meta-inner-container' style={{display: goal.ImpactSociety ? 'block' : 'none'}}>
                         <div className='goal-meta-title-container'>
                             <img src={leafIcon} alt="" />
                             <h3>Impact maatschappij</h3>
                         </div>
-                        <p>{goal.ImpactSociety}</p>
+                        <ImpactSociety goal={goal}/>
                     </div>
                     <Assumptions goal={goal}/>
                     <ExternalFactors goal={goal}/>
@@ -109,6 +111,32 @@ const ImpactProgress = () => {
             </div>
             ))}
         </>
+        )
+    }
+
+    const ImpactTargetgroup = ({goal}) => {
+
+        const impactTargetgroup = useFirestoreImpactTargetgroup(goal.ID && goal.ID)
+
+        return(
+            <ul>
+                {impactTargetgroup && impactTargetgroup.map(impact => (
+                    <li>{impact.ImpactTargetgroup}</li>
+                ))}
+            </ul>
+        )
+    }
+
+    const ImpactSociety = ({goal}) => {
+
+        const impactSociety = useFirestoreImpactSociety(goal.ID && goal.ID)
+
+        return(
+            <ul>
+                {impactSociety && impactSociety.map(impact => (
+                    <li>{impact.ImpactSociety}</li>
+                ))}
+            </ul>
         )
     }
 

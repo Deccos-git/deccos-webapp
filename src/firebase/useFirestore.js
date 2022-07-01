@@ -1667,6 +1667,51 @@ const useFirestoreConclusions = (id) => {
     return docs
 };
 
+const useFirestoreImpactTargetgroup = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('ImpactTargetgroup')
+        .where('CompagnyID', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
+
+const useFirestoreImpactSociety = (id) => {
+
+    const [docs, setDocs] = useState("")
+
+    useEffect(() => {
+        const unsub = db.collection('ImpactSociety')
+        .where('CompagnyID', '==', client)
+        .where('GoalID', '==', id)
+        .onSnapshot(querySnapshot => {
+            let docArray = []
+            querySnapshot.forEach(doc => {
+                docArray.push({...doc.data(), docid: doc.id})
+            })
+            setDocs(docArray)
+        })
+        
+        return () => unsub();
+
+    }, [id])  
+
+    return docs
+};
 
 
 
@@ -1743,5 +1788,7 @@ export {
     useFirestoreCompagny,
     useFirestoreOpenSourceQuestionnnaires,
     useFirestoreOpenSourceQuestionnnairesID,
-    useFirestoreConclusions
+    useFirestoreConclusions,
+    useFirestoreImpactTargetgroup,
+    useFirestoreImpactSociety
 }

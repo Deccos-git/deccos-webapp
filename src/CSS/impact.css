@@ -783,6 +783,14 @@
     box-shadow: none;
 }
 
+.column{
+    flex-direction: column;
+}
+
+.incomplete-step{
+    background-color: #f48183;
+}
+
 .list-row-container select{
     width: auto;
     border: none;

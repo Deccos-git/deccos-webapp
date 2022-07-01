@@ -7,7 +7,7 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreImpactTargetgroup } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
@@ -19,44 +19,43 @@ import eyeIcon from '../../images/icons/eye-icon.png'
 import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
 import { SavedIcon } from "../../StateManagment/SavedIcon";
+import deleteIcon from '../../images/icons/delete-icon.png'
+import plusButton from '../../images/icons/plus-icon.png'
+import uuid from 'react-uuid';
 
 const ImpactTargetgroup = () => {
     const [saved, setSaved] = useContext(SavedIcon)
 
-    const [goalDocid, setGoalDocid] = useState('')
+    const [goalId, setGoalId] = useState(null)
     const [targetgroup, setTargetgroup] = useState(null)
-    const [impact, setImpact] = useState('')
 
     const menuState = MenuStatus()
     ScrollToTop()
     
-    const goals = useFirestore('Goals') 
+    const goals = useFirestore('Goals')
+    const impactTargetgroups = useFirestoreImpactTargetgroup(goalId && goalId)
 
     const goalHandler = (e) => {
 
-        const docid = e.target.options[e.target.selectedIndex].dataset.docid 
         const targetgroup = e.target.options[e.target.selectedIndex].dataset.targetgroup 
-        const impact = e.target.options[e.target.selectedIndex].dataset.impact
+        const id = e.target.options[e.target.selectedIndex].dataset.id
 
-        setGoalDocid(docid)
         setTargetgroup(targetgroup)
-        setImpact(impact)
+        setGoalId(id)
 
     }
 
-    const impactHandler = (e) => {
+    const addImpactTargetgroup = (e) => {
 
-        const impact = e.target.value 
-
-        db.collection('Goals')
-        .doc(goalDocid)
-        .update({
-            ImpactTargetgroup: impact
+        db.collection('ImpactTargetgroup')
+        .doc()
+        .set({
+            ID: uuid(),
+            CompagnyID: client,
+            GoalID: goalId,
+            Timestamp: timestamp,
+            ImpactTargetgroup: ''
         })
-        .then(() => {
-            setSaved('flex')
-         })
-
     }
 
     const displayTargetgroup = () => {
@@ -69,6 +68,31 @@ const ImpactTargetgroup = () => {
         } else {
             return targetgroup
         }
+    }
+
+    const titleHandler = (e) => {
+
+        const docid = e.target.dataset.docid 
+        const impact = e.target.value
+
+        db.collection('ImpactTargetgroup')
+        .doc(docid)
+        .update({
+            ImpactTargetgroup: impact
+        })
+        .then(() => {
+            setSaved('flex')
+         })
+    }
+
+    const deleteImpactTargetgroup = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection('ImpactTargetgroup')
+        .doc(docid)
+        .delete()
+
     }
 
 
@@ -118,12 +142,36 @@ const ImpactTargetgroup = () => {
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
                     {goals && goals.map(goal => (
-                        <option data-docid={goal.docid} data-targetgroup={goal.Targetgroup} data-impact={goal.ImpactTargetgroup} value={goal.Title}>{goal.Title}</option>
+                        <option data-docid={goal.docid} data-id={goal.ID} data-targetgroup={goal.Targetgroup} value={goal.Title}>{goal.Title}</option>
                     ))}
                     </select>
                     <p>Doelgroep: {displayTargetgroup()}</p>
-                    <p><b>2. Formuleer de impact op de doelgroep</b></p>
-                    <textarea type="text" placeholder='Omschrijf hier de impact op je doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
+                    <div style={{display: goalId ? 'block': 'none'}}>
+                        <p><b>2. Voeg impact op de doelgroep toe</b></p>
+                        <div className='list-container'>
+                            <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addImpactTargetgroup} alt="" />
+                            </div>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>IMPACT OP DOELGROEP</th>
+                                        <th>DELETE</th>
+                                    </tr>
+                                    {impactTargetgroups && impactTargetgroups.map(impact => (
+                                        <tr key={impact.ID}>
+                                            <td>
+                                                <input type="text" data-docid={impact.docid} defaultValue={impact.ImpactTargetgroup} placeholder='Impact op doelgroep' onChange={titleHandler} />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={impact.docid} onClick={deleteImpactTargetgroup} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>

@@ -7,7 +7,7 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreImpactSociety } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { client } from '../../hooks/Client';
@@ -19,40 +19,63 @@ import dashboardIcon from '../../images/icons/dashboard-icon.png'
 import eyeIcon from '../../images/icons/eye-icon.png'
 import ScrollToTop from "../../hooks/ScrollToTop";
 import { SavedIcon } from "../../StateManagment/SavedIcon";
+import deleteIcon from '../../images/icons/delete-icon.png'
+import plusButton from '../../images/icons/plus-icon.png'
+import uuid from 'react-uuid';
 
 const ImpactSociety = () => {
     const [saved, setSaved] = useContext(SavedIcon)
 
-    const [goalDocid, setGoalDocid] = useState('')
-    const [impact, setImpact] = useState('')
+    const [goalId, setGoalId] = useState(null)
 
     const menuState = MenuStatus()
     ScrollToTop()
     
-    const goals = useFirestore('Goals') 
+    const goals = useFirestore('Goals')
+    const impactSociety = useFirestoreImpactSociety(goalId && goalId)
 
     const goalHandler = (e) => {
 
-        const docid = e.target.options[e.target.selectedIndex].dataset.docid 
-        const impact = e.target.options[e.target.selectedIndex].dataset.impact
+        const id = e.target.options[e.target.selectedIndex].dataset.id
 
-        setGoalDocid(docid)
-        setImpact(impact)
+        setGoalId(id)
 
     }
+    const addImpactSociety = (e) => {
 
-    const impactHandler = (e) => {
+        db.collection('ImpactSociety')
+        .doc()
+        .set({
+            ID: uuid(),
+            CompagnyID: client,
+            GoalID: goalId,
+            Timestamp: timestamp,
+            ImpactSociety: ''
+        })
+    }
 
-        const impact = e.target.value 
+    const titleHandler = (e) => {
 
-        db.collection('Goals')
-        .doc(goalDocid)
+        const docid = e.target.dataset.docid 
+        const impact = e.target.value
+
+        db.collection('ImpactSociety')
+        .doc(docid)
         .update({
             ImpactSociety: impact
         })
         .then(() => {
             setSaved('flex')
          })
+    }
+
+    const deleteImpactSociety = (e) => {
+
+        const docid = e.target.dataset.docid 
+
+        db.collection('ImpactSociety')
+        .doc(docid)
+        .delete()
 
     }
 
@@ -105,11 +128,35 @@ const ImpactSociety = () => {
                     <select name="" id="" onChange={goalHandler}>
                         <option value="">-- Selecteer een doel --</option>
                     {goals && goals.map(goal => (
-                        <option data-docid={goal.docid} data-impact={goal.ImpactSociety} value={goal.Title}>{goal.Title}</option>
+                        <option data-id={goal.ID} value={goal.Title}>{goal.Title}</option>
                     ))}
                     </select>
-                    <p><b>2. Formuleer de impact op de maatschappij</b></p>
-                    <textarea type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={impact ? impact : ''} onChange={impactHandler} />
+                    <div style={{display: goalId ? 'block': 'none'}}>
+                        <p><b>2. Voeg impact op de maatschappij toe</b></p>
+                        <div className='list-container'>
+                            <div className='list-top-row-container'>
+                                    <img src={plusButton} onClick={addImpactSociety} alt="" />
+                            </div>
+                            <div className='table-container'>
+                                <table>
+                                    <tr>
+                                        <th>IMPACT OP DOELGROEP</th>
+                                        <th>DELETE</th>
+                                    </tr>
+                                    {impactSociety && impactSociety.map(impact => (
+                                        <tr key={impact.ID}>
+                                            <td>
+                                                <input type="text" data-docid={impact.docid} defaultValue={impact.ImpactSociety} placeholder='Impact op maatschappij' onChange={titleHandler} />
+                                            </td>
+                                            <td>
+                                                <img className='table-delete-icon' data-docid={impact.docid} onClick={deleteImpactSociety} src={deleteIcon} alt="" />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>

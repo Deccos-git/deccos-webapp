@@ -7,7 +7,7 @@ import capIcon from '../../images/icons/cap-icon.png'
 import rocketIcon from '../../images/icons/rocket-icon.png'
 import bulbIcon from '../../images/icons/bulb-icon.png'
 import feetIcon from '../../images/icons/feet-icon.png'
-import { useFirestore, useFirestoreQuestionnaireFields, useFirestoreOpenSourceQuestionnnaires } from "../../firebase/useFirestore";
+import { useFirestore, useFirestoreQuestionnaireFields, useFirestoreOpenSourceQuestionnnaires, useFirestoreOpenSourceQuestionnnairesID } from "../../firebase/useFirestore";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import uuid from 'react-uuid';
@@ -35,6 +35,7 @@ const Questionnaires = () => {
     const [admin, setAdmin] = useState('none')
     const [authO] = useContext(Auth)
     const [modalOpen, setModalOpen] = useState(false);
+    const [openSourceQuestionnaireID, setOpenSourceQuestionnaireID] = useState(null)
     const [openSourceTitle, setOpenSourceTitle] = useState('')
     const [openSourceShortHand, setOpenSourceShortHand] = useState('')
     const [openSourceCategory, setOpenSourceCategory] = useState('')
@@ -42,6 +43,7 @@ const Questionnaires = () => {
     const [openSourceEvidenceBased, setOpenSourceEvidenceBased] = useState('')
     const [openSourceAuthor, setOpenSourceAuthor] = useState('')
     const [openSourceLink, setOpenSourceLink] = useState('')
+    const [selectedOpenSourceQuestionnaireTitle, setSelectedOpenSourceQuestionnaireTitle] = useState(null)
 
     useEffect(() => {
         if(authO.ID == '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
@@ -73,6 +75,7 @@ const Questionnaires = () => {
     
     const questionnaires = useFirestore('Questionnaires')
     const openSourceQuestionnaires = useFirestoreOpenSourceQuestionnnaires()
+    const selectedOpenSourceQuestionnaire = useFirestoreOpenSourceQuestionnnairesID(openSourceQuestionnaireID && openSourceQuestionnaireID)
     const compagny = useFirestore('CompagnyMeta')
 
     useEffect(() => {
@@ -151,10 +154,6 @@ const Questionnaires = () => {
         .then(setModalOpen(false))
     }
 
-    const openSourceQuestionnaireLink = () => {
-        history.push(`/${client}/AddOpenSourceQuestionnaire`)
-    }
-
     const openSourceTitleHandler = (e) => {
 
         const value = e.target.value 
@@ -211,12 +210,39 @@ const Questionnaires = () => {
 
     }
 
-    const viewOpenSourceQuestionnaire = (e) => {
+    const editOpenSourceQuestionnaire = (e) => {
 
         const id = e.target.dataset.id
 
         history.push(`/${client}/AddOpenSourceQuestionnaire/${id}`)
     }
+
+    const copyOpenSourceQuestionnaire = async (e) => {
+
+        const id = e.target.dataset.id
+
+        setOpenSourceQuestionnaireID(id)
+
+        selectedOpenSourceQuestionnaire && selectedOpenSourceQuestionnaire.forEach(questionnaire => {
+            const title = questionnaire.Title 
+
+            setSelectedOpenSourceQuestionnaireTitle(title)
+        })
+
+        const saveSelectedOpenSourceQuestionnaire = () => {
+
+            db.collection('Questionnaires')
+            .doc()
+            .set({
+                ID: id,
+                Timestamp: timestamp,
+                Compagny: client,
+                CompagnyID: client,
+                Title: selectedOpenSourceQuestionnaireTitle
+            })
+        } 
+    }
+
 
   return (
     <div className="main">
@@ -279,7 +305,7 @@ const Questionnaires = () => {
                                         {questionnaires && questionnaires.map(questionnaire => (
                                             <tr key={questionnaires.ID}>
                                                 <td>
-                                                    <input type="text" placeholder="Schrijf hier te titel" data-docid={questionnaire.docid} defaultValue={questionnaire.Title} onChange={titleHandler}/>
+                                                    <input type="text" placeholder="Schrijf hier de titel" data-docid={questionnaire.docid} defaultValue={questionnaire.Title} onChange={titleHandler}/>
                                                 </td>
                                                 <td>
                                                     <FieldCount questionnaire={questionnaire}/>
@@ -334,13 +360,15 @@ const Questionnaires = () => {
                                                     <p>{questionnaire.Author}</p>
                                                 </td>
                                                 <td>
-                                                    <img className='table-delete-icon' src={eyeIcon} alt="eye icon" />
+                                                    <a href={`https://deccos.nl/OpenSourceQuestionnaires/${questionnaire.ID}`} target='_blanc'>
+                                                        <img className='table-delete-icon' src={eyeIcon} alt="eye icon" />
+                                                    </a>
                                                 </td>
                                                 <td>
-                                                    <img className='table-delete-icon' src={plusButton} alt="plus icon" />
+                                                    <img className='table-delete-icon' src={plusButton} data-id={questionnaire.ID} alt="plus icon" onClick={copyOpenSourceQuestionnaire} />
                                                 </td>
                                                 <td className='open-source-pen-icon-container' style={{display: admin}}>
-                                                    <img className='table-delete-icon' className='table-delete-icon' data-id={questionnaire.ID} onClick={viewOpenSourceQuestionnaire} src={penIcon} alt="" />
+                                                    <img className='table-delete-icon' className='table-delete-icon' data-id={questionnaire.ID} onClick={editOpenSourceQuestionnaire} src={penIcon} alt="" />
                                                 </td>
                                             </tr>
                                         ))}
