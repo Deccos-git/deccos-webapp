@@ -35,6 +35,7 @@ const Questionnaires = () => {
     const [admin, setAdmin] = useState('none')
     const [authO] = useContext(Auth)
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenSourceOpen, setModalOpenSourceOpen] = useState(false);
     const [openSourceQuestionnaireID, setOpenSourceQuestionnaireID] = useState(null)
     const [openSourceTitle, setOpenSourceTitle] = useState('')
     const [openSourceShortHand, setOpenSourceShortHand] = useState('')
@@ -44,6 +45,7 @@ const Questionnaires = () => {
     const [openSourceAuthor, setOpenSourceAuthor] = useState('')
     const [openSourceLink, setOpenSourceLink] = useState('')
     const [selectedOpenSourceQuestionnaireTitle, setSelectedOpenSourceQuestionnaireTitle] = useState(null)
+    const [selectedOpenSourceQuestionnaireID, setSelectedOpenSourceQuestionnaireID] = useState(null)
 
     useEffect(() => {
         if(authO.ID == '6a8bf-08c3-a1ad-d04d-231ebe51dc60'){
@@ -227,21 +229,28 @@ const Questionnaires = () => {
             const title = questionnaire.Title 
 
             setSelectedOpenSourceQuestionnaireTitle(title)
+            setSelectedOpenSourceQuestionnaireID(id)
+
+            setModalOpenSourceOpen(true)
         })
-
-        const saveSelectedOpenSourceQuestionnaire = () => {
-
-            db.collection('Questionnaires')
-            .doc()
-            .set({
-                ID: id,
-                Timestamp: timestamp,
-                Compagny: client,
-                CompagnyID: client,
-                Title: selectedOpenSourceQuestionnaireTitle
-            })
-        } 
+        
     }
+
+    const saveSelectedOpenSourceQuestionnaire = () => {
+
+        db.collection('Questionnaires')
+        .doc()
+        .set({
+            ID: selectedOpenSourceQuestionnaireID,
+            Timestamp: timestamp,
+            Compagny: client,
+            CompagnyID: client,
+            Title: selectedOpenSourceQuestionnaireTitle
+        })
+        .then(() => {
+            setModalOpenSourceOpen(false)
+        })
+    } 
 
 
   return (
@@ -452,6 +461,18 @@ const Questionnaires = () => {
                 <h4>Link</h4>
                 <input type="text" placeholder='Beschrijf hier de link' onChange={openSourceLinkHandHandler}/>
                 <button onClick={addOpenSourceQuestionnaire}>Opslaan</button>
+            </div>
+        </Modal>
+        <Modal
+            isOpen={modalOpenSourceOpen}
+            onRequestClose={() => setModalOpenSourceOpen(false)}
+            style={modalStyles}
+            contentLabel="Copy open source questionnaire"
+            >
+            <div className='add-image-container'>
+                <h4>Open source vragenlijst toevoegen</h4>
+                <p>{selectedOpenSourceQuestionnaireTitle}</p>
+                <button onClick={saveSelectedOpenSourceQuestionnaire}>Toevoegen</button>
             </div>
         </Modal>
     </div>
