@@ -223,7 +223,7 @@ const StakeholderAnalysis = () => {
                                             <th>CATEGORIE</th>
                                             <th>ORGANISATIE</th>
                                             <th>CONTACTPERSOON</th>
-                                            <th>WIJZE VAN DIALOOH</th>
+                                            <th>WIJZE VAN DIALOOG</th>
                                             <th>FREQUENTIE</th>
                                             <th>GESPREKSONDERWERP</th>
                                             <th>DELETE</th>
@@ -241,6 +241,8 @@ const StakeholderAnalysis = () => {
                                                         <option value="Rijk">Rijk</option>
                                                         <option value="Klant">Klant</option>
                                                         <option value="Netwerk">Netwerk</option>
+                                                        <option value="Medewerkers">Medewerkers</option>
+                                                        <option value="Samenwerkingspartners">Samenwerkingspartners</option>
                                                     </select>
                                                 </td>
                                                 <td>

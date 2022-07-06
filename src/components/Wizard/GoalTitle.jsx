@@ -141,7 +141,7 @@ const GoalTitle = () => {
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserID: authO.ID,
-            Banner: '',
+            Banner: '"https://firebasestorage.googleapis.com/v0/b/deccos-app.appspot.com/o/defaultBannerActivity.png?alt=media&token=bb8383b8-a788-4210-a433-f51a2175b9f1"',
             Targetgroup: '',
         })
     }

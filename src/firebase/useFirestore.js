@@ -1288,6 +1288,7 @@ const useFirestoreSDGs = (collection) => {
 
     useEffect(() => {
         const unsub = db.collection(collection)
+        .orderBy("Position", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {

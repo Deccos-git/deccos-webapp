@@ -114,7 +114,7 @@ const Targetgroup = () => {
                         <option data-docid={goal.docid} data-targetgroup={goal.Targetgroup} value={goal.Title}>{goal.Title}</option>
                     ))}
                     </select>
-                    <p><b>1. Formuleer de doelgroep</b></p>
+                    <p><b>2. Formuleer de doelgroep</b></p>
                     <input type="text" placeholder='Schrijf hier de naam van de doelgroep' defaultValue={title} onChange={titleHandler} />
                 </div>
             </div>

@@ -171,7 +171,7 @@ const SDGs = () => {
                                                     <select name="" id="" defaultValue={sdg.SDG} data-docid={sdg.docid} onChange={sdgHandler}>
                                                         <option value="">-- Selecteer een SDG --</option>
                                                         {SDGS && SDGS.map(sdg => (
-                                                            <option value={sdg.SDG}>{sdg.SDG}</option>
+                                                            <option value={sdg.SDG}>{sdg.Position}. {sdg.SDG}</option>
                                                         ))}
                                                     </select>
                                                 </td>
