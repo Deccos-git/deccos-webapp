@@ -216,7 +216,7 @@ const Questionnaires = () => {
 
         const id = e.target.dataset.id
 
-        history.push(`/${client}/AddOpenSourceQuestionnaire/${id}`)
+        history.push(`/${client}/Questionnaire/${id}`)
     }
 
     const copyOpenSourceQuestionnaire = async (e) => {
@@ -251,6 +251,15 @@ const Questionnaires = () => {
             setModalOpenSourceOpen(false)
         })
     } 
+
+    const showOpenSourceQuestionnaire = (e) => {
+
+        const id = e.target.dataset.id
+
+        history.push(`/${client}/OpenSourceQuestionnaire/${id}`)
+
+
+    }
 
 
   return (
@@ -369,9 +378,7 @@ const Questionnaires = () => {
                                                     <p>{questionnaire.Author}</p>
                                                 </td>
                                                 <td>
-                                                    <a href={`https://deccos.nl/OpenSourceQuestionnaires/${questionnaire.ID}`} target='_blanc'>
-                                                        <img className='table-delete-icon' src={eyeIcon} alt="eye icon" />
-                                                    </a>
+                                                    <img className='table-delete-icon' data-id={questionnaire.ID} src={eyeIcon} alt="eye icon" onClick={showOpenSourceQuestionnaire} />
                                                 </td>
                                                 <td>
                                                     <img className='table-delete-icon' src={plusButton} data-id={questionnaire.ID} alt="plus icon" onClick={copyOpenSourceQuestionnaire} />

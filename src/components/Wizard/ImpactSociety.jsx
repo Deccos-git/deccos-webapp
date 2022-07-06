@@ -140,7 +140,7 @@ const ImpactSociety = () => {
                             <div className='table-container'>
                                 <table>
                                     <tr>
-                                        <th>IMPACT OP DOELGROEP</th>
+                                        <th>IMPACT OP MAATSCHAPPIJ</th>
                                         <th>DELETE</th>
                                     </tr>
                                     {impactSociety && impactSociety.map(impact => (

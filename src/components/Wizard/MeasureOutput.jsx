@@ -161,6 +161,22 @@ const MeasureOutput = () => {
         }
     }
 
+    const titleHandler = (e) => {
+
+        const title = e.target.value 
+        const docid = e.target.dataset.docid
+
+        db.collection('Milestones')
+        .doc(docid)
+        .update({
+            Title: title
+        })
+        .then(() => {
+            setSaved('flex')
+         })
+
+    }
+
     const deadlineHandler = (e) => {
 
         const deadline = e.target.value 
@@ -284,19 +300,20 @@ const MeasureOutput = () => {
                                 <div className='table-container'>
                                     <table>
                                         <tr>
-                                            <th>OUTPUT</th>
                                             <th>AANTAL</th>
+                                            <th>TITLE</th>
                                             <th>DEADLINE</th>
                                             <th>VERWIJDER</th>
                                         </tr>
                                         {milestones && milestones.map(milestone => (
                                             <tr key={milestone.ID}>
-                                                <td>
-                                                    <p>{milestone.OutputTitle}</p>
-                                                </td>
-                                                <td>
+                                                 <td>
                                                     <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
                                                 </td>
+                                                <td>
+                                                    <input type="text" placeholder='Geef je milestone een titel' defaultValue={milestone.OutputTitle} data-docid={milestone.docid} onChange={titleHandler} />
+                                                </td>
+                                               
                                                 <td>
                                                     <input type="date" placeholder='0' defaultValue={milestone.Deadline} data-docid={milestone.docid} onChange={deadlineHandler} />
                                                 </td>

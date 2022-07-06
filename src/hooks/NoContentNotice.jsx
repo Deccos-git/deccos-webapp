@@ -11,8 +11,6 @@ const NoContentNotice = (check, linkItem) => {
     const guideLink = () => {
         history.push(`/${client}/${linkItem}`)
     }
-
-    console.log(check)
             
     setTimeout(() => {
         if(check.length === 0){

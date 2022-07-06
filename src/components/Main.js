@@ -50,7 +50,6 @@ import CreateQuestionnaire from './Impact/CreateQuestionnaire';
 import QuestionnaireSettingsDetail from './Impact/QuestionnaireSettingsDetail';
 import Milestones from './ProjectManagement/Milestones';
 import AddMilestone from './ProjectManagement/AddMilestone';
-import MilestoneSettingsDetail from './ProjectManagement/MilestoneSettingsDetail';
 import MilestoneSettings from './ProjectManagement/MilestoneSettings';
 import MilestoneDetail from './ProjectManagement/MilestoneDetail';
 import OutputSettings from './Impact/OutputSettings';
@@ -89,6 +88,7 @@ import NewClient from './NewClient';
 import { Test } from './Test';
 import AddOpenSourceQuestionnaire from './Impact/AddOpenSourceQuestionnaire';
 import Home from './Home';
+import OpenSourceQuestionnaire from './Wizard/OpenSourceQuestionnaire';
 
 const Main = () => {
 
@@ -167,9 +167,6 @@ const Main = () => {
                 <Route path={`/${client}/AddMilestone`}>
                     <AddMilestone/>
                 </Route>
-                <Route path={`/${client}/MilstoneSettingsDetail`}>
-                    <MilestoneSettingsDetail/>
-                </Route>
                 <Route path={`/${client}/Milestones`}>
                     <Milestones/>
                 </Route>
@@ -229,6 +226,9 @@ const Main = () => {
                 </Route>
                 <Route path={`/${client}/QuestionnaireAnalysis`}>
                     <QuestionnaireAnalysis/>
+                </Route>
+                <Route path={`/${client}/OpenSourceQuestionnaire`}>
+                    <OpenSourceQuestionnaire/>
                 </Route>
                 <Route path={`/${client}/Stakeholders`}>
                     <Stakeholders/>

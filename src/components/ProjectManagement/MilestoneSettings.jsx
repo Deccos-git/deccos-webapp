@@ -16,7 +16,6 @@ import NoContentNotice from "../../hooks/NoContentNotice";
 import ScrollToTop from "../../hooks/ScrollToTop";
 
 const MilestoneSettings = () => {
-    const [succes, setSucces] = useState(false)
 
     const menuState = MenuStatus()
     const premium = Premium() 
@@ -25,26 +24,16 @@ const MilestoneSettings = () => {
     const milestones = useFirestore('Milestones')
    
 
-    const MilestoneProgress = ({output}) => {
-        const [goal, setGoal] = useState(0)
+    const MilestoneProgress = ({milestone}) => {
 
-        const results = useFirestoreResults(output)
-
-        useEffect(() => {
-            milestones && milestones.forEach(milestone => {
-
-                setGoal(milestone.Number)
-                setSucces(milestone.Succes)
-
-            })
-         },[milestones])
-
-        const width = results.length*100/goal
+        const results = useFirestoreResults(milestone.OutputID)
+        
+        const width = results.length*100/milestone.Number
 
         const percentage = `${width}%`
 
          const succesColor = () => {
-            if(succes === true){
+            if(milestone.Succes === true){
                 return '#00cd00'
             } else {
                 return '#63cadc'
@@ -55,7 +44,7 @@ const MilestoneSettings = () => {
             <div className='milestone-progress-container'>
                 <div className='percentage-container'>
                     <p>Huidig: {results.length} ({width}%)</p>
-                    <p>Doel: {goal}</p>
+                    <p>Doel: {milestone.Number}</p>
                 </div>
                 
                 <div className='progressbar-outer-bar'>
@@ -82,7 +71,7 @@ const MilestoneSettings = () => {
             <div className='card-container milestone-card-container' style={{display: premium ? 'flex' : 'none'}}>
             {milestones && milestones.map(milestone => (
                     <div className='instrument-card'>
-                        <h2>{milestone.Title}</h2>
+                        <h2>{milestone.Number} {milestone.Title}</h2>
                         <div className='task-detail-inner-container'>
                         <div className='activity-meta-title-container'>
                                 <img src={activityIcon} alt="" />
@@ -99,7 +88,7 @@ const MilestoneSettings = () => {
                                     <img src={progressIcon} alt="" />
                                     <h3>Voortgang</h3>
                                 </div>
-                                <MilestoneProgress output={milestone.OutputID}/>
+                                <MilestoneProgress milestone={milestone}/>
                             </div>
                         </div>
                     </div>

@@ -368,7 +368,7 @@ const ImpactProgress = () => {
                 </div>
                 {milestones && milestones.map(milestone => (
                     <div className='impact-dashboard-output-inner-container'>
-                        <h4>Aantal {milestone.Title.toLowerCase()}</h4>
+                        <h4>{milestone.Number} {milestone.Title.toLowerCase()}</h4>
                         <MilestoneProgress milestone={milestone}/>
                     </div>
                 ))}

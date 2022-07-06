@@ -777,6 +777,14 @@
     border-radius: 5px;
 }
 
+.question-display-title{
+    text-align: center;
+}
+
+.profile-no-background{
+    width: 83%;
+}
+
 .list-row-container textarea{
     width: auto;
     border: none;
