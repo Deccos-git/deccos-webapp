@@ -57,6 +57,7 @@ import sroiIcon from '../../images/icons/sroi-icon.png'
 import researchIcon from '../../images/icons/research-icon.png'
 import NoContentNotice from "../../hooks/NoContentNotice";
 import ScrollToTop from "../../hooks/ScrollToTop";
+import listIcon from '../../images/icons/list-icon.png'
 
 const ImpactProgress = () => {
     const [questionniare, setQuestionniare] = useState('')
@@ -282,12 +283,41 @@ const ImpactProgress = () => {
                     <>
                         <div className='impact-dashboard-output-inner-container'>
                             <h4>{research.Title}</h4>
+                            <Questionnaire research={research}/>
                             <MeasureMoments research={research}/>
                             <Conclusions research={research}/>
                         </div>
                     </>
                 ))}
             </div>
+        )
+    }
+
+    const Questionnaire = ({research}) => {
+
+        const questionnaires = useFirestoreID("Questionnaires", research.QuestionnaireID)
+
+        return (
+            <div className='activity-meta-title-container' style={{display: questionnaires.length > 0 ? 'block' : 'none'}}>
+            <div className='activity-meta-title-container'>
+                <img src={listIcon} alt="" />
+                <h4>Vragenlijst</h4>
+            </div>
+            <div className='table-container output-seeting-effect'>
+                <table className='table-impact-dashboard'>
+                    <tr>
+                        <th>VRAGENLIJST</th>
+                        <th>EVIDENCE BASED</th>
+                    </tr>
+                    {questionnaires && questionnaires.map(questionnaire => (
+                        <tr key={questionniare.ID}>
+                            <td>{questionnaire.Title}</td>
+                            <td>{questionnaire.EvidenceBased === true ? 'Ja' : 'Nee'}</td>
+                        </tr>
+                    ))}
+                </table>
+            </div>   
+        </div>
         )
     }
 
@@ -308,7 +338,7 @@ const ImpactProgress = () => {
                             <th>DATUM</th>
                         </tr>
                         {moments && moments.map(moment => (
-                            <tr>
+                            <tr key={moment.ID}>
                                 <td>{moment.Title}</td>
                                 <td>{moment.Moment}</td>
                             </tr>
@@ -345,7 +375,7 @@ const ImpactProgress = () => {
                             <th>TYPE</th>
                         </tr>
                         {conclusions && conclusions.map(conclusion => (
-                            <tr>
+                            <tr key={conclusion.ID}>
                                 <td>{conclusion.Conclusion}</td>
                                 <td>{conclusionType(conclusion)}</td>
                             </tr>

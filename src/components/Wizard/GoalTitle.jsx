@@ -209,6 +209,10 @@ const GoalTitle = () => {
                             <li>Is het doel meetbaar en hebben jullie hier een directe invloed op?</li>
                             <li>Is het doel realistisch en haalbaar?</li>
                         </ul>
+
+                        <p>De meeste sociale organisaties hebben één tot twee maatschappelijke doelen. Probeer je maatschappelijke doel zo breed te formuleren dat 
+                            al je bedrijfsactiviteiten hieronder vallen. Lukt het niet om al je bedrijfsactiviteiten onder één doel te plaatsen? Dan heb je misschien nog een tweede doel.
+                        </p>
                         <p>Om je impact dashboard een beetje kleur te geven kun je een plaatje uploaden dat past bij het doel. 
                             Onze tip is om dat niet over te slaan. Ook in de communicatie naar stakeholders 
                             helpt een mooi plaatje om het belang van jullie doel over te brengen. 

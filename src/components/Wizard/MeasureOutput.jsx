@@ -143,22 +143,9 @@ const MeasureOutput = () => {
     const numberHandler = (e) => {
 
         const number = e.target.value 
-        const docid = e.target.dataset.docid
 
         setNumber(number)
 
-        if(docid === undefined){
-            return
-        } else {
-            db.collection('Milestones')
-            .doc(docid)
-            .update({
-                Number: number
-            })
-            .then(() => {
-                setSaved('flex')
-             })
-        }
     }
 
     const titleHandler = (e) => {
@@ -308,7 +295,7 @@ const MeasureOutput = () => {
                                         {milestones && milestones.map(milestone => (
                                             <tr key={milestone.ID}>
                                                  <td>
-                                                    <input type="number" placeholder='0' defaultValue={milestone.Number} data-docid={milestone.docid} onChange={numberHandler} />
+                                                     <p>{milestone.Number}</p>
                                                 </td>
                                                 <td>
                                                     <input type="text" placeholder='Geef je milestone een titel' defaultValue={milestone.OutputTitle} data-docid={milestone.docid} onChange={titleHandler} />

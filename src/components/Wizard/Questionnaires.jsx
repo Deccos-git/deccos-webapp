@@ -109,6 +109,7 @@ const Questionnaires = () => {
             Timestamp: timestamp,
             Compagny: client,
             CompagnyID: client,
+            EvidenceBased: false
         })
     }
 
@@ -216,7 +217,7 @@ const Questionnaires = () => {
 
         const id = e.target.dataset.id
 
-        history.push(`/${client}/Questionnaire/${id}`)
+        history.push(`/${client}/AddQuestionnaire/${id}`)
     }
 
     const copyOpenSourceQuestionnaire = async (e) => {
@@ -245,7 +246,8 @@ const Questionnaires = () => {
             Timestamp: timestamp,
             Compagny: client,
             CompagnyID: client,
-            Title: selectedOpenSourceQuestionnaireTitle
+            Title: selectedOpenSourceQuestionnaireTitle,
+            EvidenceBased: true
         })
         .then(() => {
             setModalOpenSourceOpen(false)

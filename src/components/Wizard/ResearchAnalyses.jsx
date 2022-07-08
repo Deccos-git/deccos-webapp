@@ -111,8 +111,6 @@ const ResearchAnalysis = () => {
 
         const array = Object.entries(groupBy(resultsArray, 'MomentID')) 
 
-        console.log(array)
-
         // Get the average score in an array
 
         const totalArray = []
@@ -141,7 +139,7 @@ const ResearchAnalysis = () => {
         const difference = lastNumber - firstNumber
 
         return(
-            <div>{Math.round(difference * 10) / 10}</div>
+            <div>{difference ? Math.round(difference * 10) / 10 : ''}</div>
         )
     }
 
