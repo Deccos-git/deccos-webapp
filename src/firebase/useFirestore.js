@@ -917,7 +917,7 @@ const useFirestoreQuestionnaireFields = (id) => {
     useEffect(() => {
         const unsub = db.collection('QuestionnaireFields')
         .where('QuestionnaireID', '==', id)
-        .orderBy("Timestamp", "asc")
+        .orderBy("Position", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {

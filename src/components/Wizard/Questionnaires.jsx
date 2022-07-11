@@ -323,7 +323,7 @@ const Questionnaires = () => {
                                             </tr>
                                         </thead>
                                         {questionnaires && questionnaires.map(questionnaire => (
-                                            <tr key={questionnaires.ID}>
+                                            <tr key={questionnaire.ID}>
                                                 <td>
                                                     <input type="text" placeholder="Schrijf hier de titel" data-docid={questionnaire.docid} defaultValue={questionnaire.Title} onChange={titleHandler}/>
                                                 </td>

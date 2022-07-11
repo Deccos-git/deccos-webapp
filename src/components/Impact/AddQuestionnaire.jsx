@@ -122,6 +122,8 @@ const AddQuestionnaire = () => {
 
         ButtonClicked(e, 'Toegevoegd')
 
+        const position = questionnaireFields.length + 1
+
         setTimeout(() => {
             e.target.innerText = 'Nog een toevoegen' 
             e.target.style.color = 'green'
@@ -140,7 +142,8 @@ const AddQuestionnaire = () => {
             ReachStartLable: reachStartLabel,
             ReachEnd: parseInt(reachEnd),
             ReachEndLabel: reachEndLabel,
-            Key: uuid()
+            Key: uuid(),
+            Position: position
         })
     }
 
@@ -190,6 +193,7 @@ const AddQuestionnaire = () => {
         if(field.Type === 'paragraph'){
             return(
                 <div className='question-type-display-container'>
+                    <p>{field.Position}</p>
                     <input type='text' data-docid={field.docid} defaultValue={field.Question} onChange={questionTitleHandler} />
                     <p id='questionnaire-field-text'>Text antwoord</p>
                     <div className='questionnaire-field-delete-icon-container'>
@@ -200,6 +204,7 @@ const AddQuestionnaire = () => {
         } else if(field.Type === 'scale'){
             return(
                 <div className='question-type-display-container'>
+                    <p>{field.Position}</p>
                    <input type='text' data-docid={field.docid} defaultValue={field.Question} onChange={questionTitleHandler} />
                    <div id='scale-container'>
                        {field.ReachStartLable}
