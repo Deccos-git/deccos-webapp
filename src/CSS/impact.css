@@ -781,6 +781,21 @@
     text-align: center;
 }
 
+.moment-position-container{
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+.moment-position-container p{
+    font-size: 25px;
+    border-radius: 50%;
+    background-color: white;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    border: 1px dotted lightgray;
+}
+
 .profile-no-background{
     width: 83%;
 }

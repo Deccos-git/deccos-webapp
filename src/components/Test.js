@@ -2,47 +2,20 @@ import React from 'react'
 import { db, timestamp } from '../firebase/config'
 import { useState, useEffect } from 'react'
 import uuid from 'react-uuid'
+import {useFirestoreQuestionnairesResponsesMoments} from '../firebase/useFirestore'
 
 export const Test = () => {
-    const [docs, setDocs] = useState([])
-
-    useEffect(() => {
-        db.collection('ProblemAnalysis')
-        .get()
-        .then(querySnapshot => {
-            const docArray = []
-            querySnapshot.forEach(doc => {
-                docArray.push({...doc.data(), docid: doc.id})   
-            })
-            setDocs(docArray)
-        })
-    }, [])
    
-    const create = () => {
-        docs && docs.forEach(doc => {
+    const responses = useFirestoreQuestionnairesResponsesMoments('7fec082-f4d4-0d3-b16c-632d15076245')
 
-            console.log(doc)
+    responses && responses.forEach(respons => {
 
-            doc.DirectConsequences && doc.DirectConsequences.forEach(value => {
-
-                console.log(value)
-
-                db.collection('DirectConsequences')
-                .doc()
-                .set({
-                    CompagnyID: doc.CompagnyID,
-                    CentralProblemID: doc.ID,
-                    ID: uuid(),
-                    Timestamp: timestamp,
-                    DirectConsequence: value
-                })
-            })
+        db.collection('QuestionnairesResponses')
+        .doc(respons.docid)
+        .update({
+            Position: 2
         })
-    }
-
-    useEffect(() => {
-    //  create()
-    }, [])
+    })
     
 
   return (

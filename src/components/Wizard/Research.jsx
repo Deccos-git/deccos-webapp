@@ -68,6 +68,7 @@ const Research = () => {
     const outputs = useFirestore('Outputs')
     const researches = useFirestore('Research')
     const questionnaires = useFirestore('Questionnaires')
+    const measureMoments = useFirestoreMeasureMoments(researchID && researchID)
 
     const outputHandler = (e) => {
         const outputID = e.target.options[e.target.selectedIndex].value
@@ -142,6 +143,8 @@ const Research = () => {
 
     const addMoment = (e) => {
 
+        const position = measureMoments.length + 1
+
         db.collection('MeasureMoments')
         .doc()
         .set({
@@ -158,7 +161,8 @@ const Research = () => {
             ActivityID: activityID,
             Activity: activityTitle,
             QuestionnaireID: questionnaireID,
-            Responses: 0
+            Responses: 0,
+            Position: position
         })
         .then(() => {
             db.collection('Tasks')
@@ -197,6 +201,9 @@ const Research = () => {
             <div>
                 {moments && moments.map(moment => (
                     <div key={moment.ID} className='measure-moments-inner-container'>
+                        <div className='moment-position-container'>
+                            <p>{moment.Position}</p>
+                        </div>
                         <div className='measure-moment-sub-container'>
                             <p><b>Titel</b></p>
                             <input type="text" defaultValue={moment.Title} data-docid={moment.docid} onChange={changeMomentTitleHandler} />
@@ -377,15 +384,15 @@ const Research = () => {
                                         {researches && researches.map(research => (
                                         <tr key={research.ID}>
                                             <td>
-                                                <input type="text" data-docid={research.docid} defaultValue={research.Title} onChange={changeResearchTitle} />
+                                                <input type="text" data-docid={research.docid} onChange={changeResearchTitle} />
                                             </td>
                                             <td>
                                                 <div className='measure-moment-sub-container'>
                                                     <p><b>Vragenlijst</b></p>
-                                                    <select name="" id="" data-docid={research.docid} defaultValue={research.QuestionnaireTitle} onChange={changeQuestioinnaireHandler}>
+                                                    <select name="" id="" data-docid={research.docid} defaultValue={research.QuestionnaireID} onChange={changeQuestioinnaireHandler}>
                                                         <option value="">-- Selecteer een vragenlijst --</option>
                                                         {questionnaires && questionnaires.map(questionnaire => (
-                                                            <option key={questionnaire.ID} value={questionnaire.ID} data-title={questionnaire.Title} >{questionnaire.Title}</option>
+                                                            <option key={questionnaire.ID} value={questionnaire.ID} selected={research.QuestionnaireID} data-title={questionnaire.Title} >{questionnaire.Title}</option>
                                                         ))}
                                                     </select>
                                                 </div>

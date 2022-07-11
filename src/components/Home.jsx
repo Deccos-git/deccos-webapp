@@ -48,8 +48,6 @@ const Home = () => {
     const research = useFirestore('Research')
     const conclusions = useFirestore('Conclusions')
 
-    console.log(sroi)
-
     const currentProgressArray = []
 
     const addToProgress = (step, title) => {

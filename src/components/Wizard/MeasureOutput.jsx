@@ -94,7 +94,8 @@ const MeasureOutput = () => {
             Activity: activityTitle,
             Number: number,
             Succes: false,
-            Deadline: deadline
+            SuccesDate: timestamp,
+            Deadline: deadline,
         })
         .then(() => {
 

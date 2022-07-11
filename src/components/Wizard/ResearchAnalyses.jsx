@@ -100,8 +100,7 @@ const ResearchAnalysis = () => {
         results && results.forEach(result => {
             const resultsObject = {
                 Input: parseInt(result.Input),
-                MomentID: result.MomentID,
-                Timestamp: result.Timestamp
+                Position: result.Position,
             }
 
             resultsArray.push(resultsObject)
@@ -109,7 +108,9 @@ const ResearchAnalysis = () => {
 
         // Group the results array by momentID
 
-        const array = Object.entries(groupBy(resultsArray, 'MomentID')) 
+        const array = Object.entries(groupBy(resultsArray, 'Position')) 
+
+        console.log(array)
 
         // Get the average score in an array
 
@@ -163,13 +164,13 @@ const ResearchAnalysis = () => {
         results && results.forEach(result => {
             const resultsObject = {
                 Input: parseInt(result.Input),
-                MomentID: result.MomentID,
+                Position: result.Position,
             }
 
             resultsArray.push(resultsObject)
         })
 
-        const array = Object.entries(groupBy(resultsArray, 'MomentID')) 
+        const array = Object.entries(groupBy(resultsArray, 'Position')) 
 
         const totalArray = []
 

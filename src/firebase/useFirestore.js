@@ -1518,7 +1518,7 @@ const useFirestoreMeasureMoments = (id) => {
         const unsub = db.collection("MeasureMoments")
         .where('CompagnyID', '==', client)
         .where('ResearchID', '==', id)
-        .orderBy("Timestamp", "desc")
+        .orderBy("Position", "asc")
         .onSnapshot(querySnapshot => {
             let docArray = []
             querySnapshot.forEach(doc => {
