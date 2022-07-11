@@ -36,7 +36,7 @@ const ReactionBar = ({message}) => {
             ParentID: message.ID,
             Message: reaction,
             Likes: 0,
-            Compagny: client,
+            CompagnyID: client,
             Timestamp: timestamp,
             PrevPath: location.pathname,
             User: authO.UserName,

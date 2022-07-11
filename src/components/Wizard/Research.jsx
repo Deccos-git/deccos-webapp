@@ -218,9 +218,14 @@ const Research = () => {
                         </div>
                         <div className='measure-moment-sub-container' style={{display: research.QuestionnaireID ? 'block' : 'none'}}>
                             <p><b>Link naar vragenlijst</b></p>
-                            <h5>{`https://deccos.nl/Questionnaires/${research.QuestionnaireID}/${moment.ID}/${research.ID}`}</h5>
+                            <a href={`https://deccos.nl/Questionnaires/${research.QuestionnaireID}/${moment.ID}/${research.ID}`} target='_blank'>
+                                <img className='table-delete-icon' src={eyeIcon} alt="Eye icon" />
+                            </a>
                         </div>
-                        <p className='delete-text-measure-moments' data-docid={moment.docid} onClick={deleteMoment}>Verwijder</p>
+                        <div className='measure-moment-sub-container' style={{display: research.QuestionnaireID ? 'block' : 'none'}}>
+                            <p><b>Verwijder meetmoment</b></p>
+                            <img className='table-delete-icon' data-docid={moment.docid} onClick={deleteMoment} src={deleteIcon} alt="delete icon" />
+                        </div>
                     </div>
                 ))}
             </div>
@@ -384,7 +389,7 @@ const Research = () => {
                                         {researches && researches.map(research => (
                                         <tr key={research.ID}>
                                             <td>
-                                                <input type="text" data-docid={research.docid} onChange={changeResearchTitle} />
+                                                <input type="text" data-docid={research.docid} defaultValue={research.Title} onChange={changeResearchTitle} />
                                             </td>
                                             <td>
                                                 <div className='measure-moment-sub-container'>

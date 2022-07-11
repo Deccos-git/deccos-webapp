@@ -125,7 +125,7 @@ const Reaction = ({message}) => {
             MessageBody: message,
             Read: false,
             ID: uuid(),
-            Compagny: client,
+            CompagnyID: client,
         })
         .then(() => {
             db.collection("Notifications")
@@ -143,7 +143,7 @@ const Reaction = ({message}) => {
                 ID: uuid(),
                 Header:`${authO.UserName} vindt jouw bericht`,
                 SubHeader:`leuk`,
-                Compagny: client,
+                CompagnyID: client,
                 Type: "Like"
             })
         })

@@ -43,7 +43,7 @@ const MessageBar = () => {
             PrevPath: location.pathname,
             ID: id,
             Likes: 0,
-            Compagny: client,
+            CompagnyID: client,
             User: authO.UserName,
             UserPhoto: authO.Photo,
             UserDocID: authO.Docid,

@@ -54,7 +54,7 @@ const MessageBarGroup = () => {
             ParentID: route,
             ID: id,
             Likes: 0,
-            Compagny: client,
+            CompagnyID: client,
             User: authO.UserName,
             UserPhoto: authO.Photo,
             Email: authO.Email,

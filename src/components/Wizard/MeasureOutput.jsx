@@ -40,6 +40,7 @@ const MeasureOutput = () => {
     const [deadline, setDeadline] = useState('')
     const [modalOpen, setModalOpen] = useState(false);
     const [singular, setSingular] = useState('')
+    const [subdivision, setSubdivision] = useState(1)
 
     const history = useHistory()
     const menuState = MenuStatus() 
@@ -80,64 +81,96 @@ const MeasureOutput = () => {
 
         ButtonClicked(e, 'Opgeslagen')
 
-        db.collection('Milestones')
-        .doc()
-        .set({
-            OutputID: outputID,
-            OutputTitle: outputTitle,
-            ID: id,
-            Compagny: client,
-            CompagnyID: client,
-            Timestamp: timestamp,
-            Title: outputTitle,
-            ActivityID: activityID,
-            Activity: activityTitle,
-            Number: number,
-            Succes: false,
-            SuccesDate: timestamp,
-            Deadline: deadline,
-        })
-        .then(() => {
+        // db.collection('Milestones')
+        // .doc()
+        // .set({
+        //     OutputID: outputID,
+        //     OutputTitle: outputTitle,
+        //     ID: id,
+        //     Compagny: client,
+        //     CompagnyID: client,
+        //     Timestamp: timestamp,
+        //     Title: outputTitle,
+        //     ActivityID: activityID,
+        //     Activity: activityTitle,
+        //     Number: number,
+        //     Succes: false,
+        //     SuccesDate: timestamp,
+        //     Deadline: deadline,
+        // })
+        // .then(() => {
 
-            for (let i = 0; i < number; i++) {
-                createTasks()
-              }
+        let division = 1 
 
-        })
-        .then(() => {
-            closeModal()
-        })
+        if(number/subdivision < 1){
+            division = 1
+        } else{
+            division = number/subdivision
+        }
+
+        for (let i = 0; i < division; i++) {
+
+            createTasks(division)
+            }
+            
+
+        // })
+        // .then(() => {
+            // closeModal()
+        // })
     }
 
-    const createTasks = () => {
+    const createTasks = (division) => {
 
-        console.log(singular)
+        console.log(division)
 
-        db.collection('Tasks')
-        .doc()
-        .set({
-            ID: uuid(),
-            Compagny: client,
-            CompagnyID: client,
-            Timestamp: timestamp,
-            Title: `Nieuwe ${singular.toLowerCase()}`,
-            AppointedID: '',
-            AppointedName: '',
-            AppointedPhoto: '',
-            AppointedEmail: '',
-            Completed: false,
-            Icon: completeIcon,
-            Singular: singular.toLowerCase(),
-            Type: 'Task',
-            Priority: '',
-            OutputID: outputID,
-            OutputTitle: outputTitle,
-            ActivityID: activityID,
-            ActivityTitle: activityTitle
-        })
-        .then(() => {
-            console.log('task created')
-        })
+        let divis = ''
+
+        if(division === 1){
+            divis = ''
+        } else if(division === 5){
+            divis = 'vijftal'
+        } else if(division === 10){
+            divis = 'tiental'
+        } else if(division === 20){
+            divis = 'twintigtal'
+        } else if(division === 100){
+            divis = 'honderdtal'
+        } else {
+            divis = ''
+        }
+
+        console.log(divis)
+
+        // db.collection('Tasks')
+        // .doc()
+        // .set({
+        //     ID: uuid(),
+        //     Compagny: client,
+        //     CompagnyID: client,
+        //     Timestamp: timestamp,
+        //     Title: `Nieuwe ${divis} ${singular.toLowerCase()}`,
+        //     AppointedID: '',
+        //     AppointedName: '',
+        //     AppointedPhoto: '',
+        //     AppointedEmail: '',
+        //     Completed: false,
+        //     Icon: completeIcon,
+        //     Singular: singular.toLowerCase(),
+        //     Type: 'Task',
+        //     Priority: '',
+        //     OutputID: outputID,
+        //     OutputTitle: outputTitle,
+        //     ActivityID: activityID,
+        //     ActivityTitle: activityTitle
+        // })
+    }
+
+    const subdivisionHandler = (e) => {
+
+        const value = e.target.options[e.target.selectedIndex].value
+
+        setSubdivision(parseInt(value))
     }
 
 
@@ -259,6 +292,14 @@ const MeasureOutput = () => {
                     <img src={growIcon} alt="" />
                     <p><b>Geef de mijlpaal een aantal</b></p>
                     <input type="number" onChange={numberHandler} />
+                    <p><b>Selecteer een subdivisie</b></p>
+                    <select name="" id="" onChange={subdivisionHandler}>
+                        <option value="1">1</option>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='20'>20</option>
+                        <option value='100'>100</option>
+                    </select>
                     <p><b>Bepaal een deadline</b></p>
                     <input type="date" onChange={deadlineHandler} />
                     <div className='button-container-margin-top'>
