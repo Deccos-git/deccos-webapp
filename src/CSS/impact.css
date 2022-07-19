@@ -771,6 +771,11 @@
     box-shadow: none;
 }
 
+#milestone-modal-select{
+    max-width: 100%;
+    width: 100%;
+}
+
 .goal-banner-list{
     height: auto !important;
     width: 200px !important;

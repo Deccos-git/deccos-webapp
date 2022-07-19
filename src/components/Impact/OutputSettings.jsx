@@ -38,10 +38,22 @@ const OutputSettings = () => {
         const [succes, setSucces] = useState(false)
 
         const [goal, setGoal] = useState(0)
+        const [progress, setProgress] = useState([])
 
         const results = useFirestoreResults(milestone.OutputID)
 
-        console.log(results)
+        const progressArray = []
+
+        useEffect(() => {
+            results && results.forEach(result => {
+
+                progressArray.push(result.Result)
+
+                setProgress(progressArray)
+
+            })
+
+        },[results])
 
         useEffect(() => {
             milestones && milestones.forEach(milestone => {
@@ -52,7 +64,9 @@ const OutputSettings = () => {
             })
          },[milestones])
 
-        const width = results.length*100/goal
+         const sum = progress.reduce((partialSum, a) => partialSum + a, 0);
+
+        const width = sum*100/goal
 
         const percentage = `${width}%`
 
@@ -67,7 +81,7 @@ const OutputSettings = () => {
         return(
             <div className='milestone-progress-container'>
                 <div className='percentage-container'>
-                    <p>Huidig: {results.length} ({width}%)</p>
+                    <p>Huidig: {sum} ({(Math.round(width* 100) / 100).toFixed(2)}%)</p>
                     <p>Doel: {goal}</p>
                 </div>
                 

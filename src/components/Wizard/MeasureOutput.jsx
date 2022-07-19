@@ -81,24 +81,24 @@ const MeasureOutput = () => {
 
         ButtonClicked(e, 'Opgeslagen')
 
-        // db.collection('Milestones')
-        // .doc()
-        // .set({
-        //     OutputID: outputID,
-        //     OutputTitle: outputTitle,
-        //     ID: id,
-        //     Compagny: client,
-        //     CompagnyID: client,
-        //     Timestamp: timestamp,
-        //     Title: outputTitle,
-        //     ActivityID: activityID,
-        //     Activity: activityTitle,
-        //     Number: number,
-        //     Succes: false,
-        //     SuccesDate: timestamp,
-        //     Deadline: deadline,
-        // })
-        // .then(() => {
+        db.collection('Milestones')
+        .doc()
+        .set({
+            OutputID: outputID,
+            OutputTitle: outputTitle,
+            ID: id,
+            Compagny: client,
+            CompagnyID: client,
+            Timestamp: timestamp,
+            Title: outputTitle,
+            ActivityID: activityID,
+            Activity: activityTitle,
+            Number: number,
+            Succes: false,
+            SuccesDate: timestamp,
+            Deadline: deadline,
+        })
+        .then(() => {
 
         let division = 1 
 
@@ -108,62 +108,60 @@ const MeasureOutput = () => {
             division = number/subdivision
         }
 
-        for (let i = 0; i < division; i++) {
+        let task = ''
 
-            createTasks(division)
-            }
-            
-
-        // })
-        // .then(() => {
-            // closeModal()
-        // })
-    }
-
-    const createTasks = (division) => {
-
-        console.log(division)
-
-        let divis = ''
-
-        if(division === 1){
-            divis = ''
-        } else if(division === 5){
-            divis = 'vijftal'
-        } else if(division === 10){
-            divis = 'tiental'
-        } else if(division === 20){
-            divis = 'twintigtal'
-        } else if(division === 100){
-            divis = 'honderdtal'
+        if(subdivision === 1){
+            task = `${subdivision} ${singular.toLowerCase()}`
+        } else if(subdivision === 5){
+            task = `${subdivision} ${outputTitle.toLocaleLowerCase()}`
+        } else if(subdivision === 10){
+            task = `${subdivision} ${outputTitle.toLocaleLowerCase()}`
+        } else if(subdivision === 20){
+            task = `${subdivision} ${outputTitle.toLocaleLowerCase()}`
+        } else if(subdivision === 100){
+            task = `${subdivision} ${outputTitle.toLocaleLowerCase()}`
         } else {
-            divis = ''
+            task = ''
         }
 
-        console.log(divis)
+        for (let i = 0; i < division; i++) {
 
-        // db.collection('Tasks')
-        // .doc()
-        // .set({
-        //     ID: uuid(),
-        //     Compagny: client,
-        //     CompagnyID: client,
-        //     Timestamp: timestamp,
-        //     Title: `Nieuwe ${divis} ${singular.toLowerCase()}`,
-        //     AppointedID: '',
-        //     AppointedName: '',
-        //     AppointedPhoto: '',
-        //     AppointedEmail: '',
-        //     Completed: false,
-        //     Icon: completeIcon,
-        //     Singular: singular.toLowerCase(),
-        //     Type: 'Task',
-        //     Priority: '',
-        //     OutputID: outputID,
-        //     OutputTitle: outputTitle,
-        //     ActivityID: activityID,
-        //     ActivityTitle: activityTitle
-        // })
+            createTasks(task, division)
+            }
+            
+        })
+        .then(() => {
+            closeModal()
+        })
+    }
+
+    const createTasks = (task, division) => {
+
+        db.collection('Tasks')
+        .doc()
+        .set({
+            ID: uuid(),
+            Compagny: client,
+            CompagnyID: client,
+            Timestamp: timestamp,
+            Title: task,
+            Subdivision: subdivision,
+            Division: division,
+            Number: number,
+            AppointedID: '',
+            AppointedName: '',
+            AppointedPhoto: '',
+            AppointedEmail: '',
+            Completed: false,
+            Icon: completeIcon,
+            Singular: singular.toLowerCase(),
+            Type: 'Task',
+            Priority: '',
+            OutputID: outputID,
+            OutputTitle: outputTitle,
+            ActivityID: activityID,
+            ActivityTitle: activityTitle
+        })
     }
 
     const subdivisionHandler = (e) => {
@@ -293,7 +291,8 @@ const MeasureOutput = () => {
                     <p><b>Geef de mijlpaal een aantal</b></p>
                     <input type="number" onChange={numberHandler} />
                     <p><b>Selecteer een subdivisie</b></p>
-                    <select name="" id="" onChange={subdivisionHandler}>
+                    <select name="" id="milestone-modal-select" onChange={subdivisionHandler}>
+                        <option value="">-- Selecteer een subdivisie --</option>
                         <option value="1">1</option>
                         <option value='5'>5</option>
                         <option value='10'>10</option>

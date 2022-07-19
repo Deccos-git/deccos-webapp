@@ -15,9 +15,11 @@ const ManualResultsGraph = ({output}) => {
 
     const [data, setData] = useState('')
 
-    const options = { month: 'numeric', day: 'numeric', year: 'numeric'};
+    const options = { month: 'numeric', year: 'numeric'};
 
     const dataset = useFirestoreResults(output.ID)
+
+    const resultsArray = []
 
     useEffect(() => {
 
@@ -27,9 +29,11 @@ const ManualResultsGraph = ({output}) => {
 
             const month = data.Timestamp.toDate().toLocaleDateString("nl-NL", options)
 
+            resultsArray.push(data.Result)
+
             const dataObject = {
                 Maand: month,
-                Resultaat: dataset.indexOf(data) + 1
+                Resultaat: results(resultsArray)
             }
 
             dataArray.push(dataObject)
@@ -39,7 +43,13 @@ const ManualResultsGraph = ({output}) => {
 
     },[dataset])
 
-    console.log(data)
+    const results = (resultsArray) => {
+
+      const sum = resultsArray.reduce((partialSum, a) => partialSum + a, 0);
+
+      return sum
+
+    }
 
   return (
     <div className='activity-meta-title-container' style={{display: dataset.length > 0 ? 'block' : 'none'}}>

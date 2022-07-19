@@ -685,7 +685,6 @@ const useFirestoreTasks = (id) => {
     useEffect(() => {
         const unsub = db.collection('Tasks')
         .where('CompagnyID', '==', client)
-        .where('ProjectID', '==', id)
         .orderBy("Timestamp", "desc")
         .onSnapshot(querySnapshot => {
             let docArray = []

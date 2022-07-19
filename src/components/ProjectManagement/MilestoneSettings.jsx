@@ -25,10 +25,26 @@ const MilestoneSettings = () => {
    
 
     const MilestoneProgress = ({milestone}) => {
+        const [progress, setProgress] = useState([])
 
         const results = useFirestoreResults(milestone.OutputID)
+
+        const progressArray = []
+
+        useEffect(() => {
+            results && results.forEach(result => {
+
+                progressArray.push(result.Result)
+
+                setProgress(progressArray)
+
+            })
+
+        },[results])
+
+        const sum = progress.reduce((partialSum, a) => partialSum + a, 0);
         
-        const width = results.length*100/milestone.Number
+        const width = sum*100/milestone.Number
 
         const percentage = `${width}%`
 
@@ -43,7 +59,7 @@ const MilestoneSettings = () => {
         return(
             <div className='milestone-progress-container'>
                 <div className='percentage-container'>
-                    <p>Huidig: {results.length} ({width}%)</p>
+                    <p>Huidig: {sum} ({(Math.round(width * 100) / 100).toFixed(2)}%)</p>
                     <p>Doel: {milestone.Number}</p>
                 </div>
                 
@@ -71,7 +87,7 @@ const MilestoneSettings = () => {
             <div className='card-container milestone-card-container' style={{display: premium ? 'flex' : 'none'}}>
             {milestones && milestones.map(milestone => (
                     <div className='instrument-card'>
-                        <h2>{milestone.Number} {milestone.Title}</h2>
+                        <h2>{milestone.Number} {milestone.Title.toLowerCase()}</h2>
                         <div className='task-detail-inner-container'>
                         <div className='activity-meta-title-container'>
                                 <img src={activityIcon} alt="" />

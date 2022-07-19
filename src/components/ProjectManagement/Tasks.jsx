@@ -1,7 +1,7 @@
 import LeftSideBar from "../LeftSideBar";
 import LeftSideBarFullScreen from "../LeftSideBarFullScreen"
 import MenuStatus from "../../hooks/MenuStatus";
-import { useFirestore, useFirestoreMyTasks } from "../../firebase/useFirestore"
+import { useFirestore, useFirestoreTasks } from "../../firebase/useFirestore"
 import { client } from "../../hooks/Client"
 import { useHistory } from "react-router-dom";
 import { db, timestamp } from "../../firebase/config";
@@ -32,7 +32,7 @@ const Tasks = () => {
     const premium = Premium()
     ScrollToTop()
 
-    const tasks = useFirestore("Tasks")
+    const tasks = useFirestoreTasks()
     const activities = useFirestore('Activities')
     const projectManagers = useFirestore('ProjectManagers')
 
@@ -56,6 +56,7 @@ const Tasks = () => {
                 Activity: task.ActivityTitle,
                 OutputID: task.OutputID,
                 Priority: task.Priority,
+                Division: task.Division,
                 Tags:[task.ActivityTitle, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '',]
             }
 
@@ -86,6 +87,7 @@ const Tasks = () => {
                 Activity: task.ActivityTitle,
                 OutputID: task.OutputID,
                 Priority: task.Priority,
+                Division: task.Division,
                 Tags:[task.ActivityTitle, task.Priority, task.Completed.toString(), task.AppointedID, 'All', '', ]
             }
 
@@ -109,6 +111,7 @@ const Tasks = () => {
         const docid = e.target.dataset.docid 
         const completed = e.target.dataset.completed
         const outputID = e.target.dataset.outputid
+        const result = e.target.dataset.subdivision
 
         if(completed === 'false'){
             db.collection('Tasks')
@@ -125,7 +128,7 @@ const Tasks = () => {
                     Compagny: client,
                     CompagnyID: client,
                     ID: uuid(),
-                    Result: 1,
+                    Result: Number(result) ? Number(result) : 1,
                     Timestamp: timestamp,
                     OutputID: outputID,
                     User: authO.UserName,
@@ -220,11 +223,11 @@ const Tasks = () => {
 
     }
 
-    const addTaskLink = () => {
+    // const addTaskLink = () => {
         
-        history.push(`/${client}/TaskSettings`)
+    //     history.push(`/${client}/TaskSettings`)
 
-    }
+    // }
 
     const deleteTask = (e) => {
         const id = e.target.dataset.id 
@@ -232,6 +235,24 @@ const Tasks = () => {
         db.collection('Tasks')
         .doc(id)
         .delete()
+    }
+
+    const Output = ({task}) => {
+
+        const outputs = useFirestore('Outputs', task.OutputID && task.OutputID)
+        const research = useFirestore('Research', task.ResearchID && task.ResearchID)
+
+        return(
+            <>
+                {/* {outputs && outputs.map(output => (
+                    <p key={output.ID}>{output.Title}</p>
+                ))} */}
+                {research && research.map(output => (
+                    <p key={output.ID}>{output.Title}</p>
+                ))}
+            </>
+            
+        )
     }
 
     return (
@@ -285,30 +306,56 @@ const Tasks = () => {
                 </div>
             </div>
             <div id='tasks-outer-container' style={{display: premium ? 'flex' : 'none'}}>
-                <div className='task-overview-container add-task-container' onClick={addTaskLink}>
+                {/* <div className='task-overview-container add-task-container' onClick={addTaskLink}>
                     <div className='task-inner-container'>
                         <img id='add-task-icon' src={plusIcon} alt="" />
                         <p>Taak toevoegen</p>
                     </div>
-                </div>
-                {tasksOverview && tasksOverview.map(task => (
-                    <div className='task-overview-container' key={task.ID}>
-                        <div className='task-container' style={{backgroundColor: task.BackgroundColor}}>
-                            <div className='task-inner-container'>
-                                {console.log(task.Title)}
-                                <img src={task.Icon} data-docid={task.docid} data-outputid={task.OutputID} data-completed={task.Completed} onClick={taskCompleted} alt=""/>
-                                <p className='task-description'>{task.Title}</p>
+                </div> */}
+                 <div className='table-container'>
+                    <table>
+                        <tr>
+                            <th>AFGEROND</th>
+                            <th>TITLE</th>
+                            {/* <th>OUTPUT</th> */}
+                            <th>DEADLINE</th>
+                            <th>TOEGEWEZEN AAN</th>
+                            <th>PRIORITEIT</th>
+                            <th>SETTINGS</th>
+                            <th>VERWIJDER</th>
+                        </tr>
+                        {tasksOverview && tasksOverview.map(task => (
+                        <tr key={task.ID} style={{backgroundColor: task.BackgroundColor}}>
+                            <td>
+                                <img className='table-delete-icon' src={task.Icon} data-docid={task.docid} data-outputid={task.OutputID} data-completed={task.Completed} data-subdivision={task.Subdivision} onClick={taskCompleted} alt="check icon"/>
+                            </td>
+                            <td>
+                                <p className='task-description'>{task.Title} behaald</p>
+                            </td>
+                            {/* <td>
+                                <Output task={task}/>
+                            </td> */}
+                            <td>
                                 <p>{task.Deadline && task.Deadline}</p>
-                                <TaskPriority task={task}/>
+                            </td>
+                            <td>
                                 <div className='appointed-container'>
                                     <img className='task-appointed-photo' onClick={linkProfile} src={task.AppointedPhoto ? task.AppointedPhoto : userIcon} data-id={task.AppointedID} alt=""/>
                                 </div>
-                                <img src={settingsIcon} alt="" data-id={task.ID} onClick={taskLink}/>
-                                <img src={deleteIcon} alt="" data-id={task.docid} onClick={deleteTask}/>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                            </td>
+                            <td>
+                                <TaskPriority task={task}/>
+                            </td>
+                            <td>
+                                <img className='table-delete-icon' src={settingsIcon} alt="" data-id={task.ID} onClick={taskLink}/>
+                            </td>
+                            <td>
+                                <img className='table-delete-icon' src={deleteIcon} alt="" data-id={task.docid} onClick={deleteTask}/>
+                            </td>
+                        </tr>
+                        ))}
+                    </table>
+                </div>
             </div>
             <div style={{display: premium ? 'none' : 'flex'}}>
                 <PremiumNotice/>

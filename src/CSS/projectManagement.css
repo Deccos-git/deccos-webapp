@@ -42,7 +42,6 @@
 
 .appointed-container{
     display: flex;
-    justify-content: flex-end;
 }
 
 .task-appointed-photo{
@@ -224,10 +223,14 @@
 
 #tasks-outer-container{
     margin-bottom: 50px;
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .instrument-card{
