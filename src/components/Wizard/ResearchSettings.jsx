@@ -29,19 +29,9 @@ const ResearchSettings = () => {
 
     const researches = useFirestore('Research')
 
-
     const MeasureMoments = ({research}) => {
 
         const moments = useFirestoreMeasureMoments(research.ID)
-        const conclusions = useFirestoreConclusions(research.ID)
-
-        const conclusionType = (conclusion) => {
-            if(conclusion.Type == 'Plus'){
-                return 'Pluspunt'
-            } else if (conclusion.Type == 'Learningpoint'){
-                return 'Verbeterpunt'
-            }
-        }
 
         return(
             <div>
@@ -57,27 +47,45 @@ const ResearchSettings = () => {
                             <h4>Meetmoment</h4>
                         </div>
                         <p className='questionnaire-results-container'>{moment.Moment}</p>
-                        <div className='activity-meta-title-container' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
-                            <img src={checkIcon} alt="" />
-                            <h4>Conclusies</h4>
-                        </div>
-                        <div className='table-container output-seeting-effect' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
-                            <table className='table-impact-dashboard'>
-                                <tr>
-                                    <th>CONCLUSIE</th>
-                                    <th>TYPE</th>
-                                </tr>
-                                {conclusions && conclusions.map(conclusion => (
-                                    <tr>
-                                        <td>{conclusion.Conclusion}</td>
-                                        <td>{conclusionType(conclusion)}</td>
-                                    </tr>
-                                ))}
-                            </table>
-                        </div>
                     </div>
                 ))}
             </div>
+        )
+    }
+
+    const Conclusions = ({research}) => {
+
+        const conclusions = useFirestoreConclusions(research.ID)
+
+        const conclusionType = (conclusion) => {
+            if(conclusion.Type == 'Plus'){
+                return 'Pluspunt'
+            } else if (conclusion.Type == 'Learningpoint'){
+                return 'Verbeterpunt'
+            }
+        }
+
+        return(
+            <>
+            <div className='activity-meta-title-container' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
+                <img src={checkIcon} alt="" />
+                <h4>Conclusies</h4>
+            </div>
+            <div className='table-container output-seeting-effect' style={{display: conclusions.length > 0 ? 'flex' : 'none'}}>
+                <table className='table-impact-dashboard'>
+                    <tr>
+                        <th>CONCLUSIE</th>
+                        <th>TYPE</th>
+                    </tr>
+                    {conclusions && conclusions.map(conclusion => (
+                        <tr>
+                            <td>{conclusion.Conclusion}</td>
+                            <td>{conclusionType(conclusion)}</td>
+                        </tr>
+                    ))}
+                </table>
+            </div>
+            </>
         )
     }
 
@@ -109,6 +117,7 @@ const ResearchSettings = () => {
                             <h3>Meetmomenten</h3>
                         </div>
                         <MeasureMoments research={research}/>
+                        <Conclusions research={research}/>
                     </div>
                 </div>
             ))}

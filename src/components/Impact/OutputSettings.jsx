@@ -36,7 +36,6 @@ const OutputSettings = () => {
 
     const MilestoneProgess = ({milestone}) => {
         const [succes, setSucces] = useState(false)
-
         const [goal, setGoal] = useState(0)
         const [progress, setProgress] = useState([])
 
@@ -68,8 +67,6 @@ const OutputSettings = () => {
 
         const width = sum*100/goal
 
-        const percentage = `${width}%`
-
          const succesColor = () => {
             if(succes === true){
                 return '#00cd00'
@@ -78,15 +75,32 @@ const OutputSettings = () => {
             }
          }
 
+         const total = () => {
+
+            if(sum > milestone.Number){
+                return `${milestone.Number} of meer`
+            } else {
+                return sum
+            }
+         }
+
+         const percentage = () => {
+             if(width > 100){
+                 return `(100%)`
+             } else {
+                return `(${(Math.round(width * 100) / 100).toFixed(2)}%)`
+             }
+         }
+
         return(
             <div className='milestone-progress-container'>
                 <div className='percentage-container'>
-                    <p>Huidig: {sum} ({(Math.round(width* 100) / 100).toFixed(2)}%)</p>
+                    <p>Huidig: {total()} {percentage()}</p>
                     <p>Doel: {goal}</p>
                 </div>
                 
                 <div className='progressbar-outer-bar'>
-                    <div className='progressbar-progress' style={{width: percentage, backgroundColor: succesColor()}}></div>
+                    <div className='progressbar-progress' style={{width: `${width}%`, backgroundColor: succesColor()}}></div>
                 </div>
             </div>
         )

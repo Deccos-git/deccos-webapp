@@ -38,10 +38,12 @@ const SROI = () => {
         return(
             <div>
                 <div className='sroi-total-sum-equation-container'>
-                    <p><b>{results.length} (aantal {output})</b></p>
-                    <p><b>€{amount} (bedrag per persoon per jaar x deadweight x attributie x tijdshorizon)</b></p>
+                    <p>{results.length} (aantal {output})</p>
+                    <p>x</p>
+                    <p>€{amount} (bedrag per persoon per jaar x deadweight x attributie x tijdshorizon)</p>
+                    <p>=</p>
                 </div>
-                <p className='questionnaire-results-container'>€{parseInt(results.length*amount)} per jaar</p>
+                <p className='questionnaire-results-container'><b>€{parseInt(results.length*amount)} per jaar</b></p>
             </div>
         )
     }
@@ -61,7 +63,7 @@ const SROI = () => {
         </div>
         <div className='card-container milestone-card-container' style={{display: premium ? 'flex' : 'none'}}>
         {SROIs && SROIs.map(sroi => (
-                <div className='instrument-card'>
+                <div key={sroi.ID} className='instrument-card'>
                     <div className='task-detail-inner-container'>
                         <h2>SROI van output: {sroi.Output}</h2>
                         <div className='activity-meta-title-container'>

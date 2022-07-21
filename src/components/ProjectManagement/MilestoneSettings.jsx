@@ -46,8 +46,6 @@ const MilestoneSettings = () => {
         
         const width = sum*100/milestone.Number
 
-        const percentage = `${width}%`
-
          const succesColor = () => {
             if(milestone.Succes === true){
                 return '#00cd00'
@@ -56,15 +54,32 @@ const MilestoneSettings = () => {
             }
          }
 
+         const total = () => {
+
+            if(sum > milestone.Number){
+                return `${milestone.Number} of meer`
+            } else {
+                return sum
+            }
+         }
+
+         const percentage = () => {
+             if(width > 100){
+                 return `(100%)`
+             } else {
+                return `(${(Math.round(width * 100) / 100).toFixed(2)}%)`
+             }
+         }
+
         return(
             <div className='milestone-progress-container'>
                 <div className='percentage-container'>
-                    <p>Huidig: {sum} ({(Math.round(width * 100) / 100).toFixed(2)}%)</p>
+                    <p>Huidig: {total()} {percentage()}</p>
                     <p>Doel: {milestone.Number}</p>
                 </div>
                 
                 <div className='progressbar-outer-bar'>
-                    <div className='progressbar-progress' style={{width: percentage, backgroundColor: succesColor()}}></div>
+                    <div className='progressbar-progress' style={{width: `${width}%`, backgroundColor: succesColor()}}></div>
                 </div>
             </div>
         )

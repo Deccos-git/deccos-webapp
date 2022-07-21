@@ -39,6 +39,8 @@ const ResearchAnalysis = () => {
     const fields = useFirestoreQuestionnaireFields(questionnaireID && questionnaireID)
     const researchConclusions = useFirestoreConclusions(researchID && researchID)
 
+    console.log(fields)
+
     const researchHandler = (e) => {
         const id = e.target.options[e.target.selectedIndex].dataset.id 
 
@@ -55,6 +57,8 @@ const ResearchAnalysis = () => {
     const Results = ({moment, field}) => {
 
         const results = useFirestoreQuestionnairesResponses(field.ID, moment.ID)
+
+        console.log(results)
 
         const total = results.length 
 
@@ -314,7 +318,7 @@ const ResearchAnalysis = () => {
                                             <th>VERSCHIL</th>
                                         </tr>
                                         {fields && fields.map(field => (
-                                            <tr>
+                                            <tr key={field.ID}>
                                                 <td>
                                                     <p>{field.Question}</p>
                                                 </td>

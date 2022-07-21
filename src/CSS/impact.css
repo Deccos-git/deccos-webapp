@@ -765,6 +765,11 @@
     padding: 0px 0px 15px 10px;
 }
 
+.sroi-total-sum-equation-container{
+    margin-left: 30px;
+    border-bottom: 1px solid lightgray;
+}
+
 .list-row-container input{
     width: auto;
     border: none;
